@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BacMaster - Workspace</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="top-bar">
+        <button class="nav-item nav-home" onclick="showPage('home')">🏠 Accueil</button>
+        <button class="nav-item nav-anglais" onclick="openSubject('Anglais')">Anglais</button>
+        <button class="nav-item nav-spe1" onclick="openSubject('Anglais Spé 1')">🗣️Spé 1</button>
+        <button class="nav-item nav-spe2" onclick="openSubject('Anglais Spé 2')">💬Spé 2</button>
+        <button class="nav-item nav-maths" onclick="openSubject('Maths')">📐Maths</button>
+        <button class="nav-item nav-fr" onclick="openSubject('Français')">Français</button>
+        <button class="nav-item nav-ses" onclick="openSubject('SES')">📈SES</button>
+        <button class="nav-item nav-phys" onclick="openSubject('Physique')">⚛️Physique</button>
+        <button class="nav-item nav-hist" onclick="openSubject('Histoire')">Histoire</button>
+        <button class="nav-item nav-esp" onclick="openSubject('Espagnol')">Espagnol</button>
+    </nav>
+
+    <main id="app-container">
+        <section id="page-home" class="page active">
+            <h1 class="main-title">Mes Matières</h1>
+            <div class="subject-grid">
+                <div class="subject-card eng" onclick="openSubject('Anglais')"><h2>Anglais</h2></div>
+                <div class="subject-card spe1" onclick="openSubject('Anglais Spé 1')"><h2>🗣️Spé 1</h2></div>
+                <div class="subject-card spe2" onclick="openSubject('Anglais Spé 2')"><h2>💬Spé 2</h2></div>
+                <div class="subject-card math" onclick="openSubject('Maths')"><h2>📐Maths</h2></div>
+                <div class="subject-card fr" onclick="openSubject('Français')"><h2>Français</h2></div>
+                <div class="subject-card ses" onclick="openSubject('SES')"><h2>📈SES</h2></div>
+                <div class="subject-card phys" onclick="openSubject('Physique')"><h2>⚛️Physique</h2></div>
+                <div class="subject-card hist" onclick="openSubject('Histoire')"><h2>Histoire</h2></div>
+                <div class="subject-card esp" onclick="openSubject('Espagnol')"><h2>Espagnol</h2></div>
+            </div>
+        </section>
+        
+        <section id="page-subject" class="page">
+            <h1 id="subject-title">Matière</h1>
+            <div id="module-options" class="option-grid">
+                <div class="option-card" onclick="openWorkspace('cours')">
+                    <span class="icon">📖</span><h4>Cours</h4><p>Lire les fiches</p>
+                </div>
+                <div class="option-card" onclick="openWorkspace('voc')">
+                    <span class="icon">📑</span><h4>Vocabulaire</h4><p>Dictionnaire</p>
+                </div>
+                <div class="option-card" onclick="openWorkspace('flashcards')">
+                    <span class="icon">🎴</span><h4>Flashcards</h4><p>Réviser</p>
+                </div>
+                <div class="option-card" onclick="openWorkspace('eval')">
+                    <span class="icon">📝</span><h4>Exercices</h4><p>Sujets Bac</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-workspace" class="page">
+            <div class="workspace-nav">
+                <button class="back-btn" onclick="showPage('subject')">RETOUR</button>
+                <h2 id="workspace-title">Espace de travail</h2>
+            </div>
+
+            <div id="chapter-bar-container">
+                <div id="chapter-chips"></div>
+            </div>
+
+            <div id="workspace-content">
+                </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
