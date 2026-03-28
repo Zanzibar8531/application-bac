@@ -3,6 +3,15 @@ let currentSubject = '';
 let currentModule = '';
 let selectedChapters = [];
 let isHighlighting = false;
+let isQuizStarted = false; 
+
+// --- Variables Statistiques Flashcards ---
+let quizTimer = null;
+let quizTimeSeconds = 0;
+let statsSeen = 0;
+let statsCorrect = 0;
+let statsWrong = 0;
+let statsSkipped = 0;
 
 function save() {
     localStorage.setItem('my_db', JSON.stringify(db));
@@ -33,6 +42,9 @@ function toggleMenu() {
 
 function openWorkspace(type) {
     currentModule = type;
+    isQuizStarted = false; 
+    clearInterval(quizTimer); // On coupe le chrono si on quitte les flashcards
+    
     const titles = { 
         'cours-read': '📖 Lecture du Cours', 
         'cours-edit': '✏️ Éditeur de Cours', 
@@ -44,7 +56,7 @@ function openWorkspace(type) {
     document.getElementById('workspace-title').innerText = titles[type];
     
     const chapters = Object.keys(db[currentSubject]);
-    if (selectedChapters.length === 0 && chapters.length > 0) {
+    if (type !== 'flashcards' && selectedChapters.length === 0 && chapters.length > 0) {
         selectedChapters = [chapters[0]];
     }
     
@@ -54,7 +66,15 @@ function openWorkspace(type) {
 }
 
 function renderChapters() {
-    const container = document.getElementById('chapter-chips');
+    const container = document.getElementById('chapter-bar-container');
+    const chipContainer = document.getElementById('chapter-chips');
+    
+    if (currentModule === 'flashcards') {
+        container.style.display = 'none';
+        return;
+    }
+    
+    container.style.display = 'block';
     const chapters = Object.keys(db[currentSubject]);
     
     let html = chapters.map(ch => `
@@ -64,23 +84,11 @@ function renderChapters() {
     `).join('');
     
     html += `<button class="chip add-ch" onclick="addChapter()">+ Nouveau</button>`;
-    container.innerHTML = html;
+    chipContainer.innerHTML = html;
 }
 
 function toggleChapter(ch) {
-    if (currentModule === 'flashcards') {
-        // Mode Flashcards : Sélection multiple possible
-        if (selectedChapters.includes(ch)) {
-            if (selectedChapters.length > 1) {
-                selectedChapters = selectedChapters.filter(c => c !== ch);
-            }
-        } else {
-            selectedChapters.push(ch);
-        }
-    } else {
-        // Mode normal : Un seul chapitre à la fois
-        selectedChapters = [ch];
-    }
+    selectedChapters = [ch];
     renderChapters();
     renderWorkspaceContent();
 }
@@ -89,10 +97,7 @@ function addChapter() {
     let base = "Sans titre";
     let name = base;
     let count = 1;
-    while(db[currentSubject][name]) {
-        count++;
-        name = base + " " + count;
-    }
+    while(db[currentSubject][name]) { count++; name = base + " " + count; }
     
     db[currentSubject][name] = { cours: "", flashcards: [] };
     selectedChapters = [name];
@@ -103,21 +108,11 @@ function addChapter() {
 
 function renameChapter(oldName, newName) {
     newName = newName.trim();
-    if (newName === oldName || newName === "") {
-        renderWorkspaceContent(); // Reset si vide
-        return; 
-    }
-    if (db[currentSubject][newName]) {
-        alert("Une étiquette porte déjà ce nom !");
-        renderWorkspaceContent();
-        return;
-    }
+    if (newName === oldName || newName === "") { renderWorkspaceContent(); return; }
+    if (db[currentSubject][newName]) { alert("Une étiquette porte déjà ce nom !"); renderWorkspaceContent(); return; }
     
-    // On copie les données vers le nouveau nom
     db[currentSubject][newName] = db[currentSubject][oldName];
     delete db[currentSubject][oldName];
-    
-    // On met à jour la sélection
     selectedChapters = selectedChapters.map(c => c === oldName ? newName : c);
     save();
     renderChapters();
@@ -127,31 +122,31 @@ function renameChapter(oldName, newName) {
 function renderWorkspaceContent() {
     const container = document.getElementById('workspace-content');
     const titleContainer = document.getElementById('etiquette-title-container');
-    
-    if (selectedChapters.length === 0) return;
 
-    // Titre modifiable (Sauf si on est en flashcards multi-sélection)
-    if (currentModule === 'flashcards' && selectedChapters.length > 1) {
-        titleContainer.innerHTML = `<h3 style="margin:0; color:#1e293b;">📌 Révision : ${selectedChapters.length} étiquettes sélectionnées</h3>`;
-    } else {
-        const currentTag = selectedChapters[0];
-        titleContainer.innerHTML = `
-            <span style="font-size:1.5rem;">📌</span> 
-            <input type="text" id="chapter-name-input" class="title-input" value="${currentTag}" 
-                   onblur="renameChapter('${currentTag.replace(/'/g, "\\'")}', this.value)" 
-                   onkeydown="if(event.key==='Enter') this.blur();"
-                   placeholder="Nom de l'étiquette">
-        `;
+    if (currentModule === 'flashcards') {
+        if (!isQuizStarted) renderQuizSetup(container, titleContainer);
+        else renderQuiz(container, titleContainer);
+        return;
     }
+
+    if (selectedChapters.length === 0) return;
+    
+    const currentTag = selectedChapters[0];
+    titleContainer.innerHTML = `
+        <span style="font-size:1.5rem;">📌</span> 
+        <input type="text" id="chapter-name-input" class="title-input" value="${currentTag}" 
+               onblur="renameChapter('${currentTag.replace(/'/g, "\\'")}', this.value)" 
+               onkeydown="if(event.key==='Enter') this.blur();"
+               placeholder="Nom de l'étiquette">
+    `;
 
     if (currentModule === 'cours-read') {
         const chapterData = db[currentSubject][selectedChapters[0]];
         container.innerHTML = `<div style="line-height:1.6; font-size:1.1rem;">${chapterData.cours || "Aucun cours enregistré."}</div>`;
     } 
-    
     else if (currentModule === 'cours-edit') {
         const chapterData = db[currentSubject][selectedChapters[0]];
-        isHighlighting = false; // reset
+        isHighlighting = false;
         container.innerHTML = `
             <div class="toolbar" style="margin-bottom:15px; display:flex; flex-wrap:wrap; gap:10px;">
                 <button onclick="formatDoc('bold')" title="Gras" style="font-weight:900;">B</button>
@@ -175,13 +170,10 @@ function renderWorkspaceContent() {
                     <option value="#3b82f6" style="color:#3b82f6; font-weight:bold;">Couleur : Bleu clair</option>
                 </select>
             </div>
-            <div id="word-editor" contenteditable="true" class="editor-box">
-                ${chapterData.cours || ""}
-            </div>
+            <div id="word-editor" contenteditable="true" class="editor-box">${chapterData.cours || ""}</div>
             <button class="save-btn" style="margin-top: 20px;" onclick="saveCours()">💾 Enregistrer le cours</button>
         `;
     }
-
     else if (currentModule === 'voc-read') {
         const chapterData = db[currentSubject][selectedChapters[0]];
         let html = '';
@@ -194,9 +186,7 @@ function renderWorkspaceContent() {
         }
         container.innerHTML = html;
     }
-
     else if (currentModule === 'voc-add') {
-        // Liste des cases à cocher pour partager le mot
         let chapHtml = Object.keys(db[currentSubject]).map(ch => 
             `<label style="display:inline-block; margin:5px 10px 5px 0; background:#f8fafc; padding:8px 12px; border-radius:8px; border:1px solid #cbd5e1; cursor:pointer;">
                 <input type="checkbox" class="voc-chap-cb" value="${ch}" ${selectedChapters.includes(ch) ? 'checked' : ''}> ${ch}
@@ -213,16 +203,12 @@ function renderWorkspaceContent() {
             <button class="save-btn" onclick="addVoc()">➕ Ajouter le mot (Entrée)</button>
         `;
     }
-
-    else if (currentModule === 'flashcards') {
-        renderQuiz();
-    }
-
     else if (currentModule === 'eval') {
         container.innerHTML = `<p>Bientôt disponible... Concentre-toi sur le cours et les flashcards pour le moment ! 💪</p>`;
     }
 }
 
+// FORMATAGE & SAUVEGARDE
 function formatDoc(cmd, value = null) {
     document.execCommand(cmd, false, value);
     document.getElementById('word-editor').focus();
@@ -233,7 +219,7 @@ function toggleHighlightBtn() {
     if (isHighlighting) {
         const color = document.getElementById('hl-color').value;
         document.execCommand('hiliteColor', false, color);
-        document.execCommand('backColor', false, color); // Fallback
+        document.execCommand('backColor', false, color);
     } else {
         document.execCommand('hiliteColor', false, 'transparent');
         document.execCommand('backColor', false, 'transparent');
@@ -249,75 +235,141 @@ function saveCours() {
 function addVoc() {
     const q = document.getElementById('q').value.trim();
     const a = document.getElementById('a').value.trim();
-    
     if(!q || !a) return;
 
     const checkboxes = document.querySelectorAll('.voc-chap-cb:checked');
-    if(checkboxes.length === 0) return; // Ne rien faire si aucune case cochée
+    if(checkboxes.length === 0) return;
 
     checkboxes.forEach(cb => {
-        const ch = cb.value;
-        db[currentSubject][ch].flashcards.push({q, a, score: 0});
+        db[currentSubject][cb.value].flashcards.push({q, a, score: 0});
     });
 
     save();
     document.getElementById('q').value = "";
     document.getElementById('a').value = "";
-    document.getElementById('q').focus(); // Ramène le curseur en haut pour le mot suivant
+    document.getElementById('q').focus();
 }
 
-function renderQuiz() {
-    const container = document.getElementById('workspace-content');
+// -----------------------------------------
+// FONCTIONS FLASHCARDS & STATS
+// -----------------------------------------
+
+function renderQuizSetup(container, titleContainer) {
+    titleContainer.innerHTML = `<h3 style="margin:0; color:#1e293b;">🎴 Configuration de la session</h3>`;
     
-    // Dédoublonnage et rassemblement de toutes les cartes des chapitres sélectionnés
+    let chapters = Object.keys(db[currentSubject]);
+    let chapHtml = chapters.map(ch => `
+        <label style="display:flex; align-items:center; margin:10px 0; background:#f8fafc; padding:15px; border-radius:10px; border:2px solid #cbd5e1; cursor:pointer; font-size:1.1rem; font-weight:bold;">
+            <input type="checkbox" class="quiz-chap-cb" value="${ch}" style="width:20px; height:20px; margin-right:15px; cursor:pointer;"> 
+            ${ch}
+        </label>
+    `).join('');
+
+    container.innerHTML = `
+        <p style="font-size:1.1rem; margin-bottom:15px; color:#475569;">Sélectionne les étiquettes que tu souhaites réviser :</p>
+        <div style="margin-bottom:20px;">
+            <button class="save-btn" style="background:#475569; margin-bottom:15px; padding:12px;" onclick="selectAllQuizChaps()">✅ Tout sélectionner</button>
+            ${chapHtml}
+        </div>
+        <button class="save-btn" style="background:#3b82f6; font-size:1.3rem;" onclick="startQuiz()">🚀 Commencer la révision</button>
+    `;
+}
+
+function selectAllQuizChaps() {
+    document.querySelectorAll('.quiz-chap-cb').forEach(cb => cb.checked = true);
+}
+
+function startQuiz() {
+    const checkboxes = document.querySelectorAll('.quiz-chap-cb:checked');
+    selectedChapters = Array.from(checkboxes).map(cb => cb.value);
+    
+    if (selectedChapters.length === 0) { alert("Sélectionne au moins une étiquette !"); return; }
+    
+    // Reset les stats
+    isQuizStarted = true;
+    statsSeen = 0; statsCorrect = 0; statsWrong = 0; statsSkipped = 0;
+    quizTimeSeconds = 0;
+    
+    clearInterval(quizTimer);
+    quizTimer = setInterval(updateTimer, 1000);
+    
+    renderWorkspaceContent();
+}
+
+function updateTimer() {
+    if (!isQuizStarted) return;
+    quizTimeSeconds++;
+    const mins = String(Math.floor(quizTimeSeconds / 60)).padStart(2, '0');
+    const secs = String(quizTimeSeconds % 60).padStart(2, '0');
+    const timerEl = document.getElementById('quiz-timer-display');
+    if (timerEl) timerEl.innerText = `${mins}:${secs}`;
+}
+
+function renderQuiz(container, titleContainer) {
+    titleContainer.innerHTML = `<h3 style="margin:0; color:#1e293b;">📌 Révision : ${selectedChapters.length} étiquette(s)</h3>`;
+    
     let allCards = [];
     let seen = new Set();
     
     selectedChapters.forEach(ch => {
         let cards = db[currentSubject][ch].flashcards || [];
         cards.forEach(c => {
-            let key = c.q + "|" + c.a; // Clé unique pour éviter les doublons
-            if (!seen.has(key)) {
-                seen.add(key);
-                allCards.push(c);
-            }
+            let key = c.q + "|" + c.a;
+            if (!seen.has(key)) { seen.add(key); allCards.push(c); }
         });
     });
 
     if(allCards.length === 0) {
         container.innerHTML = "<p>Rien à réviser dans ces étiquettes.</p>";
+        clearInterval(quizTimer);
         return;
     }
 
     allCards.sort((a, b) => (a.score || 0) - (b.score || 0));
     const card = allCards[0]; 
 
-    // Centrage de la flashcard
+    const mins = String(Math.floor(quizTimeSeconds / 60)).padStart(2, '0');
+    const secs = String(quizTimeSeconds % 60).padStart(2, '0');
+
     container.innerHTML = `
-        <div style="max-width: 500px; margin: 0 auto; text-align:center;">
-            <p style="color:gray; font-size:0.9rem;">(Priorité de la carte : ${card.score || 0})</p>
-            <h2 style="font-size:2rem; margin:30px 0;">${card.q}</h2>
-            
-            <input type="text" id="user-answer" placeholder="Écris ta réponse ici..." 
-                   style="width:100%; padding:20px; border-radius:10px; border:3px solid #cbd5e1; font-size:1.2rem; text-align:center; box-sizing:border-box;"
-                   onkeydown="if(event.key==='Enter') checkAnswer('${card.a.replace(/'/g, "\\'")}', '${card.q.replace(/'/g, "\\'")}')">
-            
-            <button class="save-btn" id="check-btn" style="background:black; margin-top:15px;" onclick="checkAnswer('${card.a.replace(/'/g, "\\'")}', '${card.q.replace(/'/g, "\\'")}')">Vérifier (Entrée)</button>
-            <button class="save-btn" id="skip-btn" style="background:#ef4444; margin-top:10px;" onclick="checkAnswer('', '${card.q.replace(/'/g, "\\'")}')">Je ne sais pas (Passer)</button>
-            
-            <div id="feedback" style="margin-top:20px; display:none; padding:20px; border-radius:10px;">
-                <h3 id="result-text" style="margin:0 0 10px 0;"></h3>
-                <p style="font-size:1.2rem; margin:0;"><b>La bonne réponse est :</b> <br><span style="color:black;">${card.a}</span></p>
-                <button class="save-btn" id="next-btn" style="background:#3b82f6; margin-top:20px;" onclick="renderQuiz()">Carte Suivante (Entrée)</button>
+        <div class="flashcard-layout">
+            <div class="flashcard-main">
+                <div class="flashcard-ui">
+                    <p style="color:#94a3b8; font-size:0.9rem; margin-top:0; font-weight:bold; position:absolute; top: 15px;">Priorité d'apprentissage : ${card.score || 0}</p>
+                    <h2 style="font-size:2.2rem; margin:0; color:#0f172a; text-shadow: 1px 1px 2px rgba(0,0,0,0.05);">${card.q}</h2>
+                </div>
+                
+                <input type="text" id="user-answer" placeholder="Écris ta réponse ici..." 
+                       style="width:100%; padding:20px; border-radius:10px; border:3px solid #cbd5e1; font-size:1.2rem; text-align:center; box-sizing:border-box; margin-bottom:15px; outline:none;"
+                       onkeydown="if(event.key==='Enter') checkAnswer('${card.a.replace(/'/g, "\\'")}', '${card.q.replace(/'/g, "\\'")}', false)">
+                
+                <button class="save-btn" id="check-btn" style="background:black;" onclick="checkAnswer('${card.a.replace(/'/g, "\\'")}', '${card.q.replace(/'/g, "\\'")}', false)">Vérifier (Entrée)</button>
+                <button class="save-btn" id="skip-btn" style="background:#ef4444; margin-top:10px;" onclick="checkAnswer('${card.a.replace(/'/g, "\\'")}', '${card.q.replace(/'/g, "\\'")}', true)">Je ne sais pas (Passer)</button>
+                
+                <div id="feedback" style="margin-top:20px; display:none; padding:20px; border-radius:10px; text-align:center;">
+                    <h3 id="result-text" style="margin:0 0 10px 0;"></h3>
+                    <p style="font-size:1.2rem; margin:0;"><b>La bonne réponse est :</b> <br><span style="color:black;">${card.a}</span></p>
+                    <button class="save-btn" id="next-btn" style="background:#3b82f6; margin-top:20px;" onclick="renderWorkspaceContent()">Carte Suivante (Entrée)</button>
+                </div>
+            </div>
+
+            <div class="flashcard-stats">
+                <h3 style="margin-top:0; border-bottom:2px dashed #cbd5e1; padding-bottom:10px;">📊 Statistiques</h3>
+                <div style="font-size:2.5rem; font-weight:900; text-align:center; margin:15px 0; color:#3b82f6;" id="quiz-timer-display">${mins}:${secs}</div>
+                <div style="font-size:1.1rem; line-height:2;">
+                    <p style="margin:0;">👁️ Cartes vues : <b>${statsSeen}</b></p>
+                    <p style="margin:0; color:#166534;">✅ Justes : <b>${statsCorrect}</b></p>
+                    <p style="margin:0; color:#991b1b;">❌ Fausses : <b>${statsWrong}</b></p>
+                    <p style="margin:0; color:#ca8a04;">⏭️ Passées : <b>${statsSkipped}</b></p>
+                </div>
             </div>
         </div>
     `;
-    
-    // Focus auto sur l'input
     setTimeout(() => document.getElementById('user-answer').focus(), 100);
 }
 
-function checkAnswer(correctAnswer, questionText) {
+function checkAnswer(correctAnswer, questionText, isSkipped) {
+    statsSeen++;
     const userAns = document.getElementById('user-answer').value.trim().toLowerCase();
     const feedback = document.getElementById('feedback');
     const resultText = document.getElementById('result-text');
@@ -327,39 +379,44 @@ function checkAnswer(correctAnswer, questionText) {
     document.getElementById('skip-btn').style.display = "none";
     document.getElementById('user-answer').disabled = true;
 
-    // Mise à jour du score pour TOUTES les occurrences de ce mot dans les chapitres sélectionnés
-    let isRight = (userAns !== "" && userAns === correctAnswer.toLowerCase().trim());
+    let isRight = false;
+    if (!isSkipped) {
+        isRight = (userAns !== "" && userAns === correctAnswer.toLowerCase().trim());
+    }
     
     selectedChapters.forEach(ch => {
         let cards = db[currentSubject][ch].flashcards || [];
         cards.forEach(c => {
             if(c.q === questionText && c.a === correctAnswer) {
-                if (isRight) {
-                    c.score = (c.score || 0) + 1;
-                } else {
-                    c.score = (c.score || 0) - 2;
-                }
+                if (isRight) c.score = (c.score || 0) + 1;
+                else c.score = (c.score || 0) - 2;
             }
         });
     });
 
-    if(isRight) {
+    if(isSkipped) {
+        statsSkipped++;
+        resultText.innerHTML = "⏭️ Passé !";
+        feedback.style.background = "#fef08a"; // Jaune
+        resultText.style.color = "#854d0e";
+    } else if(isRight) {
+        statsCorrect++;
         resultText.innerHTML = "✅ Parfait !";
         feedback.style.background = "#dcfce7";
         resultText.style.color = "#166534";
     } else {
-        resultText.innerHTML = "❌ Erreur (ou passé)";
+        statsWrong++;
+        resultText.innerHTML = "❌ Faux !";
         feedback.style.background = "#fee2e2";
         resultText.style.color = "#991b1b";
     }
     
     save();
     
-    // Permet d'appuyer sur Entrée pour passer à la suite
     document.onkeydown = function(e) {
         if(e.key === 'Enter') {
-            document.onkeydown = null; // Retire l'écouteur
-            renderQuiz();
+            document.onkeydown = null; 
+            renderWorkspaceContent();
         }
     };
     document.getElementById('next-btn').focus();
