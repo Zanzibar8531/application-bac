@@ -3,153 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>BacMaster</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0e1525">
+    <title>BacMaster — Première</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+    <!-- MathJax for LaTeX rendering -->
+    <script>
+    window.MathJax = {
+        tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']], processEscapes: true },
+        options: { skipHtmlTags: ['script','noscript','style','textarea'] },
+        startup: { typeset: false }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 <body>
-    <div id="overlay" class="overlay" onclick="closeMenu()"></div>
-
-    <aside id="sidebar" class="sidebar">
-        <div class="sidebar-header">
-            <div class="logo-mark">BM</div>
-            <span class="sidebar-title">BacMaster</span>
-            <button class="close-btn" onclick="closeMenu()">✕</button>
-        </div>
-        <nav class="sidebar-nav">
-            <button class="snav-btn" onclick="showHome(); closeMenu()">🏠 Accueil</button>
-            <div class="snav-sep">Matières</div>
-            <button class="snav-btn s-eng"  onclick="openSubject('Anglais'); closeMenu()">🇬🇧 Anglais</button>
-            <button class="snav-btn s-spe1" onclick="openSubject('Anglais Spé 1'); closeMenu()">🗣️ Spé 1</button>
-            <button class="snav-btn s-spe2" onclick="openSubject('Anglais Spé 2'); closeMenu()">💬 Spé 2</button>
-            <button class="snav-btn s-math" onclick="openSubject('Maths'); closeMenu()">📐 Maths</button>
-            <button class="snav-btn s-fr"   onclick="openSubject('Français'); closeMenu()">📝 Français</button>
-            <button class="snav-btn s-ses"  onclick="openSubject('SES'); closeMenu()">📈 SES</button>
-            <button class="snav-btn s-phys" onclick="openSubject('Physique'); closeMenu()">⚛️ Physique</button>
-            <button class="snav-btn s-hist" onclick="openSubject('Histoire'); closeMenu()">📜 Histoire</button>
-            <button class="snav-btn s-esp"  onclick="openSubject('Espagnol'); closeMenu()">🇪🇸 Espagnol</button>
-        </nav>
-    </aside>
-
+<div id="overlay" class="overlay" onclick="closeSidebar()"></div>
+<aside id="sidebar" class="sidebar">
+    <div class="sb-logo">
+        <div class="sb-pill">BM</div>
+        <div class="sb-name">BacMaster</div>
+        <button class="sb-close" onclick="closeSidebar()">✕</button>
+    </div>
+    <nav class="sb-nav">
+        <button class="sb-link" onclick="goHome();closeSidebar()">🏠 Accueil</button>
+        <div class="sb-sep">Mes matières</div>
+        <button class="sb-link sb-fr"   onclick="goSubject('Français');closeSidebar()">📝 Français</button>
+        <button class="sb-link sb-math" onclick="goSubject('Maths Spé');closeSidebar()">📐 Maths Spé</button>
+        <button class="sb-link sb-ses"  onclick="goSubject('SES');closeSidebar()">📈 SES</button>
+        <button class="sb-link sb-en"   onclick="goSubject('Anglais Spé');closeSidebar()">🇬🇧 Anglais Spé</button>
+        <button class="sb-link sb-hg"   onclick="goSubject('Histoire-Géo');closeSidebar()">🗺️ Histoire-Géo</button>
+        <button class="sb-link sb-ang"  onclick="goSubject('Anglais');closeSidebar()">🌍 Anglais</button>
+        <button class="sb-link sb-esp"  onclick="goSubject('Espagnol');closeSidebar()">🇪🇸 Espagnol</button>
+        <button class="sb-link sb-svt"  onclick="goSubject('SVT');closeSidebar()">🧬 SVT</button>
+        <button class="sb-link sb-phy"  onclick="goSubject('Physique-Chimie');closeSidebar()">⚗️ Physique-Chimie</button>
+    </nav>
+    <div class="sb-footer">Première 2024–2025</div>
+</aside>
+<div class="shell">
     <header class="topbar">
-        <button class="burger" onclick="toggleMenu()">
+        <button class="burger" onclick="toggleSidebar()">
             <span></span><span></span><span></span>
         </button>
-        <span class="topbar-brand">BacMaster</span>
-        <div id="topbar-right"></div>
+        <div class="tb-brand" onclick="goHome()">BacMaster</div>
+        <button class="search-btn" onclick="openSearch()" title="Rechercher">🔍</button>
+        <button class="music-btn" id="music-toggle-btn" onclick="toggleMusicPlayer()" title="Musique d'ambiance">🎵</button>
     </header>
-
-    <main id="app">
-
-        <!-- PAGE ACCUEIL -->
-        <section id="page-home" class="page active">
-            <div class="page-head">
-                <h1>Mes Matières</h1>
-                <p class="page-sub">Sélectionne une matière pour commencer</p>
-            </div>
-            <div class="subjects-grid">
-                <div class="scard s-eng"  onclick="openSubject('Anglais')">
-                    <div class="scard-emoji">🇬🇧</div>
-                    <h3>Anglais</h3>
-                    <div class="scard-meta" id="meta-Anglais"></div>
-                </div>
-                <div class="scard s-spe1" onclick="openSubject('Anglais Spé 1')">
-                    <div class="scard-emoji">🗣️</div>
-                    <h3>Spé 1</h3>
-                    <div class="scard-meta" id="meta-Anglais Spé 1"></div>
-                </div>
-                <div class="scard s-spe2" onclick="openSubject('Anglais Spé 2')">
-                    <div class="scard-emoji">💬</div>
-                    <h3>Spé 2</h3>
-                    <div class="scard-meta" id="meta-Anglais Spé 2"></div>
-                </div>
-                <div class="scard s-math" onclick="openSubject('Maths')">
-                    <div class="scard-emoji">📐</div>
-                    <h3>Maths</h3>
-                    <div class="scard-meta" id="meta-Maths"></div>
-                </div>
-                <div class="scard s-fr"   onclick="openSubject('Français')">
-                    <div class="scard-emoji">📝</div>
-                    <h3>Français</h3>
-                    <div class="scard-meta" id="meta-Français"></div>
-                </div>
-                <div class="scard s-ses"  onclick="openSubject('SES')">
-                    <div class="scard-emoji">📈</div>
-                    <h3>SES</h3>
-                    <div class="scard-meta" id="meta-SES"></div>
-                </div>
-                <div class="scard s-phys" onclick="openSubject('Physique')">
-                    <div class="scard-emoji">⚛️</div>
-                    <h3>Physique</h3>
-                    <div class="scard-meta" id="meta-Physique"></div>
-                </div>
-                <div class="scard s-hist" onclick="openSubject('Histoire')">
-                    <div class="scard-emoji">📜</div>
-                    <h3>Histoire</h3>
-                    <div class="scard-meta" id="meta-Histoire"></div>
-                </div>
-                <div class="scard s-esp"  onclick="openSubject('Espagnol')">
-                    <div class="scard-emoji">🇪🇸</div>
-                    <h3>Espagnol</h3>
-                    <div class="scard-meta" id="meta-Espagnol"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PAGE MATIÈRE -->
-        <section id="page-subject" class="page">
-            <div class="page-head">
-                <button class="back-btn" onclick="showHome()">← Accueil</button>
-                <h1 id="subject-title">Matière</h1>
-            </div>
-            <div class="modules-grid">
-                <div class="mcard" onclick="openWorkspace('cours-read')">
-                    <div class="mcard-icon">📖</div>
-                    <h3>Lire le Cours</h3>
-                    <p>Consulte tes notes et cours</p>
-                </div>
-                <div class="mcard" onclick="openWorkspace('cours-edit')">
-                    <div class="mcard-icon">✏️</div>
-                    <h3>Modifier le Cours</h3>
-                    <p>Édite et enrichis tes notes</p>
-                </div>
-                <div class="mcard" onclick="openWorkspace('voc-read')">
-                    <div class="mcard-icon">📚</div>
-                    <h3>Dictionnaire</h3>
-                    <p>Consulte ton vocabulaire</p>
-                </div>
-                <div class="mcard" onclick="openWorkspace('voc-add')">
-                    <div class="mcard-icon">➕</div>
-                    <h3>Ajouter des Mots</h3>
-                    <p>Enrichis ton dictionnaire</p>
-                </div>
-                <div class="mcard mcard-featured" onclick="openWorkspace('flashcards')">
-                    <div class="mcard-icon">🎴</div>
-                    <h3>Flashcards SRS</h3>
-                    <p>Révision intelligente style Anki</p>
-                </div>
-                <div class="mcard mcard-featured" onclick="openWorkspace('eval')">
-                    <div class="mcard-icon">🧠</div>
-                    <h3>Exercices QCM</h3>
-                    <p>Teste tes connaissances</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- PAGE WORKSPACE -->
-        <section id="page-workspace" class="page">
-            <div class="workspace-header">
-                <button class="back-btn" onclick="showPage('subject')">← Retour</button>
-                <h2 id="workspace-title">Espace de travail</h2>
-            </div>
-            <div id="chap-bar" class="chap-bar"></div>
-            <div id="workspace-box" class="workspace-box">
-                <div id="workspace-inner"></div>
-            </div>
-        </section>
-
-    </main>
-
-    <script src="script.js"></script>
+    <main id="main"></main>
+</div>
+<script src="data.js"></script>
+<script src="script.js"></script>
+<!-- ── MUSIC PLAYER (persistant) ── -->
+<div id="music-panel" class="music-panel" style="display:none">
+    <div class="mp-header">
+        <span class="mp-title">🎵 Ambiance</span>
+        <button class="mp-close" onclick="toggleMusicPlayer()">✕</button>
+    </div>
+    <div class="mp-tracks">
+        <button class="mp-track active" onclick="playTrack(0)">☕ Lofi Chill</button>
+        <button class="mp-track" onclick="playTrack(1)">🌧️ Rain & Piano</button>
+        <button class="mp-track" onclick="playTrack(2)">🎹 Jazz Study</button>
+        <button class="mp-track" onclick="playTrack(3)">🌊 Nature Focus</button>
+    </div>
+    <div class="mp-iframe-wrap">
+        <iframe id="music-iframe"
+            src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=0&loop=1&playlist=jfKfPfyJRdk&controls=0&modestbranding=1"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+            style="width:100%;height:80px;border:none;border-radius:8px;"></iframe>
+    </div>
+    <div class="mp-vol-row">
+        <span style="font-size:.8rem;color:var(--muted)">🔊</span>
+        <input type="range" id="mp-vol" min="0" max="100" value="60" class="mp-vol-slider"
+            oninput="setMusicVol(this.value)">
+    </div>
+</div>
 </body>
 </html>
