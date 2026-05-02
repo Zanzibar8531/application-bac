@@ -380,3 +380,43 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 @media (max-width: 480px) {
     .music-panel { bottom:0; right:0; left:0; width:auto; border-radius:16px 16px 0 0; max-height:70vh; overflow-y:auto; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   PWA — COMPORTEMENT NATIF MOBILE
+   ═══════════════════════════════════════════════════════════ */
+
+/* Empêche la sélection de texte sur les éléments UI */
+button, .menu-tile, .chcard, .fc-scene,
+.topbar, .sidebar, .sb-link, .rating-row,
+.bc-btn, .srs-prog-row, .breadcrumb {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Le contenu de cours reste sélectionnable */
+.cours-body, .voc-row span, .search-result { user-select: text; -webkit-user-select: text; }
+
+/* Supprime le flash bleu au tap sur iOS/Android */
+* { -webkit-tap-highlight-color: transparent; }
+
+/* Désactive le zoom sur double-tap (renforcé, viewport le fait aussi) */
+html { touch-action: manipulation; }
+
+/* Masque la barre de défilement sur Webkit sans désactiver le scroll */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* Safe area pour les téléphones à encoche/Dynamic Island */
+.topbar   { padding-top: env(safe-area-inset-top, 0px); }
+.shell    { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.sidebar  { padding-top: env(safe-area-inset-top, 0px); }
+
+/* Mode standalone PWA : évite les zones cliquables masquées */
+@media (display-mode: standalone) {
+    .topbar { padding-top: max(env(safe-area-inset-top, 0px), 8px); }
+    body { overscroll-behavior: none; } /* Pas de pull-to-refresh accidentel */
+}
+
+/* Empêche le rubber-banding (scroll élastique) non voulu sur iOS */
+#main { overscroll-behavior-y: contain; }

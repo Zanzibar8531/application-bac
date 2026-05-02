@@ -4,7 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#0e1525">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="BacMaster">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#4A90E2">
+    <meta name="description" content="Révise ton Bac avec des flashcards, QCM et cours interactifs.">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Apple Touch Icons (placer les fichiers dans /icons/) -->
+    <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+
     <title>BacMaster — Première</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
@@ -79,5 +92,29 @@
             oninput="setMusicVol(this.value)">
     </div>
 </div>
+    <!-- Service Worker Registration -->
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => {
+                    console.log('[SW] Enregistré :', reg.scope);
+                    // Notifier si une mise à jour est disponible
+                    reg.addEventListener('updatefound', () => {
+                        const newSW = reg.installing;
+                        newSW.addEventListener('statechange', () => {
+                            if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+                                // Une nouvelle version est disponible
+                                if (typeof showToast === 'function') {
+                                    showToast('Mise à jour disponible — rechargez la page !', 'info');
+                                }
+                            }
+                        });
+                    });
+                })
+                .catch(err => console.warn('[SW] Échec enregistrement :', err));
+        });
+    }
+    </script>
 </body>
 </html>

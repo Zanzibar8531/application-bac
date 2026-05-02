@@ -1004,3 +1004,540 @@ $$C = \frac{n}{V} \text{ (mol/L)} \qquad \text{Équivalence : } n_a = n_b \Right
     ]
   }
 };
+
+// ════════════════════════════════════════════════════════════
+// TEXTES BAC FRANÇAIS — ORAL BLANC (ajout dans Français)
+// ════════════════════════════════════════════════════════════
+
+// OE1 — POÉSIE : Rimbaud / Baudelaire
+PREBUILT['Français']['T1 — Le dormeur du val (Rimbaud)'] = {
+cours: `<h2>Texte n°1 — "Le dormeur du val"</h2>
+<p><strong>Auteur :</strong> Arthur Rimbaud &nbsp;|&nbsp; <strong>Œuvre :</strong> Cahiers de Douai (1870) &nbsp;|&nbsp; <strong>Objet d'étude :</strong> La poésie</p>
+<div class="formula-box"><strong>Genre :</strong> Sonnet (2 quatrains + 2 tercets) &nbsp;|&nbsp; <strong>Mouvement :</strong> Romantisme tardif / Symbolisme naissant</div>
+
+<h3>Résumé & situation</h3>
+<p>Rimbaud a 16 ans. Le poème décrit un soldat allongé dans un vallon verdoyant, apparemment endormi. La chute (dernier vers) révèle qu'il est mort, deux balles dans le flanc. Écrit en octobre 1870, pendant la guerre franco-prussienne.</p>
+
+<h3>Axes de lecture</h3>
+<ul>
+<li><strong>Axe 1 — Une nature idyllique et trompeuse :</strong> La nature est personnifiée, maternelle (« berce », « chauffe », « il a froid »). Champ lexical de la lumière et de la vie qui contraste violemment avec la mort.</li>
+<li><strong>Axe 2 — Le sonnet comme piège : l'effet de chute :</strong> Le lecteur est berné comme le soldat semble dormir. La révélation finale (« deux trous rouges au côté droit ») est brutale, sèche, sans pathos — anti-climax volontaire.</li>
+<li><strong>Axe 3 — Un poème engagé, dénonciation de la guerre :</strong> Pas de héroïsme, pas de gloire. La guerre est absurde. Le soldat est un enfant (« la bouche ouverte, jeune soldat »).</li>
+</ul>
+
+<h3>Procédés clés</h3>
+<ul>
+<li><strong>Oxymore :</strong> « trou de verdure » → espace clos dans l'ouvert, tombeau dans la nature</li>
+<li><strong>Personnification de la nature :</strong> « La Nature, berce-le chaudement »</li>
+<li><strong>Euphémisme :</strong> « il dort » → mort présentée comme sommeil jusqu'à la chute</li>
+<li><strong>Allitération en [v] et [f] :</strong> fluidité, douceur trompeuse</li>
+<li><strong>Chute sèche :</strong> « Il a deux trous rouges au côté droit » — rupture de ton totale</li>
+<li><strong>Ironie tragique :</strong> « Tranquille » — mot qui prend un sens macabre a posteriori</li>
+</ul>
+
+<h3>Citations indispensables</h3>
+<ul>
+<li>« C'est un trou de verdure où chante une rivière » — incipit trompeur, idylle apparente</li>
+<li>« Il dort dans le soleil, la main sur sa poitrine » — euphémisme de la mort</li>
+<li>« La Nature, berce-le chaudement : il a froid » — ironie tragique, nature impuissante</li>
+<li>« Il a deux trous rouges au côté droit » — chute, violence nue, réalisme</li>
+</ul>
+
+<h3>Problématique type oral</h3>
+<p><em>Comment Rimbaud utilise-t-il la beauté du sonnet pour dénoncer l'horreur de la guerre ?</em></p>`,
+flashcards: [
+{q:'Genre et forme du Dormeur du val',a:'Sonnet : 2 quatrains + 2 tercets. Alexandrins. Rimes embrassées (ABBA) dans les quatrains.',score:0,interval:0,ease:2.5,due:null},
+{q:'Date et contexte du Dormeur du val',a:'Octobre 1870. Rimbaud a 16 ans. Guerre franco-prussienne. Poème pacifiste et anti-guerre.',score:0,interval:0,ease:2.5,due:null},
+{q:'Procédé central : le retournement final',a:'Euphémisme filé (le soldat "dort") + chute brutale ("deux trous rouges"). Le lecteur est dupé comme la nature est trompée.',score:0,interval:0,ease:2.5,due:null},
+{q:'Rôle de la Nature dans le poème',a:'Nature maternelle, personnifiée, qui "berce" le soldat. Mais elle est impuissante face à la mort. Contraste vie/mort = ironie tragique.',score:0,interval:0,ease:2.5,due:null},
+{q:'Citation clé — la chute',a:'"Il a deux trous rouges au côté droit." Rupture de ton, réalisme brutal, anti-héroïsme.',score:0,interval:0,ease:2.5,due:null},
+{q:'Problématique oral bac',a:'Comment Rimbaud utilise-t-il la beauté du sonnet pour dénoncer l\'horreur de la guerre ?',score:0,interval:0,ease:2.5,due:null},
+{q:'Axe 1 — Dormeur du val',a:'Une nature idyllique et trompeuse : champ lexical de la vie et de la lumière qui masque la mort.',score:0,interval:0,ease:2.5,due:null},
+{q:'Axe 2 — Dormeur du val',a:'Le sonnet comme piège : structure en entonnoir, révélation finale. L\'effet de chute dénonce sans pathos.',score:0,interval:0,ease:2.5,due:null},
+{q:'Axe 3 — Dormeur du val',a:'Dénonciation de la guerre : pas de gloire, pas de héroïsme. Le soldat est un enfant sacrifié.',score:0,interval:0,ease:2.5,due:null},
+]};
+
+PREBUILT['Français']['T2 — Roman (Rimbaud)'] = {
+cours: `<h2>Texte n°2 — "Roman"</h2>
+<p><strong>Auteur :</strong> Arthur Rimbaud &nbsp;|&nbsp; <strong>Œuvre :</strong> Cahiers de Douai (1870) &nbsp;|&nbsp; <strong>Objet d'étude :</strong> La poésie</p>
+<div class="formula-box"><strong>Incipit :</strong> « On n'est pas sérieux, quand on a dix-sept ans... » &nbsp;|&nbsp; <strong>Genre :</strong> Poème lyrique en 4 parties (16 strophes)</div>
+
+<h3>Résumé & situation</h3>
+<p>Poème autobiographique : un adolescent de 17 ans vit ses premières émotions amoureuses lors d'une soirée de juin. Le titre "Roman" est ironique — cette histoire est à la fois banale et intense, vécue comme un grand roman sentimental.</p>
+
+<h3>Axes de lecture</h3>
+<ul>
+<li><strong>Axe 1 — L'exaltation de la jeunesse et du premier amour :</strong> Sensations physiques, liberté, nature estivale. Le lyrisme adolescent est célébré sans distance.</li>
+<li><strong>Axe 2 — L'ironie légère du titre et de la voix poétique :</strong> "On" impersonnel = généralisation distanciée. Rimbaud se moque tendrement de lui-même et de l'universalité du sentiment amoureux.</li>
+<li><strong>Axe 3 — La fugacité et le désenchantement :</strong> Dernière strophe = retour à la réalité. L'amour adolescent est éphémère comme un soir de juin.</li>
+</ul>
+
+<h3>Procédés clés</h3>
+<ul>
+<li><strong>Pronom "On" :</strong> universel, inclusif, complicité avec le lecteur</li>
+<li><strong>Champ lexical des sens :</strong> « tilleuls », « bocks », « limonade »</li>
+<li><strong>Rythme vif, enjambements :</strong> mimétisme de l'excitation adolescente</li>
+<li><strong>Ironie du titre "Roman" :</strong> désacralise le grand amour, mais le magnifie aussi</li>
+</ul>
+
+<h3>Citations indispensables</h3>
+<ul>
+<li>« On n'est pas sérieux, quand on a dix-sept ans » — incipit universel</li>
+<li>« Les tilleuls sentent bon dans les bons soirs de juin » — synesthésie, sensorialité</li>
+<li>« — Elle vous trouve drôlement naïf, et ses doigts tremblent... » — délicatesse du premier amour</li>
+</ul>
+
+<h3>Problématique type oral</h3>
+<p><em>Comment Rimbaud fait-il du banal sentiment amoureux adolescent un sujet poétique à la fois universel et intime ?</em></p>`,
+flashcards: [
+{q:'Titre "Roman" — ironie',a:'Ironique : désigne une histoire banale (premier amour) vécue comme un grand roman sentimental. Double sens : élève et moque à la fois.',score:0,interval:0,ease:2.5,due:null},
+{q:'Rôle du pronom "On" dans Roman',a:'Universel et inclusif. Généralise l\'expérience amoureuse. Crée une complicité avec le lecteur. Distanciation légèrement ironique.',score:0,interval:0,ease:2.5,due:null},
+{q:'Contexte biographique — Roman',a:'Rimbaud a 17 ans en 1870. Poème autobiographique. Fugues à Paris, sentiment de liberté absolue.',score:0,interval:0,ease:2.5,due:null},
+{q:'Axe principal — Roman (Rimbaud)',a:'Célébration lyrique de la jeunesse + ironie distanciée. La fugacité du premier amour, universel et éphémère.',score:0,interval:0,ease:2.5,due:null},
+{q:'Citation clé — Roman',a:'"On n\'est pas sérieux, quand on a dix-sept ans." Incipit célèbre, universel, légèrement ironique.',score:0,interval:0,ease:2.5,due:null},
+]};
+
+PREBUILT['Français']['T3 — Ma Bohême (Rimbaud)'] = {
+cours: `<h2>Texte n°3 — "Ma Bohême"</h2>
+<p><strong>Auteur :</strong> Arthur Rimbaud &nbsp;|&nbsp; <strong>Œuvre :</strong> Cahiers de Douai (1870) &nbsp;|&nbsp; <strong>Objet d'étude :</strong> La poésie</p>
+<div class="formula-box"><strong>Sous-titre :</strong> "Fantaisie" &nbsp;|&nbsp; <strong>Forme :</strong> Sonnet irrégulier &nbsp;|&nbsp; <strong>Mouvement :</strong> Romantisme / Proto-symbolisme</div>
+
+<h3>Résumé & situation</h3>
+<p>Rimbaud célèbre sa vie de vagabond adolescent : fugues, marche à pied, nuits dehors, pauvreté vécue comme liberté totale. Le poème est une ode joyeuse à l'errance, à la nature et à la création poétique née du voyage.</p>
+
+<h3>Axes de lecture</h3>
+<ul>
+<li><strong>Axe 1 — L'errance comme liberté et programme poétique :</strong> La fugue n'est pas une fuite mais une conquête. La misère (veston troué, souliers usés) devient insignes du poète libre.</li>
+<li><strong>Axe 2 — La nature comme muse et interlocutrice :</strong> Étoiles, routes, rosée — la nature dialogue avec le poète. Lyrisme panthéiste.</li>
+<li><strong>Axe 3 — L'autoportrait du poète-voyant en devenir :</strong> "Ma Bohême" annonce la théorie du "Voyant" (lettre de mai 1871). Le dérèglement de la vie ordinaire = condition de la création.</li>
+</ul>
+
+<h3>Procédés clés</h3>
+<ul>
+<li><strong>Adjectif possessif "Ma" :</strong> revendication, appropriation de la marginalité</li>
+<li><strong>Métaphore filée du voyage :</strong> « Muse » en personnage de route</li>
+<li><strong>Oxymore joyeux :</strong> richesse dans la pauvreté (« Petit-Poucet rêveur »)</li>
+<li><strong>Alexandrins libérés, enjambements :</strong> mimétisme de l'errance</li>
+<li><strong>Référence au Petit-Poucet :</strong> enfant perdu mais qui trace son chemin</li>
+</ul>
+
+<h3>Citations indispensables</h3>
+<ul>
+<li>« Je m'en allais, les poings dans mes poches crevées » — posture du vagabond, liberté corporelle</li>
+<li>« Mon unique culotte avait un large trou » — autodérision, pauvreté assumée</li>
+<li>« Petit-Poucet rêveur, j'égrenais dans ma course / Des rimes » — poète-enfant, création en mouvement</li>
+<li>« Les étoiles au ciel avaient un doux frou-frou » — synesthésie, dialogue poète-cosmos</li>
+</ul>
+
+<h3>Problématique type oral</h3>
+<p><em>Comment Rimbaud fait-il de l'errance et de la marginalité les conditions d'une liberté poétique totale ?</em></p>`,
+flashcards: [
+{q:'Sous-titre de Ma Bohême et son sens',a:'"Fantaisie" : légèreté revendiquée, mais aussi sens de création libre. Le poème joue et crée en même temps.',score:0,interval:0,ease:2.5,due:null},
+{q:'Figure du Petit-Poucet dans Ma Bohême',a:'Enfant perdu qui trace sa route. Rimbaud = poète-enfant qui "égrène des rimes" en marchant. Création poétique = errance.',score:0,interval:0,ease:2.5,due:null},
+{q:'Posture du poète dans Ma Bohême',a:'Vagabond marginal, libre, pauvre mais heureux. Anticipe la théorie du Voyant : le dérèglement comme condition de la création.',score:0,interval:0,ease:2.5,due:null},
+{q:'Citation clé — Ma Bohême',a:'"Je m\'en allais, les poings dans mes poches crevées." Posture corporelle du vagabond libre, ton désinvolte.',score:0,interval:0,ease:2.5,due:null},
+{q:'Problématique — Ma Bohême',a:'Comment Rimbaud fait-il de l\'errance et de la marginalité les conditions d\'une liberté poétique totale ?',score:0,interval:0,ease:2.5,due:null},
+]};
+
+PREBUILT['Français']['T4 — À une passante (Baudelaire)'] = {
+cours: `<h2>Texte n°4 — "À une passante"</h2>
+<p><strong>Auteur :</strong> Charles Baudelaire &nbsp;|&nbsp; <strong>Œuvre :</strong> Les Fleurs du Mal, "Tableaux parisiens" (1861) &nbsp;|&nbsp; <strong>Parcours :</strong> Émancipations créatrices</p>
+<div class="formula-box"><strong>Forme :</strong> Sonnet &nbsp;|&nbsp; <strong>Mouvement :</strong> Symbolisme / Modernité baudelairienne</div>
+
+<h3>Résumé & situation</h3>
+<p>Dans le tumulte d'une rue parisienne, le poète aperçoit une femme en deuil, majestueuse. Leur regard se croise une fraction de seconde — puis elle disparaît pour toujours. Le poème saisit l'amour foudroyant et impossible, né et mort dans l'instant.</p>
+
+<h3>Axes de lecture</h3>
+<ul>
+<li><strong>Axe 1 — La modernité baudelairienne : beauté fugace et urbaine :</strong> La rue, le bruit, la foule — Baudelaire invente la poésie de la ville moderne. La beauté n'est plus éternelle mais instantanée.</li>
+<li><strong>Axe 2 — L'amour impossible et le spleen :</strong> Rencontre sans lendemain. L'oxymore "douceur qui fascine et le plaisir qui tue" dit l'impossibilité de l'amour. Mélancolie fondamentale.</li>
+<li><strong>Axe 3 — L'émancipation créatrice (parcours) :</strong> La passante est une muse fugace. La perte inspire la création. Le poème naît de l'absence — sublimation de l'échec en art.</li>
+</ul>
+
+<h3>Procédés clés</h3>
+<ul>
+<li><strong>Oxymore :</strong> « douceur qui fascine et le plaisir qui tue »</li>
+<li><strong>Antithèse :</strong> « Un éclair… puis la nuit ! » — amour/disparition</li>
+<li><strong>Personnification de la rue :</strong> « La rue assourdissante autour de moi hurlait »</li>
+<li><strong>Sublime féminin :</strong> « majestueuse », « grande », « noble » — femme idéalisée</li>
+<li><strong>Apostrophe finale :</strong> « Ô toi que j'eusse aimée » — conditionnel passé de l'impossible</li>
+</ul>
+
+<h3>Citations indispensables</h3>
+<ul>
+<li>« La rue assourdissante autour de moi hurlait » — modernité, chaos urbain</li>
+<li>« Un éclair… puis la nuit ! — Fugitive beauté » — beauté moderne = fugacité</li>
+<li>« Douceur qui fascine et le plaisir qui tue » — oxymore, tension désir/mort</li>
+<li>« Ô toi que j'eusse aimée, ô toi qui le savais ! » — apostrophe finale, regret</li>
+</ul>
+
+<h3>Problématique type oral</h3>
+<p><em>Comment Baudelaire fait-il de la rencontre manquée le symbole d'une beauté moderne à la fois foudroyante et éphémère ?</em></p>`,
+flashcards: [
+{q:'Contexte — À une passante',a:'Les Fleurs du Mal, section "Tableaux parisiens" (1861). Baudelaire invente la poésie urbaine moderne. Paris haussmannien, foule, vitesse.',score:0,interval:0,ease:2.5,due:null},
+{q:'Définition de la "beauté moderne" selon Baudelaire',a:'Fugace, instantanée, née dans la rue. Oppose à la beauté éternelle classique. "Un éclair… puis la nuit !"',score:0,interval:0,ease:2.5,due:null},
+{q:'Oxymore central — À une passante',a:'"Douceur qui fascine et le plaisir qui tue." Tension désir/mort. Amour = danger et jouissance simultanés.',score:0,interval:0,ease:2.5,due:null},
+{q:'Lien avec le parcours Émancipations créatrices',a:'La perte inspire la création. Le poème naît de l\'absence. L\'échec amoureux est sublimé en œuvre d\'art.',score:0,interval:0,ease:2.5,due:null},
+{q:'Citation clé — chute du sonnet',a:'"Ô toi que j\'eusse aimée, ô toi qui le savais !" Conditionnel passé = irréel définitif. La passante sait ce qu\'elle était pour lui.',score:0,interval:0,ease:2.5,due:null},
+{q:'Problématique — À une passante',a:'Comment Baudelaire fait-il de la rencontre manquée le symbole d\'une beauté moderne foudroyante et éphémère ?',score:0,interval:0,ease:2.5,due:null},
+]};
+
+// OE2 — LITTÉRATURE D'IDÉES : Graffigny / Montaigne
+PREBUILT['Français']['T5 — Lettre 10, Graffigny'] = {
+cours: `<h2>Texte n°5 — Lettre 10, Lettres d'une Péruvienne</h2>
+<p><strong>Auteur :</strong> Françoise de Graffigny &nbsp;|&nbsp; <strong>Œuvre :</strong> Lettres d'une Péruvienne (1747) &nbsp;|&nbsp; <strong>Objet d'étude :</strong> Littérature d'idées (XVIIIe)</p>
+
+<h3>Contexte de l'œuvre</h3>
+<p>Roman épistolaire des Lumières. Zilia, princesse inca, est enlevée par les Espagnols puis recueillie en France. Elle écrit à son fiancé Aza. Le roman est une critique voilée de la société française vue par un regard extérieur naïf — le "regard étranger".</p>
+
+<h3>Lettre 10 — Contenu et enjeux</h3>
+<p>Zilia découvre la société française avec stupeur. Elle observe les mœurs, la langue incompréhensible, le statut des femmes. Son regard naïf et sincère révèle l'arbitraire des conventions sociales françaises.</p>
+
+<h3>Axes de lecture</h3>
+<ul>
+<li><strong>Axe 1 — Le regard étranger comme outil critique :</strong> Technique du bon sauvage / regard naïf héritée de Montaigne et Montesquieu (Lettres persanes). L'étrangeté rend visible ce que les Français ne voient plus.</li>
+<li><strong>Axe 2 — La condition féminine :</strong> Graffigny, femme de lettres, utilise Zilia pour questionner la place des femmes dans la société des Lumières.</li>
+<li><strong>Axe 3 — Critique du colonialisme et de l'ethnocentrisme :</strong> La civilisation inca est présentée comme équivalente sinon supérieure à la française.</li>
+</ul>
+
+<h3>Procédés clés</h3>
+<ul>
+<li><strong>Roman épistolaire :</strong> authenticité simulée, intimité, subjectivité</li>
+<li><strong>Regard naïf / ingénu :</strong> question rhétorique, étonnement sincère</li>
+<li><strong>Ironie douce :</strong> Zilia ne comprend pas mais sa description est accablante pour les Français</li>
+</ul>`,
+flashcards: [
+{q:'Genre et forme — Lettres d\'une Péruvienne',a:'Roman épistolaire (lettres). Narratrice : Zilia, princesse inca. Destinataire : Aza, son fiancé. XVIIIe siècle, 1747.',score:0,interval:0,ease:2.5,due:null},
+{q:'Technique du "regard étranger"',a:'Un personnage étranger observe la société française avec naïveté. Rend visible l\'arbitraire des conventions. Héritage : Montesquieu (Lettres persanes), Voltaire (Candide).',score:0,interval:0,ease:2.5,due:null},
+{q:'Enjeux de la Lettre 10',a:'Découverte de la société française. Critique des mœurs, de la langue, du statut des femmes. Le regard naïf de Zilia révèle les absurdités de la civilisation française.',score:0,interval:0,ease:2.5,due:null},
+{q:'Double critique dans les Lettres d\'une Péruvienne',a:'Critique du colonialisme espagnol ET critique de la société française. Graffigny place les deux civilisations à égalité, voire valorise la civilisation inca.',score:0,interval:0,ease:2.5,due:null},
+]};
+
+PREBUILT['Français']['T6 — Lettre 34, Graffigny'] = {
+cours: `<h2>Texte n°6 — Lettre 34, Lettres d'une Péruvienne</h2>
+<p><strong>Auteur :</strong> Françoise de Graffigny &nbsp;|&nbsp; <strong>Œuvre :</strong> Lettres d'une Péruvienne (1747)</p>
+
+<h3>Lettre 34 — Contenu et enjeux</h3>
+<p>Zilia, désormais installée en France, maîtrise mieux la langue et peut formuler une critique plus directe. Elle compare explicitement les mœurs françaises aux valeurs incas. La lettre est plus argumentée, plus philosophique.</p>
+
+<h3>Axes de lecture</h3>
+<ul>
+<li><strong>Axe 1 — De l'étonnement à la critique construite :</strong> Zilia n'est plus simplement naïve. Elle argumente, compare, juge. Évolution du personnage = évolution du regard critique.</li>
+<li><strong>Axe 2 — Critique des femmes françaises et de leur éducation :</strong> Les femmes françaises sont réduites à leur apparence, à la séduction. Graffigny dénonce un système qui étouffe les femmes.</li>
+<li><strong>Axe 3 — L'écriture comme émancipation :</strong> Zilia écrit pour exister, pour ne pas disparaître. L'acte d'écrire = résistance à l'effacement.</li>
+</ul>
+
+<h3>Procédés clés</h3>
+<ul>
+<li><strong>Antithèse France/Pérou :</strong> mise en valeur de la civilisation inca</li>
+<li><strong>Argumentation directe :</strong> connecteurs logiques, raisonnement structuré</li>
+<li><strong>Ironie voltairienne :</strong> formuler sans agressivité ce qui est accablant</li>
+</ul>`,
+flashcards: [
+{q:'Évolution de Zilia entre Lettre 10 et Lettre 34',a:'Lettre 10 : naïveté, étonnement. Lettre 34 : critique construite, argumentée. Zilia maîtrise la langue et peut formuler ses jugements.',score:0,interval:0,ease:2.5,due:null},
+{q:'Critique des femmes dans la Lettre 34',a:'Les femmes françaises sont réduites à leur apparence et à la séduction. Pas d\'éducation intellectuelle. Graffigny dénonce ce système.',score:0,interval:0,ease:2.5,due:null},
+{q:'L\'écriture comme émancipation — Graffigny',a:'Zilia écrit pour exister et résister à l\'effacement. L\'acte d\'écriture = affirmation de soi face à une société qui ignore les femmes.',score:0,interval:0,ease:2.5,due:null},
+]};
+
+PREBUILT['Français']['T7 — Lettre 41, Graffigny'] = {
+cours: `<h2>Texte n°7 — Lettre 41, Lettres d'une Péruvienne</h2>
+<p><strong>Auteur :</strong> Françoise de Graffigny &nbsp;|&nbsp; <strong>Œuvre :</strong> Lettres d'une Péruvienne (1747)</p>
+
+<h3>Lettre 41 — Contenu et enjeux</h3>
+<p>Lettre finale ou proche de la fin. Zilia refuse la proposition de mariage de Déterville (Français qui l'a recueillie) et choisit de vivre seule, libre, dans la maison qu'il lui offre. Fin subversive : la femme choisit l'indépendance plutôt que le mariage.</p>
+
+<h3>Axes de lecture</h3>
+<ul>
+<li><strong>Axe 1 — Un refus subversif : l'indépendance comme idéal :</strong> Au XVIIIe siècle, une femme seule est une anomalie sociale. Zilia choisit délibérément cet état. Graffigny propose un modèle féminin révolutionnaire.</li>
+<li><strong>Axe 2 — La critique du mariage comme institution :</strong> Zilia explique que le mariage français n'est pas fondé sur l'amour mais sur des conventions sociales et économiques.</li>
+<li><strong>Axe 3 — Le bonheur dans la culture et la liberté intellectuelle :</strong> Zilia trouve son bonheur dans les livres, l'étude, la solitude choisie. Programme des Lumières : la raison et la connaissance = voie du bonheur.</li>
+</ul>
+
+<h3>Procédés clés</h3>
+<ul>
+<li><strong>Discours argumentatif direct :</strong> Zilia explique, justifie, convainc</li>
+<li><strong>Topos du "bonheur solitaire" :</strong> héritage stoïcien et rousseauiste</li>
+<li><strong>Fin ouverte et utopique :</strong> la maison = espace de liberté féminine</li>
+</ul>
+
+<h3>Citation clé</h3>
+<p>Le refus du mariage au profit de la liberté intellectuelle — formule à retrouver dans le texte de ton édition.</p>`,
+flashcards: [
+{q:'Fin des Lettres d\'une Péruvienne — choix de Zilia',a:'Zilia refuse le mariage avec Déterville et choisit de vivre seule, libre, dans une maison. Fin subversive : indépendance féminine revendiquée.',score:0,interval:0,ease:2.5,due:null},
+{q:'Critique du mariage — Lettre 41',a:'Le mariage français est fondé sur les conventions et l\'argent, pas sur l\'amour. Zilia lui préfère la liberté et la culture.',score:0,interval:0,ease:2.5,due:null},
+{q:'Programme des Lumières dans la Lettre 41',a:'La raison, la connaissance et la liberté intellectuelle = chemin vers le bonheur. La maison de Zilia = espace d\'émancipation par la culture.',score:0,interval:0,ease:2.5,due:null},
+{q:'En quoi la Lettre 41 est-elle révolutionnaire ?',a:'Une femme au XVIIIe s. qui choisit la solitude et l\'indépendance plutôt que le mariage : anomalie sociale et programme féministe avant l\'heure.',score:0,interval:0,ease:2.5,due:null},
+]};
+
+PREBUILT['Français']['T8 — Des cannibales, Montaigne'] = {
+cours: `<h2>Texte n°8 — "Des cannibales"</h2>
+<p><strong>Auteur :</strong> Michel de Montaigne &nbsp;|&nbsp; <strong>Œuvre :</strong> Essais, Livre I, ch. 31 (1580) &nbsp;|&nbsp; <strong>Objet d'étude :</strong> Littérature d'idées</p>
+<div class="formula-box"><strong>Mouvement :</strong> Humanisme (XVIe) &nbsp;|&nbsp; <strong>Genre :</strong> Essai (forme inventée par Montaigne)</div>
+
+<h3>Résumé & situation</h3>
+<p>Montaigne réfléchit aux peuples cannibales du Nouveau Monde (Brésil). Contre l'opinion commune qui les juge "barbares", il montre que la "barbarie" est une question de point de vue, et que les Européens ne sont pas moins cruels.</p>
+
+<h3>Axes de lecture</h3>
+<ul>
+<li><strong>Axe 1 — Le relativisme culturel : renverser la notion de "barbarie" :</strong> Ce qui est barbare pour l'un est normal pour l'autre. Montaigne déconstruit l'ethnocentrisme européen. Première critique du colonialisme en littérature française.</li>
+<li><strong>Axe 2 — L'éloge paradoxal du cannibale : un "bon sauvage" :</strong> Les cannibales ont des vertus que les Européens ont perdues : courage, loyauté, vie en accord avec la nature. Montaigne précède Rousseau.</li>
+<li><strong>Axe 3 — La méthode humaniste : doute et observation :</strong> Montaigne doute de ses sources, interroge, nuance. La pensée par l'essai = tâtonnement, honnêteté intellectuelle.</li>
+</ul>
+
+<h3>Procédés clés</h3>
+<ul>
+<li><strong>Retournement argumentatif :</strong> "Nous" = barbares / "Eux" = naturels</li>
+<li><strong>Ironie socratique :</strong> feindre de ne pas comprendre pour mieux dénoncer</li>
+<li><strong>Accumulation d'exemples :</strong> rhétorique humaniste, culture encyclopédique</li>
+<li><strong>La forme "essai" :</strong> pensée en mouvement, pas de dogme</li>
+</ul>
+
+<h3>Citations indispensables</h3>
+<ul>
+<li>« Chacun appelle barbarie ce qui n'est pas de son usage » — relativisme culturel fondamental</li>
+<li>« Ces nations me semblent donc ainsi barbares, pour en avoir reçu fort peu de façon de l'esprit humain » — ironie, renversement</li>
+</ul>
+
+<h3>Problématique type oral</h3>
+<p><em>Comment Montaigne utilise-t-il la figure du cannibale pour remettre en question la notion de "civilisation" et dénoncer l'ethnocentrisme européen ?</em></p>`,
+flashcards: [
+{q:'Thèse centrale — Des cannibales',a:'"Chacun appelle barbarie ce qui n\'est pas de son usage." Le relativisme culturel : la barbarie est une construction du regard, pas une réalité objective.',score:0,interval:0,ease:2.5,due:null},
+{q:'Forme de l\'essai — Montaigne',a:'Genre inventé par Montaigne. Pensée en mouvement, doute permanent, honnêteté intellectuelle. Pas de démonstration dogmatique.',score:0,interval:0,ease:2.5,due:null},
+{q:'Qui sont les "vrais barbares" selon Montaigne ?',a:'Les Européens, qui pratiquent la torture, les guerres de religion, les supplices. Les cannibales mangent les morts — les Européens torturent les vivants.',score:0,interval:0,ease:2.5,due:null},
+{q:'Lien Montaigne / Graffigny (OE2)',a:'Même technique du regard étranger. Montaigne précède et inspire Graffigny : utiliser un regard extérieur pour critiquer la société européenne.',score:0,interval:0,ease:2.5,due:null},
+{q:'Problématique — Des cannibales',a:'Comment Montaigne utilise-t-il la figure du cannibale pour remettre en question la "civilisation" et dénoncer l\'ethnocentrisme européen ?',score:0,interval:0,ease:2.5,due:null},
+{q:'Citation clé — Des cannibales',a:'"Chacun appelle barbarie ce qui n\'est pas de son usage." Montaigne, Essais, I, 31.',score:0,interval:0,ease:2.5,due:null},
+]};
+
+// OE3 — THÉÂTRE : Corneille / Rostand / Molière
+PREBUILT['Français']['T9 — Le Menteur, I,3 (Corneille)'] = {
+cours: `<h2>Texte n°9 — Le Menteur, Acte I, scène 3</h2>
+<p><strong>Auteur :</strong> Pierre Corneille &nbsp;|&nbsp; <strong>Œuvre :</strong> Le Menteur (1643) &nbsp;|&nbsp; <strong>Objet d'étude :</strong> Le théâtre</p>
+<div class="formula-box"><strong>Genre :</strong> Comédie classique &nbsp;|&nbsp; <strong>Mouvement :</strong> Classicisme &nbsp;|&nbsp; <strong>Règle des 3 unités :</strong> respectée</div>
+
+<h3>Résumé de la scène</h3>
+<p>Dorante arrive à Paris et rencontre Clarice et Lucrèce au Tuileries. Pour les impressionner, il invente spontanément une histoire d'amour fictive. C'est sa première grande scène de mensonge — sa présentation au public comme menteur compulsif et virtuose.</p>
+
+<h3>Axes de lecture</h3>
+<ul>
+<li><strong>Axe 1 — Le mensonge comme performance et art :</strong> Dorante ment avec jubilation, créativité, virtuosité. Le mensonge est une forme d'improvisation théâtrale — mise en abyme du théâtre dans le théâtre.</li>
+<li><strong>Axe 2 — La comédie de caractère :</strong> Dorante est un "type" (le menteur) mais Corneille lui donne une vitalité et une séduction qui rendent le mensonge presque sympathique.</li>
+<li><strong>Axe 3 — Le regard sur la société parisienne :</strong> Le Paris de Corneille : lieu de séduction, d'apparences, où mentir est presque nécessaire pour réussir.</li>
+</ul>
+
+<h3>Procédés clés</h3>
+<ul>
+<li><strong>Tirade et virtuosité verbale :</strong> Dorante s'emballe, invente, détaille</li>
+<li><strong>Aparté :</strong> le valet Cliton commente, crée complicité avec le public</li>
+<li><strong>Ironie dramatique :</strong> le spectateur sait que c'est faux, pas les personnages</li>
+<li><strong>Alexandrins comiques :</strong> dignité du vers + légèreté du contenu = effet comique</li>
+</ul>
+
+<h3>Problématique type oral</h3>
+<p><em>Comment Corneille fait-il du mensonge de Dorante une performance théâtrale qui révèle les séductions et les dangers de la parole ?</em></p>`,
+flashcards: [
+{q:'Contexte — Le Menteur, I,3',a:'Dorante arrive à Paris, rencontre deux jeunes femmes. Il invente une histoire d\'amour fictive. Première scène de mensonge = présentation du "type" du menteur.',score:0,interval:0,ease:2.5,due:null},
+{q:'La mise en abyme dans Le Menteur',a:'Dorante invente une fiction devant des personnages : c\'est du théâtre dans le théâtre. Le menteur est un acteur/auteur improvisé.',score:0,interval:0,ease:2.5,due:null},
+{q:'Rôle de Cliton (le valet)',a:'Valet de Dorante. Commente en aparté les mensonges de son maître. Crée une complicité comique avec le spectateur (il sait la vérité).',score:0,interval:0,ease:2.5,due:null},
+{q:'Ironie dramatique — Le Menteur',a:'Le spectateur sait que Dorante ment, les personnages sur scène non. Tension comique et supériorité du spectateur sur les dupés.',score:0,interval:0,ease:2.5,due:null},
+{q:'Problématique — Le Menteur I,3',a:'Comment Corneille fait-il du mensonge une performance théâtrale qui révèle les séductions et les dangers de la parole ?',score:0,interval:0,ease:2.5,due:null},
+]};
+
+PREBUILT['Français']['T10 — Le Menteur, II,5 (Corneille)'] = {
+cours: `<h2>Texte n°10 — Le Menteur, Acte II, scène 5</h2>
+<p><strong>Auteur :</strong> Pierre Corneille &nbsp;|&nbsp; <strong>Œuvre :</strong> Le Menteur (1643)</p>
+
+<h3>Résumé de la scène</h3>
+<p>Dorante, pris dans ses propres mensonges, doit improviser de nouveaux mensonges pour s'en sortir. La situation se complique : son père Géronte, ses amis, les femmes — tout se noue. La scène illustre la mécanique infernale du mensonge qui appelle d'autres mensonges.</p>
+
+<h3>Axes de lecture</h3>
+<ul>
+<li><strong>Axe 1 — Le comique de situation : l'engrenage du mensonge :</strong> Chaque mensonge en nécessite un nouveau. Structure en boule de neige. Comique mécanique (Bergson : "du mécanique plaqué sur du vivant").</li>
+<li><strong>Axe 2 — La relation père/fils : autorité et transgression :</strong> Géronte représente l'ordre, la morale, le mariage. Dorante transgresse mais reste séduisant. Comédie des générations.</li>
+<li><strong>Axe 3 — La question morale : faut-il punir le menteur ? :</strong> Corneille hésite. Dorante est sympathique. La pièce questionne la place de la vérité dans les relations sociales.</li>
+</ul>
+
+<h3>Procédés clés</h3>
+<ul>
+<li><strong>Quiproquo :</strong> personnages qui parlent de réalités différentes</li>
+<li><strong>Comique de mots :</strong> double sens, sous-entendus</li>
+<li><strong>Accélération du rythme :</strong> répliques courtes, rythme haché = panique de Dorante</li>
+</ul>`,
+flashcards: [
+{q:'Mécanique du mensonge — Le Menteur II,5',a:'Un mensonge en appelle un autre : structure en boule de neige. Comique mécanique (Bergson). Dorante perd le contrôle de ses propres fictions.',score:0,interval:0,ease:2.5,due:null},
+{q:'Relation Dorante / Géronte',a:'Père autoritaire (mariage, ordre social) vs fils libertin et menteur. Comédie classique des générations. Corneille ne condamne pas vraiment Dorante.',score:0,interval:0,ease:2.5,due:null},
+{q:'Question morale dans Le Menteur',a:'La comédie ne condamne pas le menteur : Dorante est trop séduisant. Corneille interroge : la vérité est-elle toujours préférable dans les relations sociales ?',score:0,interval:0,ease:2.5,due:null},
+]};
+
+PREBUILT['Français']['T11 — Cyrano de Bergerac (Rostand) [À VENIR]'] = {
+cours: `<h2>Texte n°11 — Cyrano de Bergerac ⚠️ À VENIR</h2>
+<p><strong>Auteur :</strong> Edmond Rostand &nbsp;|&nbsp; <strong>Œuvre :</strong> Cyrano de Bergerac (1897)</p>
+<div class="formula-box" style="background:#fef3c7;border-color:#f59e0b;color:#92400e">⚠️ Ce texte n'a pas encore été étudié en cours. Ce chapitre sera complété à la réception du texte.</div>
+
+<h3>Éléments de contexte à retenir dès maintenant</h3>
+<ul>
+<li><strong>Genre :</strong> Comédie héroïque en vers (alexandrins). 5 actes.</li>
+<li><strong>Époque :</strong> Fin XIXe (1897) mais action en 1640 — nostalgie du classicisme</li>
+<li><strong>Mouvement :</strong> Néo-romantisme, réaction contre le naturalisme</li>
+<li><strong>Personnage central :</strong> Cyrano — génie poétique, laid de visage, amoureux de Roxane qu'il ne peut séduire directement. Il prête ses mots à Christian.</li>
+</ul>
+<h3>Thèmes majeurs (à approfondir avec le texte)</h3>
+<ul>
+<li>L'apparence vs l'âme / le corps vs l'esprit</li>
+<li>La parole et le langage comme puissance</li>
+<li>L'amour impossible et le sacrifice</li>
+<li>La tirade et la virtuosité oratoire</li>
+</ul>`,
+flashcards: [
+{q:'Cyrano de Bergerac — auteur et date',a:'Edmond Rostand, 1897. Comédie héroïque en 5 actes en vers. Action en 1640.',score:0,interval:0,ease:2.5,due:null},
+{q:'⚠️ Texte à venir — que retenir maintenant ?',a:'Genre : comédie héroïque. Thèmes : apparence/âme, parole/puissance, amour impossible. Cyrano écrit pour Christian les lettres à Roxane.',score:0,interval:0,ease:2.5,due:null},
+{q:'Paradoxe central de Cyrano',a:'Cyrano = génie de la parole et du panache, mais incapable de déclarer son amour directement à cause de son nez. La parole le libère ET le piège.',score:0,interval:0,ease:2.5,due:null},
+]};
+
+PREBUILT['Français']['T12 — Le Malade imaginaire, III,12 (Molière)'] = {
+cours: `<h2>Texte n°12 — Le Malade imaginaire, Acte III, scène 12</h2>
+<p><strong>Auteur :</strong> Molière &nbsp;|&nbsp; <strong>Œuvre :</strong> Le Malade imaginaire (1673) &nbsp;|&nbsp; <strong>Objet d'étude :</strong> Le théâtre</p>
+<div class="formula-box"><strong>Genre :</strong> Comédie-ballet &nbsp;|&nbsp; <strong>Mouvement :</strong> Classicisme &nbsp;|&nbsp; <strong>Représenté :</strong> 10 février 1673 (Molière mourra peu après)</div>
+
+<h3>Résumé de la scène</h3>
+<p>Argan (le malade imaginaire) veut marier sa fille Angélique à un médecin. Béralde, son frère, tente de le raisonner. Scène de débat sur la médecine : Béralde critique violemment les médecins, Argan les défend aveuglément. C'est la grande scène de satire médicale de la pièce.</p>
+
+<h3>Axes de lecture</h3>
+<ul>
+<li><strong>Axe 1 — La satire de la médecine et des médecins :</strong> Molière attaque une profession qu'il méprise (sa propre maladie, traitée par des saignées inefficaces). Les médecins parlent en latin, tuent plus qu'ils ne guérissent. Béralde = porte-voix de Molière.</li>
+<li><strong>Axe 2 — Le comique de caractère : Argan, l'hypocondriaque :</strong> Argan refuse toute raison. Sa maladie est imaginaire mais sa croyance est réelle. Comique de l'obsession.</li>
+<li><strong>Axe 3 — Le théâtre comme espace de vérité :</strong> C'est sur scène, dans le jeu, que la vérité sur la médecine peut être dite — là où la censure ne s'applique pas. Fonction critique du théâtre.</li>
+</ul>
+
+<h3>Procédés clés</h3>
+<ul>
+<li><strong>Dialogue argumentatif :</strong> Béralde raisonne, Argan refuse — dialogue de sourds comique</li>
+<li><strong>Parodie du jargon médical :</strong> latinismes, formules creuses</li>
+<li><strong>Ironie dramatique :</strong> Argan, malade imaginaire, veut un médecin pour gendre</li>
+<li><strong>Raisonnement par l'absurde :</strong> Béralde pousse les arguments d'Argan jusqu'à l'absurde</li>
+</ul>
+
+<h3>Citations indispensables</h3>
+<ul>
+<li>Béralde : « Vos médecins ne se servent que du latin pour vous mieux tromper » (sens approché)</li>
+<li>Le comique naît du refus d'Argan d'entendre tout argument contraire</li>
+</ul>
+
+<h3>Problématique type oral</h3>
+<p><em>Comment Molière utilise-t-il le dialogue comique entre Argan et Béralde pour faire de la scène III,12 un réquisitoire contre la médecine de son temps ?</em></p>`,
+flashcards: [
+{q:'Le Malade imaginaire — contexte de création',a:'Dernière pièce de Molière, 1673. Comédie-ballet. Molière lui-même était malade (tuberculose). Il mourut peu après la 4e représentation.',score:0,interval:0,ease:2.5,due:null},
+{q:'Qui est Béralde dans la scène III,12 ?',a:'Frère d\'Argan. Raisonnable, lucide. Critique les médecins et tente de convaincre Argan de leur inutilité. Porte-voix de Molière.',score:0,interval:0,ease:2.5,due:null},
+{q:'Satire médicale — procédés',a:'Parodie du jargon latin. Les médecins parlent pour ne rien dire. Béralde : la médecine tue plus qu\'elle ne guérit. Molière attaque une profession puissante.',score:0,interval:0,ease:2.5,due:null},
+{q:'Comique d\'Argan — Le Malade imaginaire',a:'Comique de caractère : obsession hypocondriaque. Argan refuse toute raison. Dialogue de sourds. Sa maladie est imaginaire mais il y croit totalement.',score:0,interval:0,ease:2.5,due:null},
+{q:'Problématique — Malade imaginaire III,12',a:'Comment Molière utilise-t-il le dialogue comique pour faire de la scène un réquisitoire contre la médecine de son temps ?',score:0,interval:0,ease:2.5,due:null},
+{q:'Ironie dramatique — Le Malade imaginaire',a:'Argan, malade imaginaire, veut un médecin pour gendre = le comble du comique. Le spectateur voit l\'absurdité qu\'Argan refuse de voir.',score:0,interval:0,ease:2.5,due:null},
+]};
+
+// OE4 — ROMAN : Colette
+PREBUILT['Français']['T13 — Sido, Portrait (Colette)'] = {
+cours: `<h2>Texte n°13 — Sido, Portrait de la mère / anecdote du merle</h2>
+<p><strong>Auteur :</strong> Colette &nbsp;|&nbsp; <strong>Œuvre :</strong> Sido (1930) &nbsp;|&nbsp; <strong>Objet d'étude :</strong> Le roman</p>
+<div class="formula-box"><strong>Genre :</strong> Récit autobiographique / Portrait &nbsp;|&nbsp; <strong>Mouvement :</strong> Modernité littéraire, début XXe</div>
+
+<h3>Résumé & situation</h3>
+<p>"Sido" est le surnom de la mère de Colette. Ce texte est un portrait intime et sensible : Colette décrit sa mère à travers des anecdotes. L'anecdote du merle et du cerisier montre une femme qui préfère ne pas cueillir les cerises pour laisser le merle les manger — geste de générosité envers la nature qui définit tout son caractère.</p>
+
+<h3>Axes de lecture</h3>
+<ul>
+<li><strong>Axe 1 — Un portrait par les gestes et les détails :</strong> Colette ne fait pas de portrait descriptif classique. Elle révèle Sido à travers ses actions, ses gestes quotidiens, ses choix infimes.</li>
+<li><strong>Axe 2 — La figure maternelle comme communion avec la nature :</strong> Sido aime la nature passionnément. Elle se lève à l'aube, observe les plantes. La mère et la nature sont confondues.</li>
+<li><strong>Axe 3 — L'écriture du souvenir et de la tendresse :</strong> Colette écrit avec une tendresse nostalgique. Le style est sensuel, précis, ancré dans la sensation. La mémoire affective structure le récit.</li>
+</ul>
+
+<h3>Procédés clés</h3>
+<ul>
+<li><strong>Portrait indirect :</strong> les gestes révèlent la personnalité, pas la description physique</li>
+<li><strong>Style sensuel :</strong> couleurs, odeurs, sons — écriture de la sensation</li>
+<li><strong>Anecdote comme révélateur de caractère :</strong> le merle = générosité de Sido</li>
+<li><strong>Voix narrative :</strong> Colette adulte qui se souvient — double temporalité</li>
+</ul>
+
+<h3>Citations clés</h3>
+<ul>
+<li>L'anecdote du merle : Sido ne cueille pas les cerises pour ne pas déranger le merle qui les mange — geste emblématique</li>
+<li>Le lever à l'aube : Sido communiant avec la nature avant que le monde ne se réveille</li>
+</ul>
+
+<h3>Problématique type oral</h3>
+<p><em>Comment Colette fait-elle du portrait de sa mère une célébration poétique de la vie et de la nature ?</em></p>`,
+flashcards: [
+{q:'Qui est Sido ?',a:'La mère de Colette. "Sido" = surnom affectueux. Le livre Sido (1930) lui est consacré. Portrait intime, tendre et sensuel.',score:0,interval:0,ease:2.5,due:null},
+{q:'Anecdote du merle — sens symbolique',a:'Sido refuse de cueillir les cerises pour ne pas priver le merle. Geste de générosité absolue envers la nature. Révèle tout son caractère.',score:0,interval:0,ease:2.5,due:null},
+{q:'Technique du portrait chez Colette',a:'Portrait indirect : les gestes quotidiens révèlent la personnalité. Pas de description physique classique. La sensation et le détail suffisent.',score:0,interval:0,ease:2.5,due:null},
+{q:'Style de Colette — caractéristiques',a:'Écriture sensuelle et précise. Couleurs, odeurs, textures. Ancrage dans la sensation. Prose poétique. Mémoire affective.',score:0,interval:0,ease:2.5,due:null},
+{q:'Problématique — Sido, Portrait',a:'Comment Colette fait-elle du portrait de sa mère une célébration poétique de la vie et de la nature ?',score:0,interval:0,ease:2.5,due:null},
+]};
+
+PREBUILT['Français']['T14 — Les Vrilles, Jour gris (Colette)'] = {
+cours: `<h2>Texte n°14 — Les Vrilles de la vigne, "Jour gris"</h2>
+<p><strong>Auteur :</strong> Colette &nbsp;|&nbsp; <strong>Œuvre :</strong> Les Vrilles de la vigne (1908) &nbsp;|&nbsp; <strong>Objet d'étude :</strong> Le roman</p>
+<div class="formula-box"><strong>Extrait :</strong> « Et si tu arrivais, un jour d'été dans mon pays... » &nbsp;|&nbsp; <strong>Genre :</strong> Prose poétique / Récit court</div>
+
+<h3>Résumé & situation</h3>
+<p>Colette s'adresse directement à un interlocuteur imaginaire ("tu") et l'invite à venir dans son pays natal en Bourgogne — mais un jour gris, pas de carte postale. Le texte est un hymne à la beauté discrète, quotidienne, de la campagne bourguignonne, opposée au spectaculaire.</p>
+
+<h3>Axes de lecture</h3>
+<ul>
+<li><strong>Axe 1 — L'éloge de la beauté ordinaire contre le pittoresque :</strong> Colette refuse le spectacle touristique. Elle célèbre la beauté sobre, humide, grise — ce que les autres ne voient pas.</li>
+<li><strong>Axe 2 — La relation au pays natal : l'enracinement :</strong> La Bourgogne de Colette est un espace charnel, sensoriel, identitaire. Le pays natal = corps et mémoire.</li>
+<li><strong>Axe 3 — L'écriture comme invitation : la prose poétique :</strong> Le "tu" crée une intimité. Le lecteur est convié. Colette fait de l'écriture un geste d'hospitalité et de partage sensoriel.</li>
+</ul>
+
+<h3>Procédés clés</h3>
+<ul>
+<li><strong>Apostrophe (tu) :</strong> proximité, invitation, complicité</li>
+<li><strong>Éloge du "gris" :</strong> paradoxe — beauté dans le terne, l'ordinaire</li>
+<li><strong>Prose poétique :</strong> rythme musical, images, sensorialité sans vers</li>
+<li><strong>Champ lexical de la sensation :</strong> odeurs, couleurs, textures, sons</li>
+</ul>
+
+<h3>Problématique type oral</h3>
+<p><em>Comment Colette transforme-t-elle la grisaille du quotidien en un espace poétique et sensoriel chargé d'émotion ?</em></p>`,
+flashcards: [
+{q:'Titre "Jour gris" — paradoxe',a:'Colette invite à venir un jour gris, pas un beau jour de carte postale. Éloge de la beauté ordinaire, discrète, contre le spectaculaire touristique.',score:0,interval:0,ease:2.5,due:null},
+{q:'Fonction du "tu" dans "Jour gris"',a:'Apostrophe directe au lecteur. Crée une intimité et une invitation. L\'écriture devient un geste d\'hospitalité. Le lecteur est convié dans la Bourgogne de Colette.',score:0,interval:0,ease:2.5,due:null},
+{q:'Qu\'est-ce que la prose poétique ?',a:'Texte en prose (pas de vers) mais avec des caractéristiques poétiques : rythme musical, images, sensorialité, travail de la langue. Colette en est une maîtresse.',score:0,interval:0,ease:2.5,due:null},
+{q:'Problématique — Vrilles, Jour gris',a:'Comment Colette transforme-t-elle la grisaille du quotidien en un espace poétique et sensoriel chargé d\'émotion ?',score:0,interval:0,ease:2.5,due:null},
+]};
+
+PREBUILT['Français']['T15 — Vrilles de la vigne, Le Rossignol [À VENIR]'] = {
+cours: `<h2>Texte n°15 — "Le Rossignol" (Les Vrilles de la vigne) ⚠️ À VENIR</h2>
+<p><strong>Auteur :</strong> Colette &nbsp;|&nbsp; <strong>Œuvre :</strong> Les Vrilles de la vigne (1908)</p>
+<div class="formula-box" style="background:#fef3c7;border-color:#f59e0b;color:#92400e">⚠️ Texte pas encore étudié en cours. Ce chapitre sera complété dès réception.</div>
+
+<h3>Ce qu'on sait déjà — à retenir maintenant</h3>
+<ul>
+<li>Même œuvre que "Jour gris" → même univers sensoriel, même prose poétique</li>
+<li>Le rossignol = figure lyrique classique (Keats, Verlaine…). Colette va probablement le traiter avec sa sensorialité propre.</li>
+<li><strong>Thèmes probables :</strong> nuit, chant, nature, mémoire, féminité, désir</li>
+<li>Penser à comparer avec "Jour gris" : continuité ou rupture de ton ?</li>
+</ul>`,
+flashcards: [
+{q:'⚠️ Le Rossignol — texte à venir',a:'Texte pas encore étudié. Même œuvre que Jour gris (Les Vrilles de la vigne). Même prose poétique. Thèmes : nuit, chant, nature, mémoire.',score:0,interval:0,ease:2.5,due:null},
+{q:'Le rossignol en littérature — symboles',a:'Figure lyrique classique : chant dans la nuit, beauté éphémère, mélancolie. Keats ("Ode to a Nightingale"), Verlaine. Colette va l\'inscrire dans son univers sensoriel.',score:0,interval:0,ease:2.5,due:null},
+]};
+
+PREBUILT['Français']['T16 — On était des loups, Collette [À VENIR]'] = {
+cours: `<h2>Texte n°16 — On était des loups ⚠️ À VENIR</h2>
+<p><strong>Auteur :</strong> Sandrine Collette &nbsp;|&nbsp; <strong>Note :</strong> Sandrine Collette ≠ Colette (deux auteures différentes)</p>
+<div class="formula-box" style="background:#fef3c7;border-color:#f59e0b;color:#92400e">⚠️ Texte pas encore étudié en cours. Ce chapitre sera complété dès réception.</div>
+
+<h3>Ce qu'on sait déjà — à retenir maintenant</h3>
+<ul>
+<li><strong>Auteure :</strong> Sandrine Collette (née 1970) — écrivaine contemporaine, spécialiste du roman noir et du thriller psychologique</li>
+<li><strong>Œuvre :</strong> On était des loups (2023) — roman récent, prix des libraires 2023</li>
+<li><strong>Thèmes connus :</strong> paternité, violence, nature sauvage, survie, lien père-fils</li>
+<li><strong>Ton :</strong> âpre, brutal, sans concession. Style nerveux, tendu</li>
+<li>Ce texte est en OE4 (Le roman) → penser aux procédés narratifs : point de vue, rythme, tension</li>
+</ul>`,
+flashcards: [
+{q:'Sandrine Collette — qui est-elle ?',a:'Écrivaine française contemporaine (née 1970). Spécialiste du roman noir et du thriller psychologique. Prix des libraires 2023 pour "On était des loups".',score:0,interval:0,ease:2.5,due:null},
+{q:'⚠️ On était des loups — texte à venir',a:'Roman de 2023. Thèmes : paternité, violence, nature sauvage, lien père-fils. Style âpre et nerveux. En OE4 : roman.',score:0,interval:0,ease:2.5,due:null},
+{q:'Sandrine Collette ≠ Colette',a:'Attention : Sandrine Collette (née 1970, roman noir contemporain) est différente de Colette (1873-1954, Sido, Les Vrilles de la vigne).',score:0,interval:0,ease:2.5,due:null},
+]};
