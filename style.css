@@ -80,12 +80,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .ws-box{background:var(--card);border-radius:var(--r);border:1.5px solid var(--border);padding:20px;box-shadow:var(--sh);min-height:180px;}
 
 /* COURS READER */
-.cours-body{line-height:1.8;font-size:.95rem;}
-.cours-body h3{font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin:1.3em 0 .55em;border-bottom:2px solid var(--border);padding-bottom:5px;}
-.cours-body p{margin-bottom:.75em;}
-.cours-body ul,.cours-body ol{padding-left:20px;margin-bottom:.8em;}
-.cours-body li{margin-bottom:.35em;}
-.formula-box{background:#f0f4ff;border:1.5px solid #c7d2fe;border-radius:var(--rs);padding:13px 16px;margin:10px 0;font-size:.88rem;line-height:1.9;color:#1e1b4b;font-family:'DM Mono','Courier New',monospace;}
+.cours-body{line-height:1.85;font-size:.97rem;}
+.formula-box{background:linear-gradient(135deg,#f0f4ff,#eef2ff);border:none;border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:14px 18px;margin:14px 0;font-size:.9rem;line-height:1.9;color:#1e1b4b;}
 .formula-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.84rem;}
 .formula-table th,.formula-table td{border:1px solid var(--border);padding:7px 10px;text-align:center;}
 .formula-table th{background:#f8fafc;font-weight:700;}
@@ -420,3 +416,473 @@ html { touch-action: manipulation; }
 
 /* Empêche le rubber-banding (scroll élastique) non voulu sur iOS */
 #main { overscroll-behavior-y: contain; }
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE-FIRST — ERGONOMIE & COURS (ajout final)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── COURS BODY — style enrichi (toutes tailles) ─────────── */
+.cours-body {
+    font-size: 1rem;
+    line-height: 1.85;
+}
+.cours-body h2 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--accent);
+    margin: 1.4em 0 .6em;
+}
+.cours-body h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+    border-bottom: 2.5px solid var(--accent);
+    padding-bottom: 6px;
+    margin: 1.4em 0 .65em;
+}
+.cours-body p {
+    margin-bottom: 1em;
+}
+
+/* Listes stylisées */
+.cours-body ul,
+.cours-body ol {
+    padding-left: 0;
+    margin: .8em 0 1.1em;
+    list-style: none;
+}
+.cours-body ul li,
+.cours-body ol li {
+    position: relative;
+    padding: .35em .5em .35em 1.6em;
+    margin-bottom: .45em;
+    border-radius: 6px;
+    transition: background .12s;
+}
+.cours-body ul li::before {
+    content: '▸';
+    position: absolute;
+    left: .3em;
+    color: var(--accent);
+    font-size: .85em;
+    top: .4em;
+}
+.cours-body ol {
+    counter-reset: cours-counter;
+}
+.cours-body ol li {
+    counter-increment: cours-counter;
+}
+.cours-body ol li::before {
+    content: counter(cours-counter) '.';
+    position: absolute;
+    left: .2em;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: .85em;
+    top: .4em;
+}
+.cours-body ul li:hover,
+.cours-body ol li:hover {
+    background: var(--bg);
+}
+
+/* Strong / b colorés */
+.cours-body strong,
+.cours-body b {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+/* Citation / blockquote */
+.cours-body blockquote,
+.quote-box {
+    margin: 1.1em 0;
+    padding: 12px 16px 12px 20px;
+    background: rgba(79, 70, 229, .07);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    font-style: italic;
+    color: var(--text);
+    font-size: .97rem;
+    line-height: 1.75;
+}
+.cours-body blockquote cite,
+.quote-box cite {
+    display: block;
+    margin-top: 8px;
+    font-style: normal;
+    font-size: .8rem;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+/* formula-box upgrade */
+.formula-box {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    padding: 13px 16px;
+    margin: 1em 0;
+    font-size: .93rem;
+    line-height: 1.7;
+}
+
+/* ── MOBILE — @media max-width: 600px ───────────────────── */
+@media (max-width: 600px) {
+
+    /* Texte de base plus grand */
+    body            { font-size: 16px; }
+    #main           { padding: 14px 12px 80px; }
+
+    /* Topbar */
+    .tb-brand       { font-size: 1.1rem; }
+
+    /* Titres de page */
+    .page-head h1   { font-size: 1.3rem; }
+
+    /* Chapitres : 1 colonne */
+    .chapters-grid  { grid-template-columns: 1fr; gap: 10px; }
+    .chcard         { padding: 14px 16px; }
+    .chcard-name    { font-size: 1rem; }
+
+    /* Menu-grid : 1 colonne sur très petit écran */
+    .menu-grid      { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .menu-tile      { padding: 18px 12px 14px; }
+    .menu-tile-icon { font-size: 1.6rem; }
+    .menu-tile-label{ font-size: .92rem; }
+
+    /* ── BOUTONS — 48px minimum (standard tactile) ── */
+    .btn-main {
+        min-height: 52px;
+        font-size: 1.05rem;
+        padding: 14px 16px;
+        border-radius: 14px;
+    }
+    .bc-btn {
+        min-height: 44px;
+        font-size: .92rem;
+        padding: 10px 14px;
+        border-radius: 10px;
+    }
+    .tab-btn {
+        min-height: 44px;
+        font-size: .88rem;
+        padding: 10px 12px;
+    }
+    .r-btn {
+        min-height: 60px !important;
+        font-size: .88rem !important;
+        padding: 12px 6px !important;
+        border-radius: 14px !important;
+    }
+
+    /* Boutons QCM (choix de réponse) */
+    .qcm-choice {
+        min-height: 52px;
+        font-size: .97rem;
+        padding: 13px 14px;
+        border-radius: 12px;
+    }
+
+    /* Champs de saisie */
+    .field,
+    input[type="text"],
+    input[type="number"],
+    textarea {
+        min-height: 48px;
+        font-size: 1rem;
+        padding: 12px 14px;
+        border-radius: 10px;
+    }
+
+    /* ── COURS BODY sur mobile ── */
+    .cours-body {
+        font-size: 1.05rem;
+        line-height: 1.95;
+    }
+    .cours-body h2  { font-size: 1.2rem; }
+    .cours-body h3  { font-size: 1rem; }
+    .cours-body ul li,
+    .cours-body ol li { font-size: 1rem; padding-left: 1.8em; }
+    .cours-body blockquote,
+    .quote-box      { font-size: 1rem; padding: 12px 14px 12px 16px; }
+
+    /* Flashcard plus grande */
+    .fc-scene       { min-height: 240px; }
+    .fc-face        { font-size: 1.1rem; padding: 20px 16px; }
+
+    /* Barre de progression SRS */
+    .srs-prog-row   { font-size: .85rem; }
+
+    /* Vocabulaire */
+    .voc-row        { padding: 12px 10px; gap: 10px; }
+    .voc-q          { font-size: 1rem; }
+
+    /* Résultats de session */
+    .se-pct         { font-size: 3rem; }
+    .res-n          { font-size: 1.6rem; }
+
+    /* Search results */
+    .search-result  { padding: 13px 12px; }
+    .sr-title       { font-size: .95rem; }
+}
+
+/* ── TRÈS PETIT ÉCRAN (< 380px) ──────────────────────────── */
+@media (max-width: 380px) {
+    .menu-grid      { grid-template-columns: 1fr; }
+    .menu-tile-label{ font-size: .88rem; }
+    .r-btn          { font-size: .8rem !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   COURS — MISE EN PAGE ÉDITORIALE
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Wrapper principal ───────────────────────────────────── */
+.cours-body {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 4px 0 24px;
+    color: var(--text);
+}
+
+/* ── Barre d'impression ──────────────────────────────────── */
+.cours-print-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+}
+
+/* ── Titres ──────────────────────────────────────────────── */
+.cours-body h2 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--accent);
+    margin: 0 0 1.2em;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--accent);
+    letter-spacing: -.01em;
+}
+
+.cours-body h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 1.8em 0 .7em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.cours-body h3::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 1em;
+    background: var(--accent);
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+/* ── Paragraphes ─────────────────────────────────────────── */
+.cours-body p {
+    margin-bottom: 1em;
+    line-height: 1.9;
+    font-size: .97rem;
+}
+
+/* ── Listes ──────────────────────────────────────────────── */
+.cours-body ul,
+.cours-body ol {
+    padding: 0;
+    margin: .6em 0 1.3em;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cours-body ul li,
+.cours-body ol li {
+    position: relative;
+    padding: 9px 14px 9px 2.2em;
+    background: var(--bg);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    line-height: 1.6;
+    font-size: .95rem;
+    transition: border-color .15s, background .15s;
+}
+.cours-body ul li:hover,
+.cours-body ol li:hover {
+    border-color: var(--accent);
+    background: #f0f4ff;
+}
+
+/* Bullet coloré ul */
+.cours-body ul li::before {
+    content: '▸';
+    position: absolute;
+    left: .75em;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+    font-size: .85em;
+    font-weight: 700;
+}
+
+/* Numéro ol */
+.cours-body ol { counter-reset: cours-ol; }
+.cours-body ol li { counter-increment: cours-ol; }
+.cours-body ol li::before {
+    content: counter(cours-ol);
+    position: absolute;
+    left: .6em;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.3em;
+    height: 1.3em;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    font-size: .72em;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Sora', sans-serif;
+}
+
+/* ── Strong / Em ─────────────────────────────────────────── */
+.cours-body strong,
+.cours-body b {
+    color: var(--accent);
+    font-weight: 700;
+}
+.cours-body em,
+.cours-body i {
+    color: #7c3aed;
+    font-style: italic;
+}
+
+/* ── Blockquote / Citations ──────────────────────────────── */
+.cours-body blockquote,
+.quote-box {
+    margin: 1.4em 0;
+    padding: 16px 20px 16px 22px;
+    background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+    border-left: 5px solid var(--accent);
+    border-radius: 0 14px 14px 0;
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #3730a3;
+    position: relative;
+}
+.cours-body blockquote::before,
+.quote-box::before {
+    content: '\201C';
+    position: absolute;
+    top: -10px;
+    left: 14px;
+    font-size: 3.5rem;
+    color: var(--accent);
+    opacity: .25;
+    font-family: Georgia, serif;
+    line-height: 1;
+}
+.cours-body blockquote cite,
+.quote-box cite {
+    display: block;
+    margin-top: 10px;
+    font-style: normal;
+    font-size: .8rem;
+    color: #6d28d9;
+    font-weight: 600;
+    opacity: .8;
+}
+
+/* ── Formula box (Maths / Physique) ──────────────────────── */
+.formula-box {
+    background: linear-gradient(135deg, #f0f4ff, #eef2ff);
+    border: none;
+    border-left: 4px solid var(--accent);
+    border-radius: 0 14px 14px 0;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: .92rem;
+    line-height: 1.9;
+    color: #1e1b4b;
+    box-shadow: 0 2px 12px rgba(79,70,229,.08);
+}
+.formula-box ul { margin: .4em 0; }
+
+/* ── Schema placeholder ───────────────────────────────────── */
+.schema-placeholder {
+    background: var(--bg);
+    border: 2px dashed var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    margin: 18px 0;
+    text-align: center;
+}
+.schema-placeholder img { max-width: 100%; border-radius: 10px; }
+
+/* ── Info / badge matière ────────────────────────────────── */
+.cours-body .info-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #fffbeb;
+    border: 1.5px solid #fde68a;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: .88rem;
+    color: #92400e;
+    line-height: 1.6;
+}
+
+/* ── Carte de contexte (formula-box avec couleur matière) ── */
+.cours-body .context-card {
+    background: linear-gradient(135deg, #0e1525, #1e2d45);
+    color: #fff;
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin: 0 0 20px;
+    font-size: .88rem;
+    line-height: 1.8;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+}
+.cours-body .context-card strong { color: #93c5fd; }
+
+/* ── Séparateur visuel entre sections ────────────────────── */
+.cours-body hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    border-radius: 2px;
+    margin: 1.8em 0;
+    opacity: .3;
+}
+
+/* ── MOBILE cours ────────────────────────────────────────── */
+@media (max-width: 600px) {
+    .cours-body                  { padding: 0 0 20px; }
+    .cours-body h2               { font-size: 1.2rem; }
+    .cours-body h3               { font-size: .97rem; }
+    .cours-body p,
+    .cours-body ul li,
+    .cours-body ol li            { font-size: 1rem; line-height: 1.75; }
+    .cours-body blockquote,
+    .quote-box                   { font-size: .97rem; padding: 13px 14px 13px 18px; }
+    .formula-box                 { font-size: .9rem; padding: 13px 14px; }
+    .cours-body ul li,
+    .cours-body ol li            { padding: 10px 12px 10px 2.4em; }
+}
