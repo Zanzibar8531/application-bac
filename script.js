@@ -1,3 +1,151 @@
+
+// ════════════════════════════════════════════════════════════
+// COURS RENDERER — Transforme le HTML en fiches visuelles
+// ════════════════════════════════════════════════════════════
+function renderCoursVisuel(html) {
+    const cfg = CFG.find(c => c.name === curSubject) || {cls:'fr', icon:'📝'};
+    const subjClass = cfg.cls || 'fr';
+    const ch = (db[curSubject] && db[curSubject][curChapter]) || {};
+    const cards = ch.flashcards || [];
+    const mastered = cards.filter(c => (c.interval||0) >= 7).length;
+    const pct = cards.length ? Math.round(mastered / cards.length * 100) : 0;
+
+    if (!html || !html.trim()) {
+        return `<div class="cv-empty"><div class="cv-empty-icon">📄</div><p>Aucun cours pour l\'instant.<br>Clique sur <strong>✏️ Éditer</strong> pour créer un cours.</p></div>`;
+    }
+
+    // Couleur de section selon mots-clés du titre h3
+    function getSectionStyle(label) {
+        const l = label.toLowerCase();
+        if (/axe|lecture|problémati|commentaire|analyse/.test(l))
+            return {color:'#1e40af', bg:'#dbeafe', border:'#93c5fd', dot:'#3b82f6'};
+        if (/procédé|clé|figure|style|rhéto|analogie|insistance|opposition|son|rythme/.test(l))
+            return {color:'#4c1d95', bg:'#ede9ff', border:'#c4b5fd', dot:'#7c3aed'};
+        if (/citation|exemple|extrait|vers|passage/.test(l))
+            return {color:'#065f46', bg:'#d1fae5', border:'#6ee7b7', dot:'#10b981'};
+        if (/résumé|situation|contexte|présentation|intro|auteur|biograph|mouvement|époque/.test(l))
+            return {color:'#92400e', bg:'#fef3c7', border:'#fcd34d', dot:'#f59e0b'};
+        if (/problématique|oral|écrit|plan|méthode|conseil/.test(l))
+            return {color:'#9a3412', bg:'#ffedd5', border:'#fdba74', dot:'#f97316'};
+        if (/vocabulaire|lexique|définition|terme|mot/.test(l))
+            return {color:'#831843', bg:'#fce7f3', border:'#f9a8d4', dot:'#ec4899'};
+        if (/formule|théorème|loi|propriété|calcul|démonstr/.test(l))
+            return {color:'#1e3a5f', bg:'#eff6ff', border:'#93c5fd', dot:'#3b82f6'};
+        // default
+        return {color:'#374151', bg:'#f3f4f6', border:'#d1d5db', dot:'#6b7280'};
+    }
+
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    const nodes = [...tmp.childNodes];
+
+    let out = '';
+    let curSectionLabel = null;
+    let curSectionStyle = null;
+    let curItems = [];
+
+    function flushSection() {
+        if (!curSectionLabel) return;
+        const st = curSectionStyle;
+        out += `<div class="cv-section" style="margin-bottom:18px">
+            <div class="cv-sec-label" style="background:${st.bg};color:${st.color};border-color:${st.border}">${curSectionLabel}</div>
+            <div class="cv-sec-items">${curItems.join('')}</div>
+        </div>`;
+        curSectionLabel = null;
+        curSectionStyle = null;
+        curItems = [];
+    }
+
+    function renderLi(li, st) {
+        const strong = li.querySelector('strong, b');
+        const em = li.querySelector('em, i');
+
+        if (strong) {
+            const term = strong.textContent.trim().replace(/:$/, '');
+            // Get definition: everything after the strong tag
+            const clone = li.cloneNode(true);
+            const strongEl = clone.querySelector('strong, b');
+            if (strongEl) strongEl.remove();
+            // Remove em too for separate display
+            const emEl2 = clone.querySelector('em, i');
+            const example = emEl2 ? emEl2.textContent.trim() : (em ? em.textContent.trim() : '');
+            if (emEl2) emEl2.remove();
+            let def = clone.textContent.replace(/^[\s:·–—→\-]+/, '').trim();
+
+            return `<div class="cv-item">
+                <div class="cv-item-dot" style="background:${st.dot}"></div>
+                <div class="cv-item-body">
+                    <span class="cv-item-term">${term}</span>
+                    ${def ? `<span class="cv-item-sep"> — </span><span class="cv-item-def">${def}</span>` : ''}
+                    ${example ? `<div class="cv-item-ex">${example}</div>` : ''}
+                </div>
+            </div>`;
+        } else {
+            // Simple bullet
+            return `<div class="cv-item">
+                <div class="cv-item-dot" style="background:${st.dot}"></div>
+                <div class="cv-item-body cv-item-simple">${li.innerHTML}</div>
+            </div>`;
+        }
+    }
+
+    nodes.forEach(node => {
+        if (node.nodeType === 3) {
+            const t = node.textContent.trim();
+            if (t) { flushSection(); out += `<p class="cv-para">${t}</p>`; }
+            return;
+        }
+        if (node.nodeType !== 1) return;
+        const tag = node.tagName.toLowerCase();
+
+        if (tag === 'h2') {
+            flushSection();
+            out += `<div class="cv-h2">${node.textContent.trim()}</div>`;
+        } else if (tag === 'h3') {
+            flushSection();
+            curSectionLabel = node.textContent.trim();
+            curSectionStyle = getSectionStyle(curSectionLabel);
+        } else if (tag === 'ul' || tag === 'ol') {
+            const items = [...node.querySelectorAll(':scope > li')];
+            if (curSectionLabel) {
+                items.forEach(li => curItems.push(renderLi(li, curSectionStyle)));
+            } else {
+                // List outside a section
+                const st = getSectionStyle('');
+                items.forEach(li => {
+                    out += renderLi(li, st);
+                });
+            }
+        } else if (tag === 'p') {
+            const txt = node.innerHTML.trim();
+            if (!txt) return;
+            flushSection();
+            out += `<p class="cv-para">${txt}</p>`;
+        } else if (tag === 'div' && (node.classList.contains('formula-box') || node.classList.contains('info-box'))) {
+            flushSection();
+            out += `<div class="cv-formula-box">${node.innerHTML}</div>`;
+        } else if (tag === 'blockquote') {
+            flushSection();
+            out += `<div class="cv-quote">${node.innerHTML}</div>`;
+        } else {
+            flushSection();
+            out += node.outerHTML;
+        }
+    });
+
+    flushSection();
+
+    const progress = cards.length > 0 ? `
+        <div class="cv-progress">
+            <span class="cv-progress-label">Flashcards maîtrisées</span>
+            <div class="cv-progress-bar"><div class="cv-progress-fill" style="width:${pct}%"></div></div>
+            <span class="cv-progress-count">${mastered}/${cards.length}</span>
+        </div>` : '';
+
+    return `<div class="cv-root cv-subj-${subjClass}" id="printable-cours">${out}${progress}</div>`;
+}
+
+
 /* ============================================================
    BACMASTER v3 — script.js  (moteur de l'application)
    ============================================================ */
@@ -53,6 +201,9 @@ const CFG = [
     {name:'Physique-Chimie', icon:'⚗️', cls:'phy'},
 ];
 
+
+
+
 // ── HELPERS ───────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
 const M  = () => $('main');
@@ -86,6 +237,37 @@ function render(html) {
     M().classList.add('animate');
     setTimeout(()=>M().classList.remove('animate'),300);
     window.scrollTo(0,0);
+}
+
+
+// ── CUSTOM MODALS ─────────────────────────────────────────────
+function showStopModal(mode) {
+    const labels = { srs:'la session Flashcards', qcm:'le QCM', intensive:'la session Intensive' };
+    showConfirmModal(
+        '⏹️ Arrêter ' + (labels[mode]||'la session') + ' ?',
+        'Ta progression de cette session ne sera pas sauvegardée.',
+        () => { clearInterval(qTimer); if(mode==='qcm') openQCM(); else goSubject(curSubject); }
+    );
+}
+
+function showConfirmModal(title, body, onConfirm) {
+    const existing = document.getElementById('bm-modal');
+    if (existing) existing.remove();
+    const m = document.createElement('div');
+    m.id = 'bm-modal';
+    m.className = 'bm-modal-overlay';
+    m.innerHTML = `
+        <div class="bm-modal-box">
+            <div class="bm-modal-title">${title}</div>
+            <div class="bm-modal-body">${body}</div>
+            <div class="bm-modal-actions">
+                <button class="bm-modal-cancel" onclick="document.getElementById('bm-modal').remove()">Annuler</button>
+                <button class="bm-modal-confirm" id="bm-modal-ok">Confirmer</button>
+            </div>
+        </div>`;
+    document.body.appendChild(m);
+    document.getElementById('bm-modal-ok').onclick = () => { m.remove(); onConfirm(); };
+    requestAnimationFrame(() => m.classList.add('bm-modal-show'));
 }
 
 function goHome() {
@@ -181,11 +363,14 @@ function goModeChapters(mode) {
             ${chapters.map(ch => {
                 const cards = db[curSubject][ch].flashcards || [];
                 const due   = cards.filter(isDue).length;
-                return `<div class="chcard" onclick="curChapter='${esc(ch)}';curTab='${mode}';renderChapter()">
-                    <div class="chcard-name">${ch}</div>
-                    <div class="chcard-meta">
-                        <span>📋 ${cards.length} mots</span>
-                        ${due > 0 ? `<span style="color:#4f46e5">⏰ ${due} à réviser</span>` : '<span style="color:#059669">✓ À jour</span>'}
+                return `<div class="chcard-big" onclick="curChapter='${esc(ch)}';curTab='${mode}';renderChapter()">
+                    <div class="chcard-big-top">
+                        <div class="chcard-big-name">${ch}</div>
+                        <button class="chcard-big-del" onclick="event.stopPropagation();deleteChapter('${esc(ch)}')" title="Supprimer">🗑️</button>
+                    </div>
+                    <div class="chcard-big-meta">
+                        <span>📋 ${cards.length} cartes</span>
+                        ${due > 0 ? `<span class="chcard-big-due">⏰ ${due} à réviser</span>` : '<span class="chcard-big-ok">✓ À jour</span>'}
                     </div>
                 </div>`;
             }).join('')}
@@ -258,6 +443,8 @@ function renderChapter() {
             <span class="bc-sep">›</span>
             <button class="bc-btn" onclick="goSubject('${esc(curSubject)}')">${curSubject}</button>
             <span class="bc-sep">›</span>
+            <button class="bc-btn" onclick="goModeChapters(curTab==='voc'||curTab==='add'?'voc':'cours')">← Chapitres</button>
+            <span class="bc-sep">›</span>
             <span class="bc-cur">${curChapter}</span>
         </div>
         <div class="ws-header">
@@ -277,11 +464,10 @@ function renderTabContent() {
     if(!box) return;
     const data = db[curSubject][curChapter];
     if(curTab==='cours') {
-        box.innerHTML = `
-            <div class="cours-print-bar">
-                <button class="bc-btn print-btn" onclick="window.print()">🖨️ Imprimer le cours</button>
-            </div>
-            <div class="cours-body" id="printable-cours">${data.cours||'<p style="color:var(--muted)">Aucun cours. Clique sur ✏️ Éditer pour en ajouter un.</p>'}</div>`;
+        box.innerHTML = `<div class="cours-print-bar"><button class="bc-btn print-btn" onclick="window.print()">🖨️ Imprimer</button></div>` + renderCoursVisuel(data.cours || '');
+        if (window.MathJax && window.MathJax.typesetPromise) {
+            window.MathJax.typesetPromise([box]).catch(()=>{});
+        }
     }
     else if(curTab==='edit') {
         box.innerHTML = `
@@ -355,9 +541,11 @@ function renameChapter(oldName) {
 
 function deleteChapter(ch) {
     const n = (db[curSubject][ch].flashcards||[]).length;
-    if(!confirm(`Supprimer "${ch}" et ses ${n} mot(s) ? Cette action est irréversible.`)) return;
-    delete db[curSubject][ch];
-    save(); goSubject(curSubject);
+    showConfirmModal(
+        '🗑️ Supprimer ce chapitre ?',
+        `<strong>${ch}</strong> et ses ${n} carte(s) seront définitivement supprimés.`,
+        () => { delete db[curSubject][ch]; save(); goModeChapters(curTab==='voc'?'voc':'cours'); }
+    );
 }
 
 function fmt(cmd,val=null){ document.execCommand(cmd,false,val); $('editor')&&$('editor').focus(); }
@@ -559,7 +747,7 @@ function renderSRSCard() {
     const s=String(qSecs%60).padStart(2,'0');
     render(`
         <div class="breadcrumb">
-            <button class="bc-btn" onclick="if(confirm('Arrêter la session ?')){clearInterval(qTimer);goSubject('${esc(curSubject)}');}">✕ Arrêter</button>
+            <button class="bc-btn" onclick="showStopModal('srs')">✕ Arrêter</button>
         </div>
         <div class="ws-box">
         <div class="srs-wrap">
@@ -771,7 +959,7 @@ function renderQCM(){
     const letters=['A','B','C','D'];
     render(`
         <div class="breadcrumb">
-            <button class="bc-btn" onclick="if(confirm('Arrêter le QCM ?')){openQCM();}">✕ Arrêter</button>
+            <button class="bc-btn" onclick="showStopModal('qcm')">✕ Arrêter</button>
         </div>
         <div class="ws-box">
         <div class="qcm-wrap">
