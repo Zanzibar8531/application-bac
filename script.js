@@ -3,7 +3,7 @@
 // COURS RENDERER — Transforme le HTML en fiches visuelles
 // ════════════════════════════════════════════════════════════
 function renderCoursVisuel(html) {
-    const cfg = CFG.find(c => c.name === curSubject) || {cls:'fr', icon:'📝'};
+    const cfg = CFG.find(c => c.name === curSubject) || {cls:'fr', icon:'📝', name:''};
     const subjClass = cfg.cls || 'fr';
     const ch = (db[curSubject] && db[curSubject][curChapter]) || {};
     const cards = ch.flashcards || [];
@@ -11,28 +11,23 @@ function renderCoursVisuel(html) {
     const pct = cards.length ? Math.round(mastered / cards.length * 100) : 0;
 
     if (!html || !html.trim()) {
-        return `<div class="cv-empty"><div class="cv-empty-icon">📄</div><p>Aucun cours pour l\'instant.<br>Clique sur <strong>✏️ Éditer</strong> pour créer un cours.</p></div>`;
+        return `<div class="cv-empty"><div class="cv-empty-icon">📄</div><p>Aucun cours pour l'instant.<br>Clique sur <strong>✏️ Éditer</strong> pour en créer un.</p></div>`;
     }
 
-    // Couleur de section selon mots-clés du titre h3
-    function getSectionStyle(label) {
+    function getSectionType(label) {
         const l = label.toLowerCase();
-        if (/axe|lecture|problémati|commentaire|analyse/.test(l))
-            return {color:'#1e40af', bg:'#dbeafe', border:'#93c5fd', dot:'#3b82f6'};
-        if (/procédé|clé|figure|style|rhéto|analogie|insistance|opposition|son|rythme/.test(l))
-            return {color:'#4c1d95', bg:'#ede9ff', border:'#c4b5fd', dot:'#7c3aed'};
-        if (/citation|exemple|extrait|vers|passage/.test(l))
-            return {color:'#065f46', bg:'#d1fae5', border:'#6ee7b7', dot:'#10b981'};
-        if (/résumé|situation|contexte|présentation|intro|auteur|biograph|mouvement|époque/.test(l))
-            return {color:'#92400e', bg:'#fef3c7', border:'#fcd34d', dot:'#f59e0b'};
-        if (/problématique|oral|écrit|plan|méthode|conseil/.test(l))
-            return {color:'#9a3412', bg:'#ffedd5', border:'#fdba74', dot:'#f97316'};
-        if (/vocabulaire|lexique|définition|terme|mot/.test(l))
-            return {color:'#831843', bg:'#fce7f3', border:'#f9a8d4', dot:'#ec4899'};
-        if (/formule|théorème|loi|propriété|calcul|démonstr/.test(l))
-            return {color:'#1e3a5f', bg:'#eff6ff', border:'#93c5fd', dot:'#3b82f6'};
-        // default
-        return {color:'#374151', bg:'#f3f4f6', border:'#d1d5db', dot:'#6b7280'};
+        if (/analogie|comparaison|métaphore|allégorie|personnif|métonymie|périphrase/.test(l)) return 'analogie';
+        if (/insistance|répétition|amplification|anaphore|épiphore|gradation|hyperbole|accumulation/.test(l)) return 'insistance';
+        if (/atténuation|euphémis|litote/.test(l)) return 'attenu';
+        if (/opposition|contraire|antithèse|paradox|oxymore/.test(l)) return 'oppos';
+        if (/son|allitér|assonance|rythme|musique/.test(l)) return 'sonore';
+        if (/formule|théorème|loi|propriété|démonstr/.test(l)) return 'formule';
+        if (/exemple|application|exercice/.test(l)) return 'exemple';
+        if (/siècle|époque|période|mouvement|contexte/.test(l)) return 'epoque';
+        if (/auteur|écrivain|poète|philosophe|biograph/.test(l)) return 'auteur';
+        if (/axe|lecture|commentaire|analyse|problémati/.test(l)) return 'axe';
+        if (/définition|généralité|introduction|rappel|essentiel/.test(l)) return 'def';
+        return 'generic';
     }
 
     const tmp = document.createElement('div');
@@ -40,54 +35,70 @@ function renderCoursVisuel(html) {
     const nodes = [...tmp.childNodes];
 
     let out = '';
-    let curSectionLabel = null;
-    let curSectionStyle = null;
-    let curItems = [];
+    let curSection = null;
+    let curCards = [];
 
     function flushSection() {
-        if (!curSectionLabel) return;
-        const st = curSectionStyle;
-        out += `<div class="cv-section" style="margin-bottom:18px">
-            <div class="cv-sec-label" style="background:${st.bg};color:${st.color};border-color:${st.border}">${curSectionLabel}</div>
-            <div class="cv-sec-items">${curItems.join('')}</div>
+        if (!curSection) return;
+        const type = getSectionType(curSection);
+        out += `<div class="cv-section">
+            <div class="cv-section-label cv-label-${type}">${curSection}</div>
+            <div class="cv-cards">${curCards.join('')}</div>
         </div>`;
-        curSectionLabel = null;
-        curSectionStyle = null;
-        curItems = [];
+        curSection = null;
+        curCards = [];
     }
 
-    function renderLi(li, st) {
+    function makeCard(li) {
         const strong = li.querySelector('strong, b');
+        const term = strong ? strong.textContent.trim() : '';
         const em = li.querySelector('em, i');
+        const example = em ? em.textContent.trim() : '';
+        const clone = li.cloneNode(true);
+        ['strong','b','em','i'].forEach(t => { const el = clone.querySelector(t); if(el) el.remove(); });
+        const def = clone.textContent.replace(/^[\s:·–—-]+/, '').trim();
+        const type = curSection ? getSectionType(curSection) : 'generic';
+        const tagMap = {analogie:'tag-analogie',insistance:'tag-insistance',attenu:'tag-attenu',oppos:'tag-oppos',sonore:'tag-sonore',formule:'tag-formule',generic:'tag-generic'};
+        const tagClass = tagMap[type] || 'tag-generic';
 
-        if (strong) {
-            const term = strong.textContent.trim().replace(/:$/, '');
-            // Get definition: everything after the strong tag
-            const clone = li.cloneNode(true);
-            const strongEl = clone.querySelector('strong, b');
-            if (strongEl) strongEl.remove();
-            // Remove em too for separate display
-            const emEl2 = clone.querySelector('em, i');
-            const example = emEl2 ? emEl2.textContent.trim() : (em ? em.textContent.trim() : '');
-            if (emEl2) emEl2.remove();
-            let def = clone.textContent.replace(/^[\s:·–—→\-]+/, '').trim();
-
-            return `<div class="cv-item">
-                <div class="cv-item-dot" style="background:${st.dot}"></div>
-                <div class="cv-item-body">
-                    <span class="cv-item-term">${term}</span>
-                    ${def ? `<span class="cv-item-sep"> — </span><span class="cv-item-def">${def}</span>` : ''}
-                    ${example ? `<div class="cv-item-ex">${example}</div>` : ''}
+        if (term) {
+            return `<div class="cv-card">
+                <span class="cv-card-tag ${tagClass}">${type}</span>
+                <div class="cv-card-body">
+                    <div class="cv-card-term">${term}</div>
+                    ${def ? `<div class="cv-card-def">${def}</div>` : ''}
+                    ${example ? `<div class="cv-card-ex">"${example}"</div>` : ''}
                 </div>
             </div>`;
         } else {
-            // Simple bullet
-            return `<div class="cv-item">
-                <div class="cv-item-dot" style="background:${st.dot}"></div>
-                <div class="cv-item-body cv-item-simple">${li.innerHTML}</div>
+            return `<div class="cv-bullet">
+                <span class="cv-bullet-dot"></span>
+                <div class="cv-bullet-text">${li.innerHTML}</div>
             </div>`;
         }
     }
+
+    // Build chapter header from first H2 or H3
+    let chapterTitle = curChapter || '';
+    let chapterSub = '';
+    // Find first <p> after first heading for subtitle
+    const firstP = tmp.querySelector('p');
+    if (firstP) {
+        const stripped = firstP.textContent.replace(/<[^>]+>/g,'').trim();
+        if (stripped.length < 160) chapterSub = stripped;
+    }
+
+    // Chapter header
+    const iconBgClass = `cv-icon-${subjClass}`;
+    out += `<div class="cv-chapter-head">
+        <div class="cv-chapter-icon ${iconBgClass}">${cfg.icon}</div>
+        <div>
+            <div class="cv-chapter-title">${chapterTitle}</div>
+            ${chapterSub ? `<div class="cv-chapter-sub">${chapterSub}</div>` : ''}
+        </div>
+    </div>`;
+
+    let firstPDone = false;
 
     nodes.forEach(node => {
         if (node.nodeType === 3) {
@@ -103,30 +114,28 @@ function renderCoursVisuel(html) {
             out += `<div class="cv-h2">${node.textContent.trim()}</div>`;
         } else if (tag === 'h3') {
             flushSection();
-            curSectionLabel = node.textContent.trim();
-            curSectionStyle = getSectionStyle(curSectionLabel);
+            curSection = node.textContent.trim();
         } else if (tag === 'ul' || tag === 'ol') {
-            const items = [...node.querySelectorAll(':scope > li')];
-            if (curSectionLabel) {
-                items.forEach(li => curItems.push(renderLi(li, curSectionStyle)));
+            const items = [...node.querySelectorAll('li')];
+            if (curSection) {
+                items.forEach(li => curCards.push(makeCard(li)));
             } else {
-                // List outside a section
-                const st = getSectionStyle('');
-                items.forEach(li => {
-                    out += renderLi(li, st);
-                });
+                out += `<ul class="cv-list">${items.map(li => `<li class="cv-li">${li.innerHTML}</li>`).join('')}</ul>`;
             }
         } else if (tag === 'p') {
             const txt = node.innerHTML.trim();
             if (!txt) return;
+            // Skip the subtitle p we already used in header
+            if (!firstPDone && chapterSub && node.textContent.trim() === chapterSub) { firstPDone = true; return; }
+            firstPDone = true;
             flushSection();
             out += `<p class="cv-para">${txt}</p>`;
-        } else if (tag === 'div' && (node.classList.contains('formula-box') || node.classList.contains('info-box'))) {
-            flushSection();
-            out += `<div class="cv-formula-box">${node.innerHTML}</div>`;
         } else if (tag === 'blockquote') {
             flushSection();
             out += `<div class="cv-quote">${node.innerHTML}</div>`;
+        } else if (tag === 'div' && (node.classList.contains('formula-box') || node.classList.contains('info-box'))) {
+            flushSection();
+            out += `<div class="cv-formula">${node.innerHTML}</div>`;
         } else {
             flushSection();
             out += node.outerHTML;
@@ -144,7 +153,6 @@ function renderCoursVisuel(html) {
 
     return `<div class="cv-root cv-subj-${subjClass}" id="printable-cours">${out}${progress}</div>`;
 }
-
 
 /* ============================================================
    BACMASTER v3 — script.js  (moteur de l'application)
@@ -709,33 +717,56 @@ function startSRS() {
 }
 
 function srsDelay(card,r){
-    const iv=card.interval||0; const e=card.ease||2.5;
-    const d=n=>n+'j';
+    // Intervalles en minutes: 5, 15, 30, 60, puis x2
+    const STEPS=[5,15,30,60]; // minutes
+    const iv=card.interval||0; // iv représente maintenant l'index dans STEPS (0-3) ou minutes si >60
+    function fmtMin(m){
+        if(m<60)return m+'min';
+        return Math.round(m/60)+'h';
+    }
     switch(r){
-        case'again':return '15 min';
-        case'hard': return d(iv===0?1:Math.max(1,Math.round(iv*1.2)));
-        case'good': return d(iv===0?3:Math.max(1,Math.round(iv*e)));
-        case'easy': return d(iv===0?7:Math.max(4,Math.round(iv*e*1.3)));
+        case'again': return '5min'; // Raté → repart à 5 min
+        case'hard':  {
+            const cur=iv<=0?STEPS[0]:iv;
+            return fmtMin(Math.max(5,Math.round(cur*0.7)));
+        }
+        case'good':  {
+            if(iv===0)return fmtMin(STEPS[0]);
+            if(iv===STEPS[0])return fmtMin(STEPS[1]);
+            if(iv===STEPS[1])return fmtMin(STEPS[2]);
+            if(iv===STEPS[2])return fmtMin(STEPS[3]);
+            return fmtMin(Math.min(iv*2,480)); // max 8h
+        }
+        case'easy':  {
+            if(iv===0)return fmtMin(STEPS[1]);
+            return fmtMin(Math.min(iv*2,480));
+        }
     }
 }
 
 function renderSRSCard() {
     srsCur=srsQueue.shift()||srsAgain.shift()||null;
-    // Mode intensif : si plus de cartes, on recharge toute la pile en ordre aléatoire
+    // Mode intensif : si plus de cartes, on recharge en priorisant les cartes difficiles
     if(!srsCur && intensiveMode){
-        const seen=new Set(); srsQueue=[];
+        const seen=new Set(); let allCards=[];
         selChapters.forEach(ch=>{
             (db[curSubject][ch].flashcards||[]).forEach(card=>{
                 const k=card.q+'|'+card.a;
-                if(!seen.has(k)){seen.add(k);srsQueue.push({card,ch});}
+                if(!seen.has(k)){seen.add(k);allCards.push({card,ch});}
             });
         });
-        srsQueue=srsQueue.sort(()=>Math.random()-.5);
+        // Trier : cartes avec score bas (difficiles) en premier, puis mélanger le reste
+        allCards.sort((a,b)=>(a.card.score||0)-(b.card.score||0));
+        // Les 30% les plus difficiles passent en premier, le reste est mélangé
+        const hard=Math.ceil(allCards.length*0.3);
+        const hardCards=allCards.slice(0,hard);
+        const easyCards=allCards.slice(hard).sort(()=>Math.random()-.5);
+        srsQueue=[...hardCards,...easyCards];
         srsAgain=[];
         sessTotal+=srsQueue.length;
         srsCur=srsQueue.shift()||null;
         if(!srsCur){renderSRSResults();return;}
-        showToast('🔄 Nouvelle boucle — bon courage !','info');
+        showToast('🔄 Nouvelle boucle — cartes difficiles en premier !','info');
     }
     srsFlipped=false;
     if(!srsCur){renderSRSResults();return;}
@@ -781,10 +812,10 @@ function renderSRSCard() {
 
             <div id="fb-zone" style="display:none"></div>
             <div id="rating-row" class="rating-row" style="display:none">
-                <button class="r-btn r-again" onclick="rateSRS('again')">Encore<span class="r-delay">${srsDelay(card,'again')}</span></button>
-                <button class="r-btn r-hard"  onclick="rateSRS('hard')">Difficile<span class="r-delay">${srsDelay(card,'hard')}</span></button>
-                <button class="r-btn r-good"  onclick="rateSRS('good')">Bien<span class="r-delay">${srsDelay(card,'good')}</span></button>
-                <button class="r-btn r-easy"  onclick="rateSRS('easy')">Facile<span class="r-delay">${srsDelay(card,'easy')}</span></button>
+                <button class="r-btn r-again" onclick="rateSRS('again')">⟳ Raté<span class="r-delay">${srsDelay(card,'again')}</span></button>
+                <button class="r-btn r-hard"  onclick="rateSRS('hard')">😓 Dur<span class="r-delay">${srsDelay(card,'hard')}</span></button>
+                <button class="r-btn r-good"  onclick="rateSRS('good')">👍 Bien<span class="r-delay">${srsDelay(card,'good')}</span></button>
+                <button class="r-btn r-easy"  onclick="rateSRS('easy')">⭐ Facile<span class="r-delay">${srsDelay(card,'easy')}</span></button>
             </div>
 
             <div class="srs-stats">
@@ -806,51 +837,119 @@ function revealSRS(skip){
     const userAns=el?el.value.trim().toLowerCase():'';
     const correct=srsCur.card.a.trim().toLowerCase();
     const isRight=!skip&&userAns!==''&&userAns===correct;
+    // Stocker pour rateSRS (évite le double comptage)
+    srsCur._isRight=isRight;
+    srsCur._skip=skip;
     sessStats.seen++;
-    if(isRight)sessStats.right++;
-    else if(!skip)sessStats.wrong++;
     const fc=$('fc3d');if(fc)fc.classList.add('flipped');
     const iz=$('input-zone');if(iz)iz.style.display='none';
     const fz=$('fb-zone');
     if(fz){
         fz.style.display='block';
-        if(skip)fz.innerHTML=`<div class="srs-fb fb-skip"><span class="fb-icon">⏭️</span><span>Passé — voici la réponse</span></div>`;
-        else if(isRight)fz.innerHTML=`<div class="srs-fb fb-right"><span class="fb-icon">✅</span><span>Correct !</span></div>`;
-        else fz.innerHTML=`<div class="srs-fb fb-wrong"><span class="fb-icon">❌</span><div><div>Ta réponse : <b>${userAns||'—'}</b></div><div style="margin-top:3px">Bonne réponse : <b>${srsCur.card.a}</b></div></div></div>`;
+        if(skip)
+            fz.innerHTML=`<div class="srs-fb fb-skip"><span class="fb-icon">⏭️</span><span>Passé — voici la réponse</span></div>`;
+        else if(isRight)
+            fz.innerHTML=`<div class="srs-fb fb-right"><span class="fb-icon">✅</span><span>Correct ! Tu peux choisir ton niveau.</span></div>`;
+        else
+            fz.innerHTML=`<div class="srs-fb fb-wrong"><span class="fb-icon">❌</span><div><div>Ta réponse : <b>${userAns||'—'}</b></div><div style="margin-top:3px">Bonne réponse : <b>${srsCur.card.a}</b></div></div></div>`;
     }
     const rr=$('rating-row');if(rr)rr.style.display='grid';
-    if(isRight){const g=document.querySelector('.r-btn.r-good');if(g)g.focus();}
-    else{const a=document.querySelector('.r-btn.r-again');if(a)a.focus();}
+    // Bloquer Enter pour qu'il ne déclenche pas les boutons de notation
+    document.addEventListener('keydown', blockEnterAfterReveal, {once:false});
+}
+
+function blockEnterAfterReveal(e){
+    if(e.key==='Enter'){
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    // On retire le listener quand l'utilisateur clique un bouton de notation
+    if(e.type==='click'||!srsFlipped){
+        document.removeEventListener('keydown', blockEnterAfterReveal);
+    }
 }
 
 function rateSRS(r){
     if(!srsCur)return;
     const {card,ch}=srsCur;
 
-    // Mode intensif : on ne touche pas aux données SRS, on remet juste en file si "encore"
+    // Mode intensif : cartes difficiles reviennent vite, les bonnes passent en fin de file
     if(intensiveMode){
-        // Peu importe la réponse, la carte repart toujours dans la file
-        srsAgain.push(srsCur);
-        if(r==='good'||r==='easy') sessStats.right++;
-        else sessStats.wrong++;
+        if(r==='again'){
+            // Raté → revient très vite (dans srsAgain = prioritaire)
+            srsAgain.push(srsCur);
+            sessStats.wrong++;
+            // Diminuer le score pour que ça revienne encore plus souvent au prochain tour
+            const cards2=db[curSubject][ch].flashcards;
+            const idx2=cards2.findIndex(c=>c.q===card.q&&c.a===card.a);
+            if(idx2!==-1){cards2[idx2].score=(cards2[idx2].score||0)-1;}
+            save();
+        } else if(r==='hard'){
+            // Difficile → repart au milieu de la file
+            const mid=Math.floor(srsQueue.length/2);
+            srsQueue.splice(mid,0,srsCur);
+            sessStats.wrong++;
+        } else {
+            // Bien/Facile → repart en fin de file (reviendra plus tard)
+            srsQueue.push(srsCur);
+            sessStats.right++;
+            // Augmenter le score pour qu'il passe après les difficiles
+            const cards2=db[curSubject][ch].flashcards;
+            const idx2=cards2.findIndex(c=>c.q===card.q&&c.a===card.a);
+            if(idx2!==-1){cards2[idx2].score=(cards2[idx2].score||0)+1;}
+            save();
+        }
         sessDone++;
+        document.removeEventListener('keydown', blockEnterAfterReveal);
         renderSRSCard();
         return;
     }
 
-    const iv=card.interval||0; const e=card.ease||2.5;
-    const DAY=86400000; const now=Date.now();
+    const iv=card.interval||0; // iv = minutes jusqu'à la prochaine révision
+    const e=card.ease||2.5;
+    const STEPS=[5,15,30,60]; // paliers en minutes
+    const now=Date.now();
     let newIv,newEase,newDue;
     switch(r){
-        case'again':newIv=1;newEase=Math.max(1.3,e-.2);newDue=now+15*60*1000;srsAgain.push(srsCur);sessStats.wrong++;break;
-        case'hard': newIv=iv===0?1:Math.max(1,Math.round(iv*1.2));newEase=Math.max(1.3,e-.15);newDue=now+newIv*DAY;sessDone++;sessStats.wrong++;break;
-        case'good': newIv=iv===0?3:Math.max(1,Math.round(iv*e));newEase=e;newDue=now+newIv*DAY;sessDone++;sessStats.right++;break;
-        case'easy': newIv=iv===0?7:Math.max(4,Math.round(iv*e*1.3));newEase=Math.min(3,e+.15);newDue=now+newIv*DAY;sessDone++;sessStats.right++;break;
+        case'again':
+            // Raté → repart à 5 minutes, score reset
+            newIv=0; newEase=Math.max(1.3,e-.2);
+            newDue=now+5*60*1000;
+            srsAgain.push(srsCur); sessStats.wrong++;
+            break;
+        case'hard':
+            // Difficile → recule d'un palier
+            newIv=iv<=STEPS[0]?0:iv<=STEPS[1]?STEPS[0]:iv<=STEPS[2]?STEPS[1]:STEPS[2];
+            newEase=Math.max(1.3,e-.1);
+            newDue=now+(newIv||5)*60*1000;
+            sessDone++; sessStats.wrong++;
+            break;
+        case'good':
+            // Bien → avance d'un palier: 0→5→15→30→60→120→240...
+            if(iv===0)newIv=STEPS[0];
+            else if(iv===STEPS[0])newIv=STEPS[1];
+            else if(iv===STEPS[1])newIv=STEPS[2];
+            else if(iv===STEPS[2])newIv=STEPS[3];
+            else newIv=Math.min(iv*2,480); // double, max 8h
+            newEase=e;
+            newDue=now+newIv*60*1000;
+            sessDone++; sessStats.right++;
+            break;
+        case'easy':
+            // Facile → saute un palier
+            if(iv===0)newIv=STEPS[1];
+            else newIv=Math.min(iv*2,480);
+            newEase=Math.min(3,e+.1);
+            newDue=now+newIv*60*1000;
+            sessDone++; sessStats.right++;
+            break;
     }
     const cards=db[curSubject][ch].flashcards;
     const idx=cards.findIndex(c=>c.q===card.q&&c.a===card.a);
     if(idx!==-1){cards[idx].interval=newIv;cards[idx].ease=newEase;cards[idx].due=newDue;cards[idx].score=(cards[idx].score||0)+(r==='good'||r==='easy'?1:-1);}
-    save(); renderSRSCard();
+    save();
+    document.removeEventListener('keydown', blockEnterAfterReveal);
+    renderSRSCard();
 }
 
 function renderSRSResults(){
