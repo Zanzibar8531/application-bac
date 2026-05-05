@@ -717,56 +717,35 @@ function startSRS() {
 }
 
 function srsDelay(card,r){
-    // Intervalles en minutes: 5, 15, 30, 60, puis x2
-    const STEPS=[5,15,30,60]; // minutes
-    const iv=card.interval||0; // iv représente maintenant l'index dans STEPS (0-3) ou minutes si >60
-    function fmtMin(m){
-        if(m<60)return m+'min';
-        return Math.round(m/60)+'h';
-    }
+    // Raté=5min fixe, Dur=15min fixe, Bien=30min fixe
+    // Facile=1h puis double à chaque fois (stocké dans card.easyInterval)
+    const ei=card.easyInterval||60; // minutes
+    function fmt(m){ return m<60 ? m+'min' : Math.round(m/60)+'h'; }
     switch(r){
-        case'again': return '5min'; // Raté → repart à 5 min
-        case'hard':  {
-            const cur=iv<=0?STEPS[0]:iv;
-            return fmtMin(Math.max(5,Math.round(cur*0.7)));
-        }
-        case'good':  {
-            if(iv===0)return fmtMin(STEPS[0]);
-            if(iv===STEPS[0])return fmtMin(STEPS[1]);
-            if(iv===STEPS[1])return fmtMin(STEPS[2]);
-            if(iv===STEPS[2])return fmtMin(STEPS[3]);
-            return fmtMin(Math.min(iv*2,480)); // max 8h
-        }
-        case'easy':  {
-            if(iv===0)return fmtMin(STEPS[1]);
-            return fmtMin(Math.min(iv*2,480));
-        }
+        case'again': return '5min';
+        case'hard':  return '15min';
+        case'good':  return '30min';
+        case'easy':  return fmt(ei);
     }
 }
 
 function renderSRSCard() {
     srsCur=srsQueue.shift()||srsAgain.shift()||null;
-    // Mode intensif : si plus de cartes, on recharge en priorisant les cartes difficiles
+    // Mode intensif : si plus de cartes, on recharge toute la pile en ordre aléatoire
     if(!srsCur && intensiveMode){
-        const seen=new Set(); let allCards=[];
+        const seen=new Set(); srsQueue=[];
         selChapters.forEach(ch=>{
             (db[curSubject][ch].flashcards||[]).forEach(card=>{
                 const k=card.q+'|'+card.a;
-                if(!seen.has(k)){seen.add(k);allCards.push({card,ch});}
+                if(!seen.has(k)){seen.add(k);srsQueue.push({card,ch});}
             });
         });
-        // Trier : cartes avec score bas (difficiles) en premier, puis mélanger le reste
-        allCards.sort((a,b)=>(a.card.score||0)-(b.card.score||0));
-        // Les 30% les plus difficiles passent en premier, le reste est mélangé
-        const hard=Math.ceil(allCards.length*0.3);
-        const hardCards=allCards.slice(0,hard);
-        const easyCards=allCards.slice(hard).sort(()=>Math.random()-.5);
-        srsQueue=[...hardCards,...easyCards];
+        srsQueue=srsQueue.sort(()=>Math.random()-.5);
         srsAgain=[];
         sessTotal+=srsQueue.length;
         srsCur=srsQueue.shift()||null;
         if(!srsCur){renderSRSResults();return;}
-        showToast('🔄 Nouvelle boucle — cartes difficiles en premier !','info');
+        showToast('🔄 Nouvelle boucle — bon courage !','info');
     }
     srsFlipped=false;
     if(!srsCur){renderSRSResults();return;}
@@ -812,10 +791,10 @@ function renderSRSCard() {
 
             <div id="fb-zone" style="display:none"></div>
             <div id="rating-row" class="rating-row" style="display:none">
-                <button class="r-btn r-again" onclick="rateSRS('again')">⟳ Raté<span class="r-delay">${srsDelay(card,'again')}</span></button>
-                <button class="r-btn r-hard"  onclick="rateSRS('hard')">😓 Dur<span class="r-delay">${srsDelay(card,'hard')}</span></button>
-                <button class="r-btn r-good"  onclick="rateSRS('good')">👍 Bien<span class="r-delay">${srsDelay(card,'good')}</span></button>
-                <button class="r-btn r-easy"  onclick="rateSRS('easy')">⭐ Facile<span class="r-delay">${srsDelay(card,'easy')}</span></button>
+                <button class="r-btn r-again" onclick="rateSRS('again')">Encore<span class="r-delay">${srsDelay(card,'again')}</span></button>
+                <button class="r-btn r-hard"  onclick="rateSRS('hard')">Difficile<span class="r-delay">${srsDelay(card,'hard')}</span></button>
+                <button class="r-btn r-good"  onclick="rateSRS('good')">Bien<span class="r-delay">${srsDelay(card,'good')}</span></button>
+                <button class="r-btn r-easy"  onclick="rateSRS('easy')">Facile<span class="r-delay">${srsDelay(card,'easy')}</span></button>
             </div>
 
             <div class="srs-stats">
@@ -837,119 +816,81 @@ function revealSRS(skip){
     const userAns=el?el.value.trim().toLowerCase():'';
     const correct=srsCur.card.a.trim().toLowerCase();
     const isRight=!skip&&userAns!==''&&userAns===correct;
-    // Stocker pour rateSRS (évite le double comptage)
-    srsCur._isRight=isRight;
-    srsCur._skip=skip;
     sessStats.seen++;
+    if(isRight)sessStats.right++;
+    else if(!skip)sessStats.wrong++;
     const fc=$('fc3d');if(fc)fc.classList.add('flipped');
     const iz=$('input-zone');if(iz)iz.style.display='none';
     const fz=$('fb-zone');
     if(fz){
         fz.style.display='block';
-        if(skip)
-            fz.innerHTML=`<div class="srs-fb fb-skip"><span class="fb-icon">⏭️</span><span>Passé — voici la réponse</span></div>`;
-        else if(isRight)
-            fz.innerHTML=`<div class="srs-fb fb-right"><span class="fb-icon">✅</span><span>Correct ! Tu peux choisir ton niveau.</span></div>`;
-        else
-            fz.innerHTML=`<div class="srs-fb fb-wrong"><span class="fb-icon">❌</span><div><div>Ta réponse : <b>${userAns||'—'}</b></div><div style="margin-top:3px">Bonne réponse : <b>${srsCur.card.a}</b></div></div></div>`;
+        if(skip)fz.innerHTML=`<div class="srs-fb fb-skip"><span class="fb-icon">⏭️</span><span>Passé — voici la réponse</span></div>`;
+        else if(isRight)fz.innerHTML=`<div class="srs-fb fb-right"><span class="fb-icon">✅</span><span>Correct !</span></div>`;
+        else fz.innerHTML=`<div class="srs-fb fb-wrong"><span class="fb-icon">❌</span><div><div>Ta réponse : <b>${userAns||'—'}</b></div><div style="margin-top:3px">Bonne réponse : <b>${srsCur.card.a}</b></div></div></div>`;
     }
     const rr=$('rating-row');if(rr)rr.style.display='grid';
-    // Bloquer Enter pour qu'il ne déclenche pas les boutons de notation
-    document.addEventListener('keydown', blockEnterAfterReveal, {once:false});
-}
-
-function blockEnterAfterReveal(e){
-    if(e.key==='Enter'){
-        e.preventDefault();
-        e.stopPropagation();
-    }
-    // On retire le listener quand l'utilisateur clique un bouton de notation
-    if(e.type==='click'||!srsFlipped){
-        document.removeEventListener('keydown', blockEnterAfterReveal);
-    }
+    if(isRight){const g=document.querySelector('.r-btn.r-good');if(g)g.focus();}
+    else{const a=document.querySelector('.r-btn.r-again');if(a)a.focus();}
 }
 
 function rateSRS(r){
     if(!srsCur)return;
     const {card,ch}=srsCur;
 
-    // Mode intensif : cartes difficiles reviennent vite, les bonnes passent en fin de file
+    // Mode intensif : on ne touche pas aux données SRS, on remet juste en file si "encore"
     if(intensiveMode){
-        if(r==='again'){
-            // Raté → revient très vite (dans srsAgain = prioritaire)
-            srsAgain.push(srsCur);
-            sessStats.wrong++;
-            // Diminuer le score pour que ça revienne encore plus souvent au prochain tour
-            const cards2=db[curSubject][ch].flashcards;
-            const idx2=cards2.findIndex(c=>c.q===card.q&&c.a===card.a);
-            if(idx2!==-1){cards2[idx2].score=(cards2[idx2].score||0)-1;}
-            save();
-        } else if(r==='hard'){
-            // Difficile → repart au milieu de la file
-            const mid=Math.floor(srsQueue.length/2);
-            srsQueue.splice(mid,0,srsCur);
-            sessStats.wrong++;
-        } else {
-            // Bien/Facile → repart en fin de file (reviendra plus tard)
-            srsQueue.push(srsCur);
-            sessStats.right++;
-            // Augmenter le score pour qu'il passe après les difficiles
-            const cards2=db[curSubject][ch].flashcards;
-            const idx2=cards2.findIndex(c=>c.q===card.q&&c.a===card.a);
-            if(idx2!==-1){cards2[idx2].score=(cards2[idx2].score||0)+1;}
-            save();
-        }
+        // Peu importe la réponse, la carte repart toujours dans la file
+        srsAgain.push(srsCur);
+        if(r==='good'||r==='easy') sessStats.right++;
+        else sessStats.wrong++;
         sessDone++;
-        document.removeEventListener('keydown', blockEnterAfterReveal);
         renderSRSCard();
         return;
     }
 
-    const iv=card.interval||0; // iv = minutes jusqu'à la prochaine révision
-    const e=card.ease||2.5;
-    const STEPS=[5,15,30,60]; // paliers en minutes
     const now=Date.now();
-    let newIv,newEase,newDue;
+    const ei=card.easyInterval||60; // minutes pour "Facile" (double à chaque fois)
+    let newDue, newEasyInterval, scoreChange;
     switch(r){
         case'again':
-            // Raté → repart à 5 minutes, score reset
-            newIv=0; newEase=Math.max(1.3,e-.2);
+            // 5 minutes fixes — carte revient tout de suite
             newDue=now+5*60*1000;
+            newEasyInterval=60; // reset facile à 1h
+            scoreChange=-2;
             srsAgain.push(srsCur); sessStats.wrong++;
             break;
         case'hard':
-            // Difficile → recule d'un palier
-            newIv=iv<=STEPS[0]?0:iv<=STEPS[1]?STEPS[0]:iv<=STEPS[2]?STEPS[1]:STEPS[2];
-            newEase=Math.max(1.3,e-.1);
-            newDue=now+(newIv||5)*60*1000;
+            // 15 minutes fixes
+            newDue=now+15*60*1000;
+            newEasyInterval=60; // reset facile à 1h
+            scoreChange=-1;
             sessDone++; sessStats.wrong++;
             break;
         case'good':
-            // Bien → avance d'un palier: 0→5→15→30→60→120→240...
-            if(iv===0)newIv=STEPS[0];
-            else if(iv===STEPS[0])newIv=STEPS[1];
-            else if(iv===STEPS[1])newIv=STEPS[2];
-            else if(iv===STEPS[2])newIv=STEPS[3];
-            else newIv=Math.min(iv*2,480); // double, max 8h
-            newEase=e;
-            newDue=now+newIv*60*1000;
+            // 30 minutes fixes
+            newDue=now+30*60*1000;
+            newEasyInterval=ei; // facile reste inchangé
+            scoreChange=1;
             sessDone++; sessStats.right++;
             break;
         case'easy':
-            // Facile → saute un palier
-            if(iv===0)newIv=STEPS[1];
-            else newIv=Math.min(iv*2,480);
-            newEase=Math.min(3,e+.1);
-            newDue=now+newIv*60*1000;
+            // 1h puis double à chaque fois (max 30 jours)
+            newDue=now+ei*60*1000;
+            newEasyInterval=Math.min(ei*2, 30*24*60); // double, max 30j
+            scoreChange=2;
             sessDone++; sessStats.right++;
             break;
     }
     const cards=db[curSubject][ch].flashcards;
     const idx=cards.findIndex(c=>c.q===card.q&&c.a===card.a);
-    if(idx!==-1){cards[idx].interval=newIv;cards[idx].ease=newEase;cards[idx].due=newDue;cards[idx].score=(cards[idx].score||0)+(r==='good'||r==='easy'?1:-1);}
-    save();
-    document.removeEventListener('keydown', blockEnterAfterReveal);
-    renderSRSCard();
+    if(idx!==-1){
+        cards[idx].due=newDue;
+        cards[idx].easyInterval=newEasyInterval;
+        cards[idx].score=(cards[idx].score||0)+scoreChange;
+        // On garde interval pour compatibilité avec le reste du code
+        cards[idx].interval=r==='easy'?Math.round(newEasyInterval/60/24):0;
+    }
+    save(); renderSRSCard();
 }
 
 function renderSRSResults(){
