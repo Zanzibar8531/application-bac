@@ -1541,3 +1541,211 @@ flashcards: [
 {q:'⚠️ On était des loups — texte à venir',a:'Roman de 2023. Thèmes : paternité, violence, nature sauvage, lien père-fils. Style âpre et nerveux. En OE4 : roman.',score:0,interval:0,ease:2.5,due:null},
 {q:'Sandrine Collette ≠ Colette',a:'Attention : Sandrine Collette (née 1970, roman noir contemporain) est différente de Colette (1873-1954, Sido, Les Vrilles de la vigne).',score:0,interval:0,ease:2.5,due:null},
 ]};
+
+// ════════════════════════════════════════════════════════════
+// MÉTHODES BAC FRANÇAIS — COMMENTAIRE & DISSERTATION
+// ════════════════════════════════════════════════════════════
+
+PREBUILT['Français']['⭐ Méthode du Commentaire'] = {
+cours: `<h2>📝 Méthode du Commentaire de texte</h2>
+
+<div class="formula-box">
+<strong>⏱️ Gestion du temps (2h)</strong><br>
+15 min — Lecture + annotation du texte<br>
+20 min — Brouillon : trouver les axes et les idées<br>
+10 min — Rédiger l'intro au brouillon<br>
+70 min — Rédiger le développement<br>
+5 min — Rédiger la conclusion + relecture
+</div>
+
+<h3>ÉTAPE 1 — Lire et annoter le texte</h3>
+<ul>
+<li><strong>Lis 2 fois</strong> avant d'écrire quoi que ce soit</li>
+<li>Souligne les <strong>mots importants, les figures de style, les effets de rythme</strong></li>
+<li>Note dans la marge l'effet produit : émotion ? image ? rupture de ton ?</li>
+<li>Repère le <strong>mouvement du texte</strong> : où commence-t-il ? où va-t-il ? y a-t-il une chute ?</li>
+<li>Pose-toi la question : <strong>Qu'est-ce que l'auteur veut faire ressentir ou penser au lecteur ?</strong></li>
+</ul>
+
+<h3>ÉTAPE 2 — Trouver ta problématique et tes axes</h3>
+<ul>
+<li>La <strong>problématique</strong> = une question sur le COMMENT, pas le QUOI<br>❌ "De quoi parle le texte ?" → ✅ "Comment Rimbaud fait-il du sonnet une arme contre la guerre ?"</li>
+<li>Trouve <strong>2 ou 3 axes</strong> qui répondent ensemble à ta problématique</li>
+<li>Chaque axe = <strong>une idée principale + des preuves dans le texte</strong></li>
+<li>Formule tes axes comme des titres de chapitre : "Une nature trompeuse", "Un dénouement brutal"</li>
+</ul>
+
+<h3>ÉTAPE 3 — L'Introduction (à rédiger au brouillon !)</h3>
+<ul>
+<li><strong>1. Amorce</strong> — Situer dans un contexte large (mouvement littéraire, époque, thème général)</li>
+<li><strong>2. Présentation du texte</strong> — Auteur, titre, date, genre, bref résumé en 2 lignes</li>
+<li><strong>3. Problématique</strong> — Ta question centrale, formulée clairement</li>
+<li><strong>4. Annonce du plan</strong> — "Nous verrons d'abord… puis… enfin…"</li>
+</ul>
+
+<blockquote>Exemple : "La poésie du XIXe siècle est souvent le lieu d'une tension entre beauté formelle et violence du réel. C'est ce qu'illustre 'Le Dormeur du val' d'Arthur Rimbaud, sonnet écrit en 1870 en pleine guerre franco-prussienne, qui décrit un soldat apparemment endormi dans la nature. Comment Rimbaud utilise-t-il la beauté du sonnet pour dénoncer l'horreur de la guerre ? Nous verrons d'abord que la nature est présentée de façon trompeuse et idyllique, puis que la structure du poème fonctionne comme un piège tendu au lecteur."</blockquote>
+
+<h3>ÉTAPE 4 — Le Développement</h3>
+<ul>
+<li>Structure chaque sous-partie avec : <strong>Idée → Citation → Analyse → Interprétation</strong></li>
+<li><strong>Idée</strong> : une phrase affirmative qui répond à l'axe</li>
+<li><strong>Citation</strong> : entre guillemets, mot pour mot, avec le numéro de ligne si possible</li>
+<li><strong>Analyse</strong> : nomme le procédé (métaphore, oxymore, anaphore, champ lexical…)</li>
+<li><strong>Interprétation</strong> : "Cela crée un effet de… / Le lecteur ressent… / L'auteur cherche à…"</li>
+<li>Fais une <strong>transition</strong> entre chaque axe : "Après avoir vu X, intéressons-nous maintenant à Y…"</li>
+</ul>
+
+<div class="formula-box">
+<strong>🔑 Le schéma ICIA à appliquer à chaque exemple :</strong><br>
+<strong>I</strong>dée — <strong>C</strong>itation — <strong>I</strong>nterprétation — <strong>A</strong>nalyse du procédé
+</div>
+
+<h3>ÉTAPE 5 — La Conclusion</h3>
+<ul>
+<li><strong>Bilan</strong> : résume en 2-3 phrases ce que tu as montré (réponds à la problématique)</li>
+<li><strong>Ouverture</strong> : élargis vers un autre texte, un autre auteur, un thème plus large<br>Exemples : "Ce texte fait écho à… / On retrouve ce procédé chez… / Cette question se pose aussi dans…"</li>
+</ul>
+
+<h3>Les figures de style INDISPENSABLES à connaître</h3>
+<ul>
+<li><strong>Métaphore</strong> : comparaison sans "comme" — "La vie est un voyage"</li>
+<li><strong>Comparaison</strong> : avec "comme", "tel", "ainsi que"</li>
+<li><strong>Oxymore</strong> : deux mots contradictoires — "obscure clarté"</li>
+<li><strong>Antithèse</strong> : opposition de deux idées dans des propositions distinctes</li>
+<li><strong>Anaphore</strong> : répétition en début de phrases — crée un rythme, une insistance</li>
+<li><strong>Hyperbole</strong> : exagération volontaire pour amplifier</li>
+<li><strong>Euphémisme</strong> : atténuation d'une réalité dure — "il dort" pour "il est mort"</li>
+<li><strong>Ironie</strong> : dire le contraire de ce qu'on pense pour dénoncer</li>
+<li><strong>Allitération</strong> : répétition d'une consonne — effet sonore</li>
+<li><strong>Assonance</strong> : répétition d'une voyelle — effet musical</li>
+<li><strong>Champ lexical</strong> : ensemble de mots autour d'un même thème</li>
+<li><strong>Personnification</strong> : donner des traits humains à un objet ou une idée</li>
+</ul>`,
+
+flashcards: [
+{q:'Les 4 parties de l\'introduction (ordre)',a:'1. Amorce (contexte large) → 2. Présentation du texte → 3. Problématique → 4. Annonce du plan',score:0,interval:0,ease:2.5,due:null},
+{q:'Schéma ICIA — commentaire',a:'Idée → Citation → Interprétation → Analyse du procédé. À appliquer pour chaque exemple dans le développement.',score:0,interval:0,ease:2.5,due:null},
+{q:'Différence problématique correcte / incorrecte',a:'❌ "De quoi parle le texte ?" (= résumé) ✅ "Comment l\'auteur fait-il de X un moyen de Y ?" (= question sur le COMMENT)',score:0,interval:0,ease:2.5,due:null},
+{q:'Qu\'est-ce qu\'une amorce ?',a:'1re phrase de l\'intro. Situe le texte dans un contexte large : mouvement littéraire, époque, thème universel. NE PAS commencer par "Dans ce texte..."',score:0,interval:0,ease:2.5,due:null},
+{q:'Comment faire une transition entre deux axes ?',a:'"Après avoir montré que [bilan axe 1], nous allons voir que [annonce axe 2]." Une phrase suffit.',score:0,interval:0,ease:2.5,due:null},
+{q:'Oxymore — définition + exemple',a:'Deux mots contradictoires associés. Ex : "obscure clarté" (Corneille), "trou de verdure" (Rimbaud — espace fermé dans l\'ouvert).',score:0,interval:0,ease:2.5,due:null},
+{q:'Euphémisme — définition + exemple bac',a:'Atténuation d\'une réalité dure. Ex : "il dort" pour dire qu\'il est mort dans Le Dormeur du val. Crée un effet de chute quand la vérité est révélée.',score:0,interval:0,ease:2.5,due:null},
+{q:'Anaphore — définition + effet',a:'Répétition d\'un mot ou groupe en début de phrases/vers. Crée un rythme, une insistance, une emphase. Effet incantatoire.',score:0,interval:0,ease:2.5,due:null},
+{q:'Gestion du temps — commentaire 2h',a:'15 min lecture/annotation → 20 min brouillon axes → 10 min intro brouillon → 70 min rédaction → 5 min conclusion + relecture',score:0,interval:0,ease:2.5,due:null},
+{q:'Comment terminer une conclusion ?',a:'Bilan (réponse à la problématique) + Ouverture (autre texte, autre auteur, question plus large). Ne jamais finir par "En conclusion, nous avons vu que..."',score:0,interval:0,ease:2.5,due:null},
+]};
+
+PREBUILT['Français']['⭐ Méthode de la Dissertation'] = {
+cours: `<h2>📚 Méthode de la Dissertation</h2>
+
+<div class="formula-box">
+<strong>⏱️ Gestion du temps (2h)</strong><br>
+20 min — Analyser le sujet + chercher les idées au brouillon<br>
+15 min — Construire le plan détaillé<br>
+10 min — Rédiger l\'intro au brouillon<br>
+70 min — Rédiger le développement<br>
+5 min — Conclusion + relecture rapide
+</div>
+
+<h3>ÉTAPE 1 — Analyser le sujet</h3>
+<ul>
+<li><strong>Lis le sujet 3 fois</strong> en soulignant chaque mot important</li>
+<li>Définir les <strong>mots-clés</strong> : qu\'est-ce que ça veut dire exactement ?</li>
+<li>Repérer le <strong>type de sujet</strong> :<br>
+— Sujet <strong>fermé</strong> : "La poésie doit-elle être engagée ?" → thèse / antithèse / synthèse<br>
+— Sujet <strong>ouvert</strong> : "En quoi la poésie est-elle un acte de liberté ?" → 3 angles différents</li>
+<li>Reformule le sujet en une question claire avec tes propres mots</li>
+</ul>
+
+<h3>ÉTAPE 2 — Trouver tes arguments et exemples</h3>
+<ul>
+<li>Note <strong>TOUT</strong> ce qui te vient sans filtrer : auteurs, textes, idées, souvenirs de cours</li>
+<li>Pour chaque idée, cherche <strong>un exemple précis</strong> : un texte étudié, une citation, une œuvre</li>
+<li>Regroupe tes idées en <strong>2 ou 3 grandes familles</strong> → ce seront tes parties</li>
+<li>Règle d\'or : <strong>jamais d\'argument sans exemple</strong>, jamais d\'exemple sans analyse</li>
+</ul>
+
+<h3>ÉTAPE 3 — Le Plan (3 types possibles)</h3>
+
+<div class="formula-box">
+<strong>Plan dialectique</strong> (le plus courant — sujet avec "Pensez-vous que…", "Dans quelle mesure…")<br>
+I. Thèse (oui, parce que…)<br>
+II. Antithèse (mais en réalité / cependant…)<br>
+III. Synthèse / Dépassement (en fait, la vérité est plus nuancée…)
+</div>
+
+<div class="formula-box">
+<strong>Plan thématique</strong> (sujet ouvert — "En quoi…", "Comment…")<br>
+I. Premier angle / première dimension du sujet<br>
+II. Deuxième angle / deuxième dimension<br>
+III. Troisième angle (si besoin)
+</div>
+
+<div class="formula-box">
+<strong>Plan analytique</strong> (rare au bac)<br>
+I. Description / constat<br>
+II. Explication / causes<br>
+III. Conséquences / solutions
+</div>
+
+<h3>ÉTAPE 4 — L\'Introduction</h3>
+<ul>
+<li><strong>Accroche</strong> : citation, fait historique, question rhétorique — quelque chose qui donne envie de lire</li>
+<li><strong>Contextualisation</strong> : présenter le thème, l\'œuvre au programme concernée</li>
+<li><strong>Reformulation du sujet</strong> : reposer la question avec tes mots</li>
+<li><strong>Problématique</strong> : la tension, le paradoxe, la vraie question derrière le sujet</li>
+<li><strong>Annonce du plan</strong> : "Dans un premier temps… puis… enfin…"</li>
+</ul>
+
+<h3>ÉTAPE 5 — Le Développement</h3>
+<ul>
+<li>Chaque partie = <strong>2 ou 3 sous-parties</strong></li>
+<li>Structure d\'une sous-partie : <strong>Argument → Exemple → Analyse → Mini-conclusion</strong></li>
+<li><strong>Les exemples obligatoires</strong> : toujours citer les textes du corpus/programme :<br>
+— Le titre de l\'œuvre + l\'auteur<br>
+— Une citation précise si possible<br>
+— Ce que ça prouve par rapport à ton argument</li>
+<li><strong>Transitions</strong> entre parties : bilan de ce qui vient d\'être montré + annonce de ce qui suit</li>
+</ul>
+
+<blockquote>Exemple de transition : "Ainsi, nous avons vu que la poésie peut être un outil de dénonciation politique. Cependant, réduire la poésie à cette seule fonction serait oublier sa dimension intime et personnelle, que nous allons maintenant explorer."</blockquote>
+
+<h3>ÉTAPE 6 — La Conclusion</h3>
+<ul>
+<li><strong>Bilan synthétique</strong> : rappel des 3 grandes étapes de ton raisonnement en 3 phrases max</li>
+<li><strong>Réponse claire</strong> à la problématique posée en introduction</li>
+<li><strong>Ouverture</strong> : une question plus large, un autre auteur, un autre art (cinéma, peinture…)</li>
+</ul>
+
+<h3>🚨 Les erreurs à éviter absolument</h3>
+<ul>
+<li>❌ <strong>Raconter l\'histoire</strong> au lieu d\'analyser → toujours relier à la question</li>
+<li>❌ <strong>Donner son avis personnel</strong> sans l\'étayer — "Je pense que c\'est bien car…"</li>
+<li>❌ <strong>Partir sans plan</strong> — même un mauvais plan vaut mieux que l\'improvisation</li>
+<li>❌ <strong>Introduire de nouveaux arguments en conclusion</strong></li>
+<li>❌ <strong>Oublier les exemples</strong> — chaque argument DOIT s\'appuyer sur un texte</li>
+<li>✅ <strong>Même si tu bloques</strong> : un plan en 2 parties solides vaut mieux qu\'un plan 3 parties bancal</li>
+</ul>
+
+<h3>💡 Les textes à mobiliser en priorité</h3>
+<ul>
+<li><strong>Poésie engagée / dénonciation</strong> → Le Dormeur du val (Rimbaud), À une passante (Baudelaire)</li>
+<li><strong>Liberté créatrice / émancipation</strong> → Ma Bohême (Rimbaud), Roman (Rimbaud)</li>
+<li><strong>Regard critique sur la société</strong> → Des cannibales (Montaigne), Graffigny (Lettres d\'une Péruvienne)</li>
+<li><strong>Puissance de la parole / mensonge</strong> → Le Menteur (Corneille), Cyrano (Rostand)</li>
+<li><strong>Nature / sensations / mémoire</strong> → Sido (Colette), Les Vrilles de la vigne (Colette)</li>
+</ul>`,
+
+flashcards: [
+{q:'Les 5 parties de l\'intro en dissertation',a:'1. Accroche → 2. Contextualisation → 3. Reformulation du sujet → 4. Problématique → 5. Annonce du plan',score:0,interval:0,ease:2.5,due:null},
+{q:'Plan dialectique — structure',a:'I. Thèse (oui) → II. Antithèse (mais…) → III. Synthèse/Dépassement (en réalité, c\'est plus nuancé…)',score:0,interval:0,ease:2.5,due:null},
+{q:'Plan thématique — quand l\'utiliser ?',a:'Pour les sujets ouverts : "En quoi…", "Comment…", "Dans quelle mesure…". 3 angles différents du même sujet.',score:0,interval:0,ease:2.5,due:null},
+{q:'Structure d\'une sous-partie en dissertation',a:'Argument → Exemple (titre + auteur + citation si possible) → Analyse → Mini-conclusion',score:0,interval:0,ease:2.5,due:null},
+{q:'Règle d\'or de la dissertation',a:'Jamais d\'argument sans exemple. Jamais d\'exemple sans analyse. Tout doit être relié à la question.',score:0,interval:0,ease:2.5,due:null},
+{q:'Comment faire une ouverture en conclusion ?',a:'Poser une question plus large, évoquer un autre auteur, un autre art (cinéma, peinture), ou une problématique contemporaine liée au thème.',score:0,interval:0,ease:2.5,due:null},
+{q:'Erreur n°1 à éviter en dissertation',a:'Raconter l\'histoire / résumer l\'œuvre au lieu d\'argumenter. Tout doit répondre à la question posée.',score:0,interval:0,ease:2.5,due:null},
+{q:'Texte à citer pour "poésie engagée"',a:'Le Dormeur du val de Rimbaud (dénonciation de la guerre) + À une passante de Baudelaire (modernité, beauté éphémère).',score:0,interval:0,ease:2.5,due:null},
+{q:'Texte à citer pour "regard critique sur la société"',a:'Montaigne, Des cannibales (relativisme culturel, critique du colonialisme) + Graffigny, Lettres d\'une Péruvienne (condition féminine).',score:0,interval:0,ease:2.5,due:null},
+{q:'Gestion du temps — dissertation 2h',a:'20 min analyse sujet + idées → 15 min plan → 10 min intro brouillon → 70 min rédaction → 5 min conclusion + relecture',score:0,interval:0,ease:2.5,due:null},
+{q:'Que faire si on bloque complètement ?',a:'Un plan en 2 parties solides vaut mieux qu\'un plan 3 parties bancal. L\'essentiel : avoir une problématique + des exemples précis.',score:0,interval:0,ease:2.5,due:null},
+]};
