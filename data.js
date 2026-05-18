@@ -1543,209 +1543,450 @@ flashcards: [
 ]};
 
 // ════════════════════════════════════════════════════════════
-// MÉTHODES BAC FRANÇAIS — COMMENTAIRE & DISSERTATION
+// MATHS SPÉ — COURS EXPLIQUÉS + EXERCICES AVEC CORRECTIONS
 // ════════════════════════════════════════════════════════════
 
-PREBUILT['Français']['⭐ Méthode du Commentaire'] = {
-cours: `<h2>📝 Méthode du Commentaire de texte</h2>
+PREBUILT['Maths Spé']['🚨 Produit Scalaire — Cours complet'] = {
+cours: `<h2>Le Produit Scalaire — Comprendre avant d'apprendre</h2>
 
+<h3>D'abord, pourquoi ça existe ?</h3>
+<p>Imagine que tu pousses une caisse. Si tu pousses <strong>dans la même direction que son déplacement</strong>, tu fais un effort efficace. Si tu pousses <strong>de côté</strong>, une partie de ta force est "gaspillée". Le produit scalaire mesure précisément cette idée : <strong>à quel point deux vecteurs "vont dans le même sens"</strong>.</p>
+<p>C'est un <strong>nombre</strong> (pas un vecteur), et ce nombre peut être positif, négatif ou nul. S'il est nul, les deux vecteurs sont perpendiculaires — ils n'ont rien en commun.</p>
+
+<h3>Formule 1 — Avec les coordonnées (la plus simple)</h3>
 <div class="formula-box">
-<strong>⏱️ Gestion du temps (2h)</strong><br>
-15 min — Lecture + annotation du texte<br>
-20 min — Brouillon : trouver les axes et les idées<br>
-10 min — Rédiger l'intro au brouillon<br>
-70 min — Rédiger le développement<br>
-5 min — Rédiger la conclusion + relecture
+Si $\\vec{u}$ a les coordonnées $(x_1 ; y_1)$ et $\\vec{v}$ a les coordonnées $(x_2 ; y_2)$ :<br><br>
+$$\\vec{u} \\cdot \\vec{v} = x_1 \\times x_2 + y_1 \\times y_2$$
+</div>
+<p><strong>Pourquoi ça marche ?</strong> C'est la définition algébrique. On multiplie les composantes qui "correspondent" (x avec x, y avec y) et on additionne. Simple et mécanique.</p>
+<p><strong>Exemple :</strong> $\\vec{u}(3 ; -2)$ et $\\vec{v}(1 ; 4)$<br>
+$\\vec{u} \\cdot \\vec{v} = 3 \\times 1 + (-2) \\times 4 = 3 - 8 = -5$</p>
+<p>Le résultat est négatif : les vecteurs ont tendance à "aller en sens opposé".</p>
+
+<h3>Formule 2 — Avec l'angle (la plus visuelle)</h3>
+<div class="formula-box">
+$$\\vec{u} \\cdot \\vec{v} = |\\vec{u}| \\times |\\vec{v}| \\times \\cos\\theta$$
+où θ est l'angle <strong>entre les deux vecteurs</strong> et $|\\vec{u}| = \\sqrt{x^2 + y^2}$ est la norme (longueur).
+</div>
+<p><strong>Pourquoi ça marche ?</strong> Le cosinus mesure "l'alignement" entre deux vecteurs. Si θ = 0° (même direction), cos(0°) = 1 → produit scalaire maximal. Si θ = 90° (perpendiculaires), cos(90°) = 0 → produit scalaire nul. Si θ = 180° (opposés), cos(180°) = -1 → produit scalaire négatif.</p>
+<p><strong>Usage principal :</strong> calculer un angle entre deux vecteurs (très courant aux examens) :<br>
+$$\\cos\\theta = \\frac{\\vec{u} \\cdot \\vec{v}}{|\\vec{u}| \\times |\\vec{v}|}$$</p>
+
+<h3>La propriété clé : perpendicularité</h3>
+<div class="formula-box">
+$$\\vec{u} \\perp \\vec{v} \\Longleftrightarrow \\vec{u} \\cdot \\vec{v} = 0$$
+</div>
+<p><strong>Pourquoi ?</strong> Parce que $\\cos(90°) = 0$, donc le produit scalaire vaut $|\\vec{u}| \\times |\\vec{v}| \\times 0 = 0$.<br>
+C'est une <strong>condition nécessaire ET suffisante</strong> — si le produit scalaire vaut 0, les vecteurs sont forcément perpendiculaires, et vice versa.</p>
+
+<h3>La norme au carré — à connaître absolument</h3>
+<div class="formula-box">
+$$|\\vec{u}|^2 = \\vec{u} \\cdot \\vec{u} = x^2 + y^2$$
+</div>
+<p>Un vecteur avec lui-même, l'angle est 0°, cos(0°) = 1, donc $\\vec{u} \\cdot \\vec{u} = |\\vec{u}|^2$. C'est ce qui donne les identités remarquables.</p>
+
+<h3>Les identités remarquables vectorielles</h3>
+<p>Elles fonctionnent exactement comme en algèbre normale, mais avec des vecteurs :</p>
+<ul>
+<li>$(\\vec{u} + \\vec{v})^2 = |\\vec{u}|^2 + 2\\vec{u}\\cdot\\vec{v} + |\\vec{v}|^2$ — développe normalement, $\\vec{u}^2 = |\\vec{u}|^2$</li>
+<li>$(\\vec{u} - \\vec{v})^2 = |\\vec{u}|^2 - 2\\vec{u}\\cdot\\vec{v} + |\\vec{v}|^2$</li>
+<li>$(\\vec{u} + \\vec{v})(\\vec{u} - \\vec{v}) = |\\vec{u}|^2 - |\\vec{v}|^2$ — la différence de carrés</li>
+</ul>
+<p><strong>Astuce :</strong> on s'en sert souvent à l'envers — si on connaît les longueurs et la norme de la somme, on peut trouver le produit scalaire sans connaître l'angle !</p>
+
+<h3>Application : le cercle de diamètre [AB]</h3>
+<p>C'est une application magnifique du produit scalaire. Le théorème de Thalès dit qu'un angle inscrit dans un demi-cercle est droit. En produit scalaire, ça devient :</p>
+<div class="formula-box">
+M est sur le cercle de diamètre [AB] $\\Longleftrightarrow \\overrightarrow{MA} \\cdot \\overrightarrow{MB} = 0$
+</div>
+<p>Pourquoi ? Parce que si [AB] est un diamètre, alors l'angle AMB vaut toujours 90° quel que soit M sur le cercle. Et angle de 90° ↔ produit scalaire nul.</p>
+
+<h3>Application : équation de droite et vecteur normal</h3>
+<p>Toute droite d'équation $ax + by + c = 0$ est perpendiculaire au vecteur $\\vec{n}(a ; b)$. On appelle ça le <strong>vecteur normal</strong>.</p>
+<p><strong>Pourquoi ?</strong> Si M$(x ; y)$ est sur la droite, alors le vecteur $\\overrightarrow{OM}(x ; y)$ vérifie $ax + by = -c$, ce qui est exactement $\\vec{n} \\cdot \\overrightarrow{OM} = -c$. Le vecteur normal est donc perpendiculaire à tous les vecteurs de la droite.</p>
+<p><strong>Usage :</strong> pour trouver l'équation d'une droite perpendiculaire à une autre, ou passant par un point avec une direction donnée.</p>`,
+
+exercices: [
+{
+  niveau: 'Facile',
+  enonce: `<p>On donne les vecteurs $\\vec{u}(4 ; 3)$ et $\\vec{v}(-3 ; 4)$.</p>
+<ol>
+<li>Calculer le produit scalaire $\\vec{u} \\cdot \\vec{v}$.</li>
+<li>Que peut-on conclure ?</li>
+<li>Calculer $|\\vec{u}|$ et $|\\vec{v}|$.</li>
+</ol>`,
+  aide: `<p>Utilise la formule avec les coordonnées : $x_1 x_2 + y_1 y_2$. Pour la norme : $|\\vec{u}| = \\sqrt{x^2 + y^2}$.</p>`,
+  correction: `<div>
+<p><strong>1. Calcul du produit scalaire :</strong></p>
+<div class="formula-box">$\\vec{u} \\cdot \\vec{v} = 4 \\times (-3) + 3 \\times 4 = -12 + 12 = 0$</div>
+
+<p><strong>2. Conclusion :</strong> Le produit scalaire est nul, donc <strong>$\\vec{u} \\perp \\vec{v}$</strong> — les deux vecteurs sont perpendiculaires.</p>
+<p>On le voit aussi intuitivement : le vecteur $(-3 ; 4)$ est obtenu en "tournant" $(4 ; 3)$ de 90° (on échange les coordonnées et on change un signe).</p>
+
+<p><strong>3. Calcul des normes :</strong></p>
+<div class="formula-box">$|\\vec{u}| = \\sqrt{4^2 + 3^2} = \\sqrt{16 + 9} = \\sqrt{25} = 5$<br>
+$|\\vec{v}| = \\sqrt{(-3)^2 + 4^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$</div>
+<p>Les deux vecteurs ont la même longueur (5) et sont perpendiculaires : ils forment un repère orthonormé !</p>
+</div>`
+},
+{
+  niveau: 'Moyen',
+  enonce: `<p>Dans un repère orthonormé, on place les points A$(1 ; 2)$, B$(5 ; 4)$ et C$(3 ; 6)$.</p>
+<ol>
+<li>Calculer les vecteurs $\\overrightarrow{AB}$ et $\\overrightarrow{AC}$.</li>
+<li>Le triangle ABC est-il rectangle en A ? Justifier.</li>
+<li>Calculer l'angle $\\widehat{BAC}$.</li>
+</ol>`,
+  aide: `<p>Pour calculer un vecteur : $\\overrightarrow{AB} = B - A = (x_B - x_A ; y_B - y_A)$. Pour l'angle : $\\cos\\theta = \\frac{\\vec{u}\\cdot\\vec{v}}{|\\vec{u}||\\vec{v}|}$.</p>`,
+  correction: `<div>
+<p><strong>1. Calcul des vecteurs :</strong></p>
+<div class="formula-box">
+$\\overrightarrow{AB} = (5-1 ; 4-2) = (4 ; 2)$<br>
+$\\overrightarrow{AC} = (3-1 ; 6-2) = (2 ; 4)$
 </div>
 
-<h3>ÉTAPE 1 — Lire et annoter le texte</h3>
-<ul>
-<li><strong>Lis 2 fois</strong> avant d'écrire quoi que ce soit</li>
-<li>Souligne les <strong>mots importants, les figures de style, les effets de rythme</strong></li>
-<li>Note dans la marge l'effet produit : émotion ? image ? rupture de ton ?</li>
-<li>Repère le <strong>mouvement du texte</strong> : où commence-t-il ? où va-t-il ? y a-t-il une chute ?</li>
-<li>Pose-toi la question : <strong>Qu'est-ce que l'auteur veut faire ressentir ou penser au lecteur ?</strong></li>
-</ul>
-
-<h3>ÉTAPE 2 — Trouver ta problématique et tes axes</h3>
-<ul>
-<li>La <strong>problématique</strong> = une question sur le COMMENT, pas le QUOI<br>❌ "De quoi parle le texte ?" → ✅ "Comment Rimbaud fait-il du sonnet une arme contre la guerre ?"</li>
-<li>Trouve <strong>2 ou 3 axes</strong> qui répondent ensemble à ta problématique</li>
-<li>Chaque axe = <strong>une idée principale + des preuves dans le texte</strong></li>
-<li>Formule tes axes comme des titres de chapitre : "Une nature trompeuse", "Un dénouement brutal"</li>
-</ul>
-
-<h3>ÉTAPE 3 — L'Introduction (à rédiger au brouillon !)</h3>
-<ul>
-<li><strong>1. Amorce</strong> — Situer dans un contexte large (mouvement littéraire, époque, thème général)</li>
-<li><strong>2. Présentation du texte</strong> — Auteur, titre, date, genre, bref résumé en 2 lignes</li>
-<li><strong>3. Problématique</strong> — Ta question centrale, formulée clairement</li>
-<li><strong>4. Annonce du plan</strong> — "Nous verrons d'abord… puis… enfin…"</li>
-</ul>
-
-<blockquote>Exemple : "La poésie du XIXe siècle est souvent le lieu d'une tension entre beauté formelle et violence du réel. C'est ce qu'illustre 'Le Dormeur du val' d'Arthur Rimbaud, sonnet écrit en 1870 en pleine guerre franco-prussienne, qui décrit un soldat apparemment endormi dans la nature. Comment Rimbaud utilise-t-il la beauté du sonnet pour dénoncer l'horreur de la guerre ? Nous verrons d'abord que la nature est présentée de façon trompeuse et idyllique, puis que la structure du poème fonctionne comme un piège tendu au lecteur."</blockquote>
-
-<h3>ÉTAPE 4 — Le Développement</h3>
-<ul>
-<li>Structure chaque sous-partie avec : <strong>Idée → Citation → Analyse → Interprétation</strong></li>
-<li><strong>Idée</strong> : une phrase affirmative qui répond à l'axe</li>
-<li><strong>Citation</strong> : entre guillemets, mot pour mot, avec le numéro de ligne si possible</li>
-<li><strong>Analyse</strong> : nomme le procédé (métaphore, oxymore, anaphore, champ lexical…)</li>
-<li><strong>Interprétation</strong> : "Cela crée un effet de… / Le lecteur ressent… / L'auteur cherche à…"</li>
-<li>Fais une <strong>transition</strong> entre chaque axe : "Après avoir vu X, intéressons-nous maintenant à Y…"</li>
-</ul>
-
+<p><strong>2. Triangle rectangle en A ?</strong></p>
 <div class="formula-box">
-<strong>🔑 Le schéma ICIA à appliquer à chaque exemple :</strong><br>
-<strong>I</strong>dée — <strong>C</strong>itation — <strong>I</strong>nterprétation — <strong>A</strong>nalyse du procédé
+$\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = 4 \\times 2 + 2 \\times 4 = 8 + 8 = 16$
+</div>
+<p>Le produit scalaire vaut 16 ≠ 0, donc <strong>le triangle n'est pas rectangle en A</strong>.</p>
+
+<p><strong>3. Calcul de l'angle $\\widehat{BAC}$ :</strong></p>
+<div class="formula-box">
+$|\\overrightarrow{AB}| = \\sqrt{16+4} = \\sqrt{20} = 2\\sqrt{5}$<br>
+$|\\overrightarrow{AC}| = \\sqrt{4+16} = \\sqrt{20} = 2\\sqrt{5}$<br><br>
+$\\cos(\\widehat{BAC}) = \\dfrac{16}{2\\sqrt{5} \\times 2\\sqrt{5}} = \\dfrac{16}{4 \\times 5} = \\dfrac{16}{20} = 0{,}8$<br><br>
+$\\widehat{BAC} = \\arccos(0{,}8) \\approx 36{,}9°$
+</div>
+<p>Le triangle ABC est isocèle en A (AB = AC = $2\\sqrt{5}$) avec un angle de sommet d'environ 37°.</p>
+</div>`
+},
+{
+  niveau: 'Difficile',
+  enonce: `<p>Dans un repère orthonormé, on considère le cercle $\\mathcal{C}$ de diamètre [AB] avec A$(-1 ; 2)$ et B$(3 ; -2)$.</p>
+<ol>
+<li>Trouver le centre et le rayon du cercle.</li>
+<li>Montrer que le point M$(3 ; 2)$ est sur le cercle.</li>
+<li>Vérifier en utilisant le produit scalaire $\\overrightarrow{MA} \\cdot \\overrightarrow{MB}$.</li>
+</ol>`,
+  aide: `<p>Le centre est le milieu de [AB]. Le rayon est la moitié de AB. Pour la condition cercle : M sur cercle de diamètre [AB] ⟺ $\\overrightarrow{MA}\\cdot\\overrightarrow{MB} = 0$.</p>`,
+  correction: `<div>
+<p><strong>1. Centre et rayon :</strong></p>
+<div class="formula-box">
+Centre $\\Omega$ = milieu de [AB] = $\\left(\\dfrac{-1+3}{2} ; \\dfrac{2-2}{2}\\right) = (1 ; 0)$<br><br>
+$AB = \\sqrt{(3-(-1))^2 + (-2-2)^2} = \\sqrt{16+16} = \\sqrt{32} = 4\\sqrt{2}$<br>
+Rayon $r = \\dfrac{AB}{2} = 2\\sqrt{2}$
 </div>
 
-<h3>ÉTAPE 5 — La Conclusion</h3>
-<ul>
-<li><strong>Bilan</strong> : résume en 2-3 phrases ce que tu as montré (réponds à la problématique)</li>
-<li><strong>Ouverture</strong> : élargis vers un autre texte, un autre auteur, un thème plus large<br>Exemples : "Ce texte fait écho à… / On retrouve ce procédé chez… / Cette question se pose aussi dans…"</li>
-</ul>
+<p><strong>2. M$(3;2)$ est-il sur le cercle ?</strong></p>
+<div class="formula-box">
+$\\Omega M = \\sqrt{(3-1)^2 + (2-0)^2} = \\sqrt{4+4} = \\sqrt{8} = 2\\sqrt{2}$
+</div>
+<p>$\\Omega M = 2\\sqrt{2} = r$, donc <strong>M est bien sur le cercle ✓</strong></p>
 
-<h3>Les figures de style INDISPENSABLES à connaître</h3>
-<ul>
-<li><strong>Métaphore</strong> : comparaison sans "comme" — "La vie est un voyage"</li>
-<li><strong>Comparaison</strong> : avec "comme", "tel", "ainsi que"</li>
-<li><strong>Oxymore</strong> : deux mots contradictoires — "obscure clarté"</li>
-<li><strong>Antithèse</strong> : opposition de deux idées dans des propositions distinctes</li>
-<li><strong>Anaphore</strong> : répétition en début de phrases — crée un rythme, une insistance</li>
-<li><strong>Hyperbole</strong> : exagération volontaire pour amplifier</li>
-<li><strong>Euphémisme</strong> : atténuation d'une réalité dure — "il dort" pour "il est mort"</li>
-<li><strong>Ironie</strong> : dire le contraire de ce qu'on pense pour dénoncer</li>
-<li><strong>Allitération</strong> : répétition d'une consonne — effet sonore</li>
-<li><strong>Assonance</strong> : répétition d'une voyelle — effet musical</li>
-<li><strong>Champ lexical</strong> : ensemble de mots autour d'un même thème</li>
-<li><strong>Personnification</strong> : donner des traits humains à un objet ou une idée</li>
-</ul>`,
-
+<p><strong>3. Vérification par produit scalaire :</strong></p>
+<div class="formula-box">
+$\\overrightarrow{MA} = (-1-3 ; 2-2) = (-4 ; 0)$<br>
+$\\overrightarrow{MB} = (3-3 ; -2-2) = (0 ; -4)$<br><br>
+$\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = (-4) \\times 0 + 0 \\times (-4) = 0$
+</div>
+<p>Le produit scalaire est nul, donc l'angle $\\widehat{AMB} = 90°$, ce qui confirme que M est sur le cercle de diamètre [AB]. Les deux méthodes concordent.</p>
+</div>`
+}
+],
 flashcards: [
-{q:'Les 4 parties de l\'introduction (ordre)',a:'1. Amorce (contexte large) → 2. Présentation du texte → 3. Problématique → 4. Annonce du plan',score:0,interval:0,ease:2.5,due:null},
-{q:'Schéma ICIA — commentaire',a:'Idée → Citation → Interprétation → Analyse du procédé. À appliquer pour chaque exemple dans le développement.',score:0,interval:0,ease:2.5,due:null},
-{q:'Différence problématique correcte / incorrecte',a:'❌ "De quoi parle le texte ?" (= résumé) ✅ "Comment l\'auteur fait-il de X un moyen de Y ?" (= question sur le COMMENT)',score:0,interval:0,ease:2.5,due:null},
-{q:'Qu\'est-ce qu\'une amorce ?',a:'1re phrase de l\'intro. Situe le texte dans un contexte large : mouvement littéraire, époque, thème universel. NE PAS commencer par "Dans ce texte..."',score:0,interval:0,ease:2.5,due:null},
-{q:'Comment faire une transition entre deux axes ?',a:'"Après avoir montré que [bilan axe 1], nous allons voir que [annonce axe 2]." Une phrase suffit.',score:0,interval:0,ease:2.5,due:null},
-{q:'Oxymore — définition + exemple',a:'Deux mots contradictoires associés. Ex : "obscure clarté" (Corneille), "trou de verdure" (Rimbaud — espace fermé dans l\'ouvert).',score:0,interval:0,ease:2.5,due:null},
-{q:'Euphémisme — définition + exemple bac',a:'Atténuation d\'une réalité dure. Ex : "il dort" pour dire qu\'il est mort dans Le Dormeur du val. Crée un effet de chute quand la vérité est révélée.',score:0,interval:0,ease:2.5,due:null},
-{q:'Anaphore — définition + effet',a:'Répétition d\'un mot ou groupe en début de phrases/vers. Crée un rythme, une insistance, une emphase. Effet incantatoire.',score:0,interval:0,ease:2.5,due:null},
-{q:'Gestion du temps — commentaire 2h',a:'15 min lecture/annotation → 20 min brouillon axes → 10 min intro brouillon → 70 min rédaction → 5 min conclusion + relecture',score:0,interval:0,ease:2.5,due:null},
-{q:'Comment terminer une conclusion ?',a:'Bilan (réponse à la problématique) + Ouverture (autre texte, autre auteur, question plus large). Ne jamais finir par "En conclusion, nous avons vu que..."',score:0,interval:0,ease:2.5,due:null},
+{q:'Produit scalaire — formule coordonnées',a:'$\\vec{u}(x_1;y_1)\\cdot\\vec{v}(x_2;y_2) = x_1 x_2 + y_1 y_2$. Résultat = un nombre.',score:0,interval:0,ease:2.5,due:null},
+{q:'Perpendicularité et produit scalaire',a:'$\\vec{u}\\perp\\vec{v} \\Leftrightarrow \\vec{u}\\cdot\\vec{v}=0$. Condition nécessaire ET suffisante.',score:0,interval:0,ease:2.5,due:null},
+{q:'Calculer un angle avec le produit scalaire',a:'$\\cos\\theta = \\frac{\\vec{u}\\cdot\\vec{v}}{|\\vec{u}||\\vec{v}|}$ puis $\\theta = \\arccos(...)$ à la calculatrice.',score:0,interval:0,ease:2.5,due:null},
+{q:'Cercle de diamètre [AB] — condition',a:'M sur le cercle $\\Leftrightarrow \\overrightarrow{MA}\\cdot\\overrightarrow{MB}=0$ car angle inscrit dans demi-cercle = 90°.',score:0,interval:0,ease:2.5,due:null},
+{q:'Identité $(\\vec{u}+\\vec{v})^2$',a:'$|\\vec{u}|^2 + 2\\vec{u}\\cdot\\vec{v} + |\\vec{v}|^2$. Même règle que $(a+b)^2$ en algèbre.',score:0,interval:0,ease:2.5,due:null},
 ]};
 
-PREBUILT['Français']['⭐ Méthode de la Dissertation'] = {
-cours: `<h2>📚 Méthode de la Dissertation</h2>
+PREBUILT['Maths Spé']['🚨 Probabilités — Cours complet'] = {
+cours: `<h2>Les Probabilités — Comprendre le hasard</h2>
 
+<h3>Pourquoi les probabilités ?</h3>
+<p>Le hasard existe partout : météo, jeux, médecine, finance. Les probabilités sont l'outil mathématique pour <strong>mesurer l'incertitude</strong> et <strong>prendre des décisions rationnelles</strong> malgré le hasard. Ce n'est pas de la magie — c'est du calcul rigoureux.</p>
+
+<h3>La probabilité conditionnelle — "sachant que"</h3>
+<p>C'est l'idée centrale : si on sait déjà que quelque chose s'est passé, ça change les probabilités du reste.</p>
 <div class="formula-box">
-<strong>⏱️ Gestion du temps (2h)</strong><br>
-20 min — Analyser le sujet + chercher les idées au brouillon<br>
-15 min — Construire le plan détaillé<br>
-10 min — Rédiger l\'intro au brouillon<br>
-70 min — Rédiger le développement<br>
-5 min — Conclusion + relecture rapide
+$$P(B|A) = \\frac{P(A \\cap B)}{P(A)}$$
+<em>Se lit : "probabilité de B sachant que A est réalisé"</em>
+</div>
+<p><strong>Exemple concret :</strong> Un sac contient 3 boules rouges et 2 bleues. On tire une boule sans la remettre, puis une deuxième. Quelle est la probabilité que la 2e soit rouge <em>sachant que</em> la 1re était rouge ?<br>
+Après avoir tiré une rouge, il reste 2 rouges sur 4 boules : $P(\text{rouge}_2 | \text{rouge}_1) = \\frac{2}{4} = 0{,}5$</p>
+
+<h3>La formule des probabilités totales — "partager les cas"</h3>
+<p>Quand un événement peut se produire via plusieurs "chemins", on additionne les probabilités de chaque chemin.</p>
+<div class="formula-box">
+Si A et $\\bar{A}$ forment une partition de l'univers (l'un ou l'autre se passe forcément) :<br><br>
+$$P(B) = P(B|A) \\times P(A) + P(B|\\bar{A}) \\times P(\\bar{A})$$
+</div>
+<p><strong>Exemple :</strong> Une usine a deux lignes de production. La ligne 1 produit 60% des pièces avec 2% de défauts. La ligne 2 produit 40% avec 5% de défauts. Quelle est la probabilité qu'une pièce soit défectueuse ?<br>
+$P(D) = P(D|L_1)P(L_1) + P(D|L_2)P(L_2) = 0{,}02 \\times 0{,}6 + 0{,}05 \\times 0{,}4 = 0{,}012 + 0{,}02 = 0{,}032$</p>
+
+<h3>L'indépendance — quand le passé ne change rien</h3>
+<div class="formula-box">
+A et B sont indépendants $\\Leftrightarrow P(A \\cap B) = P(A) \\times P(B)$
+</div>
+<p>Autrement dit : savoir que A s'est passé ne change pas la probabilité de B. Ex : deux lancers de dé successifs — le résultat du premier ne change pas les chances du second.</p>
+
+<h3>Variable aléatoire — "mettre des nombres sur le hasard"</h3>
+<p>Une variable aléatoire X associe un nombre à chaque issue d'une expérience. On décrit X par son tableau de probabilités :</p>
+<div class="formula-box">
+Condition impérative : $\\sum p_i = 1$ (toutes les probabilités font 100%)
 </div>
 
-<h3>ÉTAPE 1 — Analyser le sujet</h3>
-<ul>
-<li><strong>Lis le sujet 3 fois</strong> en soulignant chaque mot important</li>
-<li>Définir les <strong>mots-clés</strong> : qu\'est-ce que ça veut dire exactement ?</li>
-<li>Repérer le <strong>type de sujet</strong> :<br>
-— Sujet <strong>fermé</strong> : "La poésie doit-elle être engagée ?" → thèse / antithèse / synthèse<br>
-— Sujet <strong>ouvert</strong> : "En quoi la poésie est-elle un acte de liberté ?" → 3 angles différents</li>
-<li>Reformule le sujet en une question claire avec tes propres mots</li>
-</ul>
-
-<h3>ÉTAPE 2 — Trouver tes arguments et exemples</h3>
-<ul>
-<li>Note <strong>TOUT</strong> ce qui te vient sans filtrer : auteurs, textes, idées, souvenirs de cours</li>
-<li>Pour chaque idée, cherche <strong>un exemple précis</strong> : un texte étudié, une citation, une œuvre</li>
-<li>Regroupe tes idées en <strong>2 ou 3 grandes familles</strong> → ce seront tes parties</li>
-<li>Règle d\'or : <strong>jamais d\'argument sans exemple</strong>, jamais d\'exemple sans analyse</li>
-</ul>
-
-<h3>ÉTAPE 3 — Le Plan (3 types possibles)</h3>
-
+<h3>L'espérance — la moyenne à long terme</h3>
 <div class="formula-box">
-<strong>Plan dialectique</strong> (le plus courant — sujet avec "Pensez-vous que…", "Dans quelle mesure…")<br>
-I. Thèse (oui, parce que…)<br>
-II. Antithèse (mais en réalité / cependant…)<br>
-III. Synthèse / Dépassement (en fait, la vérité est plus nuancée…)
+$$E(X) = \\sum x_i \\times p_i = x_1 p_1 + x_2 p_2 + \\ldots$$
 </div>
+<p><strong>Intuition :</strong> si tu répètes l'expérience un très grand nombre de fois, la moyenne des résultats se rapprochera de E(X). C'est la "valeur attendue".<br>
+<strong>Exemple :</strong> un jeu de dé normal. X = résultat. $E(X) = 1 \\times \\frac{1}{6} + 2 \\times \\frac{1}{6} + \\ldots + 6 \\times \\frac{1}{6} = \\frac{21}{6} = 3{,}5$</p>
 
+<h3>La Loi Binomiale — répéter une expérience simple</h3>
+<p><strong>Contexte :</strong> tu répètes n fois la même expérience avec deux issues (succès/échec), chaque fois indépendamment. X = nombre total de succès.</p>
 <div class="formula-box">
-<strong>Plan thématique</strong> (sujet ouvert — "En quoi…", "Comment…")<br>
-I. Premier angle / première dimension du sujet<br>
-II. Deuxième angle / deuxième dimension<br>
-III. Troisième angle (si besoin)
+$$X \\sim B(n, p) \\implies P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}$$
+<br>
+$E(X) = np$ — $\\sigma(X) = \\sqrt{np(1-p)}$
 </div>
+<p><strong>Le coefficient $\\binom{n}{k}$</strong> (lire "k parmi n") compte le nombre de façons de choisir k succès parmi n essais. Sur la calculatrice : touche <strong>nCr</strong> ou <strong>combinaison(n,k)</strong>.</p>
+<p><strong>Exemple :</strong> On lance 10 fois une pièce équilibrée. Quelle est la probabilité d'obtenir exactement 3 faces ?<br>
+$P(X=3) = \\binom{10}{3} \\times (0{,}5)^3 \\times (0{,}5)^7 = 120 \\times (0{,}5)^{10} = \\frac{120}{1024} \\approx 0{,}117$</p>
 
-<div class="formula-box">
-<strong>Plan analytique</strong> (rare au bac)<br>
-I. Description / constat<br>
-II. Explication / causes<br>
-III. Conséquences / solutions
-</div>
-
-<h3>ÉTAPE 4 — L\'Introduction</h3>
+<h3>Vérifier les 4 conditions de la loi binomiale</h3>
 <ul>
-<li><strong>Accroche</strong> : citation, fait historique, question rhétorique — quelque chose qui donne envie de lire</li>
-<li><strong>Contextualisation</strong> : présenter le thème, l\'œuvre au programme concernée</li>
-<li><strong>Reformulation du sujet</strong> : reposer la question avec tes mots</li>
-<li><strong>Problématique</strong> : la tension, le paradoxe, la vraie question derrière le sujet</li>
-<li><strong>Annonce du plan</strong> : "Dans un premier temps… puis… enfin…"</li>
-</ul>
-
-<h3>ÉTAPE 5 — Le Développement</h3>
-<ul>
-<li>Chaque partie = <strong>2 ou 3 sous-parties</strong></li>
-<li>Structure d\'une sous-partie : <strong>Argument → Exemple → Analyse → Mini-conclusion</strong></li>
-<li><strong>Les exemples obligatoires</strong> : toujours citer les textes du corpus/programme :<br>
-— Le titre de l\'œuvre + l\'auteur<br>
-— Une citation précise si possible<br>
-— Ce que ça prouve par rapport à ton argument</li>
-<li><strong>Transitions</strong> entre parties : bilan de ce qui vient d\'être montré + annonce de ce qui suit</li>
-</ul>
-
-<blockquote>Exemple de transition : "Ainsi, nous avons vu que la poésie peut être un outil de dénonciation politique. Cependant, réduire la poésie à cette seule fonction serait oublier sa dimension intime et personnelle, que nous allons maintenant explorer."</blockquote>
-
-<h3>ÉTAPE 6 — La Conclusion</h3>
-<ul>
-<li><strong>Bilan synthétique</strong> : rappel des 3 grandes étapes de ton raisonnement en 3 phrases max</li>
-<li><strong>Réponse claire</strong> à la problématique posée en introduction</li>
-<li><strong>Ouverture</strong> : une question plus large, un autre auteur, un autre art (cinéma, peinture…)</li>
-</ul>
-
-<h3>🚨 Les erreurs à éviter absolument</h3>
-<ul>
-<li>❌ <strong>Raconter l\'histoire</strong> au lieu d\'analyser → toujours relier à la question</li>
-<li>❌ <strong>Donner son avis personnel</strong> sans l\'étayer — "Je pense que c\'est bien car…"</li>
-<li>❌ <strong>Partir sans plan</strong> — même un mauvais plan vaut mieux que l\'improvisation</li>
-<li>❌ <strong>Introduire de nouveaux arguments en conclusion</strong></li>
-<li>❌ <strong>Oublier les exemples</strong> — chaque argument DOIT s\'appuyer sur un texte</li>
-<li>✅ <strong>Même si tu bloques</strong> : un plan en 2 parties solides vaut mieux qu\'un plan 3 parties bancal</li>
-</ul>
-
-<h3>💡 Les textes à mobiliser en priorité</h3>
-<ul>
-<li><strong>Poésie engagée / dénonciation</strong> → Le Dormeur du val (Rimbaud), À une passante (Baudelaire)</li>
-<li><strong>Liberté créatrice / émancipation</strong> → Ma Bohême (Rimbaud), Roman (Rimbaud)</li>
-<li><strong>Regard critique sur la société</strong> → Des cannibales (Montaigne), Graffigny (Lettres d\'une Péruvienne)</li>
-<li><strong>Puissance de la parole / mensonge</strong> → Le Menteur (Corneille), Cyrano (Rostand)</li>
-<li><strong>Nature / sensations / mémoire</strong> → Sido (Colette), Les Vrilles de la vigne (Colette)</li>
+<li>✅ Nombre d'essais <strong>fixe et connu</strong> (n)</li>
+<li>✅ Essais <strong>indépendants</strong> les uns des autres</li>
+<li>✅ Deux issues seulement : <strong>succès ou échec</strong></li>
+<li>✅ Probabilité de succès <strong>constante</strong> à chaque essai (p)</li>
 </ul>`,
 
+exercices: [
+{
+  niveau: 'Facile',
+  enonce: `<p>Une urne contient 4 boules rouges (R) et 6 boules bleues (B). On tire deux boules successivement <strong>sans remise</strong>.</p>
+<ol>
+<li>Calculer P(R₁) — probabilité que la 1re boule soit rouge.</li>
+<li>Calculer P(R₂|R₁) — probabilité que la 2e soit rouge sachant que la 1re était rouge.</li>
+<li>Calculer P(R₁ ∩ R₂) — probabilité que les deux soient rouges.</li>
+<li>Calculer P(R₂) en utilisant la formule des probabilités totales.</li>
+</ol>`,
+  aide: `<p>Sans remise = après avoir tiré la 1re boule, elle n'est pas remise dans l'urne. Donc la 2e boule est tirée parmi 9 boules. La formule des proba totales : P(R₂) = P(R₂|R₁)×P(R₁) + P(R₂|B₁)×P(B₁).</p>`,
+  correction: `<div>
+<p><strong>1. P(R₁) :</strong></p>
+<div class="formula-box">$P(R_1) = \\dfrac{4}{10} = 0{,}4$</div>
+
+<p><strong>2. P(R₂|R₁) :</strong> Si la 1re était rouge, il reste 3 rouges sur 9 boules :</p>
+<div class="formula-box">$P(R_2|R_1) = \\dfrac{3}{9} = \\dfrac{1}{3} \\approx 0{,}333$</div>
+
+<p><strong>3. P(R₁ ∩ R₂) :</strong> On multiplie les probabilités le long du chemin :</p>
+<div class="formula-box">$P(R_1 \\cap R_2) = P(R_1) \\times P(R_2|R_1) = \\dfrac{4}{10} \\times \\dfrac{3}{9} = \\dfrac{12}{90} = \\dfrac{2}{15} \\approx 0{,}133$</div>
+
+<p><strong>4. P(R₂) par la formule des probabilités totales :</strong></p>
+<div class="formula-box">
+$P(B_1) = \\frac{6}{10}$ — $P(R_2|B_1) = \\frac{4}{9}$ (si la 1re était bleue, reste 4 rouges sur 9)<br><br>
+$P(R_2) = P(R_2|R_1)\\times P(R_1) + P(R_2|B_1)\\times P(B_1)$<br>
+$= \\frac{1}{3} \\times \\frac{4}{10} + \\frac{4}{9} \\times \\frac{6}{10} = \\frac{4}{30} + \\frac{24}{90} = \\frac{12}{90} + \\frac{24}{90} = \\frac{36}{90} = \\frac{2}{5} = 0{,}4$
+</div>
+<p><strong>Conclusion intéressante :</strong> P(R₂) = P(R₁) = 0,4 ! Sans remise, la probabilité de tirer une rouge est la même au 1er et au 2e tirage. C'est un résultat général : sans remise, tous les tirages ont la même probabilité marginale.</p>
+</div>`
+},
+{
+  niveau: 'Moyen',
+  enonce: `<p>Un QCM a 20 questions. Chaque question a 4 réponses possibles, dont une seule est correcte. Un élève répond <strong>au hasard</strong> à toutes les questions.</p>
+<p>Soit X la variable aléatoire égale au nombre de bonnes réponses.</p>
+<ol>
+<li>Vérifier que X suit une loi binomiale et préciser ses paramètres.</li>
+<li>Calculer P(X = 5) (arrondir à 10⁻³).</li>
+<li>Calculer l'espérance E(X) et interpréter.</li>
+<li>Calculer l'écart-type σ(X).</li>
+</ol>`,
+  aide: `<p>Vérifie les 4 conditions (essais indépendants, 2 issues, n fixe, p constant). Ici p = 1/4. Pour P(X=5), utilise $\\binom{20}{5}\\times(0{,}25)^5\\times(0{,}75)^{15}$.</p>`,
+  correction: `<div>
+<p><strong>1. Loi binomiale :</strong></p>
+<ul>
+<li>✅ n = 20 questions → nombre fixe</li>
+<li>✅ Essais indépendants (chaque réponse ne dépend pas des autres)</li>
+<li>✅ 2 issues : bonne réponse (succès) ou mauvaise (échec)</li>
+<li>✅ p = 1/4 = 0,25 constant à chaque question</li>
+</ul>
+<p>Donc <strong>X ∼ B(20 ; 0,25)</strong></p>
+
+<p><strong>2. P(X = 5) :</strong></p>
+<div class="formula-box">
+$P(X=5) = \\binom{20}{5} \\times (0{,}25)^5 \\times (0{,}75)^{15}$<br><br>
+$\\binom{20}{5} = \\dfrac{20!}{5! \\times 15!} = 15504$<br><br>
+$(0{,}25)^5 = \\dfrac{1}{1024} \\approx 9{,}77 \\times 10^{-4}$<br>
+$(0{,}75)^{15} \\approx 0{,}01336$<br><br>
+$P(X=5) \\approx 15504 \\times 9{,}77\\times10^{-4} \\times 0{,}01336 \\approx \\mathbf{0{,}202}$
+</div>
+
+<p><strong>3. Espérance :</strong></p>
+<div class="formula-box">$E(X) = np = 20 \\times 0{,}25 = \\mathbf{5}$</div>
+<p><strong>Interprétation :</strong> En répondant au hasard, l'élève obtient en moyenne 5 bonnes réponses sur 20, soit 25% — ce qui correspond bien à la probabilité de tomber juste par hasard sur un QCM à 4 choix.</p>
+
+<p><strong>4. Écart-type :</strong></p>
+<div class="formula-box">
+$V(X) = np(1-p) = 20 \\times 0{,}25 \\times 0{,}75 = 3{,}75$<br>
+$\\sigma(X) = \\sqrt{3{,}75} \\approx \\mathbf{1{,}94}$
+</div>
+<p>L'écart-type de ~2 signifie qu'en répondant au hasard, on obtiendra typiquement entre 3 et 7 bonnes réponses (E(X) ± σ).</p>
+</div>`
+},
+{
+  niveau: 'Difficile',
+  enonce: `<p>Dans une région, 30% des habitants ont le groupe sanguin A. On prélève un échantillon de 50 personnes.</p>
+<ol>
+<li>Soit X le nombre de personnes de groupe A dans l'échantillon. Quelle est la loi de X ?</li>
+<li>Calculer P(X ≤ 10) à l'aide de la calculatrice.</li>
+<li>Calculer P(12 ≤ X ≤ 18).</li>
+<li>On cherche le plus petit entier n tel que P(X ≤ n) ≥ 0,9. Trouver n.</li>
+</ol>`,
+  aide: `<p>X ∼ B(50 ; 0,3). Sur la calculatrice : binomcdf(n, p, k) donne P(X ≤ k). P(12 ≤ X ≤ 18) = P(X ≤ 18) - P(X ≤ 11).</p>`,
+  correction: `<div>
+<p><strong>1. Loi de X :</strong> Les 4 conditions sont vérifiées (n=50 fixe, p=0,3 constant, 2 issues, indépendance supposée). Donc <strong>X ∼ B(50 ; 0,3)</strong>.</p>
+<p>E(X) = 50 × 0,3 = 15 personnes attendues de groupe A.</p>
+
+<p><strong>2. P(X ≤ 10) :</strong></p>
+<div class="formula-box">
+À la calculatrice : binomcdf(50, 0.3, 10)<br>
+$P(X \\leq 10) \\approx \\mathbf{0{,}0848}$
+</div>
+<p>Il y a environ 8,5% de chances d'avoir 10 personnes ou moins de groupe A dans l'échantillon.</p>
+
+<p><strong>3. P(12 ≤ X ≤ 18) :</strong></p>
+<div class="formula-box">
+$P(12 \\leq X \\leq 18) = P(X \\leq 18) - P(X \\leq 11)$<br>
+$= \\text{binomcdf}(50, 0.3, 18) - \\text{binomcdf}(50, 0.3, 11)$<br>
+$\\approx 0{,}8594 - 0{,}1611 = \\mathbf{0{,}698}$
+</div>
+<p>Il y a environ 70% de chances d'avoir entre 12 et 18 personnes de groupe A — ce qui illustre que les valeurs proches de l'espérance (15) sont les plus probables.</p>
+
+<p><strong>4. Plus petit n tel que P(X ≤ n) ≥ 0,9 :</strong></p>
+<div class="formula-box">
+On calcule binomcdf(50, 0.3, n) pour n croissant :<br>
+P(X ≤ 18) ≈ 0,859 < 0,9<br>
+P(X ≤ 19) ≈ 0,910 ≥ 0,9<br><br>
+Donc <strong>n = 19</strong>
+</div>
+<p>Il faut avoir au moins 19 comme seuil pour être sûr à 90% de ne pas le dépasser.</p>
+</div>`
+}
+],
 flashcards: [
-{q:'Les 5 parties de l\'intro en dissertation',a:'1. Accroche → 2. Contextualisation → 3. Reformulation du sujet → 4. Problématique → 5. Annonce du plan',score:0,interval:0,ease:2.5,due:null},
-{q:'Plan dialectique — structure',a:'I. Thèse (oui) → II. Antithèse (mais…) → III. Synthèse/Dépassement (en réalité, c\'est plus nuancé…)',score:0,interval:0,ease:2.5,due:null},
-{q:'Plan thématique — quand l\'utiliser ?',a:'Pour les sujets ouverts : "En quoi…", "Comment…", "Dans quelle mesure…". 3 angles différents du même sujet.',score:0,interval:0,ease:2.5,due:null},
-{q:'Structure d\'une sous-partie en dissertation',a:'Argument → Exemple (titre + auteur + citation si possible) → Analyse → Mini-conclusion',score:0,interval:0,ease:2.5,due:null},
-{q:'Règle d\'or de la dissertation',a:'Jamais d\'argument sans exemple. Jamais d\'exemple sans analyse. Tout doit être relié à la question.',score:0,interval:0,ease:2.5,due:null},
-{q:'Comment faire une ouverture en conclusion ?',a:'Poser une question plus large, évoquer un autre auteur, un autre art (cinéma, peinture), ou une problématique contemporaine liée au thème.',score:0,interval:0,ease:2.5,due:null},
-{q:'Erreur n°1 à éviter en dissertation',a:'Raconter l\'histoire / résumer l\'œuvre au lieu d\'argumenter. Tout doit répondre à la question posée.',score:0,interval:0,ease:2.5,due:null},
-{q:'Texte à citer pour "poésie engagée"',a:'Le Dormeur du val de Rimbaud (dénonciation de la guerre) + À une passante de Baudelaire (modernité, beauté éphémère).',score:0,interval:0,ease:2.5,due:null},
-{q:'Texte à citer pour "regard critique sur la société"',a:'Montaigne, Des cannibales (relativisme culturel, critique du colonialisme) + Graffigny, Lettres d\'une Péruvienne (condition féminine).',score:0,interval:0,ease:2.5,due:null},
-{q:'Gestion du temps — dissertation 2h',a:'20 min analyse sujet + idées → 15 min plan → 10 min intro brouillon → 70 min rédaction → 5 min conclusion + relecture',score:0,interval:0,ease:2.5,due:null},
-{q:'Que faire si on bloque complètement ?',a:'Un plan en 2 parties solides vaut mieux qu\'un plan 3 parties bancal. L\'essentiel : avoir une problématique + des exemples précis.',score:0,interval:0,ease:2.5,due:null},
+{q:'Loi binomiale — les 4 conditions',a:'1. n essais fixe. 2. Indépendants. 3. Deux issues (succès/échec). 4. p constante. Si une condition manque, ce n\'est pas une loi binomiale.',score:0,interval:0,ease:2.5,due:null},
+{q:'E(X) et σ(X) pour B(n,p)',a:'E(X) = np (valeur moyenne attendue). σ(X) = √(np(1-p)) (dispersion typique autour de la moyenne).',score:0,interval:0,ease:2.5,due:null},
+{q:'P(B|A) — probabilité conditionnelle',a:'P(B|A) = P(A∩B)/P(A). Probabilité de B sachant que A est réalisé. Le dénominateur est P(A), pas 1.',score:0,interval:0,ease:2.5,due:null},
+{q:'Formule des probabilités totales',a:'P(B) = P(B|A)×P(A) + P(B|Ā)×P(Ā). On "partage" selon tous les chemins possibles vers B.',score:0,interval:0,ease:2.5,due:null},
 ]};
+
+PREBUILT['Maths Spé']['Suites — Cours complet'] = {
+cours: `<h2>Les Suites Numériques — L'art des séquences</h2>
+
+<h3>Qu'est-ce qu'une suite ?</h3>
+<p>Une suite, c'est simplement une liste ordonnée de nombres : $u_0, u_1, u_2, u_3, \\ldots$ On les calcule souvent l'un après l'autre selon une règle. Cette règle peut être :</p>
+<ul>
+<li><strong>Explicite</strong> : une formule qui donne $u_n$ directement en fonction de n. Ex : $u_n = 3n + 1$. On peut calculer $u_{100}$ sans calculer tous les termes avant.</li>
+<li><strong>Par récurrence</strong> : on définit $u_{n+1}$ en fonction de $u_n$. On doit calculer terme par terme.</li>
+</ul>
+
+<h3>Suite arithmétique — "on ajoute toujours la même chose"</h3>
+<p>Chaque terme s'obtient en ajoutant une constante r (la <strong>raison</strong>) au terme précédent. Penser à un escalier dont les marches ont toujours la même hauteur.</p>
+<div class="formula-box">
+$u_{n+1} = u_n + r$ (définition par récurrence)<br><br>
+$u_n = u_0 + n \\times r$ (formule explicite — la plus utile !)<br><br>
+$S = u_0 + u_1 + \\ldots + u_n = (n+1) \\times \\dfrac{u_0 + u_n}{2}$<br>
+<em>= nombre de termes × moyenne du premier et du dernier</em>
+</div>
+<p><strong>Exemple :</strong> Les multiples de 5 : 0, 5, 10, 15, 20... C'est une suite arithmétique de raison r = 5 et $u_0 = 0$. Donc $u_n = 5n$. Le 100e terme (n=99) est $u_{99} = 5 \\times 99 = 495$.</p>
+
+<h3>Suite géométrique — "on multiplie toujours par la même chose"</h3>
+<p>Chaque terme s'obtient en multipliant par une constante q (la <strong>raison</strong>) le terme précédent. Penser à un placement bancaire avec intérêts composés — chaque année le capital est multiplié par (1 + taux).</p>
+<div class="formula-box">
+$u_{n+1} = u_n \\times q$ (définition par récurrence)<br><br>
+$u_n = u_0 \\times q^n$ (formule explicite)<br><br>
+$S = u_0 + u_1 + \\ldots + u_{n-1} = u_0 \\times \\dfrac{1 - q^n}{1 - q}$ (si $q \\neq 1$)
+</div>
+<p><strong>Exemple placement :</strong> Tu places 1000€ à 3% par an. Après n années : $u_n = 1000 \\times (1{,}03)^n$. Après 10 ans : $u_{10} = 1000 \\times (1{,}03)^{10} \\approx 1344€$.</p>
+
+<h3>Comportement à l'infini — que se passe-t-il quand n grandit ?</h3>
+<ul>
+<li>Suite arithmétique : si $r > 0$, la suite tend vers $+\\infty$. Si $r < 0$, vers $-\\infty$.</li>
+<li>Suite géométrique :<br>
+  — Si $|q| < 1$ : $q^n \\to 0$ (la suite "s'écrase" vers 0)<br>
+  — Si $q > 1$ : $q^n \\to +\\infty$ (croissance exponentielle)<br>
+  — Si $q = -1$ : la suite alterne entre deux valeurs, pas de limite</li>
+</ul>
+
+<h3>Le raisonnement par récurrence — "domino mathématique"</h3>
+<p>Imagine des dominos alignés. Si tu prouves que le premier tombe ET que chaque domino fait tomber le suivant, alors tous tombent. C'est exactement la récurrence.</p>
+<ul>
+<li><strong>Initialisation :</strong> vérifier la propriété pour n = 0 (ou n = 1). C'est "le premier domino tombe".</li>
+<li><strong>Hérédité :</strong> supposer la propriété vraie pour un rang n quelconque (hypothèse de récurrence), puis démontrer qu'elle est vraie au rang n+1. C'est "chaque domino fait tomber le suivant".</li>
+<li><strong>Conclusion :</strong> par le principe de récurrence, la propriété est vraie pour tout entier n ≥ 0.</li>
+</ul>`,
+exercices: [
+{
+  niveau: 'Facile',
+  enonce: `<p>Une suite arithmétique vérifie $u_0 = 7$ et $u_1 = 11$.</p>
+<ol>
+<li>Calculer la raison r.</li>
+<li>Donner la formule explicite de $u_n$.</li>
+<li>Calculer $u_{20}$.</li>
+<li>Calculer la somme $S = u_0 + u_1 + \\ldots + u_{20}$.</li>
+</ol>`,
+  aide: `<p>La raison r = u₁ - u₀. Formule : uₙ = u₀ + n×r. Somme = nombre de termes × (premier + dernier)/2.</p>`,
+  correction: `<div>
+<p><strong>1. Raison :</strong></p>
+<div class="formula-box">$r = u_1 - u_0 = 11 - 7 = 4$</div>
+
+<p><strong>2. Formule explicite :</strong></p>
+<div class="formula-box">$u_n = u_0 + n \\times r = 7 + 4n$</div>
+
+<p><strong>3. $u_{20}$ :</strong></p>
+<div class="formula-box">$u_{20} = 7 + 4 \\times 20 = 7 + 80 = \\mathbf{87}$</div>
+
+<p><strong>4. Somme de $u_0$ à $u_{20}$ (21 termes) :</strong></p>
+<div class="formula-box">
+$S = 21 \\times \\dfrac{u_0 + u_{20}}{2} = 21 \\times \\dfrac{7 + 87}{2} = 21 \\times 47 = \\mathbf{987}$
+</div>
+</div>`
+},
+{
+  niveau: 'Moyen',
+  enonce: `<p>Un capital de 2000€ est placé à intérêts composés au taux annuel de 2,5%.</p>
+<ol>
+<li>Exprimer $u_n$ le capital après n années.</li>
+<li>Après combien d'années le capital dépasse-t-il 2500€ ?</li>
+<li>Quelle est la nature de la suite $(u_n)$ ?</li>
+</ol>`,
+  aide: `<p>Chaque année le capital est multiplié par 1,025. C'est une suite géométrique. Pour trouver l'année, résoudre 2000×(1,025)ⁿ > 2500, soit (1,025)ⁿ > 1,25. Utiliser ln ou tâtonner.</p>`,
+  correction: `<div>
+<p><strong>1. Expression de $u_n$ :</strong></p>
+<div class="formula-box">$u_n = 2000 \\times (1{,}025)^n$</div>
+
+<p><strong>2. Quand $u_n > 2500$ ?</strong></p>
+<div class="formula-box">
+$2000 \\times (1{,}025)^n > 2500$<br>
+$(1{,}025)^n > 1{,}25$<br><br>
+En prenant le logarithme : $n \\times \\ln(1{,}025) > \\ln(1{,}25)$<br>
+$n > \\dfrac{\\ln(1{,}25)}{\\ln(1{,}025)} = \\dfrac{0{,}2231}{0{,}02469} \\approx 9{,}04$
+</div>
+<p>Donc à partir de <strong>n = 10</strong> (après 10 ans), le capital dépasse 2500€.<br>
+Vérification : $u_{10} = 2000 \\times (1{,}025)^{10} \\approx 2000 \\times 1{,}2801 \\approx 2560€$ ✓</p>
+
+<p><strong>3. Nature de la suite :</strong></p>
+<p>$(u_n)$ est une suite <strong>géométrique</strong> de premier terme $u_0 = 2000$ et de raison $q = 1{,}025$. Comme q > 1, la suite est croissante et tend vers $+\\infty$ : le capital croît indéfiniment (croissance exponentielle).</p>
+</div>`
+}
+],
+flashcards: [
+{q:'Formule explicite — suite arithmétique',a:'$u_n = u_0 + n \\times r$. La raison r = $u_{n+1} - u_n$ (constante).',score:0,interval:0,ease:2.5,due:null},
+{q:'Formule explicite — suite géométrique',a:'$u_n = u_0 \\times q^n$. La raison q = $u_{n+1}/u_n$ (constante).',score:0,interval:0,ease:2.5,due:null},
+{q:'Somme suite arithmétique',a:'S = nb de termes × (premier + dernier) / 2.',score:0,interval:0,ease:2.5,due:null},
+{q:'Comportement de $q^n$ si |q| < 1',a:'$q^n \\to 0$ quand $n \\to +\\infty$. Ex : $(0,5)^n \\to 0$.',score:0,interval:0,ease:2.5,due:null},
+]};
+

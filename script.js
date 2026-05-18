@@ -1,159 +1,3 @@
-
-// ════════════════════════════════════════════════════════════
-// COURS RENDERER — Transforme le HTML en fiches visuelles
-// ════════════════════════════════════════════════════════════
-function renderCoursVisuel(html) {
-    const cfg = CFG.find(c => c.name === curSubject) || {cls:'fr', icon:'📝', name:''};
-    const subjClass = cfg.cls || 'fr';
-    const ch = (db[curSubject] && db[curSubject][curChapter]) || {};
-    const cards = ch.flashcards || [];
-    const mastered = cards.filter(c => (c.interval||0) >= 7).length;
-    const pct = cards.length ? Math.round(mastered / cards.length * 100) : 0;
-
-    if (!html || !html.trim()) {
-        return `<div class="cv-empty"><div class="cv-empty-icon">📄</div><p>Aucun cours pour l'instant.<br>Clique sur <strong>✏️ Éditer</strong> pour en créer un.</p></div>`;
-    }
-
-    function getSectionType(label) {
-        const l = label.toLowerCase();
-        if (/analogie|comparaison|métaphore|allégorie|personnif|métonymie|périphrase/.test(l)) return 'analogie';
-        if (/insistance|répétition|amplification|anaphore|épiphore|gradation|hyperbole|accumulation/.test(l)) return 'insistance';
-        if (/atténuation|euphémis|litote/.test(l)) return 'attenu';
-        if (/opposition|contraire|antithèse|paradox|oxymore/.test(l)) return 'oppos';
-        if (/son|allitér|assonance|rythme|musique/.test(l)) return 'sonore';
-        if (/formule|théorème|loi|propriété|démonstr/.test(l)) return 'formule';
-        if (/exemple|application|exercice/.test(l)) return 'exemple';
-        if (/siècle|époque|période|mouvement|contexte/.test(l)) return 'epoque';
-        if (/auteur|écrivain|poète|philosophe|biograph/.test(l)) return 'auteur';
-        if (/axe|lecture|commentaire|analyse|problémati/.test(l)) return 'axe';
-        if (/définition|généralité|introduction|rappel|essentiel/.test(l)) return 'def';
-        return 'generic';
-    }
-
-    const tmp = document.createElement('div');
-    tmp.innerHTML = html;
-    const nodes = [...tmp.childNodes];
-
-    let out = '';
-    let curSection = null;
-    let curCards = [];
-
-    function flushSection() {
-        if (!curSection) return;
-        const type = getSectionType(curSection);
-        out += `<div class="cv-section">
-            <div class="cv-section-label cv-label-${type}">${curSection}</div>
-            <div class="cv-cards">${curCards.join('')}</div>
-        </div>`;
-        curSection = null;
-        curCards = [];
-    }
-
-    function makeCard(li) {
-        const strong = li.querySelector('strong, b');
-        const term = strong ? strong.textContent.trim() : '';
-        const em = li.querySelector('em, i');
-        const example = em ? em.textContent.trim() : '';
-        const clone = li.cloneNode(true);
-        ['strong','b','em','i'].forEach(t => { const el = clone.querySelector(t); if(el) el.remove(); });
-        const def = clone.textContent.replace(/^[\s:·–—-]+/, '').trim();
-        const type = curSection ? getSectionType(curSection) : 'generic';
-        const tagMap = {analogie:'tag-analogie',insistance:'tag-insistance',attenu:'tag-attenu',oppos:'tag-oppos',sonore:'tag-sonore',formule:'tag-formule',generic:'tag-generic'};
-        const tagClass = tagMap[type] || 'tag-generic';
-
-        if (term) {
-            return `<div class="cv-card">
-                <span class="cv-card-tag ${tagClass}">${type}</span>
-                <div class="cv-card-body">
-                    <div class="cv-card-term">${term}</div>
-                    ${def ? `<div class="cv-card-def">${def}</div>` : ''}
-                    ${example ? `<div class="cv-card-ex">"${example}"</div>` : ''}
-                </div>
-            </div>`;
-        } else {
-            return `<div class="cv-bullet">
-                <span class="cv-bullet-dot"></span>
-                <div class="cv-bullet-text">${li.innerHTML}</div>
-            </div>`;
-        }
-    }
-
-    // Build chapter header from first H2 or H3
-    let chapterTitle = curChapter || '';
-    let chapterSub = '';
-    // Find first <p> after first heading for subtitle
-    const firstP = tmp.querySelector('p');
-    if (firstP) {
-        const stripped = firstP.textContent.replace(/<[^>]+>/g,'').trim();
-        if (stripped.length < 160) chapterSub = stripped;
-    }
-
-    // Chapter header
-    const iconBgClass = `cv-icon-${subjClass}`;
-    out += `<div class="cv-chapter-head">
-        <div class="cv-chapter-icon ${iconBgClass}">${cfg.icon}</div>
-        <div>
-            <div class="cv-chapter-title">${chapterTitle}</div>
-            ${chapterSub ? `<div class="cv-chapter-sub">${chapterSub}</div>` : ''}
-        </div>
-    </div>`;
-
-    let firstPDone = false;
-
-    nodes.forEach(node => {
-        if (node.nodeType === 3) {
-            const t = node.textContent.trim();
-            if (t) { flushSection(); out += `<p class="cv-para">${t}</p>`; }
-            return;
-        }
-        if (node.nodeType !== 1) return;
-        const tag = node.tagName.toLowerCase();
-
-        if (tag === 'h2') {
-            flushSection();
-            out += `<div class="cv-h2">${node.textContent.trim()}</div>`;
-        } else if (tag === 'h3') {
-            flushSection();
-            curSection = node.textContent.trim();
-        } else if (tag === 'ul' || tag === 'ol') {
-            const items = [...node.querySelectorAll('li')];
-            if (curSection) {
-                items.forEach(li => curCards.push(makeCard(li)));
-            } else {
-                out += `<ul class="cv-list">${items.map(li => `<li class="cv-li">${li.innerHTML}</li>`).join('')}</ul>`;
-            }
-        } else if (tag === 'p') {
-            const txt = node.innerHTML.trim();
-            if (!txt) return;
-            // Skip the subtitle p we already used in header
-            if (!firstPDone && chapterSub && node.textContent.trim() === chapterSub) { firstPDone = true; return; }
-            firstPDone = true;
-            flushSection();
-            out += `<p class="cv-para">${txt}</p>`;
-        } else if (tag === 'blockquote') {
-            flushSection();
-            out += `<div class="cv-quote">${node.innerHTML}</div>`;
-        } else if (tag === 'div' && (node.classList.contains('formula-box') || node.classList.contains('info-box'))) {
-            flushSection();
-            out += `<div class="cv-formula">${node.innerHTML}</div>`;
-        } else {
-            flushSection();
-            out += node.outerHTML;
-        }
-    });
-
-    flushSection();
-
-    const progress = cards.length > 0 ? `
-        <div class="cv-progress">
-            <span class="cv-progress-label">Flashcards maîtrisées</span>
-            <div class="cv-progress-bar"><div class="cv-progress-fill" style="width:${pct}%"></div></div>
-            <span class="cv-progress-count">${mastered}/${cards.length}</span>
-        </div>` : '';
-
-    return `<div class="cv-root cv-subj-${subjClass}" id="printable-cours">${out}${progress}</div>`;
-}
-
 /* ============================================================
    BACMASTER v3 — script.js  (moteur de l'application)
    ============================================================ */
@@ -209,9 +53,6 @@ const CFG = [
     {name:'Physique-Chimie', icon:'⚗️', cls:'phy'},
 ];
 
-
-
-
 // ── HELPERS ───────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
 const M  = () => $('main');
@@ -243,39 +84,8 @@ function closeSidebar() {
 function render(html) {
     M().innerHTML = html;
     M().classList.add('animate');
-    setTimeout(()=>M().classList.remove('animate'),300);
+    setTimeout(()=>{ M().classList.remove('animate'); typesetMath(M()); }, 50);
     window.scrollTo(0,0);
-}
-
-
-// ── CUSTOM MODALS ─────────────────────────────────────────────
-function showStopModal(mode) {
-    const labels = { srs:'la session Flashcards', qcm:'le QCM', intensive:'la session Intensive' };
-    showConfirmModal(
-        '⏹️ Arrêter ' + (labels[mode]||'la session') + ' ?',
-        'Ta progression de cette session ne sera pas sauvegardée.',
-        () => { clearInterval(qTimer); if(mode==='qcm') openQCM(); else goSubject(curSubject); }
-    );
-}
-
-function showConfirmModal(title, body, onConfirm) {
-    const existing = document.getElementById('bm-modal');
-    if (existing) existing.remove();
-    const m = document.createElement('div');
-    m.id = 'bm-modal';
-    m.className = 'bm-modal-overlay';
-    m.innerHTML = `
-        <div class="bm-modal-box">
-            <div class="bm-modal-title">${title}</div>
-            <div class="bm-modal-body">${body}</div>
-            <div class="bm-modal-actions">
-                <button class="bm-modal-cancel" onclick="document.getElementById('bm-modal').remove()">Annuler</button>
-                <button class="bm-modal-confirm" id="bm-modal-ok">Confirmer</button>
-            </div>
-        </div>`;
-    document.body.appendChild(m);
-    document.getElementById('bm-modal-ok').onclick = () => { m.remove(); onConfirm(); };
-    requestAnimationFrame(() => m.classList.add('bm-modal-show'));
 }
 
 function goHome() {
@@ -350,6 +160,11 @@ function goSubject(name) {
                 <span class="menu-tile-label">Révision Intensive</span>
                 <span class="menu-tile-sub">Toutes les cartes · veille d'exam</span>
             </button>
+            <button class="menu-tile menu-tile-exo" onclick="openExercices()">
+                <span class="menu-tile-icon">✏️</span>
+                <span class="menu-tile-label">Exercices</span>
+                <span class="menu-tile-sub">Énoncés + corrections</span>
+            </button>
         </div>
     `);
 }
@@ -371,14 +186,16 @@ function goModeChapters(mode) {
             ${chapters.map(ch => {
                 const cards = db[curSubject][ch].flashcards || [];
                 const due   = cards.filter(isDue).length;
-                return `<div class="chcard-big" onclick="curChapter='${esc(ch)}';curTab='${mode}';renderChapter()">
-                    <div class="chcard-big-top">
-                        <div class="chcard-big-name">${ch}</div>
-                        <button class="chcard-big-del" onclick="event.stopPropagation();deleteChapter('${esc(ch)}')" title="Supprimer">🗑️</button>
+                return `<div class="chcard-wrap">
+                    <div class="chcard" onclick="curChapter='${esc(ch)}';curTab='${mode}';renderChapter()">
+                        <div class="chcard-name">${ch}</div>
+                        <div class="chcard-meta">
+                            <span>📋 ${cards.length} mots</span>
+                            ${due > 0 ? `<span style="color:#4f46e5">⏰ ${due} à réviser</span>` : '<span style="color:#059669">✓ À jour</span>'}
+                        </div>
                     </div>
-                    <div class="chcard-big-meta">
-                        <span>📋 ${cards.length} cartes</span>
-                        ${due > 0 ? `<span class="chcard-big-due">⏰ ${due} à réviser</span>` : '<span class="chcard-big-ok">✓ À jour</span>'}
+                    <div class="chcard-crud">
+                        <button class="chcard-del-btn" onclick="deleteChapter('${esc(ch)}')" title="Supprimer">🗑️</button>
                     </div>
                 </div>`;
             }).join('')}
@@ -472,10 +289,12 @@ function renderTabContent() {
     if(!box) return;
     const data = db[curSubject][curChapter];
     if(curTab==='cours') {
-        box.innerHTML = `<div class="cours-print-bar"><button class="bc-btn print-btn" onclick="window.print()">🖨️ Imprimer</button></div>` + renderCoursVisuel(data.cours || '');
-        if (window.MathJax && window.MathJax.typesetPromise) {
-            window.MathJax.typesetPromise([box]).catch(()=>{});
-        }
+        box.innerHTML = `
+            <div class="cours-print-bar">
+                <button class="bc-btn print-btn" onclick="window.print()">🖨️ Imprimer le cours</button>
+            </div>
+            <div class="cours-body" id="printable-cours">${data.cours||'<p style="color:var(--muted)">Aucun cours. Clique sur ✏️ Éditer pour en ajouter un.</p>'}</div>`;
+        typesetMath(box);
     }
     else if(curTab==='edit') {
         box.innerHTML = `
@@ -549,11 +368,9 @@ function renameChapter(oldName) {
 
 function deleteChapter(ch) {
     const n = (db[curSubject][ch].flashcards||[]).length;
-    showConfirmModal(
-        '🗑️ Supprimer ce chapitre ?',
-        `<strong>${ch}</strong> et ses ${n} carte(s) seront définitivement supprimés.`,
-        () => { delete db[curSubject][ch]; save(); goModeChapters(curTab==='voc'?'voc':'cours'); }
-    );
+    if(!confirm(`Supprimer "${ch}" et ses ${n} mot(s) ? Cette action est irréversible.`)) return;
+    delete db[curSubject][ch];
+    save(); goSubject(curSubject);
 }
 
 function fmt(cmd,val=null){ document.execCommand(cmd,false,val); $('editor')&&$('editor').focus(); }
@@ -717,15 +534,13 @@ function startSRS() {
 }
 
 function srsDelay(card,r){
-    // Raté=5min fixe, Dur=15min fixe, Bien=30min fixe
-    // Facile=1h puis double à chaque fois (stocké dans card.easyInterval)
-    const ei=card.easyInterval||60; // minutes
-    function fmt(m){ return m<60 ? m+'min' : Math.round(m/60)+'h'; }
+    const iv=card.interval||0; const e=card.ease||2.5;
+    const d=n=>n+'j';
     switch(r){
-        case'again': return '5min';
-        case'hard':  return '15min';
-        case'good':  return '30min';
-        case'easy':  return fmt(ei);
+        case'again':return '15 min';
+        case'hard': return d(iv===0?1:Math.max(1,Math.round(iv*1.2)));
+        case'good': return d(iv===0?3:Math.max(1,Math.round(iv*e)));
+        case'easy': return d(iv===0?7:Math.max(4,Math.round(iv*e*1.3)));
     }
 }
 
@@ -757,7 +572,7 @@ function renderSRSCard() {
     const s=String(qSecs%60).padStart(2,'0');
     render(`
         <div class="breadcrumb">
-            <button class="bc-btn" onclick="showStopModal('srs')">✕ Arrêter</button>
+            <button class="bc-btn" onclick="if(confirm('Arrêter la session ?')){clearInterval(qTimer);goSubject('${esc(curSubject)}');}">✕ Arrêter</button>
         </div>
         <div class="ws-box">
         <div class="srs-wrap">
@@ -848,48 +663,18 @@ function rateSRS(r){
         return;
     }
 
-    const now=Date.now();
-    const ei=card.easyInterval||60; // minutes pour "Facile" (double à chaque fois)
-    let newDue, newEasyInterval, scoreChange;
+    const iv=card.interval||0; const e=card.ease||2.5;
+    const DAY=86400000; const now=Date.now();
+    let newIv,newEase,newDue;
     switch(r){
-        case'again':
-            // 5 minutes fixes — carte revient tout de suite
-            newDue=now+5*60*1000;
-            newEasyInterval=60; // reset facile à 1h
-            scoreChange=-2;
-            srsAgain.push(srsCur); sessStats.wrong++;
-            break;
-        case'hard':
-            // 15 minutes fixes
-            newDue=now+15*60*1000;
-            newEasyInterval=60; // reset facile à 1h
-            scoreChange=-1;
-            sessDone++; sessStats.wrong++;
-            break;
-        case'good':
-            // 30 minutes fixes
-            newDue=now+30*60*1000;
-            newEasyInterval=ei; // facile reste inchangé
-            scoreChange=1;
-            sessDone++; sessStats.right++;
-            break;
-        case'easy':
-            // 1h puis double à chaque fois (max 30 jours)
-            newDue=now+ei*60*1000;
-            newEasyInterval=Math.min(ei*2, 30*24*60); // double, max 30j
-            scoreChange=2;
-            sessDone++; sessStats.right++;
-            break;
+        case'again':newIv=1;newEase=Math.max(1.3,e-.2);newDue=now+15*60*1000;srsAgain.push(srsCur);sessStats.wrong++;break;
+        case'hard': newIv=iv===0?1:Math.max(1,Math.round(iv*1.2));newEase=Math.max(1.3,e-.15);newDue=now+newIv*DAY;sessDone++;sessStats.wrong++;break;
+        case'good': newIv=iv===0?3:Math.max(1,Math.round(iv*e));newEase=e;newDue=now+newIv*DAY;sessDone++;sessStats.right++;break;
+        case'easy': newIv=iv===0?7:Math.max(4,Math.round(iv*e*1.3));newEase=Math.min(3,e+.15);newDue=now+newIv*DAY;sessDone++;sessStats.right++;break;
     }
     const cards=db[curSubject][ch].flashcards;
     const idx=cards.findIndex(c=>c.q===card.q&&c.a===card.a);
-    if(idx!==-1){
-        cards[idx].due=newDue;
-        cards[idx].easyInterval=newEasyInterval;
-        cards[idx].score=(cards[idx].score||0)+scoreChange;
-        // On garde interval pour compatibilité avec le reste du code
-        cards[idx].interval=r==='easy'?Math.round(newEasyInterval/60/24):0;
-    }
+    if(idx!==-1){cards[idx].interval=newIv;cards[idx].ease=newEase;cards[idx].due=newDue;cards[idx].score=(cards[idx].score||0)+(r==='good'||r==='easy'?1:-1);}
     save(); renderSRSCard();
 }
 
@@ -999,7 +784,7 @@ function renderQCM(){
     const letters=['A','B','C','D'];
     render(`
         <div class="breadcrumb">
-            <button class="bc-btn" onclick="showStopModal('qcm')">✕ Arrêter</button>
+            <button class="bc-btn" onclick="if(confirm('Arrêter le QCM ?')){openQCM();}">✕ Arrêter</button>
         </div>
         <div class="ws-box">
         <div class="qcm-wrap">
@@ -1127,6 +912,250 @@ function doSearch(q) {
                 '</div></div>';
         }).join('');
 }
+
+
+// ── MATHJAX HELPER ────────────────────────────────────────────
+function typesetMath(el) {
+    el = el || document.getElementById('main');
+    if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([el]).catch(e => console.warn('MathJax:', e));
+    }
+}
+
+
+// ── EXERCICES ─────────────────────────────────────────────────
+function openExercices() {
+    clearInterval(qTimer);
+    const chapters = Object.keys(db[curSubject]).filter(ch =>
+        (db[curSubject][ch].exercices || []).length > 0
+    );
+    if (chapters.length === 0) {
+        render(`
+            <div class="breadcrumb">
+                <button class="bc-btn" onclick="goSubject('${esc(curSubject)}')">← ${curSubject}</button>
+            </div>
+            <div class="ws-box" style="text-align:center;padding:40px 20px">
+                <div style="font-size:3rem;margin-bottom:12px">✏️</div>
+                <h3 style="margin-bottom:8px">Pas encore d'exercices</h3>
+                <p style="color:var(--muted)">Les exercices pour ${curSubject} arrivent bientôt !</p>
+                <button class="btn-main" style="margin-top:16px;max-width:220px" onclick="goSubject('${esc(curSubject)}')">← Retour</button>
+            </div>
+        `);
+        return;
+    }
+    render(`
+        <div class="breadcrumb">
+            <button class="bc-btn" onclick="goSubject('${esc(curSubject)}')">← ${curSubject}</button>
+            <span class="bc-sep">›</span>
+            <span class="bc-cur">✏️ Exercices</span>
+        </div>
+        <div class="page-head">
+            <h1>✏️ Exercices — ${curSubject}</h1>
+            <p style="color:var(--muted);font-size:.85rem">Lis l'énoncé, réfléchis, puis regarde la correction</p>
+        </div>
+        <div class="chapters-grid">
+            ${chapters.map(ch => {
+                const exos = db[curSubject][ch].exercices || [];
+                const nF = exos.filter(e=>e.niveau==='Facile').length;
+                const nM = exos.filter(e=>e.niveau==='Moyen').length;
+                const nD = exos.filter(e=>e.niveau==='Difficile').length;
+                return `<div class="chcard" onclick="openExoChapter('${esc(ch)}')">
+                    <div class="chcard-name">${ch}</div>
+                    <div class="chcard-meta">
+                        <span>✏️ ${exos.length} exercice${exos.length>1?'s':''}</span>
+                        ${nF?`<span style="color:#166534">🟢${nF}</span>`:''}
+                        ${nM?`<span style="color:#854d0e">🟡${nM}</span>`:''}
+                        ${nD?`<span style="color:#991b1b">🔴${nD}</span>`:''}
+                    </div>
+                </div>`;
+            }).join('')}
+        </div>
+    `);
+}
+
+let curExoChapter='', curExoIdx=0, exoShowCorrection=false;
+
+function openExoChapter(ch) {
+    curExoChapter=ch; curExoIdx=0; exoShowCorrection=false; renderExo();
+}
+
+function renderExo() {
+    const exos = db[curSubject][curExoChapter].exercices||[];
+    if(!exos.length){openExercices();return;}
+    const exo=exos[curExoIdx], total=exos.length;
+    const pct=Math.round((curExoIdx/total)*100);
+    const niv=(exo.niveau||'Moyen').toLowerCase();
+    const nivEmoji=exo.niveau==='Facile'?'🟢':exo.niveau==='Difficile'?'🔴':'🟡';
+
+    render(`
+        <div class="breadcrumb">
+            <button class="bc-btn" onclick="goSubject('${esc(curSubject)}')">🏠</button>
+            <span class="bc-sep">›</span>
+            <button class="bc-btn" onclick="openExercices()">Exercices</button>
+            <span class="bc-sep">›</span>
+            <span class="bc-cur">${curExoChapter}</span>
+        </div>
+        <div class="exo-progress-bar"><div class="exo-progress-fill" style="width:${pct}%"></div></div>
+        <div style="text-align:right;font-size:.78rem;color:var(--muted);margin-bottom:12px">
+            Exercice ${curExoIdx+1} / ${total}
+        </div>
+        <div class="ws-box exo-box">
+            <div class="exo-niveau exo-niveau-${niv}">${nivEmoji} ${exo.niveau||'Moyen'}</div>
+            <div class="exo-enonce">
+                <div class="exo-label">📋 Énoncé</div>
+                ${exo.enonce}
+            </div>
+            ${exo.aide?`
+            <details class="exo-aide">
+                <summary>💡 Aide — clique si tu bloques</summary>
+                <div class="exo-aide-content">${exo.aide}</div>
+            </details>`:''}
+            ${exoShowCorrection?`
+                <div class="exo-correction">
+                    <div class="exo-label correction-label">✅ Correction détaillée</div>
+                    ${exo.correction}
+                </div>
+                <div class="exo-nav">
+                    ${curExoIdx>0?`<button class="bc-btn" onclick="curExoIdx--;exoShowCorrection=false;renderExo()">← Précédent</button>`:'<span></span>'}
+                    ${curExoIdx<total-1
+                        ?`<button class="btn-main" onclick="curExoIdx++;exoShowCorrection=false;renderExo()">Suivant →</button>`
+                        :`<button class="btn-main" style="background:linear-gradient(135deg,#059669,#10b981)" onclick="openExoResults()">🏆 Terminer !</button>`}
+                </div>
+            `:`
+                <button class="btn-main exo-voir-btn" onclick="exoShowCorrection=true;renderExo()">
+                    👁️ Voir la correction
+                </button>
+            `}
+        </div>
+    `);
+}
+
+function openExoResults() {
+    const exos=db[curSubject][curExoChapter].exercices||[];
+    render(`
+        <div class="ws-box"><div class="session-end">
+            <div class="se-emoji">🏆</div>
+            <div class="se-title">Série terminée !</div>
+            <div class="se-subject">${curSubject} · ${curExoChapter}</div>
+            <div class="se-pct">${exos.length}</div>
+            <div class="se-label">exercice${exos.length>1?'s':''} complété${exos.length>1?'s':''}</div>
+            <div class="se-actions" style="margin-top:20px">
+                <button class="btn-main" onclick="curExoIdx=0;exoShowCorrection=false;renderExo()">🔄 Recommencer</button>
+                <button class="btn-main" style="background:linear-gradient(135deg,#059669,#10b981)" onclick="openExercices()">📚 Autres chapitres</button>
+                <button class="bc-btn se-home-btn" onclick="goSubject('${esc(curSubject)}')">← Retour au menu</button>
+            </div>
+        </div></div>
+    `);
+}
+
+
+// ── STYLES COURS — INJECTION GARANTIE ────────────────────────
+// Injectés via JS pour éviter tout conflit CSS (spécificité, @media print, etc.)
+(function() {
+    const id = 'bm-cours-styles';
+    if (document.getElementById(id)) return;
+    const s = document.createElement('style');
+    s.id = id;
+    s.textContent = `
+        /* Wrapper */
+        .cours-body { font-size:1rem; line-height:1.9; color:#334155; max-width:740px; margin:0 auto; padding-bottom:32px; }
+
+        /* H2 — violet, visible garanti */
+        .cours-body h2 {
+            font-family:'Sora',sans-serif; font-size:1.4rem; font-weight:800;
+            color:#4f46e5 !important; -webkit-text-fill-color:#4f46e5 !important;
+            background:none !important; -webkit-background-clip:unset !important;
+            margin:0 0 1.2em; padding-bottom:12px;
+            border-bottom:3px solid #e0e7ff;
+        }
+
+        /* H3 — bandeau bleu pâle */
+        .cours-body h3 {
+            font-family:'Sora',sans-serif; font-size:1rem; font-weight:700;
+            color:#1e1b4b !important; -webkit-text-fill-color:#1e1b4b !important;
+            background:linear-gradient(90deg,#eef2ff,#f5f3ff 80%,transparent) !important;
+            border-left:4px solid #4f46e5; border-radius:0 12px 12px 0;
+            padding:9px 14px 9px 18px; margin:1.8em 0 .8em;
+            border-bottom:none !important;
+        }
+
+        /* Paragraphes */
+        .cours-body p { margin-bottom:1em; line-height:1.9; color:#334155 !important; }
+
+        /* Strong = bleu */
+        .cours-body strong, .cours-body b {
+            color:#4338ca !important; -webkit-text-fill-color:#4338ca !important; font-weight:700;
+        }
+        /* Em = violet */
+        .cours-body em, .cours-body i {
+            color:#7c3aed !important; -webkit-text-fill-color:#7c3aed !important; font-style:italic;
+        }
+
+        /* Listes — cartes interactives */
+        .cours-body ul, .cours-body ol {
+            padding:0; margin:.6em 0 1.4em; list-style:none; display:flex; flex-direction:column; gap:8px;
+        }
+        .cours-body li {
+            position:relative; padding:10px 14px 10px 2.6em;
+            background:#f8faff; border:1.5px solid #e0e7ff; border-radius:12px;
+            font-size:.95rem; line-height:1.65; color:#1e293b !important;
+            -webkit-text-fill-color:#1e293b !important; margin:0;
+            transition:all .18s;
+        }
+        .cours-body li:hover {
+            border-color:#6366f1; background:#eef2ff; transform:translateX(4px);
+            box-shadow:0 2px 10px rgba(99,102,241,.12);
+        }
+        .cours-body ul > li::before {
+            content:'▸'; position:absolute; left:.85em; top:50%; transform:translateY(-50%);
+            color:#6366f1; font-size:.95em; font-weight:700;
+        }
+        .cours-body ol { counter-reset:ol-cours; }
+        .cours-body ol > li { counter-increment:ol-cours; }
+        .cours-body ol > li::before {
+            content:counter(ol-cours); position:absolute; left:.55em; top:50%; transform:translateY(-50%);
+            width:1.5em; height:1.5em; background:#4f46e5; color:#fff !important;
+            -webkit-text-fill-color:#fff !important; border-radius:50%; font-size:.72em; font-weight:800;
+            display:flex; align-items:center; justify-content:center;
+        }
+
+        /* Citations */
+        .cours-body blockquote, .cours-body .quote-box {
+            margin:1.4em 0; padding:18px 20px 18px 26px;
+            background:linear-gradient(135deg,#f5f3ff,#ede9fe);
+            border-left:6px solid #7c3aed; border-radius:0 18px 18px 0;
+            font-style:italic; font-size:1rem; line-height:1.8;
+            color:#4c1d95 !important; -webkit-text-fill-color:#4c1d95 !important;
+            box-shadow:0 4px 20px rgba(124,58,237,.12); position:relative;
+        }
+        .cours-body blockquote::before {
+            content:'"'; position:absolute; top:-14px; left:16px;
+            font-size:4.5rem; color:#7c3aed; opacity:.15;
+            font-family:Georgia,serif; line-height:1; pointer-events:none;
+        }
+
+        /* Formula box */
+        .formula-box {
+            background:linear-gradient(135deg,#eff6ff,#dbeafe);
+            border-left:5px solid #3b82f6; border-radius:0 16px 16px 0;
+            padding:16px 20px; margin:16px 0; font-size:.93rem; line-height:1.9;
+            color:#1e3a5f !important; -webkit-text-fill-color:#1e3a5f !important;
+            box-shadow:0 3px 16px rgba(59,130,246,.1);
+        }
+        .formula-box strong, .formula-box b {
+            color:#1d4ed8 !important; -webkit-text-fill-color:#1d4ed8 !important;
+        }
+
+        /* Mobile */
+        @media (max-width:600px) {
+            .cours-body h2 { font-size:1.2rem !important; }
+            .cours-body h3 { font-size:.95rem !important; padding:8px 12px 8px 14px !important; }
+            .cours-body li { font-size:.93rem !important; }
+            .cours-body blockquote { font-size:.94rem !important; }
+        }
+    `;
+    document.head.appendChild(s);
+})();
 
 // ── TOAST HELPER ─────────────────────────────────────────────
 function showToast(msg, type='info') {
