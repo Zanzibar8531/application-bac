@@ -115,7 +115,12 @@ function goHome() {
                 </div>`;
             }).join('')}
         </div>
+        <div class="sync-banner" onclick="openSync()">
+            <span>☁️ Synchroniser mes données</span>
+            <span class="sync-status" id="sync-status-home"></span>
+        </div>
     `);
+    updateSyncStatusBadge();
 }
 
 function goSubject(name) {
@@ -1049,110 +1054,292 @@ function openExoResults() {
 }
 
 
+// ══════════════════════════════════════════════════════════════
+// SYNCHRONISATION GITHUB — Multi-appareils
+// Repo : Zanzibar8531/application_bac
+// ══════════════════════════════════════════════════════════════
+
+const GH_USER   = 'Zanzibar8531';
+const GH_REPO   = 'application_bac';
+const GH_FILE   = 'bacmaster_sync.json';   // fichier créé dans le repo
+const GH_BRANCH = 'main';
+
+// Token stocké localement (jamais dans le code publié)
+function ghToken() { return localStorage.getItem('bm_gh_token') || ''; }
+function ghSetToken(t) { localStorage.setItem('bm_gh_token', t.trim()); }
+
+function ghHeaders() {
+    return {
+        'Authorization': `token ${ghToken()}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.github.v3+json',
+        'X-GitHub-Api-Version': '2022-11-28'
+    };
+}
+
+// ── OUVRIR LE PANNEAU SYNC ────────────────────────────────────
+function openSync() {
+    const token = ghToken();
+    const lastSync = localStorage.getItem('bm_last_sync');
+    const lastDate = lastSync ? new Date(lastSync).toLocaleString('fr-FR') : 'Jamais';
+
+    render(`
+        <div class="breadcrumb">
+            <button class="bc-btn" onclick="goHome()">🏠 Accueil</button>
+            <span class="bc-sep">›</span>
+            <span class="bc-cur">☁️ Synchronisation</span>
+        </div>
+        <div class="ws-box sync-panel">
+            <div class="sync-header">
+                <div class="sync-icon">☁️</div>
+                <h2 style="margin:0 0 4px">Sync Multi-Appareils</h2>
+                <p style="color:var(--muted);font-size:.85rem;margin:0">
+                    Tes données sur tous tes appareils
+                </p>
+            </div>
+
+            <div class="sync-info-box">
+                <div class="sync-info-row">
+                    <span>📱 Dernier sync</span>
+                    <strong>${lastDate}</strong>
+                </div>
+                <div class="sync-info-row">
+                    <span>📦 Repo</span>
+                    <strong>${GH_USER}/${GH_REPO}</strong>
+                </div>
+                <div class="sync-info-row">
+                    <span>🔑 Token</span>
+                    <strong>${token ? '✅ Configuré' : '❌ Non configuré'}</strong>
+                </div>
+            </div>
+
+            ${!token ? `
+            <div class="sync-token-section">
+                <label class="sync-label">🔑 Token GitHub</label>
+                <input type="password" id="gh-token-input" class="field"
+                    placeholder="ghp_..." value="${token}"
+                    style="font-family:monospace;font-size:.85rem">
+                <p style="font-size:.78rem;color:var(--muted);margin-top:6px">
+                    Settings → Developer settings → Personal access tokens (classic) → scope: repo
+                </p>
+                <button class="btn-main" style="margin-top:8px" onclick="saveToken()">
+                    💾 Enregistrer le token
+                </button>
+            </div>` : `
+            <div class="sync-actions">
+                <button class="btn-main sync-btn-up" onclick="syncUpload()">
+                    <span class="sync-btn-icon">⬆️</span>
+                    <div>
+                        <div style="font-weight:700">Envoyer vers GitHub</div>
+                        <div style="font-size:.78rem;opacity:.8">Sauvegarder depuis cet appareil</div>
+                    </div>
+                </button>
+                <button class="btn-main sync-btn-down" onclick="syncDownload()">
+                    <span class="sync-btn-icon">⬇️</span>
+                    <div>
+                        <div style="font-weight:700">Récupérer depuis GitHub</div>
+                        <div style="font-size:.78rem;opacity:.8">Charger sur cet appareil</div>
+                    </div>
+                </button>
+                <button class="bc-btn" style="width:100%;text-align:center;margin-top:4px"
+                    onclick="changeToken()">🔧 Changer le token</button>
+            </div>
+            `}
+
+            <div id="sync-log" class="sync-log" style="display:none"></div>
+        </div>
+    `);
+}
+
+// ── TOKEN ──────────────────────────────────────────────────────
+function saveToken() {
+    const val = document.getElementById('gh-token-input')?.value?.trim();
+    if (!val || !val.startsWith('ghp_')) {
+        showToast('Token invalide — doit commencer par ghp_', 'warn');
+        return;
+    }
+    ghSetToken(val);
+    showToast('✅ Token enregistré !', 'info');
+    openSync();
+}
+
+function changeToken() {
+    localStorage.removeItem('bm_gh_token');
+    openSync();
+}
+
+// ── LOG HELPER ────────────────────────────────────────────────
+function syncLog(msg, type='info') {
+    const box = document.getElementById('sync-log');
+    if (!box) return;
+    box.style.display = 'block';
+    const colors = {info:'#4f46e5', ok:'#059669', error:'#dc2626', warn:'#d97706'};
+    box.innerHTML += `<div style="color:${colors[type]||'#4f46e5'};margin-bottom:4px">
+        ${type==='ok'?'✅':type==='error'?'❌':type==='warn'?'⚠️':'ℹ️'} ${msg}
+    </div>`;
+    box.scrollTop = box.scrollHeight;
+}
+
+// ── UPLOAD → GitHub ───────────────────────────────────────────
+async function syncUpload() {
+    if (!ghToken()) { showToast('Configure ton token d'abord', 'warn'); return; }
+
+    const log = document.getElementById('sync-log');
+    if(log){ log.innerHTML=''; log.style.display='block'; }
+    syncLog('Préparation des données...');
+
+    // Préparer les données à sauvegarder
+    const payload = {
+        version: 2,
+        date: new Date().toISOString(),
+        device: navigator.userAgent.includes('Mobile') ? 'mobile' : 'desktop',
+        db: db
+    };
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+
+    syncLog('Connexion à GitHub...');
+
+    try {
+        // Vérifier si le fichier existe déjà (pour avoir son SHA)
+        const checkRes = await fetch(
+            `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`,
+            { headers: ghHeaders() }
+        );
+
+        let sha = null;
+        if (checkRes.ok) {
+            const existing = await checkRes.json();
+            sha = existing.sha;
+            syncLog('Fichier existant trouvé, mise à jour...');
+        } else {
+            syncLog('Création d'un nouveau fichier sync...');
+        }
+
+        // Envoyer les données
+        const body = {
+            message: `BacMaster sync — ${new Date().toLocaleString('fr-FR')}`,
+            content: content,
+            branch: GH_BRANCH,
+        };
+        if (sha) body.sha = sha;
+
+        const pushRes = await fetch(
+            `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${GH_FILE}`,
+            { method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body) }
+        );
+
+        if (!pushRes.ok) {
+            const err = await pushRes.json();
+            throw new Error(err.message || `Erreur ${pushRes.status}`);
+        }
+
+        localStorage.setItem('bm_last_sync', new Date().toISOString());
+        syncLog('Données envoyées avec succès !', 'ok');
+        syncLog(`📦 ${Object.keys(db).length} matières sauvegardées`, 'ok');
+        showToast('☁️ Sauvegarde réussie !', 'info');
+        updateSyncStatusBadge();
+
+    } catch(e) {
+        syncLog(`Erreur : ${e.message}`, 'error');
+        if (e.message.includes('401')) {
+            syncLog('Token invalide ou expiré. Va dans Paramètres GitHub → régénère ton token.', 'warn');
+        } else if (e.message.includes('404')) {
+            syncLog('Repo introuvable. Vérifie que le repo est public ou que le token a le scope "repo".', 'warn');
+        }
+    }
+}
+
+// ── DOWNLOAD ← GitHub ────────────────────────────────────────
+async function syncDownload() {
+    if (!ghToken()) { showToast('Configure ton token d'abord', 'warn'); return; }
+
+    const log = document.getElementById('sync-log');
+    if(log){ log.innerHTML=''; log.style.display='block'; }
+    syncLog('Connexion à GitHub...');
+
+    try {
+        const res = await fetch(
+            `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`,
+            { headers: ghHeaders() }
+        );
+
+        if (!res.ok) {
+            if (res.status === 404) throw new Error('Aucune sauvegarde trouvée sur GitHub. Fais d'abord un envoi depuis un autre appareil.');
+            throw new Error(`Erreur ${res.status}`);
+        }
+
+        const file = await res.json();
+        const raw = decodeURIComponent(escape(atob(file.content.replace(/
+/g,''))));
+        const payload = JSON.parse(raw);
+
+        syncLog(`Sauvegarde trouvée — ${new Date(payload.date).toLocaleString('fr-FR')}`, 'ok');
+        syncLog(`Appareil source : ${payload.device}`);
+
+        // Confirmation avant d'écraser les données locales
+        if (!confirm(`Récupérer la sauvegarde du ${new Date(payload.date).toLocaleString('fr-FR')} ?
+
+Cela remplacera tes données locales actuelles.`)) {
+            syncLog('Annulé.', 'warn');
+            return;
+        }
+
+        // Appliquer les données
+        Object.keys(payload.db).forEach(subj => {
+            db[subj] = payload.db[subj];
+        });
+        save();
+
+        localStorage.setItem('bm_last_sync', new Date().toISOString());
+        syncLog('Données restaurées avec succès !', 'ok');
+        showToast('⬇️ Données récupérées !', 'info');
+        updateSyncStatusBadge();
+
+        setTimeout(() => goHome(), 1500);
+
+    } catch(e) {
+        syncLog(`Erreur : ${e.message}`, 'error');
+    }
+}
+
+// ── BADGE STATUS ──────────────────────────────────────────────
+function updateSyncStatusBadge() {
+    const el = document.getElementById('sync-status-home');
+    if (!el) return;
+    const last = localStorage.getItem('bm_last_sync');
+    if (!last) { el.textContent = '⚠️ Jamais synchronisé'; el.style.color='#d97706'; return; }
+    const mins = Math.round((Date.now() - new Date(last)) / 60000);
+    if (mins < 5)  { el.textContent = '✅ À jour'; el.style.color='#059669'; }
+    else if (mins < 60)  { el.textContent = `🕐 Il y a ${mins} min`; el.style.color='#4f46e5'; }
+    else if (mins < 1440){ el.textContent = `🕐 Il y a ${Math.round(mins/60)}h`; el.style.color='#d97706'; }
+    else                 { el.textContent = `⚠️ Il y a ${Math.round(mins/1440)}j`; el.style.color='#dc2626'; }
+}
+
+
 // ── STYLES COURS — INJECTION GARANTIE ────────────────────────
-// Injectés via JS pour éviter tout conflit CSS (spécificité, @media print, etc.)
 (function() {
     const id = 'bm-cours-styles';
     if (document.getElementById(id)) return;
     const s = document.createElement('style');
     s.id = id;
     s.textContent = `
-        /* Wrapper */
         .cours-body { font-size:1rem; line-height:1.9; color:#334155; max-width:740px; margin:0 auto; padding-bottom:32px; }
-
-        /* H2 — violet, visible garanti */
-        .cours-body h2 {
-            font-family:'Sora',sans-serif; font-size:1.4rem; font-weight:800;
-            color:#4f46e5 !important; -webkit-text-fill-color:#4f46e5 !important;
-            background:none !important; -webkit-background-clip:unset !important;
-            margin:0 0 1.2em; padding-bottom:12px;
-            border-bottom:3px solid #e0e7ff;
-        }
-
-        /* H3 — bandeau bleu pâle */
-        .cours-body h3 {
-            font-family:'Sora',sans-serif; font-size:1rem; font-weight:700;
-            color:#1e1b4b !important; -webkit-text-fill-color:#1e1b4b !important;
-            background:linear-gradient(90deg,#eef2ff,#f5f3ff 80%,transparent) !important;
-            border-left:4px solid #4f46e5; border-radius:0 12px 12px 0;
-            padding:9px 14px 9px 18px; margin:1.8em 0 .8em;
-            border-bottom:none !important;
-        }
-
-        /* Paragraphes */
+        .cours-body h2 { font-family:'Sora',sans-serif; font-size:1.4rem; font-weight:800; color:#4f46e5 !important; -webkit-text-fill-color:#4f46e5 !important; background:none !important; -webkit-background-clip:unset !important; margin:0 0 1.2em; padding-bottom:12px; border-bottom:3px solid #e0e7ff; }
+        .cours-body h3 { font-family:'Sora',sans-serif; font-size:1rem; font-weight:700; color:#1e1b4b !important; -webkit-text-fill-color:#1e1b4b !important; background:linear-gradient(90deg,#eef2ff,#f5f3ff 80%,transparent) !important; border-left:4px solid #4f46e5; border-radius:0 12px 12px 0; padding:9px 14px 9px 18px; margin:1.8em 0 .8em; border-bottom:none !important; }
         .cours-body p { margin-bottom:1em; line-height:1.9; color:#334155 !important; }
-
-        /* Strong = bleu */
-        .cours-body strong, .cours-body b {
-            color:#4338ca !important; -webkit-text-fill-color:#4338ca !important; font-weight:700;
-        }
-        /* Em = violet */
-        .cours-body em, .cours-body i {
-            color:#7c3aed !important; -webkit-text-fill-color:#7c3aed !important; font-style:italic;
-        }
-
-        /* Listes — cartes interactives */
-        .cours-body ul, .cours-body ol {
-            padding:0; margin:.6em 0 1.4em; list-style:none; display:flex; flex-direction:column; gap:8px;
-        }
-        .cours-body li {
-            position:relative; padding:10px 14px 10px 2.6em;
-            background:#f8faff; border:1.5px solid #e0e7ff; border-radius:12px;
-            font-size:.95rem; line-height:1.65; color:#1e293b !important;
-            -webkit-text-fill-color:#1e293b !important; margin:0;
-            transition:all .18s;
-        }
-        .cours-body li:hover {
-            border-color:#6366f1; background:#eef2ff; transform:translateX(4px);
-            box-shadow:0 2px 10px rgba(99,102,241,.12);
-        }
-        .cours-body ul > li::before {
-            content:'▸'; position:absolute; left:.85em; top:50%; transform:translateY(-50%);
-            color:#6366f1; font-size:.95em; font-weight:700;
-        }
+        .cours-body strong, .cours-body b { color:#4338ca !important; -webkit-text-fill-color:#4338ca !important; font-weight:700; }
+        .cours-body em, .cours-body i { color:#7c3aed !important; -webkit-text-fill-color:#7c3aed !important; font-style:italic; }
+        .cours-body ul, .cours-body ol { padding:0; margin:.6em 0 1.4em; list-style:none; display:flex; flex-direction:column; gap:8px; }
+        .cours-body li { position:relative; padding:10px 14px 10px 2.6em; background:#f8faff; border:1.5px solid #e0e7ff; border-radius:12px; font-size:.95rem; line-height:1.65; color:#1e293b !important; -webkit-text-fill-color:#1e293b !important; margin:0; transition:all .18s; }
+        .cours-body li:hover { border-color:#6366f1; background:#eef2ff; transform:translateX(4px); }
+        .cours-body ul > li::before { content:'▸'; position:absolute; left:.85em; top:50%; transform:translateY(-50%); color:#6366f1; font-size:.95em; font-weight:700; }
         .cours-body ol { counter-reset:ol-cours; }
         .cours-body ol > li { counter-increment:ol-cours; }
-        .cours-body ol > li::before {
-            content:counter(ol-cours); position:absolute; left:.55em; top:50%; transform:translateY(-50%);
-            width:1.5em; height:1.5em; background:#4f46e5; color:#fff !important;
-            -webkit-text-fill-color:#fff !important; border-radius:50%; font-size:.72em; font-weight:800;
-            display:flex; align-items:center; justify-content:center;
-        }
-
-        /* Citations */
-        .cours-body blockquote, .cours-body .quote-box {
-            margin:1.4em 0; padding:18px 20px 18px 26px;
-            background:linear-gradient(135deg,#f5f3ff,#ede9fe);
-            border-left:6px solid #7c3aed; border-radius:0 18px 18px 0;
-            font-style:italic; font-size:1rem; line-height:1.8;
-            color:#4c1d95 !important; -webkit-text-fill-color:#4c1d95 !important;
-            box-shadow:0 4px 20px rgba(124,58,237,.12); position:relative;
-        }
-        .cours-body blockquote::before {
-            content:'"'; position:absolute; top:-14px; left:16px;
-            font-size:4.5rem; color:#7c3aed; opacity:.15;
-            font-family:Georgia,serif; line-height:1; pointer-events:none;
-        }
-
-        /* Formula box */
-        .formula-box {
-            background:linear-gradient(135deg,#eff6ff,#dbeafe);
-            border-left:5px solid #3b82f6; border-radius:0 16px 16px 0;
-            padding:16px 20px; margin:16px 0; font-size:.93rem; line-height:1.9;
-            color:#1e3a5f !important; -webkit-text-fill-color:#1e3a5f !important;
-            box-shadow:0 3px 16px rgba(59,130,246,.1);
-        }
-        .formula-box strong, .formula-box b {
-            color:#1d4ed8 !important; -webkit-text-fill-color:#1d4ed8 !important;
-        }
-
-        /* Mobile */
-        @media (max-width:600px) {
-            .cours-body h2 { font-size:1.2rem !important; }
-            .cours-body h3 { font-size:.95rem !important; padding:8px 12px 8px 14px !important; }
-            .cours-body li { font-size:.93rem !important; }
-            .cours-body blockquote { font-size:.94rem !important; }
-        }
+        .cours-body ol > li::before { content:counter(ol-cours); position:absolute; left:.55em; top:50%; transform:translateY(-50%); width:1.5em; height:1.5em; background:#4f46e5; color:#fff !important; -webkit-text-fill-color:#fff !important; border-radius:50%; font-size:.72em; font-weight:800; display:flex; align-items:center; justify-content:center; }
+        .cours-body blockquote, .cours-body .quote-box { margin:1.4em 0; padding:18px 20px 18px 26px; background:linear-gradient(135deg,#f5f3ff,#ede9fe); border-left:6px solid #7c3aed; border-radius:0 18px 18px 0; font-style:italic; font-size:1rem; line-height:1.8; color:#4c1d95 !important; -webkit-text-fill-color:#4c1d95 !important; box-shadow:0 4px 20px rgba(124,58,237,.12); position:relative; }
+        .formula-box { background:linear-gradient(135deg,#eff6ff,#dbeafe); border-left:5px solid #3b82f6; border-radius:0 16px 16px 0; padding:16px 20px; margin:16px 0; font-size:.93rem; line-height:1.9; color:#1e3a5f !important; -webkit-text-fill-color:#1e3a5f !important; }
+        .formula-box strong, .formula-box b { color:#1d4ed8 !important; -webkit-text-fill-color:#1d4ed8 !important; }
+        @media (max-width:600px) { .cours-body h2{font-size:1.2rem!important} .cours-body h3{font-size:.95rem!important} .cours-body li{font-size:.93rem!important} }
     `;
     document.head.appendChild(s);
 })();
