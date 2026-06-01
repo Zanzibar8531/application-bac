@@ -1182,7 +1182,7 @@ function syncLog(msg, type='info') {
 
 // ── UPLOAD → GitHub ───────────────────────────────────────────
 async function syncUpload() {
-    if (!ghToken()) { showToast('Configure ton token d'abord', 'warn'); return; }
+    if (!ghToken()) { showToast('Configure ton token d\'abord', 'warn'); return; }
 
     const log = document.getElementById('sync-log');
     if(log){ log.innerHTML=''; log.style.display='block'; }
@@ -1212,7 +1212,7 @@ async function syncUpload() {
             sha = existing.sha;
             syncLog('Fichier existant trouvé, mise à jour...');
         } else {
-            syncLog('Création d'un nouveau fichier sync...');
+            syncLog('Creation d\'un nouveau fichier sync...');
         }
 
         // Envoyer les données
@@ -1251,7 +1251,7 @@ async function syncUpload() {
 
 // ── DOWNLOAD ← GitHub ────────────────────────────────────────
 async function syncDownload() {
-    if (!ghToken()) { showToast('Configure ton token d'abord', 'warn'); return; }
+    if (!ghToken()) { showToast('Configure ton token d\'abord', 'warn'); return; }
 
     const log = document.getElementById('sync-log');
     if(log){ log.innerHTML=''; log.style.display='block'; }
@@ -1264,13 +1264,12 @@ async function syncDownload() {
         );
 
         if (!res.ok) {
-            if (res.status === 404) throw new Error('Aucune sauvegarde trouvée sur GitHub. Fais d'abord un envoi depuis un autre appareil.');
+            if (res.status === 404) throw new Error('Aucune sauvegarde trouvée — fais d\'abord un envoi depuis un autre appareil.');
             throw new Error(`Erreur ${res.status}`);
         }
 
         const file = await res.json();
-        const raw = decodeURIComponent(escape(atob(file.content.replace(/
-/g,''))));
+        const raw = decodeURIComponent(escape(atob(file.content.split('\n').join(''))));
         const payload = JSON.parse(raw);
 
         syncLog(`Sauvegarde trouvée — ${new Date(payload.date).toLocaleString('fr-FR')}`, 'ok');
