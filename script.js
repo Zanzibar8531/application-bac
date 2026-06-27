@@ -9,17 +9,37 @@ const _o = localStorage.getItem('my_db');
 if (_n) { db = JSON.parse(_n); }
 else if (_o) { db = JSON.parse(_o); }
 
-// Injecter les cours pré-chargés si le chapitre est vide/absent
+// Injecter les cours pré-chargés.
+// RÈGLE : le cours vient TOUJOURS de PREBUILT (source de vérité).
+// On préserve uniquement les flashcards de l'élève (scores SRS, ajouts perso).
+// Ainsi, quand on améliore un cours ou qu'on ajoute des annotations colorées,
+// l'élève voit automatiquement la nouvelle version au prochain chargement.
 Object.entries(PREBUILT).forEach(([subj, chapters]) => {
     if (!db[subj]) db[subj] = {};
     Object.entries(chapters).forEach(([ch, data]) => {
         if (!db[subj][ch]) {
+            // Chapitre nouveau : créer entièrement
             db[subj][ch] = {
                 cours: data.cours,
                 flashcards: data.flashcards.map(f => ({
                     q: f.q, a: f.a, score: 0, interval: 0, ease: 2.5, due: null
                 }))
             };
+        } else {
+            // Chapitre existant : toujours écraser le cours avec la version PREBUILT
+            // (ça corrige les textes blancs et assure que les fiches annotées s'affichent)
+            db[subj][ch].cours = data.cours;
+
+            // Pour les flashcards, on fusionne : on garde les scores SRS acquis,
+            // mais on ajoute les nouvelles cartes ajoutées dans PREBUILT
+            const existingCards = db[subj][ch].flashcards || [];
+            const existingQs = new Set(existingCards.map(c => c.q));
+            data.flashcards.forEach(f => {
+                if (!existingQs.has(f.q)) {
+                    existingCards.push({ q: f.q, a: f.a, score: 0, interval: 0, ease: 2.5, due: null });
+                }
+            });
+            db[subj][ch].flashcards = existingCards;
         }
     });
 });
@@ -300,6 +320,7 @@ function renderTabContent() {
             </div>
             <div class="cours-body" id="printable-cours">${data.cours||'<p style="color:var(--muted)">Aucun cours. Clique sur ✏️ Éditer pour en ajouter un.</p>'}</div>`;
         typesetMath(box);
+        setupFigTooltips(box);
     }
     else if(curTab==='edit') {
         box.innerHTML = `
@@ -927,6 +948,131 @@ function typesetMath(el) {
     }
 }
 
+// ── FIGURES DE STYLE — explication au tap/clic (mobile + desktop) ──
+// Le survol (:hover) ne fonctionne pas sur tablette/téléphone.
+// On affiche donc le contenu de l'attribut "title" dans une bulle
+// au clic/tap, en plus du surlignage de couleur (déjà géré en CSS).
+function setupFigTooltips(el) {
+    el = el || document.getElementById('main');
+    el.querySelectorAll('.fig[title]').forEach(span => {
+        // Évite de ré-attacher l'écouteur si on re-render la même zone
+        if (span.dataset.figBound) return;
+        span.dataset.figBound = '1';
+        span.addEventListener('click', e => {
+            e.stopPropagation();
+            showFigPopup(span, span.getAttribute('title'));
+        });
+    });
+}
+
+function showFigPopup(target, text) {
+    closeFigPopup();
+
+    // Nom lisible de la figure
+    const figClass = [...target.classList].find(c => c.startsWith('fig-') && c !== 'fig') || '';
+    const figNames = {
+        'fig-metaphore':'Métaphore','fig-comparaison':'Comparaison',
+        'fig-perso':'Personnification','fig-anaphore':'Anaphore',
+        'fig-oxymore':'Oxymore','fig-ironie':'Ironie',
+        'fig-euphem':'Euphémisme','fig-accumulation':'Accumulation',
+        'fig-apostrophe':'Apostrophe','fig-question':'Question rhétorique',
+        'fig-ellipse':'Ellipse','fig-antithese':'Antithèse',
+        'fig-chute':'Chute','fig-hyperbole':'Hyperbole',
+        'fig-antiphrase':'Antiphrase','fig-pleonasme':'Pléonasme',
+        'fig-these':'Thèse','fig-concession':'Concession',
+        'fig-relativisme':'Relativisme'
+    };
+    const label = figNames[figClass] || figClass.replace('fig-','');
+
+    // Couleur du badge = même que la figure
+    const badgeColors = {
+        'fig-metaphore':   {bg:'#fef08a',fg:'#713f12'},
+        'fig-comparaison': {bg:'#bfdbfe',fg:'#1e3a8a'},
+        'fig-perso':       {bg:'#bbf7d0',fg:'#14532d'},
+        'fig-anaphore':    {bg:'#ddd6fe',fg:'#4c1d95'},
+        'fig-oxymore':     {bg:'#fecaca',fg:'#7f1d1d'},
+        'fig-ironie':      {bg:'#fed7aa',fg:'#7c2d12'},
+        'fig-euphem':      {bg:'#bae6fd',fg:'#0c4a6e'},
+        'fig-accumulation':{bg:'#e9d5ff',fg:'#581c87'},
+        'fig-apostrophe':  {bg:'#a7f3d0',fg:'#064e3b'},
+        'fig-question':    {bg:'#fde68a',fg:'#78350f'},
+        'fig-ellipse':     {bg:'#a7f3d0',fg:'#064e3b'},
+        'fig-antithese':   {bg:'#fca5a5',fg:'#7f1d1d'},
+        'fig-chute':       {bg:'#312e81',fg:'#e0e7ff'},
+        'fig-hyperbole':   {bg:'#fda4af',fg:'#881337'},
+        'fig-antiphrase':  {bg:'#fed7aa',fg:'#7c2d12'},
+        'fig-pleonasme':   {bg:'#bbf7d0',fg:'#14532d'},
+        'fig-these':       {bg:'#bae6fd',fg:'#0c4a6e'},
+        'fig-concession':  {bg:'#fbcfe8',fg:'#831843'},
+        'fig-relativisme': {bg:'#fef08a',fg:'#713f12'},
+    };
+    const bc = badgeColors[figClass] || {bg:'#e2e8f0',fg:'#1e293b'};
+
+    const pop = document.createElement('div');
+    pop.id = 'fig-popup';
+
+    // Tous les styles en inline — indépendant du style.css
+    Object.assign(pop.style, {
+        position:     'fixed',
+        zIndex:       '99999',
+        width:        '360px',
+        maxWidth:     'calc(100vw - 24px)',
+        background:   '#1e293b',
+        borderRadius: '18px',
+        boxShadow:    '0 16px 48px rgba(0,0,0,.55)',
+        overflow:     'hidden',
+        fontFamily:   "'DM Sans', sans-serif",
+        fontSize:     '15px',
+        lineHeight:   '1.65',
+        color:        '#e2e8f0',
+    });
+
+    pop.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 12px 13px 16px;background:rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.1)">
+            <span style="background:${bc.bg};color:${bc.fg};font-size:.82rem;font-weight:700;padding:4px 13px;border-radius:20px;text-transform:uppercase;letter-spacing:.03em">${label}</span>
+            <button onclick="closeFigPopup()" style="background:rgba(255,255,255,.15);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center">✕</button>
+        </div>
+        <div style="padding:16px 18px 18px;color:#e2e8f0;font-size:.95rem;line-height:1.7">${text}</div>`;
+
+    document.body.appendChild(pop);
+
+    // Positionnement : sous le mot cliqué, dans le viewport
+    const r = target.getBoundingClientRect();
+    requestAnimationFrame(() => {
+        const pw = pop.offsetWidth  || 300;
+        const ph = pop.offsetHeight || 150;
+        const iw = window.innerWidth;
+        const ih = window.innerHeight;
+
+        let left = r.left;
+        let top  = r.bottom + 10;
+
+        // Déborde à droite ?
+        if (left + pw > iw - 10) left = iw - pw - 10;
+        if (left < 10) left = 10;
+
+        // Déborde en bas ? → mettre au-dessus du mot
+        if (top + ph > ih - 10) top = r.top - ph - 10;
+        if (top < 10) top = ih / 2 - ph / 2; // dernier recours : centre
+
+        pop.style.left = left + 'px';
+        pop.style.top  = top  + 'px';
+    });
+
+    setTimeout(() => document.addEventListener('click', closeFigPopupOnce, {once:true}), 0);
+}
+
+function closeFigPopupOnce(e) {
+    const pop = $('fig-popup');
+    if (pop && !pop.contains(e.target)) closeFigPopup();
+    else if (pop) document.addEventListener('click', closeFigPopupOnce, {once:true});
+}
+
+function closeFigPopup() {
+    const pop = $('fig-popup');
+    if (pop) pop.remove();
+}
+
 
 // ── EXERCICES ─────────────────────────────────────────────────
 function openExercices() {
@@ -1339,6 +1485,28 @@ function updateSyncStatusBadge() {
         .formula-box { background:linear-gradient(135deg,#eff6ff,#dbeafe); border-left:5px solid #3b82f6; border-radius:0 16px 16px 0; padding:16px 20px; margin:16px 0; font-size:.93rem; line-height:1.9; color:#1e3a5f !important; -webkit-text-fill-color:#1e3a5f !important; }
         .formula-box strong, .formula-box b { color:#1d4ed8 !important; -webkit-text-fill-color:#1d4ed8 !important; }
         @media (max-width:600px) { .cours-body h2{font-size:1.2rem!important} .cours-body h3{font-size:.95rem!important} .cours-body li{font-size:.93rem!important} }
+
+        /* Figures de style — priorité maximale car ce bloc JS arrive après style.css */
+        .cours-body .fig, .texte-annote .fig { border-radius:4px !important; padding:1px 5px !important; cursor:pointer !important; border-bottom-style:solid !important; border-bottom-width:3px !important; }
+        .cours-body .fig-metaphore,    .texte-annote .fig-metaphore    { background:#fef08a !important; color:#713f12 !important; -webkit-text-fill-color:#713f12 !important; border-bottom-color:#ca8a04 !important; }
+        .cours-body .fig-comparaison,  .texte-annote .fig-comparaison  { background:#bfdbfe !important; color:#1e3a8a !important; -webkit-text-fill-color:#1e3a8a !important; border-bottom-color:#2563eb !important; }
+        .cours-body .fig-perso,        .texte-annote .fig-perso        { background:#bbf7d0 !important; color:#14532d !important; -webkit-text-fill-color:#14532d !important; border-bottom-color:#16a34a !important; }
+        .cours-body .fig-anaphore,     .texte-annote .fig-anaphore     { background:#ddd6fe !important; color:#4c1d95 !important; -webkit-text-fill-color:#4c1d95 !important; border-bottom-color:#7c3aed !important; }
+        .cours-body .fig-oxymore,      .texte-annote .fig-oxymore      { background:#fecaca !important; color:#7f1d1d !important; -webkit-text-fill-color:#7f1d1d !important; border-bottom-color:#dc2626 !important; }
+        .cours-body .fig-ironie,       .texte-annote .fig-ironie       { background:#fed7aa !important; color:#7c2d12 !important; -webkit-text-fill-color:#7c2d12 !important; border-bottom-color:#ea580c !important; }
+        .cours-body .fig-euphem,       .texte-annote .fig-euphem       { background:#bae6fd !important; color:#0c4a6e !important; -webkit-text-fill-color:#0c4a6e !important; border-bottom-color:#0284c7 !important; }
+        .cours-body .fig-accumulation, .texte-annote .fig-accumulation { background:#e9d5ff !important; color:#581c87 !important; -webkit-text-fill-color:#581c87 !important; border-bottom-color:#9333ea !important; }
+        .cours-body .fig-apostrophe,   .texte-annote .fig-apostrophe   { background:#a7f3d0 !important; color:#064e3b !important; -webkit-text-fill-color:#064e3b !important; border-bottom-color:#059669 !important; }
+        .cours-body .fig-question,     .texte-annote .fig-question     { background:#fde68a !important; color:#78350f !important; -webkit-text-fill-color:#78350f !important; border-bottom-color:#d97706 !important; }
+        .cours-body .fig-ellipse,      .texte-annote .fig-ellipse      { background:#a7f3d0 !important; color:#064e3b !important; -webkit-text-fill-color:#064e3b !important; border-bottom-color:#10b981 !important; }
+        .cours-body .fig-antithese,    .texte-annote .fig-antithese    { background:#fca5a5 !important; color:#7f1d1d !important; -webkit-text-fill-color:#7f1d1d !important; border-bottom-color:#ef4444 !important; }
+        .cours-body .fig-chute,        .texte-annote .fig-chute        { background:#312e81 !important; color:#e0e7ff !important; -webkit-text-fill-color:#e0e7ff !important; border-bottom-color:#818cf8 !important; }
+        .cours-body .fig-hyperbole,    .texte-annote .fig-hyperbole    { background:#fda4af !important; color:#881337 !important; -webkit-text-fill-color:#881337 !important; border-bottom-color:#f43f5e !important; }
+        .cours-body .fig-antiphrase,   .texte-annote .fig-antiphrase   { background:#fed7aa !important; color:#7c2d12 !important; -webkit-text-fill-color:#7c2d12 !important; border-bottom-color:#f97316 !important; }
+        .cours-body .fig-pleonasme,    .texte-annote .fig-pleonasme    { background:#bbf7d0 !important; color:#14532d !important; -webkit-text-fill-color:#14532d !important; border-bottom-color:#22c55e !important; }
+        .cours-body .fig-these,        .texte-annote .fig-these        { background:#bae6fd !important; color:#0c4a6e !important; -webkit-text-fill-color:#0c4a6e !important; border-bottom-color:#0ea5e9 !important; }
+        .cours-body .fig-concession,   .texte-annote .fig-concession   { background:#fbcfe8 !important; color:#831843 !important; -webkit-text-fill-color:#831843 !important; border-bottom-color:#ec4899 !important; }
+        .cours-body .fig-relativisme,  .texte-annote .fig-relativisme  { background:#fef08a !important; color:#713f12 !important; -webkit-text-fill-color:#713f12 !important; border-bottom-color:#ca8a04 !important; }
     `;
     document.head.appendChild(s);
 })();
@@ -1394,3 +1562,8 @@ function setMusicVol(v) {
         catch(e){}
     }
 }
+
+// ── DÉMARRAGE ─────────────────────────────────────────────────
+// Afficher la page d'accueil dès que le DOM est prêt
+document.addEventListener("DOMContentLoaded", () => goHome());
+

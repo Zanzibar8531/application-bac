@@ -853,9 +853,9 @@ PREBUILT['Anglais'] = {
     flashcards: [
       {q:"However vs Nevertheless",a:"Both mean 'cependant'. However = plus courant. Nevertheless = plus soutenu, souvent en début de paragraphe pour marquer un retournement fort.",score:0,interval:0,ease:2.5,due:null},
       {q:"Although vs Despite",a:"Although + clause (sujet+verbe). Despite / In spite of + noun/gerund. Ex: Although it was raining / Despite the rain.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Therefore vs Thus vs Hence",a:"Tous = 'donc / par conséquent'. Therefore = plus explicatif. Thus = formel. Hence = très soutenu, souvent suivi d'un nom.",score:0,interval:0,ease:2.5,due:null},
+      {q:"Therefore vs Thus vs Hence",a:"Tous = 'donc / par conséquent'. Therefore = plus explicatif. Thus = formel. Hence = très soutenu, souvent suivi d\'un nom.",score:0,interval:0,ease:2.5,due:null},
       {q:"Furthermore vs Moreover",a:"Tous deux = 'de plus'. Furthermore ajoute un argument qui renforce. Moreover ajoute un argument encore plus important.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Whereas vs While",a:"Tous deux expriment l'opposition dans la même phrase. Whereas = contraste fort. While = peut aussi exprimer la simultanéité.",score:0,interval:0,ease:2.5,due:null},
+      {q:"Whereas vs While",a:"Tous deux expriment l\'opposition dans la même phrase. Whereas = contraste fort. While = peut aussi exprimer la simultanéité.",score:0,interval:0,ease:2.5,due:null},
       {q:"To conclude vs On balance",a:"To conclude / In conclusion = formule de clôture. On balance = après avoir pesé le pour et le contre (nuance).",score:0,interval:0,ease:2.5,due:null},
       {q:"Due to vs Because of vs Owing to",a:"Tous = 'en raison de' + nom. Due to = plus formel. Owing to = très soutenu. Because of = plus courant.",score:0,interval:0,ease:2.5,due:null},
     ]
@@ -864,7 +864,7 @@ PREBUILT['Anglais'] = {
     cours: "<h2>Key Vocabulary</h2><p>Essential words for the bac.</p><ul><li><b>To advocate</b> — défendre une cause</li><li><b>To tackle</b> — s'attaquer à</li><li><b>To foster</b> — encourager</li><li><b>Sustainable</b> — durable</li><li><b>Breakthrough</b> — percée majeure</li></ul><h3>Linking words</h3><ul><li><b>However</b> — cependant</li><li><b>Furthermore</b> — de plus</li><li><b>Although</b> — bien que</li></ul>",
     flashcards: [
       {q:"To advocate",a:"Défendre, soutenir une cause",score:0,interval:0,ease:2.5,due:null},
-      {q:"To tackle",a:"S'attaquer à, faire face à",score:0,interval:0,ease:2.5,due:null},
+      {q:"To tackle",a:"S\'attaquer à, faire face à",score:0,interval:0,ease:2.5,due:null},
       {q:"To foster",a:"Encourager, favoriser",score:0,interval:0,ease:2.5,due:null},
       {q:"Sustainable",a:"Durable, viable. Ex: sustainable development",score:0,interval:0,ease:2.5,due:null},
       {q:"Breakthrough",a:"Percée, découverte majeure",score:0,interval:0,ease:2.5,due:null},
@@ -878,7 +878,7 @@ PREBUILT['Anglais'] = {
     flashcards: [
       {q:"Present Perfect — usage",a:"Action passée avec résultat présent. Marqueurs : just, already, yet, since, for",score:0,interval:0,ease:2.5,due:null},
       {q:"Passive voice — formule",a:"Subject + be (conjugated) + past participle. Ex: The book was written by her.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Reported speech",a:"On recule d'un temps. 'I am tired' -> She said she WAS tired.",score:0,interval:0,ease:2.5,due:null},
+      {q:"Reported speech",a:"On recule d\'un temps. 'I am tired' -> She said she WAS tired.",score:0,interval:0,ease:2.5,due:null},
     ]
   }
 };
@@ -887,10 +887,10 @@ PREBUILT['Espagnol'] = {
   'Vocabulario esencial': {
     cours: "<h2>Vocabulario esencial</h2><h3>Expresar opinion</h3><ul><li><b>En mi opinion</b> — à mon avis</li><li><b>Sin embargo</b> — cependant</li><li><b>Por lo tanto</b> — par conséquent</li><li><b>A pesar de</b> — malgré</li></ul>",
     flashcards: [
-      {q:"El medio ambiente",a:"L'environnement",score:0,interval:0,ease:2.5,due:null},
-      {q:"La desigualdad",a:"L'inégalité",score:0,interval:0,ease:2.5,due:null},
+      {q:"El medio ambiente",a:"L\'environnement",score:0,interval:0,ease:2.5,due:null},
+      {q:"La desigualdad",a:"L\'inégalité",score:0,interval:0,ease:2.5,due:null},
       {q:"El desarrollo sostenible",a:"Le développement durable",score:0,interval:0,ease:2.5,due:null},
-      {q:"La inmigracion",a:"L'immigration",score:0,interval:0,ease:2.5,due:null},
+      {q:"La inmigracion",a:"L\'immigration",score:0,interval:0,ease:2.5,due:null},
       {q:"Sin embargo",a:"Cependant, néanmoins",score:0,interval:0,ease:2.5,due:null},
       {q:"Por lo tanto",a:"Par conséquent, donc",score:0,interval:0,ease:2.5,due:null},
       {q:"A pesar de",a:"Malgré, en dépit de",score:0,interval:0,ease:2.5,due:null},
@@ -900,7 +900,7 @@ PREBUILT['Espagnol'] = {
   'Gramatica': {
     cours: "<h2>Gramatica clave</h2><h3>Subjuntivo</h3><p>Apres : querer que, esperar que, es importante que. Ex: Quiero que tu <b>vengas</b>.</p><h3>Preterito Indefinido vs Imperfecto</h3><ul><li><b>Indefinido</b> : action ponctuelle terminee — ayer comi una paella</li><li><b>Imperfecto</b> : description/habitude — cuando era nino, jugaba al futbol</li></ul>",
     flashcards: [
-      {q:"Subjuntivo — quand ?",a:"Apres : querer que, esperar que, es importante que, dudar que, expressions d'emotion",score:0,interval:0,ease:2.5,due:null},
+      {q:"Subjuntivo — quand ?",a:"Apres : querer que, esperar que, es importante que, dudar que, expressions d\'emotion",score:0,interval:0,ease:2.5,due:null},
       {q:"Preterito Indefinido vs Imperfecto",a:"Indefinido = action ponctuelle terminee. Imperfecto = description ou habitude passee.",score:0,interval:0,ease:2.5,due:null},
       {q:"Ser vs Estar",a:"Ser = caracteristique permanente (identite, origine). Estar = etat temporaire (humeur, position).",score:0,interval:0,ease:2.5,due:null},
     ]
@@ -927,14 +927,14 @@ PREBUILT['SVT'] = {
 <div class="schema-placeholder"><img src="https://via.placeholder.com/400x180/fce7f3/9d174d?text=Schéma+Phases+de+la+Mitose" alt="Mitose" style="width:100%;border-radius:10px;"></div>`,
     flashcards: [
       {q:"ADN — structure",a:"Double hélice antiparallèle. Bases : A-T (2 liaisons H), G-C (3 liaisons H). Sucre = désoxyribose.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Réplication de l'ADN — principe",a:"Semi-conservative : chaque brin parental sert de matrice pour un nouveau brin. Enzyme principale : ADN polymérase.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Transcription",a:"ADN → ARNm dans le noyau, grâce à l'ARN polymérase. Le brin codant sert de matrice.",score:0,interval:0,ease:2.5,due:null},
+      {q:"Réplication de l\'ADN — principe",a:"Semi-conservative : chaque brin parental sert de matrice pour un nouveau brin. Enzyme principale : ADN polymérase.",score:0,interval:0,ease:2.5,due:null},
+      {q:"Transcription",a:"ADN → ARNm dans le noyau, grâce à l\'ARN polymérase. Le brin codant sert de matrice.",score:0,interval:0,ease:2.5,due:null},
       {q:"Traduction",a:"ARNm → protéine sur les ribosomes. Les ARNt apportent les acides aminés selon les codons (triplets de bases).",score:0,interval:0,ease:2.5,due:null},
-      {q:"Codon",a:"Triplet de 3 bases sur l'ARNm codant un acide aminé. Codon START = AUG, codons STOP = UAA/UAG/UGA.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Mutation — définition et conséquences",a:"Modification de la séquence nucléotidique de l'ADN. Peut être silencieuse (même acide aminé), faux-sens (acide aminé différent) ou non-sens (codon STOP prématuré).",score:0,interval:0,ease:2.5,due:null},
+      {q:"Codon",a:"Triplet de 3 bases sur l\'ARNm codant un acide aminé. Codon START = AUG, codons STOP = UAA/UAG/UGA.",score:0,interval:0,ease:2.5,due:null},
+      {q:"Mutation — définition et conséquences",a:"Modification de la séquence nucléotidique de l\'ADN. Peut être silencieuse (même acide aminé), faux-sens (acide aminé différent) ou non-sens (codon STOP prématuré).",score:0,interval:0,ease:2.5,due:null},
       {q:"Mitose — phases et résultat",a:"Prophase → Métaphase → Anaphase → Télophase. Résultat : 2 cellules filles 2n génétiquement identiques à la cellule mère.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Méiose — résultat",a:"Deux divisions successives d'une cellule 2n → 4 cellules haploïdes n. Brassage génétique par enjambements.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Allèle dominant / récessif",a:"Dominant : s'exprime même en un seul exemplaire (hétérozygote). Récessif : ne s'exprime qu'en double exemplaire (homozygote récessif).",score:0,interval:0,ease:2.5,due:null},
+      {q:"Méiose — résultat",a:"Deux divisions successives d\'une cellule 2n → 4 cellules haploïdes n. Brassage génétique par enjambements.",score:0,interval:0,ease:2.5,due:null},
+      {q:"Allèle dominant / récessif",a:"Dominant : s\'exprime même en un seul exemplaire (hétérozygote). Récessif : ne s\'exprime qu\'en double exemplaire (homozygote récessif).",score:0,interval:0,ease:2.5,due:null},
       {q:"Sélection naturelle — mécanisme",a:"Variation génétique → certains individus mieux adaptés → survie et reproduction accrues → fréquence des allèles favorables augmente dans la population.",score:0,interval:0,ease:2.5,due:null},
     ]
   },
@@ -942,9 +942,9 @@ PREBUILT['SVT'] = {
     cours: "<h2>Corps humain & Sante</h2><h3>Systeme immunitaire</h3><ul><li><b>Immunite innee</b> : reponse rapide non specifique (phagocytose)</li><li><b>Immunite adaptative</b> : lymphocytes B (anticorps) et T — reponse specifique avec memoire</li></ul><h3>Vaccination</h3><p>Antigene inoffensif → memoire immunitaire sans declencher la maladie.</p>",
     flashcards: [
       {q:"Antigene",a:"Molecule etrangere declenchant une reponse immunitaire.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Anticorps",a:"Proteine produite par les lymphocytes B, specifique d'un antigene.",score:0,interval:0,ease:2.5,due:null},
+      {q:"Anticorps",a:"Proteine produite par les lymphocytes B, specifique d\'un antigene.",score:0,interval:0,ease:2.5,due:null},
       {q:"Lymphocyte T cytotoxique",a:"Detruit les cellules infectees ou cancereuses. Immunite cellulaire.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Vaccination",a:"Injection d'un antigene inoffensif pour creer une memoire immunitaire.",score:0,interval:0,ease:2.5,due:null},
+      {q:"Vaccination",a:"Injection d\'un antigene inoffensif pour creer une memoire immunitaire.",score:0,interval:0,ease:2.5,due:null},
     ]
   }
 };
@@ -976,9 +976,9 @@ $$W = \vec{F} \cdot \vec{d} = Fd\cos\theta \qquad P = \frac{W}{\Delta t} = Fv$$
       {q:"2e loi de Newton (PFD)",a:"$\\sum \\vec{F} = m\\vec{a}$. La somme vectorielle des forces appliquées = masse × vecteur accélération. Unités : N = kg·m/s².",score:0,interval:0,ease:2.5,due:null},
       {q:"Énergie cinétique",a:"$E_c = \\frac{1}{2}mv^2$ en joules. Dépend de la masse (kg) et du carré de la vitesse (m/s).",score:0,interval:0,ease:2.5,due:null},
       {q:"Énergie potentielle de pesanteur",a:"$E_{pp} = mgh$. m en kg, g ≈ 9,8 m/s², h en mètres. Référence choisie arbitrairement.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Conservation de l'énergie mécanique",a:"$E_m = E_c + E_{pp} = \\text{constante}$ en l'absence de frottements.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Travail d'une force",a:"$W = F \\cdot d \\cdot \\cos\\theta$. Moteur si W > 0, résistant si W < 0.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Chute libre — équations horaires",a:"$v(t) = v_0 + gt$ et $h(t) = h_0 + v_0 t + \\frac{1}{2}gt^2$. En l'absence de frottements.",score:0,interval:0,ease:2.5,due:null},
+      {q:"Conservation de l\'énergie mécanique",a:"$E_m = E_c + E_{pp} = \\text{constante}$ en l\'absence de frottements.",score:0,interval:0,ease:2.5,due:null},
+      {q:"Travail d\'une force",a:"$W = F \\cdot d \\cdot \\cos\\theta$. Moteur si W > 0, résistant si W < 0.",score:0,interval:0,ease:2.5,due:null},
+      {q:"Chute libre — équations horaires",a:"$v(t) = v_0 + gt$ et $h(t) = h_0 + v_0 t + \\frac{1}{2}gt^2$. En l\'absence de frottements.",score:0,interval:0,ease:2.5,due:null},
     ]
   },
   'Chimie — Solutions aqueuses': {
@@ -996,11 +996,11 @@ $$C = \frac{n}{V} \text{ (mol/L)} \qquad \text{Équivalence : } n_a = n_b \Right
 </div>
 <div class="schema-placeholder"><img src="https://via.placeholder.com/400x200/fef3c7/92400e?text=Schéma+Montage+Titrage+pH-métrique" alt="Titrage" style="width:100%;border-radius:10px;"><p style="text-align:center;font-size:.78rem;color:var(--muted)">Courbe de titrage pH-métrique</p></div>`,
     flashcards: [
-      {q:"pH — définition et formule",a:"$\\text{pH} = -\\log[\\text{H}_3\\text{O}^+]$. Mesure l'acidité. Inversement proportionnel à la concentration en H₃O⁺.",score:0,interval:0,ease:2.5,due:null},
+      {q:"pH — définition et formule",a:"$\\text{pH} = -\\log[\\text{H}_3\\text{O}^+]$. Mesure l\'acidité. Inversement proportionnel à la concentration en H₃O⁺.",score:0,interval:0,ease:2.5,due:null},
       {q:"Couple acide/base conjugué",a:"AH (acide, donneur H⁺) et A⁻ (base conjuguée, accepteur H⁺). Ex : CH₃COOH / CH₃COO⁻. Demi-équation : $AH = A^- + H^+$",score:0,interval:0,ease:2.5,due:null},
-      {q:"Concentration molaire",a:"$C = n/V$. n en moles, V en litres (L). S'exprime en mol/L ou mol·L⁻¹.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Équivalence d'un titrage",a:"À l'équivalence, les réactifs sont en proportions stœchiométriques : $C_a V_a = C_b V_b$ (pour monoacide/monobase).",score:0,interval:0,ease:2.5,due:null},
-      {q:"Produit ionique de l'eau",a:"$K_e = [\\text{H}_3\\text{O}^+][\\text{OH}^-] = 10^{-14}$ à 25°C. pH + pOH = 14.",score:0,interval:0,ease:2.5,due:null},
+      {q:"Concentration molaire",a:"$C = n/V$. n en moles, V en litres (L). S\'exprime en mol/L ou mol·L⁻¹.",score:0,interval:0,ease:2.5,due:null},
+      {q:"Équivalence d\'un titrage",a:"À l\'équivalence, les réactifs sont en proportions stœchiométriques : $C_a V_a = C_b V_b$ (pour monoacide/monobase).",score:0,interval:0,ease:2.5,due:null},
+      {q:"Produit ionique de l\'eau",a:"$K_e = [\\text{H}_3\\text{O}^+][\\text{OH}^-] = 10^{-14}$ à 25°C. pH + pOH = 14.",score:0,interval:0,ease:2.5,due:null},
     ]
   }
 };
@@ -1009,984 +1009,531 @@ $$C = \frac{n}{V} \text{ (mol/L)} \qquad \text{Équivalence : } n_a = n_b \Right
 // TEXTES BAC FRANÇAIS — ORAL BLANC (ajout dans Français)
 // ════════════════════════════════════════════════════════════
 
-// OE1 — POÉSIE : Rimbaud / Baudelaire
-PREBUILT['Français']['T1 — Le dormeur du val (Rimbaud)'] = {
-cours: `<h2>Texte n°1 — "Le dormeur du val"</h2>
-<p><strong>Auteur :</strong> Arthur Rimbaud &nbsp;|&nbsp; <strong>Œuvre :</strong> Cahiers de Douai (1870) &nbsp;|&nbsp; <strong>Objet d'étude :</strong> La poésie</p>
-<div class="formula-box"><strong>Genre :</strong> Sonnet (2 quatrains + 2 tercets) &nbsp;|&nbsp; <strong>Mouvement :</strong> Romantisme tardif / Symbolisme naissant</div>
+// ════════════════════════════════════════════════════════════
+// TEXTES BAC FRANÇAIS — FICHES COMPLÈTES (texte + analyse + figures)
+// ════════════════════════════════════════════════════════════
 
-<h3>Résumé & situation</h3>
-<p>Rimbaud a 16 ans. Le poème décrit un soldat allongé dans un vallon verdoyant, apparemment endormi. La chute (dernier vers) révèle qu'il est mort, deux balles dans le flanc. Écrit en octobre 1870, pendant la guerre franco-prussienne.</p>
+// OE1 — POÉSIE
+PREBUILT['Français']['T1 — Le dormeur du val'] = {
+cours: `<h2>Le dormeur du val — Fiche complète</h2>
+<p><strong>Arthur Rimbaud</strong> | Cahiers de Douai, octobre 1870 | Sonnet</p>
+<div class="formula-box">
+🎯 <strong>Problématique :</strong> Comment Rimbaud utilise-t-il la beauté trompeuse du sonnet pour dénoncer l'horreur de la guerre ?<br>
+📌 <strong>Mouvement :</strong> Romantisme tardif | <strong>Genre :</strong> Sonnet (2 quatrains + 2 tercets)
+</div>
 
-<h3>Axes de lecture</h3>
-<ul>
-<li><strong>Axe 1 — Une nature idyllique et trompeuse :</strong> La nature est personnifiée, maternelle (« berce », « chauffe », « il a froid »). Champ lexical de la lumière et de la vie qui contraste violemment avec la mort.</li>
-<li><strong>Axe 2 — Le sonnet comme piège : l'effet de chute :</strong> Le lecteur est berné comme le soldat semble dormir. La révélation finale (« deux trous rouges au côté droit ») est brutale, sèche, sans pathos — anti-climax volontaire.</li>
-<li><strong>Axe 3 — Un poème engagé, dénonciation de la guerre :</strong> Pas de héroïsme, pas de gloire. La guerre est absurde. Le soldat est un enfant (« la bouche ouverte, jeune soldat »).</li>
-</ul>
+<h3>Le texte annoté — passe ta souris sur les couleurs</h3>
+<div class="fig-legende">
+<span class="fig-legende-item" style="background:#e0f2fe;color:#0369a1">Euphémisme</span>
+<span class="fig-legende-item" style="background:#dcfce7;color:#166534">Personnification</span>
+<span class="fig-legende-item" style="background:#fef9c3;color:#854d0e">Métaphore</span>
+<span class="fig-legende-item" style="background:#ede9fe;color:#6d28d9">Anaphore</span>
+<span class="fig-legende-item" style="background:#1e1b4b;color:#fff">Chute</span>
+</div>
+<div class="texte-annote">
+<p><span class="fig fig-metaphore" title="MÉTAPHORE + OXYMORE : 'trou de verdure' = espace fermé dans la nature ouverte. Annonce discrètement une tombe. La nature est un berceau qui cache la mort.">C'est un trou de verdure où chante une rivière</span><br>
+<span class="fig fig-perso" title="PERSONNIFICATION : la rivière 'chante', la montagne est 'fière'. La nature est vivante et humaine — contraste cruel avec le soldat mort qui, lui, ne sent plus rien.">Accrochant follement aux herbes des haillons<br>
+D'argent ; où le soleil, de la montagne fière,</span><br>
+<span class="fig fig-metaphore" title="MÉTAPHORE : le val 'mousse de rayons' comme une boisson pétillante. Image joyeuse et lumineuse — le piège du sonnet se met en place.">Luit : c'est un petit val qui mousse de rayons.</span></p>
 
-<h3>Procédés clés</h3>
-<ul>
-<li><strong>Oxymore :</strong> « trou de verdure » → espace clos dans l'ouvert, tombeau dans la nature</li>
-<li><strong>Personnification de la nature :</strong> « La Nature, berce-le chaudement »</li>
-<li><strong>Euphémisme :</strong> « il dort » → mort présentée comme sommeil jusqu'à la chute</li>
-<li><strong>Allitération en [v] et [f] :</strong> fluidité, douceur trompeuse</li>
-<li><strong>Chute sèche :</strong> « Il a deux trous rouges au côté droit » — rupture de ton totale</li>
-<li><strong>Ironie tragique :</strong> « Tranquille » — mot qui prend un sens macabre a posteriori</li>
-</ul>
+<p>Un soldat jeune, bouche ouverte, tête nue,<br>
+<span class="fig fig-metaphore" title="MÉTAPHORE FUNÈBRE : le 'frais cresson bleu' — la couleur froide et bleue annonce discrètement la mort. Un dormeur vivant n'est pas allongé dans du cresson bleu.">Et la nuque baignant dans le frais cresson bleu,</span><br>
+<span class="fig fig-euphem" title="EUPHÉMISME CENTRAL — 'Dort' pour dire 'est mort'. Rimbaud trompe volontairement le lecteur. Ce mot revient 3 fois = piège filé sur tout le poème. C'est la figure la plus importante à nommer.">Dort</span> ; il est étendu dans l'herbe, sous la nue,<br>
+<span class="fig fig-comparaison" title="COMPARAISON pathétique : 'Pâle dans son lit vert.' Un dormant n'est pas pâle. Premier signe physique que quelque chose ne va pas — Rimbaud glisse des indices.">Pâle dans son lit vert où la lumière pleut.</span></p>
 
-<h3>Citations indispensables</h3>
-<ul>
-<li>« C'est un trou de verdure où chante une rivière » — incipit trompeur, idylle apparente</li>
-<li>« Il dort dans le soleil, la main sur sa poitrine » — euphémisme de la mort</li>
-<li>« La Nature, berce-le chaudement : il a froid » — ironie tragique, nature impuissante</li>
-<li>« Il a deux trous rouges au côté droit » — chute, violence nue, réalisme</li>
-</ul>
+<p><span class="fig fig-anaphore" title="ANAPHORE : 'il dort' répété 3 fois dans le poème. Martèle l'euphémisme, endort la méfiance du lecteur. Effet hypnotique — on finit par y croire.">Les pieds dans les glaïeuls, il dort.</span> <span class="fig fig-comparaison" title="COMPARAISON pathétique : 'comme sourirait un enfant malade.' Le soldat devient un enfant innocent. Anti-héroïsme total : pas de gloire, pas de bravoure. La guerre tue des enfants.">Souriant comme<br>
+Sourirait un enfant malade</span>, il fait un somme :<br>
+<span class="fig fig-ironie" title="APOSTROPHE + IRONIE TRAGIQUE : Rimbaud s'adresse à la Nature comme si elle pouvait aider. Mais 'il a froid' révèle que le soldat est mort — les morts ont froid. La Nature est impuissante. Ironie : on demande de bercer un cadavre.">Nature, berce-le chaudement : il a froid.</span></p>
 
-<h3>Problématique type oral</h3>
-<p><em>Comment Rimbaud utilise-t-il la beauté du sonnet pour dénoncer l'horreur de la guerre ?</em></p>`,
-flashcards: [
-{q:'Genre et forme du Dormeur du val',a:'Sonnet : 2 quatrains + 2 tercets. Alexandrins. Rimes embrassées (ABBA) dans les quatrains.',score:0,interval:0,ease:2.5,due:null},
-{q:'Date et contexte du Dormeur du val',a:'Octobre 1870. Rimbaud a 16 ans. Guerre franco-prussienne. Poème pacifiste et anti-guerre.',score:0,interval:0,ease:2.5,due:null},
-{q:'Procédé central : le retournement final',a:'Euphémisme filé (le soldat "dort") + chute brutale ("deux trous rouges"). Le lecteur est dupé comme la nature est trompée.',score:0,interval:0,ease:2.5,due:null},
-{q:'Rôle de la Nature dans le poème',a:'Nature maternelle, personnifiée, qui "berce" le soldat. Mais elle est impuissante face à la mort. Contraste vie/mort = ironie tragique.',score:0,interval:0,ease:2.5,due:null},
-{q:'Citation clé — la chute',a:'"Il a deux trous rouges au côté droit." Rupture de ton, réalisme brutal, anti-héroïsme.',score:0,interval:0,ease:2.5,due:null},
-{q:'Problématique oral bac',a:'Comment Rimbaud utilise-t-il la beauté du sonnet pour dénoncer l\'horreur de la guerre ?',score:0,interval:0,ease:2.5,due:null},
-{q:'Axe 1 — Dormeur du val',a:'Une nature idyllique et trompeuse : champ lexical de la vie et de la lumière qui masque la mort.',score:0,interval:0,ease:2.5,due:null},
-{q:'Axe 2 — Dormeur du val',a:'Le sonnet comme piège : structure en entonnoir, révélation finale. L\'effet de chute dénonce sans pathos.',score:0,interval:0,ease:2.5,due:null},
-{q:'Axe 3 — Dormeur du val',a:'Dénonciation de la guerre : pas de gloire, pas de héroïsme. Le soldat est un enfant sacrifié.',score:0,interval:0,ease:2.5,due:null},
-]};
-
-PREBUILT['Français']['T2 — Roman (Rimbaud)'] = {
-cours: `<h2>Texte n°2 — "Roman"</h2>
-<p><strong>Auteur :</strong> Arthur Rimbaud &nbsp;|&nbsp; <strong>Œuvre :</strong> Cahiers de Douai (1870) &nbsp;|&nbsp; <strong>Objet d'étude :</strong> La poésie</p>
-<div class="formula-box"><strong>Incipit :</strong> « On n'est pas sérieux, quand on a dix-sept ans... » &nbsp;|&nbsp; <strong>Genre :</strong> Poème lyrique en 4 parties (16 strophes)</div>
-
-<h3>Résumé & situation</h3>
-<p>Poème autobiographique : un adolescent de 17 ans vit ses premières émotions amoureuses lors d'une soirée de juin. Le titre "Roman" est ironique — cette histoire est à la fois banale et intense, vécue comme un grand roman sentimental.</p>
+<p>Les parfums ne font pas frissonner sa narine ;<br>
+<span class="fig fig-anaphore" title="ANAPHORE (3e occurrence) — dernier emploi de l'euphémisme avant la chute brutale. Le lecteur est totalement berné.">Il dort dans le soleil, la main sur sa poitrine</span><br>
+Tranquille. <span class="fig fig-chute" title="CHUTE / RUPTURE DE TON — le vers final brise tout. Après 13 vers de douceur trompeuse, la vérité nue : deux balles. Pas de pathos, pas de larmes. La sécheresse du constat EST la dénonciation de la guerre. Technique anti-romantique de Rimbaud : moins il en dit, plus ça fait mal.">Il a deux trous rouges au côté droit.</span></p>
+</div>
 
 <h3>Axes de lecture</h3>
 <ul>
-<li><strong>Axe 1 — L'exaltation de la jeunesse et du premier amour :</strong> Sensations physiques, liberté, nature estivale. Le lyrisme adolescent est célébré sans distance.</li>
-<li><strong>Axe 2 — L'ironie légère du titre et de la voix poétique :</strong> "On" impersonnel = généralisation distanciée. Rimbaud se moque tendrement de lui-même et de l'universalité du sentiment amoureux.</li>
-<li><strong>Axe 3 — La fugacité et le désenchantement :</strong> Dernière strophe = retour à la réalité. L'amour adolescent est éphémère comme un soir de juin.</li>
+<li><strong>Axe 1 — Une nature idyllique et trompeuse :</strong> Nature personnifiée, maternelle (« berce », « chauffe »). Champ lexical de la lumière et de la vie qui contraste violemment avec la mort.</li>
+<li><strong>Axe 2 — Le sonnet comme piège :</strong> Le lecteur est berné comme le soldat semble dormir. La révélation finale est brutale, sèche, sans pathos — anti-climax volontaire.</li>
+<li><strong>Axe 3 — Dénonciation de la guerre :</strong> Pas de héroïsme, pas de gloire. Le soldat est un enfant. La guerre est absurde.</li>
 </ul>
 
-<h3>Procédés clés</h3>
+<h3>Les 5 figures à nommer à l'oral</h3>
 <ul>
-<li><strong>Pronom "On" :</strong> universel, inclusif, complicité avec le lecteur</li>
-<li><strong>Champ lexical des sens :</strong> « tilleuls », « bocks », « limonade »</li>
-<li><strong>Rythme vif, enjambements :</strong> mimétisme de l'excitation adolescente</li>
-<li><strong>Ironie du titre "Roman" :</strong> désacralise le grand amour, mais le magnifie aussi</li>
-</ul>
-
-<h3>Citations indispensables</h3>
-<ul>
-<li>« On n'est pas sérieux, quand on a dix-sept ans » — incipit universel</li>
-<li>« Les tilleuls sentent bon dans les bons soirs de juin » — synesthésie, sensorialité</li>
-<li>« — Elle vous trouve drôlement naïf, et ses doigts tremblent... » — délicatesse du premier amour</li>
-</ul>
-
-<h3>Problématique type oral</h3>
-<p><em>Comment Rimbaud fait-il du banal sentiment amoureux adolescent un sujet poétique à la fois universel et intime ?</em></p>`,
+<li><strong>Euphémisme filé</strong> — "dort" (×3) → piège du lecteur. <em>Comment le retrouver : mot doux qui cache une réalité dure.</em></li>
+<li><strong>Personnification</strong> — Nature "fière", rivière "chante". <em>Verbe ou adjectif humain donné à un élément naturel.</em></li>
+<li><strong>Anaphore</strong> — "il dort" ×3. <em>Même groupe répété en début d'unité.</em></li>
+<li><strong>Comparaison pathétique</strong> — "comme sourirait un enfant malade". <em>Outil comparatif + image touchante.</em></li>
+<li><strong>Chute / rupture de ton</strong> — "Il a deux trous rouges". <em>Dernier vers qui brise le registre dominant.</em></li>
+</ul>`,
 flashcards: [
-{q:'Titre "Roman" — ironie',a:'Ironique : désigne une histoire banale (premier amour) vécue comme un grand roman sentimental. Double sens : élève et moque à la fois.',score:0,interval:0,ease:2.5,due:null},
-{q:'Rôle du pronom "On" dans Roman',a:'Universel et inclusif. Généralise l\'expérience amoureuse. Crée une complicité avec le lecteur. Distanciation légèrement ironique.',score:0,interval:0,ease:2.5,due:null},
-{q:'Contexte biographique — Roman',a:'Rimbaud a 17 ans en 1870. Poème autobiographique. Fugues à Paris, sentiment de liberté absolue.',score:0,interval:0,ease:2.5,due:null},
-{q:'Axe principal — Roman (Rimbaud)',a:'Célébration lyrique de la jeunesse + ironie distanciée. La fugacité du premier amour, universel et éphémère.',score:0,interval:0,ease:2.5,due:null},
-{q:'Citation clé — Roman',a:'"On n\'est pas sérieux, quand on a dix-sept ans." Incipit célèbre, universel, légèrement ironique.',score:0,interval:0,ease:2.5,due:null},
-]};
-
-PREBUILT['Français']['T3 — Ma Bohême (Rimbaud)'] = {
-cours: `<h2>Texte n°3 — "Ma Bohême"</h2>
-<p><strong>Auteur :</strong> Arthur Rimbaud &nbsp;|&nbsp; <strong>Œuvre :</strong> Cahiers de Douai (1870) &nbsp;|&nbsp; <strong>Objet d'étude :</strong> La poésie</p>
-<div class="formula-box"><strong>Sous-titre :</strong> "Fantaisie" &nbsp;|&nbsp; <strong>Forme :</strong> Sonnet irrégulier &nbsp;|&nbsp; <strong>Mouvement :</strong> Romantisme / Proto-symbolisme</div>
-
-<h3>Résumé & situation</h3>
-<p>Rimbaud célèbre sa vie de vagabond adolescent : fugues, marche à pied, nuits dehors, pauvreté vécue comme liberté totale. Le poème est une ode joyeuse à l'errance, à la nature et à la création poétique née du voyage.</p>
-
-<h3>Axes de lecture</h3>
-<ul>
-<li><strong>Axe 1 — L'errance comme liberté et programme poétique :</strong> La fugue n'est pas une fuite mais une conquête. La misère (veston troué, souliers usés) devient insignes du poète libre.</li>
-<li><strong>Axe 2 — La nature comme muse et interlocutrice :</strong> Étoiles, routes, rosée — la nature dialogue avec le poète. Lyrisme panthéiste.</li>
-<li><strong>Axe 3 — L'autoportrait du poète-voyant en devenir :</strong> "Ma Bohême" annonce la théorie du "Voyant" (lettre de mai 1871). Le dérèglement de la vie ordinaire = condition de la création.</li>
-</ul>
-
-<h3>Procédés clés</h3>
-<ul>
-<li><strong>Adjectif possessif "Ma" :</strong> revendication, appropriation de la marginalité</li>
-<li><strong>Métaphore filée du voyage :</strong> « Muse » en personnage de route</li>
-<li><strong>Oxymore joyeux :</strong> richesse dans la pauvreté (« Petit-Poucet rêveur »)</li>
-<li><strong>Alexandrins libérés, enjambements :</strong> mimétisme de l'errance</li>
-<li><strong>Référence au Petit-Poucet :</strong> enfant perdu mais qui trace son chemin</li>
-</ul>
-
-<h3>Citations indispensables</h3>
-<ul>
-<li>« Je m'en allais, les poings dans mes poches crevées » — posture du vagabond, liberté corporelle</li>
-<li>« Mon unique culotte avait un large trou » — autodérision, pauvreté assumée</li>
-<li>« Petit-Poucet rêveur, j'égrenais dans ma course / Des rimes » — poète-enfant, création en mouvement</li>
-<li>« Les étoiles au ciel avaient un doux frou-frou » — synesthésie, dialogue poète-cosmos</li>
-</ul>
-
-<h3>Problématique type oral</h3>
-<p><em>Comment Rimbaud fait-il de l'errance et de la marginalité les conditions d'une liberté poétique totale ?</em></p>`,
-flashcards: [
-{q:'Sous-titre de Ma Bohême et son sens',a:'"Fantaisie" : légèreté revendiquée, mais aussi sens de création libre. Le poème joue et crée en même temps.',score:0,interval:0,ease:2.5,due:null},
-{q:'Figure du Petit-Poucet dans Ma Bohême',a:'Enfant perdu qui trace sa route. Rimbaud = poète-enfant qui "égrène des rimes" en marchant. Création poétique = errance.',score:0,interval:0,ease:2.5,due:null},
-{q:'Posture du poète dans Ma Bohême',a:'Vagabond marginal, libre, pauvre mais heureux. Anticipe la théorie du Voyant : le dérèglement comme condition de la création.',score:0,interval:0,ease:2.5,due:null},
-{q:'Citation clé — Ma Bohême',a:'"Je m\'en allais, les poings dans mes poches crevées." Posture corporelle du vagabond libre, ton désinvolte.',score:0,interval:0,ease:2.5,due:null},
-{q:'Problématique — Ma Bohême',a:'Comment Rimbaud fait-il de l\'errance et de la marginalité les conditions d\'une liberté poétique totale ?',score:0,interval:0,ease:2.5,due:null},
+{q:'Euphémisme central + effet dans Le dormeur du val',a:'"Dort" (×3) pour dire "est mort". Trompe le lecteur, rend la chute finale d\'autant plus brutale. C\'est le piège du poème.',score:0,interval:0,ease:2.5,due:null},
+{q:'Quelle figure est "Nature, berce-le chaudement : il a froid" ?',a:'Apostrophe + ironie tragique. Rimbaud s\'adresse à la Nature mais "il a froid" = il est mort. La Nature est impuissante — on demande de bercer un cadavre.',score:0,interval:0,ease:2.5,due:null},
+{q:'Effet de la chute "Il a deux trous rouges au côté droit"',a:'Rupture de ton totale. Sécheresse du constat sans pathos = dénonciation anti-romantique. Plus c\'est froid, plus c\'est violent.',score:0,interval:0,ease:2.5,due:null},
+{q:'Problématique du Dormeur du val',a:'Comment Rimbaud utilise-t-il la beauté trompeuse du sonnet pour dénoncer l\'horreur de la guerre ?',score:0,interval:0,ease:2.5,due:null},
+{q:'Pourquoi "un enfant malade" est important ?',a:'Comparaison pathétique — le soldat redevient enfant. Anti-héroïsme : la guerre ne fait pas des héros, elle tue des enfants innocents.',score:0,interval:0,ease:2.5,due:null},
 ]};
 
 PREBUILT['Français']['T4 — À une passante (Baudelaire)'] = {
-cours: `<h2>Texte n°4 — "À une passante"</h2>
-<p><strong>Auteur :</strong> Charles Baudelaire &nbsp;|&nbsp; <strong>Œuvre :</strong> Les Fleurs du Mal, "Tableaux parisiens" (1861) &nbsp;|&nbsp; <strong>Parcours :</strong> Émancipations créatrices</p>
-<div class="formula-box"><strong>Forme :</strong> Sonnet &nbsp;|&nbsp; <strong>Mouvement :</strong> Symbolisme / Modernité baudelairienne</div>
+cours: `<h2>À une passante — Fiche complète</h2>
+<p><strong>Charles Baudelaire</strong> | Les Fleurs du Mal, "Tableaux parisiens" (1861) | Sonnet</p>
+<div class="formula-box">
+🎯 <strong>Problématique :</strong> Comment Baudelaire fait-il de la rencontre manquée le symbole d'une beauté moderne foudroyante et éphémère ?<br>
+📌 <strong>Parcours :</strong> Émancipations créatrices | <strong>Mouvement :</strong> Symbolisme / Modernité
+</div>
 
-<h3>Résumé & situation</h3>
-<p>Dans le tumulte d'une rue parisienne, le poète aperçoit une femme en deuil, majestueuse. Leur regard se croise une fraction de seconde — puis elle disparaît pour toujours. Le poème saisit l'amour foudroyant et impossible, né et mort dans l'instant.</p>
+<h3>Le texte annoté</h3>
+<div class="fig-legende">
+<span class="fig-legende-item" style="background:#ffedd5;color:#c2410c">Ironie/Oxymore</span>
+<span class="fig-legende-item" style="background:#dcfce7;color:#166534">Personnification</span>
+<span class="fig-legende-item" style="background:#fef9c3;color:#854d0e">Métaphore</span>
+<span class="fig-legende-item" style="background:#fee2e2;color:#dc2626">Ellipse/Rupture</span>
+</div>
+<div class="texte-annote">
+<p><span class="fig fig-perso" title="PERSONNIFICATION : 'la rue hurlait.' La ville moderne est violente, hostile. Baudelaire invente la poésie urbaine — la rue n'est pas un décor, elle agresse physiquement le poète.">La rue assourdissante autour de moi hurlait.</span><br>
+<span class="fig fig-accumulation" title="ACCUMULATION d'adjectifs : 'Longue, mince, en grand deuil, douleur majestueuse.' Portrait fragmenté et impressionniste. On ne voit pas la femme entière — on saisit des éclats, comme un flash.">Longue, mince, en grand deuil, douleur majestueuse,</span><br>
+Une femme passa, d'une main fastueuse<br>
+Soulevant, balançant le feston et l'ourlet ;</p>
+
+<p><span class="fig fig-comparaison" title="COMPARAISON sculpturale : 'jambe de statue.' La femme est à la fois vivante et idéale, réelle et artistique. Baudelaire la transforme en œuvre d'art au moment même où il la voit — et la perd.">Agile et noble, avec sa jambe de statue.</span><br>
+Moi, je buvais, crispé comme un extravagant,<br>
+<span class="fig fig-metaphore" title="MÉTAPHORE complexe : l'œil est un 'ciel livide où germe l'ouragan.' Livide = couleur de mort et de passion. L'ouragan = la passion violente qui naît et meurt en même temps. Double sens : beauté et destruction.">Dans son œil, ciel livide où germe l'ouragan,</span><br>
+<span class="fig fig-oxymore" title="OXYMORE fondamental : 'douceur qui fascine ET plaisir qui tue.' L'amour baudelairien est toujours mortel. La beauté tue. C'est le Spleen — le bonheur est impossible, toujours lié à la destruction.">La douceur qui fascine et le plaisir qui tue.</span></p>
+
+<p><span class="fig fig-ellipse" title="ELLIPSE + RUPTURE : 'Un éclair... puis la nuit !' Les points de suspension miment la disparition instantanée. Baudelaire invente la beauté MODERNE : fugace, elle n'existe que dans l'instant de la perte. Pas de beauté éternelle — seulement des éclairs.">Un éclair... puis la nuit ! – Fugitive beauté</span><br>
+Dont le regard m'a fait soudainement renaître,<br>
+<span class="fig fig-question" title="QUESTION RHÉTORIQUE : 'Ne te verrai-je plus que dans l'éternité ?' Pas de réponse possible. L'éternité = la mort = seul lieu de retrouvailles. L'amour baudelairien est condamné dès sa naissance.">Ne te verrai-je plus que dans l'éternité ?</span></p>
+
+<p><span class="fig fig-accumulation" title="ACCUMULATION de ruptures : 'Ailleurs, bien loin, trop tard, jamais peut-être !' Gradation vers l'impossibilité absolue. Chaque mot ferme une porte. Le rythme haché mime l'agitation du poète.">Ailleurs, bien loin d'ici ! trop tard ! jamais peut-être !</span><br>
+Car j'ignore où tu fuis, tu ne sais où je vais,<br>
+<span class="fig fig-ironie" title="DOUBLE APOSTROPHE + CONDITIONNEL PASSÉ : 'Ô toi que j'eusse aimée, ô toi qui le savais !' Le conditionnel passé = irréel DÉFINITIF. Elle SAVAIT qu'il l'aurait aimée. La rencontre manquée est consciente des deux côtés. Beauté et tragédie absolues en un seul vers.">Ô toi que j'eusse aimée, ô toi qui le savais !</span></p>
+</div>
 
 <h3>Axes de lecture</h3>
 <ul>
-<li><strong>Axe 1 — La modernité baudelairienne : beauté fugace et urbaine :</strong> La rue, le bruit, la foule — Baudelaire invente la poésie de la ville moderne. La beauté n'est plus éternelle mais instantanée.</li>
-<li><strong>Axe 2 — L'amour impossible et le spleen :</strong> Rencontre sans lendemain. L'oxymore "douceur qui fascine et le plaisir qui tue" dit l'impossibilité de l'amour. Mélancolie fondamentale.</li>
-<li><strong>Axe 3 — L'émancipation créatrice (parcours) :</strong> La passante est une muse fugace. La perte inspire la création. Le poème naît de l'absence — sublimation de l'échec en art.</li>
+<li><strong>Axe 1 — Modernité baudelairienne :</strong> La rue, la foule, la vitesse — beauté non plus éternelle mais instantanée.</li>
+<li><strong>Axe 2 — L'amour impossible et le Spleen :</strong> L'oxymore "douceur/plaisir qui tue" dit l'impossibilité du bonheur.</li>
+<li><strong>Axe 3 — Émancipation créatrice :</strong> La perte inspire le poème. L'échec amoureux est sublimé en chef-d'œuvre.</li>
 </ul>
 
-<h3>Procédés clés</h3>
+<h3>Les 5 figures à nommer à l'oral</h3>
 <ul>
-<li><strong>Oxymore :</strong> « douceur qui fascine et le plaisir qui tue »</li>
-<li><strong>Antithèse :</strong> « Un éclair… puis la nuit ! » — amour/disparition</li>
-<li><strong>Personnification de la rue :</strong> « La rue assourdissante autour de moi hurlait »</li>
-<li><strong>Sublime féminin :</strong> « majestueuse », « grande », « noble » — femme idéalisée</li>
-<li><strong>Apostrophe finale :</strong> « Ô toi que j'eusse aimée » — conditionnel passé de l'impossible</li>
-</ul>
-
-<h3>Citations indispensables</h3>
-<ul>
-<li>« La rue assourdissante autour de moi hurlait » — modernité, chaos urbain</li>
-<li>« Un éclair… puis la nuit ! — Fugitive beauté » — beauté moderne = fugacité</li>
-<li>« Douceur qui fascine et le plaisir qui tue » — oxymore, tension désir/mort</li>
-<li>« Ô toi que j'eusse aimée, ô toi qui le savais ! » — apostrophe finale, regret</li>
-</ul>
-
-<h3>Problématique type oral</h3>
-<p><em>Comment Baudelaire fait-il de la rencontre manquée le symbole d'une beauté moderne à la fois foudroyante et éphémère ?</em></p>`,
+<li><strong>Oxymore</strong> — "douceur qui fascine et plaisir qui tue". <em>Deux termes contradictoires unis.</em></li>
+<li><strong>Personnification</strong> — "la rue hurlait". <em>Verbe humain donné à un lieu.</em></li>
+<li><strong>Ellipse</strong> — "Un éclair... puis la nuit !". <em>Ponctuation expressive qui mime la disparition.</em></li>
+<li><strong>Conditionnel passé irréel</strong> — "j'eusse aimée". <em>Forme verbale = ce qui ne peut pas être.</em></li>
+<li><strong>Métaphore de l'œil</strong> — "ciel livide où germe l'ouragan". <em>Comparaison sans outil comparatif.</em></li>
+</ul>`,
 flashcards: [
-{q:'Contexte — À une passante',a:'Les Fleurs du Mal, section "Tableaux parisiens" (1861). Baudelaire invente la poésie urbaine moderne. Paris haussmannien, foule, vitesse.',score:0,interval:0,ease:2.5,due:null},
-{q:'Définition de la "beauté moderne" selon Baudelaire',a:'Fugace, instantanée, née dans la rue. Oppose à la beauté éternelle classique. "Un éclair… puis la nuit !"',score:0,interval:0,ease:2.5,due:null},
-{q:'Oxymore central — À une passante',a:'"Douceur qui fascine et le plaisir qui tue." Tension désir/mort. Amour = danger et jouissance simultanés.',score:0,interval:0,ease:2.5,due:null},
-{q:'Lien avec le parcours Émancipations créatrices',a:'La perte inspire la création. Le poème naît de l\'absence. L\'échec amoureux est sublimé en œuvre d\'art.',score:0,interval:0,ease:2.5,due:null},
-{q:'Citation clé — chute du sonnet',a:'"Ô toi que j\'eusse aimée, ô toi qui le savais !" Conditionnel passé = irréel définitif. La passante sait ce qu\'elle était pour lui.',score:0,interval:0,ease:2.5,due:null},
+{q:'Oxymore central de "À une passante"',a:'"La douceur qui fascine et le plaisir qui tue." L\'amour baudelairien = attirance + destruction simultanées. Le Spleen.',score:0,interval:0,ease:2.5,due:null},
+{q:'Que signifie "j\'eusse aimée" ?',a:'Conditionnel passé = irréel définitif. Il l\'aurait aimée mais ne le pourra jamais. Elle "savait" aussi. Rencontre manquée consciente des deux côtés.',score:0,interval:0,ease:2.5,due:null},
+{q:'Pourquoi "Un éclair... puis la nuit !" est important',a:'Ellipse : les points miment la disparition. La beauté moderne (Baudelaire) = fugace, elle n\'existe que dans l\'instant de la perte.',score:0,interval:0,ease:2.5,due:null},
 {q:'Problématique — À une passante',a:'Comment Baudelaire fait-il de la rencontre manquée le symbole d\'une beauté moderne foudroyante et éphémère ?',score:0,interval:0,ease:2.5,due:null},
 ]};
 
-// OE2 — LITTÉRATURE D'IDÉES : Graffigny / Montaigne
-PREBUILT['Français']['T5 — Lettre 10, Graffigny'] = {
-cours: `<h2>Texte n°5 — Lettre 10, Lettres d'une Péruvienne</h2>
-<p><strong>Auteur :</strong> Françoise de Graffigny &nbsp;|&nbsp; <strong>Œuvre :</strong> Lettres d'une Péruvienne (1747) &nbsp;|&nbsp; <strong>Objet d'étude :</strong> Littérature d'idées (XVIIIe)</p>
 
-<h3>Contexte de l'œuvre</h3>
-<p>Roman épistolaire des Lumières. Zilia, princesse inca, est enlevée par les Espagnols puis recueillie en France. Elle écrit à son fiancé Aza. Le roman est une critique voilée de la société française vue par un regard extérieur naïf — le "regard étranger".</p>
+PREBUILT['Français']['T2 — Roman (Rimbaud)'] = {
+cours: `<h2>Roman — Fiche complète</h2>
+<p><strong>Arthur Rimbaud</strong> | Cahiers de Douai, 29 septembre 1870</p>
+<div class="formula-box">
+🎯 <strong>Problématique :</strong> Comment Rimbaud fait-il du sentiment amoureux adolescent un sujet poétique universel et intime ?<br>
+📌 <strong>Structure :</strong> 4 parties (I à IV) | Retour au vers initial = structure circulaire
+</div>
 
-<h3>Lettre 10 — Contenu et enjeux</h3>
-<p>Zilia découvre la société française avec stupeur. Elle observe les mœurs, la langue incompréhensible, le statut des femmes. Son regard naïf et sincère révèle l'arbitraire des conventions sociales françaises.</p>
+<h3>Le texte annoté</h3>
+<div class="texte-annote">
+<p><strong>I</strong><br>
+<span class="fig fig-ironie" title="IRONIE + DISTANCIATION : 'On n'est pas sérieux quand on a dix-sept ans.' Rimbaud a lui-même dix-sept ans. Le pronom 'On' = universel et distancié. Il se moque tendrement de lui-même ET de tous les adolescents. Ton légèrement moqueur mais sincère.">On n'est pas sérieux, quand on a dix-sept ans.</span><br>
+– Un beau soir, foin des bocks et de la limonade,<br>
+Des cafés tapageurs aux lustres éclatants !<br>
+<span class="fig fig-metaphore" title="MÉTAPHORE SENSORIELLE : 'les tilleuls verts' = couleur de la jeunesse et de l'espoir. Ils reviendront au dernier vers — structure circulaire. Le retour des tilleuls dit que l'amour adolescent recommence toujours.">– On va sous les tilleuls verts de la promenade.</span></p>
 
-<h3>Axes de lecture</h3>
+<p><span class="fig fig-perso" title="SYNESTHÉSIE + PERSONNIFICATION : 'L'air est si doux qu'on ferme la paupière.' L'air agit sur le corps. Les sens se mélangent (toucher + vue + odorat). La douceur du soir de juin est physique, presque enivrante.">Les tilleuls sentent bon dans les bons soirs de juin !<br>
+L'air est parfois si doux, qu'on ferme la paupière ;</span><br>
+<span class="fig fig-metaphore" title="MÉTAPHORE OLFACTIVE : 'parfums de vigne et parfums de bière.' La ville entre par l'odorat. Rimbaud mélange nature (vigne) et monde populaire (bière). Réalisme poétique — pas de nature idéalisée.">Le vent chargé de bruits – la ville n'est pas loin –<br>
+A des parfums de vigne et des parfums de bière...</span></p>
+
+<p><strong>II</strong><br>
+<span class="fig fig-metaphore" title="MÉTAPHORE FRAGILE : 'un tout petit chiffon d'azur sombre' = une étoile entrevue à travers les branches. Image délicate, minuscule — comme l'amour naissant, fragile et précieux.">Voilà qu'on aperçoit un tout petit chiffon<br>
+D'azur sombre, encadré d'une petite branche,</span><br>
+<span class="fig fig-comparaison" title="COMPARAISON ANIMALE : 'un baiser qui palpite comme une petite bête.' Le baiser est vivant, animal, instinctif. Image surprenante et juste — le désir adolescent est capturé avec précision et tendresse.">On se laisse griser... on se sent aux lèvres un baiser<br>
+Qui palpite là, comme une petite bête...</span></p>
+
+<p><strong>III</strong><br>
+<span class="fig fig-metaphore" title="NÉOLOGISME VERBAL : 'Le cœur fou robinsonne à travers les romans.' Robinson Crusoé = aventurier solitaire. Le cœur devient un aventurier des romans d'amour. Rimbaud invente le verbe 'robinsonner' — marque de liberté poétique.">Le cœur fou robinsonne à travers les romans,</span><br>
+<span class="fig fig-ironie" title="IRONIE SOCIALE : 'sous l'ombre du faux col effrayant de son père.' Le père = l'autorité bourgeoise. Le faux col = symbole du conformisme ridicule. L'amour adolescent doit se faufiler sous la surveillance paternelle.">Passe une demoiselle aux petits airs charmants,<br>
+Sous l'ombre du faux col effrayant de son père...</span></p>
+
+<p><strong>IV</strong><br>
+<span class="fig fig-anaphore" title="ANAPHORE : 'Vous êtes amoureux' répété deux fois. L'amour envahit tout, même le ton du poème change — plus direct, plus personnel. Le 'On' impersonnel devient 'Vous' = interpellation.">Vous êtes amoureux. Loué jusqu'au mois d'août.<br>
+Vous êtes amoureux.</span> – Vos sonnets La font rire.<br>
+Tous vos amis s'en vont, vous êtes mauvais goût.<br>
+– Puis l'adorée, un soir, a daigné vous écrire !...</p>
+
+<p>– Ce soir-là..., – vous rentrez aux cafés éclatants,<br>
+Vous demandez des bocks ou de la limonade...<br>
+<span class="fig fig-anaphore" title="STRUCTURE CIRCULAIRE : retour exact du premier vers. Le cycle de l'amour adolescent recommence. C'est universel et éternel — chaque génération vit cette même expérience. La circularité dit : cela ne finit jamais.">– On n'est pas sérieux, quand on a dix-sept ans<br>
+Et qu'on a des tilleuls verts sur la promenade.</span></p>
+</div>
+
+<h3>Les 4 figures clés</h3>
 <ul>
-<li><strong>Axe 1 — Le regard étranger comme outil critique :</strong> Technique du bon sauvage / regard naïf héritée de Montaigne et Montesquieu (Lettres persanes). L'étrangeté rend visible ce que les Français ne voient plus.</li>
-<li><strong>Axe 2 — La condition féminine :</strong> Graffigny, femme de lettres, utilise Zilia pour questionner la place des femmes dans la société des Lumières.</li>
-<li><strong>Axe 3 — Critique du colonialisme et de l'ethnocentrisme :</strong> La civilisation inca est présentée comme équivalente sinon supérieure à la française.</li>
-</ul>
-
-<h3>Procédés clés</h3>
-<ul>
-<li><strong>Roman épistolaire :</strong> authenticité simulée, intimité, subjectivité</li>
-<li><strong>Regard naïf / ingénu :</strong> question rhétorique, étonnement sincère</li>
-<li><strong>Ironie douce :</strong> Zilia ne comprend pas mais sa description est accablante pour les Français</li>
+<li><strong>Structure circulaire</strong> — même vers début/fin. <em>Le cycle de l'amour adolescent recommence toujours.</em></li>
+<li><strong>Ironie distanciée</strong> — "On n'est pas sérieux". <em>Pronom universel + ton légèrement moqueur.</em></li>
+<li><strong>Synesthésie</strong> — sons, odeurs, douceur mêlés. <em>Plusieurs sens dans une même image.</em></li>
+<li><strong>Comparaison animale</strong> — "baiser comme une petite bête". <em>Image inattendue et précise du désir.</em></li>
 </ul>`,
 flashcards: [
-{q:'Genre et forme — Lettres d\'une Péruvienne',a:'Roman épistolaire (lettres). Narratrice : Zilia, princesse inca. Destinataire : Aza, son fiancé. XVIIIe siècle, 1747.',score:0,interval:0,ease:2.5,due:null},
-{q:'Technique du "regard étranger"',a:'Un personnage étranger observe la société française avec naïveté. Rend visible l\'arbitraire des conventions. Héritage : Montesquieu (Lettres persanes), Voltaire (Candide).',score:0,interval:0,ease:2.5,due:null},
-{q:'Enjeux de la Lettre 10',a:'Découverte de la société française. Critique des mœurs, de la langue, du statut des femmes. Le regard naïf de Zilia révèle les absurdités de la civilisation française.',score:0,interval:0,ease:2.5,due:null},
-{q:'Double critique dans les Lettres d\'une Péruvienne',a:'Critique du colonialisme espagnol ET critique de la société française. Graffigny place les deux civilisations à égalité, voire valorise la civilisation inca.',score:0,interval:0,ease:2.5,due:null},
+{q:'Structure de "Roman" et son effet',a:'Circulaire : même vers au début et à la fin. L\'amour adolescent est universel, il recommence toujours. La boucle dit que c\'est l\'expérience de toute une génération.',score:0,interval:0,ease:2.5,due:null},
+{q:'Rôle du pronom "On" dans Roman',a:'Universel et distancié. Rimbaud inclut tous les adolescents. Ironie tendre : il se moque de lui-même. Crée une complicité avec le lecteur.',score:0,interval:0,ease:2.5,due:null},
+{q:'Néologisme "robinsonner" — figure et sens',a:'Verbe inventé par Rimbaud. "Le cœur robinsonne" = explore les romans comme Robinson explore son île. Liberté poétique = créer des mots.',score:0,interval:0,ease:2.5,due:null},
 ]};
 
-PREBUILT['Français']['T6 — Lettre 34, Graffigny'] = {
-cours: `<h2>Texte n°6 — Lettre 34, Lettres d'une Péruvienne</h2>
-<p><strong>Auteur :</strong> Françoise de Graffigny &nbsp;|&nbsp; <strong>Œuvre :</strong> Lettres d'une Péruvienne (1747)</p>
+PREBUILT['Français']['T3 — Ma Bohême (Rimbaud)'] = {
+cours: `<h2>Ma Bohême — Fiche complète</h2>
+<p><strong>Arthur Rimbaud</strong> | Cahiers de Douai (1870) | Sous-titre : Fantaisie | Sonnet</p>
+<div class="formula-box">
+🎯 <strong>Problématique :</strong> Comment Rimbaud fait-il de l'errance et de la misère les conditions d'une liberté poétique totale ?<br>
+📌 <strong>Thème central :</strong> La pauvreté matérielle = richesse poétique. Tout devient poésie.
+</div>
 
-<h3>Lettre 34 — Contenu et enjeux</h3>
-<p>Zilia, désormais installée en France, maîtrise mieux la langue et peut formuler une critique plus directe. Elle compare explicitement les mœurs françaises aux valeurs incas. La lettre est plus argumentée, plus philosophique.</p>
+<h3>Le texte annoté</h3>
+<div class="texte-annote">
+<p><span class="fig fig-metaphore" title="MÉTAPHORE IRONIQUE : 'poches crevées' = pauvreté affichée avec fierté. Et 'Mon paletot devenait idéal' — le manteau usé devient 'idéal' = parfait. Oxymore économique : la misère matérielle produit l'idéal poétique. Plus il est pauvre, plus il est libre.">Je m'en allais, les poings dans mes poches crevées ;<br>
+Mon paletot aussi devenait idéal ;</span><br>
+<span class="fig fig-apostrophe" title="APOSTROPHE à la Muse : Rimbaud s'adresse directement à sa source d'inspiration en marchant. 'j'étais ton féal' = chevalier servant de la poésie. La route est son atelier d'écriture.">J'allais sous le ciel, Muse ! et j'étais ton féal ;</span><br>
+<span class="fig fig-hyperbole" title="HYPERBOLE lyrique : 'que d'amours splendides j'ai rêvées !' L'exclamation et le pluriel expriment la richesse INTÉRIEURE qui compense la pauvreté extérieure. La vie intérieure est démesurée.">Oh ! là ! là ! que d'amours splendides j'ai rêvées !</span></p>
 
-<h3>Axes de lecture</h3>
+<p>Mon unique culotte avait un large trou. –<br>
+<span class="fig fig-comparaison" title="COMPARAISON INTERTEXTUELLE clé : 'Petit-Poucet rêveur, j'égrenais dans ma course des rimes.' Petit-Poucet sème des cailloux pour retrouver son chemin — Rimbaud sème des RIMES. La poésie remplace les cailloux. L'enfant perdu trouve sa voie par l'art, pas par la prudence.">Petit-Poucet rêveur, j'égrenais dans ma course<br>
+Des rimes.</span> <span class="fig fig-metaphore" title="MÉTAPHORE ASTRONOMIQUE : 'Mon auberge était à la Grande-Ourse.' L'étoile polaire = son hôtel de nuit. Rimbaud n'a pas de toit — le ciel étoilé est sa maison. Refus total de la sédentarité bourgeoise. La liberté absolue EST son logement.">Mon auberge était à la Grande-Ourse.</span><br>
+<span class="fig fig-perso" title="PERSONNIFICATION + SYNESTHÉSIE : 'Mes étoiles au ciel avaient un doux frou-frou.' Les étoiles font du bruit (frou-frou = bruit de tissu). Les étoiles sont SIENNES — il possède le ciel. Vision et ouïe se mélangent.">– Mes étoiles au ciel avaient un doux frou-frou</span></p>
+
+<p>Et je les écoutais, assis au bord des routes,<br>
+<span class="fig fig-comparaison" title="COMPARAISON OENOLOGIQUE : 'gouttes de rosée à mon front, comme un vin de vigueur.' La rosée = vin = ivresse poétique. La nature nourrit le poète comme le vin stimule les sens. La marche dans la rosée = cérémonie poétique.">Ces bons soirs de septembre où je sentais des gouttes<br>
+De rosée à mon front, comme un vin de vigueur ;</span></p>
+
+<p><span class="fig fig-comparaison" title="COMPARAISON MUSICALE — la plus belle figure du poème : 'Comme des lyres, je tirais les élastiques de mes souliers blessés.' Les élastiques USÉS de ses chaussures = cordes de lyre. La misère la plus banale devient instrument de musique. C'est la définition du poète-bohème : transformer TOUT en art.">Où, rimant au milieu des ombres fantastiques,<br>
+Comme des lyres, je tirais les élastiques<br>
+De mes souliers blessés, un pied près de mon cœur !</span></p>
+</div>
+
+<h3>Les 4 figures clés</h3>
 <ul>
-<li><strong>Axe 1 — De l'étonnement à la critique construite :</strong> Zilia n'est plus simplement naïve. Elle argumente, compare, juge. Évolution du personnage = évolution du regard critique.</li>
-<li><strong>Axe 2 — Critique des femmes françaises et de leur éducation :</strong> Les femmes françaises sont réduites à leur apparence, à la séduction. Graffigny dénonce un système qui étouffe les femmes.</li>
-<li><strong>Axe 3 — L'écriture comme émancipation :</strong> Zilia écrit pour exister, pour ne pas disparaître. L'acte d'écrire = résistance à l'effacement.</li>
-</ul>
-
-<h3>Procédés clés</h3>
-<ul>
-<li><strong>Antithèse France/Pérou :</strong> mise en valeur de la civilisation inca</li>
-<li><strong>Argumentation directe :</strong> connecteurs logiques, raisonnement structuré</li>
-<li><strong>Ironie voltairienne :</strong> formuler sans agressivité ce qui est accablant</li>
+<li><strong>Métaphore de la misère idéale</strong> — "paletot idéal". <em>Adjectif valorisant sur objet dégradé.</em></li>
+<li><strong>Comparaison du Petit-Poucet</strong> — rimes à la place des cailloux. <em>Intertextualité : conte réinventé.</em></li>
+<li><strong>Métaphore astronomique</strong> — "auberge à la Grande-Ourse". <em>Le ciel étoilé = maison du poète libre.</em></li>
+<li><strong>Comparaison des lyres</strong> — élastiques usés = cordes de lyre. <em>Objet vulgaire transformé en noble.</em></li>
 </ul>`,
 flashcards: [
-{q:'Évolution de Zilia entre Lettre 10 et Lettre 34',a:'Lettre 10 : naïveté, étonnement. Lettre 34 : critique construite, argumentée. Zilia maîtrise la langue et peut formuler ses jugements.',score:0,interval:0,ease:2.5,due:null},
-{q:'Critique des femmes dans la Lettre 34',a:'Les femmes françaises sont réduites à leur apparence et à la séduction. Pas d\'éducation intellectuelle. Graffigny dénonce ce système.',score:0,interval:0,ease:2.5,due:null},
-{q:'L\'écriture comme émancipation — Graffigny',a:'Zilia écrit pour exister et résister à l\'effacement. L\'acte d\'écriture = affirmation de soi face à une société qui ignore les femmes.',score:0,interval:0,ease:2.5,due:null},
+{q:'Figure centrale de "Ma Bohême" et sa signification',a:'Métaphore filée de la misère transformée en idéal. "Paletot idéal", "auberge à la Grande-Ourse", "élastiques comme des lyres." La pauvreté matérielle = richesse poétique.',score:0,interval:0,ease:2.5,due:null},
+{q:'"Petit-Poucet rêveur" — figure et sens',a:'Comparaison intertextuelle. Rimbaud sème des rimes au lieu des cailloux du conte. L\'enfant perdu trouve son chemin par la poésie, pas par la prudence bourgeoise.',score:0,interval:0,ease:2.5,due:null},
+{q:'Problématique — Ma Bohême',a:'Comment Rimbaud fait-il de l\'errance et de la misère les conditions d\'une liberté poétique totale ?',score:0,interval:0,ease:2.5,due:null},
 ]};
 
-PREBUILT['Français']['T7 — Lettre 41, Graffigny'] = {
-cours: `<h2>Texte n°7 — Lettre 41, Lettres d'une Péruvienne</h2>
-<p><strong>Auteur :</strong> Françoise de Graffigny &nbsp;|&nbsp; <strong>Œuvre :</strong> Lettres d'une Péruvienne (1747)</p>
+PREBUILT['Français']['T5-6-7 — Graffigny (Lettres 10, 34, 41)'] = {
+cours: `<h2>Lettres d'une Péruvienne — Fiche complète</h2>
+<p><strong>Françoise de Graffigny</strong> | 1747 | Roman épistolaire | Lettres 10, 34, 41</p>
+<div class="formula-box">
+🎯 <strong>Technique centrale :</strong> Le regard étranger — Zilia observe la France avec des yeux neufs. Ce qui semble normal aux Français devient absurde vu de l'extérieur.<br>
+📌 <strong>Enjeu :</strong> Critiquer la société française (condition des femmes, ethnocentrisme) sans être censurée.
+</div>
 
-<h3>Lettre 41 — Contenu et enjeux</h3>
-<p>Lettre finale ou proche de la fin. Zilia refuse la proposition de mariage de Déterville (Français qui l'a recueillie) et choisit de vivre seule, libre, dans la maison qu'il lui offre. Fin subversive : la femme choisit l'indépendance plutôt que le mariage.</p>
+<h3>Lettre 10 — Premier regard sur la France</h3>
+<div class="texte-annote">
+<p><span class="fig fig-accumulation" title="ACCUMULATION de réactions : 'me frappe, me surprend, m'étonne.' Triple accumulation de verbes d'étonnement. Le choc culturel est total — Zilia est submergée. Graffigny montre que la France, vue de l'extérieur, est incompréhensible.">tout ce qui s'offre à mes yeux me frappe, me surprend, m'étonne</span>, et ne me laisse qu'une impression vague, une perplexité stupide</p>
 
-<h3>Axes de lecture</h3>
+<p><span class="fig fig-ironie" title="IRONIE DU MIROIR : Zilia voit une 'jeune personne habillée comme une Vierge du Soleil' — c'est son propre reflet dans un miroir ! Elle court vers elle, pensant trouver une compatriote. L'ironie : on ne reconnaît pas son propre reflet sans avoir vu de miroir. Graffigny dit : nos conventions sont invisibles à qui les vit.">j'ai vu une jeune personne habillée comme une Vierge du Soleil ; j'ai couru à elle les bras ouverts. Quelle surprise... de ne trouver qu'une résistance impénétrable</span></p>
+
+<p><span class="fig fig-question" title="QUESTIONS RHÉTORIQUES : 'Faut-il les craindre, faut-il les aimer ?' Pas de réponse — Zilia suspend son jugement. Graffigny dit : face à l'inconnu, la sagesse est de ne pas juger immédiatement. Leçon de tolérance.">Faut-il les craindre, faut-il les aimer ? Je me garderai bien de rien déterminer là-dessus.</span></p>
+</div>
+
+<h3>Lettre 34 — Critique de l'éducation des femmes</h3>
+<div class="texte-annote">
+<p><span class="fig fig-ironie" title="IRONIE CINGLANTE : 'on enferme les filles dans une maison religieuse pour leur apprendre à vivre dans le monde.' Contradiction logique parfaite : on enferme pour apprendre la liberté. Dénonciation du paradoxe de l'éducation féminine au XVIIIe siècle.">du moment que les filles commencent à être capables de recevoir des instructions, on les enferme dans une maison religieuse pour leur apprendre à vivre dans le monde</span></p>
+
+<p><span class="fig fig-comparaison" title="COMPARAISON PÉROU/FRANCE : 'On sait au Pérou... on l'ignore en France.' Le Pérou = modèle positif, la France = contre-modèle. Retournement subversif : la civilisation 'primitive' est plus sage que la civilisation 'avancée'.">On sait au Pérou, mon cher Aza, que, pour préparer les humains à la pratique des vertus... <strong>on l'ignore en France.</strong></span></p>
+</div>
+
+<h3>Lettre 41 — Le choix de la liberté</h3>
+<div class="texte-annote">
+<p><span class="fig fig-metaphore" title="MÉTAPHORE DES CHAÎNES : 'faire prendre à mon cœur de nouvelles chaînes.' Le mariage = prison. Zilia refuse d'aimer Déterville. Vision révolutionnaire au XVIIIe siècle — une femme qui refuse le mariage par choix.">C'est en vain que vous vous flatteriez de faire prendre à mon cœur de nouvelles chaînes.</span></p>
+
+<p><span class="fig fig-anaphore" title="ANAPHORE EXISTENTIELLE : 'je suis, je vis, j'existe.' Triple répétition + gradation. Zilia affirme son identité contre tous ceux qui veulent la définir (mari, société, religion). Programme des Lumières : l'existence suffit au bonheur.">Le plaisir d'être... <strong>je suis, je vis, j'existe</strong>, pourrait seul rendre heureux</span></p>
+</div>
+
+<h3>Les 4 figures clés</h3>
 <ul>
-<li><strong>Axe 1 — Un refus subversif : l'indépendance comme idéal :</strong> Au XVIIIe siècle, une femme seule est une anomalie sociale. Zilia choisit délibérément cet état. Graffigny propose un modèle féminin révolutionnaire.</li>
-<li><strong>Axe 2 — La critique du mariage comme institution :</strong> Zilia explique que le mariage français n'est pas fondé sur l'amour mais sur des conventions sociales et économiques.</li>
-<li><strong>Axe 3 — Le bonheur dans la culture et la liberté intellectuelle :</strong> Zilia trouve son bonheur dans les livres, l'étude, la solitude choisie. Programme des Lumières : la raison et la connaissance = voie du bonheur.</li>
-</ul>
-
-<h3>Procédés clés</h3>
-<ul>
-<li><strong>Discours argumentatif direct :</strong> Zilia explique, justifie, convainc</li>
-<li><strong>Topos du "bonheur solitaire" :</strong> héritage stoïcien et rousseauiste</li>
-<li><strong>Fin ouverte et utopique :</strong> la maison = espace de liberté féminine</li>
-</ul>
-
-<h3>Citation clé</h3>
-<p>Le refus du mariage au profit de la liberté intellectuelle — formule à retrouver dans le texte de ton édition.</p>`,
-flashcards: [
-{q:'Fin des Lettres d\'une Péruvienne — choix de Zilia',a:'Zilia refuse le mariage avec Déterville et choisit de vivre seule, libre, dans une maison. Fin subversive : indépendance féminine revendiquée.',score:0,interval:0,ease:2.5,due:null},
-{q:'Critique du mariage — Lettre 41',a:'Le mariage français est fondé sur les conventions et l\'argent, pas sur l\'amour. Zilia lui préfère la liberté et la culture.',score:0,interval:0,ease:2.5,due:null},
-{q:'Programme des Lumières dans la Lettre 41',a:'La raison, la connaissance et la liberté intellectuelle = chemin vers le bonheur. La maison de Zilia = espace d\'émancipation par la culture.',score:0,interval:0,ease:2.5,due:null},
-{q:'En quoi la Lettre 41 est-elle révolutionnaire ?',a:'Une femme au XVIIIe s. qui choisit la solitude et l\'indépendance plutôt que le mariage : anomalie sociale et programme féministe avant l\'heure.',score:0,interval:0,ease:2.5,due:null},
-]};
-
-PREBUILT['Français']['T8 — Des cannibales, Montaigne'] = {
-cours: `<h2>Texte n°8 — "Des cannibales"</h2>
-<p><strong>Auteur :</strong> Michel de Montaigne &nbsp;|&nbsp; <strong>Œuvre :</strong> Essais, Livre I, ch. 31 (1580) &nbsp;|&nbsp; <strong>Objet d'étude :</strong> Littérature d'idées</p>
-<div class="formula-box"><strong>Mouvement :</strong> Humanisme (XVIe) &nbsp;|&nbsp; <strong>Genre :</strong> Essai (forme inventée par Montaigne)</div>
-
-<h3>Résumé & situation</h3>
-<p>Montaigne réfléchit aux peuples cannibales du Nouveau Monde (Brésil). Contre l'opinion commune qui les juge "barbares", il montre que la "barbarie" est une question de point de vue, et que les Européens ne sont pas moins cruels.</p>
-
-<h3>Axes de lecture</h3>
-<ul>
-<li><strong>Axe 1 — Le relativisme culturel : renverser la notion de "barbarie" :</strong> Ce qui est barbare pour l'un est normal pour l'autre. Montaigne déconstruit l'ethnocentrisme européen. Première critique du colonialisme en littérature française.</li>
-<li><strong>Axe 2 — L'éloge paradoxal du cannibale : un "bon sauvage" :</strong> Les cannibales ont des vertus que les Européens ont perdues : courage, loyauté, vie en accord avec la nature. Montaigne précède Rousseau.</li>
-<li><strong>Axe 3 — La méthode humaniste : doute et observation :</strong> Montaigne doute de ses sources, interroge, nuance. La pensée par l'essai = tâtonnement, honnêteté intellectuelle.</li>
-</ul>
-
-<h3>Procédés clés</h3>
-<ul>
-<li><strong>Retournement argumentatif :</strong> "Nous" = barbares / "Eux" = naturels</li>
-<li><strong>Ironie socratique :</strong> feindre de ne pas comprendre pour mieux dénoncer</li>
-<li><strong>Accumulation d'exemples :</strong> rhétorique humaniste, culture encyclopédique</li>
-<li><strong>La forme "essai" :</strong> pensée en mouvement, pas de dogme</li>
-</ul>
-
-<h3>Citations indispensables</h3>
-<ul>
-<li>« Chacun appelle barbarie ce qui n'est pas de son usage » — relativisme culturel fondamental</li>
-<li>« Ces nations me semblent donc ainsi barbares, pour en avoir reçu fort peu de façon de l'esprit humain » — ironie, renversement</li>
-</ul>
-
-<h3>Problématique type oral</h3>
-<p><em>Comment Montaigne utilise-t-il la figure du cannibale pour remettre en question la notion de "civilisation" et dénoncer l'ethnocentrisme européen ?</em></p>`,
-flashcards: [
-{q:'Thèse centrale — Des cannibales',a:'"Chacun appelle barbarie ce qui n\'est pas de son usage." Le relativisme culturel : la barbarie est une construction du regard, pas une réalité objective.',score:0,interval:0,ease:2.5,due:null},
-{q:'Forme de l\'essai — Montaigne',a:'Genre inventé par Montaigne. Pensée en mouvement, doute permanent, honnêteté intellectuelle. Pas de démonstration dogmatique.',score:0,interval:0,ease:2.5,due:null},
-{q:'Qui sont les "vrais barbares" selon Montaigne ?',a:'Les Européens, qui pratiquent la torture, les guerres de religion, les supplices. Les cannibales mangent les morts — les Européens torturent les vivants.',score:0,interval:0,ease:2.5,due:null},
-{q:'Lien Montaigne / Graffigny (OE2)',a:'Même technique du regard étranger. Montaigne précède et inspire Graffigny : utiliser un regard extérieur pour critiquer la société européenne.',score:0,interval:0,ease:2.5,due:null},
-{q:'Problématique — Des cannibales',a:'Comment Montaigne utilise-t-il la figure du cannibale pour remettre en question la "civilisation" et dénoncer l\'ethnocentrisme européen ?',score:0,interval:0,ease:2.5,due:null},
-{q:'Citation clé — Des cannibales',a:'"Chacun appelle barbarie ce qui n\'est pas de son usage." Montaigne, Essais, I, 31.',score:0,interval:0,ease:2.5,due:null},
-]};
-
-// OE3 — THÉÂTRE : Corneille / Rostand / Molière
-PREBUILT['Français']['T9 — Le Menteur, I,3 (Corneille)'] = {
-cours: `<h2>Texte n°9 — Le Menteur, Acte I, scène 3</h2>
-<p><strong>Auteur :</strong> Pierre Corneille &nbsp;|&nbsp; <strong>Œuvre :</strong> Le Menteur (1643) &nbsp;|&nbsp; <strong>Objet d'étude :</strong> Le théâtre</p>
-<div class="formula-box"><strong>Genre :</strong> Comédie classique &nbsp;|&nbsp; <strong>Mouvement :</strong> Classicisme &nbsp;|&nbsp; <strong>Règle des 3 unités :</strong> respectée</div>
-
-<h3>Résumé de la scène</h3>
-<p>Dorante arrive à Paris et rencontre Clarice et Lucrèce au Tuileries. Pour les impressionner, il invente spontanément une histoire d'amour fictive. C'est sa première grande scène de mensonge — sa présentation au public comme menteur compulsif et virtuose.</p>
-
-<h3>Axes de lecture</h3>
-<ul>
-<li><strong>Axe 1 — Le mensonge comme performance et art :</strong> Dorante ment avec jubilation, créativité, virtuosité. Le mensonge est une forme d'improvisation théâtrale — mise en abyme du théâtre dans le théâtre.</li>
-<li><strong>Axe 2 — La comédie de caractère :</strong> Dorante est un "type" (le menteur) mais Corneille lui donne une vitalité et une séduction qui rendent le mensonge presque sympathique.</li>
-<li><strong>Axe 3 — Le regard sur la société parisienne :</strong> Le Paris de Corneille : lieu de séduction, d'apparences, où mentir est presque nécessaire pour réussir.</li>
-</ul>
-
-<h3>Procédés clés</h3>
-<ul>
-<li><strong>Tirade et virtuosité verbale :</strong> Dorante s'emballe, invente, détaille</li>
-<li><strong>Aparté :</strong> le valet Cliton commente, crée complicité avec le public</li>
-<li><strong>Ironie dramatique :</strong> le spectateur sait que c'est faux, pas les personnages</li>
-<li><strong>Alexandrins comiques :</strong> dignité du vers + légèreté du contenu = effet comique</li>
-</ul>
-
-<h3>Problématique type oral</h3>
-<p><em>Comment Corneille fait-il du mensonge de Dorante une performance théâtrale qui révèle les séductions et les dangers de la parole ?</em></p>`,
-flashcards: [
-{q:'Contexte — Le Menteur, I,3',a:'Dorante arrive à Paris, rencontre deux jeunes femmes. Il invente une histoire d\'amour fictive. Première scène de mensonge = présentation du "type" du menteur.',score:0,interval:0,ease:2.5,due:null},
-{q:'La mise en abyme dans Le Menteur',a:'Dorante invente une fiction devant des personnages : c\'est du théâtre dans le théâtre. Le menteur est un acteur/auteur improvisé.',score:0,interval:0,ease:2.5,due:null},
-{q:'Rôle de Cliton (le valet)',a:'Valet de Dorante. Commente en aparté les mensonges de son maître. Crée une complicité comique avec le spectateur (il sait la vérité).',score:0,interval:0,ease:2.5,due:null},
-{q:'Ironie dramatique — Le Menteur',a:'Le spectateur sait que Dorante ment, les personnages sur scène non. Tension comique et supériorité du spectateur sur les dupés.',score:0,interval:0,ease:2.5,due:null},
-{q:'Problématique — Le Menteur I,3',a:'Comment Corneille fait-il du mensonge une performance théâtrale qui révèle les séductions et les dangers de la parole ?',score:0,interval:0,ease:2.5,due:null},
-]};
-
-PREBUILT['Français']['T10 — Le Menteur, II,5 (Corneille)'] = {
-cours: `<h2>Texte n°10 — Le Menteur, Acte II, scène 5</h2>
-<p><strong>Auteur :</strong> Pierre Corneille &nbsp;|&nbsp; <strong>Œuvre :</strong> Le Menteur (1643)</p>
-
-<h3>Résumé de la scène</h3>
-<p>Dorante, pris dans ses propres mensonges, doit improviser de nouveaux mensonges pour s'en sortir. La situation se complique : son père Géronte, ses amis, les femmes — tout se noue. La scène illustre la mécanique infernale du mensonge qui appelle d'autres mensonges.</p>
-
-<h3>Axes de lecture</h3>
-<ul>
-<li><strong>Axe 1 — Le comique de situation : l'engrenage du mensonge :</strong> Chaque mensonge en nécessite un nouveau. Structure en boule de neige. Comique mécanique (Bergson : "du mécanique plaqué sur du vivant").</li>
-<li><strong>Axe 2 — La relation père/fils : autorité et transgression :</strong> Géronte représente l'ordre, la morale, le mariage. Dorante transgresse mais reste séduisant. Comédie des générations.</li>
-<li><strong>Axe 3 — La question morale : faut-il punir le menteur ? :</strong> Corneille hésite. Dorante est sympathique. La pièce questionne la place de la vérité dans les relations sociales.</li>
-</ul>
-
-<h3>Procédés clés</h3>
-<ul>
-<li><strong>Quiproquo :</strong> personnages qui parlent de réalités différentes</li>
-<li><strong>Comique de mots :</strong> double sens, sous-entendus</li>
-<li><strong>Accélération du rythme :</strong> répliques courtes, rythme haché = panique de Dorante</li>
+<li><strong>Regard étranger / naïf</strong> — scène du miroir. <em>Description littérale d'un objet dont la fonction semble évidente.</em></li>
+<li><strong>Ironie de l'éducation</strong> — "enfermer pour apprendre à vivre". <em>Contradiction logique dans le même énoncé.</em></li>
+<li><strong>Comparaison Pérou/France</strong> — le "primitif" modèle du "civilisé". <em>Renversement de la hiérarchie culturelle.</em></li>
+<li><strong>Anaphore existentielle</strong> — "je suis, je vis, j'existe". <em>Triple affirmation de l'identité féminine.</em></li>
 </ul>`,
 flashcards: [
-{q:'Mécanique du mensonge — Le Menteur II,5',a:'Un mensonge en appelle un autre : structure en boule de neige. Comique mécanique (Bergson). Dorante perd le contrôle de ses propres fictions.',score:0,interval:0,ease:2.5,due:null},
-{q:'Relation Dorante / Géronte',a:'Père autoritaire (mariage, ordre social) vs fils libertin et menteur. Comédie classique des générations. Corneille ne condamne pas vraiment Dorante.',score:0,interval:0,ease:2.5,due:null},
-{q:'Question morale dans Le Menteur',a:'La comédie ne condamne pas le menteur : Dorante est trop séduisant. Corneille interroge : la vérité est-elle toujours préférable dans les relations sociales ?',score:0,interval:0,ease:2.5,due:null},
+{q:'Technique du regard étranger chez Graffigny',a:'Zilia observe la France avec des yeux neufs — ce qui semble normal aux Français devient absurde. Permet de critiquer sans être censurée directement.',score:0,interval:0,ease:2.5,due:null},
+{q:'Ironie de la Lettre 34',a:'"On enferme les filles dans un couvent pour leur apprendre à vivre dans le monde." Contradiction logique = dénonciation de l\'éducation féminine paradoxale au XVIIIe.',score:0,interval:0,ease:2.5,due:null},
+{q:'"Je suis, je vis, j\'existe" — figure et sens',a:'Anaphore triple + gradation existentielle. Zilia refuse le mariage, affirme que l\'existence seule suffit au bonheur. Programme des Lumières : être libre = être heureux.',score:0,interval:0,ease:2.5,due:null},
+{q:'Scène du miroir (Lettre 10) — figure et sens',a:'Ironie du regard étranger. Zilia ne reconnaît pas son reflet — elle croit voir une compatriote. Dit que nos conventions sont invisibles à qui les vit depuis toujours.',score:0,interval:0,ease:2.5,due:null},
 ]};
 
-PREBUILT['Français']['T11 — Cyrano de Bergerac (Rostand) [À VENIR]'] = {
-cours: `<h2>Texte n°11 — Cyrano de Bergerac ⚠️ À VENIR</h2>
-<p><strong>Auteur :</strong> Edmond Rostand &nbsp;|&nbsp; <strong>Œuvre :</strong> Cyrano de Bergerac (1897)</p>
-<div class="formula-box" style="background:#fef3c7;border-color:#f59e0b;color:#92400e">⚠️ Ce texte n'a pas encore été étudié en cours. Ce chapitre sera complété à la réception du texte.</div>
+PREBUILT['Français']['T8 — Des cannibales (Montaigne)'] = {
+cours: `<h2>Des cannibales — Fiche complète</h2>
+<p><strong>Montaigne</strong> | Essais, Livre I, ch. 31 (1580) | Parcours : Écrire et combattre pour l'égalité</p>
+<div class="formula-box">
+🎯 <strong>Problématique :</strong> Comment Montaigne utilise-t-il la figure du cannibale pour déconstruire la notion de "barbarie" et dénoncer l'ethnocentrisme européen ?<br>
+📌 <strong>Genre :</strong> Essai (inventé par Montaigne) = pensée en mouvement, pas de dogme
+</div>
 
-<h3>Éléments de contexte à retenir dès maintenant</h3>
+<h3>Le texte annoté</h3>
+<div class="texte-annote">
+<p><span class="fig fig-these" title="THÈSE POSÉE EN OUVERTURE : 'il n'y a rien de barbare et de sauvage en cette nation.' Montaigne donne sa conclusion dès le début — technique rhétorique de la captatio. Il renverse l'opinion commune immédiatement.">Or je trouve, pour revenir à mon propos, qu'il n'y a rien de barbare et de sauvage en cette nation</span>, à ce qu'on m'en a rapporté : <span class="fig fig-relativisme" title="RELATIVISME CULTUREL — thèse centrale et révolutionnaire : 'chacun appelle barbarie ce qui n'est pas de son usage.' La barbarie n'est PAS une réalité objective, c'est un JUGEMENT CULTUREL. Ce qui est normal pour l'un est barbare pour l'autre. Première formulation du relativisme culturel en littérature française.">sinon que chacun appelle barbarie, ce qui n'est pas de son usage.</span></p>
+
+<p>Là est toujours <span class="fig fig-ironie" title="IRONIE : 'la parfaite religion, la parfaite police, parfait et accompli usage de toutes choses.' Montaigne IMITE le raisonnement ethnocentrique européen pour mieux le ridiculiser. L'accumulation de 'parfait' est trop parfaite — c'est du sarcasme.">la parfaite religion, la parfaite police, parfait et accompli usage de toutes choses.</span></p>
+
+<p><span class="fig fig-comparaison" title="COMPARAISON FONDATRICE : les hommes 'sauvages' sont comme les fruits 'sauvages' — naturels, donc plus vrais et plus purs. Montaigne retourne le sens du mot 'sauvage' : ce qui est naturel n'est pas inférieur, il est plus authentique.">Ils sont sauvages, de même que nous appelons sauvages les fruits que nature, de soi et de son progrès ordinaire, a produits</span> : là où, à la vérité, <span class="fig fig-antithese" title="ANTITHÈSE + RENVERSEMENT : 'ceux que nous avons altérés par notre artifice... nous devrions appeler plutôt sauvages.' Ce sont les EUROPÉENS qui sont 'altérés' = abîmés, corrompus par la civilisation. Renversement total de la logique coloniale.">ce sont ceux que nous avons altérés par notre artifice et détournés de l'ordre commun, que nous devrions appeler plutôt sauvages.</span></p>
+
+<p><span class="fig fig-perso" title="PERSONNIFICATION DE LA NATURE : 'notre grande et puissante mère nature.' La Nature est une mère — supérieure à l'art humain. Vision humaniste.">Ce n'est pas raison que l'art gagne le point d'honneur sur notre grande et puissante mère nature.</span></p>
+
+<p><span class="fig fig-concession" title="CONCESSION RHÉTORIQUE : Montaigne semble accorder le point à l'adversaire ('nous les pouvons bien appeler barbares') pour mieux retourner l'argument dans la phrase suivante avec le 'mais'. Technique du débatteur habile.">Nous les pouvons donc bien appeler barbares, eu égard aux règles de la raison, <strong>mais non pas eu égard à nous</strong>, qui les surpassons en toute sorte de barbarie.</span></p>
+</div>
+
+<h3>Les 5 figures clés</h3>
 <ul>
-<li><strong>Genre :</strong> Comédie héroïque en vers (alexandrins). 5 actes.</li>
-<li><strong>Époque :</strong> Fin XIXe (1897) mais action en 1640 — nostalgie du classicisme</li>
-<li><strong>Mouvement :</strong> Néo-romantisme, réaction contre le naturalisme</li>
-<li><strong>Personnage central :</strong> Cyrano — génie poétique, laid de visage, amoureux de Roxane qu'il ne peut séduire directement. Il prête ses mots à Christian.</li>
-</ul>
-<h3>Thèmes majeurs (à approfondir avec le texte)</h3>
-<ul>
-<li>L'apparence vs l'âme / le corps vs l'esprit</li>
-<li>La parole et le langage comme puissance</li>
-<li>L'amour impossible et le sacrifice</li>
-<li>La tirade et la virtuosité oratoire</li>
+<li><strong>Relativisme culturel</strong> — "chacun appelle barbarie ce qui n'est pas de son usage". <em>Affirmation universelle qui détruit une norme.</em></li>
+<li><strong>Comparaison des fruits sauvages</strong> — naturel = plus pur. <em>Outil comparatif + renversement de valeur.</em></li>
+<li><strong>Antithèse / Renversement</strong> — "nous devrions appeler plutôt sauvages" (nous). <em>Le sujet attendu et son contraire.</em></li>
+<li><strong>Ironie</strong> — "la parfaite religion...". <em>Accumulation excessive qui tourne en dérision.</em></li>
+<li><strong>Concession rhétorique</strong> — "certes... mais". <em>Accorder pour mieux retourner.</em></li>
 </ul>`,
 flashcards: [
-{q:'Cyrano de Bergerac — auteur et date',a:'Edmond Rostand, 1897. Comédie héroïque en 5 actes en vers. Action en 1640.',score:0,interval:0,ease:2.5,due:null},
-{q:'⚠️ Texte à venir — que retenir maintenant ?',a:'Genre : comédie héroïque. Thèmes : apparence/âme, parole/puissance, amour impossible. Cyrano écrit pour Christian les lettres à Roxane.',score:0,interval:0,ease:2.5,due:null},
-{q:'Paradoxe central de Cyrano',a:'Cyrano = génie de la parole et du panache, mais incapable de déclarer son amour directement à cause de son nez. La parole le libère ET le piège.',score:0,interval:0,ease:2.5,due:null},
+{q:'Thèse centrale de Montaigne dans "Des cannibales"',a:'"Chacun appelle barbarie ce qui n\'est pas de son usage." La barbarie = jugement culturel relatif, pas réalité objective. Premier texte anti-colonial de la littérature française.',score:0,interval:0,ease:2.5,due:null},
+{q:'Comparaison des fruits sauvages — sens',a:'Les hommes "sauvages" = fruits naturels = plus authentiques. Ce sont les Européens qui ont "altéré" la nature par leur artifice. Renversement : le "primitif" est plus pur.',score:0,interval:0,ease:2.5,due:null},
+{q:'Concession rhétorique chez Montaigne',a:'"Nous les pouvons bien appeler barbares... mais non pas eu égard à nous, qui les surpassons en toute barbarie." Accorder un point pour mieux retourner l\'argument.',score:0,interval:0,ease:2.5,due:null},
+{q:'Problématique — Des cannibales',a:'Comment Montaigne utilise-t-il la figure du cannibale pour déconstruire la "barbarie" et dénoncer l\'ethnocentrisme européen ?',score:0,interval:0,ease:2.5,due:null},
 ]};
 
-PREBUILT['Français']['T12 — Le Malade imaginaire, III,12 (Molière)'] = {
-cours: `<h2>Texte n°12 — Le Malade imaginaire, Acte III, scène 12</h2>
-<p><strong>Auteur :</strong> Molière &nbsp;|&nbsp; <strong>Œuvre :</strong> Le Malade imaginaire (1673) &nbsp;|&nbsp; <strong>Objet d'étude :</strong> Le théâtre</p>
-<div class="formula-box"><strong>Genre :</strong> Comédie-ballet &nbsp;|&nbsp; <strong>Mouvement :</strong> Classicisme &nbsp;|&nbsp; <strong>Représenté :</strong> 10 février 1673 (Molière mourra peu après)</div>
+PREBUILT['Français']['T9-10 — Le Menteur (Corneille, I,3 et II,5)'] = {
+cours: `<h2>Le Menteur — Fiche complète</h2>
+<p><strong>Pierre Corneille</strong> | 1643 | Parcours : Mensonges et comédie | Actes I,3 et II,5</p>
+<div class="formula-box">
+🎯 <strong>Problématique :</strong> Comment Corneille fait-il du mensonge une performance théâtrale qui révèle les séductions et les dangers de la parole ?<br>
+📌 <strong>Technique centrale :</strong> Ironie dramatique — le spectateur sait, les personnages ignorent.
+</div>
 
-<h3>Résumé de la scène</h3>
-<p>Argan (le malade imaginaire) veut marier sa fille Angélique à un médecin. Béralde, son frère, tente de le raisonner. Scène de débat sur la médecine : Béralde critique violemment les médecins, Argan les défend aveuglément. C'est la grande scène de satire médicale de la pièce.</p>
+<h3>Acte I, Scène 3 — Le premier grand mensonge</h3>
+<div class="texte-annote">
+<p><span class="fig fig-ironie" title="IRONIE DRAMATIQUE : Dorante prétend avoir fait la guerre d'Allemagne depuis un an. Or Cliton sait qu'il arrive de Poitiers hier. Le spectateur sait aussi. Ce décalage crée le comique et la tension — on attend la chute.">Depuis que j'ai quitté les guerres d'Allemagne,<br>
+C'est-à-dire du moins depuis un an entier,<br>
+Je suis et jour et nuit dedans votre quartier</span></p>
 
-<h3>Axes de lecture</h3>
+<p><span class="fig fig-accumulation" title="ACCUMULATION HÉROÏQUE : 'Vaincre dans les combats, commander dans l'armée, De mille exploits fameux enfler ma renommée...' Dorante s'invente une biographie militaire glorieuse. L'accumulation d'exploits = comique d'excès. Plus c'est gros, plus c'est drôle.">Vaincre dans les combats, commander dans l'armée,<br>
+De mille exploits fameux enfler ma renommée,<br>
+Cédèrent aussitôt à ceux de vous servir.</span></p>
+
+<p><span class="fig fig-apartes" title="APARTÉ COMIQUE : Cliton intervient à voix basse pour rappeler la réalité. 'Vous venez de Poitiers, ou je me donne au diable !' L'aparté crée une complicité avec le public contre le personnage. On rit avec Cliton, pas avec Dorante.">CLITON : Savez-vous bien, monsieur, que vous extravaguez ?<br>
+DORANTE : Tais-toi.<br>
+CLITON : Vous venez de Poitiers, ou je me donne au diable : Vous en revintes hier.</span></p>
+</div>
+
+<h3>Acte II, Scène 5 — L'engrenage du mensonge</h3>
+<div class="texte-annote">
+<p><span class="fig fig-accumulation" title="ACCUMULATION NARRATIVE : Dorante raconte une histoire de plus en plus invraisemblable — pistolet qui part, épée cassée en trois, barricades avec des meubles... Bergson : 'du mécanique plaqué sur du vivant.' L'accumulation d'incidents = comique mécanique.">son père... Il monte à son retour... Elle transit, pâlit, rougit, me cache...<br>
+Fait marcher le déclic, le feu prend, le coup part...<br>
+Mon épée en ma main en trois morceaux rompit.</span></p>
+
+<p><span class="fig fig-ironie" title="CHUTE IRONIQUE : Géronte résume toute la tirade en une seule question cynique. 'C'est-à-dire en français qu'il fallut l'épouser ?' Le père comprend l'essentiel (Dorante a séduit une fille) en ignorant que tout est faux. Double ironie : le père est dupé ET il simplifie tout.">GÉRONTE : C'est-à-dire en français qu'il fallut l'épouser ?</span></p>
+</div>
+
+<h3>Les 4 figures clés</h3>
 <ul>
-<li><strong>Axe 1 — La satire de la médecine et des médecins :</strong> Molière attaque une profession qu'il méprise (sa propre maladie, traitée par des saignées inefficaces). Les médecins parlent en latin, tuent plus qu'ils ne guérissent. Béralde = porte-voix de Molière.</li>
-<li><strong>Axe 2 — Le comique de caractère : Argan, l'hypocondriaque :</strong> Argan refuse toute raison. Sa maladie est imaginaire mais sa croyance est réelle. Comique de l'obsession.</li>
-<li><strong>Axe 3 — Le théâtre comme espace de vérité :</strong> C'est sur scène, dans le jeu, que la vérité sur la médecine peut être dite — là où la censure ne s'applique pas. Fonction critique du théâtre.</li>
-</ul>
-
-<h3>Procédés clés</h3>
-<ul>
-<li><strong>Dialogue argumentatif :</strong> Béralde raisonne, Argan refuse — dialogue de sourds comique</li>
-<li><strong>Parodie du jargon médical :</strong> latinismes, formules creuses</li>
-<li><strong>Ironie dramatique :</strong> Argan, malade imaginaire, veut un médecin pour gendre</li>
-<li><strong>Raisonnement par l'absurde :</strong> Béralde pousse les arguments d'Argan jusqu'à l'absurde</li>
-</ul>
-
-<h3>Citations indispensables</h3>
-<ul>
-<li>Béralde : « Vos médecins ne se servent que du latin pour vous mieux tromper » (sens approché)</li>
-<li>Le comique naît du refus d'Argan d'entendre tout argument contraire</li>
-</ul>
-
-<h3>Problématique type oral</h3>
-<p><em>Comment Molière utilise-t-il le dialogue comique entre Argan et Béralde pour faire de la scène III,12 un réquisitoire contre la médecine de son temps ?</em></p>`,
-flashcards: [
-{q:'Le Malade imaginaire — contexte de création',a:'Dernière pièce de Molière, 1673. Comédie-ballet. Molière lui-même était malade (tuberculose). Il mourut peu après la 4e représentation.',score:0,interval:0,ease:2.5,due:null},
-{q:'Qui est Béralde dans la scène III,12 ?',a:'Frère d\'Argan. Raisonnable, lucide. Critique les médecins et tente de convaincre Argan de leur inutilité. Porte-voix de Molière.',score:0,interval:0,ease:2.5,due:null},
-{q:'Satire médicale — procédés',a:'Parodie du jargon latin. Les médecins parlent pour ne rien dire. Béralde : la médecine tue plus qu\'elle ne guérit. Molière attaque une profession puissante.',score:0,interval:0,ease:2.5,due:null},
-{q:'Comique d\'Argan — Le Malade imaginaire',a:'Comique de caractère : obsession hypocondriaque. Argan refuse toute raison. Dialogue de sourds. Sa maladie est imaginaire mais il y croit totalement.',score:0,interval:0,ease:2.5,due:null},
-{q:'Problématique — Malade imaginaire III,12',a:'Comment Molière utilise-t-il le dialogue comique pour faire de la scène un réquisitoire contre la médecine de son temps ?',score:0,interval:0,ease:2.5,due:null},
-{q:'Ironie dramatique — Le Malade imaginaire',a:'Argan, malade imaginaire, veut un médecin pour gendre = le comble du comique. Le spectateur voit l\'absurdité qu\'Argan refuse de voir.',score:0,interval:0,ease:2.5,due:null},
-]};
-
-// OE4 — ROMAN : Colette
-PREBUILT['Français']['T13 — Sido, Portrait (Colette)'] = {
-cours: `<h2>Texte n°13 — Sido, Portrait de la mère / anecdote du merle</h2>
-<p><strong>Auteur :</strong> Colette &nbsp;|&nbsp; <strong>Œuvre :</strong> Sido (1930) &nbsp;|&nbsp; <strong>Objet d'étude :</strong> Le roman</p>
-<div class="formula-box"><strong>Genre :</strong> Récit autobiographique / Portrait &nbsp;|&nbsp; <strong>Mouvement :</strong> Modernité littéraire, début XXe</div>
-
-<h3>Résumé & situation</h3>
-<p>"Sido" est le surnom de la mère de Colette. Ce texte est un portrait intime et sensible : Colette décrit sa mère à travers des anecdotes. L'anecdote du merle et du cerisier montre une femme qui préfère ne pas cueillir les cerises pour laisser le merle les manger — geste de générosité envers la nature qui définit tout son caractère.</p>
-
-<h3>Axes de lecture</h3>
-<ul>
-<li><strong>Axe 1 — Un portrait par les gestes et les détails :</strong> Colette ne fait pas de portrait descriptif classique. Elle révèle Sido à travers ses actions, ses gestes quotidiens, ses choix infimes.</li>
-<li><strong>Axe 2 — La figure maternelle comme communion avec la nature :</strong> Sido aime la nature passionnément. Elle se lève à l'aube, observe les plantes. La mère et la nature sont confondues.</li>
-<li><strong>Axe 3 — L'écriture du souvenir et de la tendresse :</strong> Colette écrit avec une tendresse nostalgique. Le style est sensuel, précis, ancré dans la sensation. La mémoire affective structure le récit.</li>
-</ul>
-
-<h3>Procédés clés</h3>
-<ul>
-<li><strong>Portrait indirect :</strong> les gestes révèlent la personnalité, pas la description physique</li>
-<li><strong>Style sensuel :</strong> couleurs, odeurs, sons — écriture de la sensation</li>
-<li><strong>Anecdote comme révélateur de caractère :</strong> le merle = générosité de Sido</li>
-<li><strong>Voix narrative :</strong> Colette adulte qui se souvient — double temporalité</li>
-</ul>
-
-<h3>Citations clés</h3>
-<ul>
-<li>L'anecdote du merle : Sido ne cueille pas les cerises pour ne pas déranger le merle qui les mange — geste emblématique</li>
-<li>Le lever à l'aube : Sido communiant avec la nature avant que le monde ne se réveille</li>
-</ul>
-
-<h3>Problématique type oral</h3>
-<p><em>Comment Colette fait-elle du portrait de sa mère une célébration poétique de la vie et de la nature ?</em></p>`,
-flashcards: [
-{q:'Qui est Sido ?',a:'La mère de Colette. "Sido" = surnom affectueux. Le livre Sido (1930) lui est consacré. Portrait intime, tendre et sensuel.',score:0,interval:0,ease:2.5,due:null},
-{q:'Anecdote du merle — sens symbolique',a:'Sido refuse de cueillir les cerises pour ne pas priver le merle. Geste de générosité absolue envers la nature. Révèle tout son caractère.',score:0,interval:0,ease:2.5,due:null},
-{q:'Technique du portrait chez Colette',a:'Portrait indirect : les gestes quotidiens révèlent la personnalité. Pas de description physique classique. La sensation et le détail suffisent.',score:0,interval:0,ease:2.5,due:null},
-{q:'Style de Colette — caractéristiques',a:'Écriture sensuelle et précise. Couleurs, odeurs, textures. Ancrage dans la sensation. Prose poétique. Mémoire affective.',score:0,interval:0,ease:2.5,due:null},
-{q:'Problématique — Sido, Portrait',a:'Comment Colette fait-elle du portrait de sa mère une célébration poétique de la vie et de la nature ?',score:0,interval:0,ease:2.5,due:null},
-]};
-
-PREBUILT['Français']['T14 — Les Vrilles, Jour gris (Colette)'] = {
-cours: `<h2>Texte n°14 — Les Vrilles de la vigne, "Jour gris"</h2>
-<p><strong>Auteur :</strong> Colette &nbsp;|&nbsp; <strong>Œuvre :</strong> Les Vrilles de la vigne (1908) &nbsp;|&nbsp; <strong>Objet d'étude :</strong> Le roman</p>
-<div class="formula-box"><strong>Extrait :</strong> « Et si tu arrivais, un jour d'été dans mon pays... » &nbsp;|&nbsp; <strong>Genre :</strong> Prose poétique / Récit court</div>
-
-<h3>Résumé & situation</h3>
-<p>Colette s'adresse directement à un interlocuteur imaginaire ("tu") et l'invite à venir dans son pays natal en Bourgogne — mais un jour gris, pas de carte postale. Le texte est un hymne à la beauté discrète, quotidienne, de la campagne bourguignonne, opposée au spectaculaire.</p>
-
-<h3>Axes de lecture</h3>
-<ul>
-<li><strong>Axe 1 — L'éloge de la beauté ordinaire contre le pittoresque :</strong> Colette refuse le spectacle touristique. Elle célèbre la beauté sobre, humide, grise — ce que les autres ne voient pas.</li>
-<li><strong>Axe 2 — La relation au pays natal : l'enracinement :</strong> La Bourgogne de Colette est un espace charnel, sensoriel, identitaire. Le pays natal = corps et mémoire.</li>
-<li><strong>Axe 3 — L'écriture comme invitation : la prose poétique :</strong> Le "tu" crée une intimité. Le lecteur est convié. Colette fait de l'écriture un geste d'hospitalité et de partage sensoriel.</li>
-</ul>
-
-<h3>Procédés clés</h3>
-<ul>
-<li><strong>Apostrophe (tu) :</strong> proximité, invitation, complicité</li>
-<li><strong>Éloge du "gris" :</strong> paradoxe — beauté dans le terne, l'ordinaire</li>
-<li><strong>Prose poétique :</strong> rythme musical, images, sensorialité sans vers</li>
-<li><strong>Champ lexical de la sensation :</strong> odeurs, couleurs, textures, sons</li>
-</ul>
-
-<h3>Problématique type oral</h3>
-<p><em>Comment Colette transforme-t-elle la grisaille du quotidien en un espace poétique et sensoriel chargé d'émotion ?</em></p>`,
-flashcards: [
-{q:'Titre "Jour gris" — paradoxe',a:'Colette invite à venir un jour gris, pas un beau jour de carte postale. Éloge de la beauté ordinaire, discrète, contre le spectaculaire touristique.',score:0,interval:0,ease:2.5,due:null},
-{q:'Fonction du "tu" dans "Jour gris"',a:'Apostrophe directe au lecteur. Crée une intimité et une invitation. L\'écriture devient un geste d\'hospitalité. Le lecteur est convié dans la Bourgogne de Colette.',score:0,interval:0,ease:2.5,due:null},
-{q:'Qu\'est-ce que la prose poétique ?',a:'Texte en prose (pas de vers) mais avec des caractéristiques poétiques : rythme musical, images, sensorialité, travail de la langue. Colette en est une maîtresse.',score:0,interval:0,ease:2.5,due:null},
-{q:'Problématique — Vrilles, Jour gris',a:'Comment Colette transforme-t-elle la grisaille du quotidien en un espace poétique et sensoriel chargé d\'émotion ?',score:0,interval:0,ease:2.5,due:null},
-]};
-
-PREBUILT['Français']['T15 — Vrilles de la vigne, Le Rossignol [À VENIR]'] = {
-cours: `<h2>Texte n°15 — "Le Rossignol" (Les Vrilles de la vigne) ⚠️ À VENIR</h2>
-<p><strong>Auteur :</strong> Colette &nbsp;|&nbsp; <strong>Œuvre :</strong> Les Vrilles de la vigne (1908)</p>
-<div class="formula-box" style="background:#fef3c7;border-color:#f59e0b;color:#92400e">⚠️ Texte pas encore étudié en cours. Ce chapitre sera complété dès réception.</div>
-
-<h3>Ce qu'on sait déjà — à retenir maintenant</h3>
-<ul>
-<li>Même œuvre que "Jour gris" → même univers sensoriel, même prose poétique</li>
-<li>Le rossignol = figure lyrique classique (Keats, Verlaine…). Colette va probablement le traiter avec sa sensorialité propre.</li>
-<li><strong>Thèmes probables :</strong> nuit, chant, nature, mémoire, féminité, désir</li>
-<li>Penser à comparer avec "Jour gris" : continuité ou rupture de ton ?</li>
+<li><strong>Ironie dramatique</strong> — spectateur sait / personnages ignorent. <em>Information donnée au public, pas aux personnages.</em></li>
+<li><strong>Aparté</strong> — Cliton commente à voix basse. <em>Réplique au public, pas aux autres personnages.</em></li>
+<li><strong>Accumulation héroïque comique</strong> — liste d'exploits inventés. <em>Excès qui crée l'absurde.</em></li>
+<li><strong>Engrenage du mensonge</strong> — chaque mensonge appelle le suivant. <em>Structure mécanique et comique.</em></li>
 </ul>`,
 flashcards: [
-{q:'⚠️ Le Rossignol — texte à venir',a:'Texte pas encore étudié. Même œuvre que Jour gris (Les Vrilles de la vigne). Même prose poétique. Thèmes : nuit, chant, nature, mémoire.',score:0,interval:0,ease:2.5,due:null},
-{q:'Le rossignol en littérature — symboles',a:'Figure lyrique classique : chant dans la nuit, beauté éphémère, mélancolie. Keats ("Ode to a Nightingale"), Verlaine. Colette va l\'inscrire dans son univers sensoriel.',score:0,interval:0,ease:2.5,due:null},
+{q:'Ironie dramatique dans Le Menteur',a:'Le spectateur sait que Dorante ment (Poitiers, pas Allemagne). Les personnages l\'ignorent. Décalage = comique. On rit de la naïveté des dupés.',score:0,interval:0,ease:2.5,due:null},
+{q:'Rôle de Cliton dans Le Menteur',a:'Valet qui connaît la vérité. Apartés = complicité avec le spectateur. Rappelle la réalité pendant que Dorante brode. Conscience comique de la pièce.',score:0,interval:0,ease:2.5,due:null},
+{q:'Comique de l\'engrenage (Acte II)',a:'Chaque mensonge en nécessite un autre, de plus en plus invraisemblable. Bergson : comique mécanique. La structure s\'emballe = le menteur perd le contrôle.',score:0,interval:0,ease:2.5,due:null},
 ]};
 
-PREBUILT['Français']['T16 — On était des loups, Collette [À VENIR]'] = {
-cours: `<h2>Texte n°16 — On était des loups ⚠️ À VENIR</h2>
-<p><strong>Auteur :</strong> Sandrine Collette &nbsp;|&nbsp; <strong>Note :</strong> Sandrine Collette ≠ Colette (deux auteures différentes)</p>
-<div class="formula-box" style="background:#fef3c7;border-color:#f59e0b;color:#92400e">⚠️ Texte pas encore étudié en cours. Ce chapitre sera complété dès réception.</div>
+PREBUILT['Français']['T11 — Cyrano de Bergerac (Rostand)'] = {
+cours: `<h2>Cyrano de Bergerac — Fiche complète</h2>
+<p><strong>Edmond Rostand</strong> | 1897 | Acte III, scène 7 : la scène du balcon</p>
+<div class="formula-box">
+🎯 <strong>Problématique :</strong> Comment Rostand fait-il de la scène du balcon une mise en abyme du théâtre et une réflexion sur l'amour impossible ?<br>
+📌 <strong>Contexte :</strong> Cyrano dicte ses mots à Christian qui les répète à Roxane sur le balcon.
+</div>
 
-<h3>Ce qu'on sait déjà — à retenir maintenant</h3>
+<h3>Le texte annoté</h3>
+<div class="texte-annote">
+<p><span class="fig fig-ironie" title="IRONIE DRAMATIQUE TRIPLE : 3 niveaux. Roxane croit parler à Christian. Christian répète Cyrano. Cyrano est caché sous le balcon. Le spectateur voit tout. C'est du théâtre dans le théâtre — mise en abyme parfaite.">ROXANE, avec dédain : C'est vous.<br>
+CHRISTIAN : Je voudrais vous parler.<br>
+CYRANO, sous le balcon, à Christian : Bien. Bien. Presque à voix basse.<br>
+ROXANE : Non ! Vous parlez trop mal. Allez-vous-en !</span></p>
+
+<p><span class="fig fig-metaphore" title="MÉTAPHORE FILÉE DE L'ENFANT-AMOUR : 'L'amour grandit bercé... cruel marmot... barcelonnette... nouveau-né... petit Hercule... strangula les deux serpents Orgueil et Doute.' Rostand file la métaphore de l'amour-bébé sur plusieurs répliques. L'amour est un bébé Hercule qui grandit malgré les obstacles.">CHRISTIAN : L'amour grandit bercé dans mon âme inquiète...<br>
+Que ce cruel marmot prit pour barcelonnette !<br>
+Ce nouveau-né, Madame, est un petit Hercule.<br>
+De sorte qu'il strangula comme rien...<br>
+Les deux serpents... Orgueil et Doute.</span></p>
+
+<p><span class="fig fig-ironie" title="DÉNOUEMENT DE LA MISE EN ABYME : 'Chut ! Cela devient trop difficile !' Cyrano prend la place de Christian. Il parle maintenant DIRECTEMENT à Roxane — mais dans l'obscurité. L'amour vrai s'exprime enfin mais reste caché. Paradoxe tragique.">CYRANO, tirant Christian sous le balcon :<br>
+Chut ! Cela devient trop difficile !...</span></p>
+</div>
+
+<h3>Les 4 figures clés</h3>
 <ul>
-<li><strong>Auteure :</strong> Sandrine Collette (née 1970) — écrivaine contemporaine, spécialiste du roman noir et du thriller psychologique</li>
-<li><strong>Œuvre :</strong> On était des loups (2023) — roman récent, prix des libraires 2023</li>
-<li><strong>Thèmes connus :</strong> paternité, violence, nature sauvage, survie, lien père-fils</li>
-<li><strong>Ton :</strong> âpre, brutal, sans concession. Style nerveux, tendu</li>
-<li>Ce texte est en OE4 (Le roman) → penser aux procédés narratifs : point de vue, rythme, tension</li>
+<li><strong>Mise en abyme</strong> — théâtre dans le théâtre. <em>Cyrano écrit, Christian joue, Roxane croit.</em></li>
+<li><strong>Métaphore filée</strong> — l'amour = bébé Hercule. <em>Une image développée sur plusieurs répliques.</em></li>
+<li><strong>Ironie dramatique triple</strong> — 3 niveaux de savoir différents. <em>Chaque personnage sait quelque chose que les autres ignorent.</em></li>
+<li><strong>Paradoxe tragique</strong> — Cyrano parle enfin à Roxane mais reste caché. <em>L'amour vrai s'exprime dans l'obscurité.</em></li>
 </ul>`,
 flashcards: [
-{q:'Sandrine Collette — qui est-elle ?',a:'Écrivaine française contemporaine (née 1970). Spécialiste du roman noir et du thriller psychologique. Prix des libraires 2023 pour "On était des loups".',score:0,interval:0,ease:2.5,due:null},
-{q:'⚠️ On était des loups — texte à venir',a:'Roman de 2023. Thèmes : paternité, violence, nature sauvage, lien père-fils. Style âpre et nerveux. En OE4 : roman.',score:0,interval:0,ease:2.5,due:null},
-{q:'Sandrine Collette ≠ Colette',a:'Attention : Sandrine Collette (née 1970, roman noir contemporain) est différente de Colette (1873-1954, Sido, Les Vrilles de la vigne).',score:0,interval:0,ease:2.5,due:null},
+{q:'Mise en abyme dans la scène du balcon',a:'Cyrano invente, Christian répète, Roxane croit parler à Christian. 3 niveaux de fiction. Le théâtre dit que l\'amour est toujours une mise en scène.',score:0,interval:0,ease:2.5,due:null},
+{q:'Métaphore filée de la scène du balcon',a:'L\'amour = bébé Hercule. "Bercé... marmot... barcelonnette... nouveau-né... Hercule... strangula Orgueil et Doute." Une image développée sur plusieurs répliques.',score:0,interval:0,ease:2.5,due:null},
+{q:'Paradoxe central de la scène du balcon',a:'Cyrano parle ENFIN directement à Roxane (il prend la place de Christian) — mais dans l\'obscurité. L\'amour vrai s\'exprime mais reste caché. Tragédie de Cyrano.',score:0,interval:0,ease:2.5,due:null},
 ]};
 
-// ════════════════════════════════════════════════════════════
-// MATHS SPÉ — COURS EXPLIQUÉS + EXERCICES AVEC CORRECTIONS
-// ════════════════════════════════════════════════════════════
-
-PREBUILT['Maths Spé']['🚨 Produit Scalaire — Cours complet'] = {
-cours: `<h2>Le Produit Scalaire — Comprendre avant d'apprendre</h2>
-
-<h3>D'abord, pourquoi ça existe ?</h3>
-<p>Imagine que tu pousses une caisse. Si tu pousses <strong>dans la même direction que son déplacement</strong>, tu fais un effort efficace. Si tu pousses <strong>de côté</strong>, une partie de ta force est "gaspillée". Le produit scalaire mesure précisément cette idée : <strong>à quel point deux vecteurs "vont dans le même sens"</strong>.</p>
-<p>C'est un <strong>nombre</strong> (pas un vecteur), et ce nombre peut être positif, négatif ou nul. S'il est nul, les deux vecteurs sont perpendiculaires — ils n'ont rien en commun.</p>
-
-<h3>Formule 1 — Avec les coordonnées (la plus simple)</h3>
+PREBUILT['Français']['T12 — Le Malade imaginaire (Molière, III,12)'] = {
+cours: `<h2>Le Malade imaginaire — Fiche complète</h2>
+<p><strong>Molière</strong> | 1673 | Acte III, scène 12 | Comédie-ballet</p>
 <div class="formula-box">
-Si $\\vec{u}$ a les coordonnées $(x_1 ; y_1)$ et $\\vec{v}$ a les coordonnées $(x_2 ; y_2)$ :<br><br>
-$$\\vec{u} \\cdot \\vec{v} = x_1 \\times x_2 + y_1 \\times y_2$$
+🎯 <strong>Problématique :</strong> Comment Molière utilise-t-il le comique de la fausse mort pour dénoncer l'hypocrisie et faire triompher la vérité ?<br>
+📌 <strong>Contexte :</strong> Argan fait le mort pour tester la sincérité de sa femme Béline.
 </div>
-<p><strong>Pourquoi ça marche ?</strong> C'est la définition algébrique. On multiplie les composantes qui "correspondent" (x avec x, y avec y) et on additionne. Simple et mécanique.</p>
-<p><strong>Exemple :</strong> $\\vec{u}(3 ; -2)$ et $\\vec{v}(1 ; 4)$<br>
-$\\vec{u} \\cdot \\vec{v} = 3 \\times 1 + (-2) \\times 4 = 3 - 8 = -5$</p>
-<p>Le résultat est négatif : les vecteurs ont tendance à "aller en sens opposé".</p>
 
-<h3>Formule 2 — Avec l'angle (la plus visuelle)</h3>
-<div class="formula-box">
-$$\\vec{u} \\cdot \\vec{v} = |\\vec{u}| \\times |\\vec{v}| \\times \\cos\\theta$$
-où θ est l'angle <strong>entre les deux vecteurs</strong> et $|\\vec{u}| = \\sqrt{x^2 + y^2}$ est la norme (longueur).
+<h3>Le texte annoté</h3>
+<div class="texte-annote">
+<p>Toinette : Ah ! mon Dieu ! Ah ! malheur ! quel étrange accident !<br>
+Béline : Qu'est-ce, Toinette ?<br>
+<span class="fig fig-ironie" title="IRONIE DRAMATIQUE : Argan est vivant (il fait le mort), Béline l'ignore. Le spectateur sait tout. Ce décalage crée le comique et révèle la vraie nature de Béline — c'est une scène de vérité involontaire.">Toinette : Votre mari est mort.<br>
+Béline : Mon mari est mort ?</span></p>
+
+<p>Toinette : Hélas ! oui. <span class="fig fig-pleonasme" title="PLÉONASME COMIQUE : 'le pauvre défunt est trépassé.' Défunt = trépassé = mort. Répétition inutile qui tourne en dérision la mort elle-même. Toinette joue le jeu avec excès comique.">Le pauvre défunt est trépassé.</span></p>
+
+<p><span class="fig fig-ironie" title="IRONIE SACRILÈGE : 'Le Ciel en soit loué ! Me voilà délivrée d'un grand fardeau.' Formule religieuse de gratitude ('Le Ciel en soit loué') pour se réjouir de la mort du mari. Révèle l'hypocrisie totale de Béline. Elle jouait la femme aimante — elle détestait Argan.">Béline : Le Ciel en soit loué ! Me voilà délivrée d'un grand fardeau.</span></p>
+
+<p>Toinette : <span class="fig fig-antiphrase" title="ANTIPHRASE : 'Voilà une belle oraison funèbre.' L'oraison funèbre = discours d'éloge du défunt. Ici c'est une liste d'insultes. 'Belle' dit le contraire de ce qu'on pense — ironie amère de Toinette.">Voilà une belle oraison funèbre.</span></p>
+
+<p><span class="fig fig-accumulation" title="ACCUMULATION D'INSULTES : 'malpropre, dégoûtant, sans cesse un lavement, mouchant, toussant, crachant, sans esprit, ennuyeux, de mauvaise humeur...' Liste exhaustive qui révèle tout le mépris de Béline. Comique d'accumulation — chaque terme est plus insultant. La vérité sort quand on croit être seul.">Béline : Un homme incommode à tout le monde, malpropre, dégoûtant, sans cesse un lavement ou une médecine dans le ventre, mouchant, toussant, crachant toujours, sans esprit, ennuyeux, de mauvaise humeur</span>, fatiguant sans cesse les gens.</p>
+
+<p><span class="fig fig-ironie" title="COUP DE THÉÂTRE + ANTIPHRASE FINALE : Argan se lève. 'Je suis bien aise de voir votre amitié et d'avoir entendu le beau panégyrique que vous avez fait de moi.' 'Beau panégyrique' (= éloge solennel) pour désigner les insultes = antiphrase cinglante. Ironie amère du mari trahi.">Argan, se levant brusquement : Doucement !<br>
+Argan : Je suis bien aise de voir votre amitié et d'avoir entendu le beau panégyrique que vous avez fait de moi.</span></p>
 </div>
-<p><strong>Pourquoi ça marche ?</strong> Le cosinus mesure "l'alignement" entre deux vecteurs. Si θ = 0° (même direction), cos(0°) = 1 → produit scalaire maximal. Si θ = 90° (perpendiculaires), cos(90°) = 0 → produit scalaire nul. Si θ = 180° (opposés), cos(180°) = -1 → produit scalaire négatif.</p>
-<p><strong>Usage principal :</strong> calculer un angle entre deux vecteurs (très courant aux examens) :<br>
-$$\\cos\\theta = \\frac{\\vec{u} \\cdot \\vec{v}}{|\\vec{u}| \\times |\\vec{v}|}$$</p>
 
-<h3>La propriété clé : perpendicularité</h3>
-<div class="formula-box">
-$$\\vec{u} \\perp \\vec{v} \\Longleftrightarrow \\vec{u} \\cdot \\vec{v} = 0$$
-</div>
-<p><strong>Pourquoi ?</strong> Parce que $\\cos(90°) = 0$, donc le produit scalaire vaut $|\\vec{u}| \\times |\\vec{v}| \\times 0 = 0$.<br>
-C'est une <strong>condition nécessaire ET suffisante</strong> — si le produit scalaire vaut 0, les vecteurs sont forcément perpendiculaires, et vice versa.</p>
-
-<h3>La norme au carré — à connaître absolument</h3>
-<div class="formula-box">
-$$|\\vec{u}|^2 = \\vec{u} \\cdot \\vec{u} = x^2 + y^2$$
-</div>
-<p>Un vecteur avec lui-même, l'angle est 0°, cos(0°) = 1, donc $\\vec{u} \\cdot \\vec{u} = |\\vec{u}|^2$. C'est ce qui donne les identités remarquables.</p>
-
-<h3>Les identités remarquables vectorielles</h3>
-<p>Elles fonctionnent exactement comme en algèbre normale, mais avec des vecteurs :</p>
+<h3>Les 5 figures clés</h3>
 <ul>
-<li>$(\\vec{u} + \\vec{v})^2 = |\\vec{u}|^2 + 2\\vec{u}\\cdot\\vec{v} + |\\vec{v}|^2$ — développe normalement, $\\vec{u}^2 = |\\vec{u}|^2$</li>
-<li>$(\\vec{u} - \\vec{v})^2 = |\\vec{u}|^2 - 2\\vec{u}\\cdot\\vec{v} + |\\vec{v}|^2$</li>
-<li>$(\\vec{u} + \\vec{v})(\\vec{u} - \\vec{v}) = |\\vec{u}|^2 - |\\vec{v}|^2$ — la différence de carrés</li>
-</ul>
-<p><strong>Astuce :</strong> on s'en sert souvent à l'envers — si on connaît les longueurs et la norme de la somme, on peut trouver le produit scalaire sans connaître l'angle !</p>
-
-<h3>Application : le cercle de diamètre [AB]</h3>
-<p>C'est une application magnifique du produit scalaire. Le théorème de Thalès dit qu'un angle inscrit dans un demi-cercle est droit. En produit scalaire, ça devient :</p>
-<div class="formula-box">
-M est sur le cercle de diamètre [AB] $\\Longleftrightarrow \\overrightarrow{MA} \\cdot \\overrightarrow{MB} = 0$
-</div>
-<p>Pourquoi ? Parce que si [AB] est un diamètre, alors l'angle AMB vaut toujours 90° quel que soit M sur le cercle. Et angle de 90° ↔ produit scalaire nul.</p>
-
-<h3>Application : équation de droite et vecteur normal</h3>
-<p>Toute droite d'équation $ax + by + c = 0$ est perpendiculaire au vecteur $\\vec{n}(a ; b)$. On appelle ça le <strong>vecteur normal</strong>.</p>
-<p><strong>Pourquoi ?</strong> Si M$(x ; y)$ est sur la droite, alors le vecteur $\\overrightarrow{OM}(x ; y)$ vérifie $ax + by = -c$, ce qui est exactement $\\vec{n} \\cdot \\overrightarrow{OM} = -c$. Le vecteur normal est donc perpendiculaire à tous les vecteurs de la droite.</p>
-<p><strong>Usage :</strong> pour trouver l'équation d'une droite perpendiculaire à une autre, ou passant par un point avec une direction donnée.</p>`,
-
-exercices: [
-{
-  niveau: 'Facile',
-  enonce: `<p>On donne les vecteurs $\\vec{u}(4 ; 3)$ et $\\vec{v}(-3 ; 4)$.</p>
-<ol>
-<li>Calculer le produit scalaire $\\vec{u} \\cdot \\vec{v}$.</li>
-<li>Que peut-on conclure ?</li>
-<li>Calculer $|\\vec{u}|$ et $|\\vec{v}|$.</li>
-</ol>`,
-  aide: `<p>Utilise la formule avec les coordonnées : $x_1 x_2 + y_1 y_2$. Pour la norme : $|\\vec{u}| = \\sqrt{x^2 + y^2}$.</p>`,
-  correction: `<div>
-<p><strong>1. Calcul du produit scalaire :</strong></p>
-<div class="formula-box">$\\vec{u} \\cdot \\vec{v} = 4 \\times (-3) + 3 \\times 4 = -12 + 12 = 0$</div>
-
-<p><strong>2. Conclusion :</strong> Le produit scalaire est nul, donc <strong>$\\vec{u} \\perp \\vec{v}$</strong> — les deux vecteurs sont perpendiculaires.</p>
-<p>On le voit aussi intuitivement : le vecteur $(-3 ; 4)$ est obtenu en "tournant" $(4 ; 3)$ de 90° (on échange les coordonnées et on change un signe).</p>
-
-<p><strong>3. Calcul des normes :</strong></p>
-<div class="formula-box">$|\\vec{u}| = \\sqrt{4^2 + 3^2} = \\sqrt{16 + 9} = \\sqrt{25} = 5$<br>
-$|\\vec{v}| = \\sqrt{(-3)^2 + 4^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$</div>
-<p>Les deux vecteurs ont la même longueur (5) et sont perpendiculaires : ils forment un repère orthonormé !</p>
-</div>`
-},
-{
-  niveau: 'Moyen',
-  enonce: `<p>Dans un repère orthonormé, on place les points A$(1 ; 2)$, B$(5 ; 4)$ et C$(3 ; 6)$.</p>
-<ol>
-<li>Calculer les vecteurs $\\overrightarrow{AB}$ et $\\overrightarrow{AC}$.</li>
-<li>Le triangle ABC est-il rectangle en A ? Justifier.</li>
-<li>Calculer l'angle $\\widehat{BAC}$.</li>
-</ol>`,
-  aide: `<p>Pour calculer un vecteur : $\\overrightarrow{AB} = B - A = (x_B - x_A ; y_B - y_A)$. Pour l'angle : $\\cos\\theta = \\frac{\\vec{u}\\cdot\\vec{v}}{|\\vec{u}||\\vec{v}|}$.</p>`,
-  correction: `<div>
-<p><strong>1. Calcul des vecteurs :</strong></p>
-<div class="formula-box">
-$\\overrightarrow{AB} = (5-1 ; 4-2) = (4 ; 2)$<br>
-$\\overrightarrow{AC} = (3-1 ; 6-2) = (2 ; 4)$
-</div>
-
-<p><strong>2. Triangle rectangle en A ?</strong></p>
-<div class="formula-box">
-$\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = 4 \\times 2 + 2 \\times 4 = 8 + 8 = 16$
-</div>
-<p>Le produit scalaire vaut 16 ≠ 0, donc <strong>le triangle n'est pas rectangle en A</strong>.</p>
-
-<p><strong>3. Calcul de l'angle $\\widehat{BAC}$ :</strong></p>
-<div class="formula-box">
-$|\\overrightarrow{AB}| = \\sqrt{16+4} = \\sqrt{20} = 2\\sqrt{5}$<br>
-$|\\overrightarrow{AC}| = \\sqrt{4+16} = \\sqrt{20} = 2\\sqrt{5}$<br><br>
-$\\cos(\\widehat{BAC}) = \\dfrac{16}{2\\sqrt{5} \\times 2\\sqrt{5}} = \\dfrac{16}{4 \\times 5} = \\dfrac{16}{20} = 0{,}8$<br><br>
-$\\widehat{BAC} = \\arccos(0{,}8) \\approx 36{,}9°$
-</div>
-<p>Le triangle ABC est isocèle en A (AB = AC = $2\\sqrt{5}$) avec un angle de sommet d'environ 37°.</p>
-</div>`
-},
-{
-  niveau: 'Difficile',
-  enonce: `<p>Dans un repère orthonormé, on considère le cercle $\\mathcal{C}$ de diamètre [AB] avec A$(-1 ; 2)$ et B$(3 ; -2)$.</p>
-<ol>
-<li>Trouver le centre et le rayon du cercle.</li>
-<li>Montrer que le point M$(3 ; 2)$ est sur le cercle.</li>
-<li>Vérifier en utilisant le produit scalaire $\\overrightarrow{MA} \\cdot \\overrightarrow{MB}$.</li>
-</ol>`,
-  aide: `<p>Le centre est le milieu de [AB]. Le rayon est la moitié de AB. Pour la condition cercle : M sur cercle de diamètre [AB] ⟺ $\\overrightarrow{MA}\\cdot\\overrightarrow{MB} = 0$.</p>`,
-  correction: `<div>
-<p><strong>1. Centre et rayon :</strong></p>
-<div class="formula-box">
-Centre $\\Omega$ = milieu de [AB] = $\\left(\\dfrac{-1+3}{2} ; \\dfrac{2-2}{2}\\right) = (1 ; 0)$<br><br>
-$AB = \\sqrt{(3-(-1))^2 + (-2-2)^2} = \\sqrt{16+16} = \\sqrt{32} = 4\\sqrt{2}$<br>
-Rayon $r = \\dfrac{AB}{2} = 2\\sqrt{2}$
-</div>
-
-<p><strong>2. M$(3;2)$ est-il sur le cercle ?</strong></p>
-<div class="formula-box">
-$\\Omega M = \\sqrt{(3-1)^2 + (2-0)^2} = \\sqrt{4+4} = \\sqrt{8} = 2\\sqrt{2}$
-</div>
-<p>$\\Omega M = 2\\sqrt{2} = r$, donc <strong>M est bien sur le cercle ✓</strong></p>
-
-<p><strong>3. Vérification par produit scalaire :</strong></p>
-<div class="formula-box">
-$\\overrightarrow{MA} = (-1-3 ; 2-2) = (-4 ; 0)$<br>
-$\\overrightarrow{MB} = (3-3 ; -2-2) = (0 ; -4)$<br><br>
-$\\overrightarrow{MA} \\cdot \\overrightarrow{MB} = (-4) \\times 0 + 0 \\times (-4) = 0$
-</div>
-<p>Le produit scalaire est nul, donc l'angle $\\widehat{AMB} = 90°$, ce qui confirme que M est sur le cercle de diamètre [AB]. Les deux méthodes concordent.</p>
-</div>`
-}
-],
-flashcards: [
-{q:'Produit scalaire — formule coordonnées',a:'$\\vec{u}(x_1;y_1)\\cdot\\vec{v}(x_2;y_2) = x_1 x_2 + y_1 y_2$. Résultat = un nombre.',score:0,interval:0,ease:2.5,due:null},
-{q:'Perpendicularité et produit scalaire',a:'$\\vec{u}\\perp\\vec{v} \\Leftrightarrow \\vec{u}\\cdot\\vec{v}=0$. Condition nécessaire ET suffisante.',score:0,interval:0,ease:2.5,due:null},
-{q:'Calculer un angle avec le produit scalaire',a:'$\\cos\\theta = \\frac{\\vec{u}\\cdot\\vec{v}}{|\\vec{u}||\\vec{v}|}$ puis $\\theta = \\arccos(...)$ à la calculatrice.',score:0,interval:0,ease:2.5,due:null},
-{q:'Cercle de diamètre [AB] — condition',a:'M sur le cercle $\\Leftrightarrow \\overrightarrow{MA}\\cdot\\overrightarrow{MB}=0$ car angle inscrit dans demi-cercle = 90°.',score:0,interval:0,ease:2.5,due:null},
-{q:'Identité $(\\vec{u}+\\vec{v})^2$',a:'$|\\vec{u}|^2 + 2\\vec{u}\\cdot\\vec{v} + |\\vec{v}|^2$. Même règle que $(a+b)^2$ en algèbre.',score:0,interval:0,ease:2.5,due:null},
-]};
-
-PREBUILT['Maths Spé']['🚨 Probabilités — Cours complet'] = {
-cours: `<h2>Les Probabilités — Comprendre le hasard</h2>
-
-<h3>Pourquoi les probabilités ?</h3>
-<p>Le hasard existe partout : météo, jeux, médecine, finance. Les probabilités sont l'outil mathématique pour <strong>mesurer l'incertitude</strong> et <strong>prendre des décisions rationnelles</strong> malgré le hasard. Ce n'est pas de la magie — c'est du calcul rigoureux.</p>
-
-<h3>La probabilité conditionnelle — "sachant que"</h3>
-<p>C'est l'idée centrale : si on sait déjà que quelque chose s'est passé, ça change les probabilités du reste.</p>
-<div class="formula-box">
-$$P(B|A) = \\frac{P(A \\cap B)}{P(A)}$$
-<em>Se lit : "probabilité de B sachant que A est réalisé"</em>
-</div>
-<p><strong>Exemple concret :</strong> Un sac contient 3 boules rouges et 2 bleues. On tire une boule sans la remettre, puis une deuxième. Quelle est la probabilité que la 2e soit rouge <em>sachant que</em> la 1re était rouge ?<br>
-Après avoir tiré une rouge, il reste 2 rouges sur 4 boules : $P(\text{rouge}_2 | \text{rouge}_1) = \\frac{2}{4} = 0{,}5$</p>
-
-<h3>La formule des probabilités totales — "partager les cas"</h3>
-<p>Quand un événement peut se produire via plusieurs "chemins", on additionne les probabilités de chaque chemin.</p>
-<div class="formula-box">
-Si A et $\\bar{A}$ forment une partition de l'univers (l'un ou l'autre se passe forcément) :<br><br>
-$$P(B) = P(B|A) \\times P(A) + P(B|\\bar{A}) \\times P(\\bar{A})$$
-</div>
-<p><strong>Exemple :</strong> Une usine a deux lignes de production. La ligne 1 produit 60% des pièces avec 2% de défauts. La ligne 2 produit 40% avec 5% de défauts. Quelle est la probabilité qu'une pièce soit défectueuse ?<br>
-$P(D) = P(D|L_1)P(L_1) + P(D|L_2)P(L_2) = 0{,}02 \\times 0{,}6 + 0{,}05 \\times 0{,}4 = 0{,}012 + 0{,}02 = 0{,}032$</p>
-
-<h3>L'indépendance — quand le passé ne change rien</h3>
-<div class="formula-box">
-A et B sont indépendants $\\Leftrightarrow P(A \\cap B) = P(A) \\times P(B)$
-</div>
-<p>Autrement dit : savoir que A s'est passé ne change pas la probabilité de B. Ex : deux lancers de dé successifs — le résultat du premier ne change pas les chances du second.</p>
-
-<h3>Variable aléatoire — "mettre des nombres sur le hasard"</h3>
-<p>Une variable aléatoire X associe un nombre à chaque issue d'une expérience. On décrit X par son tableau de probabilités :</p>
-<div class="formula-box">
-Condition impérative : $\\sum p_i = 1$ (toutes les probabilités font 100%)
-</div>
-
-<h3>L'espérance — la moyenne à long terme</h3>
-<div class="formula-box">
-$$E(X) = \\sum x_i \\times p_i = x_1 p_1 + x_2 p_2 + \\ldots$$
-</div>
-<p><strong>Intuition :</strong> si tu répètes l'expérience un très grand nombre de fois, la moyenne des résultats se rapprochera de E(X). C'est la "valeur attendue".<br>
-<strong>Exemple :</strong> un jeu de dé normal. X = résultat. $E(X) = 1 \\times \\frac{1}{6} + 2 \\times \\frac{1}{6} + \\ldots + 6 \\times \\frac{1}{6} = \\frac{21}{6} = 3{,}5$</p>
-
-<h3>La Loi Binomiale — répéter une expérience simple</h3>
-<p><strong>Contexte :</strong> tu répètes n fois la même expérience avec deux issues (succès/échec), chaque fois indépendamment. X = nombre total de succès.</p>
-<div class="formula-box">
-$$X \\sim B(n, p) \\implies P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}$$
-<br>
-$E(X) = np$ — $\\sigma(X) = \\sqrt{np(1-p)}$
-</div>
-<p><strong>Le coefficient $\\binom{n}{k}$</strong> (lire "k parmi n") compte le nombre de façons de choisir k succès parmi n essais. Sur la calculatrice : touche <strong>nCr</strong> ou <strong>combinaison(n,k)</strong>.</p>
-<p><strong>Exemple :</strong> On lance 10 fois une pièce équilibrée. Quelle est la probabilité d'obtenir exactement 3 faces ?<br>
-$P(X=3) = \\binom{10}{3} \\times (0{,}5)^3 \\times (0{,}5)^7 = 120 \\times (0{,}5)^{10} = \\frac{120}{1024} \\approx 0{,}117$</p>
-
-<h3>Vérifier les 4 conditions de la loi binomiale</h3>
-<ul>
-<li>✅ Nombre d'essais <strong>fixe et connu</strong> (n)</li>
-<li>✅ Essais <strong>indépendants</strong> les uns des autres</li>
-<li>✅ Deux issues seulement : <strong>succès ou échec</strong></li>
-<li>✅ Probabilité de succès <strong>constante</strong> à chaque essai (p)</li>
+<li><strong>Ironie dramatique</strong> — Argan vivant / Béline l'ignore. <em>Le spectateur sait ce qu'un personnage ignore.</em></li>
+<li><strong>Accumulation d'insultes</strong> — liste révélatrice. <em>Série de termes de même nature qui révèle un caractère.</em></li>
+<li><strong>Antiphrase</strong> — "beau panégyrique". <em>Mot positif dans un contexte négatif.</em></li>
+<li><strong>Pléonasme comique</strong> — "défunt trépassé". <em>Répétition inutile à effet comique.</em></li>
+<li><strong>Coup de théâtre</strong> — Argan se lève. <em>Retournement brusque et inattendu.</em></li>
 </ul>`,
-
-exercices: [
-{
-  niveau: 'Facile',
-  enonce: `<p>Une urne contient 4 boules rouges (R) et 6 boules bleues (B). On tire deux boules successivement <strong>sans remise</strong>.</p>
-<ol>
-<li>Calculer P(R₁) — probabilité que la 1re boule soit rouge.</li>
-<li>Calculer P(R₂|R₁) — probabilité que la 2e soit rouge sachant que la 1re était rouge.</li>
-<li>Calculer P(R₁ ∩ R₂) — probabilité que les deux soient rouges.</li>
-<li>Calculer P(R₂) en utilisant la formule des probabilités totales.</li>
-</ol>`,
-  aide: `<p>Sans remise = après avoir tiré la 1re boule, elle n'est pas remise dans l'urne. Donc la 2e boule est tirée parmi 9 boules. La formule des proba totales : P(R₂) = P(R₂|R₁)×P(R₁) + P(R₂|B₁)×P(B₁).</p>`,
-  correction: `<div>
-<p><strong>1. P(R₁) :</strong></p>
-<div class="formula-box">$P(R_1) = \\dfrac{4}{10} = 0{,}4$</div>
-
-<p><strong>2. P(R₂|R₁) :</strong> Si la 1re était rouge, il reste 3 rouges sur 9 boules :</p>
-<div class="formula-box">$P(R_2|R_1) = \\dfrac{3}{9} = \\dfrac{1}{3} \\approx 0{,}333$</div>
-
-<p><strong>3. P(R₁ ∩ R₂) :</strong> On multiplie les probabilités le long du chemin :</p>
-<div class="formula-box">$P(R_1 \\cap R_2) = P(R_1) \\times P(R_2|R_1) = \\dfrac{4}{10} \\times \\dfrac{3}{9} = \\dfrac{12}{90} = \\dfrac{2}{15} \\approx 0{,}133$</div>
-
-<p><strong>4. P(R₂) par la formule des probabilités totales :</strong></p>
-<div class="formula-box">
-$P(B_1) = \\frac{6}{10}$ — $P(R_2|B_1) = \\frac{4}{9}$ (si la 1re était bleue, reste 4 rouges sur 9)<br><br>
-$P(R_2) = P(R_2|R_1)\\times P(R_1) + P(R_2|B_1)\\times P(B_1)$<br>
-$= \\frac{1}{3} \\times \\frac{4}{10} + \\frac{4}{9} \\times \\frac{6}{10} = \\frac{4}{30} + \\frac{24}{90} = \\frac{12}{90} + \\frac{24}{90} = \\frac{36}{90} = \\frac{2}{5} = 0{,}4$
-</div>
-<p><strong>Conclusion intéressante :</strong> P(R₂) = P(R₁) = 0,4 ! Sans remise, la probabilité de tirer une rouge est la même au 1er et au 2e tirage. C'est un résultat général : sans remise, tous les tirages ont la même probabilité marginale.</p>
-</div>`
-},
-{
-  niveau: 'Moyen',
-  enonce: `<p>Un QCM a 20 questions. Chaque question a 4 réponses possibles, dont une seule est correcte. Un élève répond <strong>au hasard</strong> à toutes les questions.</p>
-<p>Soit X la variable aléatoire égale au nombre de bonnes réponses.</p>
-<ol>
-<li>Vérifier que X suit une loi binomiale et préciser ses paramètres.</li>
-<li>Calculer P(X = 5) (arrondir à 10⁻³).</li>
-<li>Calculer l'espérance E(X) et interpréter.</li>
-<li>Calculer l'écart-type σ(X).</li>
-</ol>`,
-  aide: `<p>Vérifie les 4 conditions (essais indépendants, 2 issues, n fixe, p constant). Ici p = 1/4. Pour P(X=5), utilise $\\binom{20}{5}\\times(0{,}25)^5\\times(0{,}75)^{15}$.</p>`,
-  correction: `<div>
-<p><strong>1. Loi binomiale :</strong></p>
-<ul>
-<li>✅ n = 20 questions → nombre fixe</li>
-<li>✅ Essais indépendants (chaque réponse ne dépend pas des autres)</li>
-<li>✅ 2 issues : bonne réponse (succès) ou mauvaise (échec)</li>
-<li>✅ p = 1/4 = 0,25 constant à chaque question</li>
-</ul>
-<p>Donc <strong>X ∼ B(20 ; 0,25)</strong></p>
-
-<p><strong>2. P(X = 5) :</strong></p>
-<div class="formula-box">
-$P(X=5) = \\binom{20}{5} \\times (0{,}25)^5 \\times (0{,}75)^{15}$<br><br>
-$\\binom{20}{5} = \\dfrac{20!}{5! \\times 15!} = 15504$<br><br>
-$(0{,}25)^5 = \\dfrac{1}{1024} \\approx 9{,}77 \\times 10^{-4}$<br>
-$(0{,}75)^{15} \\approx 0{,}01336$<br><br>
-$P(X=5) \\approx 15504 \\times 9{,}77\\times10^{-4} \\times 0{,}01336 \\approx \\mathbf{0{,}202}$
-</div>
-
-<p><strong>3. Espérance :</strong></p>
-<div class="formula-box">$E(X) = np = 20 \\times 0{,}25 = \\mathbf{5}$</div>
-<p><strong>Interprétation :</strong> En répondant au hasard, l'élève obtient en moyenne 5 bonnes réponses sur 20, soit 25% — ce qui correspond bien à la probabilité de tomber juste par hasard sur un QCM à 4 choix.</p>
-
-<p><strong>4. Écart-type :</strong></p>
-<div class="formula-box">
-$V(X) = np(1-p) = 20 \\times 0{,}25 \\times 0{,}75 = 3{,}75$<br>
-$\\sigma(X) = \\sqrt{3{,}75} \\approx \\mathbf{1{,}94}$
-</div>
-<p>L'écart-type de ~2 signifie qu'en répondant au hasard, on obtiendra typiquement entre 3 et 7 bonnes réponses (E(X) ± σ).</p>
-</div>`
-},
-{
-  niveau: 'Difficile',
-  enonce: `<p>Dans une région, 30% des habitants ont le groupe sanguin A. On prélève un échantillon de 50 personnes.</p>
-<ol>
-<li>Soit X le nombre de personnes de groupe A dans l'échantillon. Quelle est la loi de X ?</li>
-<li>Calculer P(X ≤ 10) à l'aide de la calculatrice.</li>
-<li>Calculer P(12 ≤ X ≤ 18).</li>
-<li>On cherche le plus petit entier n tel que P(X ≤ n) ≥ 0,9. Trouver n.</li>
-</ol>`,
-  aide: `<p>X ∼ B(50 ; 0,3). Sur la calculatrice : binomcdf(n, p, k) donne P(X ≤ k). P(12 ≤ X ≤ 18) = P(X ≤ 18) - P(X ≤ 11).</p>`,
-  correction: `<div>
-<p><strong>1. Loi de X :</strong> Les 4 conditions sont vérifiées (n=50 fixe, p=0,3 constant, 2 issues, indépendance supposée). Donc <strong>X ∼ B(50 ; 0,3)</strong>.</p>
-<p>E(X) = 50 × 0,3 = 15 personnes attendues de groupe A.</p>
-
-<p><strong>2. P(X ≤ 10) :</strong></p>
-<div class="formula-box">
-À la calculatrice : binomcdf(50, 0.3, 10)<br>
-$P(X \\leq 10) \\approx \\mathbf{0{,}0848}$
-</div>
-<p>Il y a environ 8,5% de chances d'avoir 10 personnes ou moins de groupe A dans l'échantillon.</p>
-
-<p><strong>3. P(12 ≤ X ≤ 18) :</strong></p>
-<div class="formula-box">
-$P(12 \\leq X \\leq 18) = P(X \\leq 18) - P(X \\leq 11)$<br>
-$= \\text{binomcdf}(50, 0.3, 18) - \\text{binomcdf}(50, 0.3, 11)$<br>
-$\\approx 0{,}8594 - 0{,}1611 = \\mathbf{0{,}698}$
-</div>
-<p>Il y a environ 70% de chances d'avoir entre 12 et 18 personnes de groupe A — ce qui illustre que les valeurs proches de l'espérance (15) sont les plus probables.</p>
-
-<p><strong>4. Plus petit n tel que P(X ≤ n) ≥ 0,9 :</strong></p>
-<div class="formula-box">
-On calcule binomcdf(50, 0.3, n) pour n croissant :<br>
-P(X ≤ 18) ≈ 0,859 < 0,9<br>
-P(X ≤ 19) ≈ 0,910 ≥ 0,9<br><br>
-Donc <strong>n = 19</strong>
-</div>
-<p>Il faut avoir au moins 19 comme seuil pour être sûr à 90% de ne pas le dépasser.</p>
-</div>`
-}
-],
 flashcards: [
-{q:'Loi binomiale — les 4 conditions',a:'1. n essais fixe. 2. Indépendants. 3. Deux issues (succès/échec). 4. p constante. Si une condition manque, ce n\'est pas une loi binomiale.',score:0,interval:0,ease:2.5,due:null},
-{q:'E(X) et σ(X) pour B(n,p)',a:'E(X) = np (valeur moyenne attendue). σ(X) = √(np(1-p)) (dispersion typique autour de la moyenne).',score:0,interval:0,ease:2.5,due:null},
-{q:'P(B|A) — probabilité conditionnelle',a:'P(B|A) = P(A∩B)/P(A). Probabilité de B sachant que A est réalisé. Le dénominateur est P(A), pas 1.',score:0,interval:0,ease:2.5,due:null},
-{q:'Formule des probabilités totales',a:'P(B) = P(B|A)×P(A) + P(B|Ā)×P(Ā). On "partage" selon tous les chemins possibles vers B.',score:0,interval:0,ease:2.5,due:null},
+{q:'Ironie dramatique dans la scène 12 du Malade imaginaire',a:'Argan fait le mort, Béline l\'ignore, le spectateur sait tout. Décalage = comique + révélation du vrai caractère de Béline.',score:0,interval:0,ease:2.5,due:null},
+{q:'Effet de l\'accumulation d\'insultes de Béline',a:'"Malpropre, dégoûtant, mouchant, toussant..." — révèle l\'hypocrisie totale. La vérité sort quand on croit être seul. Comique d\'accumulation.',score:0,interval:0,ease:2.5,due:null},
+{q:'Antiphrase dans le texte de Molière',a:'"Beau panégyrique" (Argan) = sarcasme amer pour désigner les insultes de Béline. Dire le contraire de ce qu\'on pense pour railler.',score:0,interval:0,ease:2.5,due:null},
+{q:'Problématique — Malade imaginaire III,12',a:'Comment Molière utilise-t-il le comique de la fausse mort pour dénoncer l\'hypocrisie et faire triompher la vérité ?',score:0,interval:0,ease:2.5,due:null},
 ]};
 
-PREBUILT['Maths Spé']['Suites — Cours complet'] = {
-cours: `<h2>Les Suites Numériques — L'art des séquences</h2>
-
-<h3>Qu'est-ce qu'une suite ?</h3>
-<p>Une suite, c'est simplement une liste ordonnée de nombres : $u_0, u_1, u_2, u_3, \\ldots$ On les calcule souvent l'un après l'autre selon une règle. Cette règle peut être :</p>
-<ul>
-<li><strong>Explicite</strong> : une formule qui donne $u_n$ directement en fonction de n. Ex : $u_n = 3n + 1$. On peut calculer $u_{100}$ sans calculer tous les termes avant.</li>
-<li><strong>Par récurrence</strong> : on définit $u_{n+1}$ en fonction de $u_n$. On doit calculer terme par terme.</li>
-</ul>
-
-<h3>Suite arithmétique — "on ajoute toujours la même chose"</h3>
-<p>Chaque terme s'obtient en ajoutant une constante r (la <strong>raison</strong>) au terme précédent. Penser à un escalier dont les marches ont toujours la même hauteur.</p>
+PREBUILT['Français']['T13-14-15 — Colette (Sido + Vrilles)'] = {
+cours: `<h2>Colette — Fiche complète</h2>
+<p><strong>Colette</strong> | Sido (1930) + Les Vrilles de la vigne (1908) | Parcours : La célébration du monde</p>
 <div class="formula-box">
-$u_{n+1} = u_n + r$ (définition par récurrence)<br><br>
-$u_n = u_0 + n \\times r$ (formule explicite — la plus utile !)<br><br>
-$S = u_0 + u_1 + \\ldots + u_n = (n+1) \\times \\dfrac{u_0 + u_n}{2}$<br>
-<em>= nombre de termes × moyenne du premier et du dernier</em>
+🎯 <strong>Style de Colette :</strong> prose poétique sensuelle — elle écrit avec le corps. Couleurs, odeurs, textures, sons. La célébration du monde passe par les SENS.
 </div>
-<p><strong>Exemple :</strong> Les multiples de 5 : 0, 5, 10, 15, 20... C'est une suite arithmétique de raison r = 5 et $u_0 = 0$. Donc $u_n = 5n$. Le 100e terme (n=99) est $u_{99} = 5 \\times 99 = 495$.</p>
 
-<h3>Suite géométrique — "on multiplie toujours par la même chose"</h3>
-<p>Chaque terme s'obtient en multipliant par une constante q (la <strong>raison</strong>) le terme précédent. Penser à un placement bancaire avec intérêts composés — chaque année le capital est multiplié par (1 + taux).</p>
-<div class="formula-box">
-$u_{n+1} = u_n \\times q$ (définition par récurrence)<br><br>
-$u_n = u_0 \\times q^n$ (formule explicite)<br><br>
-$S = u_0 + u_1 + \\ldots + u_{n-1} = u_0 \\times \\dfrac{1 - q^n}{1 - q}$ (si $q \\neq 1$)
+<h3>T13 — Sido et le merle (portrait indirect)</h3>
+<div class="texte-annote">
+<p>Je la chante, de mon mieux. Je célèbre la clarté originelle.<br>
+<span class="fig fig-ironie" title="IRONIE NARRATIVE : Sido installe un épouvantail pour protéger les cerises... puis refuse de chasser le merle qui les mange. La contradiction révèle son caractère : elle préfère la beauté du vivant aux cerises. Portrait INDIRECT — on comprend Sido par ses actes, pas par une description.">Je l'ai vue suspendre, dans un cerisier, un épouvantail à effrayer les merles</span></p>
+
+<p><span class="fig fig-oxymore" title="OXYMORE : 'passionnément immobile.' L'immobilité est passionnée. Observer le merle demande une intensité totale. Colette dit que la contemplation est une ACTION, pas une passivité. C'est peut-être la figure la plus importante pour définir Sido.">je trouvais ma mère sous l'arbre, passionnément immobile</span>, la tête à la rencontre du ciel</p>
+
+<p><span class="fig fig-accumulation" title="ACCUMULATION D'OBSERVATIONS : 'comme il se sert de sa patte... les mouvements de sa tête... cette arrogance... ce tour de bec pour vider le noyau.' Sido observe avec une précision scientifique et un émerveillement d'enfant. La liste = intensité de la contemplation.">Qu'il est beau !... Et tu vois comme il se sert de sa patte ?<br>
+Et tu vois les mouvements de sa tête et cette arrogance ?<br>
+Et ce tour de bec pour vider le noyau ?</span></p>
+
+<p><span class="fig fig-ironie" title="DÉNOUEMENT IRONIQUE : 'Les cerises ?... Ah ! Oui, les cerises...' Sido avait oublié pourquoi elle était là. Le merle est plus important que les cerises. Ce 'dédain dansant' pour les choses pratiques = philosophie de vie de Sido : la beauté prime sur l'utile.">Les cerises ?... Ah ! Oui, les cerises...<br>
+Dans ses yeux passa une sorte de frénésie riante, un universel mépris, un dédain dansant</span></p>
 </div>
-<p><strong>Exemple placement :</strong> Tu places 1000€ à 3% par an. Après n années : $u_n = 1000 \\times (1{,}03)^n$. Après 10 ans : $u_{10} = 1000 \\times (1{,}03)^{10} \\approx 1344€$.</p>
 
-<h3>Comportement à l'infini — que se passe-t-il quand n grandit ?</h3>
-<ul>
-<li>Suite arithmétique : si $r > 0$, la suite tend vers $+\\infty$. Si $r < 0$, vers $-\\infty$.</li>
-<li>Suite géométrique :<br>
-  — Si $|q| < 1$ : $q^n \\to 0$ (la suite "s'écrase" vers 0)<br>
-  — Si $q > 1$ : $q^n \\to +\\infty$ (croissance exponentielle)<br>
-  — Si $q = -1$ : la suite alterne entre deux valeurs, pas de limite</li>
-</ul>
+<h3>T14 — Jour gris (prose poétique)</h3>
+<div class="texte-annote">
+<p><span class="fig fig-apostrophe" title="APOSTROPHE AU 'TU' : tout le texte s'adresse à la femme aimée. Cette intimité absolue inclut le lecteur — on est aussi ce 'tu'. La prose de Colette est un geste d'amour et d'invitation.">Et si tu arrivais, un jour d'été dans mon pays...<br>
+tu m'oublierais, et tu t'assoirais là, pour n'en plus bouger jusqu'au terme de ta vie.</span></p>
 
-<h3>Le raisonnement par récurrence — "domino mathématique"</h3>
-<p>Imagine des dominos alignés. Si tu prouves que le premier tombe ET que chaque domino fait tomber le suivant, alors tous tombent. C'est exactement la récurrence.</p>
+<p><span class="fig fig-metaphore" title="MÉTAPHORE ANIMISTE : 'un fil de brouillard... un gracieux spectre de brume... il se fond et se fait tour à tour nuage, femme endormie, serpent langoureux, cheval à cou de chimère.' Le brouillard est une créature vivante qui prend différentes formes mythologiques. C'est de la prose poétique pure.">un fil de brouillard, un brouillard ténu, blanc, vivant, un gracieux spectre de brume...<br>
+il se fond en lui-même et se fait tour à tour nuage, femme endormie, serpent langoureux, cheval à cou de chimère.</span></p>
+
+<p><span class="fig fig-chute" title="RETOURNEMENT FINAL : après avoir décrit un paradis, Colette retourne tout : 'Ne le crois pas ! N'y va pas... Tu ne verrais qu'une campagne triste.' Elle protège son pays intérieur en le niant. Ou rassure sa compagne jalouse. Ambiguïté volontaire et poétique.">Ne le crois pas ! N'y va pas : tu le chercherais en vain.<br>
+Tu ne verrais qu'une campagne triste, un village paisible et pauvre.</span></p>
+</div>
+
+<h3>T15 — Le Rossignol (liberté et voix)</h3>
+<div class="texte-annote">
+<p><span class="fig fig-these" title="ALLÉGORIE : 'un rossignol libre et qui ne se savait pas épié.' Le rossignol libre = Colette elle-même qui écrit librement. L'oiseau qui chante sans savoir qu'on l'observe = l'artiste authentique.">J'ai vu chanter un rossignol sous la lune, un rossignol libre et qui ne se savait pas épié.</span></p>
+
+<p><span class="fig fig-metaphore" title="ALLÉGORIE DES VRILLES : 'les vrilles d'une vigne amère m'avaient liée... j'ai rompu tous ces fils tors qui tenaient à ma chair.' Les vrilles = les liens qui emprisonnent (mariage, société, conventions). Colette se libère comme le rossignol — c'est son programme de vie et d'écriture.">Cassantes, tenaces, les vrilles d'une vigne amère m'avaient liée...<br>
+j'ai rompu, d'un sursaut effrayé, tous ces fils tors qui déjà tenaient à ma chair</span></p>
+
+<p><span class="fig fig-anaphore" title="ANAPHORE DU DÉSIR D'EXPRESSION : 'Je voudrais dire, dire, dire tout ce que je sais, tout ce que je pense, tout ce que je devine...' Triple 'dire' + quadruple 'tout ce que' = urgence absolue. C'est le manifeste littéraire de Colette : écrire TOUT, ne rien taire.">Je voudrais dire, dire, dire tout ce que je sais,<br>
+tout ce que je pense, tout ce que je devine,<br>
+tout ce qui m'enchante et me blesse et m'étonne</span></p>
+</div>
+
+<h3>Les 5 figures clés</h3>
 <ul>
-<li><strong>Initialisation :</strong> vérifier la propriété pour n = 0 (ou n = 1). C'est "le premier domino tombe".</li>
-<li><strong>Hérédité :</strong> supposer la propriété vraie pour un rang n quelconque (hypothèse de récurrence), puis démontrer qu'elle est vraie au rang n+1. C'est "chaque domino fait tomber le suivant".</li>
-<li><strong>Conclusion :</strong> par le principe de récurrence, la propriété est vraie pour tout entier n ≥ 0.</li>
+<li><strong>Portrait indirect</strong> — Sido révélée par ses actes. <em>Pas de description directe — le personnage se montre dans ce qu'il fait.</em></li>
+<li><strong>Oxymore</strong> — "passionnément immobile". <em>Deux contraires qui définissent un état paradoxal.</em></li>
+<li><strong>Métaphore animiste</strong> — brouillard = créature vivante. <em>Élément naturel qui prend des formes humaines ou mythiques.</em></li>
+<li><strong>Allégorie des vrilles</strong> — liens de vigne = contraintes sociales. <em>Image concrète = réalité abstraite.</em></li>
+<li><strong>Anaphore de "dire"</strong> — urgence d'expression. <em>Répétition d'un verbe pour exprimer l'intensité.</em></li>
 </ul>`,
-exercices: [
-{
-  niveau: 'Facile',
-  enonce: `<p>Une suite arithmétique vérifie $u_0 = 7$ et $u_1 = 11$.</p>
-<ol>
-<li>Calculer la raison r.</li>
-<li>Donner la formule explicite de $u_n$.</li>
-<li>Calculer $u_{20}$.</li>
-<li>Calculer la somme $S = u_0 + u_1 + \\ldots + u_{20}$.</li>
-</ol>`,
-  aide: `<p>La raison r = u₁ - u₀. Formule : uₙ = u₀ + n×r. Somme = nombre de termes × (premier + dernier)/2.</p>`,
-  correction: `<div>
-<p><strong>1. Raison :</strong></p>
-<div class="formula-box">$r = u_1 - u_0 = 11 - 7 = 4$</div>
-
-<p><strong>2. Formule explicite :</strong></p>
-<div class="formula-box">$u_n = u_0 + n \\times r = 7 + 4n$</div>
-
-<p><strong>3. $u_{20}$ :</strong></p>
-<div class="formula-box">$u_{20} = 7 + 4 \\times 20 = 7 + 80 = \\mathbf{87}$</div>
-
-<p><strong>4. Somme de $u_0$ à $u_{20}$ (21 termes) :</strong></p>
-<div class="formula-box">
-$S = 21 \\times \\dfrac{u_0 + u_{20}}{2} = 21 \\times \\dfrac{7 + 87}{2} = 21 \\times 47 = \\mathbf{987}$
-</div>
-</div>`
-},
-{
-  niveau: 'Moyen',
-  enonce: `<p>Un capital de 2000€ est placé à intérêts composés au taux annuel de 2,5%.</p>
-<ol>
-<li>Exprimer $u_n$ le capital après n années.</li>
-<li>Après combien d'années le capital dépasse-t-il 2500€ ?</li>
-<li>Quelle est la nature de la suite $(u_n)$ ?</li>
-</ol>`,
-  aide: `<p>Chaque année le capital est multiplié par 1,025. C'est une suite géométrique. Pour trouver l'année, résoudre 2000×(1,025)ⁿ > 2500, soit (1,025)ⁿ > 1,25. Utiliser ln ou tâtonner.</p>`,
-  correction: `<div>
-<p><strong>1. Expression de $u_n$ :</strong></p>
-<div class="formula-box">$u_n = 2000 \\times (1{,}025)^n$</div>
-
-<p><strong>2. Quand $u_n > 2500$ ?</strong></p>
-<div class="formula-box">
-$2000 \\times (1{,}025)^n > 2500$<br>
-$(1{,}025)^n > 1{,}25$<br><br>
-En prenant le logarithme : $n \\times \\ln(1{,}025) > \\ln(1{,}25)$<br>
-$n > \\dfrac{\\ln(1{,}25)}{\\ln(1{,}025)} = \\dfrac{0{,}2231}{0{,}02469} \\approx 9{,}04$
-</div>
-<p>Donc à partir de <strong>n = 10</strong> (après 10 ans), le capital dépasse 2500€.<br>
-Vérification : $u_{10} = 2000 \\times (1{,}025)^{10} \\approx 2000 \\times 1{,}2801 \\approx 2560€$ ✓</p>
-
-<p><strong>3. Nature de la suite :</strong></p>
-<p>$(u_n)$ est une suite <strong>géométrique</strong> de premier terme $u_0 = 2000$ et de raison $q = 1{,}025$. Comme q > 1, la suite est croissante et tend vers $+\\infty$ : le capital croît indéfiniment (croissance exponentielle).</p>
-</div>`
-}
-],
 flashcards: [
-{q:'Formule explicite — suite arithmétique',a:'$u_n = u_0 + n \\times r$. La raison r = $u_{n+1} - u_n$ (constante).',score:0,interval:0,ease:2.5,due:null},
-{q:'Formule explicite — suite géométrique',a:'$u_n = u_0 \\times q^n$. La raison q = $u_{n+1}/u_n$ (constante).',score:0,interval:0,ease:2.5,due:null},
-{q:'Somme suite arithmétique',a:'S = nb de termes × (premier + dernier) / 2.',score:0,interval:0,ease:2.5,due:null},
-{q:'Comportement de $q^n$ si |q| < 1',a:'$q^n \\to 0$ quand $n \\to +\\infty$. Ex : $(0,5)^n \\to 0$.',score:0,interval:0,ease:2.5,due:null},
+{q:'Portrait indirect chez Colette dans Sido',a:'Colette ne décrit pas Sido physiquement — elle la révèle par ses actes (oublier les cerises pour le merle, "passionnément immobile"). Le personnage se définit par ce qu\'il fait.',score:0,interval:0,ease:2.5,due:null},
+{q:'Oxymore "passionnément immobile" — sens',a:'L\'immobilité de Sido EST une passion. Observer le merle demande une intensité totale. La contemplation = une action. C\'est la philosophie de vie de Sido.',score:0,interval:0,ease:2.5,due:null},
+{q:'Allégorie des vrilles dans "Le Rossignol"',a:'Les vrilles = liens qui emprisonnent (mariage, société). Colette les rompt = liberté. Programme de vie et d\'écriture : tout dire, ne rien taire.',score:0,interval:0,ease:2.5,due:null},
+{q:'Retournement final dans "Jour gris"',a:'"Ne le crois pas !" Après avoir décrit un paradis, Colette le nie. Protège son pays intérieur ou rassure sa compagne jalouse. Ambiguïté poétique volontaire.',score:0,interval:0,ease:2.5,due:null},
 ]};
 
+PREBUILT['Français']['T16 — On était des loups (Sandrine Collette)'] = {
+cours: `<h2>On était des loups — Fiche complète</h2>
+<p><strong>Sandrine Collette</strong> | 2022 | Excipit | Parcours : La célébration du monde</p>
+<div class="formula-box">
+🎯 <strong>Problématique :</strong> Comment Sandrine Collette célèbre-t-elle le monde et le lien père-fils à travers une écriture sensorielle et minimaliste ?<br>
+📌 <strong>Style :</strong> Flux de conscience, absence de ponctuation, phrases courtes = pensée brute du père.
+</div>
+
+<h3>Le texte annoté</h3>
+<div class="texte-annote">
+<p><span class="fig fig-these" title="INCIPIT DE L'EXCIPIT : 'Je suis devenu le père de mon fils vraiment.' Le mot 'vraiment' porte tout — c'est l'aboutissement du roman entier. La paternité ne se décrète pas, elle se construit. Ce roman raconte comment.">Je suis devenu le père de mon fils vraiment.</span>
+<span class="fig fig-paradoxe" title="PARADOXE TOUCHANT : 'je voudrais presque qu'il reste petit toute sa vie.' Désir impossible mais sincère. L'amour paternel contient une contradiction : protéger ET laisser grandir. Le père le comprend avec tendresse.">Maintenant je voudrais presque qu'il reste petit toute sa vie et que je le protège</span> et ça ne marche pas comme ça bien sûr.</p>
+
+<p><span class="fig fig-metaphore" title="MÉTAPHORE SENSORIELLE / ÉCOPOÉTIQUE : 'je sens les vibrations de la terre dans ma poitrine, mon cœur bat à son rythme.' Le père est accordé à la terre — fusion homme/nature. L'écopoétique dit : l'homme fait PARTIE de la nature, il n'est pas au-dessus.">Dans la lenteur il y a une plénitude et une justesse et je sens les vibrations de la terre dans ma poitrine, mon cœur bat à son rythme et les pulsations jusqu'au bout de mes doigts.</span></p>
+
+<p><span class="fig fig-ellipse" title="STYLE ORAL / FLUX DE CONSCIENCE : 'il guette mon vœu j'en suis sûr.' Pas de ponctuation entre les propositions. Collette écrit comme le père PENSE — pensées qui s'enchaînent sans s'arrêter. Effet d'intimité absolue.">À côté de moi Aru regarde on regarde les étoiles filantes, il guette mon vœu j'en suis sûr.</span></p>
+
+<p><span class="fig fig-comparaison" title="COMPARAISON PROTECTRICE : 'comme être à l'abri d'une maison quand la tempête arrive.' La couverture = maison = refuge. L'amour paternel crée un espace de protection contre le monde hostile.">on a la sensation d'être dans un cocon au milieu de l'hiver, c'est comme être à l'abri d'une maison quand la tempête arrive.</span></p>
+
+<p><span class="fig fig-distinction" title="DISTINCTION POÉTIQUE : 'La montagne est calme je ne veux pas dire silencieuse juste calme.' Collette distingue le silence (absence de bruit) et le calme (plénitude paisible). La nature est PLEINE, pas vide. Distinction qui révèle une philosophie.">La montagne est calme je ne veux pas dire silencieuse juste calme.</span></p>
+
+<p><span class="fig fig-hyperbole" title="HYPERBOLE D'AMOUR : 'sa petite voix claire s'élève dans les ténèbres et je jure qu'elle les éclaire.' La voix de l'enfant illumine littéralement la nuit. Hyperbole lyrique — l'amour paternel transforme le réel. L'enfant est la lumière du père.">Alors il chante à son tour et sa petite voix claire s'élève dans les ténèbres et je jure qu'elle les éclaire</span> et plus jamais je ne lui ordonne de se taire.</p>
+
+<p><span class="fig fig-chute" title="CHUTE MINIMALISTE : 'Les choses sont à leur place je crois.' Après un roman de violence et reconstruction, cette phrase dit tout en peu de mots. La paix intérieure. 'Je crois' = humilité, pas certitude absolue. Fin ouverte et juste.">- Les choses sont à leur place je crois.</span></p>
+</div>
+
+<h3>Les 5 figures clés</h3>
+<ul>
+<li><strong>Métaphore de fusion homme/nature</strong> — "vibrations de la terre dans ma poitrine". <em>Le corps humain partage le rythme de la terre.</em></li>
+<li><strong>Style oral / flux de conscience</strong> — pas de ponctuation. <em>Syntaxe fragmentée qui mime la pensée brute.</em></li>
+<li><strong>Hyperbole d'amour</strong> — "sa voix éclaire les ténèbres". <em>Exagération lyrique qui exprime l'intensité du sentiment.</em></li>
+<li><strong>Distinction poétique</strong> — "calme ≠ silencieux". <em>Nuance qui révèle une philosophie.</em></li>
+<li><strong>Chute minimaliste</strong> — "Les choses sont à leur place". <em>Phrase courte qui condense tout le sens du roman.</em></li>
+</ul>`,
+flashcards: [
+{q:'Chute finale de "On était des loups" — sens',a:'"Les choses sont à leur place je crois." Minimalisme total. Après la violence et la reconstruction, c\'est la paix intérieure. "Je crois" = humilité, pas certitude. Fin ouverte et juste.',score:0,interval:0,ease:2.5,due:null},
+{q:'Fusion homme/nature chez Sandrine Collette',a:'"Je sens les vibrations de la terre dans ma poitrine." Écopoétique : le père fait PARTIE de la nature. Son cœur bat au rythme de la terre. L\'homme n\'est pas au-dessus — il est avec.',score:0,interval:0,ease:2.5,due:null},
+{q:'Pourquoi le style sans ponctuation est une figure à analyser',a:'Flux de conscience : la syntaxe fragmentée mime la pensée du père en temps réel. Intimité absolue — on est dans sa tête. Effet d\'authenticité.',score:0,interval:0,ease:2.5,due:null},
+{q:'Problématique — On était des loups',a:'Comment Collette célèbre-t-elle le monde et le lien père-fils à travers une écriture sensorielle et minimaliste ?',score:0,interval:0,ease:2.5,due:null},
+]};

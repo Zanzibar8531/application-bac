@@ -4,8 +4,8 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-v3';
-const CACHE_STATIC = 'bacmaster-static-v3';
+const CACHE_NAME   = 'bacmaster-v4';
+const CACHE_STATIC = 'bacmaster-static-v4';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
@@ -13,8 +13,17 @@ const STATIC_ASSETS = [
   './index.html',
   './style.css',
   './script.js',
-  './data.js',
   './manifest.json',
+  './data-init.js',
+  './francais.js',
+  './maths-spe.js',
+  './ses.js',
+  './anglais-spe.js',
+  './histoire-geo.js',
+  './anglais.js',
+  './espagnol.js',
+  './svt.js',
+  './physique-chimie.js',
   // Polices Google (si tu veux les cacher — optionnel, elles ont leur propre cache)
   'https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap',
 ];
@@ -84,9 +93,11 @@ self.addEventListener('fetch', event => {
 
 // ── HELPERS : Détection du type de requête ───────────────────
 function isStaticAsset(url) {
-  const localFiles = ['/index.html', '/style.css', '/script.js', '/data.js', '/manifest.json', '/'];
+  const localFiles = ['/index.html', '/style.css', '/script.js', '/manifest.json', '/'];
   return url.origin === self.location.origin &&
-    (localFiles.some(f => url.pathname.endsWith(f)) || url.pathname.startsWith('/icons/'));
+    (localFiles.some(f => url.pathname.endsWith(f)) ||
+     url.pathname.startsWith('/icons/') ||
+     url.pathname.match(/\/(francais|maths-spe|ses|anglais-spe|histoire-geo|anglais|espagnol|svt|physique-chimie|data-init)\.js$/));
 }
 
 function isCDNRequest(url) {
