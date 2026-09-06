@@ -63,14 +63,20 @@ let qcmList = [], qcmIdx = 0, qcmScore = 0, qcmCur = null;
 
 const CFG = [
     {name:'Français',    icon:'📝', cls:'fr'},
-    {name:'Maths Spé',   icon:'📐', cls:'math'},
-    {name:'SES',         icon:'📈', cls:'ses'},
-    {name:'Anglais Spé', icon:'🇬🇧', cls:'en'},
+    {name:'Maths',       icon:'📐', cls:'math'},
     {name:'Histoire-Géo',icon:'🗺️', cls:'hg'},
     {name:'Anglais',     icon:'🌍', cls:'ang'},
     {name:'Espagnol',    icon:'🇪🇸', cls:'esp'},
-    {name:'SVT',         icon:'🧬', cls:'svt'},
     {name:'Physique-Chimie', icon:'⚗️', cls:'phy'},
+    {name:'Ingénierie & Dév. Durable', icon:'🛠️', cls:'idd'},
+    {name:'Innovation Techno.', icon:'💡', cls:'it'},
+    // ── Matières perso (hors programme officiel) ──
+    {name:'Informatique', icon:'💻', cls:'info'},
+    {name:'Cybersécurité', icon:'🔒', cls:'cyber'},
+    {name:'Bourse & Investissement', icon:'📊', cls:'bourse'},
+    {name:'Entrepreneuriat & Contenu', icon:'🚀', cls:'entr'},
+    {name:"Science de l'Apprentissage", icon:'🧠', cls:'sci'},
+    {name:'Bases Juridiques & Admin', icon:'⚖️', cls:'jur'},
 ];
 
 // ── HELPERS ───────────────────────────────────────────────────
@@ -88,6 +94,40 @@ function subStats(name) {
         });
     });
     return {total:t,due:d,mastered:m};
+}
+
+// ── ACTIVITÉ & SÉRIE DE JOURS (dashboard global) ────────────────
+// Stocké séparément de `db` (pas une matière) pour ne jamais interférer
+// avec le sync GitHub ni la recherche qui parcourent Object.keys(db).
+function getActivityDates() {
+    try { return JSON.parse(localStorage.getItem('bacmaster_activity') || '[]'); }
+    catch(e) { return []; }
+}
+function logActivity() {
+    const today = new Date().toISOString().slice(0,10);
+    const dates = getActivityDates();
+    if(!dates.includes(today)) {
+        dates.push(today);
+        if(dates.length > 400) dates.shift(); // garde un historique raisonnable
+        localStorage.setItem('bacmaster_activity', JSON.stringify(dates));
+    }
+}
+function computeStreak() {
+    const dates = new Set(getActivityDates());
+    let d = new Date();
+    const todayKey = d.toISOString().slice(0,10);
+    if(!dates.has(todayKey)) d.setDate(d.getDate()-1); // pas encore révisé aujourd'hui : ok si hier compte
+    let streak = 0;
+    while(dates.has(d.toISOString().slice(0,10))) {
+        streak++;
+        d.setDate(d.getDate()-1);
+    }
+    return streak;
+}
+function globalStats() {
+    let total=0, mastered=0;
+    CFG.forEach(s => { const st = subStats(s.name); total += st.total; mastered += st.mastered; });
+    return { total, mastered, streak: computeStreak() };
 }
 
 // ── SIDEBAR ───────────────────────────────────────────────────
@@ -110,16 +150,29 @@ function render(html) {
 
 function goHome() {
     clearInterval(qTimer);
+    const gs = globalStats();
     render(`
         <div class="page-head animate">
             <h1>Mes Matières</h1>
             <p>Sélectionne une matière pour commencer à réviser</p>
         </div>
+        ${gs.total>0?`
+        <div class="dash-banner">
+            <div class="dash-stat">
+                <div class="dash-stat-val">${gs.streak>0?'🔥':'💤'} ${gs.streak}</div>
+                <div class="dash-stat-label">jour${gs.streak>1?'s':''} d'affilée</div>
+            </div>
+            <div class="dash-sep"></div>
+            <div class="dash-stat">
+                <div class="dash-stat-val">🎯 ${gs.mastered}</div>
+                <div class="dash-stat-label">carte${gs.mastered>1?'s':''} maîtrisée${gs.mastered>1?'s':''} / ${gs.total}</div>
+            </div>
+        </div>`:''}
         <div class="subjects-grid">
             ${CFG.map(s=>{
                 const st = subStats(s.name);
                 const pct = st.total ? Math.round(st.mastered/st.total*100) : 0;
-                const c = {fr:'#059669',math:'#4f46e5',ses:'#d97706',en:'#1d4ed8',hg:'#9f1239'}[s.cls];
+                const c = SUBJ_COLORS[s.cls];
                 let badge = '';
                 if(st.total===0) badge='<span class="badge badge-new">Vide</span>';
                 else if(st.due>0) badge=`<span class="badge badge-due">📚 ${st.due} à réviser</span>`;
@@ -325,9 +378,10 @@ function renderTabContent() {
     else if(curTab==='edit') {
         box.innerHTML = `
             <div class="editor-toolbar">
-                <button onclick="fmt('bold')"><b>G</b></button>
-                <button onclick="fmt('italic')"><i>I</i></button>
-                <button onclick="fmt('underline')"><u>S</u></button>
+                <span class="etb-label">Texte</span>
+                <button onclick="fmt('bold')" title="Gras"><b>G</b></button>
+                <button onclick="fmt('italic')" title="Italique"><i>I</i></button>
+                <button onclick="fmt('underline')" title="Souligné"><u>S</u></button>
                 <select onchange="fmt('fontSize',this.value);this.value='3'">
                     <option value="3">Normal</option>
                     <option value="5">Grand</option>
@@ -345,9 +399,38 @@ function renderTabContent() {
                     <button class="hl-hl" onclick="applyHL()">🖍️ HL</button>
                 </div>
             </div>
+            <div class="editor-toolbar">
+                <span class="etb-label">Maths</span>
+                <button onclick="insertSymbol('√')" title="Racine carrée">√</button>
+                <button onclick="insertSymbol('×')" title="Multiplier">×</button>
+                <button onclick="insertSymbol('÷')" title="Diviser">÷</button>
+                <button onclick="insertSymbol('±')" title="Plus ou moins">±</button>
+                <button onclick="insertSymbol('π')" title="Pi">π</button>
+                <button onclick="insertSymbol('Δ')" title="Delta">Δ</button>
+                <button onclick="insertSymbol('°')" title="Degré">°</button>
+                <button onclick="insertSymbol('≤')" title="Inférieur ou égal">≤</button>
+                <button onclick="insertSymbol('≥')" title="Supérieur ou égal">≥</button>
+                <button onclick="insertSymbol('≠')" title="Différent">≠</button>
+                <button onclick="insertSymbol('∞')" title="Infini">∞</button>
+            </div>
+            <div class="editor-toolbar">
+                <span class="etb-label">Puissances</span>
+                <button onclick="insertPow(2)" title="Insérer un carré ex.">x²</button>
+                <button onclick="insertPow(3)" title="Insérer un cube ex.">x³</button>
+                <button onclick="fmt('superscript')" title="Activer/désactiver l'exposant — tape ensuite ton chiffre">xⁿ</button>
+                <button onclick="fmt('subscript')" title="Activer/désactiver l'indice — tape ensuite ton chiffre">xₙ</button>
+                <button onclick="insertTenPow()" title="×10 avec exposant à compléter">×10ⁿ</button>
+                <button onclick="insertFraction()" title="Insérer une fraction a/b">a/b</button>
+            </div>
+            <div class="editor-toolbar">
+                <span class="etb-label">Insérer</span>
+                <button onclick="insertTable()" title="Insérer un tableau">▦ Tableau</button>
+                <button onclick="openGraphTool()" title="Tracer et insérer un graphique de fonction">📈 Graphique</button>
+            </div>
             <div id="editor" contenteditable="true" class="editor-area">${data.cours||''}</div>
             <button class="btn-save" id="sbtn" onclick="saveCours()">💾 Enregistrer</button>
         `;
+        setTimeout(trackEditorSelection, 50);
     }
     else if(curTab==='voc') {
         const cards = data.flashcards||[];
@@ -382,25 +465,290 @@ function addChapter() {
 }
 
 function renameChapter(oldName) {
-    const newName = prompt('Nouveau nom du chapitre :', oldName);
-    if(!newName || newName.trim()==='' || newName===oldName) return;
-    const trimmed = newName.trim();
-    if(db[curSubject][trimmed]){ showToast('Ce nom existe déjà !','warn'); return; }
-    db[curSubject][trimmed] = db[curSubject][oldName];
-    delete db[curSubject][oldName];
-    if(curChapter===oldName) curChapter=trimmed;
-    save(); goSubject(curSubject);
+    customPrompt({
+        icon:'✏️', title:'Renommer le chapitre', value:oldName,
+        placeholder:'Nom du chapitre', confirmLabel:'Renommer',
+        onConfirm:(newName)=>{
+            if(!newName || newName.trim()==='' || newName===oldName) return;
+            const trimmed = newName.trim();
+            if(db[curSubject][trimmed]){ showToast('Ce nom existe déjà !','warn'); return; }
+            db[curSubject][trimmed] = db[curSubject][oldName];
+            delete db[curSubject][oldName];
+            if(curChapter===oldName) curChapter=trimmed;
+            save(); goSubject(curSubject);
+        }
+    });
 }
 
 function deleteChapter(ch) {
     const n = (db[curSubject][ch].flashcards||[]).length;
-    if(!confirm(`Supprimer "${ch}" et ses ${n} mot(s) ? Cette action est irréversible.`)) return;
-    delete db[curSubject][ch];
-    save(); goSubject(curSubject);
+    customConfirm({
+        icon:'🗑️', title:'Supprimer ce chapitre ?',
+        message:`"${esc(ch)}" et ses ${n} mot(s) seront supprimés définitivement. Cette action est irréversible.`,
+        confirmLabel:'Supprimer', cancelLabel:'Annuler', danger:true,
+        onConfirm:()=>{ delete db[curSubject][ch]; save(); goSubject(curSubject); }
+    });
 }
 
-function fmt(cmd,val=null){ document.execCommand(cmd,false,val); $('editor')&&$('editor').focus(); }
-function applyHL(){ document.execCommand('hiliteColor',false,$('hlc').value); $('editor')&&$('editor').focus(); }
+function fmt(cmd,val=null){ restoreEditorSelection(); document.execCommand(cmd,false,val); }
+function applyHL(){ restoreEditorSelection(); document.execCommand('hiliteColor',false,$('hlc').value); }
+
+// ── CONFIRMATION STYLÉE (remplace le confirm() natif moche du navigateur) ──
+function customConfirm(opts) {
+    const existing = $('cc-overlay'); if(existing) existing.remove();
+    const ov = document.createElement('div');
+    ov.id = 'cc-overlay';
+    ov.className = 'cc-overlay';
+    ov.onclick = (e) => { if(e.target === ov) closeCustomConfirm(); };
+    ov.innerHTML = `
+        <div class="cc-box">
+            <div class="cc-icon">${opts.icon || '⚠️'}</div>
+            <h3>${opts.title || 'Confirmer'}</h3>
+            <p>${opts.message || ''}</p>
+            <div class="cc-actions">
+                <button class="cc-btn cc-btn-cancel" onclick="closeCustomConfirm()">${opts.cancelLabel || 'Annuler'}</button>
+                <button class="cc-btn cc-btn-confirm${opts.danger ? ' cc-btn-danger' : ''}" id="cc-confirm-btn">${opts.confirmLabel || 'Confirmer'}</button>
+            </div>
+        </div>`;
+    document.body.appendChild(ov);
+    $('cc-confirm-btn').onclick = () => { closeCustomConfirm(); opts.onConfirm && opts.onConfirm(); };
+}
+function closeCustomConfirm() { const ov = $('cc-overlay'); if(ov) ov.remove(); }
+
+// ── SAISIE STYLÉE (remplace le prompt() natif moche du navigateur) ──
+function customPrompt(opts) {
+    const existing = $('cp-overlay'); if(existing) existing.remove();
+    const ov = document.createElement('div');
+    ov.id = 'cp-overlay';
+    ov.className = 'cc-overlay';
+    ov.onclick = (e) => { if(e.target === ov) closeCustomPrompt(); };
+    ov.innerHTML = `
+        <div class="cc-box">
+            <div class="cc-icon">${opts.icon || '✏️'}</div>
+            <h3>${opts.title || 'Renommer'}</h3>
+            <input type="text" id="cp-input" class="field" value="${esc(opts.value || '')}" placeholder="${esc(opts.placeholder || '')}">
+            <div class="cc-actions" style="margin-top:16px">
+                <button class="cc-btn cc-btn-cancel" onclick="closeCustomPrompt()">Annuler</button>
+                <button class="cc-btn cc-btn-confirm" id="cp-confirm-btn">${opts.confirmLabel || 'Valider'}</button>
+            </div>
+        </div>`;
+    document.body.appendChild(ov);
+    const inp = $('cp-input');
+    setTimeout(()=>{ inp.focus(); inp.select(); }, 50);
+    inp.addEventListener('keydown', e => { if(e.key==='Enter'){ e.preventDefault(); $('cp-confirm-btn').click(); } });
+    $('cp-confirm-btn').onclick = () => {
+        const val = inp.value;
+        closeCustomPrompt();
+        opts.onConfirm && opts.onConfirm(val);
+    };
+}
+function closeCustomPrompt() { const ov = $('cp-overlay'); if(ov) ov.remove(); }
+
+// ── SUIVI DE LA POSITION DU CURSEUR (fix mobile : le clic sur un bouton
+// de la barre d'outils fait perdre la sélection dans le contenteditable,
+// ce qui faisait atterrir les insertions à la fin au lieu du curseur) ──
+let savedEditorRange = null;
+function trackEditorSelection(){
+    const ed = $('editor'); if(!ed) return;
+    const save = () => {
+        const sel = window.getSelection();
+        if(sel && sel.rangeCount>0 && ed.contains(sel.anchorNode)){
+            savedEditorRange = sel.getRangeAt(0).cloneRange();
+        }
+    };
+    ed.addEventListener('keyup', save);
+    ed.addEventListener('mouseup', save);
+    ed.addEventListener('touchend', save);
+    ed.addEventListener('input', save);
+    save();
+}
+function restoreEditorSelection(){
+    const ed = $('editor'); if(!ed) return;
+    ed.focus();
+    if(savedEditorRange){
+        try{
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(savedEditorRange);
+        }catch(e){ /* le contenu a changé entre-temps, on insère à la position par défaut */ }
+    }
+}
+
+// ── OUTILS MATHS DE L'ÉDITEUR ───────────────────────────────────
+function insertSymbol(sym) {
+    const ed = $('editor'); if(!ed) return;
+    restoreEditorSelection();
+    document.execCommand('insertText', false, sym);
+}
+
+function insertPow(n) {
+    const ed = $('editor'); if(!ed) return;
+    restoreEditorSelection();
+    document.execCommand('insertHTML', false, '<sup>'+n+'</sup>&nbsp;');
+}
+
+function insertTenPow() {
+    const ed = $('editor'); if(!ed) return;
+    restoreEditorSelection();
+    document.execCommand('insertHTML', false, '×10<sup>n</sup>&nbsp;');
+}
+
+function insertFraction() {
+    const ed = $('editor'); if(!ed) return;
+    restoreEditorSelection();
+    document.execCommand('insertHTML', false,
+        '<span class="frac"><span class="frac-num">a</span><span class="frac-den">b</span></span>&nbsp;');
+}
+
+function insertTable() {
+    const ed = $('editor'); if(!ed) return;
+    let rows = parseInt(prompt('Nombre de lignes ?', '3'), 10);
+    let cols = parseInt(prompt('Nombre de colonnes ?', '3'), 10);
+    if(!rows || rows<1) rows=3; if(!cols || cols<1) cols=3;
+    if(rows>20) rows=20; if(cols>10) cols=10;
+    let html = '<table class="user-table"><tbody>';
+    for(let r=0;r<rows;r++){
+        html += '<tr>';
+        for(let c=0;c<cols;c++) html += '<td>&nbsp;</td>';
+        html += '</tr>';
+    }
+    html += '</tbody></table><p><br></p>';
+    restoreEditorSelection();
+    document.execCommand('insertHTML', false, html);
+}
+
+// ── TRACEUR DE GRAPHIQUES ───────────────────────────────────────
+function openGraphTool() {
+    const overlay = document.createElement('div');
+    overlay.id = 'graph-modal-ov';
+    overlay.className = 'gm-overlay';
+    overlay.onclick = (e) => { if(e.target === overlay) closeGraphTool(); };
+    overlay.innerHTML = `
+        <div class="gm-box">
+            <button class="gm-close" onclick="closeGraphTool()">✕</button>
+            <h3>📈 Tracer un graphique</h3>
+            <label class="gm-label">f(x) =</label>
+            <input type="text" id="gm-fx" class="field" placeholder="ex : x^2 - 3*x + 2" value="x^2">
+            <div style="display:flex;gap:8px;">
+                <input type="number" id="gm-xmin" class="field" placeholder="x min" value="-10">
+                <input type="number" id="gm-xmax" class="field" placeholder="x max" value="10">
+            </div>
+            <p class="gm-hint">Symboles utilisables : + − * / ^ (puissance), sqrt(), sin(), cos(), tan(), abs(), ln(), exp(), pi</p>
+            <canvas id="gm-canvas" width="480" height="300" class="gm-canvas"></canvas>
+            <div id="gm-err" class="gm-err"></div>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+                <button class="btn-save" style="background:var(--accent)" onclick="drawGraphPreview()">🔄 Aperçu</button>
+                <button class="btn-save" onclick="insertGraph()">➕ Insérer dans le cours</button>
+            </div>
+        </div>`;
+    document.body.appendChild(overlay);
+    ['gm-fx','gm-xmin','gm-xmax'].forEach(id=>{
+        $(id).addEventListener('keydown', e=>{ if(e.key==='Enter') drawGraphPreview(); });
+    });
+    drawGraphPreview();
+}
+
+function closeGraphTool() {
+    const ov = $('graph-modal-ov');
+    if(ov) ov.remove();
+}
+
+function safeMathEval(expr, x) {
+    const clean = expr.trim();
+    if(!/^[0-9x\.\+\-\*\/\^\(\)\s a-zA-Z,]*$/.test(clean)) throw new Error('invalid characters');
+    let js = clean
+        .replace(/\bsqrt\(/g,'Math.sqrt(')
+        .replace(/\bsin\(/g,'Math.sin(')
+        .replace(/\bcos\(/g,'Math.cos(')
+        .replace(/\btan\(/g,'Math.tan(')
+        .replace(/\babs\(/g,'Math.abs(')
+        .replace(/\bln\(/g,'Math.log(')
+        .replace(/\bexp\(/g,'Math.exp(')
+        .replace(/\bpi\b/g,'Math.PI')
+        .replace(/\^/g,'**');
+    const fn = new Function('x', 'return (' + js + ');');
+    const y = fn(x);
+    return typeof y === 'number' ? y : NaN;
+}
+
+function niceGridStep(range) {
+    const raw = range/8;
+    const mag = Math.pow(10, Math.floor(Math.log10(raw||1)));
+    const norm = raw/mag;
+    let step = norm<1.5 ? 1 : norm<3 ? 2 : norm<7 ? 5 : 10;
+    return step*mag;
+}
+
+function drawGraphPreview() {
+    const errEl = $('gm-err'); if(errEl) errEl.textContent='';
+    const canvas = $('gm-canvas'); if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0,0,w,h);
+
+    const expr = ($('gm-fx').value || 'x').trim();
+    let xmin = parseFloat($('gm-xmin').value); if(isNaN(xmin)) xmin=-10;
+    let xmax = parseFloat($('gm-xmax').value); if(isNaN(xmax)) xmax=10;
+    if(xmax <= xmin) { errEl.textContent = 'x max doit être supérieur à x min'; return; }
+
+    const N = 400, pts = [];
+    let ymin=Infinity, ymax=-Infinity;
+    for(let i=0;i<=N;i++){
+        const x = xmin + (xmax-xmin)*i/N;
+        let y;
+        try { y = safeMathEval(expr, x); } catch(e) { errEl.textContent='Expression invalide'; return; }
+        if(!isFinite(y)) y = null;
+        pts.push({x,y});
+        if(y!==null){ if(y<ymin) ymin=y; if(y>ymax) ymax=y; }
+    }
+    if(!isFinite(ymin) || !isFinite(ymax)) { errEl.textContent='Impossible de tracer cette fonction sur cet intervalle'; return; }
+    if(ymin===ymax){ ymin-=1; ymax+=1; }
+    const pad = (ymax-ymin)*0.12; ymin-=pad; ymax+=pad;
+
+    const mLeft=40, mRight=12, mTop=12, mBottom=26;
+    const plotW=w-mLeft-mRight, plotH=h-mTop-mBottom;
+    const toPx=(x,y)=>[mLeft+(x-xmin)/(xmax-xmin)*plotW, mTop+(1-(y-ymin)/(ymax-ymin))*plotH];
+
+    ctx.strokeStyle='#e4e8f0'; ctx.lineWidth=1;
+    ctx.font='10px DM Sans, sans-serif'; ctx.fillStyle='#64748b';
+    const xStep=niceGridStep(xmax-xmin), yStep=niceGridStep(ymax-ymin);
+    for(let gx=Math.ceil(xmin/xStep)*xStep; gx<=xmax; gx+=xStep){
+        const [px]=toPx(gx,0);
+        ctx.beginPath(); ctx.moveTo(px,mTop); ctx.lineTo(px,h-mBottom); ctx.stroke();
+        ctx.fillText(Number(gx.toFixed(2)), px-8, h-mBottom+14);
+    }
+    for(let gy=Math.ceil(ymin/yStep)*yStep; gy<=ymax; gy+=yStep){
+        const [,py]=toPx(0,gy);
+        ctx.beginPath(); ctx.moveTo(mLeft,py); ctx.lineTo(w-mRight,py); ctx.stroke();
+        ctx.fillText(Number(gy.toFixed(2)), 4, py+3);
+    }
+
+    ctx.strokeStyle='#0e1525'; ctx.lineWidth=1.5;
+    if(0>=xmin && 0<=xmax){ const [px]=toPx(0,0); ctx.beginPath(); ctx.moveTo(px,mTop); ctx.lineTo(px,h-mBottom); ctx.stroke(); }
+    if(0>=ymin && 0<=ymax){ const [,py]=toPx(0,0); ctx.beginPath(); ctx.moveTo(mLeft,py); ctx.lineTo(w-mRight,py); ctx.stroke(); }
+
+    ctx.strokeStyle='#4f46e5'; ctx.lineWidth=2.5; ctx.beginPath();
+    let started=false;
+    pts.forEach(p=>{
+        if(p.y===null){ started=false; return; }
+        const [px,py]=toPx(p.x,p.y);
+        if(py < mTop-40 || py > h-mBottom+40){ started=false; return; }
+        if(!started){ ctx.moveTo(px,py); started=true; } else ctx.lineTo(px,py);
+    });
+    ctx.stroke();
+}
+
+function insertGraph() {
+    const canvas = $('gm-canvas'); if(!canvas) return;
+    if($('gm-err').textContent) { showToast('Corrige l\'erreur avant d\'insérer', 'warn'); return; }
+    const dataUrl = canvas.toDataURL('image/png');
+    const fx = ($('gm-fx').value || '').trim();
+    const html = `<div class="user-graph"><img src="${dataUrl}" alt="graphique"><p class="user-graph-caption">f(x) = ${esc(fx)}</p></div><p><br></p>`;
+    closeGraphTool();
+    restoreEditorSelection();
+    document.execCommand('insertHTML', false, html);
+    showToast('Graphique inséré ✅');
+}
 
 function saveCours(){
     const ed=$('editor'); if(!ed)return;
@@ -410,8 +758,11 @@ function saveCours(){
 }
 
 function delVoc(i){
-    if(!confirm('Supprimer ce mot ?'))return;
-    db[curSubject][curChapter].flashcards.splice(i,1); save(); renderTabContent();
+    customConfirm({
+        icon:'🗑️', title:'Supprimer ce mot ?', message:'Cette action est irréversible.',
+        confirmLabel:'Supprimer', cancelLabel:'Annuler', danger:true,
+        onConfirm:()=>{ db[curSubject][curChapter].flashcards.splice(i,1); save(); renderTabContent(); }
+    });
 }
 
 function addVoc(){
@@ -570,6 +921,15 @@ function srsDelay(card,r){
     }
 }
 
+function confirmStopSRS(){
+    customConfirm({
+        icon:'🎴', title:'Arrêter la session ?',
+        message:'Tes cartes déjà faites sont sauvegardées, mais tu perdras la suite de cette série.',
+        confirmLabel:'Arrêter', cancelLabel:'Continuer', danger:true,
+        onConfirm:()=>{ clearInterval(qTimer); goSubject(curSubject); }
+    });
+}
+
 function renderSRSCard() {
     srsCur=srsQueue.shift()||srsAgain.shift()||null;
     // Mode intensif : si plus de cartes, on recharge toute la pile en ordre aléatoire
@@ -598,7 +958,7 @@ function renderSRSCard() {
     const s=String(qSecs%60).padStart(2,'0');
     render(`
         <div class="breadcrumb">
-            <button class="bc-btn" onclick="if(confirm('Arrêter la session ?')){clearInterval(qTimer);goSubject('${esc(curSubject)}');}">✕ Arrêter</button>
+            <button class="bc-btn" onclick="confirmStopSRS()">✕ Arrêter</button>
         </div>
         <div class="ws-box">
         <div class="srs-wrap">
@@ -668,6 +1028,7 @@ function revealSRS(skip){
         if(skip)fz.innerHTML=`<div class="srs-fb fb-skip"><span class="fb-icon">⏭️</span><span>Passé — voici la réponse</span></div>`;
         else if(isRight)fz.innerHTML=`<div class="srs-fb fb-right"><span class="fb-icon">✅</span><span>Correct !</span></div>`;
         else fz.innerHTML=`<div class="srs-fb fb-wrong"><span class="fb-icon">❌</span><div><div>Ta réponse : <b>${userAns||'—'}</b></div><div style="margin-top:3px">Bonne réponse : <b>${srsCur.card.a}</b></div></div></div>`;
+        typesetMath(fz); // la réponse peut contenir du LaTeX ($...$) — sans ça, elle s'affichait en brut
     }
     const rr=$('rating-row');if(rr)rr.style.display='grid';
     if(isRight){const g=document.querySelector('.r-btn.r-good');if(g)g.focus();}
@@ -676,6 +1037,7 @@ function revealSRS(skip){
 
 function rateSRS(r){
     if(!srsCur)return;
+    logActivity();
     const {card,ch}=srsCur;
 
     // Mode intensif : on ne touche pas aux données SRS, on remet juste en file si "encore"
@@ -737,6 +1099,9 @@ function renderSRSResults(){
 }
 
 // ── QCM SETUP ─────────────────────────────────────────────────
+const SUBJ_COLORS = {fr:'#059669',math:'#4f46e5',hg:'#9f1239',ang:'#1d4ed8',esp:'#ca8a04',phy:'#7c3aed',idd:'#0d9488',it:'#ea580c',info:'#0891b2',cyber:'#b91c1c',bourse:'#65a30d',entr:'#e11d48',sci:'#6366f1',jur:'#78716c'};
+function subjectColor(name){ const cfg=CFG.find(c=>c.name===name); return cfg ? (SUBJ_COLORS[cfg.cls]||'#4f46e5') : '#4f46e5'; }
+
 function openQCM() {
     clearInterval(qTimer);
     const chapters=Object.keys(db[curSubject]);
@@ -761,10 +1126,9 @@ function openQCM() {
             </div>
             <label style="font-weight:700;display:block;margin-bottom:8px">Nombre de questions :</label>
             <select id="qcm-n" class="field" style="margin-bottom:14px">
-                <option value="5">5 questions</option>
                 <option value="10" selected>10 questions</option>
-                <option value="20">20 questions</option>
-                <option value="0">Tout le vocabulaire</option>
+                <option value="25">25 questions</option>
+                <option value="0">∞ Infini (tout le vocabulaire)</option>
             </select>
             <div class="btn-row">
                 <button class="bc-btn" onclick="document.querySelectorAll('.qcm-cb').forEach(c=>c.checked=true)">Tout cocher</button>
@@ -781,18 +1145,21 @@ function startQCM(){
     const cbs=[...document.querySelectorAll('.qcm-cb:checked')];
     if(!cbs.length){showToast('Sélectionne au moins un chapitre !','warn');return;}
     const n=parseInt($('qcm-n').value);
-    const seen=new Set(); let all=[];
+    const seen=new Set(); let full=[];
     cbs.forEach(cb=>{
         (db[curSubject][cb.value].flashcards||[]).forEach(c=>{
             const k=c.q+'|'+c.a;
-            if(!seen.has(k)){seen.add(k);all.push(c);}
+            if(!seen.has(k)){seen.add(k);full.push(c);}
         });
     });
-    if(all.length<2){showToast('Il faut au moins 2 mots pour générer un QCM !','warn');return;}
-    all=all.sort(()=>Math.random()-.5);
+    if(full.length<2){showToast('Il faut au moins 2 mots pour générer un QCM !','warn');return;}
+    let all=[...full].sort(()=>Math.random()-.5);
     if(n>0)all=all.slice(0,n);
+    // Les mauvaises réponses piochent dans TOUT le pool sélectionné (pas seulement
+    // les n questions tirées), pour avoir un vrai mélange à chaque question
+    // plutôt que de recycler sans arrêt les 2-3 mêmes distracteurs.
     qcmList=all.map(card=>{
-        const wrong=all.filter(c=>c.a!==card.a).sort(()=>Math.random()-.5).slice(0,3);
+        const wrong=full.filter(c=>c.a!==card.a).sort(()=>Math.random()-.5).slice(0,3);
         const opts=[...wrong.map(c=>c.a),card.a].sort(()=>Math.random()-.5);
         return{q:card.q,correct:card.a,opts};
     });
@@ -802,15 +1169,25 @@ function startQCM(){
     renderQCM();
 }
 
+function confirmStopQCM(){
+    customConfirm({
+        icon:'🧠', title:'Arrêter le QCM ?',
+        message:`Ton score actuel (${qcmScore}/${qcmIdx}) ne sera pas comptabilisé.`,
+        confirmLabel:'Arrêter', cancelLabel:'Continuer', danger:true,
+        onConfirm:()=>{ openQCM(); }
+    });
+}
+
 function renderQCM(){
     if(qcmIdx>=qcmList.length){renderQCMResults();return;}
     qcmCur=qcmList[qcmIdx];
     const {q,opts}=qcmCur;
     const pct=Math.round(qcmIdx/qcmList.length*100);
     const letters=['A','B','C','D'];
+    const sc=subjectColor(curSubject);
     render(`
         <div class="breadcrumb">
-            <button class="bc-btn" onclick="if(confirm('Arrêter le QCM ?')){openQCM();}">✕ Arrêter</button>
+            <button class="bc-btn" onclick="confirmStopQCM()">✕ Arrêter</button>
         </div>
         <div class="ws-box">
         <div class="qcm-wrap">
@@ -818,17 +1195,17 @@ function renderQCM(){
                 <span>Question <b>${qcmIdx+1}</b> / ${qcmList.length}</span>
                 <span>Score : <b>${qcmScore}/${qcmIdx}</b></span>
             </div>
-            <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
-            <div class="qcm-q-box">
-                <div class="qcm-q-label">Définition / traduction de :</div>
+            <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:linear-gradient(90deg,${sc},${sc}99)"></div></div>
+            <div class="qcm-q-box" style="border-top-color:${sc}">
+                <div class="qcm-q-label" style="color:${sc}">🧠 Définition / traduction de</div>
                 <div class="qcm-q-text">${q}</div>
             </div>
             <div class="qcm-opts">
                 ${opts.map((o,i)=>`<button class="qcm-opt" id="opt${i}" onclick="answerQCM(${i})">
-                    <span class="opt-letter">${letters[i]}.</span><span>${o}</span>
+                    <span class="opt-letter opt-letter-${i}">${letters[i]}</span><span>${o}</span>
                 </button>`).join('')}
             </div>
-            <button class="qcm-next" id="qnext" onclick="nextQCM()">
+            <button class="qcm-next" id="qnext" style="background:${sc}" onclick="nextQCM()">
                 ${qcmIdx+1<qcmList.length?'Question suivante →':'Voir les résultats →'}
             </button>
         </div>
@@ -838,6 +1215,7 @@ function renderQCM(){
 
 function answerQCM(i){
     if(!qcmCur)return;
+    logActivity();
     const {correct,opts}=qcmCur;
     document.querySelectorAll('.qcm-opt').forEach((b,j)=>{
         b.disabled=true;
@@ -1259,6 +1637,14 @@ function openSync() {
                 </div>
             </div>
 
+            <div class="sync-export-box">
+                <label class="sync-label">💾 Export ciblé (sans compte)</label>
+                <p style="font-size:.78rem;color:var(--muted);margin:2px 0 8px">
+                    Choisis exactement quelles matières/chapitres inclure dans le fichier .json — pratique pour ne donner à Claude que ce qui a besoin d'être mis au propre le soir.
+                </p>
+                <button class="bc-btn" style="width:100%;text-align:center" onclick="openExportPicker()">🎯 Choisir & exporter</button>
+            </div>
+
             ${!token ? `
             <div class="sync-token-section">
                 <label class="sync-label">🔑 Token GitHub</label>
@@ -1295,6 +1681,84 @@ function openSync() {
             <div id="sync-log" class="sync-log" style="display:none"></div>
         </div>
     `);
+}
+
+// ── EXPORT SIMPLE (JSON local, sans compte) ─────────────────────
+function exportData(customData) {
+    try {
+        const payload = customData || db;
+        const n = Object.keys(payload).length;
+        if(n === 0) { showToast('Rien à exporter avec cette sélection', 'warn'); return; }
+        const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const stamp = new Date().toISOString().slice(0,10);
+        a.href = url; a.download = 'bacmaster-export-' + stamp + '.json';
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(()=>URL.revokeObjectURL(url), 1000);
+        showToast(`📤 Export téléchargé ! (${n} matière${n>1?'s':''})`);
+    } catch(e) {
+        showToast('Erreur export : ' + e.message, 'error');
+    }
+}
+
+// ── SÉLECTEUR D'EXPORT (choisir précisément quoi télécharger) ──
+function openExportPicker() {
+    let listHtml = '';
+    CFG.forEach(s => {
+        if(!db[s.name]) return;
+        const chapters = Object.keys(db[s.name]);
+        if(!chapters.length) return;
+        listHtml += `
+            <div class="exp-subj">
+                <label class="exp-subj-label">
+                    <input type="checkbox" class="exp-subj-cb" data-subject="${esc(s.name)}" checked onchange="toggleSubjectChapters(this)">
+                    <span>${s.icon} ${esc(s.name)}</span>
+                </label>
+                <div class="exp-chap-list">
+                    ${chapters.map(ch => `
+                        <label class="exp-chap-label">
+                            <input type="checkbox" class="exp-chap-cb" data-subject="${esc(s.name)}" data-chapter="${esc(ch)}" checked>
+                            <span>${esc(ch)}</span>
+                        </label>`).join('')}
+                </div>
+            </div>`;
+    });
+    render(`
+        <div class="breadcrumb">
+            <button class="bc-btn" onclick="openSync()">← Synchronisation</button>
+            <span class="bc-sep">›</span>
+            <span class="bc-cur">🎯 Choisir l'export</span>
+        </div>
+        <div class="ws-box">
+            <h2 style="margin-top:0">Choisir ce que tu exportes</h2>
+            <p style="color:var(--muted);font-size:.85rem;margin-bottom:14px">
+                Décoche ce que tu ne veux pas inclure. Pratique pour ne donner à Claude qu'un ou deux chapitres précis à retravailler.
+            </p>
+            <div style="display:flex;gap:8px;margin-bottom:14px">
+                <button class="bc-btn" onclick="toggleAllExport(true)">✅ Tout cocher</button>
+                <button class="bc-btn" onclick="toggleAllExport(false)">⬜ Tout décocher</button>
+            </div>
+            <div id="export-picker-list">${listHtml || '<p style="color:var(--muted)">Aucun contenu à exporter pour l\'instant.</p>'}</div>
+            <button class="btn-main" style="width:100%;margin-top:16px" onclick="downloadSelectedExport()">📤 Télécharger la sélection (.json)</button>
+        </div>
+    `);
+}
+function toggleAllExport(state) {
+    document.querySelectorAll('.exp-subj-cb, .exp-chap-cb').forEach(cb => cb.checked = state);
+}
+function toggleSubjectChapters(cb) {
+    const subject = cb.dataset.subject;
+    document.querySelectorAll('.exp-chap-cb').forEach(c => { if(c.dataset.subject===subject) c.checked = cb.checked; });
+}
+function downloadSelectedExport() {
+    const filtered = {};
+    document.querySelectorAll('.exp-chap-cb:checked').forEach(cb => {
+        const subj = cb.dataset.subject, ch = cb.dataset.chapter;
+        if(!filtered[subj]) filtered[subj] = {};
+        filtered[subj][ch] = db[subj][ch];
+    });
+    exportData(filtered);
 }
 
 // ── TOKEN ──────────────────────────────────────────────────────
@@ -1563,7 +2027,38 @@ function setMusicVol(v) {
     }
 }
 
+// ── LIEN YOUTUBE PERSO (colle n'importe quelle vidéo/playlist) ──
+function extractYouTubeEmbed(raw) {
+    const url = (raw||'').trim();
+    if(!url) return null;
+    let m = url.match(/[?&]list=([a-zA-Z0-9_-]+)/);
+    if(m) return `https://www.youtube.com/embed/videoseries?list=${m[1]}&autoplay=1&controls=0&modestbranding=1`;
+    m = url.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/) || url.match(/[?&]v=([a-zA-Z0-9_-]{11})/) || url.match(/embed\/([a-zA-Z0-9_-]{11})/);
+    if(m) return `https://www.youtube.com/embed/${m[1]}?autoplay=1&loop=1&playlist=${m[1]}&controls=0&modestbranding=1`;
+    if(/^[a-zA-Z0-9_-]{11}$/.test(url)) return `https://www.youtube.com/embed/${url}?autoplay=1&loop=1&playlist=${url}&controls=0&modestbranding=1`;
+    return null;
+}
+function playCustomYoutube() {
+    const inp = $('yt-custom-url'); if(!inp) return;
+    const embed = extractYouTubeEmbed(inp.value);
+    if(!embed) { showToast('Lien YouTube non reconnu — colle un lien vidéo ou playlist complet', 'warn'); return; }
+    const iframe = document.getElementById('music-iframe');
+    if(iframe) iframe.src = embed;
+    document.querySelectorAll('.mp-track').forEach(b=>b.classList.remove('active'));
+    musicPlaying = true;
+    localStorage.setItem('bm_custom_yt', inp.value.trim());
+    showToast('🎵 Lecture lancée');
+}
+
 // ── DÉMARRAGE ─────────────────────────────────────────────────
 // Afficher la page d'accueil dès que le DOM est prêt
-document.addEventListener("DOMContentLoaded", () => goHome());
+document.addEventListener("DOMContentLoaded", () => {
+    goHome();
+    const savedYt = localStorage.getItem('bm_custom_yt');
+    const ytInput = document.getElementById('yt-custom-url');
+    if(ytInput) {
+        if(savedYt) ytInput.value = savedYt;
+        ytInput.addEventListener('keydown', e => { if(e.key==='Enter') playCustomYoutube(); });
+    }
+});
 

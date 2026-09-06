@@ -43,16 +43,22 @@
         <button class="sb-link" onclick="goHome();closeSidebar()">🏠 Accueil</button>
         <div class="sb-sep">Mes matières</div>
         <button class="sb-link sb-fr"   onclick="goSubject('Français');closeSidebar()">📝 Français</button>
-        <button class="sb-link sb-math" onclick="goSubject('Maths Spé');closeSidebar()">📐 Maths Spé</button>
-        <button class="sb-link sb-ses"  onclick="goSubject('SES');closeSidebar()">📈 SES</button>
-        <button class="sb-link sb-en"   onclick="goSubject('Anglais Spé');closeSidebar()">🇬🇧 Anglais Spé</button>
+        <button class="sb-link sb-math" onclick="goSubject('Maths');closeSidebar()">📐 Maths</button>
         <button class="sb-link sb-hg"   onclick="goSubject('Histoire-Géo');closeSidebar()">🗺️ Histoire-Géo</button>
         <button class="sb-link sb-ang"  onclick="goSubject('Anglais');closeSidebar()">🌍 Anglais</button>
         <button class="sb-link sb-esp"  onclick="goSubject('Espagnol');closeSidebar()">🇪🇸 Espagnol</button>
-        <button class="sb-link sb-svt"  onclick="goSubject('SVT');closeSidebar()">🧬 SVT</button>
         <button class="sb-link sb-phy"  onclick="goSubject('Physique-Chimie');closeSidebar()">⚗️ Physique-Chimie</button>
+        <button class="sb-link sb-idd"  onclick="goSubject('Ingénierie & Dév. Durable');closeSidebar()">🛠️ Ingé. &amp; Dév. Durable</button>
+        <button class="sb-link sb-it"   onclick="goSubject('Innovation Techno.');closeSidebar()">💡 Innovation Techno.</button>
+        <div class="sb-sep">Culture perso</div>
+        <button class="sb-link sb-info"   onclick="goSubject('Informatique');closeSidebar()">💻 Informatique</button>
+        <button class="sb-link sb-cyber"  onclick="goSubject('Cybersécurité');closeSidebar()">🔒 Cybersécurité</button>
+        <button class="sb-link sb-bourse" onclick="goSubject('Bourse & Investissement');closeSidebar()">📊 Bourse &amp; Investissement</button>
+        <button class="sb-link sb-entr"   onclick="goSubject('Entrepreneuriat & Contenu');closeSidebar()">🚀 Entrepreneuriat &amp; Contenu</button>
+        <button class="sb-link sb-sci"    onclick="goSubject('Science de l\'Apprentissage');closeSidebar()">🧠 Science de l'Apprentissage</button>
+        <button class="sb-link sb-jur"    onclick="goSubject('Bases Juridiques & Admin');closeSidebar()">⚖️ Bases Juridiques &amp; Admin</button>
     </nav>
-    <div class="sb-footer">Première 2024–2025</div>
+    <div class="sb-footer">Première STI2D · 2025–2026</div>
 </aside>
 <div class="shell">
     <header class="topbar">
@@ -67,14 +73,19 @@
 </div>
 <script src="data-init.js"></script>
 <script src="francais.js"></script>
-<script src="maths-spe.js"></script>
-<script src="ses.js"></script>
-<script src="anglais-spe.js"></script>
+<script src="maths.js"></script>
 <script src="histoire-geo.js"></script>
 <script src="anglais.js"></script>
 <script src="espagnol.js"></script>
-<script src="svt.js"></script>
 <script src="physique-chimie.js"></script>
+<script src="ingenierie-dd.js"></script>
+<script src="innovation-techno.js"></script>
+<script src="informatique.js"></script>
+<script src="cybersecurite.js"></script>
+<script src="investissement.js"></script>
+<script src="entrepreneuriat.js"></script>
+<script src="apprentissage.js"></script>
+<script src="juridique.js"></script>
 <script src="script.js"></script>
 <!-- ── MUSIC PLAYER (persistant) ── -->
 <div id="music-panel" class="music-panel" style="display:none">
@@ -87,6 +98,11 @@
         <button class="mp-track" onclick="playTrack(1)">🌧️ Rain & Piano</button>
         <button class="mp-track" onclick="playTrack(2)">🎹 Jazz Study</button>
         <button class="mp-track" onclick="playTrack(3)">🌊 Nature Focus</button>
+    </div>
+    <div class="mp-custom">
+        <input type="text" id="yt-custom-url" class="mp-custom-input"
+            placeholder="🔗 Colle un lien YouTube (vidéo ou playlist)">
+        <button class="mp-custom-btn" onclick="playCustomYoutube()">▶</button>
     </div>
     <div class="mp-iframe-wrap">
         <iframe id="music-iframe"
