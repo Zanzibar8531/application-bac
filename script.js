@@ -26,9 +26,12 @@ Object.entries(PREBUILT).forEach(([subj, chapters]) => {
                 }))
             };
         } else {
-            // Chapitre existant : toujours écraser le cours avec la version PREBUILT
-            // (ça corrige les textes blancs et assure que les fiches annotées s'affichent)
-            db[subj][ch].cours = data.cours;
+            // Chapitre existant : on écrase le cours avec la version PREBUILT
+            // SAUF si l'élève l'a modifié lui-même dans l'éditeur (userEdited) —
+            // sinon ses annotations/corrections seraient effacées à chaque rechargement.
+            if (!db[subj][ch].userEdited || !db[subj][ch].cours) {
+                db[subj][ch].cours = data.cours;
+            }
 
             // Pour les flashcards, on fusionne : on garde les scores SRS acquis,
             // mais on ajoute les nouvelles cartes ajoutées dans PREBUILT
@@ -54,7 +57,7 @@ let curTab      = 'cours';
 let selChapters = [];
 
 // SRS
-let srsQueue = [], srsAgain = [], srsCur = null, srsFlipped = false;
+let srsQueue = [], srsAgain = [], srsCur = null, srsFlipped = false, dailyReviewMode = false;
 let sessDone = 0, sessTotal = 0, sessStats = {seen:0,right:0,wrong:0};
 let qTimer = null, qSecs = 0;
 
@@ -85,6 +88,34 @@ const M  = () => $('main');
 function esc(s) { return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
 function isDue(c) { return !c.due || Date.now() >= c.due; }
 
+// ── FRISE CHRONOLOGIQUE INTERACTIVE (Histoire-Géo) ──────────────
+function showFriseDetail(btn) {
+    document.querySelectorAll('.frise-pt').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const box = document.getElementById('frise-detail');
+    if(box) {
+        box.innerHTML = `
+            <div class="frise-detail-card">
+                <div class="frise-detail-year">${btn.dataset.label}</div>
+                <p class="frise-detail-text">${btn.dataset.summary}</p>
+                <button class="frise-detail-btn" onclick="scrollToDate('${btn.dataset.target}')">Voir le cours complet →</button>
+            </div>`;
+    }
+    btn.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+}
+function scrollToDate(id) {
+    const el = document.getElementById(id);
+    if(el) {
+        el.scrollIntoView({behavior:'smooth', block:'center'});
+        el.classList.add('frise-highlight');
+        setTimeout(()=>el.classList.remove('frise-highlight'), 2200);
+    }
+}
+function scrollToFrise() {
+    const el = document.getElementById('frise-top');
+    if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
 function subStats(name) {
     if (!db[name]) return {total:0,due:0,mastered:0};
     let t=0,d=0,m=0;
@@ -99,6 +130,29 @@ function subStats(name) {
 // ── ACTIVITÉ & SÉRIE DE JOURS (dashboard global) ────────────────
 // Stocké séparément de `db` (pas une matière) pour ne jamais interférer
 // avec le sync GitHub ni la recherche qui parcourent Object.keys(db).
+// ── AGENDA DES ÉVALUATIONS ──────────────────────────────────────
+// Stocké séparément de `db` (comme l'activité) pour ne jamais interférer
+// avec le sync GitHub ni la recherche qui parcourent Object.keys(db).
+let curAgendaEvals = [];
+function getEvals() {
+    try { return JSON.parse(localStorage.getItem('bacmaster_evals') || '[]'); }
+    catch(e) { return []; }
+}
+function saveEvals(evals) { localStorage.setItem('bacmaster_evals', JSON.stringify(evals)); }
+function purgeOldEvals() {
+    const today = new Date().toISOString().slice(0,10);
+    const before = getEvals();
+    const evals = before.filter(e => (new Date(e.date) - new Date(today)) / 86400000 >= -2);
+    if(evals.length !== before.length) saveEvals(evals);
+    return evals;
+}
+function upcomingEvals(days) {
+    const today = new Date().toISOString().slice(0,10);
+    return purgeOldEvals()
+        .filter(e => { const d = (new Date(e.date) - new Date(today)) / 86400000; return d >= 0 && d <= days; })
+        .sort((a,b) => new Date(a.date) - new Date(b.date));
+}
+
 function getActivityDates() {
     try { return JSON.parse(localStorage.getItem('bacmaster_activity') || '[]'); }
     catch(e) { return []; }
@@ -125,9 +179,71 @@ function computeStreak() {
     return streak;
 }
 function globalStats() {
-    let total=0, mastered=0;
-    CFG.forEach(s => { const st = subStats(s.name); total += st.total; mastered += st.mastered; });
-    return { total, mastered, streak: computeStreak() };
+    let total=0, mastered=0, due=0;
+    CFG.forEach(s => { const st = subStats(s.name); total += st.total; mastered += st.mastered; due += st.due; });
+    return { total, mastered, due, streak: computeStreak() };
+}
+
+// ── PAGE AGENDA ──────────────────────────────────────────────
+function openAgenda() {
+    const today = new Date().toISOString().slice(0,10);
+    curAgendaEvals = purgeOldEvals().sort((a,b) => new Date(a.date) - new Date(b.date));
+    render(`
+        <div class="breadcrumb">
+            <button class="bc-btn" onclick="goHome()">← Accueil</button>
+        </div>
+        <div class="ws-box">
+            <h2 style="margin-top:0">📅 Mes évaluations</h2>
+            <p style="color:var(--muted);font-size:.85rem;margin-bottom:16px">
+                Ajoute tes contrôles à venir : la "Révision du jour" te fera réviser en priorité les matières concernées à l'approche de la date.
+            </p>
+            <div class="agenda-form">
+                <select id="ag-subject" class="field">
+                    ${CFG.map(s => `<option value="${esc(s.name)}">${s.icon} ${s.name}</option>`).join('')}
+                </select>
+                <input type="date" id="ag-date" class="field" min="${today}">
+                <input type="text" id="ag-note" class="field" placeholder="Sur quoi ? (optionnel)">
+                <button class="btn-main" onclick="addEval()">➕ Ajouter à l'agenda</button>
+            </div>
+            <div class="agenda-list">
+                ${curAgendaEvals.length===0 ? '<p style="color:var(--muted);text-align:center;padding:20px 0">Aucune évaluation programmée.</p>' :
+                curAgendaEvals.map((e,i) => {
+                    const diff = Math.round((new Date(e.date) - new Date(today)) / 86400000);
+                    const urgentCls = diff<=2 ? 'ag-urgent' : diff<=7 ? 'ag-soon' : '';
+                    const cfg = CFG.find(c => c.name === e.subject);
+                    const diffLabel = diff===0 ? "Aujourd'hui" : diff===1 ? 'Demain' : diff+' jours';
+                    return `<div class="agenda-item ${urgentCls}">
+                        <div class="ag-icon">${cfg ? cfg.icon : '📚'}</div>
+                        <div class="ag-info">
+                            <div class="ag-subject">${esc(e.subject)}</div>
+                            ${e.note ? `<div class="ag-note">${esc(e.note)}</div>` : ''}
+                        </div>
+                        <div class="ag-date">
+                            <div class="ag-date-val">${new Date(e.date).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}</div>
+                            <div class="ag-date-diff">${diffLabel}</div>
+                        </div>
+                        <button class="ag-del" onclick="deleteEval(${i})" title="Supprimer">✕</button>
+                    </div>`;
+                }).join('')}
+            </div>
+        </div>
+    `);
+}
+function addEval() {
+    const subject = $('ag-subject').value;
+    const date = $('ag-date').value;
+    const note = ($('ag-note').value || '').trim();
+    if(!date) { showToast('Choisis une date !', 'warn'); return; }
+    const evals = purgeOldEvals();
+    evals.push({subject, date, note});
+    saveEvals(evals);
+    showToast('📅 Évaluation ajoutée !');
+    openAgenda();
+}
+function deleteEval(i) {
+    curAgendaEvals.splice(i, 1);
+    saveEvals(curAgendaEvals);
+    openAgenda();
 }
 
 // ── SIDEBAR ───────────────────────────────────────────────────
@@ -148,14 +264,85 @@ function render(html) {
     window.scrollTo(0,0);
 }
 
+// ── RÉVISION DU JOUR (multi-matières) ────────────────────────────
+function startDailyReview() {
+    dailyReviewMode = true;
+    intensiveMode = false;
+    const seen = new Set(); let queue = [];
+
+    // 1. Priorité : matières avec une évaluation dans les 7 prochains jours.
+    // On pioche même des cartes pas encore "dues" si besoin, pour garantir
+    // assez de répétitions avant le contrôle.
+    const urgent = upcomingEvals(7);
+    urgent.forEach(ev => {
+        if(!db[ev.subject]) return;
+        let due = [], notDue = [];
+        Object.keys(db[ev.subject]).forEach(ch => {
+            (db[ev.subject][ch].flashcards || []).forEach(c => {
+                const k = ev.subject+'|'+ch+'|'+c.q+'|'+c.a;
+                if(seen.has(k)) return;
+                seen.add(k);
+                (isDue(c) ? due : notDue).push({card:c, ch, subj:ev.subject});
+            });
+        });
+        due = due.sort(()=>Math.random()-.5);
+        notDue = notDue.sort(()=>Math.random()-.5);
+        const quota = 12;
+        let picked = due.slice(0, quota);
+        if(picked.length < quota) picked = picked.concat(notDue.slice(0, quota-picked.length));
+        queue.push(...picked);
+    });
+
+    // 2. Complète avec les cartes dues normales de toutes les matières
+    CFG.forEach(s => {
+        if(!db[s.name]) return;
+        Object.keys(db[s.name]).forEach(ch => {
+            (db[s.name][ch].flashcards || []).forEach(c => {
+                const k = s.name+'|'+ch+'|'+c.q+'|'+c.a;
+                if(!seen.has(k) && isDue(c)) { seen.add(k); queue.push({card:c, ch, subj:s.name}); }
+            });
+        });
+    });
+
+    if(!queue.length) {
+        render(`<div class="ws-box" style="text-align:center;padding:50px 20px;">
+            <div style="font-size:3rem;margin-bottom:10px">🎉</div>
+            <h3 style="font-family:'Sora',sans-serif;margin-bottom:8px">Tout est à jour !</h3>
+            <p style="color:var(--muted);margin-bottom:22px">Aucune carte à réviser aujourd'hui, dans aucune matière. Reviens plus tard !</p>
+            <button class="btn-main" onclick="goHome()">← Retour à l'accueil</button>
+        </div>`);
+        return;
+    }
+    queue = queue.sort(()=>Math.random()-.5).slice(0, 30);
+    srsQueue = queue; srsAgain = []; sessDone = 0; sessTotal = srsQueue.length;
+    sessStats = {seen:0, right:0, wrong:0}; qSecs = 0;
+    clearInterval(qTimer);
+    qTimer = setInterval(()=>{
+        qSecs++;
+        const el = $('srs-timer');
+        if(el){ const m=String(Math.floor(qSecs/60)).padStart(2,'0'); const s=String(qSecs%60).padStart(2,'0'); el.textContent=m+':'+s; }
+    }, 1000);
+    renderSRSCard();
+}
+
 function goHome() {
     clearInterval(qTimer);
     const gs = globalStats();
+    const urgentEvals = upcomingEvals(7);
     render(`
         <div class="page-head animate">
             <h1>Mes Matières</h1>
             <p>Sélectionne une matière pour commencer à réviser</p>
         </div>
+        ${urgentEvals.length>0 ? `
+        <div class="eval-banner">
+            ${urgentEvals.map(e=>{
+                const diff = Math.round((new Date(e.date)-new Date(new Date().toISOString().slice(0,10)))/86400000);
+                const cfg = CFG.find(c=>c.name===e.subject);
+                const diffLabel = diff===0?"aujourd'hui":diff===1?'demain':`dans ${diff} jours`;
+                return `<span class="eval-chip">${cfg?cfg.icon:'📚'} ${esc(e.subject)} — ${diffLabel}</span>`;
+            }).join('')}
+        </div>` : ''}
         ${gs.total>0?`
         <div class="dash-banner">
             <div class="dash-stat">
@@ -167,7 +354,11 @@ function goHome() {
                 <div class="dash-stat-val">🎯 ${gs.mastered}</div>
                 <div class="dash-stat-label">carte${gs.mastered>1?'s':''} maîtrisée${gs.mastered>1?'s':''} / ${gs.total}</div>
             </div>
-        </div>`:''}
+        </div>
+        ${gs.due>0?`<button class="daily-review-btn" onclick="startDailyReview()">🌅 Révision du jour — ${gs.due} carte${gs.due>1?'s':''} à revoir${urgentEvals.length>0?`, priorité ${urgentEvals[0].subject}`:', toutes matières'}</button>`:''}
+        <button class="bc-btn" id="notif-btn" onclick="askNotifPermission()" style="margin-bottom:10px;width:100%;text-align:center">🔕 Activer les rappels</button>
+        `:''}
+        <button class="bc-btn" onclick="openAgenda()" style="margin-bottom:16px;width:100%;text-align:center">📅 Mes évaluations${urgentEvals.length>0?` (${urgentEvals.length})`:''}</button>
         <div class="subjects-grid">
             ${CFG.map(s=>{
                 const st = subStats(s.name);
@@ -194,6 +385,7 @@ function goHome() {
         </div>
     `);
     updateSyncStatusBadge();
+    updateNotifBtn();
 }
 
 function goSubject(name) {
@@ -264,16 +456,15 @@ function goModeChapters(mode) {
             ${chapters.map(ch => {
                 const cards = db[curSubject][ch].flashcards || [];
                 const due   = cards.filter(isDue).length;
-                return `<div class="chcard-wrap">
-                    <div class="chcard" onclick="curChapter='${esc(ch)}';curTab='${mode}';renderChapter()">
-                        <div class="chcard-name">${ch}</div>
-                        <div class="chcard-meta">
-                            <span>📋 ${cards.length} mots</span>
-                            ${due > 0 ? `<span style="color:#4f46e5">⏰ ${due} à réviser</span>` : '<span style="color:#059669">✓ À jour</span>'}
-                        </div>
+                return `<div class="chcard" onclick="curChapter='${esc(ch)}';curTab='${mode}';renderChapter()">
+                    <div class="chcard-icons">
+                        <button class="chcard-icon-btn" onclick="event.stopPropagation();renameChapter('${esc(ch)}')" title="Renommer">✏️</button>
+                        <button class="chcard-icon-btn chcard-icon-del" onclick="event.stopPropagation();deleteChapter('${esc(ch)}')" title="Supprimer">🗑️</button>
                     </div>
-                    <div class="chcard-crud">
-                        <button class="chcard-del-btn" onclick="deleteChapter('${esc(ch)}')" title="Supprimer">🗑️</button>
+                    <div class="chcard-name">${ch}</div>
+                    <div class="chcard-meta">
+                        <span>📋 ${cards.length} mots</span>
+                        ${due > 0 ? `<span style="color:#4f46e5">⏰ ${due} à réviser</span>` : '<span style="color:#059669">✓ À jour</span>'}
                     </div>
                 </div>`;
             }).join('')}
@@ -377,11 +568,20 @@ function renderTabContent() {
     }
     else if(curTab==='edit') {
         box.innerHTML = `
-            <div class="editor-toolbar">
-                <span class="etb-label">Texte</span>
+            <div class="edt-tabs">
+                <button class="edt-tab active" onclick="switchEditTab(this,'texte')">✏️ Texte</button>
+                <button class="edt-tab" onclick="switchEditTab(this,'maths')">🧮 Maths</button>
+                <button class="edt-tab" onclick="switchEditTab(this,'insert')">➕ Insérer</button>
+            </div>
+            <div class="editor-toolbar edt-panel" data-panel="texte">
                 <button onclick="fmt('bold')" title="Gras"><b>G</b></button>
                 <button onclick="fmt('italic')" title="Italique"><i>I</i></button>
                 <button onclick="fmt('underline')" title="Souligné"><u>S</u></button>
+                <span class="etb-sep"></span>
+                <button onclick="fmt('justifyLeft')" title="Aligner à gauche">⇤</button>
+                <button onclick="fmt('justifyCenter')" title="Centrer">≡</button>
+                <button onclick="fmt('justifyRight')" title="Aligner à droite">⇥</button>
+                <span class="etb-sep"></span>
                 <select onchange="fmt('fontSize',this.value);this.value='3'">
                     <option value="3">Normal</option>
                     <option value="5">Grand</option>
@@ -399,8 +599,7 @@ function renderTabContent() {
                     <button class="hl-hl" onclick="applyHL()">🖍️ HL</button>
                 </div>
             </div>
-            <div class="editor-toolbar">
-                <span class="etb-label">Maths</span>
+            <div class="editor-toolbar edt-panel" data-panel="maths" style="display:none">
                 <button onclick="insertSymbol('√')" title="Racine carrée">√</button>
                 <button onclick="insertSymbol('×')" title="Multiplier">×</button>
                 <button onclick="insertSymbol('÷')" title="Diviser">÷</button>
@@ -412,9 +611,7 @@ function renderTabContent() {
                 <button onclick="insertSymbol('≥')" title="Supérieur ou égal">≥</button>
                 <button onclick="insertSymbol('≠')" title="Différent">≠</button>
                 <button onclick="insertSymbol('∞')" title="Infini">∞</button>
-            </div>
-            <div class="editor-toolbar">
-                <span class="etb-label">Puissances</span>
+                <span class="etb-sep"></span>
                 <button onclick="insertPow(2)" title="Insérer un carré ex.">x²</button>
                 <button onclick="insertPow(3)" title="Insérer un cube ex.">x³</button>
                 <button onclick="fmt('superscript')" title="Activer/désactiver l'exposant — tape ensuite ton chiffre">xⁿ</button>
@@ -422,8 +619,7 @@ function renderTabContent() {
                 <button onclick="insertTenPow()" title="×10 avec exposant à compléter">×10ⁿ</button>
                 <button onclick="insertFraction()" title="Insérer une fraction a/b">a/b</button>
             </div>
-            <div class="editor-toolbar">
-                <span class="etb-label">Insérer</span>
+            <div class="editor-toolbar edt-panel" data-panel="insert" style="display:none">
                 <button onclick="insertTable()" title="Insérer un tableau">▦ Tableau</button>
                 <button onclick="openGraphTool()" title="Tracer et insérer un graphique de fonction">📈 Graphique</button>
             </div>
@@ -487,6 +683,14 @@ function deleteChapter(ch) {
         message:`"${esc(ch)}" et ses ${n} mot(s) seront supprimés définitivement. Cette action est irréversible.`,
         confirmLabel:'Supprimer', cancelLabel:'Annuler', danger:true,
         onConfirm:()=>{ delete db[curSubject][ch]; save(); goSubject(curSubject); }
+    });
+}
+
+function switchEditTab(btn, name) {
+    document.querySelectorAll('.edt-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.edt-panel').forEach(p => {
+        p.style.display = p.dataset.panel === name ? '' : 'none';
     });
 }
 
@@ -752,7 +956,9 @@ function insertGraph() {
 
 function saveCours(){
     const ed=$('editor'); if(!ed)return;
-    db[curSubject][curChapter].cours=ed.innerHTML; save();
+    db[curSubject][curChapter].cours=ed.innerHTML;
+    db[curSubject][curChapter].userEdited=true; // empêche l'écrasement par PREBUILT au prochain chargement
+    save();
     const b=$('sbtn'); b.textContent='✅ Enregistré !'; b.classList.add('saved');
     setTimeout(()=>{if(b){b.textContent='💾 Enregistrer';b.classList.remove('saved');}},2000);
 }
@@ -832,6 +1038,7 @@ function startIntensive() {
     if (!srsQueue.length) { showToast('Aucune carte dans ces chapitres !', 'warn'); return; }
     if (intensiveShuffle) srsQueue = srsQueue.sort(() => Math.random() - .5);
     intensiveMode = true;
+    dailyReviewMode = false;
     srsAgain = []; sessDone = 0; sessTotal = srsQueue.length;
     sessStats = { seen: 0, right: 0, wrong: 0 }; qSecs = 0;
     clearInterval(qTimer);
@@ -844,6 +1051,17 @@ function startIntensive() {
 }
 
 // ── SRS SETUP ─────────────────────────────────────────────────
+// ── RECHERCHE EN DIRECT DANS UNE LISTE DE CHAPITRES ─────────────
+function filterCbList(input, cbClass) {
+    const term = input.value.trim().toLowerCase();
+    document.querySelectorAll('.' + cbClass).forEach(cb => {
+        const item = cb.closest('.cb-item');
+        if(!item) return;
+        const match = cb.value.toLowerCase().includes(term);
+        item.style.display = match ? '' : 'none';
+    });
+}
+
 function openSRS() {
     clearInterval(qTimer);
     const chapters = Object.keys(db[curSubject]);
@@ -856,7 +1074,8 @@ function openSRS() {
             <h3>🎴 Session Flashcards SRS</h3>
             <div class="info-box blue"><b>SRS (Anki) :</b> 4 boutons de difficulté — les cartes difficiles reviennent vite, les cartes maîtrisées moins souvent.</div>
             <p style="font-weight:700;margin-bottom:10px;">Chapitres à réviser :</p>
-            <div class="cb-list">
+            ${chapters.length>6?`<input type="text" class="cb-search" placeholder="🔎 Rechercher un chapitre..." oninput="filterCbList(this,'srs-cb')">`:''}
+            <div class="cb-list" id="srs-cb-list">
                 ${chapters.map(ch=>{
                     const due=(db[curSubject][ch].flashcards||[]).filter(isDue).length;
                     const tot=(db[curSubject][ch].flashcards||[]).length;
@@ -880,6 +1099,7 @@ function openSRS() {
 // ── SRS SESSION ───────────────────────────────────────────────
 function startSRS() {
     intensiveMode = false;
+    dailyReviewMode = false;
     const cbs=[...document.querySelectorAll('.srs-cb:checked')];
     if(!cbs.length){showToast('Sélectionne au moins un chapitre !','warn');return;}
     selChapters=cbs.map(c=>c.value);
@@ -926,7 +1146,7 @@ function confirmStopSRS(){
         icon:'🎴', title:'Arrêter la session ?',
         message:'Tes cartes déjà faites sont sauvegardées, mais tu perdras la suite de cette série.',
         confirmLabel:'Arrêter', cancelLabel:'Continuer', danger:true,
-        onConfirm:()=>{ clearInterval(qTimer); goSubject(curSubject); }
+        onConfirm:()=>{ clearInterval(qTimer); dailyReviewMode ? goHome() : goSubject(curSubject); }
     });
 }
 
@@ -1060,7 +1280,7 @@ function rateSRS(r){
         case'good': newIv=iv===0?3:Math.max(1,Math.round(iv*e));newEase=e;newDue=now+newIv*DAY;sessDone++;sessStats.right++;break;
         case'easy': newIv=iv===0?7:Math.max(4,Math.round(iv*e*1.3));newEase=Math.min(3,e+.15);newDue=now+newIv*DAY;sessDone++;sessStats.right++;break;
     }
-    const cards=db[curSubject][ch].flashcards;
+    const cards=db[srsCur.subj||curSubject][ch].flashcards;
     const idx=cards.findIndex(c=>c.q===card.q&&c.a===card.a);
     if(idx!==-1){cards[idx].interval=newIv;cards[idx].ease=newEase;cards[idx].due=newDue;cards[idx].score=(cards[idx].score||0)+(r==='good'||r==='easy'?1:-1);}
     save(); renderSRSCard();
@@ -1074,12 +1294,21 @@ function renderSRSResults(){
     const msg=pct>=80?'Excellente session !':pct>=60?'Bien joué, continue !':'Revois les cartes difficiles.';
     const mins=Math.floor(qSecs/60); const secs=qSecs%60;
     const accuracy = tot === 0 ? '—' : pct + '%';
+    const subjLabel = dailyReviewMode ? '🌅 Révision du jour · toutes matières' : `${curSubject} · ${selChapters.length} chapitre(s)${intensiveMode ? ' · 🔥 Intensif' : ''}`;
+    const actionButtons = dailyReviewMode ? `
+                <button class="btn-main" onclick="startDailyReview()">🔄 Continuer la révision du jour</button>
+                <button class="bc-btn se-home-btn" onclick="goHome()">← Retour à l'accueil</button>
+    ` : `
+                <button class="btn-main" onclick="openSRS()">🔄 Nouvelle session</button>
+                <button class="btn-main" style="background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 4px 14px rgba(5,150,105,.3)" onclick="openQCM()">🧠 Faire un QCM</button>
+                <button class="bc-btn se-home-btn" onclick="goSubject('${esc(curSubject)}')">← Retour au menu</button>
+    `;
     render(`
         <div class="ws-box">
         <div class="session-end">
             <div class="se-emoji">${emoji}</div>
             <div class="se-title">${msg}</div>
-            <div class="se-subject">${curSubject} · ${selChapters.length} chapitre(s)${intensiveMode ? ' · 🔥 Intensif' : ''}</div>
+            <div class="se-subject">${subjLabel}</div>
             <div class="se-pct">${accuracy}</div>
             <div class="se-label">de réussite</div>
             <div class="results-grid" style="margin:18px auto;">
@@ -1089,9 +1318,7 @@ function renderSRSResults(){
                 <div class="res-stat"><div class="res-n" style="color:#0891b2">${mins}m${String(secs).padStart(2,'0')}s</div><div class="res-l">Durée</div></div>
             </div>
             <div class="se-actions">
-                <button class="btn-main" onclick="openSRS()">🔄 Nouvelle session</button>
-                <button class="btn-main" style="background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 4px 14px rgba(5,150,105,.3)" onclick="openQCM()">🧠 Faire un QCM</button>
-                <button class="bc-btn se-home-btn" onclick="goSubject('${esc(curSubject)}')">← Retour au menu</button>
+                ${actionButtons}
             </div>
         </div>
         </div>
@@ -1114,7 +1341,8 @@ function openQCM() {
             <h3>🧠 QCM Auto-généré</h3>
             <div class="info-box green"><b>QCM :</b> Questions à 4 choix générées automatiquement depuis ton vocabulaire.</div>
             <p style="font-weight:700;margin-bottom:10px;">Chapitres :</p>
-            <div class="cb-list">
+            ${chapters.length>6?`<input type="text" class="cb-search" placeholder="🔎 Rechercher un chapitre..." oninput="filterCbList(this,'qcm-cb')">`:''}
+            <div class="cb-list" id="qcm-cb-list">
                 ${chapters.map(ch=>{
                     const n=(db[curSubject][ch].flashcards||[]).length;
                     return `<label class="cb-item">
@@ -2050,10 +2278,65 @@ function playCustomYoutube() {
     showToast('🎵 Lecture lancée');
 }
 
+// ── MODE SOMBRE ──────────────────────────────────────────────
+function toggleDarkMode() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if(isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('bm_theme', 'light');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('bm_theme', 'dark');
+    }
+    updateThemeBtn();
+}
+function updateThemeBtn() {
+    const btn = document.getElementById('theme-toggle-btn');
+    if(!btn) return;
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    btn.textContent = isDark ? '☀️' : '🌙';
+    btn.title = isDark ? 'Mode clair' : 'Mode sombre';
+}
+
 // ── DÉMARRAGE ─────────────────────────────────────────────────
 // Afficher la page d'accueil dès que le DOM est prêt
+// ── RAPPELS (notification si absence de 2+ jours) ───────────────
+// Limite honnête : sans serveur de push, on ne peut pas notifier quelqu'un
+// qui n'a jamais rouvert l'app. Ceci vérifie l'écart depuis la dernière
+// visite à CHAQUE ouverture, et déclenche une notification locale si besoin.
+function checkReminderGap() {
+    const last = localStorage.getItem('bm_last_visit');
+    const today = new Date().toISOString().slice(0,10);
+    if(last && last !== today) {
+        const gapDays = Math.round((new Date(today) - new Date(last)) / 86400000);
+        if(gapDays >= 2 && Notification && Notification.permission === 'granted') {
+            new Notification('BacMaster 📚', {
+                body: `Ça fait ${gapDays} jours — reviens réviser pour ne pas perdre ta série !`,
+                icon: 'icons/icon-192.png'
+            });
+        }
+    }
+    localStorage.setItem('bm_last_visit', today);
+}
+function askNotifPermission() {
+    if(!('Notification' in window)) { showToast('Les notifications ne sont pas supportées sur ce navigateur', 'warn'); return; }
+    Notification.requestPermission().then(perm => {
+        if(perm === 'granted') showToast('🔔 Rappels activés !');
+        else showToast('Rappels non activés', 'warn');
+        updateNotifBtn();
+    });
+}
+function updateNotifBtn() {
+    const btn = $('notif-btn'); if(!btn) return;
+    if(!('Notification' in window)) { btn.style.display='none'; return; }
+    if(Notification.permission === 'granted') { btn.textContent = '🔔 Rappels activés'; btn.disabled = true; }
+    else { btn.textContent = '🔕 Activer les rappels'; btn.disabled = false; }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     goHome();
+    updateThemeBtn();
+    checkReminderGap();
     const savedYt = localStorage.getItem('bm_custom_yt');
     const ytInput = document.getElementById('yt-custom-url');
     if(ytInput) {
