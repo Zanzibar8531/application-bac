@@ -178,6 +178,18 @@ function computeStreak() {
     }
     return streak;
 }
+function last7DaysActivity() {
+    const dates = new Set(getActivityDates());
+    const days = [];
+    for(let i = 6; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        const key = d.toISOString().slice(0,10);
+        days.push({ label: d.toLocaleDateString('fr-FR', {weekday:'short'}).slice(0,1).toUpperCase(), active: dates.has(key) });
+    }
+    return days;
+}
+
 function globalStats() {
     let total=0, mastered=0, due=0;
     CFG.forEach(s => { const st = subStats(s.name); total += st.total; mastered += st.mastered; due += st.due; });
@@ -353,6 +365,10 @@ function goHome() {
             <div class="dash-stat">
                 <div class="dash-stat-val">🎯 ${gs.mastered}</div>
                 <div class="dash-stat-label">carte${gs.mastered>1?'s':''} maîtrisée${gs.mastered>1?'s':''} / ${gs.total}</div>
+            </div>
+            <div class="dash-sep"></div>
+            <div class="dash-week">
+                ${last7DaysActivity().map(d=>`<div class="dash-week-day"><div class="dash-week-bar ${d.active?'active':''}"></div><div class="dash-week-label">${d.label}</div></div>`).join('')}
             </div>
         </div>
         ${gs.due>0?`<button class="daily-review-btn" onclick="startDailyReview()">🌅 Révision du jour — ${gs.due} carte${gs.due>1?'s':''} à revoir${urgentEvals.length>0?`, priorité ${urgentEvals[0].subject}`:', toutes matières'}</button>`:''}
@@ -1229,14 +1245,44 @@ function renderSRSCard() {
     setTimeout(()=>{const el=$('srs-ans');if(el)el.focus();},80);
 }
 
+// ── COMPARAISON TOLÉRANTE (fautes de frappe, accents, ponctuation) ──
+function normalizeAnswer(s) {
+    return (s || '').trim().toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // enlève les accents
+        .replace(/[.,;:!?'"()«»]/g, '')
+        .replace(/\s+/g, ' ');
+}
+function levenshteinDistance(a, b) {
+    const m = a.length, n = b.length;
+    if (m === 0) return n;
+    if (n === 0) return m;
+    const dp = Array.from({length: m + 1}, (_, i) => { const row = new Array(n + 1).fill(0); row[0] = i; return row; });
+    for (let j = 0; j <= n; j++) dp[0][j] = j;
+    for (let i = 1; i <= m; i++) {
+        for (let j = 1; j <= n; j++) {
+            dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1] : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+        }
+    }
+    return dp[m][n];
+}
+
 function revealSRS(skip){
     skip=skip||false;
     if(srsFlipped)return;
     srsFlipped=true;
     const el=$('srs-ans');
-    const userAns=el?el.value.trim().toLowerCase():'';
-    const correct=srsCur.card.a.trim().toLowerCase();
-    const isRight=!skip&&userAns!==''&&userAns===correct;
+    const userAnsRaw=el?el.value.trim():'';
+    const userAns=normalizeAnswer(userAnsRaw);
+    const correct=normalizeAnswer(srsCur.card.a);
+    let isRight=false;
+    if(!skip && userAns!==''){
+        if(userAns===correct) isRight=true;
+        else {
+            // Tolérance proportionnelle à la longueur (fautes de frappe, petites variantes)
+            const tolerance=Math.max(2, Math.round(correct.length*0.12));
+            if(levenshteinDistance(userAns, correct)<=tolerance) isRight=true;
+        }
+    }
     sessStats.seen++;
     if(isRight)sessStats.right++;
     else if(!skip)sessStats.wrong++;
@@ -1247,7 +1293,7 @@ function revealSRS(skip){
         fz.style.display='block';
         if(skip)fz.innerHTML=`<div class="srs-fb fb-skip"><span class="fb-icon">⏭️</span><span>Passé — voici la réponse</span></div>`;
         else if(isRight)fz.innerHTML=`<div class="srs-fb fb-right"><span class="fb-icon">✅</span><span>Correct !</span></div>`;
-        else fz.innerHTML=`<div class="srs-fb fb-wrong"><span class="fb-icon">❌</span><div><div>Ta réponse : <b>${userAns||'—'}</b></div><div style="margin-top:3px">Bonne réponse : <b>${srsCur.card.a}</b></div></div></div>`;
+        else fz.innerHTML=`<div class="srs-fb fb-wrong"><span class="fb-icon">❌</span><div><div>Ta réponse : <b>${userAnsRaw||'—'}</b></div><div style="margin-top:3px">Bonne réponse : <b>${srsCur.card.a}</b></div></div></div>`;
         typesetMath(fz); // la réponse peut contenir du LaTeX ($...$) — sans ça, elle s'affichait en brut
     }
     const rr=$('rating-row');if(rr)rr.style.display='grid';

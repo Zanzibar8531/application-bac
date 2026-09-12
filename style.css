@@ -39,11 +39,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .page-head{margin-bottom:22px;}
 .page-head h1{font-family:'Sora',sans-serif;font-size:1.6rem;font-weight:800;}
 .page-head p{color:var(--muted);margin-top:4px;font-size:.88rem;}
-.dash-banner{display:flex;align-items:center;justify-content:center;gap:22px;background:linear-gradient(135deg,#eef2ff,#fdf4ff);border:1.5px solid var(--border);border-radius:var(--r);padding:16px 20px;margin-bottom:16px;}
+.dash-banner{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;background:linear-gradient(135deg,#eef2ff,#fdf4ff);border:1.5px solid var(--border);border-radius:var(--r);padding:16px 20px;margin-bottom:16px;}
 .dash-stat{text-align:center;}
 .dash-stat-val{font-family:'Sora',sans-serif;font-size:1.5rem;font-weight:800;color:var(--text);}
 .dash-stat-label{font-size:.72rem;color:var(--muted);font-weight:600;margin-top:2px;}
 .dash-sep{width:1.5px;align-self:stretch;background:var(--border);}
+.dash-week{display:flex;gap:6px;align-items:flex-end;}
+.dash-week-day{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.dash-week-bar{width:9px;height:26px;border-radius:4px;background:var(--border);}
+.dash-week-bar.active{background:linear-gradient(180deg,#4f46e5,#7c3aed);}
+.dash-week-label{font-size:.62rem;color:var(--muted);font-weight:700;text-transform:uppercase;}
 .daily-review-btn{display:block;width:100%;padding:14px;margin-bottom:16px;border:none;border-radius:var(--r);background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;font-weight:700;font-size:.9rem;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 16px rgba(79,70,229,.3);transition:transform .15s;}
 .daily-review-btn:hover{transform:translateY(-2px);}
 .sync-banner{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;margin-top:18px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);cursor:pointer;font-size:.85rem;font-weight:600;transition:all .15s;}

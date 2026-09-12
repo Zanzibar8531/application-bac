@@ -28,6 +28,11 @@ cours:`<h3>Équations du Second Degré</h3>
 <p>Si Δ &gt; 0 : signe de <strong>a</strong> à l'extérieur de [x₁ ; x₂], signe de <mark>−a</mark> entre les racines.<br>
 Si Δ ≤ 0 : signe de <strong>a</strong> sur tout ℝ (ou nul si Δ = 0 en x₀).</p>
 <div class="retenir-box">Retiens juste une phrase : <strong>"à l'extérieur comme a, entre les racines comme −a"</strong> (valable uniquement quand Δ &gt; 0). Cette règle de signe tombe très souvent au bac.</div>`,
+exercices:[
+{niveau:'Facile', enonce:`<p>Résous l'équation : $2x^2 - 8 = 0$</p>`, aide:`Isole $x^2$ avant de faire quoi que ce soit — pas besoin de calculer Δ ici, c'est plus rapide.`, correction:`<p>$2x^2 - 8 = 0 \\Leftrightarrow 2x^2 = 8 \\Leftrightarrow x^2 = 4 \\Leftrightarrow x = 2$ ou $x = -2$.</p><p>Ici, pas besoin du discriminant : dès qu'il n'y a pas de terme en $x$ (b = 0), isoler $x^2$ est bien plus rapide.</p>`},
+{niveau:'Moyen', enonce:`<p>Résous l'équation : $x^2 - 5x + 6 = 0$. Donne la forme factorisée du trinôme.</p>`, aide:`Calcule Δ, puis les deux racines x₁ et x₂, puis utilise la forme factorisée a(x−x₁)(x−x₂).`, correction:`<p>a=1, b=−5, c=6. Δ = b² − 4ac = 25 − 24 = 1.</p><p>Δ > 0 donc deux racines : $x_1 = \\frac{5 - 1}{2} = 2$ et $x_2 = \\frac{5+1}{2} = 3$.</p><p>Forme factorisée : $(x-2)(x-3)$.</p><p>Vérification rapide : $x_1 + x_2 = 5 = -b/a$ ✓ et $x_1 \\times x_2 = 6 = c/a$ ✓</p>`},
+{niveau:'Difficile', enonce:`<p>Un rectangle a un périmètre de 24 cm. Son aire est de 35 cm². Détermine ses dimensions à l'aide d'une équation du second degré.</p>`, aide:`Si L et l sont les côtés, périmètre = 2(L+l) donc L+l = 12. Pose L comme inconnue x, exprime l en fonction de x, puis utilise l'aire.`, correction:`<p>Périmètre = 24 → L + l = 12 → l = 12 − L. Notons L = x.</p><p>Aire : $x(12-x) = 35 \\Leftrightarrow 12x - x^2 = 35 \\Leftrightarrow -x^2 + 12x - 35 = 0 \\Leftrightarrow x^2 - 12x + 35 = 0$</p><p>Δ = 144 − 140 = 4. Racines : $x_1 = \\frac{12-2}{2} = 5$ et $x_2 = \\frac{12+2}{2} = 7$.</p><p>Le rectangle mesure donc <strong>5 cm sur 7 cm</strong> (les deux solutions correspondent à L et l inversés — même rectangle).</p>`},
+],
 flashcards:[
 {q:'Discriminant Δ',a:'Δ = b² − 4ac'},
 {q:'Si Δ > 0 : solutions',a:'x₁ = (−b − √Δ)/(2a) et x₂ = (−b + √Δ)/(2a)'},
