@@ -4,8 +4,8 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-v14';
-const CACHE_STATIC = 'bacmaster-static-v14';
+const CACHE_NAME   = 'bacmaster-v20';
+const CACHE_STATIC = 'bacmaster-static-v20';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [

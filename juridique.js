@@ -24,6 +24,7 @@ cours:`<h3>Lire une fiche de paie</h3>
 <li><strong>Contrat d'apprentissage</strong> : alterne formation et entreprise, salaire en % du SMIC selon l'âge et l'année.</li>
 <li><strong>Période d'essai</strong> : phase où employeur et salarié peuvent rompre le contrat plus facilement, durée variable selon le type de contrat et le statut.</li>
 </ul>
+<div class="retenir-box">La <mark>prime de précarité</mark> (10% du salaire brut total du CDD) est due automatiquement à la fin d'un CDD — sauf si on te propose un CDI juste après ou si tu refuses cette proposition. Beaucoup de jeunes salariés ne savent pas qu'ils y ont droit.</div>
 
 <h3>Le SMIC</h3>
 <p>Salaire Minimum Interprofessionnel de Croissance — le salaire horaire brut minimum légal en France, revalorisé chaque année (souvent au 1er janvier, parfois en cours d'année si l'inflation dépasse un seuil).</p>
@@ -50,6 +51,7 @@ cours:`<h3>Le bail (contrat de location)</h3>
 <li><strong>Préavis</strong> : délai à respecter avant de quitter le logement (souvent 1 mois en zone tendue, 3 mois sinon, réductible dans certains cas comme mutation professionnelle).</li>
 <li><strong>Garant / caution</strong> : personne qui s'engage à payer le loyer si le locataire ne peut pas.</li>
 </ul>
+<div class="attention-box">Fais toujours l'état des lieux d'entrée <mark>très minutieusement</mark> (photos datées de chaque défaut, même minime) — c'est ta seule protection pour récupérer l'intégralité de ton dépôt de garantie à la sortie.</div>
 
 <h3>Les assurances obligatoires</h3>
 <ul>

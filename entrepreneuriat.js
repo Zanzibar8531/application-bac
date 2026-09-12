@@ -12,12 +12,13 @@ cours:`<h3>Trouver son format et sa niche</h3>
 <li><strong>Format court vs long</strong> : TikTok/Reels/Shorts (15-60s, découverte rapide, algorithme très actif) vs YouTube long format (fidélisation, monétisation publicitaire plus stable).</li>
 <li><strong>Hook</strong> : les 1ers secondes d'une vidéo qui décident si le spectateur reste ou scroll. Le hook doit créer une tension ou une promesse claire dès la 1ère seconde.</li>
 </ul>
+<div class="retenir-box">Le <mark>hook</mark> est probablement l'élément le plus important de toute la vidéo — même le meilleur contenu ne sert à rien si les 2 premières secondes ne donnent pas envie de rester.</div>
 
 <h3>Comment fonctionnent les algorithmes de recommandation</h3>
 <div class="formula-box">Les plateformes optimisent pour le <strong>temps de visionnage</strong> et le <strong>taux de rétention</strong> (% de la vidéo regardée). Une vidéo testée sur un petit échantillon de vues ; si elle retient bien l'audience, elle est poussée à un cercle plus large — et ainsi de suite.</div>
 <ul>
 <li><strong>Taux de complétion</strong> : % de spectateurs qui regardent la vidéo jusqu'au bout — très surveillé par l'algorithme.</li>
-<li><strong>Taux d'engagement</strong> : (likes + commentaires + partages) / vues. Les commentaires comptent souvent plus que les likes.</li>
+<li><strong>Taux d'engagement</strong> : (likes + commentaires + partages) / vues. Les <mark>commentaires</mark> comptent souvent plus que les likes.</li>
 <li><strong>Régularité de publication</strong> : poster souvent et à heures cohérentes aide l'algorithme à "apprendre" ton audience.</li>
 </ul>
 
@@ -63,9 +64,10 @@ cours:`<h3>Monétiser son contenu</h3>
 <strong>Auto-entrepreneur (micro-entreprise)</strong> : statut simplifié pour démarrer une activité, cotisations calculées en % du chiffre d'affaires (pas de charges si pas de revenus), plafonds de CA à respecter selon l'activité (vente ou service).
 </div>
 <ul>
-<li>Nécessaire dès que l'activité devient <strong>récurrente et rémunératrice</strong> (pas pour une vente ponctuelle d'objets personnels sur Vinted par exemple).</li>
+<li>Nécessaire dès que l'activité devient <mark>récurrente et rémunératrice</mark> (pas pour une vente ponctuelle d'objets personnels sur Vinted par exemple).</li>
 <li>Permet de facturer légalement des clients/marques et de déclarer ses revenus.</li>
 </ul>
+<div class="attention-box">Toucher de l'argent d'une marque ou de la pub sans déclarer d'activité, dès que c'est <mark>régulier</mark>, n'est pas légal en France. Le statut auto-entrepreneur est simple et rapide à créer en ligne dès que ça devient sérieux.</div>
 
 <h3>Le business model canvas — vision simplifiée</h3>
 <p>Avant de lancer un projet, se poser 4 questions clés :</p>

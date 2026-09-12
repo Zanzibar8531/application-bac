@@ -19,6 +19,15 @@
     <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 
     <title>BacMaster — Première</title>
+    <script>
+    (function(){
+        try {
+            if (localStorage.getItem('bm_theme') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        } catch(e){}
+    })();
+    </script>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
     <!-- MathJax for LaTeX rendering -->
@@ -68,6 +77,7 @@
         <div class="tb-brand" onclick="goHome()">BacMaster</div>
         <button class="search-btn" onclick="openSearch()" title="Rechercher">🔍</button>
         <button class="music-btn" id="music-toggle-btn" onclick="toggleMusicPlayer()" title="Musique d'ambiance">🎵</button>
+        <button class="music-btn" id="theme-toggle-btn" onclick="toggleDarkMode()" title="Mode sombre">🌙</button>
     </header>
     <main id="main"></main>
 </div>

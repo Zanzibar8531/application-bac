@@ -13,6 +13,7 @@ PREBUILT['Anglais'] = {
 <div class="formula-box"><strong>It is/was + X + that/who…</strong><br>It was <em>the government</em> that introduced the policy.<br><strong>What + clause + is/was…</strong><br>What we need is more funding.</div>
 <h3>Conditional — Toutes les formes</h3>
 <div class="formula-box">Type 0 (vérité générale) : If + present, present<br>Type 1 (réel futur) : If + present, will + inf<br>Type 2 (irréel présent) : If + past, would + inf<br>Type 3 (irréel passé) : If + past perfect, would have + pp<br>Mixed : If + past perfect, would + inf (passé → présent)</div>
+<div class="attention-box">Le conditionnel <mark>mixed</mark> est celui qu'on oublie le plus : condition dans le passé (past perfect) mais conséquence dans le présent (would + infinitif, PAS would have). Ex : "If I had taken that job, I would be rich <em>now</em>."</div>
 <h3>Modal Verbs — Nuances</h3>
 <div class="formula-box">Certitude (présent) : must / can't<br>Certitude (passé) : must have + pp / can't have + pp<br>Probabilité : should have + pp (aurait dû)<br>Possibilité : might / could + have + pp</div>`,
     flashcards: [
@@ -32,6 +33,7 @@ PREBUILT['Anglais'] = {
 <div class="formula-box">Furthermore / Moreover / In addition / Besides / What is more / Not only… but also</div>
 <h3>Opposition / Concession</h3>
 <div class="formula-box">However / Nevertheless / Nonetheless / Yet / Although / Even though / Despite / In spite of / Whereas / While / On the other hand</div>
+<div class="retenir-box"><mark>Although</mark> + sujet + verbe (clause complète). <mark>Despite / In spite of</mark> + nom ou gérondif (pas de sujet+verbe). C'est la faute la plus fréquente sur ces deux connecteurs.</div>
 <h3>Cause / Conséquence</h3>
 <div class="formula-box">Because / Since / As / Due to / Owing to / As a result / Therefore / Consequently / Hence / Thus / This leads to</div>
 <h3>Illustration / Exemple</h3>
@@ -49,7 +51,7 @@ PREBUILT['Anglais'] = {
     ]
   },
   'Vocabulary & Expressions': {
-    cours: "<h2>Key Vocabulary</h2><p>Essential words for the bac.</p><ul><li><b>To advocate</b> — défendre une cause</li><li><b>To tackle</b> — s'attaquer à</li><li><b>To foster</b> — encourager</li><li><b>Sustainable</b> — durable</li><li><b>Breakthrough</b> — percée majeure</li></ul><h3>Linking words</h3><ul><li><b>However</b> — cependant</li><li><b>Furthermore</b> — de plus</li><li><b>Although</b> — bien que</li></ul>",
+    cours: `<h2>Key Vocabulary</h2><p>Essential words for the bac.</p><ul><li><b>To advocate</b> — défendre une cause</li><li><b>To tackle</b> — s'attaquer à</li><li><b>To foster</b> — encourager</li><li><b>Sustainable</b> — durable</li><li><b>Breakthrough</b> — percée majeure</li></ul><h3>Linking words</h3><ul><li><b>However</b> — cependant</li><li><b>Furthermore</b> — de plus</li><li><b>Although</b> — bien que</li></ul><div class="retenir-box">Ces mots reviennent sans arrêt dans les sujets de bac (société, environnement, technologie) : <mark>sustainable</mark>, <mark>breakthrough</mark> et <mark>to tackle</mark> sont particulièrement utiles pour la synthèse et l'expression écrite.</div>`,
     flashcards: [
       {q:"To advocate",a:"Défendre, soutenir une cause",score:0,interval:0,ease:2.5,due:null},
       {q:"To tackle",a:"S\'attaquer à, faire face à",score:0,interval:0,ease:2.5,due:null},
@@ -62,7 +64,7 @@ PREBUILT['Anglais'] = {
     ]
   },
   'Grammar Essentials': {
-    cours: "<h2>Grammar Essentials</h2><h3>Tenses</h3><ul><li><b>Present Perfect</b> : actions passées à effet présent — I have studied</li><li><b>Past Simple</b> : action terminée — I studied yesterday</li><li><b>Conditional</b> : If I were… I would…</li></ul><h3>Passive Voice</h3><p>Subject + be + past participle. Ex: The law was passed in 1990.</p>",
+    cours: `<h2>Grammar Essentials</h2><h3>Tenses</h3><ul><li><b>Present Perfect</b> : actions passées à effet présent — I have studied</li><li><b>Past Simple</b> : action terminée — I studied yesterday</li><li><b>Conditional</b> : If I were… I would…</li></ul><h3>Passive Voice</h3><p>Subject + be + past participle. Ex: The law was passed in 1990.</p><div class="attention-box">Present Perfect vs Past Simple : le Present Perfect s'utilise quand il n'y a <mark>pas de date précise</mark> ou que ça a un lien avec le présent. Dès qu'une date/un moment précis apparaît ("yesterday", "in 1990"), c'est le Past Simple.</div>`,
     flashcards: [
       {q:"Present Perfect — usage",a:"Action passée avec résultat présent. Marqueurs : just, already, yet, since, for",score:0,interval:0,ease:2.5,due:null},
       {q:"Passive voice — formule",a:"Subject + be (conjugated) + past participle. Ex: The book was written by her.",score:0,interval:0,ease:2.5,due:null},

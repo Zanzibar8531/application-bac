@@ -12,9 +12,10 @@ cours:`<h3>Équations du Second Degré</h3>
 <h3>Résolution selon Δ</h3>
 <ul>
 <li><strong>Δ &gt; 0</strong> : deux racines x₁ = (−b − √Δ)/(2a) et x₂ = (−b + √Δ)/(2a)</li>
-<li><strong>Δ = 0</strong> : une racine double x₀ = −b/(2a)</li>
+<li><strong>Δ = 0</strong> : une racine <mark>double</mark> x₀ = −b/(2a)</li>
 <li><strong>Δ &lt; 0</strong> : aucune racine réelle</li>
 </ul>
+<div class="attention-box">Le piège classique : oublier de vérifier le signe de Δ <em>avant</em> de se lancer dans le calcul des racines. Si Δ &lt; 0, il ne sert à rien de continuer — il n'y a tout simplement pas de solution réelle.</div>
 <h3>Relations coefficients–racines</h3>
 <div class="formula-box">x₁ + x₂ = −b/a &nbsp;&nbsp;&nbsp;&nbsp; x₁ × x₂ = c/a</div>
 <h3>Formes du trinôme</h3>
@@ -24,8 +25,9 @@ cours:`<h3>Équations du Second Degré</h3>
 <li><strong>Factorisée</strong> (Δ &gt; 0) : a(x − x₁)(x − x₂)</li>
 </ul>
 <h3>Signe du trinôme</h3>
-<p>Si Δ &gt; 0 : signe de <strong>a</strong> à l'extérieur de [x₁ ; x₂], signe de <strong>−a</strong> entre les racines.<br>
-Si Δ ≤ 0 : signe de <strong>a</strong> sur tout ℝ (ou nul si Δ = 0 en x₀).</p>`,
+<p>Si Δ &gt; 0 : signe de <strong>a</strong> à l'extérieur de [x₁ ; x₂], signe de <mark>−a</mark> entre les racines.<br>
+Si Δ ≤ 0 : signe de <strong>a</strong> sur tout ℝ (ou nul si Δ = 0 en x₀).</p>
+<div class="retenir-box">Retiens juste une phrase : <strong>"à l'extérieur comme a, entre les racines comme −a"</strong> (valable uniquement quand Δ &gt; 0). Cette règle de signe tombe très souvent au bac.</div>`,
 flashcards:[
 {q:'Discriminant Δ',a:'Δ = b² − 4ac'},
 {q:'Si Δ > 0 : solutions',a:'x₁ = (−b − √Δ)/(2a) et x₂ = (−b + √Δ)/(2a)'},
@@ -43,7 +45,7 @@ flashcards:[
 
 'Dérivation': {
 cours:`<h3>Dérivation</h3>
-<p>f'(a) = pente de la tangente à la courbe en x = a. Mesure le taux de variation instantané.</p>
+<p>f'(a) = pente de la <mark>tangente</mark> à la courbe en x = a. Mesure le taux de variation instantané.</p>
 <h3>Dérivées usuelles</h3>
 <table class="formula-table">
 <tr><th>f(x)</th><th>f'(x)</th></tr>
@@ -66,10 +68,11 @@ $(u \circ v)' = v' \cdot u'(v)$ &nbsp;[composée]
 </div>
 <h3>Dérivée et variations</h3>
 <ul>
-<li>f'(x) &gt; 0 sur I ⟹ f croissante sur I</li>
-<li>f'(x) &lt; 0 sur I ⟹ f décroissante sur I</li>
+<li>f'(x) &gt; 0 sur I ⟹ f <mark>croissante</mark> sur I</li>
+<li>f'(x) &lt; 0 sur I ⟹ f <mark>décroissante</mark> sur I</li>
 <li>f'(a) = 0 avec changement de signe ⟹ extremum en a</li>
 </ul>
+<div class="attention-box">f'(a) = 0 ne suffit pas pour dire qu'il y a un extremum ! Il faut vérifier que le signe de f' <mark>change</mark> de part et d'autre de a (sinon c'est un simple point d'inflexion, ex : f(x)=x³ en 0).</div>
 <div class="formula-box">Tangente en x = a : y = f'(a)(x − a) + f(a)</div>`,
 flashcards:[
 {q:'Dérivée de xⁿ',a:'n·xⁿ⁻¹'},
@@ -98,8 +101,9 @@ cours:`<h3>Trigonométrie & Cercle trigonométrique</h3>
 <tr><td>cos x</td><td>1</td><td>√3/2</td><td>√2/2</td><td>1/2</td><td>0</td></tr>
 <tr><td>tan x</td><td>0</td><td>√3/3</td><td>1</td><td>√3</td><td>—</td></tr>
 </table>
+<div class="retenir-box">Moyen mnémotechnique : sin(0),sin(π/6),sin(π/4),sin(π/3),sin(π/2) = √0/2, √1/2, √2/2, √3/2, √4/2 (simplifiés). Et cos = sin lu à l'envers (de droite à gauche) !</div>
 <h3>Identités fondamentales</h3>
-<div class="formula-box">cos²x + sin²x = 1 &nbsp;[Pythagore]<br>tan x = sin x / cos x<br>cos(−x) = cos x &nbsp;[PAIRE]<br>sin(−x) = −sin x &nbsp;[IMPAIRE]<br>cos(π−x) = −cos x<br>sin(π−x) = sin x<br>cos(π+x) = −cos x<br>sin(π+x) = −sin x</div>
+<div class="formula-box">cos²x + sin²x = 1 &nbsp;[Pythagore]<br>tan x = sin x / cos x<br>cos(−x) = cos x &nbsp;[<mark>PAIRE</mark>]<br>sin(−x) = −sin x &nbsp;[<mark>IMPAIRE</mark>]<br>cos(π−x) = −cos x<br>sin(π−x) = sin x<br>cos(π+x) = −cos x<br>sin(π+x) = −sin x</div>
 <h3>Formules de duplication</h3>
 <div class="formula-box">cos(2x) = cos²x − sin²x = 2cos²x − 1 = 1 − 2sin²x<br>sin(2x) = 2 sin x cos x</div>`,
 flashcards:[
@@ -147,7 +151,8 @@ cours:`<h3>Suites Numériques</h3>
 <li><strong>Initialisation</strong> : vérifier P(0)</li>
 <li><strong>Hérédité</strong> : supposer P(n), démontrer P(n+1)</li>
 <li><strong>Conclusion</strong> : P(n) vraie pour tout n ∈ ℕ</li>
-</ol>`,
+</ol>
+<div class="attention-box">L'hérédité, ce n'est pas démontrer P(n) — c'est démontrer <mark>l'implication</mark> "si P(n) est vraie, alors P(n+1) l'est aussi". On suppose P(n) vraie (hypothèse de récurrence), on ne le prouve pas.</div>`,
 flashcards:[
 {q:'Suite arithmétique — définition',a:'uₙ₊₁ = uₙ + r, où r est la raison (constante).'},
 {q:'Terme général — arithmétique',a:'uₙ = u₀ + n·r'},
@@ -167,10 +172,11 @@ cours:`<h3>Probabilités & Loi Binomiale</h3>
 <div class="formula-box">Combinaison : C(n,k) = n! / (k!·(n−k)!)<br>C(n,0) = C(n,n) = 1 &nbsp;&nbsp; C(n,1) = n</div>
 <h3>Probabilités conditionnelles</h3>
 <div class="formula-box">P(A∩B) = P(A)·P(B|A)<br>P(B|A) = P(A∩B)/P(A)<br>Indépendance : P(A∩B) = P(A)·P(B)</div>
+<div class="retenir-box">A et B sont <mark>indépendants</mark> quand connaître A ne change rien à la probabilité de B. Dans ce cas (et seulement dans ce cas), P(A∩B) = P(A)·P(B) — sinon il faut passer par P(B|A).</div>
 <h3>Formule des probabilités totales</h3>
 <div class="formula-box">Si (B₁,…,Bₙ) est une partition de Ω :<br>P(A) = Σ P(Bᵢ)·P(A|Bᵢ)</div>
 <h3>Loi binomiale X ~ B(n, p)</h3>
-<p>n épreuves de Bernoulli indépendantes, probabilité p de succès.</p>
+<p>n épreuves de Bernoulli <mark>indépendantes</mark>, probabilité p de succès.</p>
 <div class="formula-box latex-block">$$P(X=k) = \binom{n}{k} p^k (1-p)^{n-k}$$
 $E(X) = np \qquad V(X) = np(1-p) \qquad \sigma = \sqrt{np(1-p)}$</div>
 <div class="formula-box">P(A∪B) = P(A) + P(B) − P(A∩B)<br>P(Ā) = 1 − P(A)</div>`,
@@ -197,7 +203,8 @@ cours:`<h3>Fonctions Exponentielle & Logarithme</h3>
 <h3>Logarithme naturel</h3>
 <div class="formula-box">ln(1) = 0 &nbsp;&nbsp; ln(e) = 1<br>ln(ab) = ln a + ln b<br>ln(a/b) = ln a − ln b<br>ln(aⁿ) = n·ln a<br>ln(√a) = ln(a)/2<br>(ln x)' = 1/x (x > 0)<br>lim(x→+∞) ln x = +∞ &nbsp;&nbsp; lim(x→0⁺) ln x = −∞</div>
 <h3>Lien exp et ln</h3>
-<div class="formula-box">ln(eˣ) = x pour tout x ∈ ℝ<br>e^(ln x) = x pour x > 0<br>eˣ = a ⟺ x = ln a (a > 0)</div>`,
+<div class="formula-box">ln(eˣ) = x pour tout x ∈ ℝ<br>e^(ln x) = x pour x > 0<br>eˣ = a ⟺ x = ln a (a > 0)</div>
+<div class="retenir-box">ln et exp sont des fonctions <mark>réciproques</mark> : l'une "défait" ce que l'autre fait. C'est pour ça que pour résoudre eˣ = a, on applique ln des deux côtés — ln(eˣ) se simplifie automatiquement en x.</div>`,
 flashcards:[
 {q:'Dérivée de eˣ',a:'eˣ (l\'exponentielle est sa propre dérivée)'},
 {q:'eˣ⁺ʸ =',a:'eˣ · eʸ'},

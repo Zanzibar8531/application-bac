@@ -1873,6 +1873,15 @@ function openSync() {
                 <button class="bc-btn" style="width:100%;text-align:center" onclick="openExportPicker()">🎯 Choisir & exporter</button>
             </div>
 
+            <div class="sync-export-box">
+                <label class="sync-label">📥 Importer un fichier .json</label>
+                <p style="font-size:.78rem;color:var(--muted);margin:2px 0 8px">
+                    Remets dans l'app un fichier que Claude t'a renvoyé après l'avoir mis au propre. Les fiches déjà connues sont mises à jour (ta progression de révision est conservée), les nouvelles sont ajoutées.
+                </p>
+                <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="handleImportFile(this)">
+                <button class="bc-btn" style="width:100%;text-align:center" onclick="document.getElementById('import-file-input').click()">📥 Choisir un fichier à importer</button>
+            </div>
+
             ${!token ? `
             <div class="sync-token-section">
                 <label class="sync-label">🔑 Token GitHub</label>
@@ -1972,6 +1981,100 @@ function openExportPicker() {
         </div>
     `);
 }
+// ── IMPORT D'UN FICHIER .JSON (remet en place un export nettoyé) ──
+function handleImportFile(input) {
+    const file = input.files && input.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        let parsed;
+        try {
+            parsed = JSON.parse(e.target.result);
+        } catch(err) {
+            showToast('Ce fichier n\'est pas un .json valide', 'error');
+            input.value = '';
+            return;
+        }
+        if(typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+            showToast('Format inattendu — ce n\'est pas un export BacMaster', 'error');
+            input.value = '';
+            return;
+        }
+        // Validation légère : chaque matière doit être un objet de chapitres
+        // avec cours (string) et flashcards (array)
+        const subjects = Object.keys(parsed);
+        if(subjects.length === 0) {
+            showToast('Le fichier est vide', 'warn');
+            input.value = '';
+            return;
+        }
+        let chapterCount = 0;
+        for(const subj of subjects) {
+            const chapters = parsed[subj];
+            if(typeof chapters !== 'object' || chapters === null) {
+                showToast(`Format invalide pour "${subj}"`, 'error');
+                input.value = '';
+                return;
+            }
+            for(const ch of Object.keys(chapters)) {
+                const data = chapters[ch];
+                if(typeof data !== 'object' || typeof data.cours !== 'string' || !Array.isArray(data.flashcards)) {
+                    showToast(`Chapitre "${ch}" mal formé dans le fichier`, 'error');
+                    input.value = '';
+                    return;
+                }
+                chapterCount++;
+            }
+        }
+        customConfirm({
+            icon: '📥', title: 'Importer ce fichier ?',
+            message: `${subjects.length} matière(s), ${chapterCount} chapitre(s) détecté(s). Les chapitres déjà existants seront mis à jour (progression conservée), les nouveaux seront créés.`,
+            confirmLabel: 'Importer', cancelLabel: 'Annuler',
+            onConfirm: () => { mergeImportedData(parsed); input.value = ''; }
+        });
+    };
+    reader.onerror = () => { showToast('Erreur de lecture du fichier', 'error'); input.value = ''; };
+    reader.readAsText(file);
+}
+
+function mergeImportedData(parsed) {
+    let newChapters = 0, updatedChapters = 0, newCards = 0;
+    Object.keys(parsed).forEach(subj => {
+        if(!db[subj]) db[subj] = {};
+        Object.keys(parsed[subj]).forEach(ch => {
+            const incoming = parsed[subj][ch];
+            if(!db[subj][ch]) {
+                // Nouveau chapitre : on l'ajoute tel quel, avec des SRS fraîches
+                db[subj][ch] = {
+                    cours: incoming.cours,
+                    userEdited: true,
+                    flashcards: incoming.flashcards.map(f => ({ q: f.q, a: f.a, score: 0, interval: 0, ease: 2.5, due: null }))
+                };
+                newChapters++;
+                newCards += incoming.flashcards.length;
+            } else {
+                // Chapitre existant : cours mis à jour, flashcards fusionnées
+                // (les cartes déjà présentes gardent leur progression SRS)
+                db[subj][ch].cours = incoming.cours;
+                db[subj][ch].userEdited = true;
+                const existingCards = db[subj][ch].flashcards || [];
+                const existingQs = new Set(existingCards.map(c => c.q));
+                incoming.flashcards.forEach(f => {
+                    if(!existingQs.has(f.q)) {
+                        existingCards.push({ q: f.q, a: f.a, score: 0, interval: 0, ease: 2.5, due: null });
+                        newCards++;
+                    }
+                });
+                db[subj][ch].flashcards = existingCards;
+                updatedChapters++;
+            }
+        });
+    });
+    save();
+    showToast(`📥 Import réussi ! ${newChapters} nouveau(x), ${updatedChapters} mis à jour, ${newCards} carte(s) ajoutée(s)`);
+    openSync();
+}
+
 function toggleAllExport(state) {
     document.querySelectorAll('.exp-subj-cb, .exp-chap-cb').forEach(cb => cb.checked = state);
 }

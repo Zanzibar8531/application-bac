@@ -7,7 +7,8 @@ PREBUILT["Science de l'Apprentissage"] = {
 
 'Mémoriser efficacement': {
 cours:`<h3>Pourquoi relire son cours ne sert (presque) à rien</h3>
-<p>Relire un cours donne une <strong>illusion de maîtrise</strong> : le texte paraît familier donc le cerveau croit l'avoir appris, alors qu'il n'a fait que le reconnaître passivement. Les études en sciences cognitives montrent que c'est l'une des méthodes de révision les moins efficaces, malgré son immense popularité.</p>
+<p>Relire un cours donne une <mark>illusion de maîtrise</mark> : le texte paraît familier donc le cerveau croit l'avoir appris, alors qu'il n'a fait que le reconnaître passivement. Les études en sciences cognitives montrent que c'est l'une des méthodes de révision les moins efficaces, malgré son immense popularité.</p>
+<div class="attention-box">Se sentir "à l'aise" en relisant un cours ne veut PAS dire que tu le maîtrises. Le vrai test, c'est d'arriver à répondre à une question SANS le support sous les yeux — d'où l'intérêt des flashcards.</div>
 
 <h3>Le rappel actif (active recall)</h3>
 <div class="formula-box">Se forcer à <strong>retrouver</strong> une information dans sa mémoire (sans regarder le cours) renforce beaucoup plus la mémorisation que de la relire. C'est exactement le principe des flashcards de ce site : la question t'oblige à chercher activement la réponse.</div>
@@ -17,11 +18,11 @@ cours:`<h3>Pourquoi relire son cours ne sert (presque) à rien</h3>
 </ul>
 
 <h3>La répétition espacée (spaced repetition)</h3>
-<p>Réviser une information juste avant de l'oublier (plutôt que de la bachoter en une seule fois) consolide beaucoup mieux la mémoire à long terme. C'est le principe de la <strong>courbe de l'oubli</strong> d'Ebbinghaus : sans révision, on oublie très vite (jusqu'à 50% en 24h), mais chaque rappel espacé dans le temps ralentit cet oubli.</p>
+<p>Réviser une information juste avant de l'oublier (plutôt que de la bachoter en une seule fois) consolide beaucoup mieux la mémoire à long terme. C'est le principe de la <strong>courbe de l'oubli</strong> d'Ebbinghaus : sans révision, on oublie très vite (jusqu'à <mark>50% en 24h</mark>), mais chaque rappel espacé dans le temps ralentit cet oubli.</p>
 <div class="formula-box">C'est exactement l'algorithme utilisé par le mode "Réviser (flashcards)" de ce site : plus tu maîtrises une carte, plus l'intervalle avant la prochaine révision s'allonge.</div>
 
 <h3>L'effet de génération</h3>
-<p>On retient mieux une information qu'on a dû produire soi-même (répondre, reformuler, résumer) plutôt que simplement la lire. D'où l'intérêt d'écrire ses propres résumés/flashcards plutôt que de copier un cours tout fait.</p>
+<p>On retient mieux une information qu'on a dû <mark>produire soi-même</mark> (répondre, reformuler, résumer) plutôt que simplement la lire. D'où l'intérêt d'écrire ses propres résumés/flashcards plutôt que de copier un cours tout fait.</p>
 
 <h3>L'entrelacement (interleaving)</h3>
 <p>Alterner entre plusieurs sujets/types d'exercices dans une même session (plutôt que de faire 50 exercices identiques d'affilée) force le cerveau à réidentifier quelle méthode utiliser à chaque fois — ce qui prépare mieux à un examen où les questions ne sont pas classées par type.</p>`,
@@ -43,16 +44,16 @@ cours:`<h3>La technique Pomodoro</h3>
 <h3>Le "Deep Work" (travail profond)</h3>
 <p>Concept popularisé par Cal Newport : la capacité à se concentrer sans distraction sur une tâche cognitivement exigeante. Plus rare et plus précieuse aujourd'hui à cause des sollicitations constantes (notifications, réseaux sociaux).</p>
 <ul>
-<li><strong>Multitâche</strong> : en réalité le cerveau ne fait pas 2 choses à la fois, il bascule rapidement entre elles — chaque bascule a un coût cognitif ("switch cost") qui ralentit et fatigue.</li>
+<li><strong>Multitâche</strong> : en réalité le cerveau ne fait pas 2 choses à la fois, il <mark>bascule rapidement</mark> entre elles — chaque bascule a un coût cognitif ("switch cost") qui ralentit et fatigue.</li>
 <li><strong>Ce qui tue la concentration</strong> : notifications, onglets ouverts, environnement bruyant, fatigue, faim.</li>
 </ul>
 
 <h3>La procrastination — pourquoi on la fait</h3>
-<p>Souvent pas de la paresse, mais une réaction émotionnelle : la tâche déclenche de l'anxiété, de l'ennui ou un sentiment d'être dépassé, et le cerveau cherche à éviter cette émotion négative en se distrayant.</p>
-<div class="formula-box">Astuce efficace : réduire la 1ère étape à une taille ridiculement petite ("ouvrir le cahier" plutôt que "réviser 2h") pour court-circuiter la résistance émotionnelle de départ.</div>
+<p>Souvent pas de la paresse, mais une <mark>réaction émotionnelle</mark> : la tâche déclenche de l'anxiété, de l'ennui ou un sentiment d'être dépassé, et le cerveau cherche à éviter cette émotion négative en se distrayant.</p>
+<div class="retenir-box">Astuce qui marche vraiment : réduire la 1ère étape à une taille <mark>ridiculement petite</mark> ("ouvrir le cahier" plutôt que "réviser 2h") pour court-circuiter la résistance émotionnelle de départ. Une fois commencé, continuer est bien plus facile que démarrer.</div>
 
 <h3>Le sommeil, condition n°1 de l'apprentissage</h3>
-<p>Le cerveau consolide les apprentissages de la journée PENDANT le sommeil. Réviser tard et dormir peu est contre-productif : mieux vaut réviser un peu moins longtemps mais dormir suffisamment (7-9h pour un adolescent/jeune adulte).</p>
+<p>Le cerveau consolide les apprentissages de la journée <mark>PENDANT</mark> le sommeil. Réviser tard et dormir peu est contre-productif : mieux vaut réviser un peu moins longtemps mais dormir suffisamment (7-9h pour un adolescent/jeune adulte).</p>
 
 <h3>La règle des 2 minutes (organisation)</h3>
 <p>Si une tâche prend moins de 2 minutes, la faire immédiatement plutôt que de la noter pour plus tard — évite l'accumulation de micro-tâches qui polluent la charge mentale.</p>`,

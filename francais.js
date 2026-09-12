@@ -7,21 +7,22 @@ PREBUILT['Français'] = {
 
 'Figures de style': {
 cours:`<h3>Les Figures de Style</h3>
-<p>Indispensables pour l'oral et le commentaire. Toujours analyser <em>l'effet produit</em>.</p>
+<p>Indispensables pour l'oral et le commentaire. Toujours analyser <mark>l'effet produit</mark>.</p>
 <h3>Figures d'analogie</h3>
 <ul>
 <li><strong>Comparaison</strong> : outil comparatif (comme, tel, semblable à). <em>"Il est fort comme un lion."</em></li>
-<li><strong>Métaphore</strong> : comparaison SANS outil. <em>"C'est un lion au combat."</em></li>
+<li><strong>Métaphore</strong> : comparaison <mark>SANS outil</mark>. <em>"C'est un lion au combat."</em></li>
 <li><strong>Métaphore filée</strong> : métaphore développée sur plusieurs lignes/vers.</li>
 <li><strong>Allégorie</strong> : idée abstraite = image concrète. Ex : La Mort = squelette à la faux.</li>
 <li><strong>Personnification</strong> : caractères humains à un objet/animal. <em>"La forêt murmure."</em></li>
 <li><strong>Métonymie</strong> : désigner par un élément lié. <em>"Boire un verre"</em> = son contenu.</li>
 <li><strong>Périphrase</strong> : remplacer un mot par une expression. <em>"Le roi des animaux"</em> = lion.</li>
 </ul>
+<div class="retenir-box">Le piège classique : <mark>comparaison</mark> = AVEC outil de comparaison (comme, tel...), <mark>métaphore</mark> = SANS outil. C'est la première distinction que l'examinateur teste à l'oral.</div>
 <h3>Figures d'insistance</h3>
 <ul>
-<li><strong>Anaphore</strong> : répétition en DÉBUT de phrase.</li>
-<li><strong>Épiphore</strong> : répétition en FIN de phrase.</li>
+<li><strong>Anaphore</strong> : répétition en <mark>DÉBUT</mark> de phrase.</li>
+<li><strong>Épiphore</strong> : répétition en <mark>FIN</mark> de phrase.</li>
 <li><strong>Gradation</strong> : progression ascendante ou descendante.</li>
 <li><strong>Hyperbole</strong> : exagération. <em>"Je t'ai dit mille fois…"</em></li>
 <li><strong>Accumulation</strong> : liste de termes.</li>
@@ -33,6 +34,7 @@ cours:`<h3>Les Figures de Style</h3>
 <li><strong>Litote</strong> : dire moins pour suggérer plus. <em>"Va, je ne te hais point."</em> = je t'aime.</li>
 <li><strong>Euphémisme</strong> : adoucir une réalité. <em>"Il nous a quittés"</em> = il est mort.</li>
 </ul>
+<div class="attention-box">Ne confonds pas litote et euphémisme : la litote <mark>dit moins pour suggérer plus</mark> (elle reste vraie mais minimisée), l'euphémisme <mark>remplace un mot choquant</mark> par un mot plus doux. Ce ne sont pas les mêmes mécanismes.</div>
 <h3>Figures d'opposition</h3>
 <ul>
 <li><strong>Antithèse</strong> : opposition de deux contraires dans la même phrase.</li>
@@ -75,21 +77,23 @@ flashcards:[
 'Mouvements littéraires': {
 cours:`<h3>Les Grands Mouvements Littéraires</h3>
 <h3>XVIe siècle</h3>
-<ul><li><strong>Humanisme</strong> : l'homme au centre, valorise l'Antiquité et le savoir. Rabelais, Montaigne, Érasme.</li></ul>
+<ul><li><strong>Humanisme</strong> : <mark>l'homme au centre</mark>, valorise l'Antiquité et le savoir. Rabelais, Montaigne, Érasme.</li></ul>
 <h3>XVIIe siècle</h3>
 <ul>
 <li><strong>Baroque</strong> (début) : instabilité, illusion, mort, exubérance stylistique.</li>
-<li><strong>Classicisme</strong> (2e moitié) : raison, ordre, mesure, règle des 3 unités. Molière, Racine, Corneille, La Fontaine.</li>
+<li><strong>Classicisme</strong> (2e moitié) : <mark>raison, ordre, mesure</mark>, règle des 3 unités. Molière, Racine, Corneille, La Fontaine.</li>
 </ul>
+<div class="attention-box">La règle des 3 unités (souvent redemandée) : unité de <mark>temps</mark> (24h), de <mark>lieu</mark> (un seul endroit), d'<mark>action</mark> (une seule intrigue). Les 3 à la fois, pas une seule.</div>
 <h3>XVIIIe siècle</h3>
 <ul><li><strong>Lumières</strong> : raison, progrès, liberté, tolérance. L'Encyclopédie. Voltaire, Rousseau, Montesquieu.</li></ul>
 <h3>XIXe siècle</h3>
 <ul>
 <li><strong>Romantisme</strong> (1820-1850) : sentiment, mélancolie, nature, liberté créatrice. Hugo, Lamartine, Musset.</li>
-<li><strong>Réalisme</strong> (1850-1880) : représentation objective de la société. Balzac, Flaubert, Stendhal.</li>
-<li><strong>Naturalisme</strong> (1880-1900) : Réalisme + déterminisme (hérédité, milieu). Zola.</li>
+<li><strong>Réalisme</strong> (1850-1880) : représentation <mark>objective</mark> de la société. Balzac, Flaubert, Stendhal.</li>
+<li><strong>Naturalisme</strong> (1880-1900) : Réalisme + <mark>déterminisme</mark> (hérédité, milieu). Zola.</li>
 <li><strong>Symbolisme</strong> (fin XIXe) : suggérer plutôt que décrire, musicalité. Baudelaire, Verlaine, Rimbaud.</li>
 </ul>
+<div class="retenir-box">Réalisme vs Naturalisme : les deux observent la société objectivement, mais le Naturalisme ajoute une dimension <mark>scientifique</mark> — l'idée que l'hérédité et le milieu déterminent totalement le destin des personnages (théories de l'époque). C'est ce "+déterminisme" qui fait la différence à l'examen.</div>
 <h3>XXe siècle</h3>
 <ul>
 <li><strong>Surréalisme</strong> (1924) : inconscient, écriture automatique, rêve. Breton, Éluard, Prévert.</li>
@@ -131,17 +135,18 @@ cours:`<h3>Les Registres Littéraires</h3>
 </ol>
 <h3>Méthode AEI</h3>
 <ul>
-<li><strong>A</strong> — Affirmer l'idée (thèse)</li>
-<li><strong>E</strong> — Expliquer : procédés stylistiques précis</li>
-<li><strong>I</strong> — Illustrer : citation entre guillemets + analyse</li>
+<li><strong>A</strong> — <mark>Affirmer</mark> l'idée (thèse)</li>
+<li><strong>E</strong> — <mark>Expliquer</mark> : procédés stylistiques précis</li>
+<li><strong>I</strong> — <mark>Illustrer</mark> : citation entre guillemets + analyse</li>
 </ul>
+<div class="retenir-box">La méthode AEI, c'est le squelette de CHAQUE paragraphe d'analyse : une idée affirmée, expliquée par un procédé précis, illustrée par une citation. Sans les 3, le paragraphe est incomplet.</div>
 <h3>Oral de Français (épreuve anticipée)</h3>
 <ul>
 <li>Explication linéaire d'un extrait (20 min de préparation)</li>
 <li>Question de grammaire sur le texte</li>
 <li>Présentation d'une œuvre de ta liste de lecture</li>
 </ul>
-<p><strong>⚠️ PARAPHRASE à éviter</strong> : raconter le texte ≠ analyser. Il faut toujours dire COMMENT l'auteur dit les choses.</p>`,
+<div class="attention-box">La <mark>paraphrase</mark> à éviter à tout prix : raconter le texte n'est pas l'analyser. Il faut toujours dire COMMENT l'auteur dit les choses (le procédé), pas seulement QUOI il dit.</div>`,
 flashcards:[
 {q:'Registre tragique',a:'Personnage face à un destin inéluctable. Suscite terreur et pitié (catharsis). Issu de la tragédie grecque.'},
 {q:'Registre comique — 4 types',a:'Comique de situation, de mots (jeux de mots), de caractère, de mœurs (critique sociale).'},

@@ -12,6 +12,7 @@ cours:`<h3>Le phishing (hameçonnage)</h3>
 <li>Souvent par email ou SMS ("smishing") avec un lien vers un faux site imitant le vrai</li>
 <li><strong>Signaux d'alerte</strong> : urgence artificielle, fautes d'orthographe, adresse d'expéditeur bizarre, lien qui ne correspond pas au vrai domaine</li>
 </ul>
+<div class="attention-box">Avant de cliquer sur un lien "urgent" (banque, colis bloqué...), vérifie toujours <mark>l'adresse réelle du lien</mark> (survoler sans cliquer) et l'adresse de l'expéditeur — c'est le réflexe n°1 contre le phishing.</div>
 
 <h3>Les malwares (logiciels malveillants)</h3>
 <div class="formula-box">
@@ -23,7 +24,7 @@ cours:`<h3>Le phishing (hameçonnage)</h3>
 </div>
 
 <h3>L'ingénierie sociale</h3>
-<p>Manipulation psychologique pour pousser une personne à divulguer des informations ou effectuer une action (au lieu d'attaquer directement un système technique). Ex : se faire passer pour un technicien IT au téléphone pour obtenir un mot de passe.</p>
+<p><mark>Manipulation psychologique</mark> pour pousser une personne à divulguer des informations ou effectuer une action (au lieu d'attaquer directement un système technique). Ex : se faire passer pour un technicien IT au téléphone pour obtenir un mot de passe.</p>
 
 <h3>Autres attaques courantes</h3>
 <ul>
@@ -50,10 +51,11 @@ flashcards:[
 cours:`<h3>Mots de passe robustes</h3>
 <ul>
 <li><strong>Longueur avant tout</strong> : 12-16 caractères minimum, plus important que la complexité seule</li>
-<li>Un mot de passe <strong>unique par service</strong> — jamais réutilisé</li>
+<li>Un mot de passe <mark>unique par service</mark> — jamais réutilisé</li>
 <li>Utiliser un <strong>gestionnaire de mots de passe</strong> (Bitwarden, KeePass...) pour générer et stocker des mots de passe forts sans avoir à les retenir</li>
 <li>Éviter : date de naissance, prénom, "123456", suites de clavier</li>
 </ul>
+<div class="retenir-box">Si tu ne dois retenir qu'une seule règle : <mark>un mot de passe unique par service</mark>. Si un site est piraté, seul ce compte est touché — pas tous les autres.</div>
 
 <h3>Authentification à double facteur (2FA/MFA)</h3>
 <p>Ajoute une deuxième preuve d'identité en plus du mot de passe : code envoyé par SMS, application d'authentification (Google Authenticator), clé physique. Même si le mot de passe est volé, le compte reste protégé.</p>
@@ -76,7 +78,7 @@ cours:`<h3>Mots de passe robustes</h3>
 </ul>
 
 <h3>RGPD (Règlement Général sur la Protection des Données)</h3>
-<p>Loi européenne qui encadre la collecte et le traitement des données personnelles. Elle donne aux utilisateurs le droit d'accès, de rectification et de suppression de leurs données, et impose aux entreprises un consentement explicite avant collecte.</p>`,
+<p>Loi européenne qui encadre la collecte et le traitement des données personnelles. Elle donne aux utilisateurs le <mark>droit d'accès, de rectification et de suppression</mark> de leurs données, et impose aux entreprises un consentement explicite avant collecte.</p>`,
 flashcards:[
 {q:'Critère le plus important pour un mot de passe fort',a:'La longueur (12-16 caractères minimum) compte plus que la seule complexité des caractères.'},
 {q:'Pourquoi utiliser un mot de passe unique par service ?',a:'Si un service est piraté et le mot de passe volé, les autres comptes restent protégés (évite l\'effet domino).'},
@@ -88,5 +90,69 @@ flashcards:[
 {q:'Règle de sauvegarde 3-2-1',a:'3 copies des données, sur 2 supports différents, dont 1 conservée hors site — protège contre pannes et ransomwares.'},
 {q:'RGPD',a:'Règlement Général sur la Protection des Données : loi européenne encadrant la collecte des données personnelles, avec droit d\'accès/rectification/suppression pour les utilisateurs.'},
 {q:'Gestionnaire de mots de passe — utilité',a:'Génère et stocke des mots de passe forts et uniques par service, sans que l\'utilisateur ait à les mémoriser.'},
+]},
+
+'Accès à distance à tes appareils (légal)': {
+cours:`<h3>La limite légale — à connaître avant tout</h3>
+<div class="attention-box">Accéder à distance à <mark>tes propres appareils</mark> (ton PC, ton téléphone, dont tu es propriétaire) est totalement légal. Accéder au système de quelqu'un d'autre, ou à un service en ligne (établissement scolaire, site de l'État...) <mark>sans autorisation explicite</mark>, est un délit pénal en France (article 323-1 du Code pénal), même à titre de "test" ou "par curiosité".</div>
+
+<h3>Contrôler son PC depuis son téléphone : le SSH</h3>
+<p><strong>SSH (Secure Shell)</strong> : protocole qui permet de se connecter à distance à un ordinateur en ligne de commande, de façon chiffrée.</p>
+<ul>
+<li>Sur ton <strong>PC</strong> (le serveur) : activer le service SSH (déjà présent sur Linux/Mac ; sur Windows, "OpenSSH Server" dans les fonctionnalités optionnelles).</li>
+<li>Sur ton <strong>téléphone</strong> (le client) : une app comme <mark>Termux</mark> (Android) ou <mark>Termius</mark> (Android/iOS) permet de s'y connecter.</li>
+<li>Commande de connexion type : <code>ssh nom_utilisateur@adresse_ip_du_pc</code></li>
+</ul>
+<div class="retenir-box">SSH ne donne accès qu'à une interface en <mark>ligne de commande</mark> (texte), pas à l'écran graphique. Pour voir et cliquer comme si tu étais devant l'écran, il faut un protocole différent (bureau à distance).</div>
+
+<h3>Contrôler son PC depuis son téléphone : le bureau à distance</h3>
+<ul>
+<li><strong>RDP (Remote Desktop Protocol)</strong> : intégré à Windows, permet de voir et contrôler l'écran complet à distance.</li>
+<li><strong>VNC</strong> : équivalent multiplateforme (Windows/Mac/Linux).</li>
+<li><strong>AnyDesk / TeamViewer</strong> : solutions grand public, plus simples à configurer, fonctionnent même hors réseau local (via internet, serveurs intermédiaires).</li>
+</ul>
+
+<h3>Le réseau local vs internet</h3>
+<div class="formula-box">
+<strong>Sur le même Wifi</strong> (réseau local) : connexion directe via l'adresse IP locale du PC (ex : 192.168.1.24), simple et rapide.<br>
+<strong>Depuis l'extérieur</strong> (4G, autre réseau) : il faut soit configurer une <mark>redirection de port</mark> sur ta box internet (technique, expose potentiellement ton PC si mal fait), soit utiliser un service qui gère ça pour toi (AnyDesk, TeamViewer, ou un VPN personnel type Tailscale/WireGuard — plus sûr).
+</div>
+<div class="attention-box">Rediriger un port sur sa box sans bien comprendre ce qu'on fait peut <mark>exposer son PC</mark> à des attaques venues d'internet. Pour débuter, préfère un outil comme Tailscale ou AnyDesk qui gère la sécurité à ta place.</div>
+
+<h3>Pourquoi apprendre ça sert la cybersécurité</h3>
+<p>Comprendre comment un accès distant fonctionne (SSH, ports, protocoles) c'est comprendre exactement ce qu'un attaquant chercherait à exploiter sur un système mal sécurisé — c'est la base de la sécurité offensive/défensive, dans un cadre 100% légal en testant tes propres appareils.</p>`,
+flashcards:[
+{q:'Est-il légal d\'accéder à distance à ses propres appareils ?',a:'Oui, totalement légal. Ce qui est illégal, c\'est d\'accéder sans autorisation aux appareils ou comptes d\'autrui (article 323-1 du Code pénal).'},
+{q:'SSH — définition',a:'Protocole qui permet de se connecter à distance à un ordinateur en ligne de commande, de façon chiffrée.'},
+{q:'SSH donne-t-il accès à l\'écran graphique ?',a:'Non, seulement à une interface en ligne de commande (texte). Pour l\'écran complet, il faut un protocole de bureau à distance (RDP, VNC).'},
+{q:'App Android pour se connecter en SSH depuis son téléphone',a:'Termux ou Termius.'},
+{q:'RDP',a:'Remote Desktop Protocol : intégré à Windows, permet de voir et contrôler l\'écran complet d\'un PC à distance.'},
+{q:'Connexion en réseau local vs depuis l\'extérieur',a:'Réseau local (même Wifi) : connexion directe via l\'IP locale. Depuis l\'extérieur : nécessite une redirection de port ou un outil comme AnyDesk/Tailscale.'},
+{q:'Risque d\'une redirection de port mal configurée',a:'Ça peut exposer son PC à des attaques venant d\'internet si on ne sait pas bien ce qu\'on fait.'},
+{q:'Pourquoi Tailscale/WireGuard sont recommandés pour débuter',a:'Ce sont des VPN personnels qui gèrent la sécurité de la connexion à distance à ta place, plus sûrs qu\'une redirection de port manuelle.'},
+]},
+
+'Ressources pour progresser (gratuit et légal)': {
+cours:`<h3>S'entraîner légalement (environnements dédiés)</h3>
+<div class="formula-box">
+<strong>Root-Me</strong> (root-me.org) : plateforme française de référence, gratuite, avec des centaines de défis de cybersécurité progressifs (web, cryptographie, réseau...) — l'endroit numéro 1 pour débuter légalement.<br>
+<strong>TryHackMe</strong> : plateforme anglophone très pédagogique, avec des parcours guidés pas à pas pour grands débutants.<br>
+<strong>Hack The Box</strong> : plus technique, pour progresser une fois les bases acquises.
+</div>
+<div class="attention-box">Tout ce que tu fais sur ces plateformes se passe dans des environnements <mark>dédiés et autorisés</mark> — c'est ce qui rend l'entraînement légal. Ne jamais appliquer ces techniques en dehors de ces environnements sans autorisation explicite.</div>
+
+<h3>Chaînes YouTube</h3>
+<ul>
+<li><strong>Micode</strong> : vulgarisation grand public de la cybersécurité, arnaques en ligne, hacking éthique (en français).</li>
+<li><strong>IT-Connect</strong> : contenu plus technique en français, orienté sécurité défensive et administration réseau.</li>
+<li><strong>John Hammond</strong> (anglophone) : résout des challenges CTF (Capture The Flag) en direct, très pédagogique pour comprendre le raisonnement d'un pentester.</li>
+</ul>
+
+<h3>Se tenir informé</h3>
+<p>Suivre l'actualité cybersécurité (nouvelles failles, fuites de données, techniques d'arnaque) aide à comprendre les menaces réelles, au-delà de la théorie. Les sites spécialisés comme <mark>ZATAZ</mark> ou <mark>Le Monde Informatique</mark> couvrent l'actualité française du secteur.</p>`,
+flashcards:[
+{q:'Root-Me — c\'est quoi ?',a:'Plateforme française gratuite de défis de cybersécurité progressifs (web, crypto, réseau...) — la référence pour débuter légalement.'},
+{q:'Pourquoi s\'entraîner sur Root-Me/TryHackMe est légal',a:'Ce sont des environnements dédiés et autorisés spécifiquement conçus pour l\'entraînement — contrairement à s\'attaquer à un vrai système sans permission.'},
+{q:'TryHackMe',a:'Plateforme anglophone de cybersécurité avec des parcours guidés pas à pas, adaptée aux grands débutants.'},
 ]},
 };

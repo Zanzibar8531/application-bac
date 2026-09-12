@@ -22,6 +22,7 @@ $$a = g \approx 9{,}8 \text{ m/s}^2 \quad v(t) = v_0 + gt \quad h(t) = h_0 + v_0
 $$E_c = \frac{1}{2}mv^2 \qquad E_{pp} = mgh \qquad E_m = E_c + E_{pp}$$
 Conservation : $E_m = \text{constante}$ (sans frottements)
 </div>
+<div class="retenir-box">L'énergie mécanique <mark>E<sub>m</sub></mark> ne se conserve QUE si on néglige les frottements. Sans cette hypothèse (précisée dans l'énoncé), une partie de l'énergie se dissipe en chaleur et E_m diminue.</div>
 <h3>Travail et puissance</h3>
 <div class="formula-box latex-block">
 $$W = \vec{F} \cdot \vec{d} = Fd\cos\theta \qquad P = \frac{W}{\Delta t} = Fv$$
@@ -42,8 +43,9 @@ $$W = \vec{F} \cdot \vec{d} = Fd\cos\theta \qquad P = \frac{W}{\Delta t} = Fv$$
 $$\text{pH} = -\log[\text{H}_3\text{O}^+] \qquad [\text{H}_3\text{O}^+] = 10^{-\text{pH}}$$
 Acide : pH &lt; 7 — Neutre : pH = 7 — Basique : pH &gt; 7
 </div>
+<div class="attention-box">Le pH est une échelle <mark>logarithmique</mark> : passer de pH 3 à pH 4 divise la concentration en H₃O⁺ par 10, pas par une simple soustraction linéaire. Une petite variation de pH = un grand changement de concentration.</div>
 <h3>Couples acide/base</h3>
-<p>Transfert de proton H⁺ entre un acide (donneur) et une base (accepteur) : $AH + B \rightleftharpoons A^- + BH^+$</p>
+<p>Transfert de proton H⁺ entre un <mark>acide (donneur)</mark> et une <mark>base (accepteur)</mark> : $AH + B \rightleftharpoons A^- + BH^+$</p>
 <h3>Concentration molaire et titrage</h3>
 <div class="formula-box latex-block">
 $$C = \frac{n}{V} \text{ (mol/L)} \qquad \text{Équivalence : } n_a = n_b \Rightarrow C_a V_a = C_b V_b$$

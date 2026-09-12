@@ -15,15 +15,17 @@ cours:`<h3>Qu'est-ce qu'innover ?</h3>
 <li><strong>Innovation de procédé</strong> : une nouvelle méthode de fabrication</li>
 <li><strong>Innovation incrémentale</strong> (amélioration progressive) vs <strong>innovation de rupture</strong> (change les usages, ex : smartphone)</li>
 </ul>
+<div class="retenir-box">Le mot clé pour l'oral/l'examen : une innovation <mark>incrémentale</mark> améliore l'existant, une innovation de <mark>rupture</mark> change les habitudes d'usage. Sache toujours donner un exemple concret des deux.</div>
 
 <h3>La démarche de créativité</h3>
 <ol>
 <li><strong>Identifier le besoin</strong> : observation, enquêtes utilisateurs, étude de l'existant</li>
-<li><strong>Diverger</strong> : générer un maximum d'idées sans les juger (brainstorming)</li>
+<li><strong>Diverger</strong> : générer un maximum d'idées <mark>sans les juger</mark> (brainstorming)</li>
 <li><strong>Converger</strong> : trier, croiser, sélectionner les idées les plus pertinentes</li>
 <li><strong>Prototyper</strong> : maquette rapide pour tester l'idée (papier, carton, impression 3D)</li>
-<li><strong>Tester & itérer</strong> : confronter le prototype aux utilisateurs, améliorer</li>
+<li><strong>Tester &amp; itérer</strong> : confronter le prototype aux utilisateurs, améliorer</li>
 </ol>
+<div class="attention-box">Ne pas confondre <mark>diverger</mark> (produire un maximum d'idées, sans aucun jugement) et <mark>converger</mark> (sélectionner). Juger trop tôt pendant la phase de divergence tue la créativité — c'est l'erreur la plus fréquente en projet.</div>
 
 <h3>Méthodes de créativité</h3>
 <div class="formula-box">
@@ -61,9 +63,10 @@ cours:`<h3>Protéger une innovation</h3>
 <li><strong>Droit d'auteur</strong> : protège automatiquement une œuvre de l'esprit (texte, code, création graphique) dès sa création.</li>
 </ul>
 <div class="formula-box">Pour être brevetable, une invention doit être : <strong>nouvelle</strong> (jamais divulguée), <strong>inventive</strong> (non évidente pour un professionnel du domaine), et avoir une <strong>application industrielle</strong>.</div>
+<div class="attention-box">Ne confonds pas Brevet et Droit d'auteur : le brevet doit être <mark>déposé</mark> (INPI, démarche active, coût), le droit d'auteur est <mark>automatique</mark> dès la création, sans aucune formalité.</div>
 
 <h3>La veille technologique</h3>
-<p>Processus qui consiste à <strong>surveiller en continu</strong> l'évolution des technologies, des brevets, de la concurrence et des marchés pour anticiper les innovations.</p>
+<p>Processus qui consiste à <mark>surveiller en continu</mark> l'évolution des technologies, des brevets, de la concurrence et des marchés pour anticiper les innovations.</p>
 <ul>
 <li><strong>Veille concurrentielle</strong> : suivre les produits et brevets des concurrents</li>
 <li><strong>Veille technologique</strong> : suivre les nouvelles technologies et procédés</li>
@@ -79,7 +82,7 @@ cours:`<h3>Protéger une innovation</h3>
 </ul>
 
 <h3>Normes et labels</h3>
-<p>Un produit industriel doit respecter des <strong>normes</strong> (sécurité, dimensions, compatibilité). En France/Europe : marquage <strong>CE</strong> obligatoire pour de nombreux produits, attestant la conformité aux exigences européennes.</p>`,
+<p>Un produit industriel doit respecter des <strong>normes</strong> (sécurité, dimensions, compatibilité). En France/Europe : marquage <mark>CE</mark> obligatoire pour de nombreux produits, attestant la conformité aux exigences européennes.</p>`,
 flashcards:[
 {q:'Brevet — ce qu\'il protège et sa durée',a:'Protège une invention technique (fonctionnement, procédé). Durée de 20 ans. Déposé à l\'INPI en France.'},
 {q:'3 conditions pour breveter une invention',a:'Nouveauté (jamais divulguée), activité inventive (non évidente), application industrielle possible.'},

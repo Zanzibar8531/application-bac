@@ -11,7 +11,7 @@ cours:`<h3>La démarche d'analyse en I2D</h3>
 <p>Tout le programme d'Ingénierie et Développement Durable repose sur l'analyse d'un système technique selon <strong>3 champs complémentaires</strong>, qui interagissent en permanence dans un produit industriel.</p>
 
 <h3>1. Champ Énergie</h3>
-<p>Étudie comment un système <strong>produit, stocke, distribue et convertit</strong> l'énergie.</p>
+<p>Étudie comment un système <mark>produit, stocke, distribue et convertit</mark> l'énergie.</p>
 <ul>
 <li><strong>Chaîne d'énergie</strong> : Alimenter → Distribuer → Convertir → Transmettre → Action mécanique</li>
 <li><strong>Sources</strong> : réseau électrique, batterie, panneau solaire, éolien, pile à combustible</li>
@@ -20,7 +20,7 @@ cours:`<h3>La démarche d'analyse en I2D</h3>
 </ul>
 
 <h3>2. Champ Information</h3>
-<p>Étudie comment un système <strong>acquiert, traite, communique</strong> les données.</p>
+<p>Étudie comment un système <mark>acquiert, traite, communique</mark> les données.</p>
 <ul>
 <li><strong>Chaîne d'information</strong> : Acquérir → Traiter → Communiquer</li>
 <li><strong>Capteurs</strong> : acquièrent une grandeur physique (température, distance, luminosité, position) et la convertissent en signal électrique</li>
@@ -29,14 +29,14 @@ cours:`<h3>La démarche d'analyse en I2D</h3>
 </ul>
 
 <h3>3. Champ Matière</h3>
-<p>Étudie le <strong>choix, la transformation et le comportement des matériaux</strong>.</p>
+<p>Étudie le <mark>choix, la transformation et le comportement des matériaux</mark>.</p>
 <ul>
 <li><strong>Familles de matériaux</strong> : métalliques, polymères (plastiques), céramiques, composites, matériaux biosourcés</li>
 <li><strong>Propriétés mécaniques</strong> : résistance, rigidité, dureté, ductilité, élasticité</li>
 <li><strong>Procédés de transformation</strong> : usinage, moulage/injection, impression 3D, découpe laser, assemblage</li>
 <li><strong>Choix d'un matériau</strong> : dépend du cahier des charges (contraintes mécaniques, coût, masse, impact environnemental, recyclabilité)</li>
 </ul>
-
+<div class="retenir-box">Un système technique n'est presque jamais analysable via un seul champ : à l'examen, on te demandera souvent de repérer comment les <mark>3 champs interagissent</mark> dans un même objet (ex : un vélo électrique, une trottinette connectée).</div>
 <div class="formula-box">Un produit technique = interaction permanente entre les 3 champs. Ex : un vélo à assistance électrique combine Énergie (batterie/moteur), Information (capteur de pédalage, contrôleur) et Matière (cadre aluminium/carbone).</div>`,
 flashcards:[
 {q:'Les 3 champs d\'analyse en I2D',a:'Énergie (produire/convertir), Information (acquérir/traiter/communiquer), Matière (choisir/transformer les matériaux).'},
@@ -59,7 +59,7 @@ cours:`<h3>Les 3 piliers du développement durable</h3>
 <strong>3. Économique</strong> — viabilité et rentabilité des activités</div>
 
 <h3>Le cycle de vie d'un produit (ACV)</h3>
-<p>L'<strong>Analyse du Cycle de Vie</strong> évalue l'impact environnemental d'un produit à chaque étape, "du berceau à la tombe" :</p>
+<p>L'<strong>Analyse du Cycle de Vie</strong> évalue l'impact environnemental d'un produit à chaque étape, <mark>"du berceau à la tombe"</mark> :</p>
 <ol>
 <li><strong>Extraction</strong> des matières premières</li>
 <li><strong>Production / Fabrication</strong></li>
@@ -77,6 +77,7 @@ cours:`<h3>Les 3 piliers du développement durable</h3>
 
 <h3>Les stratégies de fin de vie (règle des "R")</h3>
 <div class="formula-box">Réduire → Réparer → Réutiliser → Reconditionner → Recycler → Valoriser (énergie) → Éliminer<br>Cet ordre représente les priorités environnementales, du meilleur au moins bon choix.</div>
+<div class="attention-box">L'<mark>ordre</mark> de cette règle est souvent testé : le recyclage n'est PAS la meilleure option — réduire et réparer passent avant, car ils évitent de consommer de nouvelles ressources.</div>
 
 <h3>Cahier des charges & besoin</h3>
 <p>Tout projet technique démarre par l'expression d'un <strong>besoin</strong>, formalisé dans un <strong>cahier des charges fonctionnel (CdCF)</strong> qui liste les fonctions attendues et les contraintes (normes, budget, délais, impact environnemental).</p>`,
