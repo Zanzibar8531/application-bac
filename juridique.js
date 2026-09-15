@@ -91,4 +91,50 @@ flashcards:[
 {q:'Carte Vitale',a:'Carte donnant accès au remboursement des soins de santé par la Sécurité sociale.'},
 {q:'Mutuelle — rôle',a:'Complète les remboursements de la Sécurité sociale, qui sont souvent partiels sur les soins courants.'},
 ]},
+
+'Droit du numérique & cybersécurité': {
+cours:`<h3>Le cadre légal français : les articles 323 du Code pénal</h3>
+<p>Souvent appelée "Loi Godfrain" (1988, intégrée depuis au Code pénal), cette base légale protège tout <strong>STAD</strong> (Système de Traitement Automatisé de Données) — c'est-à-dire concrètement n'importe quel système informatique (un PC, un serveur, un site web, un compte en ligne...).</p>
+<div class="formula-box">
+<strong>Art. 323-1</strong> : accès ou maintien frauduleux dans un STAD — jusqu'à 3 ans de prison et 100 000 € d'amende (peines aggravées si des données sont altérées ou si le système appartient à l'État).<br>
+<strong>Art. 323-2</strong> : entraver ou fausser le fonctionnement d'un STAD (ex : DDoS) — jusqu'à 5 ans et 150 000 €.<br>
+<strong>Art. 323-3</strong> : introduire, modifier ou supprimer frauduleusement des données dans un STAD — jusqu'à 5 ans et 150 000 €.<br>
+<strong>Art. 323-3-1</strong> : le simple fait de détenir/fournir un outil conçu pour commettre ces infractions, sans motif légitime, est déjà punissable.
+</div>
+<div class="attention-box">Point essentiel à bien comprendre : la loi ne demande <mark>aucune preuve d'intention de nuire</mark> ni de dommage causé pour caractériser l'infraction. Le simple fait d'accéder sans autorisation à un système qui n'est pas le tien suffit — même "juste pour voir", même sans rien casser, même si le système était mal protégé (une porte mal fermée reste une porte qu'on n'a pas le droit d'ouvrir).</div>
+
+<h3>Ce qui reste 100% légal</h3>
+<ul>
+<li>Accéder à distance à <strong>tes propres appareils</strong> (dont tu es propriétaire).</li>
+<li>S'entraîner sur des plateformes dédiées qui autorisent explicitement les tests (Root-Me, TryHackMe, Hack The Box, machines virtuelles vulnérables type Metasploitable2/DVWA).</li>
+<li>Tester un système appartenant à un tiers <mark>si et seulement si</mark> tu as une autorisation écrite explicite, précisant le périmètre exact autorisé (dates, systèmes concernés, actions permises).</li>
+</ul>
+
+<h3>Le hacking éthique encadré : pentest et bug bounty</h3>
+<p>Un <strong>test d'intrusion (pentest) professionnel</strong> se fait toujours dans le cadre d'un <mark>contrat ou mandat écrit</mark> entre le pentester et l'entreprise cliente, qui définit précisément le périmètre autorisé (quels systèmes, quelles dates, quelles actions). Sans ce document, même avec les meilleures intentions, l'action reste illégale.</p>
+<div class="formula-box">Le <strong>bug bounty</strong> est un programme où une entreprise autorise publiquement des chercheurs en sécurité à tester ses systèmes selon des règles précises, en échange d'une récompense (souvent financière) si une faille réelle est trouvée et signalée correctement. Plateformes connues : <strong>YesWeHack</strong> (française) et <strong>HackerOne</strong>.</div>
+<div class="retenir-box">Le bug bounty est un excellent moyen légal de progresser <mark>sur de vrais systèmes</mark> (pas seulement des labos), parce que l'autorisation est donnée publiquement et à l'avance par l'entreprise elle-même, avec des règles claires (scope) à respecter strictement.</div>
+
+<h3>La CNIL et le RGPD</h3>
+<p>La <strong>CNIL</strong> (Commission Nationale de l'Informatique et des Libertés) est l'autorité française chargée de faire respecter le RGPD et de sanctionner les entreprises qui ne protègent pas correctement les données personnelles qu'elles détiennent.</p>
+<div class="formula-box">Les sanctions RGPD peuvent atteindre jusqu'à <strong>4% du chiffre d'affaires mondial annuel</strong> d'une entreprise (ou 20 millions d'euros, le montant le plus élevé étant retenu) en cas de manquement grave.</div>
+
+<h3>Les métiers légaux du secteur</h3>
+<ul>
+<li><strong>Pentester</strong> : testeur d'intrusion mandaté par contrat pour évaluer la sécurité d'un système.</li>
+<li><strong>Analyste SOC</strong> (Security Operations Center) : surveille en continu les systèmes d'une organisation pour détecter des attaques en cours.</li>
+<li><strong>RSSI</strong> (Responsable de la Sécurité des Systèmes d'Information) : pilote la stratégie de sécurité globale d'une organisation.</li>
+</ul>
+<div class="retenir-box">Tous ces métiers ont un point commun : ils s'exercent toujours dans un cadre <mark>contractuel et autorisé</mark>. C'est précisément ce cadre (mandat écrit, périmètre défini) qui distingue légalement un professionnel de la cybersécurité d'un délit — la compétence technique est la même des deux côtés, seule l'autorisation change tout.</div>`,
+flashcards:[
+{q:'Article 323-1 du Code pénal',a:'Punit l\'accès ou le maintien frauduleux dans un système de traitement automatisé de données (STAD) — jusqu\'à 3 ans de prison et 100 000 € d\'amende.'},
+{q:'STAD — définition',a:'Système de Traitement Automatisé de Données : concrètement, n\'importe quel système informatique (PC, serveur, site web, compte en ligne...).'},
+{q:'Faut-il une intention de nuire ou un dommage pour être condamné (art. 323) ?',a:'Non — le simple fait d\'accéder sans autorisation à un système qui n\'est pas le sien suffit à caractériser l\'infraction, même sans dommage ni mauvaise intention.'},
+{q:'Ce qui reste légal en matière de "hacking"',a:'Accéder à ses propres appareils, s\'entraîner sur des plateformes dédiées (Root-Me, TryHackMe...), ou tester un système tiers avec une autorisation écrite explicite et un périmètre défini.'},
+{q:'Ce qui rend un pentest professionnel légal',a:'Un contrat/mandat écrit avec l\'entreprise cliente, définissant précisément le périmètre autorisé (systèmes, dates, actions permises).'},
+{q:'Bug bounty — principe',a:'Programme où une entreprise autorise publiquement des chercheurs à tester ses systèmes selon des règles précises, en échange d\'une récompense si une faille réelle est trouvée.'},
+{q:'CNIL',a:'Commission Nationale de l\'Informatique et des Libertés : autorité française chargée de faire respecter le RGPD et de sanctionner les manquements.'},
+{q:'Montant maximal d\'une sanction RGPD',a:'Jusqu\'à 4% du chiffre d\'affaires mondial annuel de l\'entreprise, ou 20 millions d\'euros (le montant le plus élevé étant retenu).'},
+{q:'Ce qui distingue légalement un pentester d\'un délinquant informatique',a:'Uniquement l\'autorisation (contrat/mandat écrit définissant le périmètre) — la compétence technique utilisée peut être strictement identique des deux côtés.'},
+]},
 };

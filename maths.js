@@ -5,6 +5,58 @@
 
 PREBUILT['Maths'] = {
 
+'Fonctions — généralités': {
+cours:`<h3>Qu'est-ce qu'une fonction ?</h3>
+<p>Une <strong>fonction</strong> $f$ associe à chaque nombre $x$ d'un ensemble de départ <mark>au plus un</mark> nombre $y$, noté $f(x)$. On écrit $f : x \\mapsto f(x)$.</p>
+<div class="formula-box">$y = f(x)$ : <strong>y</strong> est l'<mark>image</mark> de x par f. <strong>x</strong> est un <mark>antécédent</mark> de y par f.</div>
+<div class="attention-box">Un nombre a <strong>une seule image</strong> (au maximum), mais peut avoir <mark>plusieurs antécédents</mark> ! Ne confonds jamais les deux sens : "l'image de 2" ≠ "un antécédent de 2".</div>
+
+<h3>Ensemble de définition</h3>
+<p>C'est l'ensemble des valeurs de $x$ pour lesquelles $f(x)$ <mark>existe et a un sens</mark>. Deux cas classiques à surveiller :</p>
+<ul>
+<li>Une <strong>fraction</strong> : le dénominateur ne doit jamais être égal à 0.</li>
+<li>Une <strong>racine carrée</strong> : l'expression sous la racine doit être positive ou nulle.</li>
+</ul>
+
+<h3>Courbe représentative</h3>
+<p>La courbe représentative $C_f$ d'une fonction $f$ dans un repère est l'ensemble des points de coordonnées $(x ; f(x))$. Lire graphiquement $f(a)$ = lire l'ordonnée du point de la courbe d'abscisse $a$.</p>
+
+<h3>Sens de variation</h3>
+<div class="formula-box">
+Une fonction est <strong>croissante</strong> sur un intervalle I si : pour tous $a$ et $b$ de I, $a < b \\Rightarrow f(a) < f(b)$ (l'ordre est conservé).<br>
+Une fonction est <strong>décroissante</strong> sur I si : $a < b \\Rightarrow f(a) > f(b)$ (l'ordre est inversé).
+</div>
+<p>On résume les variations dans un <strong>tableau de variations</strong>, avec des flèches montantes (croissante) ou descendantes (décroissante).</p>
+
+<h3>Les fonctions de référence</h3>
+<div class="formula-box">
+<strong>Fonction affine</strong> : $f(x) = ax + b$ — droite, $a$ = coefficient directeur (pente), $b$ = ordonnée à l'origine.<br>
+<strong>Fonction carré</strong> : $f(x) = x^2$ — parabole, décroissante sur $]-\\infty;0]$, croissante sur $[0;+\\infty[$, minimum en 0.<br>
+<strong>Fonction inverse</strong> : $f(x) = \\dfrac{1}{x}$ — définie sur $\\mathbb{R}^*$, décroissante sur $]-\\infty;0[$ et sur $]0;+\\infty[$ (mais pas sur tout $\\mathbb{R}^*$ en un seul bloc !).
+</div>
+<div class="retenir-box">Piège classique sur la fonction inverse : elle est décroissante sur <mark>chacun</mark> des deux intervalles $]-\\infty;0[$ et $]0;+\\infty[$, mais on ne peut PAS dire qu'elle est "décroissante sur $\\mathbb{R}^*$" globalement, car elle passe d'une branche à l'autre en "sautant" (elle n'est pas définie en 0).</div>
+
+<h3>Résolution graphique</h3>
+<p>Résoudre $f(x) = k$ graphiquement : chercher les abscisses des points de la courbe ayant pour ordonnée $k$ (intersection avec la droite horizontale $y=k$).<br>
+Résoudre $f(x) \\leq k$ : chercher les abscisses où la courbe est en dessous (ou sur) la droite $y=k$.</p>`,
+exercices:[
+{niveau:'Facile', enonce:`<p>Soit $f(x) = 2x - 3$. Calcule $f(4)$, puis détermine si 5 est l'image de 4 par f.</p>`, aide:`Remplace x par 4 dans l'expression de f(x), puis compare le résultat à 5.`, correction:`<p>$f(4) = 2 \\times 4 - 3 = 8 - 3 = 5$</p><p>Oui, <strong>5 est bien l'image de 4</strong> par f, puisque $f(4) = 5$.</p>`},
+{niveau:'Moyen', enonce:`<p>Détermine l'ensemble de définition de la fonction $f(x) = \\dfrac{1}{x-3}$.</p>`, aide:`Le dénominateur ne doit jamais être égal à 0. Résous x-3=0 pour trouver la valeur interdite.`, correction:`<p>Le dénominateur $x-3$ doit être différent de 0 : $x - 3 \\neq 0 \\Leftrightarrow x \\neq 3$</p><p>Ensemble de définition : $D_f = \\mathbb{R} \\setminus \\{3\\}$, soit $]-\\infty;3[ \\cup ]3;+\\infty[$</p>`},
+{niveau:'Difficile', enonce:`<p>Soit $f(x) = \\sqrt{5-2x}$. Détermine l'ensemble de définition de f, puis calcule $f(-2)$.</p>`, aide:`L'expression sous la racine doit être positive ou nulle. Résous l'inéquation 5-2x ≥ 0.`, correction:`<p>Il faut $5 - 2x \\geq 0 \\Leftrightarrow -2x \\geq -5 \\Leftrightarrow x \\leq \\frac{5}{2}$ (on divise par un nombre négatif, donc le sens de l'inégalité s'inverse).</p><p>$D_f = ]-\\infty ; \\frac{5}{2}]$</p><p>$f(-2) = \\sqrt{5-2\\times(-2)} = \\sqrt{5+4} = \\sqrt{9} = 3$</p>`},
+],
+flashcards:[
+{q:'Image et antécédent — différence',a:'Si y=f(x), y est l\'image de x (une seule possible), x est un antécédent de y (il peut y en avoir plusieurs).'},
+{q:'Ensemble de définition — cas d\'une fraction',a:'Le dénominateur ne doit jamais être égal à 0.'},
+{q:'Ensemble de définition — cas d\'une racine carrée',a:'L\'expression sous la racine doit être positive ou nulle (≥ 0).'},
+{q:'Fonction croissante — définition',a:'Pour tous a et b de l\'intervalle I, si a<b alors f(a)<f(b) : l\'ordre est conservé.'},
+{q:'Fonction décroissante — définition',a:'Pour tous a et b de l\'intervalle I, si a<b alors f(a)>f(b) : l\'ordre est inversé.'},
+{q:'Fonction affine — forme générale',a:'f(x) = ax + b. Représentation graphique : une droite. a = coefficient directeur, b = ordonnée à l\'origine.'},
+{q:'Fonction carré — variations',a:'Décroissante sur ]-∞;0], croissante sur [0;+∞[. Minimum en x=0 (f(0)=0). Courbe : une parabole.'},
+{q:'Fonction inverse — ensemble de définition et variations',a:'Définie sur ℝ* (x≠0). Décroissante sur ]-∞;0[ et décroissante sur ]0;+∞[ séparément (pas globalement sur ℝ*).'},
+{q:'Lire f(a) graphiquement',a:'C\'est l\'ordonnée du point de la courbe représentative dont l\'abscisse est a.'},
+{q:'Résoudre f(x)=k graphiquement',a:'Chercher les abscisses des points d\'intersection entre la courbe de f et la droite horizontale y=k.'},
+]},
+
 'Second degré': {
 cours:`<h3>Équations du Second Degré</h3>
 <p>Forme générale : <strong>ax² + bx + c = 0</strong>, a ≠ 0.</p>
@@ -79,6 +131,11 @@ $(u \circ v)' = v' \cdot u'(v)$ &nbsp;[composée]
 </ul>
 <div class="attention-box">f'(a) = 0 ne suffit pas pour dire qu'il y a un extremum ! Il faut vérifier que le signe de f' <mark>change</mark> de part et d'autre de a (sinon c'est un simple point d'inflexion, ex : f(x)=x³ en 0).</div>
 <div class="formula-box">Tangente en x = a : y = f'(a)(x − a) + f(a)</div>`,
+exercices:[
+{niveau:'Facile', enonce:`<p>Calcule la dérivée de $f(x) = 3x^2 - 5x + 7$.</p>`, aide:`Dérive chaque terme séparément : (u+v)' = u'+v', et rappelle-toi que la dérivée d'une constante est 0.`, correction:`<p>$f'(x) = 3 \\times 2x - 5 + 0 = 6x - 5$</p><p>On dérive terme à terme : $(3x^2)' = 6x$, $(-5x)' = -5$, $(7)' = 0$.</p>`},
+{niveau:'Moyen', enonce:`<p>Soit $f(x) = (2x+1)(x-3)$. Calcule $f'(x)$ en utilisant la formule du produit, puis vérifie en développant d'abord $f(x)$.</p>`, aide:`Formule du produit : (uv)' = u'v + uv'. Ici u = 2x+1 (donc u'=2) et v = x-3 (donc v'=1).`, correction:`<p><strong>Méthode 1 (produit)</strong> : $f'(x) = 2(x-3) + (2x+1)(1) = 2x - 6 + 2x + 1 = 4x - 5$</p><p><strong>Méthode 2 (développer d'abord)</strong> : $f(x) = 2x^2 - 6x + x - 3 = 2x^2 - 5x - 3$, donc $f'(x) = 4x - 5$. Les deux méthodes donnent bien le même résultat ✓</p>`},
+{niveau:'Difficile', enonce:`<p>Soit $f(x) = \\dfrac{x^2+1}{x-1}$ définie sur $]1;+\\infty[$. Calcule $f'(x)$ et détermine le signe de $f'(x)$ sur cet intervalle.</p>`, aide:`Formule du quotient : (u/v)' = (u'v-uv')/v². Une fois f'(x) calculée, factorise le numérateur pour étudier son signe (le dénominateur (x-1)² est toujours positif).`, correction:`<p>$u = x^2+1$ donc $u'=2x$ ; $v = x-1$ donc $v'=1$.</p><p>$f'(x) = \\dfrac{2x(x-1) - (x^2+1)(1)}{(x-1)^2} = \\dfrac{2x^2-2x-x^2-1}{(x-1)^2} = \\dfrac{x^2-2x-1}{(x-1)^2}$</p><p>Le dénominateur $(x-1)^2$ est toujours positif. Le signe de $f'(x)$ dépend donc du numérateur $x^2-2x-1$ (discriminant Δ=8, racines $1-\\sqrt2$ et $1+\\sqrt2$). Sur $]1;+\\infty[$, seule la racine $1+\\sqrt2 \\approx 2,41$ est dans l'intervalle : $f'(x) < 0$ sur $]1;1+\\sqrt2[$ et $f'(x) > 0$ sur $]1+\\sqrt2;+\\infty[$.</p>`},
+],
 flashcards:[
 {q:'Dérivée de xⁿ',a:'n·xⁿ⁻¹'},
 {q:'Dérivée de √x',a:'1/(2√x), définie sur ]0 ; +∞['},
@@ -111,6 +168,11 @@ cours:`<h3>Trigonométrie & Cercle trigonométrique</h3>
 <div class="formula-box">cos²x + sin²x = 1 &nbsp;[Pythagore]<br>tan x = sin x / cos x<br>cos(−x) = cos x &nbsp;[<mark>PAIRE</mark>]<br>sin(−x) = −sin x &nbsp;[<mark>IMPAIRE</mark>]<br>cos(π−x) = −cos x<br>sin(π−x) = sin x<br>cos(π+x) = −cos x<br>sin(π+x) = −sin x</div>
 <h3>Formules de duplication</h3>
 <div class="formula-box">cos(2x) = cos²x − sin²x = 2cos²x − 1 = 1 − 2sin²x<br>sin(2x) = 2 sin x cos x</div>`,
+exercices:[
+{niveau:'Facile', enonce:`<p>Sachant que $\\cos(x) = \\frac{3}{5}$ et que $x \\in [0;\\frac{\\pi}{2}]$, calcule $\\sin(x)$.</p>`, aide:`Utilise l'identité de Pythagore cos²x + sin²x = 1. Attention au signe de sin(x) sur cet intervalle.`, correction:`<p>$\\cos^2(x) + \\sin^2(x) = 1 \\Rightarrow \\sin^2(x) = 1 - \\frac{9}{25} = \\frac{16}{25}$</p><p>$\\sin(x) = \\pm\\frac{4}{5}$. Comme $x \\in [0;\\frac{\\pi}{2}]$, sin(x) est positif : $\\sin(x) = \\frac{4}{5}$</p>`},
+{niveau:'Moyen', enonce:`<p>Résous dans $[0;2\\pi[$ l'équation $\\cos(x) = \\frac{1}{2}$.</p>`, aide:`Quelle valeur remarquable de x donne cos(x)=1/2 ? N'oublie pas que le cosinus est une fonction paire — pense au cercle trigonométrique et aux 2 solutions possibles sur cet intervalle.`, correction:`<p>On sait que $\\cos(\\frac{\\pi}{3}) = \\frac{1}{2}$.</p><p>Comme cos est paire, $\\cos(-\\frac{\\pi}{3}) = \\frac{1}{2}$ aussi, soit $\\cos(2\\pi - \\frac{\\pi}{3}) = \\cos(\\frac{5\\pi}{3})$ sur $[0;2\\pi[$.</p><p>Solutions : $x = \\frac{\\pi}{3}$ ou $x = \\frac{5\\pi}{3}$</p>`},
+{niveau:'Difficile', enonce:`<p>Démontre que $\\cos(2x) = 1 - 2\\sin^2(x)$ à partir de la formule $\\cos(2x) = \\cos^2(x) - \\sin^2(x)$ et de l'identité de Pythagore.</p>`, aide:`Remplace cos²(x) dans la formule de départ en utilisant la relation cos²x + sin²x = 1 (donc cos²x = 1 - sin²x).`, correction:`<p>On part de $\\cos(2x) = \\cos^2(x) - \\sin^2(x)$.</p><p>Or, d'après Pythagore : $\\cos^2(x) = 1 - \\sin^2(x)$.</p><p>En remplaçant : $\\cos(2x) = (1-\\sin^2(x)) - \\sin^2(x) = 1 - 2\\sin^2(x)$ ✓</p><p>C'est exactement la formule recherchée — l'astuce clé est de toujours pouvoir remplacer cos² par 1−sin² (ou l'inverse) grâce à Pythagore.</p>`},
+],
 flashcards:[
 {q:'sin(0)',a:'0'},
 {q:'sin(π/6)',a:'1/2'},
@@ -158,6 +220,11 @@ cours:`<h3>Suites Numériques</h3>
 <li><strong>Conclusion</strong> : P(n) vraie pour tout n ∈ ℕ</li>
 </ol>
 <div class="attention-box">L'hérédité, ce n'est pas démontrer P(n) — c'est démontrer <mark>l'implication</mark> "si P(n) est vraie, alors P(n+1) l'est aussi". On suppose P(n) vraie (hypothèse de récurrence), on ne le prouve pas.</div>`,
+exercices:[
+{niveau:'Facile', enonce:`<p>Une suite arithmétique a pour premier terme $u_0 = 5$ et pour raison $r = 3$. Calcule $u_1$, $u_2$ et $u_{10}$.</p>`, aide:`Utilise uₙ₊₁ = uₙ + r pour les premiers termes, puis la formule directe uₙ = u₀ + n·r pour u₁₀.`, correction:`<p>$u_1 = u_0 + r = 5 + 3 = 8$</p><p>$u_2 = u_1 + r = 8 + 3 = 11$</p><p>$u_{10} = u_0 + 10r = 5 + 30 = 35$</p>`},
+{niveau:'Moyen', enonce:`<p>Une suite géométrique a pour premier terme $u_0 = 2$ et pour raison $q = 3$. À partir de quel rang $n$ a-t-on $u_n > 1000$ ?</p>`, aide:`Calcule uₙ = u₀ × qⁿ pour plusieurs valeurs de n jusqu'à dépasser 1000 (pas besoin de logarithme au programme de première).`, correction:`<p>$u_n = 2 \\times 3^n$</p><p>$u_5 = 2 \\times 243 = 486$ (pas assez)</p><p>$u_6 = 2 \\times 729 = 1458$ (> 1000 ✓)</p><p>C'est donc à partir du <strong>rang n = 6</strong> que $u_n > 1000$.</p>`},
+{niveau:'Difficile', enonce:`<p>Démontre par récurrence que pour tout $n \\in \\mathbb{N}$, $u_n = 2^n - 1$ où $u_0=0$ et $u_{n+1} = 2u_n + 1$.</p>`, aide:`Initialisation : vérifie pour n=0. Hérédité : suppose uₙ=2ⁿ-1 vrai, puis calcule u_(n+1) en utilisant la relation de récurrence et l'hypothèse, pour retrouver 2^(n+1)-1.`, correction:`<p><strong>Initialisation</strong> : $u_0 = 0$ et $2^0 - 1 = 1 - 1 = 0$ ✓, la propriété est vraie au rang 0.</p><p><strong>Hérédité</strong> : supposons que $u_n = 2^n - 1$ (hypothèse de récurrence). Montrons que $u_{n+1} = 2^{n+1}-1$.</p><p>$u_{n+1} = 2u_n + 1 = 2(2^n-1) + 1 = 2^{n+1} - 2 + 1 = 2^{n+1} - 1$ ✓</p><p><strong>Conclusion</strong> : la propriété est vraie au rang 0 et héréditaire, donc par récurrence, $u_n = 2^n-1$ pour tout $n \\in \\mathbb{N}$.</p>`},
+],
 flashcards:[
 {q:'Suite arithmétique — définition',a:'uₙ₊₁ = uₙ + r, où r est la raison (constante).'},
 {q:'Terme général — arithmétique',a:'uₙ = u₀ + n·r'},
@@ -185,6 +252,11 @@ cours:`<h3>Probabilités & Loi Binomiale</h3>
 <div class="formula-box latex-block">$$P(X=k) = \binom{n}{k} p^k (1-p)^{n-k}$$
 $E(X) = np \qquad V(X) = np(1-p) \qquad \sigma = \sqrt{np(1-p)}$</div>
 <div class="formula-box">P(A∪B) = P(A) + P(B) − P(A∩B)<br>P(Ā) = 1 − P(A)</div>`,
+exercices:[
+{niveau:'Facile', enonce:`<p>Un sac contient 5 boules rouges et 3 boules bleues. On tire une boule au hasard. Calcule la probabilité de tirer une boule rouge, puis une boule bleue.</p>`, aide:`Probabilité = nombre de cas favorables / nombre de cas total. Il y a 8 boules en tout.`, correction:`<p>Total : 5 + 3 = 8 boules.</p><p>$P(\\text{rouge}) = \\frac{5}{8}$</p><p>$P(\\text{bleue}) = \\frac{3}{8}$</p><p>Vérification : $\\frac{5}{8} + \\frac{3}{8} = 1$ ✓ (les deux événements sont complémentaires)</p>`},
+{niveau:'Moyen', enonce:`<p>Dans une classe, 60% des élèves aiment les maths (événement A) et 40% aiment l'anglais (événement B). 25% aiment les deux matières. Calcule P(A∪B), la probabilité qu'un élève aime au moins une des deux matières.</p>`, aide:`Utilise la formule P(A∪B) = P(A) + P(B) − P(A∩B). Attention à ne pas compter deux fois ceux qui aiment les deux.`, correction:`<p>$P(A) = 0,6$ ; $P(B) = 0,4$ ; $P(A \\cap B) = 0,25$</p><p>$P(A \\cup B) = P(A) + P(B) - P(A \\cap B) = 0,6 + 0,4 - 0,25 = 0,75$</p><p>75% des élèves aiment au moins une des deux matières. Sans la soustraction de P(A∩B), on aurait compté deux fois les élèves qui aiment les deux — erreur classique.</p>`},
+{niveau:'Difficile', enonce:`<p>Une entreprise fabrique des pièces avec 2 machines. La machine A produit 70% des pièces avec un taux de défaut de 3%. La machine B produit 30% des pièces avec un taux de défaut de 8%. Quelle est la probabilité qu'une pièce prise au hasard soit défectueuse ?</p>`, aide:`C'est une situation de probabilités totales : (A, B) forme une partition. Utilise P(défaut) = P(A)×P(défaut|A) + P(B)×P(défaut|B).`, correction:`<p>Notons D l'événement "la pièce est défectueuse".</p><p>$P(D) = P(A) \\times P(D|A) + P(B) \\times P(D|B)$</p><p>$P(D) = 0,7 \\times 0,03 + 0,3 \\times 0,08 = 0,021 + 0,024 = 0,045$</p><p>La probabilité qu'une pièce prise au hasard soit défectueuse est de <strong>4,5%</strong>.</p>`},
+],
 flashcards:[
 {q:'C(n, k) — formule',a:'n! / (k!·(n−k)!)'},
 {q:'C(n, 0) et C(n, n)',a:'1'},
@@ -210,6 +282,11 @@ cours:`<h3>Fonctions Exponentielle & Logarithme</h3>
 <h3>Lien exp et ln</h3>
 <div class="formula-box">ln(eˣ) = x pour tout x ∈ ℝ<br>e^(ln x) = x pour x > 0<br>eˣ = a ⟺ x = ln a (a > 0)</div>
 <div class="retenir-box">ln et exp sont des fonctions <mark>réciproques</mark> : l'une "défait" ce que l'autre fait. C'est pour ça que pour résoudre eˣ = a, on applique ln des deux côtés — ln(eˣ) se simplifie automatiquement en x.</div>`,
+exercices:[
+{niveau:'Facile', enonce:`<p>Résous dans $\\mathbb{R}$ l'équation $e^x = 5$.</p>`, aide:`Applique ln des deux côtés de l'équation — souviens-toi que ln(eˣ) = x.`, correction:`<p>$e^x = 5 \\Leftrightarrow \\ln(e^x) = \\ln(5) \\Leftrightarrow x = \\ln(5)$</p><p>Valeur approchée : $x \\approx 1,61$</p>`},
+{niveau:'Moyen', enonce:`<p>Résous dans $\\mathbb{R}$ l'inéquation $2e^{x} - 6 < 0$.</p>`, aide:`Isole d'abord eˣ, puis applique ln en faisant attention au sens de l'inégalité (ln est croissante, donc le sens ne change pas ici).`, correction:`<p>$2e^x - 6 < 0 \\Leftrightarrow 2e^x < 6 \\Leftrightarrow e^x < 3$</p><p>La fonction ln est strictement croissante, donc appliquer ln ne change pas le sens de l'inégalité :</p><p>$\\ln(e^x) < \\ln(3) \\Leftrightarrow x < \\ln(3)$</p><p>Solution : $S = ]-\\infty ; \\ln(3)[$</p>`},
+{niveau:'Difficile', enonce:`<p>Soit $f(x) = xe^{-x}$ définie sur $\\mathbb{R}$. Calcule $f'(x)$ et étudie le signe de $f'(x)$ pour déterminer les variations de f.</p>`, aide:`Utilise la formule du produit (uv)'=u'v+uv' avec u=x et v=e^(-x) (dérivée de e^(-x) est -e^(-x)). Factorise ensuite par e^(-x), qui est toujours positif.`, correction:`<p>$u = x$ donc $u' = 1$ ; $v = e^{-x}$ donc $v' = -e^{-x}$.</p><p>$f'(x) = 1 \\times e^{-x} + x \\times (-e^{-x}) = e^{-x}(1-x)$</p><p>Comme $e^{-x} > 0$ pour tout x, le signe de $f'(x)$ dépend uniquement de $(1-x)$ :</p><p>$f'(x) > 0$ si $x < 1$ (f croissante) et $f'(x) < 0$ si $x > 1$ (f décroissante). f admet donc un maximum en $x=1$.</p>`},
+],
 flashcards:[
 {q:'Dérivée de eˣ',a:'eˣ (l\'exponentielle est sa propre dérivée)'},
 {q:'eˣ⁺ʸ =',a:'eˣ · eʸ'},

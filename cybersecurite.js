@@ -155,4 +155,89 @@ flashcards:[
 {q:'Pourquoi s\'entraîner sur Root-Me/TryHackMe est légal',a:'Ce sont des environnements dédiés et autorisés spécifiquement conçus pour l\'entraînement — contrairement à s\'attaquer à un vrai système sans permission.'},
 {q:'TryHackMe',a:'Plateforme anglophone de cybersécurité avec des parcours guidés pas à pas, adaptée aux grands débutants.'},
 ]},
+
+'Les bases du pentest (légal)': {
+cours:`<div class="attention-box">Tout ce chapitre s'applique <mark>exclusivement</mark> à tes propres machines/VM ou à des plateformes qui t'autorisent explicitement (Root-Me, TryHackMe, Hack The Box, machines volontairement vulnérables). Utiliser ces techniques sur un système qui ne t'appartient pas, sans autorisation écrite, est un délit (voir le chapitre de droit dédié).</div>
+
+<h3>La méthodologie d'un test d'intrusion (pentest)</h3>
+<div class="formula-box">
+<strong>1. Reconnaissance</strong> : collecter un maximum d'informations publiques sur la cible (OSINT — Open Source Intelligence) : noms de domaine, technologies utilisées, adresses IP.<br>
+<strong>2. Scan</strong> : identifier les ports ouverts et services actifs sur la cible.<br>
+<strong>3. Exploitation</strong> : tenter d'exploiter une vulnérabilité identifiée pour obtenir un accès.<br>
+<strong>4. Rapport</strong> : documenter précisément ce qui a été trouvé et comment le corriger — c'est souvent la partie la plus importante pour un vrai pentester professionnel.
+</div>
+<div class="retenir-box">Un pentest professionnel se termine toujours par un <mark>rapport écrit</mark> à destination du client — l'objectif n'est jamais juste de "rentrer", mais d'aider à corriger les failles trouvées.</div>
+
+<h3>Kali Linux : la boîte à outils</h3>
+<p><strong>Kali Linux</strong> est une distribution Linux qui regroupe des centaines d'outils de pentest préinstallés (scan réseau, cassage de mots de passe, analyse web...). Elle s'installe généralement dans une <mark>machine virtuelle</mark> (via VirtualBox ou VMware), sans toucher au système principal.</p>
+
+<h3>Nmap : scanner un réseau</h3>
+<div class="formula-box">Nmap identifie les machines actives sur un réseau et les ports/services ouverts sur chacune. Exemple de commande de base : <code>nmap -sV 192.168.1.24</code> (scan des services et versions sur cette IP).</div>
+<p>C'est l'étape "scan" de la méthodologie : savoir ce qui tourne sur une machine avant de chercher une vulnérabilité à exploiter.</p>
+
+<h3>Wireshark : voir ce qui circule sur le réseau</h3>
+<p><strong>Wireshark</strong> est un analyseur de paquets : il capture et affiche en détail tout le trafic réseau qui transite par une interface, utile pour comprendre un protocole, détecter une anomalie, ou observer une attaque de type man-in-the-middle en action (dans un labo).</p>
+
+<h3>S'entraîner chez soi : le labo personnel</h3>
+<ul>
+<li><strong>VirtualBox / VMware</strong> : logiciels gratuits de virtualisation pour faire tourner plusieurs "faux ordinateurs" isolés sur ta machine réelle.</li>
+<li><strong>Metasploitable2</strong> : machine virtuelle volontairement truffée de failles, conçue pour s'entraîner à les exploiter légalement.</li>
+<li><strong>DVWA</strong> (Damn Vulnerable Web Application) : application web volontairement vulnérable, pour s'entraîner aux failles web (injection SQL, XSS...) sans toucher à un vrai site.</li>
+</ul>
+<div class="retenir-box">Le principe est toujours le même : <mark>isoler</mark> l'environnement d'entraînement (VM sans accès à internet ou dans un réseau local dédié) pour qu'aucune action ne puisse sortir de ce cadre autorisé.</div>
+
+<h3>CTF (Capture The Flag)</h3>
+<p>Compétition ou défi où il faut exploiter des vulnérabilités volontairement placées pour trouver un "flag" (une chaîne de caractères prouvant la réussite). Root-Me, TryHackMe et Hack The Box fonctionnent sur ce principe — c'est la façon la plus courante de progresser concrètement en pentest de façon légale et ludique.</p>`,
+flashcards:[
+{q:'Les 4 étapes d\'un pentest',a:'Reconnaissance (collecte d\'infos publiques) → Scan (ports/services) → Exploitation (tenter d\'exploiter une faille) → Rapport (documenter et proposer des corrections).'},
+{q:'Kali Linux',a:'Distribution Linux regroupant des centaines d\'outils de pentest préinstallés, généralement utilisée dans une machine virtuelle.'},
+{q:'Nmap — utilité',a:'Scanner réseau : identifie les machines actives et les ports/services ouverts sur chacune (étape de "scan" du pentest).'},
+{q:'Wireshark — utilité',a:'Analyseur de paquets : capture et affiche en détail le trafic réseau qui transite par une interface.'},
+{q:'Metasploitable2 / DVWA',a:'Machines/applications volontairement truffées de failles, conçues pour s\'entraîner légalement à les exploiter dans un environnement isolé.'},
+{q:'CTF (Capture The Flag)',a:'Défi ou compétition consistant à exploiter des vulnérabilités volontaires pour trouver un "flag" prouvant la réussite — principe de Root-Me, TryHackMe, Hack The Box.'},
+{q:'Pourquoi isoler son labo d\'entraînement (VM sans accès internet ou réseau dédié)',a:'Pour garantir qu\'aucune action d\'entraînement ne puisse accidentellement sortir du cadre autorisé et toucher un vrai système.'},
+{q:'Pourquoi un pentest professionnel se termine par un rapport',a:'L\'objectif final n\'est pas juste d\'obtenir un accès, mais d\'aider le client à comprendre et corriger les failles trouvées.'},
+]},
+
+'Sécurité défensive : durcir un système': {
+cours:`<h3>Réduire la surface d'attaque</h3>
+<p>La <strong>surface d'attaque</strong> désigne l'ensemble des points par lesquels un système pourrait être attaqué (ports ouverts, services actifs, comptes existants...). Principe de base : <mark>désactiver tout ce qui n'est pas utilisé</mark> — un service inutile mais actif est une porte d'entrée potentielle inutile.</p>
+
+<h3>Le pare-feu (firewall)</h3>
+<p>Un <strong>pare-feu</strong> filtre le trafic réseau entrant et sortant selon des règles définies (autoriser/bloquer par port, adresse IP, protocole). Présent au niveau d'un système (Windows Defender Firewall, ufw sur Linux) et souvent aussi au niveau du réseau (box internet, routeur d'entreprise).</p>
+
+<h3>Le principe du moindre privilège</h3>
+<div class="formula-box">Chaque utilisateur ou programme ne doit disposer <mark>que des droits strictement nécessaires</mark> à ce qu'il a besoin de faire — jamais plus. Ex : un compte utilisateur classique plutôt qu'un compte administrateur pour un usage quotidien.</div>
+<div class="retenir-box">Ce principe limite les <mark>dégâts</mark> en cas de compromission : si un compte aux droits limités est piraté, l'attaquant est lui aussi limité dans ce qu'il peut faire.</div>
+
+<h3>Segmentation réseau</h3>
+<p>Séparer un réseau en plusieurs zones isolées (via des <strong>VLAN</strong>, par exemple) pour qu'une intrusion dans une zone ne se propage pas automatiquement à tout le reste du réseau. Utilisé en entreprise pour isoler par exemple le réseau invité du réseau interne sensible.</p>
+
+<h3>Détection : IDS vs IPS</h3>
+<ul>
+<li><strong>IDS</strong> (Intrusion Detection System) : surveille le trafic/système et <mark>alerte</mark> en cas d'activité suspecte, sans bloquer automatiquement.</li>
+<li><strong>IPS</strong> (Intrusion Prevention System) : va plus loin et <mark>bloque activement</mark> le trafic identifié comme malveillant.</li>
+</ul>
+
+<h3>Checklist de durcissement (hardening) de base</h3>
+<div class="formula-box">
+1. Changer tous les mots de passe/identifiants par défaut.<br>
+2. Désactiver les comptes et services inutilisés.<br>
+3. Appliquer les mises à jour de sécurité régulièrement.<br>
+4. Activer le chiffrement du disque (BitLocker, LUKS...).<br>
+5. Mettre en place des sauvegardes régulières et testées.<br>
+6. Activer la journalisation (logs) pour pouvoir enquêter après un incident.
+</div>
+
+<h3>La défense en profondeur</h3>
+<p>Principe clé de la sécurité défensive : ne jamais compter sur une seule barrière de protection. Empiler plusieurs couches (pare-feu + antivirus + mises à jour + 2FA + sauvegardes...) fait qu'une seule faille ne suffit pas à tout compromettre — c'est l'inverse exact de la logique offensive du pentest, qui cherche justement la faille dans l'une de ces couches.</p>`,
+flashcards:[
+{q:'Surface d\'attaque',a:'Ensemble des points par lesquels un système pourrait être attaqué (ports, services, comptes...). Principe : désactiver tout ce qui n\'est pas utilisé.'},
+{q:'Pare-feu (firewall) — rôle',a:'Filtre le trafic réseau entrant/sortant selon des règles (port, IP, protocole autorisés ou bloqués).'},
+{q:'Principe du moindre privilège',a:'Chaque utilisateur/programme ne doit avoir que les droits strictement nécessaires à son usage, jamais plus — limite les dégâts en cas de piratage.'},
+{q:'Segmentation réseau (VLAN)',a:'Séparer un réseau en zones isolées pour qu\'une intrusion dans une zone ne se propage pas automatiquement au reste du réseau.'},
+{q:'IDS vs IPS',a:'IDS : détecte et alerte sans bloquer. IPS : détecte ET bloque activement le trafic malveillant.'},
+{q:'3 éléments clés d\'une checklist de durcissement (hardening)',a:'Changer les identifiants par défaut, désactiver ce qui est inutilisé, appliquer les mises à jour de sécurité (parmi d\'autres : chiffrement, sauvegardes, logs).'},
+{q:'Défense en profondeur',a:'Empiler plusieurs couches de sécurité indépendantes plutôt que de compter sur une seule barrière — une faille dans une couche ne suffit pas à tout compromettre.'},
+]},
 };

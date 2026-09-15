@@ -23,7 +23,8 @@ Object.entries(PREBUILT).forEach(([subj, chapters]) => {
                 cours: data.cours,
                 flashcards: data.flashcards.map(f => ({
                     q: f.q, a: f.a, score: 0, interval: 0, ease: 2.5, due: null
-                }))
+                })),
+                exercices: data.exercices || []
             };
         } else {
             // Chapitre existant : on écrase le cours avec la version PREBUILT
@@ -43,6 +44,10 @@ Object.entries(PREBUILT).forEach(([subj, chapters]) => {
                 }
             });
             db[subj][ch].flashcards = existingCards;
+
+            // Les exercices ne sont pas édités par l'élève dans l'app :
+            // on les synchronise toujours depuis PREBUILT (dernière version de Claude).
+            db[subj][ch].exercices = data.exercices || [];
         }
     });
 });
@@ -185,15 +190,133 @@ function last7DaysActivity() {
         const d = new Date();
         d.setDate(d.getDate() - i);
         const key = d.toISOString().slice(0,10);
-        days.push({ label: d.toLocaleDateString('fr-FR', {weekday:'short'}).slice(0,1).toUpperCase(), active: dates.has(key) });
+        days.push({ key, label: d.toLocaleDateString('fr-FR', {weekday:'short'}).slice(0,1).toUpperCase(), active: dates.has(key) });
     }
     return days;
+}
+
+// ── SUIVI DU TEMPS PASSÉ (par jour → matière → activité) ────────
+// Stocké séparément de `db` et de l'activité booléenne, pour ne jamais
+// interférer avec le sync GitHub ni la recherche qui parcourent Object.keys(db).
+// curTrackedPage est mis à jour explicitement par chaque écran "actif"
+// (lecture de cours, session flashcards, QCM, exercices) ; les écrans de
+// menu/accueil le remettent à null. Un tick régulier ajoute le temps écoulé
+// à l'activité en cours, tant que l'onglet est visible.
+let curTrackedPage = null;
+let timeTrackLastTick = Date.now();
+
+function getTimeLog() {
+    try { return JSON.parse(localStorage.getItem('bacmaster_timelog') || '{}'); }
+    catch(e) { return {}; }
+}
+function saveTimeLog(log) { localStorage.setItem('bacmaster_timelog', JSON.stringify(log)); }
+
+function addTimeSeconds(subject, activity, seconds) {
+    if(!subject || !activity || seconds <= 0) return;
+    const today = new Date().toISOString().slice(0,10);
+    const log = getTimeLog();
+    if(!log[today]) log[today] = {};
+    if(!log[today][subject]) log[today][subject] = {};
+    log[today][subject][activity] = (log[today][subject][activity] || 0) + seconds;
+    saveTimeLog(log);
+    // Purge : garde un historique raisonnable (~120 jours)
+    const keys = Object.keys(log).sort();
+    if(keys.length > 120) { delete log[keys[0]]; saveTimeLog(log); }
+}
+
+function timeTrackTick() {
+    const now = Date.now();
+    const elapsed = (now - timeTrackLastTick) / 1000;
+    timeTrackLastTick = now;
+    // On ignore les gros écarts (téléphone verrouillé, onglet en veille, PC en veille...)
+    // pour ne pas compter du temps où l'élève n'était pas vraiment devant l'écran.
+    if(elapsed > 0 && elapsed <= 20 && document.visibilityState === 'visible' && curTrackedPage) {
+        addTimeSeconds(curTrackedPage.subject, curTrackedPage.activity, elapsed);
+    }
+}
+setInterval(timeTrackTick, 5000);
+document.addEventListener('visibilitychange', () => { timeTrackLastTick = Date.now(); });
+
+function fmtDuration(totalSeconds) {
+    const s = Math.round(totalSeconds);
+    const h = Math.floor(s / 3600);
+    const m = Math.round((s % 3600) / 60);
+    if(h > 0 && m > 0) return `${h}h ${m}min`;
+    if(h > 0) return `${h}h`;
+    if(m > 0) return `${m} min`;
+    return '< 1 min';
+}
+
+function dayTimeTotal(dateKey) {
+    const log = getTimeLog();
+    const day = log[dateKey];
+    if(!day) return 0;
+    let total = 0;
+    Object.values(day).forEach(subj => Object.values(subj).forEach(sec => total += sec));
+    return total;
 }
 
 function globalStats() {
     let total=0, mastered=0, due=0;
     CFG.forEach(s => { const st = subStats(s.name); total += st.total; mastered += st.mastered; due += st.due; });
     return { total, mastered, due, streak: computeStreak() };
+}
+
+// ── PAGE DÉTAIL D'UNE JOURNÉE (temps passé) ──────────────────
+function openDayDetail(dateKey) {
+    clearInterval(qTimer);
+    curTrackedPage = null;
+    const log = getTimeLog();
+    const day = log[dateKey] || {};
+    const dateLabel = new Date(dateKey).toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long'});
+    const totalSec = dayTimeTotal(dateKey);
+
+    // Trie les matières par temps décroissant, et à l'intérieur de chaque
+    // matière, trie les activités (cours/flashcards/QCM/exercices) aussi par temps décroissant.
+    const subjects = Object.keys(day)
+        .map(subj => {
+            const activities = Object.entries(day[subj]).sort((a,b) => b[1]-a[1]);
+            const subjTotal = activities.reduce((s,[,sec])=>s+sec, 0);
+            return { subj, activities, subjTotal };
+        })
+        .sort((a,b) => b.subjTotal - a.subjTotal);
+
+    render(`
+        <div class="breadcrumb">
+            <button class="bc-btn" onclick="goHome()">🏠 Accueil</button>
+        </div>
+        <div class="page-head">
+            <h1 style="text-transform:capitalize">${dateLabel}</h1>
+            <p style="color:var(--muted);font-size:.85rem">
+                ${totalSec > 0 ? `⏱️ ${fmtDuration(totalSec)} de révision ce jour-là` : "Aucune activité enregistrée ce jour-là"}
+            </p>
+        </div>
+        ${subjects.length === 0 ? `
+        <div class="ws-box" style="text-align:center;padding:40px 20px">
+            <div style="font-size:2.5rem;margin-bottom:10px">💤</div>
+            <p style="color:var(--muted)">Rien à afficher pour ce jour — soit tu n'as pas ouvert l'app, soit c'est avant la mise en place du suivi du temps.</p>
+        </div>` : subjects.map(({subj, activities, subjTotal}) => {
+            const cfg = CFG.find(c => c.name === subj);
+            return `<div class="ws-box day-subj-card">
+                <div class="day-subj-header">
+                    <span class="day-subj-name">${cfg ? cfg.icon : '📚'} ${esc(subj)}</span>
+                    <span class="day-subj-time">${fmtDuration(subjTotal)}</span>
+                </div>
+                <div class="day-activities">
+                    ${activities.map(([activity, sec]) => {
+                        const pct = subjTotal > 0 ? Math.round(sec/subjTotal*100) : 0;
+                        return `<div class="day-activity-row">
+                            <div class="day-activity-top">
+                                <span>${esc(activity)}</span>
+                                <span class="day-activity-time">${fmtDuration(sec)}</span>
+                            </div>
+                            <div class="day-activity-bar"><div class="day-activity-fill" style="width:${pct}%"></div></div>
+                        </div>`;
+                    }).join('')}
+                </div>
+            </div>`;
+        }).join('')}
+    `);
 }
 
 // ── PAGE AGENDA ──────────────────────────────────────────────
@@ -339,6 +462,7 @@ function startDailyReview() {
 
 function goHome() {
     clearInterval(qTimer);
+    curTrackedPage = null;
     const gs = globalStats();
     const urgentEvals = upcomingEvals(7);
     render(`
@@ -368,7 +492,7 @@ function goHome() {
             </div>
             <div class="dash-sep"></div>
             <div class="dash-week">
-                ${last7DaysActivity().map(d=>`<div class="dash-week-day"><div class="dash-week-bar ${d.active?'active':''}"></div><div class="dash-week-label">${d.label}</div></div>`).join('')}
+                ${last7DaysActivity().map(d=>`<div class="dash-week-day" onclick="openDayDetail('${d.key}')" title="Voir le détail du ${new Date(d.key).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}"><div class="dash-week-bar ${d.active?'active':''}"></div><div class="dash-week-label">${d.label}</div></div>`).join('')}
             </div>
         </div>
         ${gs.due>0?`<button class="daily-review-btn" onclick="startDailyReview()">🌅 Révision du jour — ${gs.due} carte${gs.due>1?'s':''} à revoir${urgentEvals.length>0?`, priorité ${urgentEvals[0].subject}`:', toutes matières'}</button>`:''}
@@ -406,6 +530,7 @@ function goHome() {
 
 function goSubject(name) {
     clearInterval(qTimer);
+    curTrackedPage = null;
     curSubject = name;
     if(!db[name]) db[name] = {};
     const cfg = CFG.find(c => c.name === name);
@@ -456,6 +581,7 @@ function goSubject(name) {
 }
 
 function goModeChapters(mode) {
+    curTrackedPage = null;
     const cfg = CFG.find(c => c.name === curSubject);
     const chapters = Object.keys(db[curSubject]);
     const modeLabel = {cours:'📖 Cours', voc:'📚 Vocabulaire', edit:'✏️ Éditer', add:'➕ Ajouter'}[mode] || mode;
@@ -497,6 +623,7 @@ function goChapter(ch) {
 }
 
 function renderChapterMenu() {
+    curTrackedPage = null;
     const cfg = CFG.find(c => c.name === curSubject);
     const cards = (db[curSubject][curChapter].flashcards || []);
     const due   = cards.filter(isDue).length;
@@ -573,6 +700,9 @@ function renderTabContent() {
     const box = $('ws-box');
     if(!box) return;
     const data = db[curSubject][curChapter];
+    // Seule la lecture du cours compte comme "temps d'étude" tracké ici —
+    // l'édition ou la liste brute du vocabulaire ne sont pas de la révision active.
+    curTrackedPage = (curTab==='cours') ? { subject: curSubject, activity: '📖 Cours — ' + curChapter } : null;
     if(curTab==='cours') {
         box.innerHTML = `
             <div class="cours-print-bar">
@@ -1004,6 +1134,7 @@ let intensiveMode = false;
 let intensiveShuffle = true;
 
 function openIntensive() {
+    curTrackedPage = null;
     clearInterval(qTimer);
     const chapters = Object.keys(db[curSubject]);
     render(`
@@ -1080,6 +1211,7 @@ function filterCbList(input, cbClass) {
 
 function openSRS() {
     clearInterval(qTimer);
+    curTrackedPage = null;
     const chapters = Object.keys(db[curSubject]);
     render(`
         <div class="breadcrumb">
@@ -1187,6 +1319,7 @@ function renderSRSCard() {
     srsFlipped=false;
     if(!srsCur){renderSRSResults();return;}
     const {card}=srsCur;
+    curTrackedPage = { subject: srsCur.subj || curSubject, activity: '🎴 Flashcards — ' + srsCur.ch };
     const rem=srsQueue.length+srsAgain.length;
     const tot=sessTotal+srsAgain.length;
     const pct=tot>0?Math.round(sessDone/tot*100):0;
@@ -1333,6 +1466,7 @@ function rateSRS(r){
 }
 
 function renderSRSResults(){
+    curTrackedPage = null;
     clearInterval(qTimer);
     const tot=sessDone;
     const pct=tot===0?100:Math.round(sessStats.right/tot*100);
@@ -1377,6 +1511,7 @@ function subjectColor(name){ const cfg=CFG.find(c=>c.name===name); return cfg ? 
 
 function openQCM() {
     clearInterval(qTimer);
+    curTrackedPage = null;
     const chapters=Object.keys(db[curSubject]);
     render(`
         <div class="breadcrumb">
@@ -1455,6 +1590,7 @@ function confirmStopQCM(){
 function renderQCM(){
     if(qcmIdx>=qcmList.length){renderQCMResults();return;}
     qcmCur=qcmList[qcmIdx];
+    curTrackedPage = { subject: curSubject, activity: '📝 QCM' };
     const {q,opts}=qcmCur;
     const pct=Math.round(qcmIdx/qcmList.length*100);
     const letters=['A','B','C','D'];
@@ -1503,6 +1639,7 @@ function answerQCM(i){
 function nextQCM(){qcmIdx++;renderQCM();}
 
 function renderQCMResults(){
+    curTrackedPage = null;
     const pct=qcmList.length===0?0:Math.round(qcmScore/qcmList.length*100);
     const emoji=pct>=80?'🏆':pct>=60?'👍':'📚';
     const msg=pct>=80?'Excellent travail !':pct>=60?'Pas mal, continue !':'Révise encore ce chapitre !';
@@ -1729,6 +1866,7 @@ function closeFigPopup() {
 // ── EXERCICES ─────────────────────────────────────────────────
 function openExercices() {
     clearInterval(qTimer);
+    curTrackedPage = null;
     const chapters = Object.keys(db[curSubject]).filter(ch =>
         (db[curSubject][ch].exercices || []).length > 0
     );
@@ -1785,6 +1923,7 @@ function openExoChapter(ch) {
 function renderExo() {
     const exos = db[curSubject][curExoChapter].exercices||[];
     if(!exos.length){openExercices();return;}
+    curTrackedPage = { subject: curSubject, activity: '🧩 Exercices — ' + curExoChapter };
     const exo=exos[curExoIdx], total=exos.length;
     const pct=Math.round((curExoIdx/total)*100);
     const niv=(exo.niveau||'Moyen').toLowerCase();
@@ -1834,6 +1973,7 @@ function renderExo() {
 }
 
 function openExoResults() {
+    curTrackedPage = null;
     const exos=db[curSubject][curExoChapter].exercices||[];
     render(`
         <div class="ws-box"><div class="session-end">

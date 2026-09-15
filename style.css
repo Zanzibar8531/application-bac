@@ -45,10 +45,23 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .dash-stat-label{font-size:.72rem;color:var(--muted);font-weight:600;margin-top:2px;}
 .dash-sep{width:1.5px;align-self:stretch;background:var(--border);}
 .dash-week{display:flex;gap:6px;align-items:flex-end;}
-.dash-week-day{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.dash-week-day{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px;border-radius:8px;transition:background .15s;}
+.dash-week-day:hover{background:var(--border);}
 .dash-week-bar{width:9px;height:26px;border-radius:4px;background:var(--border);}
 .dash-week-bar.active{background:linear-gradient(180deg,#4f46e5,#7c3aed);}
 .dash-week-label{font-size:.62rem;color:var(--muted);font-weight:700;text-transform:uppercase;}
+
+/* ── Détail d'une journée (temps passé) ── */
+.day-subj-card{margin-bottom:14px;}
+.day-subj-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.day-subj-name{font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;}
+.day-subj-time{font-weight:800;color:#4f46e5;font-size:.95rem;}
+.day-activities{display:flex;flex-direction:column;gap:10px;}
+.day-activity-row{font-size:.85rem;}
+.day-activity-top{display:flex;justify-content:space-between;margin-bottom:4px;color:var(--text);}
+.day-activity-time{color:var(--muted);font-weight:600;}
+.day-activity-bar{height:6px;border-radius:4px;background:var(--border);overflow:hidden;}
+.day-activity-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#4f46e5,#7c3aed);}
 .daily-review-btn{display:block;width:100%;padding:14px;margin-bottom:16px;border:none;border-radius:var(--r);background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;font-weight:700;font-size:.9rem;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 16px rgba(79,70,229,.3);transition:transform .15s;}
 .daily-review-btn:hover{transform:translateY(-2px);}
 .sync-banner{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;margin-top:18px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);cursor:pointer;font-size:.85rem;font-weight:600;transition:all .15s;}

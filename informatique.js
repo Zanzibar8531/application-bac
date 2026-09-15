@@ -214,4 +214,117 @@ flashcards:[
 {q:'Micode — c\'est quoi ?',a:'Youtubeur français de référence en informatique/cybersécurité grand public, connu pour ses vidéos d\'infiltration d\'arnaqueurs et de vulgarisation tech.'},
 {q:'Meilleure façon de progresser après les bases Python',a:'Faire de vrais petits projets personnels (automatisation, jeu texte, analyse de données) plutôt que d\'enchaîner uniquement des cours théoriques.'},
 ]},
+
+'Créer une interface web (HTML/CSS/JS) — objectif décembre': {
+cours:`<h3>Pourquoi ces 3 langages, et dans quel ordre</h3>
+<div class="formula-box">
+<strong>HTML</strong> : la structure (le squelette) — les titres, boutons, listes, zones de la page. Pas de logique, juste du contenu organisé.<br>
+<strong>CSS</strong> : l'apparence — couleurs, tailles, espacements, mise en page. Rend le HTML joli et organisé visuellement.<br>
+<strong>JavaScript</strong> : le comportement — ce qui réagit quand tu cliques, tape, ou que la page change dynamiquement. C'est lui qui rend un bouton "vivant".
+</div>
+<p>C'est exactement l'ordre dans lequel ton propre site (BacMaster) est construit : <mark>index.html</mark> pour la structure, <mark>style.css</mark> pour l'apparence, <mark>script.js</mark> pour tout ce qui bouge (clics, flashcards, sauvegarde...).</p>
+
+<h3>HTML — la structure de base</h3>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Ma page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Titre principal&lt;/h1&gt;
+    &lt;p&gt;Un paragraphe de texte.&lt;/p&gt;
+    &lt;button id="monBouton"&gt;Clique-moi&lt;/button&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<div class="retenir-box">Chaque élément HTML a une <mark>balise ouvrante</mark> et une <mark>balise fermante</mark> (<code>&lt;p&gt;...&lt;/p&gt;</code>). L'attribut <code>id="..."</code> donne un nom unique à un élément pour pouvoir le cibler plus tard en CSS ou en JS.</div>
+
+<h3>CSS — styliser les éléments</h3>
+<pre><code>#monBouton {
+    background-color: #4A90E2;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+}
+
+#monBouton:hover {
+    background-color: #357ABD;
+}</code></pre>
+<div class="formula-box">Le <strong>sélecteur</strong> cible l'élément (<code>#id</code>, <code>.classe</code>, ou une balise directement comme <code>button</code>). <code>:hover</code> applique un style seulement quand la souris survole l'élément.</div>
+
+<h3>Le modèle Flexbox (mise en page moderne)</h3>
+<pre><code>.conteneur {
+    display: flex;
+    justify-content: center;   /* alignement horizontal */
+    align-items: center;       /* alignement vertical */
+    gap: 12px;                 /* espace entre les éléments */
+}</code></pre>
+<div class="retenir-box">Flexbox est la méthode la plus utilisée aujourd'hui pour aligner et espacer des éléments (boutons côte à côte, cartes en grille...) — bien plus simple que les anciennes méthodes (float, position absolue).</div>
+
+<h3>JavaScript — rendre un bouton "vivant"</h3>
+<pre><code>// Sélectionner l'élément HTML par son id
+const bouton = document.getElementById("monBouton");
+
+// Réagir à un clic
+bouton.addEventListener("click", function() {
+    alert("Tu as cliqué !");
+});</code></pre>
+<div class="formula-box"><strong>document.getElementById("id")</strong> récupère un élément HTML précis pour le manipuler.<br><strong>addEventListener("click", ...)</strong> exécute une fonction à chaque fois que l'élément est cliqué.</div>
+
+<h3>Modifier le contenu de la page dynamiquement</h3>
+<pre><code>const titre = document.getElementById("titre");
+titre.textContent = "Nouveau texte !";       // change le texte
+titre.style.color = "red";                    // change le style directement
+
+// Créer et ajouter un nouvel élément
+const nouveauParagraphe = document.createElement("p");
+nouveauParagraphe.textContent = "Ajouté dynamiquement";
+document.body.appendChild(nouveauParagraphe);</code></pre>
+<div class="attention-box">C'est exactement ce mécanisme (<mark>créer/modifier des éléments en JS</mark>) que ton site utilise pour afficher une nouvelle flashcard ou changer de page sans jamais recharger le HTML de base.</div>
+
+<h3>Sauvegarder des données : localStorage</h3>
+<pre><code>// Sauvegarder une donnée (toujours en texte -> JSON pour un objet/tableau)
+localStorage.setItem("score", JSON.stringify(42));
+
+// Relire une donnée sauvegardée
+const score = JSON.parse(localStorage.getItem("score"));
+console.log(score); // 42</code></pre>
+<div class="retenir-box">localStorage garde des données <mark>même après avoir fermé le navigateur</mark> — c'est exactement ce que ton site utilise pour se souvenir de tes flashcards et de ta progression d'un jour à l'autre.</div>
+
+<h3>Un mini-projet pour t'entraîner : un compteur de clics</h3>
+<pre><code>&lt;button id="btn"&gt;Clique !&lt;/button&gt;
+&lt;p id="compteur"&gt;0&lt;/p&gt;
+
+&lt;script&gt;
+let total = 0;
+const btn = document.getElementById("btn");
+const compteur = document.getElementById("compteur");
+
+btn.addEventListener("click", function() {
+    total = total + 1;
+    compteur.textContent = total;
+});
+&lt;/script&gt;</code></pre>
+<p>Ce petit exemple combine déjà les 3 briques : un bouton (HTML), une variable qui garde l'état en mémoire (JS), et l'affichage qui se met à jour (JS modifie le HTML). C'est la base de <strong>tout</strong> bouton interactif d'une vraie appli, y compris de ton propre site.</p>
+
+<h3>Feuille de route réaliste jusqu'à décembre</h3>
+<ol>
+<li><strong>HTML + CSS de base</strong> : balises, sélecteurs, flexbox — savoir construire une page simple et la styliser (2-3 semaines, à ton rythme).</li>
+<li><strong>JavaScript de base</strong> : variables, conditions, boucles, fonctions (déjà vu en Python — la logique se transpose, seule la syntaxe change).</li>
+<li><strong>JavaScript du DOM</strong> : sélectionner des éléments, écouter des clics, modifier la page — ce qui rend un site "vivant".</li>
+<li><strong>Petits projets progressifs</strong> : compteur de clics → liste de tâches (todo-list) avec ajout/suppression → mini flashcard maison avec localStorage. Chaque projet ajoute une brique de plus vers une vraie interface de révision.</li>
+</ol>
+<div class="retenir-box">Le vrai déclic vient toujours des <mark>petits projets</mark>, pas des cours théoriques enchaînés — exactement comme pour Python (voir le chapitre "Science de l'Apprentissage" sur l'effet de génération).</div>`,
+flashcards:[
+{q:'Rôle du HTML, CSS et JavaScript',a:'HTML : structure/contenu. CSS : apparence/mise en page. JavaScript : comportement/interactivité.'},
+{q:'Balise HTML — structure',a:'Une balise ouvrante et une balise fermante entourent le contenu, ex : &lt;p&gt;texte&lt;/p&gt;. L\'attribut id="..." donne un nom unique à un élément.'},
+{q:'Sélecteur CSS #id vs .classe',a:'#id cible un élément unique précis. .classe peut s\'appliquer à plusieurs éléments partageant la même classe.'},
+{q:'Flexbox — utilité',a:'Modèle de mise en page CSS moderne (display: flex) pour aligner et espacer facilement des éléments horizontalement ou verticalement.'},
+{q:'document.getElementById()',a:'Fonction JavaScript qui récupère un élément HTML précis (via son id) pour pouvoir le lire ou le modifier.'},
+{q:'addEventListener("click", ...)',a:'Méthode JavaScript qui exécute une fonction à chaque fois que l\'élément ciblé est cliqué par l\'utilisateur.'},
+{q:'Modifier le texte d\'un élément en JS',a:'element.textContent = "nouveau texte" — remplace le contenu textuel affiché.'},
+{q:'localStorage — utilité',a:'Stocke des données côté navigateur qui persistent même après fermeture — nécessite JSON.stringify() pour sauvegarder un objet/tableau, et JSON.parse() pour le relire.'},
+{q:'Les 3 briques d\'un bouton interactif',a:'Un élément HTML (le bouton), une variable JS qui garde l\'état en mémoire, et une instruction JS qui met à jour l\'affichage après le clic.'},
+{q:'Feuille de route suggérée pour apprendre le front-end',a:'HTML/CSS de base → JavaScript de base (logique) → JavaScript du DOM (interactivité) → petits projets progressifs (compteur → todo-list → mini flashcards maison).'},
+]},
 };

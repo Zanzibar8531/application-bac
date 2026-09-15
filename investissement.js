@@ -187,4 +187,49 @@ flashcards:[
 {q:'Résumé or vs cuivre',a:'L\'or monte quand le monde a peur (valeur refuge). Le cuivre monte quand l\'industrie mondiale (surtout chinoise) va bien (indicateur industriel).'},
 {q:'Pourquoi les matières premières ne sont pas idéales comme base d\'un portefeuille débutant',a:'Elles sont plus volatiles que les indices actions diversifiés et ne versent aucun dividende — à utiliser en petite partie du portefeuille, pas comme base principale.'},
 ]},
+
+'Se lancer concrètement : ouvrir un PEA et choisir ses ETF': {
+cours:`<div class="attention-box">Ce chapitre donne des <mark>informations factuelles</mark> pour comprendre comment investir concrètement — ce n'est pas un conseil personnalisé. Le choix précis d'un ETF et le montant à investir dépendent de ta situation ; en cas de doute, un conseiller financier peut t'orienter.</div>
+
+<h3>Qui peut ouvrir un PEA, et comment</h3>
+<ul>
+<li>Il faut être <strong>majeur</strong> et résident fiscal français. Un seul PEA par personne (deux pour un couple).</li>
+<li>Ça s'ouvre en ligne chez une <mark>banque</mark> ou un <mark>courtier en ligne</mark> (Boursorama, Fortuneo, Trade Republic, Bourse Direct...) — comparer les frais avant de choisir.</li>
+<li>Une fois le compte alimenté (viré depuis ton compte courant), tu peux passer des ordres d'achat d'ETF ou d'actions éligibles PEA (entreprises européennes).</li>
+</ul>
+
+<h3>Choisir un ETF : les critères qui comptent</h3>
+<div class="formula-box">
+<strong>TER</strong> (frais annuels) : plus il est bas, mieux c'est — vise &lt; 0,3%/an pour un ETF large (Monde, S&amp;P 500).<br>
+<strong>Encours (taille du fonds)</strong> : privilégie un ETF avec un encours &gt; 100-500 millions d'euros — plus liquide, moins de risque de fermeture du fonds.<br>
+<strong>Réplication physique</strong> (le fonds détient réellement les actions) vs <strong>synthétique</strong> (via un contrat d'échange/swap avec une banque) — la physique est plus simple à comprendre pour débuter.<br>
+<strong>Éligibilité PEA</strong> : certains ETF américains (S&amp;P 500) sont rendus éligibles au PEA via un montage synthétique, même s'ils ne détiennent pas directement les actions US.
+</div>
+<p>Exemples de tickers connus (à titre d'exemple, pas une recommandation) : <strong>CW8</strong> (Amundi MSCI World, éligible PEA), <strong>PE500</strong> (Amundi S&amp;P 500 UCITS, éligible PEA via swap), <strong>PANX</strong> (Amundi Nasdaq-100, éligible PEA).</p>
+
+<h3>Passer un ordre : les 2 types de base</h3>
+<ul>
+<li><strong>Ordre au marché</strong> : exécuté immédiatement, au prix actuel du marché — simple, mais tu ne contrôles pas le prix exact d'exécution.</li>
+<li><strong>Ordre à cours limité</strong> : tu fixes un prix maximum (achat) ou minimum (vente) ; l'ordre ne s'exécute que si ce prix est atteint — plus de contrôle, mais peut ne jamais s'exécuter si le prix n'est pas atteint.</li>
+</ul>
+<div class="retenir-box">Pour un ETF très liquide (gros encours, beaucoup d'échanges), l'écart entre les deux est souvent minime. L'ordre à cours limité devient utile surtout sur des actifs moins liquides ou volatils.</div>
+
+<h3>Les frais à surveiller</h3>
+<ul>
+<li><strong>Frais de courtage</strong> : commission prélevée à chaque achat/vente (souvent quelques euros ou un %).</li>
+<li><strong>Frais de tenue de compte</strong> : certains PEA en facturent, d'autres non (les courtiers en ligne sont souvent gratuits sur ce point).</li>
+<li><strong>TER de l'ETF</strong> : prélevé automatiquement chaque année, invisible au quotidien mais impacte la performance sur le long terme.</li>
+</ul>
+
+<h3>Un exemple de démarrage simple (illustratif)</h3>
+<p>Beaucoup de débutants commencent avec <mark>un seul ETF Monde</mark> (type MSCI World ou équivalent) en investissement régulier (DCA mensuel), le temps de comprendre le fonctionnement du marché, avant d'envisager de diversifier davantage (Europe, émergents, sectoriel).</p>`,
+flashcards:[
+{q:'Qui peut ouvrir un PEA en France ?',a:'Une personne majeure, résidente fiscale française. Un seul PEA par personne (deux par couple).'},
+{q:'Ordre au marché',a:'Exécuté immédiatement au prix actuel du marché — simple mais sans contrôle précis du prix d\'exécution.'},
+{q:'Ordre à cours limité',a:'Le prix maximum (achat) ou minimum (vente) est fixé par l\'investisseur ; l\'ordre ne s\'exécute que si ce prix est atteint.'},
+{q:'Réplication physique vs synthétique d\'un ETF',a:'Physique : le fonds détient réellement les actions de l\'indice. Synthétique : réplication via un contrat d\'échange (swap) avec une banque, sans détention directe.'},
+{q:'Pourquoi certains ETF américains sont éligibles au PEA malgré la contrainte "actions européennes"',a:'Grâce à une réplication synthétique (swap), qui permet de suivre un indice non-européen tout en respectant la contrainte légale du PEA.'},
+{q:'Critère de taille (encours) à privilégier pour un ETF',a:'Un encours élevé (idéalement &gt; 100-500 millions €) — plus de liquidité, moins de risque que le fonds ferme.'},
+{q:'Frais de courtage vs frais de tenue de compte',a:'Courtage : commission prélevée à chaque ordre d\'achat/vente. Tenue de compte : frais fixes ou annuels pour la gestion du compte lui-même (souvent nuls chez les courtiers en ligne).'},
+]},
 };
