@@ -90,7 +90,7 @@ const CFG = [
 // ── HELPERS ───────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
 const M  = () => $('main');
-function esc(s) { return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
+function esc(s) { return String(s).replace(/\\/g,'\\\\').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,"\\'"); }
 function isDue(c) { return !c.due || Date.now() >= c.due; }
 
 // ── FRISE CHRONOLOGIQUE INTERACTIVE (Histoire-Géo) ──────────────
@@ -256,6 +256,49 @@ function dayTimeTotal(dateKey) {
     return total;
 }
 
+// ── Agrégats pour la page Statistiques ────────────────────────
+function dateKeysRange(nDays) {
+    const keys = [];
+    for(let i = nDays-1; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        keys.push(d.toISOString().slice(0,10));
+    }
+    return keys;
+}
+
+function periodSubjectTotals(nDays) {
+    const log = getTimeLog();
+    const keys = dateKeysRange(nDays);
+    const totals = {}; // subject -> seconds
+    keys.forEach(k => {
+        const day = log[k];
+        if(!day) return;
+        Object.entries(day).forEach(([subj, activities]) => {
+            const sec = Object.values(activities).reduce((s,v)=>s+v, 0);
+            totals[subj] = (totals[subj] || 0) + sec;
+        });
+    });
+    return Object.entries(totals).sort((a,b)=>b[1]-a[1]); // [[subj,sec], ...] trié décroissant
+}
+
+function periodTotal(nDays) {
+    return dateKeysRange(nDays).reduce((s,k) => s + dayTimeTotal(k), 0);
+}
+
+function allTimeTotal() {
+    const log = getTimeLog();
+    return Object.keys(log).reduce((s,k) => s + dayTimeTotal(k), 0);
+}
+
+function heatmapLevel(sec) {
+    if(sec <= 0) return 0;
+    if(sec < 15*60) return 1;
+    if(sec < 30*60) return 2;
+    if(sec < 60*60) return 3;
+    return 4;
+}
+
 function globalStats() {
     let total=0, mastered=0, due=0;
     CFG.forEach(s => { const st = subStats(s.name); total += st.total; mastered += st.mastered; due += st.due; });
@@ -316,6 +359,87 @@ function openDayDetail(dateKey) {
                 </div>
             </div>`;
         }).join('')}
+    `);
+}
+
+// ── PAGE STATISTIQUES ─────────────────────────────────────────
+function openStats() {
+    clearInterval(qTimer);
+    curTrackedPage = null;
+
+    const weekTotal = periodTotal(7);
+    const monthTotal = periodTotal(30);
+    const lifeTotal = allTimeTotal();
+    const weekBySubj = periodSubjectTotals(7);
+
+    // Heatmap des 30 derniers jours, regroupée par semaine (colonnes) x jour (lignes), style GitHub.
+    const days30 = dateKeysRange(30);
+    const firstDow = (new Date(days30[0]).getDay() + 6) % 7; // lundi=0
+    const cells = Array(firstDow).fill(null).concat(days30.map(k => ({ key: k, sec: dayTimeTotal(k) })));
+    while(cells.length % 7 !== 0) cells.push(null);
+    const weeks = [];
+    for(let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i+7));
+
+    const bestSubj = weekBySubj[0];
+
+    render(`
+        <div class="breadcrumb">
+            <button class="bc-btn" onclick="goHome()">🏠 Accueil</button>
+        </div>
+        <div class="page-head">
+            <h1>📊 Statistiques</h1>
+            <p style="color:var(--muted);font-size:.85rem">Ta progression en un coup d'œil</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="ws-box stats-tile">
+                <div class="stats-tile-val">${fmtDuration(weekTotal)}</div>
+                <div class="stats-tile-label">cette semaine</div>
+            </div>
+            <div class="ws-box stats-tile">
+                <div class="stats-tile-val">${fmtDuration(monthTotal)}</div>
+                <div class="stats-tile-label">30 derniers jours</div>
+            </div>
+            <div class="ws-box stats-tile">
+                <div class="stats-tile-val">${fmtDuration(lifeTotal)}</div>
+                <div class="stats-tile-label">depuis le début du suivi</div>
+            </div>
+        </div>
+
+        ${bestSubj ? `<p style="color:var(--muted);font-size:.85rem;margin:4px 0 16px">Cette semaine, ta matière la plus travaillée : <strong style="color:var(--text)">${esc(bestSubj[0])}</strong> (${fmtDuration(bestSubj[1])}).</p>` : ''}
+
+        <div class="ws-box">
+            <h3 style="margin-bottom:14px">Répartition par matière (7 derniers jours)</h3>
+            ${weekBySubj.length === 0 ? `<p style="color:var(--muted);font-size:.85rem">Pas encore de données cette semaine.</p>` : weekBySubj.map(([subj, sec]) => {
+                const cfg = CFG.find(c => c.name === subj);
+                const pct = weekTotal > 0 ? Math.round(sec/weekTotal*100) : 0;
+                return `<div class="day-activity-row" style="margin-bottom:12px">
+                    <div class="day-activity-top">
+                        <span>${cfg ? cfg.icon : '📚'} ${esc(subj)}</span>
+                        <span class="day-activity-time">${fmtDuration(sec)}</span>
+                    </div>
+                    <div class="day-activity-bar"><div class="day-activity-fill" style="width:${pct}%"></div></div>
+                </div>`;
+            }).join('')}
+        </div>
+
+        <div class="ws-box">
+            <h3 style="margin-bottom:14px">Assiduité — 30 derniers jours</h3>
+            <div class="heatmap">
+                ${weeks.map(week => `<div class="heatmap-col">
+                    ${week.map(cell => cell ? `<div class="heatmap-cell lvl${heatmapLevel(cell.sec)}" onclick="openDayDetail('${cell.key}')" title="${new Date(cell.key).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})} — ${cell.sec>0?fmtDuration(cell.sec):'aucune activité'}"></div>` : `<div class="heatmap-cell lvl-empty"></div>`).join('')}
+                </div>`).join('')}
+            </div>
+            <div class="heatmap-legend">
+                <span>Moins</span>
+                <div class="heatmap-cell lvl0"></div>
+                <div class="heatmap-cell lvl1"></div>
+                <div class="heatmap-cell lvl2"></div>
+                <div class="heatmap-cell lvl3"></div>
+                <div class="heatmap-cell lvl4"></div>
+                <span>Plus</span>
+            </div>
+        </div>
     `);
 }
 
@@ -393,6 +517,10 @@ function closeSidebar() {
 
 // ── PAGES ─────────────────────────────────────────────────────
 function render(html) {
+    // Filet de sécurité : si on quitte l'éditeur de cours avec une modif pas
+    // encore autosauvegardée (moins de 1,5s après la dernière frappe), on la
+    // force à s'enregistrer immédiatement avant de changer de page.
+    if(hasUnsavedEdits && $('editor')){ clearTimeout(autosaveTimer); autosaveCoursNow(); }
     M().innerHTML = html;
     M().classList.add('animate');
     setTimeout(()=>{ M().classList.remove('animate'); typesetMath(M()); }, 50);
@@ -494,6 +622,7 @@ function goHome() {
             <div class="dash-week">
                 ${last7DaysActivity().map(d=>`<div class="dash-week-day" onclick="openDayDetail('${d.key}')" title="Voir le détail du ${new Date(d.key).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}"><div class="dash-week-bar ${d.active?'active':''}"></div><div class="dash-week-label">${d.label}</div></div>`).join('')}
             </div>
+            <button class="stats-link-btn" onclick="openStats()">📊 Voir mes statistiques</button>
         </div>
         ${gs.due>0?`<button class="daily-review-btn" onclick="startDailyReview()">🌅 Révision du jour — ${gs.due} carte${gs.due>1?'s':''} à revoir${urgentEvals.length>0?`, priorité ${urgentEvals[0].subject}`:', toutes matières'}</button>`:''}
         <button class="bc-btn" id="notif-btn" onclick="askNotifPermission()" style="margin-bottom:10px;width:100%;text-align:center">🔕 Activer les rappels</button>
@@ -509,7 +638,7 @@ function goHome() {
                 else if(st.due>0) badge=`<span class="badge badge-due">📚 ${st.due} à réviser</span>`;
                 else badge='<span class="badge badge-ok">✓ À jour</span>';
                 return `
-                <div class="scard scard-${s.cls}" onclick="goSubject('${s.name}')">
+                <div class="scard scard-${s.cls}" onclick="goSubject('${esc(s.name)}')">
                     <div class="scard-icon">${s.icon}</div>
                     <h3>${s.name}</h3>
                     ${st.total>0?`
@@ -714,6 +843,7 @@ function renderTabContent() {
     }
     else if(curTab==='edit') {
         box.innerHTML = `
+            <div class="editor-toolbar-sticky">
             <div class="edt-tabs">
                 <button class="edt-tab active" onclick="switchEditTab(this,'texte')">✏️ Texte</button>
                 <button class="edt-tab" onclick="switchEditTab(this,'maths')">🧮 Maths</button>
@@ -728,21 +858,24 @@ function renderTabContent() {
                 <button onclick="fmt('justifyCenter')" title="Centrer">≡</button>
                 <button onclick="fmt('justifyRight')" title="Aligner à droite">⇥</button>
                 <span class="etb-sep"></span>
-                <select onchange="fmt('fontSize',this.value);this.value='3'">
-                    <option value="3">Normal</option>
-                    <option value="5">Grand</option>
-                    <option value="7">Très grand</option>
+                <select onchange="applyFontSize(this.value);this.selectedIndex=0" title="Taille du texte">
+                    <option value="" disabled selected>Taille</option>
+                    <option value="12">12</option>
+                    <option value="14">14</option>
+                    <option value="16">16 (normal)</option>
+                    <option value="18">18</option>
+                    <option value="20">20</option>
+                    <option value="24">24</option>
+                    <option value="32">32</option>
+                    <option value="40">40</option>
                 </select>
-                <select onchange="fmt('foreColor',this.value);this.selectedIndex=0">
-                    <option value="">Couleur</option>
-                    <option value="#0e1525">Noir</option>
-                    <option value="#1d4ed8">Bleu</option>
-                    <option value="#dc2626">Rouge</option>
-                    <option value="#059669">Vert</option>
-                </select>
-                <div class="hl-row">
+                <div class="hl-row" title="Couleur du texte">
+                    <span class="tc-icon">A</span>
+                    <input type="color" id="tcc" value="#0e1525" onchange="fmt('foreColor',this.value)">
+                </div>
+                <div class="hl-row" title="Surligner">
                     <input type="color" id="hlc" value="#fef08a">
-                    <button class="hl-hl" onclick="applyHL()">🖍️ HL</button>
+                    <button class="hl-hl" onclick="applyHL()">🖍️</button>
                 </div>
             </div>
             <div class="editor-toolbar edt-panel" data-panel="maths" style="display:none">
@@ -768,11 +901,26 @@ function renderTabContent() {
             <div class="editor-toolbar edt-panel" data-panel="insert" style="display:none">
                 <button onclick="insertTable()" title="Insérer un tableau">▦ Tableau</button>
                 <button onclick="openGraphTool()" title="Tracer et insérer un graphique de fonction">📈 Graphique</button>
+                <span class="etb-sep"></span>
+                <button onclick="insertColorBox('formula-box')" title="Encadré bleu — formule/point clé">🔷 Encadré formule</button>
+                <button onclick="insertColorBox('retenir-box')" title="Encadré jaune — à retenir">⭐ À retenir</button>
+                <button onclick="insertColorBox('attention-box')" title="Encadré rouge — attention/piège">⚠️ Attention</button>
+                <span class="etb-sep"></span>
+                <button onclick="insertTermTooltip()" title="Sélectionne un mot/groupe de mots puis clique ici pour ajouter une explication au clic">💬 Terme expliqué</button>
+            </div>
             </div>
             <div id="editor" contenteditable="true" class="editor-area">${data.cours||''}</div>
             <button class="btn-save" id="sbtn" onclick="saveCours()">💾 Enregistrer</button>
+            <div class="editor-scroll-nav">
+                <button class="esn-arrow" onclick="scrollEditorTo('top')" title="Remonter en haut">⌃</button>
+                <div class="esn-track" id="esn-track"><div class="esn-thumb" id="esn-thumb"></div></div>
+                <button class="esn-arrow" onclick="scrollEditorTo('bottom')" title="Descendre en bas">⌄</button>
+            </div>
         `;
+        initScrollSidebar();
         setTimeout(trackEditorSelection, 50);
+        const edEl = $('editor');
+        if(edEl) edEl.addEventListener('input', scheduleAutosaveCours);
     }
     else if(curTab==='voc') {
         const cards = data.flashcards||[];
@@ -950,6 +1098,113 @@ function insertFraction() {
         '<span class="frac"><span class="frac-num">a</span><span class="frac-den">b</span></span>&nbsp;');
 }
 
+function applyFontSize(px) {
+    if(!px) return;
+    const ed = $('editor'); if(!ed) return;
+    restoreEditorSelection();
+    const selected = getSelectedHTML();
+    if(!selected.trim()){
+        showToast('Sélectionne d\'abord le texte à redimensionner', 'warn');
+        return;
+    }
+    document.execCommand('insertHTML', false, `<span style="font-size:${px}px">${selected}</span>`);
+}
+
+// ── ENCADRÉS COLORÉS & TERME EXPLIQUÉ (barre "Insérer") ────────
+function getSelectedHTML() {
+    if(!savedEditorRange) return '';
+    const div = document.createElement('div');
+    div.appendChild(savedEditorRange.cloneContents());
+    return div.innerHTML;
+}
+
+function insertColorBox(cls) {
+    const ed = $('editor'); if(!ed) return;
+    restoreEditorSelection();
+    const selected = getSelectedHTML();
+    const inner = selected.trim() ? selected : 'Ton texte ici…';
+    document.execCommand('insertHTML', false, `<div class="${cls}">${inner}</div><p><br></p>`);
+}
+
+function insertTermTooltip() {
+    const ed = $('editor'); if(!ed) return;
+    restoreEditorSelection();
+    const selected = getSelectedHTML();
+    if(!selected.trim()){
+        showToast('Sélectionne d\'abord le mot ou groupe de mots à expliquer', 'warn');
+        return;
+    }
+    customPrompt({
+        icon:'💬', title:'Explication au clic',
+        placeholder:'Ex : figure de style qui répète un mot en début de phrase pour insister',
+        confirmLabel:'Ajouter',
+        onConfirm:(txt)=>{
+            if(!txt) return;
+            restoreEditorSelection();
+            document.execCommand('insertHTML', false,
+                `<span class="fig fig-note" title="${esc(txt)}">${selected}</span>`);
+        }
+    });
+}
+
+function scrollEditorTo(pos) {
+    if(pos==='top') window.scrollTo({top:0, behavior:'smooth'});
+    else window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'});
+}
+
+// ── BARRE LATÉRALE DE DÉFILEMENT (façon Google Docs) ──────────
+// Une piste verticale avec un curseur qui reflète la position de lecture,
+// cliquable/glissable pour sauter directement à un endroit du cours.
+let scrollSidebarBound = false;
+let esnDragging = false;
+
+function docScrollableHeight() {
+    return Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+}
+
+function updateScrollThumb() {
+    const track = $('esn-track'), thumb = $('esn-thumb');
+    if(!track || !thumb) return;
+    const trackH = track.clientHeight;
+    const viewportRatio = Math.min(1, window.innerHeight / document.documentElement.scrollHeight);
+    const thumbH = Math.max(24, trackH * viewportRatio);
+    const ratio = window.scrollY / docScrollableHeight();
+    const maxTop = trackH - thumbH;
+    thumb.style.height = thumbH + 'px';
+    thumb.style.top = Math.min(maxTop, Math.max(0, ratio * maxTop)) + 'px';
+}
+
+function scrollToRatio(clientY) {
+    const track = $('esn-track'), thumb = $('esn-thumb');
+    if(!track || !thumb) return;
+    const rect = track.getBoundingClientRect();
+    const thumbH = thumb.clientHeight;
+    const y = clientY - rect.top - thumbH/2;
+    const ratio = Math.min(1, Math.max(0, y / (track.clientHeight - thumbH)));
+    window.scrollTo({top: ratio * docScrollableHeight()});
+}
+
+function initScrollSidebar() {
+    updateScrollThumb();
+    if(scrollSidebarBound) return;
+    scrollSidebarBound = true;
+    window.addEventListener('scroll', () => { if(!esnDragging) updateScrollThumb(); }, {passive:true});
+    window.addEventListener('resize', updateScrollThumb);
+    document.addEventListener('pointerdown', e => {
+        const track = $('esn-track'); if(!track) return;
+        const thumb = $('esn-thumb');
+        if(e.target === thumb || e.target === track){
+            esnDragging = true;
+            scrollToRatio(e.clientY);
+            e.preventDefault();
+        }
+    });
+    document.addEventListener('pointermove', e => {
+        if(esnDragging){ scrollToRatio(e.clientY); updateScrollThumb(); }
+    });
+    document.addEventListener('pointerup', () => { esnDragging = false; });
+}
+
 function insertTable() {
     const ed = $('editor'); if(!ed) return;
     let rows = parseInt(prompt('Nombre de lignes ?', '3'), 10);
@@ -1102,12 +1357,50 @@ function insertGraph() {
 
 function saveCours(){
     const ed=$('editor'); if(!ed)return;
+    clearTimeout(autosaveTimer);
     db[curSubject][curChapter].cours=ed.innerHTML;
     db[curSubject][curChapter].userEdited=true; // empêche l'écrasement par PREBUILT au prochain chargement
     save();
+    hasUnsavedEdits=false;
     const b=$('sbtn'); b.textContent='✅ Enregistré !'; b.classList.add('saved');
     setTimeout(()=>{if(b){b.textContent='💾 Enregistrer';b.classList.remove('saved');}},2000);
 }
+
+// ── AUTOSAVE de l'éditeur de cours ────────────────────────────
+// Se déclenche 1,5s après la dernière frappe (débounce), pour ne jamais perdre
+// une modification si l'élève quitte la page sans cliquer sur "Enregistrer".
+let autosaveTimer = null;
+let hasUnsavedEdits = false;
+
+function scheduleAutosaveCours(){
+    hasUnsavedEdits = true;
+    const b=$('sbtn'); if(b){ b.textContent='✏️ Modification en cours…'; b.classList.remove('saved'); }
+    clearTimeout(autosaveTimer);
+    autosaveTimer = setTimeout(autosaveCoursNow, 1500);
+}
+
+function autosaveCoursNow(){
+    const ed=$('editor'); if(!ed || !curSubject || !curChapter) return;
+    db[curSubject][curChapter].cours = ed.innerHTML;
+    db[curSubject][curChapter].userEdited = true;
+    save();
+    hasUnsavedEdits = false;
+    const b=$('sbtn');
+    if(b){
+        b.textContent='✅ Enregistré automatiquement';
+        b.classList.add('saved');
+        setTimeout(()=>{ if(b && !hasUnsavedEdits){ b.textContent='💾 Enregistrer'; b.classList.remove('saved'); } }, 2000);
+    }
+}
+
+// Filet de sécurité supplémentaire : avertit le navigateur si jamais l'élève
+// ferme l'onglet/l'app dans la toute petite fenêtre avant que l'autosave se déclenche.
+window.addEventListener('beforeunload', (e) => {
+    if(hasUnsavedEdits){
+        e.preventDefault();
+        e.returnValue = '';
+    }
+});
 
 function delVoc(i){
     customConfirm({
@@ -1399,39 +1692,60 @@ function levenshteinDistance(a, b) {
     return dp[m][n];
 }
 
+// Petits mots à ignorer pour la comparaison par mots-clés (articles, prépositions, connecteurs).
+const STOPWORDS_FR = new Set(['le','la','les','un','une','des','de','du','au','aux','et','ou','à','en','qui','que','qu','ce','ces','cette','cet','son','sa','ses','pour','par','sur','dans','avec','sans','plus','moins','est','sont','être','avoir','on','il','elle','ils','elles','se','sa','ne','pas','vers','entre','comme','donc','ainsi','ça','cela','tout','tous','toute','toutes','pu','peut','peuvent']);
+
+function keywordsOf(s) {
+    return normalizeAnswer(s)
+        .split(/[^a-z0-9]+/)
+        .filter(w => w.length > 2 && !STOPWORDS_FR.has(w));
+}
+
+// Compare la réponse tapée à la réponse de référence sur 3 niveaux, plutôt qu'un simple
+// oui/non : 'exact' (quasi identique), 'partial' (mots-clés en commun, probablement juste
+// une reformulation), 'different' (rien de concluant — l'élève juge lui-même).
+function smartMatch(userAnsRaw, correctRaw) {
+    const userAns = normalizeAnswer(userAnsRaw);
+    const correct = normalizeAnswer(correctRaw);
+    if (userAns === '') return 'empty';
+    if (userAns === correct) return 'exact';
+    const tolerance = Math.max(2, Math.round(correct.length * 0.12));
+    if (levenshteinDistance(userAns, correct) <= tolerance) return 'exact';
+
+    const correctKw = keywordsOf(correctRaw);
+    const userKw = new Set(keywordsOf(userAnsRaw));
+    if (correctKw.length === 0) return 'different';
+    const matched = correctKw.filter(w => userKw.has(w)).length;
+    const ratio = matched / correctKw.length;
+    if (ratio >= 0.5) return 'partial';
+    return 'different';
+}
+
 function revealSRS(skip){
     skip=skip||false;
     if(srsFlipped)return;
     srsFlipped=true;
     const el=$('srs-ans');
     const userAnsRaw=el?el.value.trim():'';
-    const userAns=normalizeAnswer(userAnsRaw);
-    const correct=normalizeAnswer(srsCur.card.a);
-    let isRight=false;
-    if(!skip && userAns!==''){
-        if(userAns===correct) isRight=true;
-        else {
-            // Tolérance proportionnelle à la longueur (fautes de frappe, petites variantes)
-            const tolerance=Math.max(2, Math.round(correct.length*0.12));
-            if(levenshteinDistance(userAns, correct)<=tolerance) isRight=true;
-        }
-    }
+    const match = skip ? 'skip' : smartMatch(userAnsRaw, srsCur.card.a);
     sessStats.seen++;
-    if(isRight)sessStats.right++;
-    else if(!skip)sessStats.wrong++;
     const fc=$('fc3d');if(fc)fc.classList.add('flipped');
     const iz=$('input-zone');if(iz)iz.style.display='none';
     const fz=$('fb-zone');
     if(fz){
         fz.style.display='block';
-        if(skip)fz.innerHTML=`<div class="srs-fb fb-skip"><span class="fb-icon">⏭️</span><span>Passé — voici la réponse</span></div>`;
-        else if(isRight)fz.innerHTML=`<div class="srs-fb fb-right"><span class="fb-icon">✅</span><span>Correct !</span></div>`;
-        else fz.innerHTML=`<div class="srs-fb fb-wrong"><span class="fb-icon">❌</span><div><div>Ta réponse : <b>${userAnsRaw||'—'}</b></div><div style="margin-top:3px">Bonne réponse : <b>${srsCur.card.a}</b></div></div></div>`;
+        if(match==='skip')fz.innerHTML=`<div class="srs-fb fb-skip"><span class="fb-icon">⏭️</span><span>Passé — voici la réponse</span></div>`;
+        else if(match==='exact')fz.innerHTML=`<div class="srs-fb fb-right"><span class="fb-icon">✅</span><span>Réponse quasi identique !</span></div>`;
+        else if(match==='partial')fz.innerHTML=`<div class="srs-fb fb-partial"><span class="fb-icon">🤔</span><div><div>Formulation différente, mais tu sembles avoir les bons éléments — <strong>compare et juge toi-même</strong> :</div><div style="margin-top:6px">Ta réponse : <b>${userAnsRaw||'—'}</b></div><div style="margin-top:3px">Réponse de référence : <b>${srsCur.card.a}</b></div></div></div>`;
+        else fz.innerHTML=`<div class="srs-fb fb-wrong"><span class="fb-icon">📖</span><div><div>Compare ta réponse à celle de référence, et <strong>juge toi-même</strong> si le fond y est :</div><div style="margin-top:6px">Ta réponse : <b>${userAnsRaw||'—'}</b></div><div style="margin-top:3px">Réponse de référence : <b>${srsCur.card.a}</b></div></div></div>`;
         typesetMath(fz); // la réponse peut contenir du LaTeX ($...$) — sans ça, elle s'affichait en brut
     }
     const rr=$('rating-row');if(rr)rr.style.display='grid';
-    if(isRight){const g=document.querySelector('.r-btn.r-good');if(g)g.focus();}
-    else{const a=document.querySelector('.r-btn.r-again');if(a)a.focus();}
+    // On ne pré-sélectionne un bouton que dans les cas sans ambiguïté (match exact ou carte
+    // passée) — dans tous les autres cas, c'est à l'élève de choisir sa note en toute honnêteté,
+    // sans suggestion biaisée de l'app.
+    if(match==='exact'){const g=document.querySelector('.r-btn.r-good');if(g)g.focus();}
+    else if(match==='skip'){const a=document.querySelector('.r-btn.r-again');if(a)a.focus();}
 }
 
 function rateSRS(r){
@@ -1747,9 +2061,16 @@ function setupFigTooltips(el) {
         // Évite de ré-attacher l'écouteur si on re-render la même zone
         if (span.dataset.figBound) return;
         span.dataset.figBound = '1';
+        // Sur mobile, un appui long sur un élément avec l'attribut title[]
+        // déclenche la bulle native du navigateur EN PLUS de notre popup —
+        // elles se superposent et donnent l'impression que le texte "double".
+        // On déplace donc l'explication dans data-tip et on retire title.
+        const txt = span.getAttribute('title');
+        span.dataset.tip = txt;
+        span.removeAttribute('title');
         span.addEventListener('click', e => {
             e.stopPropagation();
-            showFigPopup(span, span.getAttribute('title'));
+            showFigPopup(span, span.dataset.tip);
         });
     });
 }
@@ -1769,7 +2090,7 @@ function showFigPopup(target, text) {
         'fig-chute':'Chute','fig-hyperbole':'Hyperbole',
         'fig-antiphrase':'Antiphrase','fig-pleonasme':'Pléonasme',
         'fig-these':'Thèse','fig-concession':'Concession',
-        'fig-relativisme':'Relativisme'
+        'fig-relativisme':'Relativisme','fig-note':'Note'
     };
     const label = figNames[figClass] || figClass.replace('fig-','');
 
@@ -1794,6 +2115,7 @@ function showFigPopup(target, text) {
         'fig-these':       {bg:'#bae6fd',fg:'#0c4a6e'},
         'fig-concession':  {bg:'#fbcfe8',fg:'#831843'},
         'fig-relativisme': {bg:'#fef08a',fg:'#713f12'},
+        'fig-note':        {bg:'#e2e8f0',fg:'#1e293b'},
     };
     const bc = badgeColors[figClass] || {bg:'#e2e8f0',fg:'#1e293b'};
 
@@ -2488,6 +2810,7 @@ function updateSyncStatusBadge() {
         .cours-body .fig-these,        .texte-annote .fig-these        { background:#bae6fd !important; color:#0c4a6e !important; -webkit-text-fill-color:#0c4a6e !important; border-bottom-color:#0ea5e9 !important; }
         .cours-body .fig-concession,   .texte-annote .fig-concession   { background:#fbcfe8 !important; color:#831843 !important; -webkit-text-fill-color:#831843 !important; border-bottom-color:#ec4899 !important; }
         .cours-body .fig-relativisme,  .texte-annote .fig-relativisme  { background:#fef08a !important; color:#713f12 !important; -webkit-text-fill-color:#713f12 !important; border-bottom-color:#ca8a04 !important; }
+        .cours-body .fig-note,         .texte-annote .fig-note         { background:#e2e8f0 !important; color:#1e293b !important; -webkit-text-fill-color:#1e293b !important; border-bottom-color:#64748b !important; }
     `;
     document.head.appendChild(s);
 })();

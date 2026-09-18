@@ -62,6 +62,28 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .day-activity-time{color:var(--muted);font-weight:600;}
 .day-activity-bar{height:6px;border-radius:4px;background:var(--border);overflow:hidden;}
 .day-activity-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#4f46e5,#7c3aed);}
+
+/* ── Bouton "Voir mes statistiques" sur l'accueil ── */
+.stats-link-btn{width:100%;margin-top:10px;padding:10px;border:none;border-radius:10px;background:var(--border);color:var(--text);font-weight:700;font-size:.82rem;cursor:pointer;transition:background .15s;}
+.stats-link-btn:hover{background:#4f46e5;color:#fff;}
+
+/* ── Page Statistiques ── */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.stats-tile{text-align:center;padding:16px 8px;}
+.stats-tile-val{font-family:'Sora',sans-serif;font-weight:800;font-size:1.15rem;color:#4f46e5;}
+.stats-tile-label{font-size:.68rem;color:var(--muted);font-weight:600;text-transform:uppercase;margin-top:4px;}
+
+.heatmap{display:flex;gap:3px;overflow-x:auto;padding-bottom:4px;}
+.heatmap-col{display:flex;flex-direction:column;gap:3px;}
+.heatmap-cell{width:12px;height:12px;border-radius:3px;cursor:pointer;}
+.heatmap-cell.lvl-empty{background:transparent;cursor:default;}
+.heatmap-cell.lvl0{background:var(--border);cursor:default;}
+.heatmap-cell.lvl1{background:#c7d2fe;}
+.heatmap-cell.lvl2{background:#a5b4fc;}
+.heatmap-cell.lvl3{background:#818cf8;}
+.heatmap-cell.lvl4{background:#4f46e5;}
+.heatmap-legend{display:flex;align-items:center;gap:4px;margin-top:10px;font-size:.68rem;color:var(--muted);}
+.heatmap-legend .heatmap-cell{cursor:default;}
 .daily-review-btn{display:block;width:100%;padding:14px;margin-bottom:16px;border:none;border-radius:var(--r);background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;font-weight:700;font-size:.9rem;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 16px rgba(79,70,229,.3);transition:transform .15s;}
 .daily-review-btn:hover{transform:translateY(-2px);}
 .sync-banner{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;margin-top:18px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);cursor:pointer;font-size:.85rem;font-weight:600;transition:all .15s;}
@@ -155,10 +177,23 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .editor-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:5px;padding-bottom:11px;margin-bottom:11px;border-bottom:1px solid var(--border);}
 .editor-toolbar button,.editor-toolbar select{padding:6px 10px;border:1.5px solid var(--border);border-radius:7px;background:var(--bg);cursor:pointer;font-size:.78rem;font-weight:600;font-family:'DM Sans',sans-serif;transition:all .15s;}
 .editor-toolbar button:hover{background:var(--text);color:#fff;border-color:var(--text);}
+
+/* Barre d'outils de l'éditeur : reste visible en haut de l'écran pendant
+   qu'on écrit un long cours, juste sous la barre d'appli (60px, sticky). */
+.editor-toolbar-sticky{position:sticky;top:60px;z-index:90;background:var(--card);padding-top:4px;margin:0 -4px 11px;padding:10px 4px 0;}
+
+/* Boutons flottants haut/bas, toujours accessibles pendant la rédaction. */
+.editor-scroll-nav{position:fixed;right:10px;top:50%;transform:translateY(-50%);z-index:80;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.esn-arrow{width:30px;height:26px;border-radius:8px;border:none;background:var(--card);box-shadow:0 2px 10px rgba(0,0,0,.15);font-size:.9rem;cursor:pointer;color:var(--muted);}
+.esn-arrow:hover{background:#4f46e5;color:#fff;}
+.esn-track{width:6px;height:180px;background:var(--border);border-radius:4px;position:relative;cursor:pointer;}
+.esn-thumb{position:absolute;left:-4px;width:14px;border-radius:7px;background:#4f46e5;cursor:grab;box-shadow:0 2px 6px rgba(79,70,229,.4);touch-action:none;}
+.esn-thumb:active{cursor:grabbing;}
 .etb-sep{width:1.5px;align-self:stretch;background:var(--border);margin:0 2px;}
 .hl-row{display:flex;align-items:center;gap:3px;border:1.5px solid var(--border);border-radius:7px;padding:3px 7px;background:var(--bg);}
 .hl-row input[type="color"]{width:24px;height:22px;border:none;background:none;cursor:pointer;}
 .hl-hl{border:none !important;background:none !important;font-size:.76rem;padding:2px 4px !important;}
+.tc-icon{font-family:'Sora',sans-serif;font-weight:800;font-size:.85rem;color:var(--text);}
 .editor-area{min-height:340px;padding:16px;border:2px dashed var(--border);border-radius:var(--rs);outline:none;font-size:.93rem;line-height:1.75;background:#fafcff;}
 .editor-area:focus{border-color:var(--accent);}
 
@@ -282,7 +317,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
 .srs-fb{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:var(--rs);font-weight:600;font-size:.87rem;margin:9px 0;}
 .fb-right{background:#dcfce7;color:#14532d;}
-.fb-wrong{background:#fee2e2;color:#7f1d1d;}
+.fb-partial{background:#fef3c7;color:#78350f;}
+.fb-wrong{background:#e0e7ff;color:#312e81;}
 .fb-skip{background:#fef9c3;color:#713f12;}
 .fb-icon{font-size:1.2rem;flex-shrink:0;}
 
@@ -1279,6 +1315,8 @@ html[data-theme="dark"] input[type="date"]{color-scheme:dark;}
                     border-radius:6px; padding:3px 9px; font-weight:700; }
 .fig-relativisme  { background:#fef08a; border-bottom-color:#ca8a04;
                     color:#713f12 !important; -webkit-text-fill-color:#713f12 !important; }
+.fig-note         { background:#e2e8f0; border-bottom-color:#64748b;
+                    color:#1e293b !important; -webkit-text-fill-color:#1e293b !important; }
 .fig-these        { background:#bae6fd; border-bottom-color:#0ea5e9;
                     color:#0c4a6e !important; -webkit-text-fill-color:#0c4a6e !important; }
 .fig-concession   { background:#fbcfe8; border-bottom-color:#ec4899;

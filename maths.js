@@ -18,6 +18,22 @@ cours:`<h3>Qu'est-ce qu'une fonction ?</h3>
 <li>Une <strong>racine carrée</strong> : l'expression sous la racine doit être positive ou nulle.</li>
 </ul>
 
+<h3>Taux de variation (accroissement moyen)</h3>
+<div class="formula-box">Taux de variation de $f$ entre $a$ et $b$ (avec $a \\neq b$) : $\\tau = \\dfrac{f(b)-f(a)}{b-a}$</div>
+<p>Il mesure de combien $f(x)$ varie <mark>en moyenne</mark> pour chaque unité de $x$, entre les points d'abscisses $a$ et $b$. Géométriquement, c'est exactement le <strong>coefficient directeur (la pente) de la sécante</strong> — la droite qui relie les deux points $A(a;f(a))$ et $B(b;f(b))$ de la courbe.</p>
+<div class="retenir-box">Le signe du taux de variation donne directement le sens de variation <em>entre ces deux points précis</em> : <mark>positif</mark> → f augmente globalement entre a et b ; <mark>négatif</mark> → f diminue globalement entre a et b. Sans même calculer sa valeur exacte, on peut souvent donner son signe si on connaît déjà le tableau de variations de f sur cet intervalle.</div>
+<div class="attention-box">Ne confonds pas avec le <em>nombre dérivé</em> (vu en dérivation) : le taux de variation se calcule entre deux points <strong>distincts</strong> (a et b), c'est une moyenne sur tout un intervalle. Le nombre dérivé f'(a) est la limite de ce taux quand b se rapproche infiniment près de a — c'est une variation <em>instantanée</em>, en un seul point.</div>
+<p>Dans un contexte concret (économie, physique...), le taux de variation s'interprète toujours avec les unités du problème : par exemple, si f(x) est un bénéfice en euros en fonction de x articles vendus, le taux de variation entre 20 et 25 articles s'interprète comme "le bénéfice augmente en moyenne de [valeur] € par article vendu, entre 20 et 25 articles".</p>
+
+<h3>Tableau de signes (méthode générale)</h3>
+<p>Pour étudier le signe d'un produit ou d'un quotient d'expressions (par exemple $(5x-2)(-3x+1)$ ou $\\dfrac{-4x+5}{5x-3}$), la méthode est toujours la même :</p>
+<ol>
+<li>Étudier le signe de <strong>chaque facteur séparément</strong> (chacun est une simple expression affine $ax+b$, positive après sa racine si $a>0$, négative avant).</li>
+<li>Reporter tous les signes dans un <strong>même tableau</strong>, aligné sur les mêmes valeurs de x (dans l'ordre croissant).</li>
+<li><strong>Multiplier les signes</strong> colonne par colonne (règle des signes : + × + = + ; − × − = + ; + × − = −).</li>
+</ol>
+<div class="attention-box">Pour un <mark>quotient</mark>, la méthode est identique, mais il faut en plus exclure la valeur qui annule le <strong>dénominateur</strong> (le quotient n'est jamais défini à cet endroit — on met une double barre dans le tableau, jamais un simple 0).</div>
+
 <h3>Courbe représentative</h3>
 <p>La courbe représentative $C_f$ d'une fonction $f$ dans un repère est l'ensemble des points de coordonnées $(x ; f(x))$. Lire graphiquement $f(a)$ = lire l'ordonnée du point de la courbe d'abscisse $a$.</p>
 
@@ -43,6 +59,9 @@ exercices:[
 {niveau:'Facile', enonce:`<p>Soit $f(x) = 2x - 3$. Calcule $f(4)$, puis détermine si 5 est l'image de 4 par f.</p>`, aide:`Remplace x par 4 dans l'expression de f(x), puis compare le résultat à 5.`, correction:`<p>$f(4) = 2 \\times 4 - 3 = 8 - 3 = 5$</p><p>Oui, <strong>5 est bien l'image de 4</strong> par f, puisque $f(4) = 5$.</p>`},
 {niveau:'Moyen', enonce:`<p>Détermine l'ensemble de définition de la fonction $f(x) = \\dfrac{1}{x-3}$.</p>`, aide:`Le dénominateur ne doit jamais être égal à 0. Résous x-3=0 pour trouver la valeur interdite.`, correction:`<p>Le dénominateur $x-3$ doit être différent de 0 : $x - 3 \\neq 0 \\Leftrightarrow x \\neq 3$</p><p>Ensemble de définition : $D_f = \\mathbb{R} \\setminus \\{3\\}$, soit $]-\\infty;3[ \\cup ]3;+\\infty[$</p>`},
 {niveau:'Difficile', enonce:`<p>Soit $f(x) = \\sqrt{5-2x}$. Détermine l'ensemble de définition de f, puis calcule $f(-2)$.</p>`, aide:`L'expression sous la racine doit être positive ou nulle. Résous l'inéquation 5-2x ≥ 0.`, correction:`<p>Il faut $5 - 2x \\geq 0 \\Leftrightarrow -2x \\geq -5 \\Leftrightarrow x \\leq \\frac{5}{2}$ (on divise par un nombre négatif, donc le sens de l'inégalité s'inverse).</p><p>$D_f = ]-\\infty ; \\frac{5}{2}]$</p><p>$f(-2) = \\sqrt{5-2\\times(-2)} = \\sqrt{5+4} = \\sqrt{9} = 3$</p>`},
+{niveau:'Facile', enonce:`<p>Soit $f(x) = x^2$. Calcule le taux de variation de f entre 2 et 5.</p>`, aide:`Utilise directement la formule τ = (f(b)-f(a))/(b-a) avec a=2 et b=5.`, correction:`<p>$f(2) = 4$ et $f(5) = 25$.</p><p>$\\tau = \\dfrac{f(5)-f(2)}{5-2} = \\dfrac{25-4}{3} = \\dfrac{21}{3} = 7$</p><p>En moyenne, f augmente de 7 unités par unité de x, entre 2 et 5.</p>`},
+{niveau:'Moyen', enonce:`<p>Une entreprise modélise son bénéfice (en centaines d'euros) par $f(x) = -2x^2+90x-400$ pour $x$ articles vendus. Calcule le taux de variation de f entre 4 et 9, puis interprète le résultat dans le contexte de l'énoncé.</p>`, aide:`Calcule d'abord f(4) et f(9), puis applique la formule du taux de variation. Pour l'interprétation, pense aux unités : centaines d'euros par article vendu.`, correction:`<p>$f(4) = -2(16)+90(4)-400 = -32+360-400 = -72$</p><p>$f(9) = -2(81)+90(9)-400 = -162+810-400 = 248$</p><p>$\\tau = \\dfrac{248-(-72)}{9-4} = \\dfrac{320}{5} = 64$</p><p><strong>Interprétation</strong> : entre 4 et 9 articles vendus, le bénéfice augmente en moyenne de 64 centaines d'euros (soit 6400€) par article vendu supplémentaire.</p>`},
+{niveau:'Difficile', enonce:`<p>Résous l'inéquation $(5x-2)(-3x+1) > 0$ à l'aide d'un tableau de signes.</p>`, aide:`Étudie séparément le signe de chaque facteur (5x-2) et (-3x+1), trouve leur racine respective, place-les dans l'ordre croissant sur une même ligne, puis multiplie les signes colonne par colonne.`, correction:`<p><strong>Facteur 1</strong> : $5x-2=0 \\Leftrightarrow x=\\frac{2}{5}$. Positif après $\\frac{2}{5}$ (car a=5>0), négatif avant.</p><p><strong>Facteur 2</strong> : $-3x+1=0 \\Leftrightarrow x=\\frac{1}{3}$. Négatif après $\\frac{1}{3}$ (car a=-3<0), positif avant.</p><p>Dans l'ordre croissant : $\\frac{1}{3} < \\frac{2}{5}$. En multipliant les signes sur chaque intervalle ($]-\\infty;\\frac{1}{3}[$, $]\\frac{1}{3};\\frac{2}{5}[$, $]\\frac{2}{5};+\\infty[$) : négatif, positif, négatif.</p><p>Solution de $(5x-2)(-3x+1)>0$ : $x \\in \\left]\\dfrac{1}{3};\\dfrac{2}{5}\\right[$</p>`},
 ],
 flashcards:[
 {q:'Image et antécédent — différence',a:'Si y=f(x), y est l\'image de x (une seule possible), x est un antécédent de y (il peut y en avoir plusieurs).'},
@@ -55,6 +74,11 @@ flashcards:[
 {q:'Fonction inverse — ensemble de définition et variations',a:'Définie sur ℝ* (x≠0). Décroissante sur ]-∞;0[ et décroissante sur ]0;+∞[ séparément (pas globalement sur ℝ*).'},
 {q:'Lire f(a) graphiquement',a:'C\'est l\'ordonnée du point de la courbe représentative dont l\'abscisse est a.'},
 {q:'Résoudre f(x)=k graphiquement',a:'Chercher les abscisses des points d\'intersection entre la courbe de f et la droite horizontale y=k.'},
+{q:'Formule du taux de variation de f entre a et b',a:'τ = (f(b)-f(a))/(b-a)'},
+{q:'Interprétation géométrique du taux de variation',a:'C\'est le coefficient directeur (la pente) de la sécante qui relie les points A(a;f(a)) et B(b;f(b)) de la courbe.'},
+{q:'Différence entre taux de variation et nombre dérivé',a:'Le taux de variation se calcule entre deux points distincts (variation moyenne sur un intervalle). Le nombre dérivé est sa limite quand les deux points se rapprochent infiniment (variation instantanée en un seul point).'},
+{q:'Méthode générale pour un tableau de signes (produit ou quotient)',a:'Étudier le signe de chaque facteur séparément, les reporter dans un même tableau aligné, puis multiplier les signes colonne par colonne.'},
+{q:'Tableau de signes d\'un quotient — piège à ne pas oublier',a:'Exclure la valeur qui annule le dénominateur (double barre dans le tableau, jamais un simple 0) — le quotient n\'y est pas défini.'},
 ]},
 
 'Second degré': {
@@ -155,6 +179,11 @@ flashcards:[
 
 'Trigonométrie': {
 cours:`<h3>Trigonométrie & Cercle trigonométrique</h3>
+<h3>Le radian : d'où vient cette unité ?</h3>
+<div class="formula-box">Un <strong>radian</strong> (noté rad) est la mesure d'un angle qui intercepte, sur un cercle, un arc dont la longueur est <mark>égale au rayon</mark> de ce cercle. C'est l'unité d'angle du Système International.</div>
+<div class="formula-box">Longueur d'un arc de cercle : $L = R \\times \\theta$ &nbsp;(avec $\\theta$ l'angle exprimé en <strong>radians</strong>, et R le rayon)</div>
+<div class="attention-box">Cette formule ne fonctionne <mark>QUE si l'angle est en radians</mark> — jamais directement avec un angle en degrés ! C'est justement parce que le radian est défini à partir d'une longueur d'arc que cette formule est aussi simple (pas de facteur de conversion supplémentaire).</div>
+<div class="retenir-box">Un tour complet de cercle correspond à un arc de longueur $2\\pi R$ (le périmètre du cercle) — et un tour complet vaut aussi $2\\pi$ radians. C'est cohérent : $L = R \\times 2\\pi = 2\\pi R$. ✓</div>
 <div class="formula-box">Conversion : 180° = π rad<br>° → rad : multiplier par π/180<br>rad → ° : multiplier par 180/π</div>
 <h3>Valeurs remarquables</h3>
 <table class="formula-table">
@@ -169,8 +198,10 @@ cours:`<h3>Trigonométrie & Cercle trigonométrique</h3>
 <h3>Formules de duplication</h3>
 <div class="formula-box">cos(2x) = cos²x − sin²x = 2cos²x − 1 = 1 − 2sin²x<br>sin(2x) = 2 sin x cos x</div>`,
 exercices:[
+{niveau:'Facile', enonce:`<p>Un cercle a un rayon de 2 km. Calcule la longueur de l'arc intercepté par un angle de $\\frac{\\pi}{4}$ radian.</p>`, aide:`Utilise directement la formule L = R × θ, avec θ déjà en radians.`, correction:`<p>$L = R \\times \\theta = 2 \\times \\frac{\\pi}{4} = \\frac{\\pi}{2} \\approx 1{,}57$ km.</p>`},
 {niveau:'Facile', enonce:`<p>Sachant que $\\cos(x) = \\frac{3}{5}$ et que $x \\in [0;\\frac{\\pi}{2}]$, calcule $\\sin(x)$.</p>`, aide:`Utilise l'identité de Pythagore cos²x + sin²x = 1. Attention au signe de sin(x) sur cet intervalle.`, correction:`<p>$\\cos^2(x) + \\sin^2(x) = 1 \\Rightarrow \\sin^2(x) = 1 - \\frac{9}{25} = \\frac{16}{25}$</p><p>$\\sin(x) = \\pm\\frac{4}{5}$. Comme $x \\in [0;\\frac{\\pi}{2}]$, sin(x) est positif : $\\sin(x) = \\frac{4}{5}$</p>`},
 {niveau:'Moyen', enonce:`<p>Résous dans $[0;2\\pi[$ l'équation $\\cos(x) = \\frac{1}{2}$.</p>`, aide:`Quelle valeur remarquable de x donne cos(x)=1/2 ? N'oublie pas que le cosinus est une fonction paire — pense au cercle trigonométrique et aux 2 solutions possibles sur cet intervalle.`, correction:`<p>On sait que $\\cos(\\frac{\\pi}{3}) = \\frac{1}{2}$.</p><p>Comme cos est paire, $\\cos(-\\frac{\\pi}{3}) = \\frac{1}{2}$ aussi, soit $\\cos(2\\pi - \\frac{\\pi}{3}) = \\cos(\\frac{5\\pi}{3})$ sur $[0;2\\pi[$.</p><p>Solutions : $x = \\frac{\\pi}{3}$ ou $x = \\frac{5\\pi}{3}$</p>`},
+{niveau:'Difficile', enonce:`<p>Un accélérateur de particules circulaire a un rayon d'1 km. Un proton part d'un point I et parcourt quatre tiers de tour. Calcule la distance exacte parcourue par ce proton (laisse le résultat en fonction de π).</p>`, aide:`Un tour complet correspond à un angle de 2π radians. Quatre tiers de tour correspondent donc à quel angle en radians ? Applique ensuite L = R × θ.</p>`, correction:`<p>Un tour complet = $2\\pi$ rad. Quatre tiers de tour : $\\theta = \\frac{4}{3} \\times 2\\pi = \\frac{8\\pi}{3}$ rad.</p><p>$L = R \\times \\theta = 1 \\times \\frac{8\\pi}{3} = \\frac{8\\pi}{3} \\approx 8{,}38$ km.</p>`},
 {niveau:'Difficile', enonce:`<p>Démontre que $\\cos(2x) = 1 - 2\\sin^2(x)$ à partir de la formule $\\cos(2x) = \\cos^2(x) - \\sin^2(x)$ et de l'identité de Pythagore.</p>`, aide:`Remplace cos²(x) dans la formule de départ en utilisant la relation cos²x + sin²x = 1 (donc cos²x = 1 - sin²x).`, correction:`<p>On part de $\\cos(2x) = \\cos^2(x) - \\sin^2(x)$.</p><p>Or, d'après Pythagore : $\\cos^2(x) = 1 - \\sin^2(x)$.</p><p>En remplaçant : $\\cos(2x) = (1-\\sin^2(x)) - \\sin^2(x) = 1 - 2\\sin^2(x)$ ✓</p><p>C'est exactement la formule recherchée — l'astuce clé est de toujours pouvoir remplacer cos² par 1−sin² (ou l'inverse) grâce à Pythagore.</p>`},
 ],
 flashcards:[
@@ -199,6 +230,8 @@ flashcards:[
 {q:'60° en radians',a:'π/3'},
 {q:'45° en radians',a:'π/4'},
 {q:'30° en radians',a:'π/6'},
+{q:'Définition géométrique du radian',a:'Mesure d\'un angle qui intercepte, sur un cercle, un arc dont la longueur est égale au rayon de ce cercle.'},
+{q:'Formule de longueur d\'un arc de cercle',a:'L = R × θ, avec θ obligatoirement exprimé en radians et R le rayon.'},
 ]},
 
 'Suites numériques': {
