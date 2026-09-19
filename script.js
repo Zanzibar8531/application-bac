@@ -768,7 +768,8 @@ function renderChapterMenu() {
             <span class="bc-sep">›</span>
             <button class="bc-btn" onclick="goSubject('${esc(curSubject)}')">${cfg.icon} ${curSubject}</button>
             <span class="bc-sep">›</span>
-            <span class="bc-cur">${curChapter}</span>
+            <span class="bc-cur">${esc(curChapter)}</span>
+            <button class="bc-rename-btn" onclick="renameChapter('${esc(curChapter)}', renderChapterMenu)" title="Renommer ce chapitre">✏️</button>
         </div>
         <div class="page-head">
             <h1 style="font-size:1.25rem">${curChapter}</h1>
@@ -811,7 +812,8 @@ function renderChapter() {
             <span class="bc-sep">›</span>
             <button class="bc-btn" onclick="goModeChapters(curTab==='voc'||curTab==='add'?'voc':'cours')">← Chapitres</button>
             <span class="bc-sep">›</span>
-            <span class="bc-cur">${curChapter}</span>
+            <span class="bc-cur">${esc(curChapter)}</span>
+            <button class="bc-rename-btn" onclick="renameChapter('${esc(curChapter)}', renderChapter)" title="Renommer ce chapitre">✏️</button>
         </div>
         <div class="ws-header">
             <div class="tab-bar">
@@ -954,7 +956,7 @@ function addChapter() {
     save(); goChapter(n);
 }
 
-function renameChapter(oldName) {
+function renameChapter(oldName, stayFn) {
     customPrompt({
         icon:'✏️', title:'Renommer le chapitre', value:oldName,
         placeholder:'Nom du chapitre', confirmLabel:'Renommer',
@@ -965,7 +967,10 @@ function renameChapter(oldName) {
             db[curSubject][trimmed] = db[curSubject][oldName];
             delete db[curSubject][oldName];
             if(curChapter===oldName) curChapter=trimmed;
-            save(); goSubject(curSubject);
+            save();
+            // Si on renomme le chapitre qu'on est en train de consulter/éditer, on y reste
+            // (juste avec le nouveau titre) plutôt que d'être renvoyé à la liste des chapitres.
+            if(stayFn && curChapter===trimmed) stayFn(); else goSubject(curSubject);
         }
     });
 }

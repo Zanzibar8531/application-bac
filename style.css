@@ -142,6 +142,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .bc-btn:hover{border-color:var(--text);color:var(--text);}
 .bc-sep{color:var(--border);}
 .bc-cur{font-weight:700;font-size:.92rem;}
+.bc-rename-btn{background:none;border:none;cursor:pointer;font-size:.8rem;opacity:.55;padding:2px 4px;border-radius:6px;transition:all .15s;}
+.bc-rename-btn:hover{opacity:1;background:var(--border);}
 
 /* CHAPTERS */
 .chapters-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:11px;margin-bottom:18px;}
@@ -417,8 +419,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .bm-toast-error{background:#991b1b;color:#fee2e2;}
 
 /* ── MUSIC PLAYER ────────────────────────────────────────── */
-.music-btn{margin-left:auto;background:none;border:1.5px solid var(--border);border-radius:8px;padding:6px 10px;font-size:1rem;cursor:pointer;color:#0e1525;transition:all .15s;flex-shrink:0;}
+.music-btn{background:none;border:1.5px solid var(--border);border-radius:8px;padding:6px 10px;font-size:1rem;cursor:pointer;color:#0e1525;transition:all .15s;flex-shrink:0;}
 .music-btn:hover,.music-btn-active{background:var(--text);color:#fff;border-color:var(--text);}
+.tb-actions{margin-left:auto;display:flex;gap:6px;}
 .music-panel{position:fixed;bottom:16px;right:16px;width:280px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;box-shadow:0 8px 32px rgba(14,21,37,.18);z-index:500;padding:14px;}
 .mp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
 .mp-title{font-family:'Sora',sans-serif;font-weight:700;font-size:.88rem;color:var(--text);}
@@ -450,6 +453,21 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .tb-brand               { color: #0e1525 !important; }
 .burger span            { background: #0e1525 !important; }
 .music-btn              { color: #0e1525 !important; }
+
+/* ── TOPBAR EN MODE SOMBRE ────────────────────────────────── */
+/* Les règles ci-dessus forcent du noir sur la topbar, pensée pour un fond
+   clair — en mode sombre le fond devient sombre (--card), donc on éclaircit
+   ces éléments pour qu'ils restent bien visibles. */
+html[data-theme="dark"] .topbar .bc-btn,
+html[data-theme="dark"] .topbar .burger span,
+html[data-theme="dark"] .burger span,
+html[data-theme="dark"] .tb-brand,
+html[data-theme="dark"] .music-btn { color: #e7ebf3 !important; }
+html[data-theme="dark"] .burger span { background: #e7ebf3 !important; }
+html[data-theme="dark"] .music-btn { border-color: var(--border); }
+html[data-theme="dark"] .search-btn { color: #e7ebf3 !important; }
+html[data-theme="dark"] .music-btn:hover,
+html[data-theme="dark"] .music-btn-active { background: #4f46e5; color: #fff !important; border-color: #4f46e5; }
 
 /* ── @MEDIA PRINT ─────────────────────────────────────────── */
 @media print {
