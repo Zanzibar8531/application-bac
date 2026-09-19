@@ -40,6 +40,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .page-head h1{font-family:'Sora',sans-serif;font-size:1.6rem;font-weight:800;}
 .page-head p{color:var(--muted);margin-top:4px;font-size:.88rem;}
 .dash-banner{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;background:linear-gradient(135deg,#eef2ff,#fdf4ff);border:1.5px solid var(--border);border-radius:var(--r);padding:16px 20px;margin-bottom:16px;}
+html[data-theme="dark"] .dash-banner{background:linear-gradient(135deg,#1e2444,#2a1f3d);}
 .dash-stat{text-align:center;}
 .dash-stat-val{font-family:'Sora',sans-serif;font-size:1.5rem;font-weight:800;color:var(--text);}
 .dash-stat-label{font-size:.72rem;color:var(--muted);font-weight:600;margin-top:2px;}
@@ -196,7 +197,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .hl-row input[type="color"]{width:24px;height:22px;border:none;background:none;cursor:pointer;}
 .hl-hl{border:none !important;background:none !important;font-size:.76rem;padding:2px 4px !important;}
 .tc-icon{font-family:'Sora',sans-serif;font-weight:800;font-size:.85rem;color:var(--text);}
-.editor-area{min-height:340px;padding:16px;border:2px dashed var(--border);border-radius:var(--rs);outline:none;font-size:.93rem;line-height:1.75;background:#fafcff;}
+.editor-area{min-height:340px;padding:16px;border:2px dashed var(--border);border-radius:var(--rs);outline:none;font-size:.93rem;line-height:1.75;background:#fafcff;color:#1e2937;}
 .editor-area:focus{border-color:var(--accent);}
 
 /* Fractions insérées dans l'éditeur */
@@ -1010,6 +1011,13 @@ html[data-theme="dark"] .cours-body .user-table td{background:var(--card) !impor
 html[data-theme="dark"] .gm-box,
 html[data-theme="dark"] .cc-box{background:var(--card) !important;color:var(--text) !important;}
 html[data-theme="dark"] .field{background:var(--bg) !important;color:var(--text) !important;border-color:var(--border) !important;}
+html[data-theme="dark"] .exo-enonce{background:linear-gradient(135deg,#1e2444,#181d33) !important;border-color:#3730a3 !important;color:var(--text) !important;}
+html[data-theme="dark"] .exo-enonce strong,html[data-theme="dark"] .exo-enonce b{color:#a5b4fc !important;}
+html[data-theme="dark"] .formula-table th{background:var(--card) !important;color:var(--text) !important;}
+html[data-theme="dark"] .formula-table td{color:var(--text) !important;}
+html[data-theme="dark"] .voc-row:hover{background:var(--card) !important;}
+html[data-theme="dark"] .cb-item{background:var(--card) !important;color:var(--text) !important;}
+html[data-theme="dark"] .srs-stats{background:var(--card) !important;}
 html[data-theme="dark"] .gm-canvas{background:#1a2233 !important;}
 html[data-theme="dark"] .frise-wrap{background:linear-gradient(135deg,#161f30,#1e1b4b) !important;}
 html[data-theme="dark"] .frise-dot{background:#1a2233 !important;}
