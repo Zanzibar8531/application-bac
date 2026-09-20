@@ -31,7 +31,54 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .burger:hover{background:var(--bg);}
 .burger span{display:block;width:20px;height:2px;background:#0e1525 !important;border-radius:2px;}
 .tb-brand{font-family:'Sora',sans-serif;font-weight:800;font-size:1.1rem;cursor:pointer;color:#0e1525 !important;}
-#main{flex:1;padding:22px 18px 60px;max-width:1000px;margin:0 auto;width:100%;}
+#main{flex:1;padding:22px 18px 60px;max-width:1000px;margin:0 auto;width:100%;position:relative;z-index:1;}
+
+/* ── FOND ANIMÉ DE L'ACCUEIL (mode sombre uniquement) ──────── */
+/* Un ciel étoilé + une aurore boréale discrète, uniquement visibles sur
+   la page d'accueil en mode sombre — activés/désactivés via la classe
+   body.bm-home-bg (posée par goHome(), retirée par défaut dans render()). */
+#bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:0;transition:opacity .7s ease;}
+html[data-theme="dark"] body.bm-home-bg #bg-fx{opacity:1;}
+
+.bg-stars{
+    position:absolute; inset:0;
+    background-image:
+        radial-gradient(1.6px 1.6px at 8% 22%,  rgba(255,255,255,.9), transparent 60%),
+        radial-gradient(1.2px 1.2px at 18% 68%, rgba(255,255,255,.7), transparent 60%),
+        radial-gradient(1.8px 1.8px at 28% 12%, rgba(255,255,255,.8), transparent 60%),
+        radial-gradient(1px   1px   at 37% 82%, rgba(255,255,255,.6), transparent 60%),
+        radial-gradient(1.6px 1.6px at 46% 38%, rgba(255,255,255,.85),transparent 60%),
+        radial-gradient(1.2px 1.2px at 55% 75%, rgba(255,255,255,.6), transparent 60%),
+        radial-gradient(1.8px 1.8px at 64% 18%, rgba(255,255,255,.9), transparent 60%),
+        radial-gradient(1px   1px   at 72% 55%, rgba(255,255,255,.5), transparent 60%),
+        radial-gradient(1.6px 1.6px at 81% 30%, rgba(255,255,255,.8), transparent 60%),
+        radial-gradient(1.2px 1.2px at 89% 70%, rgba(255,255,255,.65),transparent 60%),
+        radial-gradient(1.8px 1.8px at 94% 15%, rgba(255,255,255,.85),transparent 60%),
+        radial-gradient(1px   1px   at 12% 92%, rgba(255,255,255,.5), transparent 60%),
+        radial-gradient(1.4px 1.4px at 60% 92%, rgba(255,255,255,.7), transparent 60%),
+        radial-gradient(1.4px 1.4px at 5% 55%,  rgba(255,255,255,.6), transparent 60%);
+    animation: bg-twinkle 4.5s ease-in-out infinite alternate;
+}
+@keyframes bg-twinkle{0%{opacity:.55}50%{opacity:1}100%{opacity:.65}}
+
+.bg-aurora{
+    position:absolute; inset:-25%;
+    background:
+        radial-gradient(ellipse 55% 38% at 22% 25%, rgba(79,70,229,.32), transparent 60%),
+        radial-gradient(ellipse 48% 34% at 78% 32%, rgba(139,92,246,.28), transparent 60%),
+        radial-gradient(ellipse 52% 38% at 48% 75%, rgba(16,185,129,.20), transparent 60%),
+        radial-gradient(ellipse 40% 30% at 65% 85%, rgba(236,72,153,.16), transparent 60%);
+    filter: blur(50px);
+    animation: bg-drift 20s ease-in-out infinite alternate;
+}
+@keyframes bg-drift{
+    0%  {transform:translate(0,0) scale(1) rotate(0deg);}
+    50% {transform:translate(3%,-4%) scale(1.1) rotate(4deg);}
+    100%{transform:translate(-4%,3%) scale(1.02) rotate(-3deg);}
+}
+@media (prefers-reduced-motion: reduce){
+    .bg-stars,.bg-aurora{animation:none;}
+}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .animate{animation:fadeUp .25s ease;}
 
@@ -152,6 +199,13 @@ html[data-theme="dark"] .dash-banner{background:linear-gradient(135deg,#1e2444,#
 .chcard:hover{transform:translateY(-3px);box-shadow:var(--sh2);}
 .chcard-name{font-weight:700;font-size:.9rem;font-family:'Sora',sans-serif;margin-bottom:6px;padding-right:56px;}
 .chcard-meta{font-size:.73rem;color:var(--muted);display:flex;gap:8px;}
+.chcard-badge{display:inline-block;margin-top:8px;font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:20px;}
+.badge-new{background:#dcfce7;color:#166534;}
+.badge-read{background:#dbeafe;color:#1e40af;}
+.badge-recent{background:#ffedd5;color:#9a3412;}
+html[data-theme="dark"] .badge-new{background:#14532d;color:#86efac;}
+html[data-theme="dark"] .badge-read{background:#1e3a5f;color:#93c5fd;}
+html[data-theme="dark"] .badge-recent{background:#7c2d12;color:#fdba74;}
 .subject-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:6px;}
 .btn-act{padding:10px 16px;border:1.5px solid var(--border);border-radius:var(--rs);background:var(--card);cursor:pointer;font-weight:600;font-size:.83rem;font-family:'DM Sans',sans-serif;transition:all .15s;color:var(--text);display:flex;align-items:center;gap:6px;}
 .btn-act:hover{background:var(--bg);border-color:#94a3b8;}

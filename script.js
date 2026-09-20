@@ -521,6 +521,9 @@ function render(html) {
     // encore autosauvegardée (moins de 1,5s après la dernière frappe), on la
     // force à s'enregistrer immédiatement avant de changer de page.
     if(hasUnsavedEdits && $('editor')){ clearTimeout(autosaveTimer); autosaveCoursNow(); }
+    // Le fond animé (étoiles/aurore) n'est actif que sur l'accueil — retiré par
+    // défaut ici, seule goHome() le remet juste après avoir appelé render().
+    document.body.classList.remove('bm-home-bg');
     M().innerHTML = html;
     M().classList.add('animate');
     setTimeout(()=>{ M().classList.remove('animate'); typesetMath(M()); }, 50);
@@ -653,6 +656,7 @@ function goHome() {
             <span class="sync-status" id="sync-status-home"></span>
         </div>
     `);
+    document.body.classList.add('bm-home-bg');
     updateSyncStatusBadge();
     updateNotifBtn();
 }
@@ -709,6 +713,26 @@ function goSubject(name) {
     `);
 }
 
+// ── BADGES DE LECTURE (Nouveau / Lu le.../ Dernier lu) ────────
+function fmtShortDate(iso) {
+    const d = new Date(iso), today = new Date();
+    if(d.toDateString() === today.toDateString()) return "aujourd'hui";
+    const hier = new Date(today); hier.setDate(hier.getDate()-1);
+    if(d.toDateString() === hier.toDateString()) return "hier";
+    return d.toLocaleDateString('fr-FR', {day:'numeric', month:'short'});
+}
+
+function mostRecentlyReadChapter(subj) {
+    let best = null, bestTime = 0;
+    Object.entries(db[subj]).forEach(([ch, data]) => {
+        if(data.lastRead) {
+            const t = new Date(data.lastRead).getTime();
+            if(t > bestTime) { bestTime = t; best = ch; }
+        }
+    });
+    return best;
+}
+
 function goModeChapters(mode) {
     curTrackedPage = null;
     const cfg = CFG.find(c => c.name === curSubject);
@@ -724,9 +748,14 @@ function goModeChapters(mode) {
         </div>
         <div class="page-head"><h1 style="font-size:1.2rem">Choisis un chapitre</h1></div>
         <div class="chapters-grid">
-            ${chapters.map(ch => {
+            ${(()=>{ const mostRecent = mostRecentlyReadChapter(curSubject); return chapters.map(ch => {
                 const cards = db[curSubject][ch].flashcards || [];
                 const due   = cards.filter(isDue).length;
+                const lastRead = db[curSubject][ch].lastRead;
+                let badge;
+                if(ch === mostRecent) badge = `<span class="chcard-badge badge-recent">📍 Dernier lu</span>`;
+                else if(!lastRead) badge = `<span class="chcard-badge badge-new">🆕 Nouveau</span>`;
+                else badge = `<span class="chcard-badge badge-read">✅ Lu ${fmtShortDate(lastRead)}</span>`;
                 return `<div class="chcard" onclick="curChapter='${esc(ch)}';curTab='${mode}';renderChapter()">
                     <div class="chcard-icons">
                         <button class="chcard-icon-btn" onclick="event.stopPropagation();renameChapter('${esc(ch)}')" title="Renommer">✏️</button>
@@ -737,8 +766,9 @@ function goModeChapters(mode) {
                         <span>📋 ${cards.length} mots</span>
                         ${due > 0 ? `<span style="color:#4f46e5">⏰ ${due} à réviser</span>` : '<span style="color:#059669">✓ À jour</span>'}
                     </div>
+                    ${badge}
                 </div>`;
-            }).join('')}
+            }).join(''); })()}
             <div class="chcard" onclick="addChapter()" style="border-style:dashed;opacity:.7;">
                 <div class="chcard-name" style="color:var(--muted)">+ Nouveau chapitre</div>
             </div>
@@ -834,6 +864,12 @@ function renderTabContent() {
     // Seule la lecture du cours compte comme "temps d'étude" tracké ici —
     // l'édition ou la liste brute du vocabulaire ne sont pas de la révision active.
     curTrackedPage = (curTab==='cours') ? { subject: curSubject, activity: '📖 Cours — ' + curChapter } : null;
+    // Marque ce chapitre comme "lu" à l'instant présent (sert aux badges Nouveau/Lu/Dernier lu
+    // affichés sur les cartes de la grille des chapitres).
+    if(curTab==='cours' && db[curSubject] && db[curSubject][curChapter]){
+        db[curSubject][curChapter].lastRead = new Date().toISOString();
+        save();
+    }
     if(curTab==='cours') {
         box.innerHTML = `
             <div class="cours-print-bar">
@@ -852,9 +888,25 @@ function renderTabContent() {
                 <button class="edt-tab" onclick="switchEditTab(this,'insert')">➕ Insérer</button>
             </div>
             <div class="editor-toolbar edt-panel" data-panel="texte">
+                <button onclick="fmt('undo')" title="Annuler">↩️</button>
+                <button onclick="fmt('redo')" title="Rétablir">↪️</button>
+                <span class="etb-sep"></span>
+                <select onchange="applyHeading(this.value);this.selectedIndex=0" title="Titre de section">
+                    <option value="" disabled selected>Titre</option>
+                    <option value="H3">Titre principal</option>
+                    <option value="H4">Sous-titre</option>
+                    <option value="P">Texte normal</option>
+                </select>
+                <span class="etb-sep"></span>
                 <button onclick="fmt('bold')" title="Gras"><b>G</b></button>
                 <button onclick="fmt('italic')" title="Italique"><i>I</i></button>
                 <button onclick="fmt('underline')" title="Souligné"><u>S</u></button>
+                <button onclick="fmt('removeFormat')" title="Effacer la mise en forme">🧹</button>
+                <span class="etb-sep"></span>
+                <button onclick="fmt('insertUnorderedList')" title="Liste à puces">• Liste</button>
+                <button onclick="fmt('insertOrderedList')" title="Liste numérotée">1. Liste</button>
+                <button onclick="fmt('indent')" title="Augmenter le retrait">⇥|</button>
+                <button onclick="fmt('outdent')" title="Diminuer le retrait">|⇤</button>
                 <span class="etb-sep"></span>
                 <button onclick="fmt('justifyLeft')" title="Aligner à gauche">⇤</button>
                 <button onclick="fmt('justifyCenter')" title="Centrer">≡</button>
@@ -923,6 +975,13 @@ function renderTabContent() {
         setTimeout(trackEditorSelection, 50);
         const edEl = $('editor');
         if(edEl) edEl.addEventListener('input', scheduleAutosaveCours);
+        // Colle toujours en texte brut : évite d'importer des styles/couleurs
+        // parasites depuis Word, un PDF ou un autre site (police, tailles fixes...).
+        if(edEl) edEl.addEventListener('paste', e => {
+            e.preventDefault();
+            const txt = (e.clipboardData || window.clipboardData).getData('text/plain');
+            document.execCommand('insertText', false, txt);
+        });
     }
     else if(curTab==='voc') {
         const cards = data.flashcards||[];
@@ -1101,6 +1160,12 @@ function insertFraction() {
     restoreEditorSelection();
     document.execCommand('insertHTML', false,
         '<span class="frac"><span class="frac-num">a</span><span class="frac-den">b</span></span>&nbsp;');
+}
+
+function applyHeading(tag) {
+    if(!tag) return;
+    restoreEditorSelection();
+    document.execCommand('formatBlock', false, tag);
 }
 
 function applyFontSize(px) {

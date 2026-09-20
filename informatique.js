@@ -462,4 +462,201 @@ flashcards:[
 {q:'Conflit de fusion (merge conflict)',a:'Se produit quand deux modifications touchent la même ligne d\'un même fichier sur deux branches différentes — Git demande alors à l\'humain de trancher manuellement.'},
 {q:'Que faire si une clé API est accidentellement publiée sur un dépôt public ?',a:'La considérer comme compromise immédiatement et la révoquer/régénérer auprès du service — la supprimer du code ne suffit pas car l\'historique Git la conserve.'},
 ]},
+
+'Mini-projets Python — s\'entraîner en codant': {
+cours:`<h3>Comment utiliser ce chapitre</h3>
+<p>Contrairement aux autres chapitres, celui-ci n'a rien à lire avant de commencer : les "exercices" ci-dessous sont de <mark>vrais petits programmes à écrire toi-même</mark>, sur Replit (replit.com) ou VS Code. Écris ton code, exécute-le, compare avec la correction seulement après avoir essayé.</p>
+<div class="retenir-box">Ne regarde pas la correction avant d'avoir vraiment essayé, même si ça bloque 10 minutes — c'est cette lutte qui fait progresser (effet de génération, vu dans "Science de l'Apprentissage"). Bloqué : relis le chapitre "Python en pratique" plutôt que de sauter direct à la correction.</div>
+<h3>Méthode pour attaquer un exercice de code</h3>
+<ol>
+<li><strong>Comprendre l'énoncé</strong> : quelles sont les entrées ? Quelle sortie est attendue ?</li>
+<li><strong>Découper en petites étapes</strong> avant de coder (sur papier ou en commentaires <code># étape 1...</code>).</li>
+<li><strong>Coder étape par étape</strong>, en testant après CHAQUE petite étape (pas tout d'un coup à la fin).</li>
+<li><strong>Tester avec plusieurs cas</strong>, y compris des cas limites (0, nombre négatif, texte vide...).</li>
+</ol>`,
+exercices:[
+{niveau:'Facile', enonce:`<p><strong>Programme à écrire</strong> : demande à l'utilisateur son prénom et son âge (avec <code>input()</code>), puis affiche une phrase du type : <em>"Bonjour Martin, tu as 17 ans. Dans 10 ans, tu auras 27 ans !"</em>. Le calcul de l'âge dans 10 ans doit être fait par le programme, pas écrit en dur.</p>`, aide:`N'oublie pas que input() renvoie toujours du texte — il faut convertir l'âge en entier avec int() avant de pouvoir faire un calcul dessus. Utilise une f-string (f"...{variable}...") pour construire la phrase proprement.`, correction:`<pre><code>prenom = input("Quel est ton prénom ? ")
+age = int(input("Quel est ton âge ? "))
+age_futur = age + 10
+
+print(f"Bonjour {prenom}, tu as {age} ans. Dans 10 ans, tu auras {age_futur} ans !")</code></pre><p>Teste avec ton vrai prénom et âge — puis avec un âge à 1 chiffre pour vérifier que ça marche aussi.</p>`},
+{niveau:'Moyen', enonce:`<p><strong>Programme à écrire</strong> : un convertisseur de température qui affiche un petit menu :</p><pre>1. Celsius vers Fahrenheit
+2. Fahrenheit vers Celsius
+Choix : </pre><p>Selon le choix (1 ou 2), demande la température à convertir puis affiche le résultat. Formules : $F = C \\times \\frac{9}{5} + 32$ et $C = (F - 32) \\times \\frac{5}{9}$.</p>`, aide:`Utilise un if/elif/else pour gérer le choix. Attention à bien convertir l'input en nombre (float, pour gérer les décimales) avant de calculer. Gère aussi le cas où l'utilisateur tape autre chose que 1 ou 2 (else).`, correction:`<pre><code>print("1. Celsius vers Fahrenheit")
+print("2. Fahrenheit vers Celsius")
+choix = input("Choix : ")
+
+if choix == "1":
+    c = float(input("Température en °C : "))
+    f = c * 9/5 + 32
+    print(f"{c}°C = {f}°F")
+elif choix == "2":
+    f = float(input("Température en °F : "))
+    c = (f - 32) * 5/9
+    print(f"{f}°F = {c}°C")
+else:
+    print("Choix invalide, tape 1 ou 2.")</code></pre><p>Teste avec 0°C (doit donner 32°F) et 100°C (doit donner 212°F) pour vérifier que la formule est correcte.</p>`},
+{niveau:'Difficile', enonce:`<p><strong>Programme à écrire</strong> : un jeu du "plus ou moins" — le programme choisit un nombre secret entre 1 et 100 (aléatoire), et le joueur doit le deviner. Après chaque proposition, le programme dit "Trop grand", "Trop petit" ou "Gagné !", et compte le nombre d'essais. Le jeu s'arrête quand le joueur trouve le nombre.</p>`, aide:`Pour le nombre aléatoire, utilise le module random : import random puis random.randint(1, 100). Utilise une boucle "tant que" qui continue tant que le nombre proposé est différent du nombre secret. N'oublie pas de convertir l'input en entier et d'incrémenter un compteur d'essais à chaque tour.`, correction:`<pre><code>import random
+
+nombre_secret = random.randint(1, 100)
+essais = 0
+trouve = False
+
+print("Devine le nombre entre 1 et 100 !")
+
+while not trouve:
+    proposition = int(input("Ta proposition : "))
+    essais = essais + 1
+
+    if proposition < nombre_secret:
+        print("Trop petit !")
+    elif proposition > nombre_secret:
+        print("Trop grand !")
+    else:
+        print(f"Gagné ! Tu as trouvé en {essais} essais.")
+        trouve = True</code></pre><p><strong>Pour aller plus loin</strong> : limite le nombre d'essais à 10 et affiche "Perdu" si le joueur ne trouve pas à temps (indice : ajoute une condition <code>essais >= 10</code> dans la boucle).</p>`},
+],
+flashcards:[
+{q:'Que faire avant de coder un exercice ?',a:'Comprendre l\'énoncé (entrées/sortie attendue), puis découper le problème en petites étapes avant d\'écrire le moindre code.'},
+{q:'Comment tester son code efficacement',a:'Tester après chaque petite étape (pas tout à la fin), et avec plusieurs cas incluant des cas limites (0, négatif, texte vide...).'},
+{q:'Module Python pour générer un nombre aléatoire',a:'import random, puis random.randint(a, b) pour un entier aléatoire entre a et b inclus.'},
+{q:'Pourquoi essayer avant de regarder la correction',a:'C\'est l\'effort de recherche (effet de génération) qui fait vraiment progresser, même si ça bloque un moment.'},
+]},
+
+'Mini-projets HTML/CSS/JS — construire une interface': {
+cours:`<h3>Comment utiliser ce chapitre</h3>
+<p>Même principe que les mini-projets Python : crée un fichier <code>.html</code> sur ton PC (ou sur Replit), écris le code toi-même, ouvre-le dans ton navigateur pour voir le résultat, puis compare avec la correction. Chaque exercice combine HTML + CSS + JS — exactement les 3 briques de ton propre site.</p>
+<div class="attention-box">Pour un fichier HTML autonome avec du JS dedans, le code JS se met entre des balises <code>&lt;script&gt;...&lt;/script&gt;</code>, juste avant <code>&lt;/body&gt;</code> — pas besoin de fichier séparé pour ces petits exercices.</div>`,
+exercices:[
+{niveau:'Facile', enonce:`<p><strong>Page à construire</strong> : une carte de profil simple avec ton prénom, une petite description ("Élève en Première STI2D"), et un bouton "Me contacter" qui, au clic, affiche une alerte JavaScript "Contacte-moi par email !". Ajoute un peu de style CSS : fond de carte coloré, coins arrondis, bouton avec une couleur de fond.</p>`, aide:`Structure de base : un &lt;div&gt; pour la carte, avec un &lt;h2&gt; pour le prénom, un &lt;p&gt; pour la description, et un &lt;button&gt;. Utilise border-radius en CSS pour les coins arrondis, et addEventListener("click", ...) pour l'alerte.`, correction:`<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;style&gt;
+.carte {
+    background: #4A90E2;
+    color: white;
+    border-radius: 12px;
+    padding: 20px;
+    width: 250px;
+    font-family: sans-serif;
+    text-align: center;
+}
+.carte button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    background: white;
+    color: #4A90E2;
+    cursor: pointer;
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class="carte"&gt;
+    &lt;h2&gt;Martin&lt;/h2&gt;
+    &lt;p&gt;Élève en Première STI2D&lt;/p&gt;
+    &lt;button id="btnContact"&gt;Me contacter&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+document.getElementById("btnContact").addEventListener("click", function() {
+    alert("Contacte-moi par email !");
+});
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>`},
+{niveau:'Moyen', enonce:`<p><strong>Page à construire</strong> : une liste de tâches (todo-list) simple. Un champ de texte + un bouton "Ajouter" : quand on clique, le texte tapé s'ajoute à une liste affichée en dessous. Chaque tâche de la liste doit avoir un bouton "✕" à côté pour la supprimer.</p>`, aide:`Utilise document.createElement("li") pour créer chaque nouvelle tâche, et element.remove() sur le bouton ✕ pour la supprimer (dans son propre addEventListener au moment de la création). Récupère le texte du champ avec .value, et pense à le vider après ajout.`, correction:`<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+
+&lt;input type="text" id="champTache" placeholder="Nouvelle tâche"&gt;
+&lt;button id="btnAjouter"&gt;Ajouter&lt;/button&gt;
+&lt;ul id="listeTaches"&gt;&lt;/ul&gt;
+
+&lt;script&gt;
+const champ = document.getElementById("champTache");
+const liste = document.getElementById("listeTaches");
+
+document.getElementById("btnAjouter").addEventListener("click", function() {
+    const texte = champ.value;
+    if (texte === "") return; // ne rien faire si le champ est vide
+
+    const li = document.createElement("li");
+    li.textContent = texte;
+
+    const btnSupprimer = document.createElement("button");
+    btnSupprimer.textContent = "✕";
+    btnSupprimer.addEventListener("click", function() {
+        li.remove();
+    });
+
+    li.appendChild(btnSupprimer);
+    liste.appendChild(li);
+    champ.value = ""; // vide le champ après ajout
+});
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>`},
+{niveau:'Difficile', enonce:`<p><strong>Page à construire</strong> : une mini-flashcard. Une carte affiche une question ; au clic, elle se retourne (change de couleur/contenu) pour montrer la réponse. Deux boutons "Facile" / "Difficile" permettent de passer à la carte suivante parmi un tableau de 3 questions/réponses. Un compteur affiche "Carte X / 3".</p>`, aide:`Stocke tes 3 flashcards dans un tableau de mini-objets JS : [{q:"...",a:"..."}, ...]. Garde une variable "index" pour savoir quelle carte est affichée. La fonction qui affiche une carte doit remettre "question visible" (pas la réponse) à chaque nouvelle carte.`, correction:`<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+
+&lt;p id="compteur"&gt;Carte 1 / 3&lt;/p&gt;
+&lt;div id="carte" style="border:2px solid #4A90E2;padding:20px;width:250px;cursor:pointer;"&gt;
+    &lt;p id="contenu"&gt;...&lt;/p&gt;
+&lt;/div&gt;
+&lt;button id="btnFacile"&gt;Facile ➜ suivante&lt;/button&gt;
+&lt;button id="btnDifficile"&gt;Difficile ➜ suivante&lt;/button&gt;
+
+&lt;script&gt;
+const cartes = [
+    {q: "Capitale de la France ?", a: "Paris"},
+    {q: "2 + 2 = ?", a: "4"},
+    {q: "Symbole chimique de l'eau ?", a: "H2O"}
+];
+
+let index = 0;
+let flippee = false;
+
+const contenu = document.getElementById("contenu");
+const compteur = document.getElementById("compteur");
+const carte = document.getElementById("carte");
+
+function afficherCarte() {
+    flippee = false;
+    contenu.textContent = cartes[index].q;
+    compteur.textContent = "Carte " + (index + 1) + " / " + cartes.length;
+}
+
+carte.addEventListener("click", function() {
+    flippee = !flippee;
+    contenu.textContent = flippee ? cartes[index].a : cartes[index].q;
+});
+
+function carteSuivante() {
+    index = index + 1;
+    if (index >= cartes.length) index = 0; // on reboucle au début
+    afficherCarte();
+}
+
+document.getElementById("btnFacile").addEventListener("click", carteSuivante);
+document.getElementById("btnDifficile").addEventListener("click", carteSuivante);
+
+afficherCarte();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre><p>C'est exactement ce mécanisme (tableau d'objets + index + affichage dynamique) qui fait tourner le vrai mode Flashcards de ton site BacMaster !</p>`},
+],
+flashcards:[
+{q:'Où placer le code JavaScript dans un fichier HTML autonome',a:'Entre des balises <script>...</script>, généralement juste avant la balise fermante </body>.'},
+{q:'Créer un élément HTML dynamiquement en JS',a:'document.createElement("li") crée l\'élément, puis parent.appendChild(element) l\'ajoute réellement à la page.'},
+{q:'Supprimer un élément du DOM en JS',a:'element.remove() — à appeler sur l\'élément lui-même (souvent récupéré via une variable créée avec createElement).'},
+{q:'Pourquoi vider un champ de texte après l\'avoir lu (ex : todo-list)',a:'champ.value = "" remet le champ à vide, pour que l\'utilisateur puisse taper la tâche suivante sans effacer manuellement.'},
+{q:'Structure pour stocker plusieurs flashcards en JS',a:'Un tableau d\'objets, ex : [{q:"...",a:"..."}, {q:"...",a:"..."}] — chaque objet regroupe une question et sa réponse.'},
+]},
 };

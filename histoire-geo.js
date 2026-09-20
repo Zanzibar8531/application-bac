@@ -249,4 +249,52 @@ flashcards:[
 {q:'18 Brumaire (9 novembre 1799)',a:'Coup d\'État de Napoléon Bonaparte, qui met fin au Directoire et à la Révolution française.'},
 {q:'Sans-culottes',a:'Membres du peuple parisien révolutionnaire (artisans, petits commerçants), alliés politiques des Montagnards, favorables à des mesures sociales radicales.'},
 ]},
+
+'La mondialisation : acteurs, flux et espaces': {
+cours:`<h3>Qu'est-ce que la mondialisation ?</h3>
+<p>La <strong>mondialisation</strong> est le processus de mise en relation des différentes parties du monde par la multiplication et l'intensification des échanges (marchandises, capitaux, informations, personnes), créant une <mark>interdépendance croissante</mark> entre les territoires.</p>
+<div class="retenir-box">Ce n'est pas un phénomène récent (les grandes découvertes, la colonisation étaient déjà des formes de mondialisation), mais elle s'est considérablement <mark>accélérée</mark> depuis les années 1980-1990 grâce à la libéralisation des échanges, aux progrès des transports et à la révolution numérique.</div>
+
+<h3>Les acteurs de la mondialisation</h3>
+<ul>
+<li><strong>Les FTN</strong> (Firmes TransNationales) : entreprises implantées dans plusieurs pays, qui organisent leur production à l'échelle mondiale pour minimiser leurs coûts (ex : Apple conçoit aux USA, fait assembler en Chine, vend partout).</li>
+<li><strong>Les États</strong> : négocient des accords commerciaux, attirent les investissements étrangers, protègent (ou non) certains secteurs.</li>
+<li><strong>Les organisations internationales</strong> : l'OMC (Organisation Mondiale du Commerce) régule les échanges commerciaux ; le FMI et la Banque Mondiale interviennent sur les questions financières.</li>
+<li><strong>Les organisations régionales</strong> : l'Union Européenne, l'ALENA/USMCA, l'ASEAN — facilitent les échanges entre pays voisins.</li>
+</ul>
+
+<h3>Les flux mondialisés</h3>
+<div class="formula-box">
+<strong>Flux de marchandises</strong> : transport maritime (90% du commerce mondial en volume passe par la mer), conteneurisation.<br>
+<strong>Flux financiers</strong> : investissements directs à l'étranger (IDE), places boursières interconnectées 24h/24.<br>
+<strong>Flux d'information</strong> : câbles sous-marins, satellites — internet a créé une circulation quasi instantanée de l'information.<br>
+<strong>Flux migratoires</strong> : travailleurs, touristes, réfugiés, étudiants — plus de 280 millions de migrants internationaux dans le monde.
+</div>
+
+<h3>Les espaces moteurs et à l'écart</h3>
+<ul>
+<li><strong>La Triade</strong> : Amérique du Nord, Europe occidentale, Asie orientale — historiquement les 3 pôles majeurs de la richesse et des échanges mondiaux.</li>
+<li><strong>Les pays émergents</strong> (Chine, Inde, Brésil...) : croissance économique rapide, intégration croissante aux échanges mondiaux, parfois regroupés sous l'acronyme BRICS.</li>
+<li><strong>Les espaces "à l'écart"</strong> : régions peu connectées aux grands flux mondiaux (enclavement, faibles infrastructures) — la mondialisation ne bénéficie pas uniformément à tous les territoires.</li>
+</ul>
+<div class="attention-box">Ne présente jamais la mondialisation comme un phénomène qui touche le monde de façon <mark>uniforme</mark> — c'est au contraire un processus très <strong>inégal</strong>, qui crée à la fois des espaces hyperconnectés (façades maritimes, métropoles mondiales) et des espaces en marge.</div>
+
+<h3>Les limites et contestations de la mondialisation</h3>
+<p>La mondialisation fait l'objet de critiques et de résistances : mouvements <mark>altermondialistes</mark> (dénoncent les inégalités qu'elle génère), protectionnisme (certains États relèvent leurs barrières douanières), préoccupations environnementales (empreinte carbone du transport de marchandises), critiques de l'uniformisation culturelle.</p>`,
+exercices:[
+{niveau:'Facile', enonce:`<p>Une entreprise conçoit ses produits aux États-Unis, les fait fabriquer en Chine, et les vend dans le monde entier. Comment appelle-t-on ce type d'acteur de la mondialisation ?</p>`, aide:`Relis la définition du premier acteur cité dans le cours.`, correction:`<p>C'est une <strong>FTN</strong> (Firme TransNationale) : une entreprise qui organise sa production à l'échelle mondiale (conception, fabrication, vente dans des pays différents) pour optimiser ses coûts et ses marchés.</p>`},
+{niveau:'Moyen', enonce:`<p>Explique pourquoi on dit que la mondialisation crée des espaces "à l'écart", en donnant un exemple du type de région qui pourrait être concernée.</p>`, aide:`Relis la partie sur les espaces moteurs et à l'écart — qu'est-ce qui différencie un espace connecté d'un espace en marge de la mondialisation ?`, correction:`<p>La mondialisation ne bénéficie pas uniformément à tous les territoires : elle profite surtout aux régions bien connectées aux grands flux (façades maritimes, métropoles, zones bien reliées par les transports et le numérique). À l'inverse, des régions enclavées, mal desservies par les infrastructures de transport ou de communication (ex : certaines zones rurales isolées, certains pays intérieurs sans accès à la mer) restent largement en marge de ces échanges — c'est ce qu'on appelle des espaces "à l'écart" de la mondialisation.</p>`},
+{niveau:'Difficile', enonce:`<p>Explique en quoi les flux migratoires et les flux financiers, bien que tous deux "mondialisés", ne sont pas régulés de la même façon par les États. Pourquoi cette différence est-elle révélatrice des priorités des États face à la mondialisation ?</p>`, aide:`Pense à ce qui circule le plus librement aujourd'hui entre les pays : l'argent (capitaux, investissements) ou les personnes (migrants) ? Les États ont-ils la même attitude face à ces deux types de flux ?`, correction:`<p>Les <mark>flux financiers</mark> circulent généralement de façon beaucoup plus libre et rapide à l'échelle mondiale (marchés boursiers interconnectés 24h/24, investissements directs à l'étranger facilités par les accords de libre-échange), tandis que les <mark>flux migratoires</mark> sont au contraire fortement contrôlés et restreints par la plupart des États (visas, quotas, frontières renforcées, politiques migratoires restrictives).</p><p>Cette différence révèle une priorité largement donnée par les États à la <strong>libre circulation du capital</strong> plutôt qu'à celle des personnes : la mondialisation économique et financière est activement favorisée par de nombreux accords internationaux (OMC, accords bilatéraux), alors que la mobilité humaine reste soumise à la souveraineté de chaque État sur ses frontières. C'est une contradiction souvent soulignée par les critiques de la mondialisation : l'argent circule plus librement que les êtres humains.</p>`},
+],
+flashcards:[
+{q:'Mondialisation — définition',a:'Processus de mise en relation des différentes parties du monde par la multiplication des échanges (marchandises, capitaux, informations, personnes), créant une interdépendance croissante entre les territoires.'},
+{q:'FTN — définition',a:'Firme TransNationale : entreprise implantée dans plusieurs pays, qui organise sa production à l\'échelle mondiale pour minimiser ses coûts.'},
+{q:'Rôle de l\'OMC',a:'Organisation Mondiale du Commerce : régule les échanges commerciaux internationaux entre États.'},
+{q:'Part du commerce mondial transportée par voie maritime',a:'Environ 90% du commerce mondial en volume passe par le transport maritime.'},
+{q:'La Triade',a:'Les 3 pôles historiquement majeurs de la richesse et des échanges mondiaux : Amérique du Nord, Europe occidentale, Asie orientale.'},
+{q:'BRICS',a:'Acronyme regroupant de grands pays émergents (Brésil, Russie, Inde, Chine, Afrique du Sud), à forte croissance économique et intégration croissante aux échanges mondiaux.'},
+{q:'Espaces "à l\'écart" de la mondialisation',a:'Régions peu connectées aux grands flux mondiaux (enclavement, faibles infrastructures) — la mondialisation ne bénéficie pas uniformément à tous les territoires.'},
+{q:'Altermondialisme',a:'Mouvement qui conteste les formes actuelles de la mondialisation (notamment les inégalités qu\'elle génère), sans nécessairement rejeter l\'idée d\'échanges mondiaux.'},
+{q:'Pourquoi la mondialisation n\'est pas un phénomène récent',a:'Les grandes découvertes et la colonisation étaient déjà des formes de mondialisation — mais le processus s\'est considérablement accéléré depuis les années 1980-1990.'},
+]},
 };
