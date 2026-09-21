@@ -33,15 +33,31 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .tb-brand{font-family:'Sora',sans-serif;font-weight:800;font-size:1.1rem;cursor:pointer;color:#0e1525 !important;}
 #main{flex:1;padding:22px 18px 60px;max-width:1000px;margin:0 auto;width:100%;position:relative;z-index:1;}
 
-/* ── FOND ANIMÉ DE L'ACCUEIL (mode sombre uniquement) ──────── */
-/* Un ciel étoilé + une aurore boréale discrète, uniquement visibles sur
-   la page d'accueil en mode sombre — activés/désactivés via la classe
-   body.bm-home-bg (posée par goHome(), retirée par défaut dans render()). */
-#bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:0;transition:opacity .7s ease;}
-html[data-theme="dark"] body.bm-home-bg #bg-fx{opacity:1;}
+/* ── FOND ANIMÉ DE TOUTES LES PAGES ────────────────────────── */
+/* Mode sombre : ciel étoilé dense + bande de voie lactée + aurore boréale.
+   Mode clair : nuages pastel doux, très discrets, pour ne pas gêner la lecture. */
+#bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+
+.bg-stars,.bg-milkyway,.bg-aurora,.bg-light-clouds{opacity:0;transition:opacity .7s ease;position:absolute;inset:0;}
+html[data-theme="dark"] .bg-stars,
+html[data-theme="dark"] .bg-milkyway,
+html[data-theme="dark"] .bg-aurora{opacity:1;}
+html:not([data-theme="dark"]) .bg-light-clouds{opacity:1;}
+
+/* Bande de voie lactée : une traînée diagonale diffuse, plus claire au centre. */
+.bg-milkyway{
+    background: linear-gradient(115deg,
+        transparent 30%,
+        rgba(199,197,255,.05) 40%,
+        rgba(224,222,255,.10) 47%,
+        rgba(236,233,255,.14) 50%,
+        rgba(224,222,255,.10) 53%,
+        rgba(199,197,255,.05) 60%,
+        transparent 70%);
+    mix-blend-mode: screen;
+}
 
 .bg-stars{
-    position:absolute; inset:0;
     background-image:
         radial-gradient(1.6px 1.6px at 8% 22%,  rgba(255,255,255,.9), transparent 60%),
         radial-gradient(1.2px 1.2px at 18% 68%, rgba(255,255,255,.7), transparent 60%),
@@ -56,13 +72,23 @@ html[data-theme="dark"] body.bm-home-bg #bg-fx{opacity:1;}
         radial-gradient(1.8px 1.8px at 94% 15%, rgba(255,255,255,.85),transparent 60%),
         radial-gradient(1px   1px   at 12% 92%, rgba(255,255,255,.5), transparent 60%),
         radial-gradient(1.4px 1.4px at 60% 92%, rgba(255,255,255,.7), transparent 60%),
-        radial-gradient(1.4px 1.4px at 5% 55%,  rgba(255,255,255,.6), transparent 60%);
+        radial-gradient(1.4px 1.4px at 5% 55%,  rgba(255,255,255,.6), transparent 60%),
+        radial-gradient(1.3px 1.3px at 42% 6%,  rgba(255,255,255,.75),transparent 60%),
+        radial-gradient(1px   1px   at 24% 45%, rgba(255,255,255,.55),transparent 60%),
+        radial-gradient(1.5px 1.5px at 33% 30%, rgba(255,255,255,.8), transparent 60%),
+        radial-gradient(1.1px 1.1px at 50% 58%, rgba(255,255,255,.6), transparent 60%),
+        radial-gradient(1.4px 1.4px at 58% 40%, rgba(255,255,255,.7), transparent 60%),
+        radial-gradient(1px   1px   at 68% 88%, rgba(255,255,255,.5), transparent 60%),
+        radial-gradient(1.6px 1.6px at 76% 62%, rgba(255,255,255,.8), transparent 60%),
+        radial-gradient(1.2px 1.2px at 86% 48%, rgba(255,255,255,.6), transparent 60%),
+        radial-gradient(1.4px 1.4px at 97% 80%, rgba(255,255,255,.7), transparent 60%),
+        radial-gradient(1px   1px   at 3% 8%,   rgba(255,255,255,.5), transparent 60%);
     animation: bg-twinkle 4.5s ease-in-out infinite alternate;
 }
 @keyframes bg-twinkle{0%{opacity:.55}50%{opacity:1}100%{opacity:.65}}
 
 .bg-aurora{
-    position:absolute; inset:-25%;
+    inset:-25%;
     background:
         radial-gradient(ellipse 55% 38% at 22% 25%, rgba(79,70,229,.32), transparent 60%),
         radial-gradient(ellipse 48% 34% at 78% 32%, rgba(139,92,246,.28), transparent 60%),
@@ -76,8 +102,21 @@ html[data-theme="dark"] body.bm-home-bg #bg-fx{opacity:1;}
     50% {transform:translate(3%,-4%) scale(1.1) rotate(4deg);}
     100%{transform:translate(-4%,3%) scale(1.02) rotate(-3deg);}
 }
+
+/* Mode clair : nuages pastel très doux, jamais de texte dessous gêné. */
+.bg-light-clouds{
+    inset:-25%;
+    background:
+        radial-gradient(ellipse 50% 35% at 15% 20%, rgba(199,210,254,.55), transparent 65%),
+        radial-gradient(ellipse 45% 32% at 85% 15%, rgba(253,224,225,.5), transparent 65%),
+        radial-gradient(ellipse 48% 36% at 30% 85%, rgba(209,250,229,.45), transparent 65%),
+        radial-gradient(ellipse 42% 30% at 80% 80%, rgba(254,240,199,.45), transparent 65%);
+    filter: blur(60px);
+    animation: bg-drift 26s ease-in-out infinite alternate;
+}
+
 @media (prefers-reduced-motion: reduce){
-    .bg-stars,.bg-aurora{animation:none;}
+    .bg-stars,.bg-aurora,.bg-light-clouds{animation:none;}
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .animate{animation:fadeUp .25s ease;}
@@ -252,6 +291,7 @@ html[data-theme="dark"] .badge-recent{background:#7c2d12;color:#fdba74;}
 .hl-hl{border:none !important;background:none !important;font-size:.76rem;padding:2px 4px !important;}
 .tc-icon{font-family:'Sora',sans-serif;font-weight:800;font-size:.85rem;color:var(--text);}
 .editor-area{min-height:340px;padding:16px;border:2px dashed var(--border);border-radius:var(--rs);outline:none;font-size:.93rem;line-height:1.75;background:#fafcff;color:#1e2937;}
+html[data-theme="dark"] .editor-area{background:#dde2ea;}
 .editor-area:focus{border-color:var(--accent);}
 
 /* Fractions insérées dans l'éditeur */
@@ -542,6 +582,10 @@ html[data-theme="dark"] .music-btn-active { background: #4f46e5; color: #fff !im
 
 /* ── MODE INTENSIF ────────────────────────────────────────── */
 .menu-tile-intensive                          { background: linear-gradient(135deg,#7c2d12,#ea580c) !important; }
+.menu-tile-cours    { background: linear-gradient(135deg,#312e81,#4f46e5) !important; }
+.menu-tile-voc      { background: linear-gradient(135deg,#6b21a8,#a855f7) !important; }
+.menu-tile-qcm      { background: linear-gradient(135deg,#9d174d,#ec4899) !important; }
+.menu-tile-flash    { background: linear-gradient(135deg,#155e75,#06b6d4) !important; }
 .int-badge                                    { display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,#ea580c,#f97316);color:#fff;border-radius:20px;padding:4px 12px;font-size:.75rem;font-weight:700;font-family:'Sora',sans-serif;margin-bottom:8px; }
 .info-box.orange                              { background:#fff7ed;border-color:#fdba74;color:#9a3412; }
 

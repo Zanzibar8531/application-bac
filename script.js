@@ -521,9 +521,6 @@ function render(html) {
     // encore autosauvegardée (moins de 1,5s après la dernière frappe), on la
     // force à s'enregistrer immédiatement avant de changer de page.
     if(hasUnsavedEdits && $('editor')){ clearTimeout(autosaveTimer); autosaveCoursNow(); }
-    // Le fond animé (étoiles/aurore) n'est actif que sur l'accueil — retiré par
-    // défaut ici, seule goHome() le remet juste après avoir appelé render().
-    document.body.classList.remove('bm-home-bg');
     M().innerHTML = html;
     M().classList.add('animate');
     setTimeout(()=>{ M().classList.remove('animate'); typesetMath(M()); }, 50);
@@ -656,7 +653,6 @@ function goHome() {
             <span class="sync-status" id="sync-status-home"></span>
         </div>
     `);
-    document.body.classList.add('bm-home-bg');
     updateSyncStatusBadge();
     updateNotifBtn();
 }
@@ -679,22 +675,22 @@ function goSubject(name) {
             <p>${st.total} cartes · ${st.due} à réviser</p>
         </div>
         <div class="menu-grid">
-            <button class="menu-tile" onclick="goModeChapters('cours')">
+            <button class="menu-tile menu-tile-cours" onclick="goModeChapters('cours')">
                 <span class="menu-tile-icon">📖</span>
                 <span class="menu-tile-label">Cours</span>
                 <span class="menu-tile-sub">Lire & éditer</span>
             </button>
-            <button class="menu-tile" onclick="goModeChapters('voc')">
+            <button class="menu-tile menu-tile-voc" onclick="goModeChapters('voc')">
                 <span class="menu-tile-icon">📚</span>
                 <span class="menu-tile-label">Vocabulaire</span>
                 <span class="menu-tile-sub">${st.total} mot(s)</span>
             </button>
-            <button class="menu-tile" onclick="openQCM()">
+            <button class="menu-tile menu-tile-qcm" onclick="openQCM()">
                 <span class="menu-tile-icon">🧠</span>
                 <span class="menu-tile-label">QCM</span>
                 <span class="menu-tile-sub">Questions auto-générées</span>
             </button>
-            <button class="menu-tile" onclick="openSRS()">
+            <button class="menu-tile menu-tile-flash" onclick="openSRS()">
                 <span class="menu-tile-icon">🎴</span>
                 <span class="menu-tile-label">Flashcards</span>
                 <span class="menu-tile-sub">${st.due > 0 ? st.due + ' à réviser' : '✓ À jour'}</span>
