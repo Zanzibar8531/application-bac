@@ -33,90 +33,56 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .tb-brand{font-family:'Sora',sans-serif;font-weight:800;font-size:1.1rem;cursor:pointer;color:#0e1525 !important;}
 #main{flex:1;padding:22px 18px 60px;max-width:1000px;margin:0 auto;width:100%;position:relative;z-index:1;}
 
-/* ── FOND ANIMÉ DE TOUTES LES PAGES ────────────────────────── */
-/* Mode sombre : ciel étoilé dense + bande de voie lactée + aurore boréale.
-   Mode clair : nuages pastel doux, très discrets, pour ne pas gêner la lecture. */
-#bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
-
-.bg-stars,.bg-milkyway,.bg-aurora,.bg-light-clouds{opacity:0;transition:opacity .7s ease;position:absolute;inset:0;}
-html[data-theme="dark"] .bg-stars,
-html[data-theme="dark"] .bg-milkyway,
-html[data-theme="dark"] .bg-aurora{opacity:1;}
-html:not([data-theme="dark"]) .bg-light-clouds{opacity:1;}
-
-/* Bande de voie lactée : une traînée diagonale diffuse, plus claire au centre. */
-.bg-milkyway{
-    background: linear-gradient(115deg,
-        transparent 30%,
-        rgba(199,197,255,.05) 40%,
-        rgba(224,222,255,.10) 47%,
-        rgba(236,233,255,.14) 50%,
-        rgba(224,222,255,.10) 53%,
-        rgba(199,197,255,.05) 60%,
-        transparent 70%);
-    mix-blend-mode: screen;
-}
-
-.bg-stars{
-    background-image:
-        radial-gradient(1.6px 1.6px at 8% 22%,  rgba(255,255,255,.9), transparent 60%),
-        radial-gradient(1.2px 1.2px at 18% 68%, rgba(255,255,255,.7), transparent 60%),
-        radial-gradient(1.8px 1.8px at 28% 12%, rgba(255,255,255,.8), transparent 60%),
-        radial-gradient(1px   1px   at 37% 82%, rgba(255,255,255,.6), transparent 60%),
-        radial-gradient(1.6px 1.6px at 46% 38%, rgba(255,255,255,.85),transparent 60%),
-        radial-gradient(1.2px 1.2px at 55% 75%, rgba(255,255,255,.6), transparent 60%),
-        radial-gradient(1.8px 1.8px at 64% 18%, rgba(255,255,255,.9), transparent 60%),
-        radial-gradient(1px   1px   at 72% 55%, rgba(255,255,255,.5), transparent 60%),
-        radial-gradient(1.6px 1.6px at 81% 30%, rgba(255,255,255,.8), transparent 60%),
-        radial-gradient(1.2px 1.2px at 89% 70%, rgba(255,255,255,.65),transparent 60%),
-        radial-gradient(1.8px 1.8px at 94% 15%, rgba(255,255,255,.85),transparent 60%),
-        radial-gradient(1px   1px   at 12% 92%, rgba(255,255,255,.5), transparent 60%),
-        radial-gradient(1.4px 1.4px at 60% 92%, rgba(255,255,255,.7), transparent 60%),
-        radial-gradient(1.4px 1.4px at 5% 55%,  rgba(255,255,255,.6), transparent 60%),
-        radial-gradient(1.3px 1.3px at 42% 6%,  rgba(255,255,255,.75),transparent 60%),
-        radial-gradient(1px   1px   at 24% 45%, rgba(255,255,255,.55),transparent 60%),
-        radial-gradient(1.5px 1.5px at 33% 30%, rgba(255,255,255,.8), transparent 60%),
-        radial-gradient(1.1px 1.1px at 50% 58%, rgba(255,255,255,.6), transparent 60%),
-        radial-gradient(1.4px 1.4px at 58% 40%, rgba(255,255,255,.7), transparent 60%),
-        radial-gradient(1px   1px   at 68% 88%, rgba(255,255,255,.5), transparent 60%),
-        radial-gradient(1.6px 1.6px at 76% 62%, rgba(255,255,255,.8), transparent 60%),
-        radial-gradient(1.2px 1.2px at 86% 48%, rgba(255,255,255,.6), transparent 60%),
-        radial-gradient(1.4px 1.4px at 97% 80%, rgba(255,255,255,.7), transparent 60%),
-        radial-gradient(1px   1px   at 3% 8%,   rgba(255,255,255,.5), transparent 60%);
-    animation: bg-twinkle 4.5s ease-in-out infinite alternate;
-}
-@keyframes bg-twinkle{0%{opacity:.55}50%{opacity:1}100%{opacity:.65}}
-
-.bg-aurora{
-    inset:-25%;
+/* ── FOND DE TOUTES LES PAGES ──────────────────────────────── */
+/* Peint directement sur <body> (jamais recouvert par le contenu, quelle
+   que soit la densité de la page) : ciel étoilé + voie lactée + aurore
+   boréale en mode sombre ; nuages pastel doux en mode clair.
+   background-attachment:fixed pour que ça ne défile pas avec la page. */
+html[data-theme="dark"] body{
     background:
-        radial-gradient(ellipse 55% 38% at 22% 25%, rgba(79,70,229,.32), transparent 60%),
-        radial-gradient(ellipse 48% 34% at 78% 32%, rgba(139,92,246,.28), transparent 60%),
-        radial-gradient(ellipse 52% 38% at 48% 75%, rgba(16,185,129,.20), transparent 60%),
-        radial-gradient(ellipse 40% 30% at 65% 85%, rgba(236,72,153,.16), transparent 60%);
-    filter: blur(50px);
-    animation: bg-drift 20s ease-in-out infinite alternate;
+        radial-gradient(1.6px 1.6px at 8% 22%,  rgba(255,255,255,.95), transparent 60%),
+        radial-gradient(1.3px 1.3px at 18% 68%, rgba(255,255,255,.8), transparent 60%),
+        radial-gradient(1.9px 1.9px at 28% 12%, rgba(255,255,255,.85),transparent 60%),
+        radial-gradient(1.1px 1.1px at 37% 82%, rgba(255,255,255,.7), transparent 60%),
+        radial-gradient(1.7px 1.7px at 46% 38%, rgba(255,255,255,.9), transparent 60%),
+        radial-gradient(1.3px 1.3px at 55% 75%, rgba(255,255,255,.7), transparent 60%),
+        radial-gradient(1.9px 1.9px at 64% 18%, rgba(255,255,255,.95),transparent 60%),
+        radial-gradient(1.1px 1.1px at 72% 55%, rgba(255,255,255,.6), transparent 60%),
+        radial-gradient(1.7px 1.7px at 81% 30%, rgba(255,255,255,.85),transparent 60%),
+        radial-gradient(1.3px 1.3px at 89% 70%, rgba(255,255,255,.7), transparent 60%),
+        radial-gradient(1.9px 1.9px at 94% 15%, rgba(255,255,255,.9), transparent 60%),
+        radial-gradient(1.1px 1.1px at 12% 92%, rgba(255,255,255,.6), transparent 60%),
+        radial-gradient(1.5px 1.5px at 60% 92%, rgba(255,255,255,.75),transparent 60%),
+        radial-gradient(1.5px 1.5px at 5% 55%,  rgba(255,255,255,.65),transparent 60%),
+        radial-gradient(1.4px 1.4px at 42% 6%,  rgba(255,255,255,.8), transparent 60%),
+        radial-gradient(1.1px 1.1px at 24% 45%, rgba(255,255,255,.6), transparent 60%),
+        radial-gradient(1.6px 1.6px at 33% 30%, rgba(255,255,255,.85),transparent 60%),
+        radial-gradient(1.2px 1.2px at 50% 58%, rgba(255,255,255,.65),transparent 60%),
+        radial-gradient(1.5px 1.5px at 68% 88%, rgba(255,255,255,.6), transparent 60%),
+        radial-gradient(1.7px 1.7px at 76% 62%, rgba(255,255,255,.85),transparent 60%),
+        radial-gradient(1.3px 1.3px at 86% 48%, rgba(255,255,255,.65),transparent 60%),
+        radial-gradient(1.5px 1.5px at 97% 80%, rgba(255,255,255,.75),transparent 60%),
+        linear-gradient(115deg, transparent 28%, rgba(199,197,255,.06) 38%, rgba(224,222,255,.13) 47%, rgba(236,233,255,.16) 50%, rgba(224,222,255,.13) 53%, rgba(199,197,255,.06) 62%, transparent 72%),
+        radial-gradient(ellipse 55% 38% at 22% 25%, rgba(79,70,229,.30), transparent 60%),
+        radial-gradient(ellipse 48% 34% at 78% 28%, rgba(139,92,246,.26), transparent 60%),
+        radial-gradient(ellipse 52% 38% at 48% 80%, rgba(16,185,129,.18), transparent 60%),
+        radial-gradient(ellipse 40% 30% at 68% 90%, rgba(236,72,153,.14), transparent 60%),
+        var(--bg) !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
 }
-@keyframes bg-drift{
-    0%  {transform:translate(0,0) scale(1) rotate(0deg);}
-    50% {transform:translate(3%,-4%) scale(1.1) rotate(4deg);}
-    100%{transform:translate(-4%,3%) scale(1.02) rotate(-3deg);}
-}
-
-/* Mode clair : nuages pastel très doux, jamais de texte dessous gêné. */
-.bg-light-clouds{
-    inset:-25%;
+/* Mode clair : nuages pastel très doux, jamais gênants pour la lecture. */
+html:not([data-theme="dark"]) body{
     background:
-        radial-gradient(ellipse 50% 35% at 15% 20%, rgba(199,210,254,.55), transparent 65%),
-        radial-gradient(ellipse 45% 32% at 85% 15%, rgba(253,224,225,.5), transparent 65%),
-        radial-gradient(ellipse 48% 36% at 30% 85%, rgba(209,250,229,.45), transparent 65%),
-        radial-gradient(ellipse 42% 30% at 80% 80%, rgba(254,240,199,.45), transparent 65%);
-    filter: blur(60px);
-    animation: bg-drift 26s ease-in-out infinite alternate;
-}
-
-@media (prefers-reduced-motion: reduce){
-    .bg-stars,.bg-aurora,.bg-light-clouds{animation:none;}
+        radial-gradient(ellipse 50% 35% at 15% 15%, rgba(199,210,254,.45), transparent 65%),
+        radial-gradient(ellipse 45% 32% at 85% 10%, rgba(253,224,225,.4), transparent 65%),
+        radial-gradient(ellipse 48% 36% at 25% 85%, rgba(209,250,229,.35), transparent 65%),
+        radial-gradient(ellipse 42% 30% at 82% 78%, rgba(254,240,199,.35), transparent 65%),
+        var(--bg) !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .animate{animation:fadeUp .25s ease;}
@@ -1091,7 +1057,8 @@ html[data-theme="dark"] .cours-body strong,
 html[data-theme="dark"] .cours-body b{color:#818cf8 !important;-webkit-text-fill-color:#818cf8 !important;}
 html[data-theme="dark"] .cours-body em,
 html[data-theme="dark"] .cours-body i{color:#c4b5fd !important;-webkit-text-fill-color:#c4b5fd !important;}
-html[data-theme="dark"] .cours-body li{background:var(--card) !important;border-color:var(--border) !important;}
+html[data-theme="dark"] .cours-body li{background:var(--card) !important;border-color:var(--border) !important;color:#cbd5e1 !important;-webkit-text-fill-color:#cbd5e1 !important;}
+html[data-theme="dark"] .cours-body li:hover{background:#1e2444 !important;border-color:#4f46e5 !important;}
 html[data-theme="dark"] .formula-box{background:linear-gradient(135deg,#1e293b,#1e3a5f) !important;color:#bfdbfe !important;-webkit-text-fill-color:#bfdbfe !important;}
 html[data-theme="dark"] .formula-box strong,
 html[data-theme="dark"] .formula-box b{color:#93c5fd !important;-webkit-text-fill-color:#93c5fd !important;}
@@ -1289,11 +1256,40 @@ html[data-theme="dark"] input[type="date"]{color-scheme:dark;}
     margin-top: 4px;
 }
 
+/* ── Choix du niveau avant de commencer ── */
+.niveau-picker{display:flex;flex-direction:column;gap:10px;}
+.niveau-choice{display:flex;align-items:center;gap:12px;padding:16px 18px;border:none;border-radius:var(--r);cursor:pointer;text-align:left;color:#fff;font-family:'DM Sans',sans-serif;transition:transform .15s;}
+.niveau-choice:hover{transform:translateY(-2px);}
+.niveau-choice-tous{background:linear-gradient(135deg,#4f46e5,#7c3aed);}
+.niveau-choice-facile{background:linear-gradient(135deg,#15803d,#22c55e);}
+.niveau-choice-moyen{background:linear-gradient(135deg,#a16207,#eab308);}
+.niveau-choice-difficile{background:linear-gradient(135deg,#b91c1c,#ef4444);}
+.nc-icon{font-size:1.4rem;}
+.nc-label{font-weight:700;flex:1;}
+.nc-count{font-size:.8rem;opacity:.85;background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;}
+
+/* ── Zone de réponse avant correction ── */
+.exo-attempt{margin:14px 0;}
+.exo-attempt-area{width:100%;min-height:110px;padding:12px 14px;border:1.5px dashed var(--border);border-radius:var(--rs);background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;line-height:1.6;resize:vertical;outline:none;}
+.exo-attempt-area:focus{border-color:#4f46e5;border-style:solid;}
+
+/* ── Auto-évaluation après correction ── */
+.exo-rating-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;}
+.exo-rate-btn{padding:12px 8px;border:none;border-radius:var(--rs);font-weight:700;font-size:.82rem;cursor:pointer;color:#fff;transition:transform .15s;}
+.exo-rate-btn:hover{transform:translateY(-2px);}
+.exo-rate-bad{background:linear-gradient(135deg,#b91c1c,#ef4444);}
+.exo-rate-mid{background:linear-gradient(135deg,#a16207,#eab308);}
+.exo-rate-good{background:linear-gradient(135deg,#15803d,#22c55e);}
+
+/* ── Bouton "réviser ce qui n'est pas réussi" ── */
+.exo-review-btn{width:100%;background:linear-gradient(135deg,#b91c1c,#ea580c) !important;margin-bottom:16px;}
+
 @media (max-width: 600px) {
     .exo-enonce { font-size: .93rem; padding: 12px 13px; }
     .exo-correction { font-size: .91rem; padding: 13px 14px; }
     .exo-nav { flex-direction: column; }
     .exo-nav button { width: 100%; }
+    .exo-rating-row{grid-template-columns:1fr;}
 }
 
 /* ── ICÔNES RENOMMER/SUPPRIMER — intégrées dans la carte du chapitre ── */
@@ -1309,35 +1305,6 @@ html[data-theme="dark"] input[type="date"]{color-scheme:dark;}
 .chcard-icon-btn:hover { background: var(--accent); color: #fff; transform: scale(1.08); }
 .chcard-icon-del:hover { background: var(--red); }
 @media (max-width:600px) { .chcard-icon-btn { width: 32px; height: 32px; } }
-
-/* ── MODULE EXERCICES ────────────────────────────────────── */
-.menu-tile-exo { background: linear-gradient(135deg,#0f766e,#0d9488) !important; }
-.exo-progress-bar { width:100%;height:6px;background:var(--border);border-radius:6px;margin-bottom:6px;overflow:hidden; }
-.exo-progress-fill { height:100%;background:linear-gradient(90deg,#4f46e5,#7c3aed);border-radius:6px;transition:width .4s ease; }
-.exo-box { padding:20px !important; }
-.exo-niveau { display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:700;font-family:'Sora',sans-serif;margin-bottom:14px; }
-.exo-niveau-facile   { background:#dcfce7;color:#166534; }
-.exo-niveau-moyen    { background:#fef9c3;color:#854d0e; }
-.exo-niveau-difficile{ background:#fee2e2;color:#991b1b; }
-.exo-label { font-family:'Sora',sans-serif;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:10px; }
-.correction-label { color:#059669 !important; }
-.exo-enonce { background:#f8faff;border:1.5px solid #e0e7ff;border-left:4px solid #4f46e5;border-radius:0 12px 12px 0;padding:14px 16px;margin-bottom:16px;font-size:.97rem;line-height:1.8; }
-.exo-enonce strong,.exo-enonce b { color:#4338ca;font-weight:700; }
-.exo-aide { margin-bottom:16px;border:1.5px solid #fde68a;border-radius:12px;overflow:hidden; }
-.exo-aide summary { padding:10px 16px;background:#fffbeb;cursor:pointer;font-weight:600;font-size:.88rem;color:#92400e;list-style:none;display:flex;align-items:center;gap:6px; }
-.exo-aide summary::-webkit-details-marker { display:none; }
-.exo-aide[open] summary { border-bottom:1.5px solid #fde68a; }
-.exo-aide-content { padding:12px 16px;background:#fefce8;font-size:.9rem;line-height:1.75;color:#713f12; }
-.exo-correction { background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #86efac;border-left:5px solid #059669;border-radius:0 14px 14px 0;padding:16px 18px;margin-bottom:18px;font-size:.95rem;line-height:1.85; }
-.exo-correction strong,.exo-correction b { color:#065f46;font-weight:700; }
-.exo-voir-btn { width:100% !important;background:linear-gradient(135deg,#4f46e5,#7c3aed) !important;margin-top:8px; }
-.exo-nav { display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:4px; }
-@media (max-width:600px) {
-    .exo-enonce { font-size:.93rem;padding:12px 13px; }
-    .exo-correction { font-size:.91rem;padding:13px 14px; }
-    .exo-nav { flex-direction:column; }
-    .exo-nav button { width:100%; }
-}
 
 /* ═══════════════════════════════════════════════════════════
    TEXTES ANNOTÉS — FIGURES DE STYLE SURLIGNÉES

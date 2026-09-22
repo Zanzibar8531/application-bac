@@ -2280,8 +2280,13 @@ function openExercices() {
         </div>
         <div class="page-head">
             <h1>✏️ Exercices — ${curSubject}</h1>
-            <p style="color:var(--muted);font-size:.85rem">Lis l'énoncé, réfléchis, puis regarde la correction</p>
+            <p style="color:var(--muted);font-size:.85rem">Lis l'énoncé, cherche vraiment, puis regarde la correction</p>
         </div>
+        ${(()=>{
+            const toReview = Object.values(db[curSubject]).reduce((sum,chData)=>
+                sum + (chData.exercices||[]).filter(e=>e.status==='a_revoir'||e.status==='presque').length, 0);
+            return toReview>0 ? `<button class="btn-main exo-review-btn" onclick="startExoReviewSession()">🔁 Réviser ce qui n'est pas encore réussi (${toReview})</button>` : '';
+        })()}
         <div class="chapters-grid">
             ${chapters.map(ch => {
                 const exos = db[curSubject][ch].exercices || [];
@@ -2292,9 +2297,9 @@ function openExercices() {
                     <div class="chcard-name">${ch}</div>
                     <div class="chcard-meta">
                         <span>✏️ ${exos.length} exercice${exos.length>1?'s':''}</span>
-                        ${nF?`<span style="color:#166534">🟢${nF}</span>`:''}
-                        ${nM?`<span style="color:#854d0e">🟡${nM}</span>`:''}
-                        ${nD?`<span style="color:#991b1b">🔴${nD}</span>`:''}
+                        ${nF?`<span>🟢${nF}</span>`:''}
+                        ${nM?`<span>🟡${nM}</span>`:''}
+                        ${nD?`<span>🔴${nD}</span>`:''}
                     </div>
                 </div>`;
             }).join('')}
@@ -2302,20 +2307,81 @@ function openExercices() {
     `);
 }
 
-let curExoChapter='', curExoIdx=0, exoShowCorrection=false;
+let curExoChapter='', curExoIdx=0, exoShowCorrection=false, curExoList=[], curExoNiveau='tous';
 
 function openExoChapter(ch) {
-    curExoChapter=ch; curExoIdx=0; exoShowCorrection=false; renderExo();
+    curExoChapter = ch;
+    const exos = db[curSubject][ch].exercices || [];
+    const nF = exos.filter(e=>e.niveau==='Facile').length;
+    const nM = exos.filter(e=>e.niveau==='Moyen').length;
+    const nD = exos.filter(e=>e.niveau==='Difficile').length;
+    render(`
+        <div class="breadcrumb">
+            <button class="bc-btn" onclick="goSubject('${esc(curSubject)}')">🏠</button>
+            <span class="bc-sep">›</span>
+            <button class="bc-btn" onclick="openExercices()">Exercices</button>
+            <span class="bc-sep">›</span>
+            <span class="bc-cur">${esc(ch)}</span>
+        </div>
+        <div class="page-head">
+            <h1>✏️ ${esc(ch)}</h1>
+            <p style="color:var(--muted);font-size:.85rem">Choisis le niveau que tu veux travailler</p>
+        </div>
+        <div class="niveau-picker">
+            <button class="niveau-choice niveau-choice-tous" onclick="startExoSession('${esc(ch)}','tous')">
+                <span class="nc-icon">📋</span><span class="nc-label">Tous les niveaux</span><span class="nc-count">${exos.length} exercice${exos.length>1?'s':''}</span>
+            </button>
+            ${nF?`<button class="niveau-choice niveau-choice-facile" onclick="startExoSession('${esc(ch)}','Facile')"><span class="nc-icon">🟢</span><span class="nc-label">Facile</span><span class="nc-count">${nF}</span></button>`:''}
+            ${nM?`<button class="niveau-choice niveau-choice-moyen" onclick="startExoSession('${esc(ch)}','Moyen')"><span class="nc-icon">🟡</span><span class="nc-label">Moyen</span><span class="nc-count">${nM}</span></button>`:''}
+            ${nD?`<button class="niveau-choice niveau-choice-difficile" onclick="startExoSession('${esc(ch)}','Difficile')"><span class="nc-icon">🔴</span><span class="nc-label">Difficile</span><span class="nc-count">${nD}</span></button>`:''}
+        </div>
+    `);
+}
+
+function startExoSession(ch, niveau) {
+    curExoChapter = ch;
+    curExoNiveau = niveau;
+    const exos = db[curSubject][ch].exercices || [];
+    curExoList = exos.map((exo,i) => ({exo, originalIndex:i, ch}))
+        .filter(x => niveau==='tous' || x.exo.niveau===niveau);
+    curExoIdx = 0; exoShowCorrection = false;
+    renderExo();
+}
+
+function startExoReviewSession() {
+    curExoChapter = '__review__';
+    curExoNiveau = 'tous';
+    const list = [];
+    Object.keys(db[curSubject]).forEach(ch => {
+        (db[curSubject][ch].exercices || []).forEach((exo, i) => {
+            if(exo.status === 'a_revoir' || exo.status === 'presque') list.push({exo, originalIndex:i, ch});
+        });
+    });
+    curExoList = list;
+    curExoIdx = 0; exoShowCorrection = false;
+    renderExo();
+}
+
+function rateExo(status) {
+    const item = curExoList[curExoIdx];
+    const exos = db[curSubject][item.ch] && db[curSubject][item.ch].exercices;
+    if(exos && exos[item.originalIndex]){
+        exos[item.originalIndex].status = status;
+        exos[item.originalIndex].lastAttempt = new Date().toISOString();
+        save();
+    }
+    if(curExoIdx < curExoList.length - 1){ curExoIdx++; exoShowCorrection=false; renderExo(); }
+    else openExoResults();
 }
 
 function renderExo() {
-    const exos = db[curSubject][curExoChapter].exercices||[];
-    if(!exos.length){openExercices();return;}
-    curTrackedPage = { subject: curSubject, activity: '🧩 Exercices — ' + curExoChapter };
-    const exo=exos[curExoIdx], total=exos.length;
+    if(!curExoList.length){openExercices();return;}
+    const item = curExoList[curExoIdx], exo = item.exo, total = curExoList.length;
+    curTrackedPage = { subject: curSubject, activity: '🧩 Exercices — ' + (curExoChapter==='__review__' ? 'Révision' : curExoChapter) };
     const pct=Math.round((curExoIdx/total)*100);
     const niv=(exo.niveau||'Moyen').toLowerCase();
     const nivEmoji=exo.niveau==='Facile'?'🟢':exo.niveau==='Difficile'?'🔴':'🟡';
+    const titre = curExoChapter==='__review__' ? `🔁 Révision — ${item.ch}` : curExoChapter;
 
     render(`
         <div class="breadcrumb">
@@ -2323,7 +2389,7 @@ function renderExo() {
             <span class="bc-sep">›</span>
             <button class="bc-btn" onclick="openExercices()">Exercices</button>
             <span class="bc-sep">›</span>
-            <span class="bc-cur">${curExoChapter}</span>
+            <span class="bc-cur">${esc(titre)}</span>
         </div>
         <div class="exo-progress-bar"><div class="exo-progress-fill" style="width:${pct}%"></div></div>
         <div style="text-align:right;font-size:.78rem;color:var(--muted);margin-bottom:12px">
@@ -2345,13 +2411,18 @@ function renderExo() {
                     <div class="exo-label correction-label">✅ Correction détaillée</div>
                     ${exo.correction}
                 </div>
-                <div class="exo-nav">
-                    ${curExoIdx>0?`<button class="bc-btn" onclick="curExoIdx--;exoShowCorrection=false;renderExo()">← Précédent</button>`:'<span></span>'}
-                    ${curExoIdx<total-1
-                        ?`<button class="btn-main" onclick="curExoIdx++;exoShowCorrection=false;renderExo()">Suivant →</button>`
-                        :`<button class="btn-main" style="background:linear-gradient(135deg,#059669,#10b981)" onclick="openExoResults()">🏆 Terminer !</button>`}
+                <div class="exo-label" style="margin-top:14px">Sois honnête : tu en étais où ?</div>
+                <div class="exo-rating-row">
+                    <button class="exo-rate-btn exo-rate-bad" onclick="rateExo('a_revoir')">🔴 À revoir</button>
+                    <button class="exo-rate-btn exo-rate-mid" onclick="rateExo('presque')">🟡 Presque</button>
+                    <button class="exo-rate-btn exo-rate-good" onclick="rateExo('reussi')">🟢 Réussi</button>
                 </div>
+                ${curExoIdx>0?`<button class="bc-btn" style="margin-top:10px" onclick="curExoIdx--;exoShowCorrection=false;renderExo()">← Revoir l'exercice précédent</button>`:''}
             `:`
+                <div class="exo-attempt">
+                    <div class="exo-label">✏️ Ta réponse / ton raisonnement</div>
+                    <textarea id="exo-attempt-area" class="exo-attempt-area" placeholder="Cherche vraiment avant de regarder la correction — c'est ce qui fait progresser (pas sauvegardé, juste pour toi)."></textarea>
+                </div>
                 <button class="btn-main exo-voir-btn" onclick="exoShowCorrection=true;renderExo()">
                     👁️ Voir la correction
                 </button>
@@ -2362,16 +2433,16 @@ function renderExo() {
 
 function openExoResults() {
     curTrackedPage = null;
-    const exos=db[curSubject][curExoChapter].exercices||[];
+    const total = curExoList.length;
     render(`
         <div class="ws-box"><div class="session-end">
             <div class="se-emoji">🏆</div>
             <div class="se-title">Série terminée !</div>
-            <div class="se-subject">${curSubject} · ${curExoChapter}</div>
-            <div class="se-pct">${exos.length}</div>
-            <div class="se-label">exercice${exos.length>1?'s':''} complété${exos.length>1?'s':''}</div>
+            <div class="se-subject">${curSubject}${curExoChapter!=='__review__' ? ' · '+curExoChapter : ' · Révision'}</div>
+            <div class="se-pct">${total}</div>
+            <div class="se-label">exercice${total>1?'s':''} complété${total>1?'s':''}</div>
             <div class="se-actions" style="margin-top:20px">
-                <button class="btn-main" onclick="curExoIdx=0;exoShowCorrection=false;renderExo()">🔄 Recommencer</button>
+                ${curExoChapter!=='__review__' ? `<button class="btn-main" onclick="startExoSession('${esc(curExoChapter)}','${curExoNiveau}')">🔄 Recommencer</button>` : ''}
                 <button class="btn-main" style="background:linear-gradient(135deg,#059669,#10b981)" onclick="openExercices()">📚 Autres chapitres</button>
                 <button class="bc-btn se-home-btn" onclick="goSubject('${esc(curSubject)}')">← Retour au menu</button>
             </div>
