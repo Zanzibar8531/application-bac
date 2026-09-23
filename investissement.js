@@ -257,4 +257,51 @@ flashcards:[
 {q:'Critère de taille (encours) à privilégier pour un ETF',a:'Un encours élevé (idéalement &gt; 100-500 millions €) — plus de liquidité, moins de risque que le fonds ferme.'},
 {q:'Frais de courtage vs frais de tenue de compte',a:'Courtage : commission prélevée à chaque ordre d\'achat/vente. Tenue de compte : frais fixes ou annuels pour la gestion du compte lui-même (souvent nuls chez les courtiers en ligne).'},
 ]},
+
+'Inflation et taux d\'intérêt : comprendre les bases macro': {
+cours:`<h3>L'inflation : la base</h3>
+<div class="formula-box">L'<strong>inflation</strong> est la hausse générale et durable des prix dans une économie — mécaniquement, ta monnaie perd du <mark>pouvoir d'achat</mark> : avec la même somme, tu achètes moins de choses qu'avant.</div>
+<p>Elle se mesure généralement par l'<strong>IPC</strong> (Indice des Prix à la Consommation), qui suit l'évolution du prix d'un panier de biens et services représentatif de la consommation moyenne des ménages.</p>
+<div class="retenir-box">Une inflation <mark>modérée</mark> (autour de 2%/an, cible visée par la plupart des banques centrales) est considérée comme normale et même saine pour une économie. C'est l'inflation <strong>excessive</strong> (hyperinflation) ou au contraire la <strong>déflation</strong> (baisse des prix) qui posent de vrais problèmes économiques.</div>
+
+<h3>Pourquoi l'inflation, concrètement</h3>
+<ul>
+<li><strong>Trop de monnaie en circulation</strong> par rapport à la richesse réellement produite (inflation "monétaire").</li>
+<li><strong>Demande supérieure à l'offre</strong> : si tout le monde veut acheter un bien limité, son prix monte.</li>
+<li><strong>Hausse des coûts de production</strong> (matières premières, énergie, salaires) répercutée sur les prix de vente.</li>
+</ul>
+
+<h3>Le rôle des taux d'intérêt directeurs</h3>
+<div class="formula-box">Les <strong>banques centrales</strong> (BCE en zone euro, Fed aux États-Unis) fixent des <mark>taux directeurs</mark> — le taux auquel elles prêtent aux banques commerciales. C'est leur outil principal pour piloter l'inflation.</div>
+<ul>
+<li><strong>Taux qui montent</strong> → emprunter coûte plus cher → les ménages et entreprises empruntent et dépensent moins → la demande ralentit → l'inflation a tendance à redescendre (mais l'activité économique ralentit aussi).</li>
+<li><strong>Taux qui baissent</strong> → emprunter coûte moins cher → davantage de dépenses et d'investissements → relance l'activité économique, mais risque de relancer l'inflation aussi.</li>
+</ul>
+<div class="attention-box">Les banques centrales marchent constamment sur un fil : faire <mark>trop</mark> monter les taux risque de freiner l'économie au point de provoquer une récession ; ne pas assez les monter laisse l'inflation s'installer durablement.</div>
+
+<h3>L'impact concret sur tes investissements</h3>
+<ul>
+<li><strong>Livret A</strong> : son taux est directement influencé par l'inflation — s'il est inférieur à l'inflation, ton épargne perd quand même du pouvoir d'achat malgré des intérêts positifs (taux réel négatif).</li>
+<li><strong>Actions/ETF</strong> : des taux directeurs élevés rendent généralement les actions moins attractives (l'épargne "sans risque" comme les obligations devient plus rémunératrice en comparaison), ce qui peut faire baisser les marchés actions à court terme.</li>
+<li><strong>Immobilier</strong> : des taux élevés renchérissent le crédit immobilier, ce qui freine la demande et peut faire baisser les prix.</li>
+</ul>
+<div class="formula-box">Rendement réel ≈ Rendement nominal − Taux d'inflation<br>Exemple : un Livret A à 3% avec une inflation à 4% donne un rendement <strong>réel négatif</strong> de -1% — tu perds du pouvoir d'achat même si le solde augmente en euros.</div>
+
+<h3>Pourquoi c'est pertinent pour investir sur le long terme</h3>
+<p>C'est précisément parce que l'épargne "sans risque" peine souvent à suivre l'inflation sur le long terme que l'investissement en actions/ETF (qui vise un rendement moyen supérieur, en échange d'un risque de volatilité) a tout son intérêt pour un objectif à 10-20 ans — le vrai risque, sur une aussi longue période, peut être de laisser dormir son argent sur un support qui ne suit pas l'inflation.</p>`,
+exercices:[
+{niveau:'Facile', enonce:`<p>Le prix d'un panier de courses passe de 100€ à 103€ en un an, sans changement de contenu. Comment appelle-t-on ce phénomène, et quel est le taux annuel dans cet exemple ?</p>`, aide:`Relis la définition de l'inflation — le taux se calcule comme une évolution en pourcentage.`, correction:`<p>C'est de l'<strong>inflation</strong>. Le taux est de <strong>3%</strong> : $(103-100)/100 \\times 100 = 3\\%$. Le panier coûte 3% plus cher qu'un an avant, donc avec la même somme d'argent, tu peux acheter un peu moins qu'avant.</p>`},
+{niveau:'Moyen', enonce:`<p>La banque centrale relève fortement ses taux directeurs pour lutter contre une inflation élevée. Explique la chaîne d'effets, étape par étape, qui relie cette décision à un ralentissement de l'inflation — et le risque que ça fait courir à l'économie.</p>`, aide:`Relis la partie sur le rôle des taux directeurs — suis la chaîne : taux plus élevés → coût de l'emprunt → comportement des ménages/entreprises → demande → prix.`, correction:`<p><strong>Chaîne d'effets</strong> : taux directeurs plus élevés → emprunter devient plus cher pour les banques, qui répercutent sur les ménages/entreprises → les gens empruntent et dépensent moins (crédit immobilier, achats à crédit, investissements des entreprises) → la demande globale ralentit → avec moins de demande, les prix ont moins de pression pour monter → l'inflation redescend progressivement.</p><p><strong>Le risque</strong> : si la banque centrale monte les taux trop fort ou trop vite, elle risque de freiner l'économie au-delà du nécessaire, ce qui peut provoquer une <mark>récession</mark> (baisse de l'activité économique, hausse du chômage) — c'est l'équilibre délicat évoqué dans le cours.</p>`},
+{niveau:'Difficile', enonce:`<p>Un livret d'épargne sans risque rapporte 2,5% par an. L'inflation cette même année est de 4%. Calcule le rendement réel de cette épargne, puis explique pourquoi ce résultat illustre l'intérêt d'un investissement en actions/ETF pour un objectif de long terme, malgré le risque associé.</p>`, aide:`Utilise la formule du rendement réel donnée dans le cours (rendement nominal − inflation). Une fois le résultat obtenu, réfléchis à ce que ça signifie concrètement pour le pouvoir d'achat de cette épargne.`, correction:`<p>Rendement réel $\\approx 2,5\\% - 4\\% = -1,5\\%$.</p><p>Malgré un solde qui augmente en euros (+2,5%), le pouvoir d'achat réel de cette épargne <mark>diminue</mark> de 1,5% sur l'année — l'épargnant peut acheter moins de choses avec son argent qu'un an plus tôt, en tenant compte de la hausse des prix.</p><p>Ce résultat illustre bien pourquoi une épargne "sans risque" ne protège pas forcément le pouvoir d'achat sur la durée : sur 10-20 ans, une suite d'années à rendement réel négatif peut éroder significativement la valeur réelle de l'épargne. Un investissement en actions/ETF, dont le rendement moyen historique dépasse généralement l'inflation sur le long terme (même si certaines années sont négatives), vise justement à préserver et faire croître le pouvoir d'achat sur cet horizon — en échange d'accepter une volatilité à court terme que l'épargne garantie n'a pas.</p>`},
+],
+flashcards:[
+{q:'Inflation — définition',a:'Hausse générale et durable des prix dans une économie, qui fait perdre du pouvoir d\'achat à la monnaie.'},
+{q:'IPC',a:'Indice des Prix à la Consommation : mesure l\'évolution du prix d\'un panier de biens et services représentatif de la consommation des ménages.'},
+{q:'Taux d\'inflation considéré comme "sain" par les banques centrales',a:'Autour de 2% par an — une inflation modérée est normale ; l\'hyperinflation et la déflation posent de vrais problèmes économiques.'},
+{q:'Rôle des taux directeurs des banques centrales',a:'Piloter l\'inflation : les monter ralentit l\'emprunt/la dépense (freine l\'inflation mais aussi l\'économie), les baisser relance l\'activité (mais risque de relancer l\'inflation).'},
+{q:'BCE et Fed',a:'BCE : Banque Centrale Européenne (zone euro). Fed : banque centrale des États-Unis. Elles fixent les taux directeurs de leur zone.'},
+{q:'Formule du rendement réel',a:'Rendement réel ≈ Rendement nominal − Taux d\'inflation. Un rendement nominal positif peut donner un rendement réel négatif si l\'inflation est plus forte.'},
+{q:'Pourquoi des taux directeurs élevés peuvent faire baisser les marchés actions',a:'L\'épargne "sans risque" (obligations, livrets) devient plus rémunératrice en comparaison, rendant les actions relativement moins attractives.'},
+{q:'Pourquoi investir en actions/ETF sur le long terme malgré le risque',a:'L\'épargne sans risque peine souvent à suivre l\'inflation sur la durée (rendement réel parfois négatif) — les actions visent un rendement moyen supérieur sur le long terme, en échange d\'une volatilité à court terme.'},
+]},
 };

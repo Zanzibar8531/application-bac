@@ -851,7 +851,7 @@ function renderChapter() {
     renderTabContent();
 }
 
-function switchTab(t) { curTab=t; renderChapter(); }
+function switchTab(t) { curTab=t; vocEditingIndex=null; renderChapter(); }
 
 function renderTabContent() {
     const box = $('ws-box');
@@ -984,10 +984,19 @@ function renderTabContent() {
         box.innerHTML = cards.length===0
             ? '<p style="color:var(--muted);text-align:center;padding:20px;">Aucun mot. Clique sur ➕ Ajouter pour commencer.</p>'
             : `<p class="voc-count">${cards.length} mot(s)</p>
-               <div>${cards.map((c,i)=>`
+               <div>${cards.map((c,i)=> i===vocEditingIndex ? `
+                <div class="voc-row voc-row-editing">
+                    <input type="text" id="voc-edit-q" class="field" value="${esc(c.q)}" placeholder="Mot ou question">
+                    <textarea id="voc-edit-a" class="field voc-edit-textarea" placeholder="Définition ou réponse">${esc(c.a)}</textarea>
+                    <div class="voc-edit-actions">
+                        <button class="btn-save" onclick="saveVocEdit(${i})">💾 Enregistrer</button>
+                        <button class="bc-btn" onclick="vocEditingIndex=null;renderTabContent()">✕ Annuler</button>
+                    </div>
+                </div>` : `
                 <div class="voc-row">
                     <span class="voc-q">${c.q}</span>
                     <span class="voc-a">${c.a}</span>
+                    <button class="voc-edit-sq" onclick="vocEditingIndex=${i};renderTabContent()" title="Modifier">✏️</button>
                     <button class="voc-del-sq" onclick="delVoc(${i})" title="Supprimer">🗑</button>
                 </div>`).join('')}</div>`;
     }
@@ -1474,6 +1483,19 @@ function delVoc(i){
         confirmLabel:'Supprimer', cancelLabel:'Annuler', danger:true,
         onConfirm:()=>{ db[curSubject][curChapter].flashcards.splice(i,1); save(); renderTabContent(); }
     });
+}
+
+let vocEditingIndex = null;
+
+function saveVocEdit(i){
+    const q = ($('voc-edit-q')||{value:''}).value.trim();
+    const a = ($('voc-edit-a')||{value:''}).value.trim();
+    if(!q || !a){ showToast('Le mot et la définition ne peuvent pas être vides', 'warn'); return; }
+    const card = db[curSubject][curChapter].flashcards[i];
+    card.q = q; card.a = a;
+    vocEditingIndex = null;
+    save();
+    renderTabContent();
 }
 
 function addVoc(){

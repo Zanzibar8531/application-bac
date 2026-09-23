@@ -312,4 +312,47 @@ flashcards:[
 {q:'3 contre-mesures pour réduire son exposition OSINT',a:'Auditer régulièrement sa propre présence en ligne, vérifier ses paramètres de confidentialité, utiliser des pseudos différents selon les contextes (parmi d\'autres : désactiver la géolocalisation des photos).'},
 {q:'Pourquoi l\'OSINT est pertinent avant un poste sensible (armée, ambassade)',a:'Les enquêtes de moralité/background checks pour ces postes passent presque systématiquement par une recherche OSINT sur le candidat et son historique en ligne.'},
 ]},
+
+'Cryptographie de base : comment ça protège tes données': {
+cours:`<h3>Pourquoi la cryptographie est partout sans qu'on la voie</h3>
+<p>Chaque fois que tu vois un cadenas 🔒 dans la barre d'adresse, que tu payes en ligne, ou que tu envoies un message sur une appli chiffrée, de la <strong>cryptographie</strong> tourne en arrière-plan. C'est la science qui permet de transformer une information lisible en un contenu illisible pour qui n'a pas la clé — et de la retransformer en clair à l'arrivée.</p>
+
+<h3>Chiffrement symétrique : une seule clé</h3>
+<div class="formula-box">Le <strong>chiffrement symétrique</strong> utilise la <mark>même clé</mark> pour chiffrer et déchiffrer. Rapide et efficace, mais pose un problème : comment transmettre cette clé secrète à l'autre personne sans qu'elle soit interceptée en chemin ?</div>
+<p>Exemple d'algorithme très utilisé aujourd'hui : <strong>AES</strong> (Advanced Encryption Standard) — utilisé pour chiffrer des fichiers, des disques durs entiers, ou le trafic Wifi (WPA2/WPA3).</p>
+
+<h3>Chiffrement asymétrique : deux clés liées</h3>
+<div class="formula-box">Le <strong>chiffrement asymétrique</strong> utilise une paire de clés mathématiquement liées : une <mark>clé publique</mark> (que tu peux diffuser à tout le monde) et une <mark>clé privée</mark> (que tu gardes secrète, jamais partagée). Ce qui est chiffré avec la clé publique ne peut être déchiffré qu'avec la clé privée correspondante.</p>
+<div class="retenir-box">C'est ce qui résout le problème de l'échange de clé du chiffrement symétrique : n'importe qui peut chiffrer un message pour toi avec ta clé publique (librement diffusée), mais toi seul(e), avec ta clé privée, peux le déchiffrer.</div>
+<p>Exemple d'algorithme : <strong>RSA</strong>, encore largement utilisé, notamment pour l'échange initial de clés dans une connexion HTTPS.</p>
+
+<h3>HTTPS : les deux combinés</h3>
+<p>Une connexion HTTPS utilise en réalité les deux : l'<mark>asymétrique</mark> au tout début pour échanger en sécurité une clé secrète, puis le <mark>symétrique</mark> (plus rapide) pour chiffrer le reste de la session avec cette clé. Le meilleur des deux mondes : sécurité de l'asymétrique pour l'échange, rapidité du symétrique pour le gros du trafic.</p>
+
+<h3>Le hachage : différent du chiffrement</h3>
+<div class="formula-box">Une fonction de <strong>hachage</strong> (hash) transforme n'importe quelle donnée en une empreinte de taille fixe, <mark>à sens unique</mark> — impossible de retrouver la donnée d'origine à partir du hash. Contrairement au chiffrement, il n'y a pas de clé pour "dé-hacher".</div>
+<ul>
+<li><strong>Vérifier l'intégrité d'un fichier</strong> : comparer le hash d'un fichier téléchargé à celui publié par la source officielle, pour vérifier qu'il n'a pas été altéré.</li>
+<li><strong>Stocker des mots de passe</strong> : un site sérieux ne stocke jamais ton mot de passe en clair, seulement son hash — même en cas de piratage de la base de données, les mots de passe ne sont pas directement lisibles.</li>
+</ul>
+<div class="attention-box">Un bon hash pour mot de passe utilise aussi un <mark>sel</mark> (salt) — une donnée aléatoire ajoutée avant hachage — pour empêcher les attaques par "rainbow tables" (tables précalculées de hash de mots de passe courants).</div>
+
+<h3>Le chiffrement de bout en bout (E2EE)</h3>
+<p>Dans une messagerie avec <strong>chiffrement de bout en bout</strong> (Signal, WhatsApp...), les messages sont chiffrés sur l'appareil de l'expéditeur et déchiffrés uniquement sur celui du destinataire — même l'entreprise qui gère le service ne peut pas lire le contenu en transit, contrairement à un chiffrement qui s'arrêterait seulement au niveau du serveur.</p>`,
+exercices:[
+{niveau:'Facile', enonce:`<p>Tu utilises AES pour chiffrer un fichier sur ta clé USB. S'agit-il de chiffrement symétrique ou asymétrique ?</p>`, aide:`Relis la définition d'AES dans le cours.`, correction:`<p><strong>Symétrique.</strong> AES est un algorithme de chiffrement symétrique : la même clé sert à chiffrer et déchiffrer le fichier — ici, toi seul(e) as besoin de cette clé, pas de problème d'échange avec un tiers.</p>`},
+{niveau:'Moyen', enonce:`<p>Un site web stocke les mots de passe de ses utilisateurs sous forme de hash (avec sel), et non en clair. Le site se fait pirater et sa base de données est volée. Explique en quoi cette pratique protège quand même partiellement les utilisateurs, même après le piratage.</p>`, aide:`Relis la définition du hachage — à sens unique, sans clé pour revenir en arrière. Que peut concrètement faire un attaquant avec une liste de hash plutôt qu'une liste de mots de passe en clair ?`, correction:`<p>Le hachage étant <mark>à sens unique</mark>, l'attaquant récupère une liste de hash mais ne peut pas directement "dé-hacher" pour retrouver les mots de passe originaux — il n'existe pas de clé ou de calcul inverse pour ça. Le sel empêche en plus l'utilisation de tables précalculées (rainbow tables) qui auraient pu accélérer une attaque par force brute sur des hash non salés. Les utilisateurs restent donc protégés, du moins temporairement, même si leurs mots de passe étaient réutilisés ailleurs — contrairement à une base stockant les mots de passe en clair, où le piratage exposerait immédiatement tous les comptes.</p>`},
+{niveau:'Difficile', enonce:`<p>Explique pourquoi une connexion HTTPS n'utilise pas uniquement le chiffrement asymétrique pour toute la session, alors que celui-ci semble plus sûr (deux clés séparées). Quel est l'inconvénient pratique de l'asymétrique qui justifie de basculer vers le symétrique après l'échange initial ?</p>`, aide:`Le cours ne le dit pas explicitement, mais pense à la complexité mathématique : le chiffrement asymétrique repose sur des calculs bien plus lourds (grands nombres premiers, exponentiations) que le symétrique. Sur une session avec beaucoup de données échangées en continu, quel effet cela aurait-il si on l'utilisait pour TOUT le trafic ?`, correction:`<p>Le chiffrement asymétrique est <mark>beaucoup plus lent</mark> et gourmand en ressources de calcul que le symétrique, à cause de la complexité mathématique des opérations impliquées (grands nombres premiers, exponentiations modulaires). L'utiliser pour l'intégralité d'une session HTTPS — potentiellement des mégaoctets de données échangées en continu — ralentirait considérablement la navigation.</p><p>La solution pratique : utiliser l'asymétrique seulement pour la phase critique et courte (échanger en sécurité une clé secrète, sans qu'un attaquant en interception puisse la voler), puis basculer sur le symétrique, bien plus rapide, pour chiffrer tout le reste du trafic avec cette clé désormais partagée en sécurité. C'est un compromis entre sécurité de l'échange initial et performance du reste de la session.</p>`},
+],
+flashcards:[
+{q:'Chiffrement symétrique — principe',a:'Une seule clé sert à la fois à chiffrer et déchiffrer. Rapide, mais pose le problème de la transmission sécurisée de cette clé.'},
+{q:'Chiffrement asymétrique — principe',a:'Une paire de clés liées : une clé publique (diffusable) pour chiffrer, une clé privée (secrète) pour déchiffrer.'},
+{q:'AES',a:'Algorithme de chiffrement symétrique très utilisé (fichiers, disques durs, Wifi WPA2/WPA3).'},
+{q:'RSA',a:'Algorithme de chiffrement asymétrique, notamment utilisé pour l\'échange initial de clés en HTTPS.'},
+{q:'Pourquoi HTTPS combine asymétrique et symétrique',a:'Asymétrique pour échanger la clé en sécurité au début (sûr mais lent), puis symétrique pour le reste de la session (rapide).'},
+{q:'Fonction de hachage — différence avec le chiffrement',a:'À sens unique : transforme une donnée en empreinte de taille fixe, sans clé pour revenir en arrière (contrairement au chiffrement, réversible avec la bonne clé).'},
+{q:'Pourquoi les sites stockent des hash de mots de passe plutôt que les mots de passe eux-mêmes',a:'Même en cas de piratage de la base de données, les mots de passe ne sont pas directement lisibles par l\'attaquant.'},
+{q:'Le "sel" (salt) dans le hachage de mots de passe',a:'Donnée aléatoire ajoutée avant hachage, qui empêche les attaques par tables précalculées (rainbow tables).'},
+{q:'Chiffrement de bout en bout (E2EE)',a:'Les messages sont chiffrés sur l\'appareil de l\'expéditeur et déchiffrés uniquement chez le destinataire — même le fournisseur du service ne peut pas lire le contenu.'},
+]},
 };

@@ -120,4 +120,48 @@ flashcards:[
 {q:'Reformulation cognitive (recadrage)',a:'Changer l\'interprétation qu\'on fait d\'une situation stressante (ex : "occasion de montrer ce que j\'ai appris" plutôt que "je vais échouer") pour réduire directement l\'intensité du stress ressenti.'},
 {q:'Pourquoi éviter de réviser une notion totalement nouvelle juste avant une épreuve',a:'Elle n\'a pas le temps d\'être consolidée et peut créer un doute de dernière minute qui parasite des connaissances déjà bien maîtrisées.'},
 ]},
+
+'Prise de notes efficace': {
+cours:`<h3>Pourquoi la méthode de prise de notes change tout</h3>
+<p>Recopier un cours mot pour mot n'est pas de la prise de notes — c'est de la copie passive, aussi peu efficace que la relecture (vue dans "Mémoriser efficacement"). Une bonne méthode de prise de notes force déjà un premier niveau de <mark>traitement actif</mark> de l'information pendant le cours lui-même, pas seulement au moment de réviser.</p>
+
+<h3>La méthode Cornell</h3>
+<div class="formula-box">La page est divisée en 3 zones :<br>
+<strong>Zone principale</strong> (grande, à droite) : les notes prises pendant le cours, au fil de l'eau.<br>
+<strong>Zone indices</strong> (colonne étroite, à gauche) : remplie APRÈS le cours — mots-clés et questions qui résument chaque bloc de notes.<br>
+<strong>Zone résumé</strong> (bande en bas de page) : 2-3 phrases qui résument l'essentiel de toute la page, écrites après coup.
+</div>
+<div class="retenir-box">L'intérêt de la méthode Cornell : la <mark>colonne indices</mark> transforme automatiquement tes notes en outil de rappel actif — cache la zone principale, essaie de répondre aux questions de la colonne indices de mémoire, exactement comme une flashcard.</div>
+
+<h3>Le mind mapping (carte mentale)</h3>
+<p>Organisation <strong>visuelle et non linéaire</strong> de l'information : un thème central, avec des branches qui se ramifient vers les sous-thèmes puis les détails. Particulièrement efficace pour des sujets où les <mark>relations entre les idées</mark> comptent autant que les idées elles-mêmes (ex : les causes d'un événement historique, les liens entre plusieurs notions de cours).</p>
+<div class="attention-box">Le mind mapping n'est pas adapté à tout : pour un cours très linéaire et procédural (une démonstration mathématique, les étapes d'un calcul), une prise de notes classique reste plus efficace — choisis la méthode selon la <mark>structure du contenu</mark>, pas par habitude.</div>
+
+<h3>La méthode par esquive des phrases complètes</h3>
+<p>Ne jamais essayer d'écrire des phrases complètes en notant un cours oral — c'est trop lent, tu décroches et rates la suite. Utilise :</p>
+<ul>
+<li><strong>Abréviations personnelles</strong> cohérentes (ex : "+" pour "et/plus", "→" pour "donc/entraîne", "w/" pour "avec").</li>
+<li><strong>Mots-clés</strong> plutôt que des phrases — le verbe et les connecteurs peuvent souvent être reconstitués à la relecture.</li>
+<li><strong>Structure visuelle</strong> (tirets, numéros, indentation) plutôt que de la prose continue — ça se relit et se scanne bien plus vite.</li>
+</ul>
+
+<h3>Le retraitement après le cours : l'étape qu'on saute trop souvent</h3>
+<div class="formula-box">Des notes prises pendant le cours sont un brouillon, pas un produit fini. Les retravailler dans les <mark>24-48h</mark> (surligner l'essentiel, compléter les zones bâclées, reformuler ce qui est confus) est ce qui transforme vraiment des notes en support de révision utile — et ce retraitement est lui-même un exercice de rappel actif.</div>
+<div class="retenir-box">Des notes jamais retravaillées après le cours perdent une grande partie de leur valeur : dans 2 semaines, une abréviation qui te semblait évidente en classe peut devenir incompréhensible.</div>
+
+<h3>Numérique vs papier : ce que disent les études</h3>
+<p>Prendre des notes à la main favorise généralement un meilleur traitement actif de l'information (on ne peut pas tout retranscrire mot à mot, donc on est obligé de résumer/reformuler en écrivant). Prendre des notes au clavier permet d'aller plus vite mais favorise parfois une retranscription trop littérale, proche de la copie passive. Ce n'est pas un interdit du numérique — juste une vigilance : sur clavier, force-toi consciemment à résumer plutôt qu'à tout transcrire.</p>`,
+exercices:[
+{niveau:'Facile', enonce:`<p>Dans la méthode Cornell, à quel moment remplit-on la colonne "indices" (à gauche) : pendant le cours, ou après ?</p>`, aide:`Relis la description de la méthode Cornell — chaque zone a un moment précis pour être remplie.`, correction:`<p><strong>Après le cours.</strong> La zone principale se remplit pendant le cours (notes au fil de l'eau), mais la colonne indices se remplit ensuite, en relisant les notes prises et en en extrayant des mots-clés/questions — c'est cette étape qui transforme les notes en outil de rappel actif.</p>`},
+{niveau:'Moyen', enonce:`<p>Un élève doit prendre des notes sur une démonstration mathématique en cours (une suite d'étapes de calcul logiques). Vaut-il mieux utiliser une carte mentale (mind map) ou une prise de notes linéaire classique ? Justifie avec le critère donné dans le cours.</p>`, aide:`Relis l'encadré "attention" sur les limites du mind mapping — quel type de contenu s'y prête bien, et lequel s'y prête mal ?`, correction:`<p>Une <strong>prise de notes linéaire classique</strong> est plus adaptée ici. Le cours précise que le mind mapping convient bien quand les relations entre idées comptent autant que les idées elles-mêmes (thèmes avec ramifications), mais qu'un contenu très <mark>linéaire et procédural</mark> — comme une démonstration mathématique où chaque étape découle logiquement de la précédente — se prête mieux à une prise de notes séquentielle classique, qui respecte cet ordre logique étape par étape.</p>`},
+{niveau:'Difficile', enonce:`<p>Deux élèves prennent des notes sur le même cours d'histoire. Le premier tape très vite au clavier et parvient à retranscrire presque mot pour mot ce que dit le professeur. Le second, sur papier, ne note que des mots-clés et reformule avec ses propres mots, quitte à perdre quelques détails. Lequel aura probablement de meilleures notes pour réviser ensuite, et pourquoi, en te basant sur le principe de traitement actif évoqué dans le cours ?</p>`, aide:`Relis la partie "Numérique vs papier" — la vitesse de prise de notes est-elle vraiment l'avantage qu'elle semble être ici ? Pense à ce qui se passe dans le cerveau quand on retranscrit mot à mot par rapport à quand on doit résumer avec ses propres mots.</p>`, correction:`<p>Le <strong>second élève</strong> aura probablement des notes plus utiles pour réviser, malgré (et même grâce à) le fait d'avoir noté moins de détails. Retranscrire mot pour mot au clavier ressemble à de la copie passive : le cerveau n'a pas besoin de vraiment comprendre et sélectionner l'information pour la retranscrire telle quelle, un peu comme la relecture passive évoquée dans le chapitre "Mémoriser efficacement".</p><p>À l'inverse, être forcé de résumer avec ses propres mots (parce qu'on ne peut pas tout écrire à la main aussi vite qu'à l'oral) oblige à un vrai <mark>traitement actif</mark> pendant le cours : il faut comprendre l'idée pour pouvoir la reformuler en quelques mots-clés. Ce traitement, fait une première fois pendant la prise de notes elle-même, ancre déjà mieux l'information que le premier élève, même si ses notes finales contiennent objectivement moins de texte.</p>`},
+],
+flashcards:[
+{q:'Les 3 zones de la méthode Cornell',a:'Zone principale (notes pendant le cours), zone indices (mots-clés/questions, remplie après), zone résumé (2-3 phrases de synthèse, en bas de page).'},
+{q:'Pourquoi la colonne indices de la méthode Cornell est efficace',a:'Elle transforme les notes en outil de rappel actif : on cache la zone principale et on essaie de répondre aux questions de mémoire, comme une flashcard.'},
+{q:'Quand utiliser le mind mapping plutôt qu\'une prise de notes linéaire',a:'Quand les relations entre les idées comptent autant que les idées elles-mêmes. Pour un contenu linéaire/procédural (démonstration, calcul), la prise de notes classique reste plus adaptée.'},
+{q:'Pourquoi éviter d\'écrire des phrases complètes en notant un cours oral',a:'C\'est trop lent, on décroche et on rate la suite — mieux vaut des mots-clés, abréviations et structure visuelle (tirets, indentation).'},
+{q:'Pourquoi retravailler ses notes dans les 24-48h après le cours',a:'Ça transforme un brouillon en vrai support de révision (surligner l\'essentiel, compléter, reformuler), et c\'est déjà un exercice de rappel actif — sans ça, les notes perdent vite leur valeur (abréviations oubliées, sens perdu).'},
+{q:'Pourquoi prendre des notes à la main favorise souvent un meilleur apprentissage qu\'au clavier',a:'On ne peut pas tout retranscrire mot à mot à la main, ce qui force à résumer/reformuler (traitement actif) — au clavier, on est plus tenté de copier trop littéralement.'},
+]},
 };

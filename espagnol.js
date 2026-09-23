@@ -34,5 +34,53 @@ PREBUILT['Espagnol'] = {
       {q:"Preterito Indefinido vs Imperfecto",a:"Indefinido = action ponctuelle terminee. Imperfecto = description ou habitude passee.",score:0,interval:0,ease:2.5,due:null},
       {q:"Ser vs Estar",a:"Ser = caracteristique permanente (identite, origine). Estar = etat temporaire (humeur, position).",score:0,interval:0,ease:2.5,due:null},
     ]
+  },
+  'Méthode : expression écrite & orale': {
+    cours: `<h2>Réussir l'expression écrite et l'oral en espagnol</h2>
+<h3>Structurer une expression écrite (EE)</h3>
+<div class="formula-box">
+<strong>Introduction</strong> : présente le sujet et annonce ton plan (2-3 phrases).<br>
+<strong>Développement</strong> : plusieurs paragraphes, un argument par paragraphe, toujours illustré d'un exemple concret.<br>
+<strong>Conclusion</strong> : résume ta position et ouvre sur une question plus large.
+</div>
+<div class="retenir-box">Utilise systématiquement les <mark>connecteurs logiques</mark> (sin embargo, por lo tanto, a pesar de, además, por eso) pour lier tes idées entre elles — c'est un critère de notation explicite au bac.</div>
+
+<h3>Le brouillon avant tout</h3>
+<p>Note d'abord au brouillon 3-4 idées principales en français si besoin, puis rédige directement en espagnol — ne traduis jamais mot à mot depuis le français, tu perdrais du temps et ferais des erreurs de syntaxe (l'ordre des mots n'est pas le même).</p>
+
+<h3>Structurer un oral (EOC/EOI)</h3>
+<ul>
+<li><strong>EOC</strong> (Expression Orale en Continu) : tu parles seul(e) plusieurs minutes sur un sujet préparé — présente le document, dégage la problématique, développe 2-3 axes.</li>
+<li><strong>EOI</strong> (Expression Orale en Interaction) : dialogue avec l'examinateur — écoute vraiment la question posée, ne récite pas un texte appris par cœur.</li>
+</ul>
+<div class="attention-box">Ne récite jamais un texte mémorisé mot pour mot à l'oral : l'examinateur le repère immédiatement (débit trop régulier, absence d'hésitation naturelle) et ça pénalise la note. Mieux vaut connaître ses idées et les reformuler <mark>librement</mark> à l'oral.</div>
+
+<h3>Gérer le stress et les blancs</h3>
+<p>Si tu ne trouves pas un mot précis, ne reste pas bloqué(e) — reformule avec des mots plus simples que tu connais (paraphrase). C'est une compétence évaluée positivement : montrer qu'on sait contourner un obstacle linguistique vaut mieux qu'un silence gêné.</p>
+<div class="formula-box">Quelques formules de secours à l'oral :<br>
+<strong>Es decir...</strong> (c'est-à-dire...) — pour reformuler<br>
+<strong>Bueno, a ver...</strong> (bon, voyons...) — pour gagner 2 secondes de réflexion<br>
+<strong>Lo que quiero decir es que...</strong> (ce que je veux dire c'est que...) — pour rebondir après une hésitation</div>
+
+<h3>Grille d'auto-évaluation rapide</h3>
+<ul>
+<li>Ai-je répondu précisément à la question posée (pas juste parlé du thème en général) ?</li>
+<li>Ai-je utilisé au moins 2-3 connecteurs logiques différents ?</li>
+<li>Ai-je varié mes structures (pas seulement des phrases simples sujet-verbe-complément) ?</li>
+<li>Ai-je donné mon avis avec des formules variées, pas seulement "creo que" à chaque fois ?</li>
+</ul>`,
+    exercices: [
+      {niveau:"Facile", enonce:"<p>Tu dois écrire une expression écrite sur l'immigration. Dans quel ordre dois-tu organiser ton texte ?</p>", aide:"Relis la structure en 3 parties donnée dans le cours.", correction:"<p><strong>Introduction</strong> (présenter le sujet + annoncer le plan) → <strong>Développement</strong> (plusieurs paragraphes, un argument par paragraphe avec exemple) → <strong>Conclusion</strong> (résumer + ouvrir sur une question plus large). Ne jamais sauter directement dans les arguments sans introduction, ni oublier la conclusion.</p>"},
+      {niveau:"Moyen", enonce:"<p>À l'oral, tu cherches un mot en espagnol que tu ne connais pas et tu restes bloqué(e) plusieurs secondes en silence. D'après le cours, qu'aurais-tu dû faire à la place, et pourquoi est-ce mieux noté ?</p>", aide:"Relis la partie sur la gestion des blancs et la paraphrase.", correction:"<p>Il fallait <strong>reformuler avec des mots plus simples</strong> (paraphrase) plutôt que de rester silencieux. C'est mieux noté car cela démontre une vraie compétence linguistique : savoir contourner un obstacle et continuer à communiquer, ce qui est exactement ce qu'on fait dans une vraie conversation en langue étrangère — un silence gêné, à l'inverse, ne montre aucune compétence active.</p>"},
+      {niveau:"Difficile", enonce:"<p>Deux élèves ont le même niveau de vocabulaire et de grammaire. Le premier récite un texte appris par cœur sur son sujet d'EOC, avec un débit très régulier et aucune hésitation. Le second parle avec ses propres mots, s'arrête parfois pour reformuler, mais répond précisément à la problématique. Lequel sera probablement mieux noté, et pourquoi malgré les apparences ?</p>", aide:"Relis l'encadré \"attention\" sur la récitation — qu'est-ce que l'examinateur cherche à évaluer : la mémorisation ou une compétence linguistique réelle ?</p>", correction:"<p>Le <strong>second élève</strong> sera probablement mieux noté. L'examinateur évalue une compétence de communication réelle en langue vivante, pas une capacité de mémorisation. Un débit trop régulier et l'absence totale d'hésitation trahissent une récitation plutôt qu'une véritable prise de parole spontanée — ce qui est pénalisé, même si le contenu linguistique est correct. Le second élève, en reformulant et en s'arrêtant naturellement tout en restant précis sur la problématique, démontre une compétence orale authentique, ce que l'épreuve cherche réellement à mesurer.</p>"},
+    ],
+    flashcards: [
+      {q:"Structure d'une expression écrite (3 parties)",a:"Introduction (sujet + plan) → Développement (un argument par paragraphe avec exemple) → Conclusion (résumé + ouverture).",score:0,interval:0,ease:2.5,due:null},
+      {q:"Pourquoi ne pas traduire mot à mot depuis le français",a:"L'ordre des mots n'est pas le même en espagnol — ça crée des erreurs de syntaxe et fait perdre du temps.",score:0,interval:0,ease:2.5,due:null},
+      {q:"EOC vs EOI",a:"EOC (Expression Orale en Continu) : parler seul sur un sujet préparé. EOI (Expression Orale en Interaction) : dialoguer avec l'examinateur.",score:0,interval:0,ease:2.5,due:null},
+      {q:"Pourquoi ne jamais réciter un texte appris par cœur à l'oral",a:"L'examinateur le repère (débit trop régulier, absence d'hésitation naturelle) et ça pénalise la note — mieux vaut reformuler librement.",score:0,interval:0,ease:2.5,due:null},
+      {q:"Que faire si on bloque sur un mot à l'oral",a:"Reformuler avec des mots plus simples (paraphrase) plutôt que de rester silencieux — c'est une compétence évaluée positivement.",score:0,interval:0,ease:2.5,due:null},
+      {q:"\"Es decir...\" — utilité à l'oral",a:"Formule de secours pour reformuler ce qu'on vient de dire (\"c'est-à-dire...\").",score:0,interval:0,ease:2.5,due:null},
+    ]
   }
 };
