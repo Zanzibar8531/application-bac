@@ -145,4 +145,65 @@ flashcards:[
 {q:'Module d\'Young (E)',a:'Caractérise la rigidité d\'un matériau — plus il est élevé, moins le matériau se déforme sous une contrainte donnée. Différent de la résistance (un matériau peut être rigide mais cassant).'},
 {q:'Pourquoi modéliser une structure réelle en poutre simplifiée avant de calculer',a:'Cette étape détermine si le calcul qui suit aura un sens — une mauvaise modélisation fausse tout le dimensionnement, même avec des calculs corrects ensuite.'},
 ]},
+
+'Systèmes automatisés : capteurs, actionneurs & GRAFCET': {
+cours:`<h3>La chaîne d'information et la chaîne d'énergie, en pratique</h3>
+<p>Tout système automatisé (portail motorisé, ascenseur, distributeur automatique) répète le même schéma : <mark>acquérir</mark> une information sur le réel, <mark>traiter</mark> cette information, puis <mark>agir</mark> sur le réel.</p>
+<div class="formula-box">
+<strong>Capteur</strong> (acquérir) → <strong>Partie commande</strong> / microcontrôleur (traiter) → <strong>Actionneur</strong> (agir)<br>
+Ex. portail automatique : cellule photoélectrique (capteur) → carte électronique (traiter) → moteur (actionneur, il agit sur l'ouvrant).
+</div>
+
+<h3>Les capteurs — acquérir une information</h3>
+<ul>
+<li><strong>Capteur Tout Ou Rien (TOR)</strong> : ne renvoie que 2 états possibles (0 ou 1). Ex : interrupteur de fin de course, cellule photoélectrique (obstacle détecté / pas d'obstacle).</li>
+<li><strong>Capteur analogique</strong> : renvoie une valeur continue (une infinité de valeurs possibles). Ex : capteur de température, potentiomètre.</li>
+<li><strong>Capteur numérique</strong> : renvoie directement une valeur codée en binaire, déjà exploitable par un microcontrôleur sans conversion. Ex : capteur de distance à ultrason avec sortie numérique.</li>
+</ul>
+<div class="attention-box">Ne confonds pas <mark>analogique</mark> (grandeur continue, il faut la convertir en numérique via un CAN — Convertisseur Analogique-Numérique — avant qu'un microcontrôleur puisse la traiter) et <mark>numérique</mark> (déjà en binaire, directement exploitable). C'est une confusion fréquente à l'oral.</div>
+
+<h3>Les actionneurs — agir sur le réel</h3>
+<ul>
+<li><strong>Moteur électrique (DC, pas-à-pas, servomoteur)</strong> : transforme l'énergie électrique en mouvement rotatif.</li>
+<li><strong>Vérin (pneumatique/hydraulique)</strong> : transforme une pression (air/huile) en mouvement linéaire.</li>
+<li><strong>Servomoteur</strong> : moteur dont on peut contrôler précisément l'angle (0° à 180° en général) — utilisé pour un positionnement exact, contrairement à un moteur DC classique qui tourne en continu.</li>
+</ul>
+
+<h3>Le GRAFCET — décrire le fonctionnement d'un système automatisé</h3>
+<p>Le <strong>GRAFCET</strong> (Graphe Fonctionnel de Commande Étape-Transition) est un langage graphique qui décrit, étape par étape, le comportement attendu d'un système automatisé.</p>
+<div class="formula-box">
+<strong>Étape</strong> (rectangle numéroté) : un état stable du système, associé à une ou plusieurs <strong>actions</strong> (ce que fait le système pendant cette étape).<br>
+<strong>Transition</strong> (trait horizontal sur la liaison entre 2 étapes) : associée à une <strong>réceptivité</strong> — une condition qui doit être vraie pour passer à l'étape suivante (ex : un capteur activé).<br>
+<strong>Règle d'évolution</strong> : on ne franchit une transition que si l'étape précédente est active <mark>ET</mark> que sa réceptivité est vraie.
+</div>
+<div class="retenir-box">Un GRAFCET se lit comme une histoire : "tant que je suis dans cet état (étape), je fais telle action ; dès que telle condition devient vraie (réceptivité), je passe à l'état suivant." C'est cette lecture séquentielle qu'il faut savoir expliquer à l'oral.</div>
+
+<h3>Exemple simple : portail automatique</h3>
+<ol>
+<li><strong>Étape 0</strong> : portail fermé, en attente. Action : aucune.</li>
+<li><strong>Transition</strong> : réceptivité = badge détecté.</li>
+<li><strong>Étape 1</strong> : ouverture du portail. Action : activer moteur sens ouverture.</li>
+<li><strong>Transition</strong> : réceptivité = capteur fin de course "ouvert" activé.</li>
+<li><strong>Étape 2</strong> : portail ouvert, temporisation de 10s. Action : attendre.</li>
+<li><strong>Transition</strong> : réceptivité = 10s écoulées.</li>
+<li><strong>Étape 3</strong> : fermeture. Action : activer moteur sens fermeture → retour à l'étape 0 une fois le capteur fin de course "fermé" activé.</li>
+</ol>
+
+<h3>Sécurité : les capteurs de sécurité dans un GRAFCET</h3>
+<p>Dans l'exemple du portail, un vrai système ajoute une réceptivité de sécurité en parallèle (ex : cellule photoélectrique qui détecte un obstacle pendant la fermeture) qui interrompt ou inverse l'action en cours, indépendamment de la séquence normale — c'est ce qu'on appelle une <strong>reprise</strong> ou un <strong>arrêt d'urgence</strong> dans le GRAFCET.</p>`,
+exercices:[
+{niveau:'Facile', enonce:`<p>Un interrupteur de fin de course ne renvoie que deux états possibles : "appuyé" ou "relâché". De quel type de capteur s'agit-il ?</p>`, aide:`Combien de valeurs différentes ce capteur peut-il renvoyer ?`, correction:`<p><strong>Un capteur Tout Ou Rien (TOR).</strong> Il ne renvoie que 2 états possibles (0 ou 1), exactement comme un interrupteur de fin de course — contrairement à un capteur analogique qui renverrait une infinité de valeurs continues (comme un angle précis ou une distance).</p>`},
+{niveau:'Moyen', enonce:`<p>Dans le GRAFCET du portail automatique du cours, à quelle condition précise passe-t-on de l'Étape 1 (ouverture) à l'Étape 2 (portail ouvert, temporisation) ?</p>`, aide:`Relis la règle d'évolution du GRAFCET : que faut-il pour franchir une transition ?`, correction:`<p>On passe de l'Étape 1 à l'Étape 2 quand <strong>l'Étape 1 est active ET que sa réceptivité devient vraie</strong>, c'est-à-dire ici : le capteur de fin de course "ouvert" est activé. Tant que ce capteur n'a pas détecté que le portail est complètement ouvert, le système reste en Étape 1 (moteur en sens ouverture), même si un peu de temps s'est écoulé.</p>`},
+{niveau:'Difficile', enonce:`<p>Un capteur de température analogique doit être exploité par un microcontrôleur pour afficher une valeur numérique sur un écran. Explique pourquoi on ne peut pas relier directement ce capteur au microcontrôleur, et quel composant intermédiaire est nécessaire.</p>`, aide:`Relis l'encadré "attention" sur la différence entre grandeur analogique et grandeur numérique — qu'est-ce qu'un microcontrôleur sait traiter nativement ?`, correction:`<p>Un capteur analogique renvoie une <mark>grandeur continue</mark> (une infinité de valeurs possibles, par exemple une tension variant progressivement avec la température), alors qu'un microcontrôleur ne sait traiter que des valeurs <strong>numériques</strong> (binaires, un nombre fini de valeurs codées en 0 et 1).</p><p>Il faut donc un <strong>CAN (Convertisseur Analogique-Numérique)</strong> entre le capteur et le microcontrôleur : ce composant échantillonne la grandeur continue et la traduit en une valeur numérique codée sur un certain nombre de bits, exploitable ensuite par le programme du microcontrôleur pour, par exemple, calculer et afficher une température.</p>`},
+],
+flashcards:[
+{q:'Chaîne d\'information — schéma en 3 blocs',a:'Capteur (acquérir) → Partie commande / microcontrôleur (traiter) → Actionneur (agir).'},
+{q:'Capteur TOR vs analogique vs numérique',a:'TOR : 2 états seulement (0/1). Analogique : grandeur continue, infinité de valeurs. Numérique : déjà codé en binaire, directement exploitable.'},
+{q:'CAN (Convertisseur Analogique-Numérique) — à quoi ça sert',a:'Traduit une grandeur analogique continue en valeur numérique binaire, pour qu\'un microcontrôleur puisse la traiter.'},
+{q:'Servomoteur vs moteur DC classique',a:'Le servomoteur permet un positionnement angulaire précis et contrôlé. Le moteur DC classique tourne en continu sans contrôle fin de l\'angle.'},
+{q:'GRAFCET — définition',a:'Langage graphique (Graphe Fonctionnel de Commande Étape-Transition) qui décrit étape par étape le comportement attendu d\'un système automatisé.'},
+{q:'Étape vs Transition dans un GRAFCET',a:'Étape = état stable associé à des actions. Transition = condition (réceptivité) qui doit être vraie pour passer à l\'étape suivante.'},
+{q:'Règle d\'évolution du GRAFCET',a:'On ne franchit une transition que si l\'étape précédente est active ET que sa réceptivité est vraie.'},
+{q:'Vérin — usage',a:'Actionneur qui transforme une pression (pneumatique ou hydraulique) en mouvement linéaire.'},
+]},
 };

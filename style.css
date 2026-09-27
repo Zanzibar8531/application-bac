@@ -1,4 +1,4 @@
-:root{--bg:#f4f6fb;--card:#fff;--border:#e4e8f0;--text:#0e1525;--muted:#64748b;--sb:#0e1525;--accent:#4f46e5;--green:#059669;--red:#dc2626;--yellow:#d97706;--c-fr:#059669;--c-math:#4f46e5;--c-hg:#9f1239;--c-ang:#1d4ed8;--c-esp:#ca8a04;--c-phy:#7c3aed;--c-idd:#0d9488;--c-it:#ea580c;--c-info:#0891b2;--c-cyber:#b91c1c;--c-bourse:#65a30d;--c-entr:#e11d48;--c-sci:#6366f1;--c-jur:#78716c;--r:14px;--rs:10px;--sh:0 2px 12px rgba(14,21,37,.07);--sh2:0 8px 28px rgba(14,21,37,.13);}
+:root{--bg:#eef1f8;--card:#f8f9fc;--border:#e0e4ee;--text:#0e1525;--muted:#64748b;--sb:#0e1525;--accent:#4f46e5;--green:#059669;--red:#dc2626;--yellow:#d97706;--c-fr:#059669;--c-math:#4f46e5;--c-hg:#9f1239;--c-ang:#1d4ed8;--c-esp:#ca8a04;--c-phy:#7c3aed;--c-idd:#0d9488;--c-it:#ea580c;--c-info:#0891b2;--c-cyber:#b91c1c;--c-bourse:#65a30d;--c-entr:#e11d48;--c-sci:#6366f1;--c-jur:#78716c;--r:14px;--rs:10px;--sh:0 2px 12px rgba(14,21,37,.07);--sh2:0 8px 28px rgba(14,21,37,.13);}
 
 html[data-theme="dark"]{
     --bg:#0d1420;--card:#161f30;--border:#2a3547;--text:#e7ebf3;--muted:#8b96ab;
@@ -81,17 +81,17 @@ html[data-theme="dark"] body{
    un soleil discret, un dégradé de ciel, et quelques nuages flous. */
 html:not([data-theme="dark"]) body{
     background:
-        radial-gradient(circle 180px at 82% 8%, rgba(255,241,181,.9), rgba(255,229,143,.35) 55%, transparent 75%),
-        radial-gradient(ellipse 38% 14% at 20% 22%, rgba(255,255,255,.6), transparent 70%),
-        radial-gradient(ellipse 32% 12% at 65% 38%, rgba(255,255,255,.5), transparent 70%),
-        radial-gradient(ellipse 42% 15% at 30% 68%, rgba(255,255,255,.45), transparent 70%),
-        radial-gradient(ellipse 34% 13% at 78% 85%, rgba(255,255,255,.4), transparent 70%),
-        radial-gradient(ellipse 60% 42% at 12% 15%, rgba(99,102,241,.35), transparent 68%),
-        radial-gradient(ellipse 55% 40% at 88% 18%, rgba(236,72,153,.3), transparent 68%),
-        radial-gradient(ellipse 58% 42% at 40% 88%, rgba(16,185,129,.32), transparent 68%),
-        radial-gradient(ellipse 50% 38% at 80% 80%, rgba(139,92,246,.3), transparent 68%),
-        radial-gradient(ellipse 45% 35% at 6% 68%, rgba(244,114,182,.28), transparent 68%),
-        linear-gradient(180deg, #dbeafe 0%, #eef2ff 35%, #f4f6fb 65%, var(--bg) 100%) !important;
+        radial-gradient(circle 180px at 82% 8%, rgba(255,241,181,.8), rgba(255,229,143,.3) 55%, transparent 75%),
+        radial-gradient(ellipse 38% 14% at 20% 22%, rgba(255,255,255,.45), transparent 70%),
+        radial-gradient(ellipse 32% 12% at 65% 38%, rgba(255,255,255,.38), transparent 70%),
+        radial-gradient(ellipse 42% 15% at 30% 68%, rgba(255,255,255,.35), transparent 70%),
+        radial-gradient(ellipse 34% 13% at 78% 85%, rgba(255,255,255,.3), transparent 70%),
+        radial-gradient(ellipse 60% 42% at 12% 15%, rgba(99,102,241,.38), transparent 68%),
+        radial-gradient(ellipse 55% 40% at 88% 18%, rgba(236,72,153,.32), transparent 68%),
+        radial-gradient(ellipse 58% 42% at 40% 88%, rgba(16,185,129,.35), transparent 68%),
+        radial-gradient(ellipse 50% 38% at 80% 80%, rgba(139,92,246,.32), transparent 68%),
+        radial-gradient(ellipse 45% 35% at 6% 68%, rgba(244,114,182,.3), transparent 68%),
+        linear-gradient(180deg, #cfe0fb 0%, #dde3f7 35%, #e6e9f4 65%, var(--bg) 100%) !important;
     background-attachment: fixed !important;
     background-repeat: no-repeat !important;
     background-size: cover !important;
