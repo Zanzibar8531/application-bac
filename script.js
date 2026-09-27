@@ -634,7 +634,7 @@ function goHome() {
                 const pct = st.total ? Math.round(st.mastered/st.total*100) : 0;
                 const c = SUBJ_COLORS[s.cls];
                 let badge = '';
-                if(st.total===0) badge='<span class="badge badge-new">Vide</span>';
+                if(st.total===0) badge='<span class="badge badge-empty">Vide</span>';
                 else if(st.due>0) badge=`<span class="badge badge-due">📚 ${st.due} à réviser</span>`;
                 else badge='<span class="badge badge-ok">✓ À jour</span>';
                 return `

@@ -82,12 +82,15 @@ html[data-theme="dark"] body{
 html:not([data-theme="dark"]) body{
     background:
         radial-gradient(circle 180px at 82% 8%, rgba(255,241,181,.9), rgba(255,229,143,.35) 55%, transparent 75%),
-        radial-gradient(ellipse 38% 14% at 20% 22%, rgba(255,255,255,.75), transparent 70%),
-        radial-gradient(ellipse 32% 12% at 65% 38%, rgba(255,255,255,.65), transparent 70%),
-        radial-gradient(ellipse 42% 15% at 30% 68%, rgba(255,255,255,.6), transparent 70%),
-        radial-gradient(ellipse 34% 13% at 78% 85%, rgba(255,255,255,.55), transparent 70%),
-        radial-gradient(ellipse 55% 40% at 10% 90%, rgba(209,250,229,.55), transparent 65%),
-        radial-gradient(ellipse 48% 36% at 90% 95%, rgba(199,210,254,.5), transparent 65%),
+        radial-gradient(ellipse 38% 14% at 20% 22%, rgba(255,255,255,.6), transparent 70%),
+        radial-gradient(ellipse 32% 12% at 65% 38%, rgba(255,255,255,.5), transparent 70%),
+        radial-gradient(ellipse 42% 15% at 30% 68%, rgba(255,255,255,.45), transparent 70%),
+        radial-gradient(ellipse 34% 13% at 78% 85%, rgba(255,255,255,.4), transparent 70%),
+        radial-gradient(ellipse 60% 42% at 12% 15%, rgba(99,102,241,.35), transparent 68%),
+        radial-gradient(ellipse 55% 40% at 88% 18%, rgba(236,72,153,.3), transparent 68%),
+        radial-gradient(ellipse 58% 42% at 40% 88%, rgba(16,185,129,.32), transparent 68%),
+        radial-gradient(ellipse 50% 38% at 80% 80%, rgba(139,92,246,.3), transparent 68%),
+        radial-gradient(ellipse 45% 35% at 6% 68%, rgba(244,114,182,.28), transparent 68%),
         linear-gradient(180deg, #dbeafe 0%, #eef2ff 35%, #f4f6fb 65%, var(--bg) 100%) !important;
     background-attachment: fixed !important;
     background-repeat: no-repeat !important;
@@ -184,7 +187,7 @@ html[data-theme="dark"] .dash-banner{background:linear-gradient(135deg,#1e2444,#
 .badge{display:inline-block;font-size:.67rem;font-weight:700;padding:2px 7px;border-radius:20px;margin-top:4px;}
 .badge-due{background:#fef3c7;color:#92400e;}
 .badge-ok{background:#d1fae5;color:#065f46;}
-.badge-new{background:#ede9fe;color:#5b21b6;}
+.badge-empty{background:#ede9fe;color:#5b21b6;}
 .scard-fr::before{background:var(--c-fr);}
 .scard-math::before{background:var(--c-math);}
 .scard-hg::before{background:var(--c-hg);}
@@ -201,8 +204,8 @@ html[data-theme="dark"] .dash-banner{background:linear-gradient(135deg,#1e2444,#
 .scard-jur::before{background:var(--c-jur);}
 
 /* BREADCRUMB */
-.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:0;flex-wrap:wrap;position:sticky;top:56px;z-index:90;background:rgba(244,246,251,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:10px 12px 8px;margin:0 -12px;border-radius:0 0 14px 14px;border-bottom:1px solid var(--border);}
-html[data-theme="dark"] .breadcrumb{background:rgba(13,20,32,.68);}
+.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:0;flex-wrap:wrap;position:sticky;top:56px;z-index:90;background:rgba(244,246,251,.4);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:10px 12px 8px;margin:0 -12px;border-radius:0 0 14px 14px;border-bottom:1px solid var(--border);}
+html[data-theme="dark"] .breadcrumb{background:rgba(13,20,32,.4);}
 .bc-btn{background:none;border:1.5px solid var(--border);border-radius:8px;padding:7px 13px;font-size:.82rem;font-weight:600;cursor:pointer;color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif;}
 .bc-btn:hover{border-color:var(--text);color:var(--text);}
 .bc-sep{color:var(--border);}
@@ -546,11 +549,6 @@ html[data-theme="dark"] .qcm-q-box{background:linear-gradient(135deg,#1e2444,#18
 .subj-ch-section{margin-top:22px;}
 .subj-ch-title{font-family:'Sora',sans-serif;font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:11px;}
 
-/* ── TOPBAR FORCED DARK ──────────────────────────────────── */
-.topbar .bc-btn,.topbar .burger span{color:#0e1525 !important;}
-.burger span{background:#0e1525 !important;}
-.tb-brand{color:#0e1525 !important;}
-
 /* ── CONTRAST OVERRIDES (final authority) ───────────────── */
 .sb-link                { color: #ffffff !important; }
 .tb-brand               { color: #0e1525 !important; }
@@ -620,7 +618,6 @@ html[data-theme="dark"] .search-btn { color: #e7ebf3 !important; }
 .fc-scene:active .fc-3d { transform: scale(.97); }
 
 /* ── BOUTON IMPRIMER ─────────────────────────────────────── */
-.cours-print-bar { display:flex; justify-content:flex-end; margin-bottom:10px; }
 .print-btn { display:inline-flex; align-items:center; gap:6px; font-weight:600; }
 
 /* ── BOUTON SUPPRIMER VOC — CARRÉ ROUGE ──────────────────── */
@@ -687,8 +684,6 @@ html[data-theme="dark"] .voc-del-sq { background:#450a0a; border-color:#dc2626; 
 .formula-box .MathJax_Display, .formula-box mjx-container { display:block; margin:.4em 0; }
 
 /* ── SCHEMA PLACEHOLDERS ─────────────────────────────────── */
-.schema-placeholder { background:var(--bg); border:1.5px dashed var(--border); border-radius:12px; padding:10px; margin:14px 0; text-align:center; }
-.schema-placeholder img { max-width:100%; border-radius:8px; }
 
 /* ── MUSIC PANEL — MOBILE FIX ────────────────────────────── */
 @media (max-width: 480px) {
@@ -1527,20 +1522,6 @@ html[data-theme="dark"] .exo-attempt-area::placeholder { color: var(--muted); }
     pointer-events: none;
     font-style: normal;
     font-weight: 400;
-}
-
-/* Légende des couleurs */
-.fig-legende {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin: 12px 0 16px;
-}
-.fig-legende-item {
-    font-size: .75rem;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-weight: 600;
 }
 
 /* ── Bulle d'explication au clic/tap (mobile + desktop) ─────── */

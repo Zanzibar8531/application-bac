@@ -96,4 +96,49 @@ flashcards:[
 {q:'Les 4 questions clés avant de lancer un projet (business model simplifié)',a:'Pour qui ? Quel problème je résous ? Comment je le vends ? Comment je gagne de l\'argent ?'},
 {q:'Pourquoi les produits propres sont plus rentables que la pub',a:'Marge bien plus élevée par vente, même si la mise en place initiale demande plus de travail que du contenu monétisé par pub.'},
 ]},
+
+'Se lancer concrètement : ton premier petit projet': {
+cours:`<h3>Pourquoi c'est difficile de se lancer</h3>
+<p>Avoir "envie de se lancer depuis un moment" sans jamais commencer, c'est presque toujours le même blocage : on cherche <strong>LA</strong> bonne idée parfaite avant de faire le moindre premier pas. Résultat : on ne compare jamais des idées réelles entre elles, on compare une idée floue dans sa tête à l'angoisse de mal faire — et on ne fait rien.</p>
+<div class="retenir-box">La bonne question n'est pas "quelle est la meilleure idée ?" mais <mark>"quelle est la plus petite version de cette idée que je peux tester cette semaine ?"</mark> C'est le concept de <strong>MVP</strong> (Minimum Viable Product / produit minimum viable) : la version la plus simple d'un projet qui permet déjà de tester si ça marche, avant d'investir du temps ou de l'argent dans une version parfaite.</p>
+
+<h3>Contenu (TikTok/Insta/YouTube) vs vendre une compétence : deux paris très différents</h3>
+<div class="formula-box">
+<strong>Créer du contenu</strong> (ex : compte TikTok) : gratuit à démarrer, mais l'argent arrive seulement après avoir atteint des seuils de vues/abonnés — souvent plusieurs mois de régularité avant le premier centime, dans un secteur très saturé.<br><br>
+<strong>Vendre une compétence</strong> (freelance, service, petit produit) : peut rapporter dès le premier client, même à très petite échelle — parce qu'on est payé pour un travail rendu, pas pour de l'audience à construire.
+</div>
+<p>Les deux ne s'opposent pas forcément (le contenu peut d'ailleurs servir à faire connaître un service), mais si l'objectif est de <mark>gagner un premier peu d'argent rapidement</mark>, vendre une compétence déjà là (même modeste) est presque toujours plus rapide qu'attendre qu'un compte grossisse.</p>
+
+<h3>Trouver un premier projet réaliste : partir de ce que tu as déjà</h3>
+<p>Le meilleur premier projet n'est pas le plus original, c'est celui qui utilise une compétence ou une ressource que tu as <mark>déjà</mark>, pour ne pas avoir à tout apprendre avant de commencer :</p>
+<ul>
+<li><strong>Une compétence technique en construction</strong> (informatique, aide sur un petit script, mise en forme d'un document, dépannage simple d'un proche) → un micro-service ponctuel, même non déclaré à ce stade si c'est occasionnel.</li>
+<li><strong>Des objets dont tu ne te sers plus</strong> → revente (Vinted, Leboncoin) : le side hustle le plus rapide à tester, zéro compétence à apprendre.</li>
+<li><strong>Une matière scolaire que tu maîtrises bien</strong> → petit soutien scolaire ponctuel à un plus jeune.</li>
+</ul>
+<div class="attention-box">Le piège à éviter : vouloir démarrer directement par le projet le plus ambitieux (créer une appli, monter une marque). Un premier projet réussi, c'est un projet <mark>terminé</mark>, même minuscule — pas un projet parfait resté à l'état d'idée.</div>
+
+<h3>La méthode en 4 étapes pour sortir de l'attentisme</h3>
+<ol>
+<li><strong>Choisir UNE seule idée</strong> parmi celles qui utilisent ce que tu sais déjà faire — pas la "meilleure", juste une que tu peux commencer cette semaine.</li>
+<li><strong>Définir une version minimale</strong> : quel est le plus petit service ou produit que tu peux proposer dès maintenant, sans matériel ni compétence supplémentaire ?</li>
+<li><strong>Trouver UN premier "client"</strong> : quelqu'un de ton entourage suffit pour un premier test (famille, ami, groupe classe) — pas besoin d'un inconnu sur internet au début.</li>
+<li><strong>Ajuster après le premier retour</strong> : le premier essai sert à apprendre, pas à réussir parfaitement. On améliore la version 2 avec ce qu'on a appris de la version 1.</li>
+</ol>
+
+<h3>Ce qui compte vraiment au début</h3>
+<p>Gagner 10€ avec un premier petit projet mené à son terme t'apprend infiniment plus (fixer un prix, parler à un client, tenir un engagement) que d'attendre la "bonne" idée à 500€. La compétence qui compte le plus au tout début, ce n'est pas l'idée — c'est la capacité à <strong>terminer</strong> quelque chose de petit.</p>`,
+exercices:[
+{niveau:'Facile', enonce:`<p>Un élève hésite depuis des mois entre plusieurs idées de projet pour gagner un peu d'argent, sans jamais en commencer aucune. D'après le cours, quelle est la vraie cause de ce blocage ?</p>`, aide:`Relis la partie "Pourquoi c'est difficile de se lancer" — que compare-t-on en réalité quand on hésite trop longtemps ?`, correction:`<p>Le blocage vient du fait qu'il cherche <mark>LA</mark> idée parfaite avant d'agir, au lieu de tester une petite version simple d'une idée réaliste. Il ne compare jamais des idées concrètes entre elles : il compare une idée floue à l'angoisse de mal faire — ce qui mène à ne rien commencer du tout.</p>`},
+{niveau:'Moyen', enonce:`<p>Deux options s'offrent à quelqu'un qui veut gagner rapidement un premier peu d'argent : (1) lancer un compte de contenu (TikTok) et viser la monétisation publicitaire, ou (2) proposer dès maintenant un petit service à son entourage (dépannage informatique, revente d'objets). Laquelle est susceptible de rapporter de l'argent le plus vite, et pourquoi ?</p>`, aide:`Relis la comparaison "Créer du contenu vs vendre une compétence" — dans quel cas est-on payé immédiatement, et dans quel cas faut-il d'abord accumuler de l'audience ?`, correction:`<p>L'option (2), <strong>vendre un service</strong>, rapporte généralement de l'argent bien plus vite. Le cours explique que la création de contenu ne devient rentable qu'après avoir atteint des seuils de vues/abonnés, ce qui prend souvent plusieurs mois de régularité — alors que vendre une compétence ou un objet peut rapporter dès le premier client, sans avoir à construire une audience au préalable.</p>`},
+{niveau:'Difficile', enonce:`<p>Quelqu'un veut absolument que son premier projet soit une application mobile aboutie, avec un vrai design et plusieurs fonctionnalités, avant de la proposer à qui que ce soit. Explique, à l'aide du concept de MVP et de la méthode en 4 étapes du cours, pourquoi cette approche risque de le maintenir dans l'inaction, et ce qu'il devrait faire à la place.</p>`, aide:`Relis la définition du MVP et le piège évoqué dans l'encadré "attention" sur le fait de vouloir démarrer par le projet le plus ambitieux.`, correction:`<p>Viser directement une application aboutie avant tout premier test est exactement le piège que décrit le cours : vouloir démarrer par le projet le plus ambitieux plutôt que par une version minimale. Plus le projet de départ est gros et exigeant en compétences, plus il y a de risques de ne jamais le terminer — et un projet non terminé n'apprend rien et ne rapporte rien.</p><p>D'après le concept de <mark>MVP</mark>, il devrait d'abord identifier la plus petite version testable de son idée (par exemple, proposer le service manuellement à une ou deux personnes avant même d'écrire une ligne de code d'appli), suivre la méthode en 4 étapes (une seule idée réaliste → version minimale → un premier "client" test dans son entourage → ajustement selon le retour), et seulement ensuite envisager de construire une vraie application une fois l'idée validée par un premier essai concret.</p>`},
+],
+flashcards:[
+{q:'MVP (Minimum Viable Product)',a:'La version la plus simple d\'un projet, suffisante pour le tester réellement, avant d\'investir du temps ou de l\'argent dans une version aboutie.'},
+{q:'Pourquoi on reste souvent bloqué avant de se lancer',a:'On cherche LA idée parfaite au lieu de tester une petite version réaliste — on compare une idée floue à la peur de mal faire, ce qui empêche d\'agir.'},
+{q:'Contenu (TikTok) vs vendre une compétence — différence clé pour gagner vite',a:'Le contenu ne rapporte qu\'après avoir atteint des seuils de vues/abonnés (souvent des mois). Vendre une compétence peut rapporter dès le premier client.'},
+{q:'Comment choisir un premier projet réaliste',a:'Partir de ce qu\'on sait déjà faire ou de ce qu\'on a déjà (compétence, objets à revendre, matière scolaire maîtrisée) plutôt que d\'apprendre une compétence entièrement nouvelle avant de commencer.'},
+{q:'Les 4 étapes pour sortir de l\'attentisme',a:'1. Choisir une seule idée réaliste. 2. Définir sa version minimale. 3. Trouver un premier "client" test dans son entourage. 4. Ajuster après le premier retour.'},
+{q:'Pourquoi un petit projet terminé vaut mieux qu\'un gros projet resté à l\'état d\'idée',a:'Terminer quelque chose de petit apprend des compétences concrètes (fixer un prix, parler à un client, tenir un engagement) — un projet ambitieux jamais fini n\'apprend rien.'},
+]},
 };
