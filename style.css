@@ -26,7 +26,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
 /* LAYOUT */
 .shell{display:flex;flex-direction:column;min-height:100vh;}
-.topbar{position:sticky;top:0;z-index:100;height:60px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;padding:0 18px;box-shadow:0 1px 8px rgba(0,0,0,.04);}
+.topbar{position:sticky;top:0;z-index:100;height:60px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;padding:0 18px;box-shadow:0 6px 20px rgba(0,0,0,.14);border-radius:0 0 22px 22px;}
+html[data-theme="dark"] .topbar{box-shadow:0 6px 24px rgba(0,0,0,.5);}
 .burger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:7px;border-radius:8px;transition:background .15s;flex-shrink:0;}
 .burger:hover{background:var(--bg);}
 .burger span{display:block;width:20px;height:2px;background:#0e1525 !important;border-radius:2px;}
@@ -76,14 +77,18 @@ html[data-theme="dark"] body{
     background-repeat: no-repeat !important;
     background-size: cover !important;
 }
-/* Mode clair : nuages pastel très doux, jamais gênants pour la lecture. */
+/* Mode clair : ciel de jour doux, en écho au ciel étoilé du mode sombre —
+   un soleil discret, un dégradé de ciel, et quelques nuages flous. */
 html:not([data-theme="dark"]) body{
     background:
-        radial-gradient(ellipse 50% 35% at 15% 15%, rgba(199,210,254,.55), transparent 65%),
-        radial-gradient(ellipse 45% 32% at 85% 10%, rgba(253,224,225,.5), transparent 65%),
-        radial-gradient(ellipse 48% 36% at 25% 85%, rgba(209,250,229,.45), transparent 65%),
-        radial-gradient(ellipse 42% 30% at 82% 78%, rgba(254,240,199,.45), transparent 65%),
-        var(--bg) !important;
+        radial-gradient(circle 180px at 82% 8%, rgba(255,241,181,.9), rgba(255,229,143,.35) 55%, transparent 75%),
+        radial-gradient(ellipse 38% 14% at 20% 22%, rgba(255,255,255,.75), transparent 70%),
+        radial-gradient(ellipse 32% 12% at 65% 38%, rgba(255,255,255,.65), transparent 70%),
+        radial-gradient(ellipse 42% 15% at 30% 68%, rgba(255,255,255,.6), transparent 70%),
+        radial-gradient(ellipse 34% 13% at 78% 85%, rgba(255,255,255,.55), transparent 70%),
+        radial-gradient(ellipse 55% 40% at 10% 90%, rgba(209,250,229,.55), transparent 65%),
+        radial-gradient(ellipse 48% 36% at 90% 95%, rgba(199,210,254,.5), transparent 65%),
+        linear-gradient(180deg, #dbeafe 0%, #eef2ff 35%, #f4f6fb 65%, var(--bg) 100%) !important;
     background-attachment: fixed !important;
     background-repeat: no-repeat !important;
     background-size: cover !important;
@@ -144,6 +149,8 @@ html[data-theme="dark"] .dash-banner{background:linear-gradient(135deg,#1e2444,#
 .daily-review-btn{display:block;width:100%;padding:14px;margin-bottom:16px;border:none;border-radius:var(--r);background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;font-weight:700;font-size:.9rem;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 16px rgba(79,70,229,.3);transition:transform .15s;}
 .daily-review-btn:hover{transform:translateY(-2px);}
 .sync-banner{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;margin-top:18px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);cursor:pointer;font-size:.85rem;font-weight:600;transition:all .15s;}
+.update-check-btn{width:100%;margin-top:10px;padding:12px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--card);color:var(--text);font-weight:600;font-size:.85rem;cursor:pointer;transition:all .15s;}
+.update-check-btn:hover{background:#4f46e5;color:#fff;border-color:#4f46e5;}
 .sync-banner:hover{border-color:var(--accent);background:var(--bg);}
 .sync-status{font-size:.74rem;font-weight:600;}
 
@@ -194,7 +201,8 @@ html[data-theme="dark"] .dash-banner{background:linear-gradient(135deg,#1e2444,#
 .scard-jur::before{background:var(--c-jur);}
 
 /* BREADCRUMB */
-.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:0;flex-wrap:wrap;position:sticky;top:56px;z-index:90;background:var(--bg);padding:10px 0 8px;border-bottom:1px solid var(--border);}
+.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:0;flex-wrap:wrap;position:sticky;top:56px;z-index:90;background:rgba(244,246,251,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:10px 12px 8px;margin:0 -12px;border-radius:0 0 14px 14px;border-bottom:1px solid var(--border);}
+html[data-theme="dark"] .breadcrumb{background:rgba(13,20,32,.68);}
 .bc-btn{background:none;border:1.5px solid var(--border);border-radius:8px;padding:7px 13px;font-size:.82rem;font-weight:600;cursor:pointer;color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif;}
 .bc-btn:hover{border-color:var(--text);color:var(--text);}
 .bc-sep{color:var(--border);}
@@ -341,13 +349,40 @@ html[data-theme="dark"] .cc-btn-cancel:hover{background:var(--border);color:var(
 
 /* VOC */
 .voc-count{color:var(--muted);font-size:.78rem;margin-bottom:11px;}
-.voc-row{display:flex;align-items:flex-start;gap:11px;padding:10px 7px;border-bottom:1px solid var(--border);border-radius:5px;transition:background .12s;}
+.voc-row{
+    display:grid;
+    grid-template-columns:130px 1fr auto auto;
+    grid-template-areas:"q a edit del";
+    align-items:flex-start;
+    gap:11px;
+    padding:10px 7px;
+    border-bottom:1px solid var(--border);
+    border-radius:5px;
+    transition:background .12s;
+}
 .voc-row:hover{background:#f8fafc;}
 .voc-row:last-child{border-bottom:none;}
-.voc-q{font-weight:700;min-width:130px;font-size:.85rem;}
-.voc-a{color:var(--muted);flex:1;font-size:.83rem;line-height:1.5;}
+.voc-q{grid-area:q;font-weight:700;font-size:.85rem;}
+.voc-a{grid-area:a;color:var(--muted);font-size:.83rem;line-height:1.5;}
+.voc-edit-sq{grid-area:edit;}
+.voc-del-sq{grid-area:del;}
 .voc-del{background:none;border:none;cursor:pointer;color:var(--red);opacity:0;transition:opacity .15s;padding:0 3px;font-size:.82rem;}
 .voc-row:hover .voc-del{opacity:1;}
+
+/* Sur mobile : le mot + les 2 boutons sur une ligne, la définition en
+   pleine largeur juste en dessous — au lieu de tout écraser sur une seule
+   ligne où la définition n'a presque plus de place. */
+@media (max-width:600px){
+    .voc-row{
+        grid-template-columns:1fr auto auto;
+        grid-template-areas:
+            "q edit del"
+            "a a a";
+        row-gap:8px;
+    }
+    .voc-q{font-size:.9rem;}
+    .voc-a{font-size:.86rem;}
+}
 
 /* SETUP */
 .setup-wrap{max-width:460px;}

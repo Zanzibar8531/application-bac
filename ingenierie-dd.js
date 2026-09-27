@@ -101,4 +101,48 @@ flashcards:[
 {q:'Cahier des charges fonctionnel (CdCF)',a:'Document qui formalise le besoin : liste les fonctions attendues du produit et les contraintes à respecter (normes, coût, délai, environnement).'},
 {q:'Différence recyclage / réemploi',a:'Réemploi : le produit est réutilisé tel quel pour le même usage. Recyclage : la matière est retraitée pour fabriquer un nouveau produit.'},
 ]},
+
+'Structures & résistance des matériaux': {
+cours:`<h3>Pourquoi étudier les structures ?</h3>
+<p>Une <strong>structure</strong> (poutre, châssis, pont, carcasse d'un produit) doit supporter des charges sans se déformer excessivement ni casser. L'étude des structures permet de <mark>dimensionner</mark> correctement une pièce : ni trop faible (risque de rupture), ni surdimensionnée (surcoût, surpoids inutile).</p>
+
+<h3>Les efforts fondamentaux</h3>
+<div class="formula-box">
+<strong>Traction</strong> : la pièce est étirée, tirée dans le sens de sa longueur (ex : un câble qui soutient une charge).<br>
+<strong>Compression</strong> : la pièce est comprimée, écrasée (ex : un pilier qui supporte un toit).<br>
+<strong>Flexion</strong> : la pièce se courbe sous une charge perpendiculaire à sa longueur (ex : une étagère qui plie sous des livres).<br>
+<strong>Torsion</strong> : la pièce est tordue autour de son axe (ex : un arbre de transmission qui tourne sous charge).<br>
+<strong>Cisaillement</strong> : deux forces opposées et décalées "tranchent" la pièce (ex : une paire de ciseaux, un boulon soumis à un glissement).
+</div>
+<div class="retenir-box">Une même pièce réelle subit souvent <mark>plusieurs</mark> de ces efforts en même temps (ex : une poutre de pont subit flexion ET cisaillement) — savoir les identifier séparément est la première étape avant tout calcul.</div>
+
+<h3>La notion de contrainte</h3>
+<div class="formula-box">Contrainte $\\sigma = \\dfrac{F}{S}$ &nbsp;(en Pascal, Pa, ou souvent en MPa en pratique)<br>Avec F la force appliquée (en Newton) et S la section de la pièce (en m²).</div>
+<p>La contrainte mesure l'intensité de l'effort <mark>rapportée à la surface</mark> qui le supporte — c'est pour ça qu'une pièce plus large résiste mieux à une même force : la contrainte qu'elle subit est plus faible, répartie sur une plus grande section.</p>
+<div class="attention-box">Ne confonds pas <mark>force</mark> (en Newton, l'action globale) et <mark>contrainte</mark> (en Pa, l'intensité rapportée à la surface) — deux pièces peuvent subir la même force mais des contraintes très différentes si leurs sections sont différentes.</div>
+
+<h3>Résistance élastique limite et coefficient de sécurité</h3>
+<p>Chaque matériau a une <strong>limite élastique</strong> (Re) : en dessous, il retrouve sa forme initiale après déformation (comportement élastique) ; au-delà, la déformation devient permanente (comportement plastique), jusqu'à la rupture.</p>
+<div class="formula-box">Coefficient de sécurité $s = \\dfrac{Re}{\\sigma_{admissible}}$ &nbsp;— toujours $&gt; 1$ dans un dimensionnement réel, pour garder une marge de sécurité face aux incertitudes (qualité du matériau, charges imprévues, usure...).</div>
+
+<h3>Le module d'Young : rigidité du matériau</h3>
+<p>Le <strong>module d'Young</strong> (E, en GPa) caractérise la <mark>rigidité</mark> d'un matériau : plus il est élevé, plus le matériau se déforme peu sous une contrainte donnée (l'acier est bien plus rigide que le caoutchouc, par exemple). Ce n'est pas la même chose que la résistance : un matériau peut être rigide mais cassant (peu de déformation avant rupture), ou souple mais très résistant.</p>
+
+<h3>Simplifier avant de calculer</h3>
+<p>En bureau d'études, on modélise toujours une structure réelle par un schéma simplifié : <strong>poutre</strong> (appuis, charges ponctuelles ou réparties), avant tout calcul de contrainte ou de déformation. Cette étape de modélisation, souvent négligée, est pourtant celle qui détermine si le calcul qui suit aura un sens.</p>`,
+exercices:[
+{niveau:'Facile', enonce:`<p>Un câble d'ascenseur soutient une cabine suspendue. Quel type d'effort principal ce câble subit-il ?</p>`, aide:`Le câble est-il étiré, comprimé, courbé ou tordu par le poids de la cabine ?`, correction:`<p><strong>De la traction.</strong> Le câble est étiré dans le sens de sa longueur par le poids de la cabine suspendue — exactement la définition de la traction donnée dans le cours.</p>`},
+{niveau:'Moyen', enonce:`<p>Une pièce métallique de section $S = 2\\,cm^2$ subit une force de traction $F = 4000\\,N$. Calcule la contrainte $\\sigma$ subie par la pièce, en MPa.</p>`, aide:`Utilise σ = F/S. Attention aux unités : convertis la section en m² avant de calculer (1 cm² = 10⁻⁴ m²), puis convertis le résultat en MPa (1 MPa = 10⁶ Pa) à la fin.`, correction:`<p>$S = 2\\,cm^2 = 2\\times10^{-4}\\,m^2$</p><p>$\\sigma = \\dfrac{F}{S} = \\dfrac{4000}{2\\times10^{-4}} = 2\\times10^{7}\\,Pa = 20\\,MPa$</p>`},
+{niveau:'Difficile', enonce:`<p>Deux poutres, A et B, sont fabriquées dans le même matériau et soumises exactement à la même force de traction. La poutre A a une section 2 fois plus grande que la poutre B. Laquelle des deux a le coefficient de sécurité le plus élevé, et pourquoi ? Justifie avec les formules du cours.</p>`, aide:`Calcule d'abord comment la contrainte varie entre les deux poutres (même force, section différente), puis utilise la formule du coefficient de sécurité (qui dépend de la contrainte au dénominateur) pour en déduire lequel est le plus sûr.`, correction:`<p>À force égale, $\\sigma = F/S$ : la poutre A (section 2 fois plus grande) subit une contrainte 2 fois <mark>plus faible</mark> que la poutre B ($\\sigma_A = \\sigma_B / 2$).</p><p>Le coefficient de sécurité $s = Re/\\sigma$ étant <strong>inversement proportionnel</strong> à la contrainte (même Re, car même matériau), une contrainte plus faible donne un coefficient de sécurité plus <mark>élevé</mark>. La poutre A, avec sa plus grande section, a donc un coefficient de sécurité deux fois plus élevé que la poutre B — elle est structurellement plus sûre, au prix d'une masse de matière plus importante (souvent un compromis à arbitrer en conception réelle : sécurité vs masse/coût).</p>`},
+],
+flashcards:[
+{q:'Les 5 efforts fondamentaux en structures',a:'Traction, compression, flexion, torsion, cisaillement.'},
+{q:'Traction vs compression',a:'Traction : la pièce est étirée/tirée. Compression : la pièce est écrasée/comprimée.'},
+{q:'Formule de la contrainte',a:'σ = F/S (Force en Newton / Section en m²), exprimée en Pascal (Pa) ou MPa.'},
+{q:'Différence force / contrainte',a:'La force (N) est l\'action globale appliquée. La contrainte (Pa) rapporte cette force à la surface qui la supporte — une pièce plus large subit une contrainte plus faible à force égale.'},
+{q:'Limite élastique (Re)',a:'Seuil en dessous duquel un matériau retrouve sa forme initiale après déformation (élastique) ; au-delà, la déformation devient permanente (plastique) jusqu\'à rupture.'},
+{q:'Coefficient de sécurité — formule et règle',a:'s = Re / σ_admissible. Toujours supérieur à 1 dans un dimensionnement réel, pour garder une marge face aux incertitudes.'},
+{q:'Module d\'Young (E)',a:'Caractérise la rigidité d\'un matériau — plus il est élevé, moins le matériau se déforme sous une contrainte donnée. Différent de la résistance (un matériau peut être rigide mais cassant).'},
+{q:'Pourquoi modéliser une structure réelle en poutre simplifiée avant de calculer',a:'Cette étape détermine si le calcul qui suit aura un sens — une mauvaise modélisation fausse tout le dimensionnement, même avec des calculs corrects ensuite.'},
+]},
 };

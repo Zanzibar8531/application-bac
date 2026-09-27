@@ -652,6 +652,7 @@ function goHome() {
             <span>☁️ Synchroniser mes données</span>
             <span class="sync-status" id="sync-status-home"></span>
         </div>
+        <button class="update-check-btn" onclick="checkForUpdate()">🔄 Vérifier les mises à jour du site</button>
     `);
     updateSyncStatusBadge();
     updateNotifBtn();
@@ -2762,8 +2763,8 @@ function downloadSelectedExport() {
 // ── TOKEN ──────────────────────────────────────────────────────
 function saveToken() {
     const val = document.getElementById('gh-token-input')?.value?.trim();
-    if (!val || !val.startsWith('ghp_')) {
-        showToast('Token invalide — doit commencer par ghp_', 'warn');
+    if (!val || !(val.startsWith('ghp_') || val.startsWith('github_pat_'))) {
+        showToast('Token invalide — doit commencer par ghp_ ou github_pat_', 'warn');
         return;
     }
     ghSetToken(val);
@@ -2910,6 +2911,40 @@ Cela remplacera tes données locales actuelles.`)) {
 }
 
 // ── BADGE STATUS ──────────────────────────────────────────────
+// ── VÉRIFICATION DES MISES À JOUR (bouton accueil) ────────────
+// Force le navigateur à re-télécharger sw.js (jamais mis en cache par
+// spec), et s'il a changé (nouvelle version), installe le nouveau et
+// recharge la page pour appliquer tous les fichiers à jour d'un coup.
+// Si rien n'a changé, ne recharge PAS — juste un message "déjà à jour".
+function checkForUpdate() {
+    if(!('serviceWorker' in navigator)){ window.location.reload(); return; }
+    showToast('Recherche d\'une mise à jour…', 'info');
+    navigator.serviceWorker.getRegistration().then(reg => {
+        if(!reg){ window.location.reload(); return; }
+        let updateFound = false;
+
+        reg.addEventListener('updatefound', () => {
+            updateFound = true;
+            const newSW = reg.installing;
+            if(!newSW) return;
+            newSW.addEventListener('statechange', () => {
+                if(newSW.state === 'installed' && navigator.serviceWorker.controller){
+                    newSW.postMessage('SKIP_WAITING');
+                }
+            });
+        });
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+            window.location.reload();
+        });
+
+        reg.update().then(() => {
+            setTimeout(() => {
+                if(!updateFound) showToast('Déjà à jour ✅', 'info');
+            }, 1500);
+        }).catch(() => showToast('Impossible de vérifier — vérifie ta connexion', 'warn'));
+    });
+}
+
 function updateSyncStatusBadge() {
     const el = document.getElementById('sync-status-home');
     if (!el) return;
