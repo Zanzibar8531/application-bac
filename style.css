@@ -1649,3 +1649,45 @@ html[data-theme="dark"] .exo-attempt-area::placeholder { color: var(--muted); }
         transform: none;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   TEXTES ANNOTÉS & ANALYSE LINÉAIRE — MODE SOMBRE
+   (spécificité volontairement haute pour battre
+    "html[data-theme=dark] .cours-body p/strong")
+   ═══════════════════════════════════════════════════════════ */
+html[data-theme="dark"] .cours-body .texte-annote{
+    background:#141b2e !important;
+    border-color:#2b3556 !important;
+}
+html[data-theme="dark"] .cours-body .texte-annote p{
+    color:#dbe4f3 !important;
+    -webkit-text-fill-color:#dbe4f3 !important;
+}
+html[data-theme="dark"] .cours-body .analyse-lineaire-box{
+    background:#1b1a2c !important;
+    border-color:#3a3350 !important;
+    border-left-color:#e8a33d !important;
+    box-shadow:0 3px 16px rgba(0,0,0,.4) !important;
+}
+html[data-theme="dark"] .cours-body .analyse-lineaire-box p{
+    color:#e2e8f0 !important;
+    -webkit-text-fill-color:#e2e8f0 !important;
+}
+html[data-theme="dark"] .cours-body .analyse-lineaire-box strong{
+    color:#fbbf24 !important;
+    -webkit-text-fill-color:#fbbf24 !important;
+}
+
+/* Pastilles de légende : le texte suit la couleur définie sur la pastille
+   (sinon il hérite du gris clair du mode sombre et devient illisible) */
+.cours-body .fig-legende-item{
+    -webkit-text-fill-color:currentColor !important;
+}
+
+/* Nouvelles figures */
+.fig-periphrase  { background:#bae6fd; border-bottom-color:#0284c7;
+                   color:#0c4a6e !important; -webkit-text-fill-color:#0c4a6e !important; }
+.fig-synesthesie { background:#99f6e4; border-bottom-color:#14b8a6;
+                   color:#134e4a !important; -webkit-text-fill-color:#134e4a !important; }
+.fig-popup-badge.fig-periphrase  { background:#bae6fd; color:#0c4a6e; }
+.fig-popup-badge.fig-synesthesie { background:#99f6e4; color:#134e4a; }

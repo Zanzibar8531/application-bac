@@ -213,6 +213,7 @@ function saveTimeLog(log) { localStorage.setItem('bacmaster_timelog', JSON.strin
 
 function addTimeSeconds(subject, activity, seconds) {
     if(!subject || !activity || seconds <= 0) return;
+    logActivity(); // toute activité réellement trackée (cours, exercices, flashcards, QCM) allume la bougie du jour
     const today = new Date().toISOString().slice(0,10);
     const log = getTimeLog();
     if(!log[today]) log[today] = {};
@@ -634,7 +635,7 @@ function goHome() {
                 const pct = st.total ? Math.round(st.mastered/st.total*100) : 0;
                 const c = SUBJ_COLORS[s.cls];
                 let badge = '';
-                if(st.total===0) badge='<span class="badge badge-empty">Vide</span>';
+                if(st.total===0) badge='<span class="badge badge-new">Vide</span>';
                 else if(st.due>0) badge=`<span class="badge badge-due">📚 ${st.due} à réviser</span>`;
                 else badge='<span class="badge badge-ok">✓ À jour</span>';
                 return `
@@ -2179,7 +2180,8 @@ function showFigPopup(target, text) {
         'fig-chute':'Chute','fig-hyperbole':'Hyperbole',
         'fig-antiphrase':'Antiphrase','fig-pleonasme':'Pléonasme',
         'fig-these':'Thèse','fig-concession':'Concession',
-        'fig-relativisme':'Relativisme','fig-note':'Note'
+        'fig-relativisme':'Relativisme','fig-note':'Note',
+        'fig-periphrase':'Périphrase','fig-synesthesie':'Synesthésie'
     };
     const label = figNames[figClass] || figClass.replace('fig-','');
 
@@ -2205,6 +2207,8 @@ function showFigPopup(target, text) {
         'fig-concession':  {bg:'#fbcfe8',fg:'#831843'},
         'fig-relativisme': {bg:'#fef08a',fg:'#713f12'},
         'fig-note':        {bg:'#e2e8f0',fg:'#1e293b'},
+        'fig-periphrase':  {bg:'#bae6fd',fg:'#0c4a6e'},
+        'fig-synesthesie': {bg:'#99f6e4',fg:'#134e4a'},
     };
     const bc = badgeColors[figClass] || {bg:'#e2e8f0',fg:'#1e293b'};
 
@@ -3005,6 +3009,8 @@ function updateSyncStatusBadge() {
         .cours-body .fig-concession,   .texte-annote .fig-concession   { background:#fbcfe8 !important; color:#831843 !important; -webkit-text-fill-color:#831843 !important; border-bottom-color:#ec4899 !important; }
         .cours-body .fig-relativisme,  .texte-annote .fig-relativisme  { background:#fef08a !important; color:#713f12 !important; -webkit-text-fill-color:#713f12 !important; border-bottom-color:#ca8a04 !important; }
         .cours-body .fig-note,         .texte-annote .fig-note         { background:#e2e8f0 !important; color:#1e293b !important; -webkit-text-fill-color:#1e293b !important; border-bottom-color:#64748b !important; }
+        .cours-body .fig-periphrase,   .texte-annote .fig-periphrase   { background:#bae6fd !important; color:#0c4a6e !important; -webkit-text-fill-color:#0c4a6e !important; border-bottom-color:#0284c7 !important; }
+        .cours-body .fig-synesthesie,  .texte-annote .fig-synesthesie  { background:#99f6e4 !important; color:#134e4a !important; -webkit-text-fill-color:#134e4a !important; border-bottom-color:#14b8a6 !important; }
     `;
     document.head.appendChild(s);
 })();

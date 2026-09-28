@@ -305,3 +305,47 @@ flashcards:[
 {q:'Pourquoi investir en actions/ETF sur le long terme malgré le risque',a:'L\'épargne sans risque peine souvent à suivre l\'inflation sur la durée (rendement réel parfois négatif) — les actions visent un rendement moyen supérieur sur le long terme, en échange d\'une volatilité à court terme.'},
 ]},
 };
+
+PREBUILT['Bourse & Investissement']['Fiscalité de l\'investissement : PEA, CTO & flat tax'] = {
+cours:`<div class="attention-box">Ce chapitre donne des <mark>informations factuelles générales</mark> sur la fiscalité française de l'investissement — les règles peuvent évoluer et un cas personnel précis peut nécessiter l'avis d'un professionnel. Ce n'est pas un conseil personnalisé.</div>
+
+<h3>Pourquoi la fiscalité change tout, à rendement égal</h3>
+<p>Deux placements peuvent avoir exactement le même rendement brut et donner des sommes très différentes une fois l'argent retiré, selon l'enveloppe fiscale utilisée. Comprendre la fiscalité n'est donc pas un détail administratif : c'est une partie du rendement réel que tu touches vraiment.</p>
+
+<h3>La "flat tax" (PFU) — la règle par défaut en France</h3>
+<div class="formula-box">
+<strong>PFU</strong> (Prélèvement Forfaitaire Unique), dit "flat tax" : <strong>30%</strong> prélevés sur les gains (plus-values, dividendes, intérêts), décomposés en :<br>
+12,8% d'impôt sur le revenu + 17,2% de prélèvements sociaux (CSG/CRDS) = 30%.
+</div>
+<p>Cette flat tax de 30% s'applique par défaut sur un <strong>Compte-Titres Ordinaire (CTO)</strong> — le compte de bourse "classique", sans avantage fiscal particulier, accessible à tout âge et sans limite de versement.</p>
+
+<h3>Le PEA — l'avantage fiscal après 5 ans</h3>
+<ul>
+<li><strong>Avant 5 ans</strong> : tout retrait clôture le PEA (sauf exceptions rares), et les gains restent soumis aux prélèvements sociaux (17,2%) + une fiscalité proche du CTO selon la date d'ouverture.</li>
+<li><strong>Après 5 ans</strong> : les gains sont exonérés d'impôt sur le revenu — il ne reste que les <strong>17,2% de prélèvements sociaux</strong> à payer sur les gains, au moment du retrait. Aucun retrait ne clôture le plan après 5 ans.</li>
+<li><strong>Plafond de versement</strong> : 150 000€ de versements cumulés (les plus-values au-delà ne comptent pas dans ce plafond).</li>
+</ul>
+<div class="retenir-box">La règle à retenir : sur un PEA de plus de 5 ans, tu gardes environ <mark>82,8%</mark> de tes gains (100% − 17,2%), contre environ <mark>70%</mark> sur un CTO (100% − 30%). C'est un écart considérable sur le long terme, cumulé année après année.</div>
+
+<h3>PEA vs CTO — quand utiliser lequel</h3>
+<div class="formula-box">
+<strong>PEA</strong> : limité aux actions européennes (et ETF éligibles, y compris certains ETF américains via montage synthétique) — idéal pour un investissement long terme (&gt;5 ans) grâce à l'avantage fiscal.<br>
+<strong>CTO</strong> : accepte n'importe quel actif (actions US directes, ETF non éligibles PEA, obligations...) — utile pour ce que le PEA ne permet pas, mais sans avantage fiscal.
+</div>
+<p>Beaucoup de particuliers utilisent d'abord le PEA (jusqu'à son plafond ou pour ce qu'il permet), puis complètent avec un CTO pour les actifs non éligibles au PEA.</p>
+
+<h3>Livret A — pourquoi il n'y a "rien à déclarer"</h3>
+<p>Le Livret A (et le LDDS) sont totalement <strong>exonérés d'impôt et de prélèvements sociaux</strong> : c'est leur seul vrai avantage, en échange d'un taux de rendement plafonné et généralement plus faible qu'un placement en actions/ETF sur le long terme. C'est un placement sans risque et sans fiscalité, mais avec un rendement structurellement limité.</p>`,
+exercices:[
+{niveau:'Facile', enonce:`<p>Un investisseur réalise 1000€ de plus-value sur un Compte-Titres Ordinaire (CTO). Combien lui reste-t-il après application de la flat tax de 30% ?</p>`, aide:`Calcule 30% de 1000€, puis soustrais ce montant.`, correction:`<p>30% de 1000€ = 300€ prélevés. Il lui reste donc <strong>700€</strong> nets. La flat tax de 30% (12,8% d'impôt + 17,2% de prélèvements sociaux) s'applique par défaut sur un CTO.</p>`},
+{niveau:'Moyen', enonce:`<p>Deux investisseurs réalisent exactement 1000€ de plus-value chacun : le premier sur un PEA ouvert depuis 6 ans, le second sur un CTO. Combien touche chacun net d'impôts, et quel est l'écart ?</p>`, aide:`Le PEA de plus de 5 ans n'est soumis qu'aux prélèvements sociaux (17,2%) ; le CTO subit la flat tax complète (30%).`, correction:`<p><strong>PEA (6 ans, donc >5 ans)</strong> : seuls les 17,2% de prélèvements sociaux s'appliquent → 1000 × 0,172 = 172€ prélevés, il reste <strong>828€</strong>.</p><p><strong>CTO</strong> : flat tax de 30% → 1000 × 0,30 = 300€ prélevés, il reste <strong>700€</strong>.</p><p>Écart : <strong>128€</strong> de plus pour le PEA sur cette seule opération — un écart qui se répète et s'amplifie à chaque année d'investissement.</p>`},
+{niveau:'Difficile', enonce:`<p>Un investisseur veut absolument détenir des actions américaines en direct (pas via un ETF synthétique), par exemple des actions Apple achetées directement. Peut-il le faire sur son PEA ? Justifie, et explique quelle enveloppe il devrait utiliser à la place.</p>`, aide:`Repense à la contrainte du PEA sur la nature géographique des actifs qu'il peut contenir en détention directe.`, correction:`<p><strong>Non</strong>, il ne peut pas détenir des actions américaines en direct sur un PEA : le PEA n'accepte que des actions européennes (ou des ETF éligibles, y compris certains ETF américains, mais uniquement via un montage synthétique/swap, jamais une détention directe d'actions US).</p><p>Pour détenir directement des actions Apple, il doit utiliser un <strong>Compte-Titres Ordinaire (CTO)</strong>, qui accepte n'importe quel actif sans contrainte géographique — au prix de perdre l'avantage fiscal du PEA sur ces gains-là (flat tax de 30% au lieu des 17,2% du PEA après 5 ans).</p>`},
+],
+flashcards:[
+{q:'Flat tax (PFU) — composition et taux total',a:'Prélèvement Forfaitaire Unique : 12,8% d\'impôt sur le revenu + 17,2% de prélèvements sociaux = 30% au total sur les gains.'},
+{q:'Fiscalité d\'un PEA après 5 ans',a:'Exonéré d\'impôt sur le revenu — il ne reste que les 17,2% de prélèvements sociaux sur les gains au retrait.'},
+{q:'Plafond de versement du PEA',a:'150 000€ de versements cumulés (les plus-values au-delà de ce montant ne comptent pas dans le plafond).'},
+{q:'PEA vs CTO — actifs autorisés',a:'PEA : actions européennes + ETF éligibles (dont certains américains via swap). CTO : tout actif, sans contrainte géographique, mais sans avantage fiscal.'},
+{q:'Pourquoi retirer de l\'argent d\'un PEA avant 5 ans est risqué fiscalement',a:'Tout retrait avant 5 ans clôture en général le plan (sauf exceptions) et fait perdre l\'avantage fiscal recherché.'},
+{q:'Fiscalité du Livret A / LDDS',a:'Totalement exonérés d\'impôt et de prélèvements sociaux — en échange d\'un rendement plafonné, généralement plus faible qu\'un placement actions/ETF sur le long terme.'},
+]};

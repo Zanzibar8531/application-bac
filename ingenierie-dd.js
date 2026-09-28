@@ -206,4 +206,96 @@ flashcards:[
 {q:'Règle d\'évolution du GRAFCET',a:'On ne franchit une transition que si l\'étape précédente est active ET que sa réceptivité est vraie.'},
 {q:'Vérin — usage',a:'Actionneur qui transforme une pression (pneumatique ou hydraulique) en mouvement linéaire.'},
 ]},
+
+'Cours 1 — Approche design : conception, démarche & brevet': {
+cours:`<div class="formula-box">
+<strong>Cours 1 : Conception des produits &amp; développement durable — « Approche design »</strong><br>
+Programme : § 1.1.3 approche design et architecturale des produits · § 1.3.1 paramètres de la compétitivité (notions de brevet, d'ergonomie) · § 1.5.1 cycle de vie d'un produit.
+</div>
+
+<h3>1. Le design : bien plus que l'esthétique</h3>
+<p>La notion de design n'est pas seulement associée à l'aspect esthétique : elle désigne la <strong>conception globale</strong> d'un produit. Un produit design doit répondre à plusieurs aspects à la fois.</p>
+<div class="retenir-box">Les <mark>6 aspects</mark> d'un produit design : <strong>fonctionnel, ergonomique, économique, inoffensif, environnemental (écologique), esthétique</strong>.</div>
+<ul>
+<li><strong>Fonctionnel</strong> : l'objet doit d'abord remplir une fonction, donc répondre à un besoin grâce à diverses fonctionnalités.</li>
+<li><strong>Ergonomique</strong> : l'objet doit être pratique et adapté à l'usage. Il peut avoir des formes adaptées à l'homme et des fonctionnalités qui le rendent facile à utiliser.</li>
+<li><strong>Économique</strong> : l'objet doit être accessible économiquement.</li>
+<li><strong>Inoffensif</strong> : l'objet ne doit pas être dangereux pour son utilisateur.</li>
+<li><strong>Environnemental / écologique</strong> : le cycle de vie de l'objet doit être considéré dans sa globalité (voir ci-dessous).</li>
+<li><strong>Esthétique</strong> : l'objet doit plaire et cibler son public.</li>
+</ul>
+
+<h3>Le cycle de vie d'un produit (aspect environnemental)</h3>
+<div class="formula-box">Extraction des matières premières → Transport → Fabrication → Distribution → Utilisation → Fin de vie</div>
+<p>Pour juger l'impact environnemental d'un objet, on regarde <mark>toutes</mark> ces étapes, pas seulement la fabrication.</p>
+
+<h3>Exemple 1 : le presse-agrumes de Philippe Starck (1988)</h3>
+<ul>
+<li><strong>Matériau</strong> : fonte d'aluminium (robustesse relative).</li>
+<li><strong>Ergonomie</strong> : 13,7 cm × 11,4 cm × 30,5 cm, dimensions qui découlent de la compacité et de la facilité de rangement.</li>
+<li><strong>Environnemental</strong> : point d'interrogation dans le cours (à discuter).</li>
+<li><strong>Économique</strong> : 70 €.</li>
+<li><strong>Fonctionnel</strong> : pas besoin de récipient pour récupérer le jus.</li>
+<li><strong>Esthétique</strong> : silhouette de calamar.</li>
+</ul>
+<p>Starck a dessiné les premières idées de cet objet sur le set de table d'un restaurant (le croquis figure dans ton cours).</p>
+
+<h3>Exemple 2 : le stylo Bic du baron Bich et de Laszlo Biro</h3>
+<p><strong>Biro</strong> a inventé le principe de la bille, et le <strong>baron Bich</strong> a négocié l'utilisation du brevet et a repensé le design du stylo à bille.</p>
+<ul>
+<li><strong>Fonctionnalité</strong> : il écrit grâce à la bille, l'encre reste dans le stylo.</li>
+<li><strong>Ergonomique</strong> : forme hexagonale pour la prise en main, et il ne roule pas.</li>
+<li><strong>Économique</strong> : très bon marché (environ 0,39 €).</li>
+<li><strong>Inoffensif</strong> : bouchon percé à l'extrémité pour éviter l'étouffement en cas d'ingestion.</li>
+<li><strong>Environnemental</strong> : stylo jetable.</li>
+<li><strong>Esthétisme</strong> : transparent, forme nid d'abeille, bouchon fuselé.</li>
+</ul>
+
+<h3>2. La démarche design en 5 étapes</h3>
+<p>Une étude de design se réalise en suivant une démarche structurée en 5 étapes :</p>
+<ol>
+<li><strong>Définition de l'objectif</strong> : se mettre d'accord sur l'objet de l'étude de design, ses limites et l'objectif à atteindre.</li>
+<li><strong>Idéation et investigation</strong> : chercher des idées nouvelles par créativité ou investigation.</li>
+<li><strong>Cristallisation</strong> : sélectionner les idées répondant le mieux à l'objectif, et décrire comment elles seront utilisées pour modifier le produit.</li>
+<li><strong>Matérialisation</strong> : souvent en 3 temps : maquettage (carton…), modélisation 3D, prototypage (impression 3D).</li>
+<li><strong>Intégration</strong> : implanter les nouveaux éléments et vérifier qu'ils s'intègrent correctement au produit.</li>
+</ol>
+<div class="attention-box">Ne mélange pas <mark>Idéation</mark> (trouver des idées) et <mark>Cristallisation</mark> (choisir parmi les idées et décrire comment les utiliser). Les trois temps de la Matérialisation vont du plus simple au plus abouti : maquette, modèle 3D, prototype.</div>
+
+<h3>3. Propriété intellectuelle — notions de brevet</h3>
+<p>La propriété intellectuelle se divise en deux catégories : la <strong>propriété industrielle</strong> et la <strong>propriété littéraire et artistique</strong>. La propriété industrielle a pour objet la protection et la valorisation des inventions, des innovations et des créations.</p>
+<div class="formula-box">
+<strong>Le dépôt de brevet</strong> :<br>
+• est un acte officiel de propriété industrielle ;<br>
+• accorde un <strong>monopole d'exploitation</strong> au demandeur sur son invention, sur le territoire français, pour <strong>20 ans au maximum</strong> ;<br>
+• <strong>interdit toute exploitation</strong> (utilisation, fabrication, importation…) de l'invention sans autorisation.
+</div>
+<p><strong>Exemple de brevet</strong> : le stylographe, ancêtre du stylo Bic. Brevet d'invention n° 853.022 de M. Biro (Laszlo, Jozsef), résidant en Hongrie. Demandé le 29 octobre 1938 à Paris, délivré le 18 novembre 1939, publié le 8 mars 1940.</p>
+
+<h3>4. Métiers liés au design</h3>
+<p>Les vidéos du cours présentent les métiers de designer, concepteur de produits innovants, concepteur de prothèse 3D, architecte et bureau d'étude.</p>
+
+<div class="retenir-box">Points à maîtriser pour l'éval : citer les <mark>6 aspects</mark> du design et analyser un objet avec ; les <mark>6 étapes du cycle de vie</mark> ; les <mark>5 étapes de la démarche design</mark> ; ce que donne un <mark>brevet</mark> (monopole, 20 ans max, territoire français, interdit toute exploitation sans autorisation).</div>`,
+exercices:[
+{niveau:'Facile', enonce:`<p>Écris dans l'ordre les 5 étapes de la démarche design.</p>`, aide:`La première consiste à se mettre d'accord sur l'objectif, la dernière à vérifier que tout s'intègre au produit.`, correction:`<p><strong>1.</strong> Définition de l'objectif · <strong>2.</strong> Idéation et investigation · <strong>3.</strong> Cristallisation · <strong>4.</strong> Matérialisation · <strong>5.</strong> Intégration.</p>`},
+{niveau:'Moyen', enonce:`<p>Analyse le presse-agrumes de Philippe Starck avec les aspects du design : donne pour chaque aspect ce que dit le cours, et indique lequel reste une question.</p>`, aide:`Reprends les 6 aspects un par un et cherche l'information correspondante dans la fiche de l'objet.`, correction:`<p><strong>Fonctionnel</strong> : presse les agrumes, sans récipient pour récupérer le jus. <strong>Ergonomique</strong> : 13,7 × 11,4 × 30,5 cm, compact et facile à ranger. <strong>Économique</strong> : 70 € (à comparer avec le Bic, très bon marché). <strong>Esthétique</strong> : silhouette de calamar. <strong>Environnemental</strong> : c'est le point d'interrogation du cours (matériau : fonte d'aluminium). <strong>Inoffensif</strong> : non précisé dans la fiche.</p>`},
+{niveau:'Difficile', enonce:`<p>Le baron Bich a dû négocier avec Biro avant de fabriquer son stylo à bille. Explique pourquoi, en citant ce que permet un brevet, puis dis ce que Bich a apporté de son côté.</p>`, aide:`Pense au monopole d'exploitation et à l'interdiction d'exploiter sans autorisation. Bich a « repensé » quelque chose.`, correction:`<p>Biro avait inventé le principe de la bille. Un brevet accorde un <strong>monopole d'exploitation</strong> à son titulaire (sur le territoire français, 20 ans au maximum) et <strong>interdit toute exploitation</strong> (utilisation, fabrication, importation) de l'invention sans autorisation. Bich devait donc <mark>négocier l'utilisation du brevet</mark> avant de produire. Il a ensuite <strong>repensé le design</strong> du stylo (forme hexagonale, transparent, bouchon fuselé et percé…) pour en faire un objet pratique et bon marché.</p>`},
+],
+flashcards:[
+{q:'Le design, c\'est seulement l\'esthétique ?',a:'Non : c\'est la conception globale d\'un produit, qui doit répondre à plusieurs aspects à la fois.'},
+{q:'Les 6 aspects d\'un produit design',a:'Fonctionnel, ergonomique, économique, inoffensif, environnemental (écologique), esthétique.'},
+{q:'Aspect fonctionnel',a:'L\'objet doit d\'abord remplir une fonction, donc répondre à un besoin grâce à diverses fonctionnalités.'},
+{q:'Aspect ergonomique',a:'L\'objet doit être pratique et adapté à l\'usage : formes adaptées à l\'homme, facile à utiliser.'},
+{q:'Aspect inoffensif',a:'L\'objet ne doit pas être dangereux pour son utilisateur.'},
+{q:'Aspect esthétique',a:'L\'objet doit plaire et cibler son public.'},
+{q:'Les 6 étapes du cycle de vie d\'un produit (ordre du cours)',a:'Extraction des matières premières, transport, fabrication, distribution, utilisation, fin de vie.'},
+{q:'Les 5 étapes de la démarche design',a:'Définition de l\'objectif, idéation et investigation, cristallisation, matérialisation, intégration.'},
+{q:'Cristallisation (étape 3)',a:'Sélectionner les idées répondant le mieux à l\'objectif et décrire comment elles seront utilisées pour modifier le produit.'},
+{q:'Matérialisation (étape 4) : les 3 temps',a:'Maquettage (carton…), modélisation 3D, prototypage (impression 3D).'},
+{q:'Les 2 catégories de propriété intellectuelle',a:'Propriété industrielle, et propriété littéraire et artistique.'},
+{q:'Que donne un brevet ?',a:'Un monopole d\'exploitation sur le territoire français pour 20 ans au maximum, et l\'interdiction de toute exploitation (utilisation, fabrication, importation) sans autorisation.'},
+{q:'Presse-agrumes de Philippe Starck : chiffres clés',a:'Créé en 1988, fonte d\'aluminium, 13,7 × 11,4 × 30,5 cm, 70 €, silhouette de calamar, pas de récipient nécessaire.'},
+{q:'Stylo Bic : rôle de Biro et de Bich',a:'Biro a inventé le principe de la bille ; le baron Bich a négocié l\'utilisation du brevet et a repensé le design du stylo.'},
+{q:'Brevet du stylographe (ancêtre du Bic)',a:'N° 853.022, M. Biro (Hongrie), demandé le 29 octobre 1938, délivré le 18 novembre 1939, publié le 8 mars 1940.'},
+]},
 };

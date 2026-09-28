@@ -660,3 +660,69 @@ flashcards:[
 {q:'Structure pour stocker plusieurs flashcards en JS',a:'Un tableau d\'objets, ex : [{q:"...",a:"..."}, {q:"...",a:"..."}] — chaque objet regroupe une question et sa réponse.'},
 ]},
 };
+
+PREBUILT['Informatique']['Bases de données & SQL — écrire ses premières requêtes'] = {
+cours:`<h3>Pourquoi une base de données plutôt qu'un fichier ?</h3>
+<p>Un fichier texte ou un tableur devient vite ingérable dès qu'il y a beaucoup de données liées entre elles (des utilisateurs, leurs commandes, les produits...) : recherches lentes, incohérences, risques de doublons. Une <strong>base de données relationnelle</strong> organise les données en <mark>tables</mark> (comme des feuilles de tableur reliées entre elles) et permet d'interroger, filtrer et croiser ces données rapidement grâce à un langage dédié : le <strong>SQL</strong>.</p>
+
+<h3>Table, ligne, colonne : le vocabulaire de base</h3>
+<div class="formula-box">
+<strong>Table</strong> : un ensemble de données du même type (ex : une table "eleves").<br>
+<strong>Colonne (champ)</strong> : une propriété de chaque enregistrement (ex : nom, age, classe).<br>
+<strong>Ligne (enregistrement)</strong> : une entrée complète de la table (ex : un élève précis avec toutes ses infos).<br>
+<strong>Clé primaire</strong> : une colonne qui identifie de façon unique chaque ligne (souvent un id numérique auto-incrémenté).
+</div>
+
+<h3>SELECT — récupérer des données</h3>
+<div class="formula-box">
+<strong>SELECT</strong> colonne1, colonne2 <strong>FROM</strong> table;<br>
+<strong>SELECT * FROM</strong> table; <span style="opacity:.7">(* = toutes les colonnes)</span>
+</div>
+<p>Exemple : <code>SELECT nom, age FROM eleves;</code> renvoie le nom et l'âge de tous les élèves de la table.</p>
+
+<h3>WHERE — filtrer les résultats</h3>
+<div class="formula-box">
+<strong>SELECT</strong> * <strong>FROM</strong> table <strong>WHERE</strong> condition;
+</div>
+<p>Exemple : <code>SELECT * FROM eleves WHERE classe = 'Premiere STI2D';</code> ne renvoie que les élèves de cette classe. On peut combiner des conditions avec <strong>AND</strong> / <strong>OR</strong> : <code>WHERE age &gt; 16 AND classe = 'Premiere STI2D'</code>.</p>
+
+<h3>ORDER BY, LIMIT — trier et limiter</h3>
+<div class="formula-box">
+<strong>ORDER BY</strong> colonne <strong>ASC</strong>|<strong>DESC</strong> : trie les résultats (croissant/décroissant).<br>
+<strong>LIMIT</strong> n : ne garde que les n premiers résultats.
+</div>
+<p>Exemple : <code>SELECT * FROM eleves ORDER BY age DESC LIMIT 3;</code> renvoie les 3 élèves les plus âgés.</p>
+
+<h3>JOIN — relier deux tables entre elles</h3>
+<p>C'est le cœur du modèle relationnel : au lieu de tout dupliquer dans une seule table géante, on relie des tables via une clé commune. Exemple : une table "eleves" (id, nom) et une table "notes" (id_eleve, matiere, note), reliées par id_eleve.</p>
+<div class="formula-box">
+<strong>SELECT</strong> eleves.nom, notes.matiere, notes.note<br>
+<strong>FROM</strong> eleves<br>
+<strong>JOIN</strong> notes <strong>ON</strong> eleves.id = notes.id_eleve;
+</div>
+<div class="attention-box">Sans le <mark>JOIN</mark>, il faudrait dupliquer le nom de l'élève dans chaque ligne de notes — source d'erreurs si le nom change un jour (il faudrait le corriger partout). Séparer les données en tables reliées évite cette duplication : c'est le principe de <strong>normalisation</strong>.</div>
+
+<h3>INSERT, UPDATE, DELETE — modifier les données</h3>
+<div class="formula-box">
+<strong>INSERT INTO</strong> table (colonne1, colonne2) <strong>VALUES</strong> (valeur1, valeur2);<br>
+<strong>UPDATE</strong> table <strong>SET</strong> colonne = nouvelle_valeur <strong>WHERE</strong> condition;<br>
+<strong>DELETE FROM</strong> table <strong>WHERE</strong> condition;
+</div>
+<div class="attention-box">Un <mark>UPDATE</mark> ou un <mark>DELETE</mark> sans clause <strong>WHERE</strong> s'applique à TOUTES les lignes de la table — une des erreurs les plus classiques (et dangereuses) en SQL. Toujours vérifier sa clause WHERE avant d'exécuter, surtout un DELETE.</div>
+
+<h3>Où pratiquer sans rien installer</h3>
+<p>Des sites comme <strong>SQLBolt</strong> ou <strong>SQLZoo</strong> permettent d'écrire et tester de vraies requêtes SQL directement dans le navigateur, avec des exercices progressifs — un bon complément à ce chapitre pour s'entraîner concrètement.</p>`,
+exercices:[
+{niveau:'Facile', enonce:`<p>Écris la requête SQL qui récupère uniquement les colonnes "nom" et "note" de la table "notes".</p>`, aide:`Utilise SELECT en listant uniquement les colonnes voulues, séparées par une virgule.`, correction:`<p><code>SELECT nom, note FROM notes;</code></p><p>On liste les colonnes voulues après SELECT (séparées par une virgule), puis FROM indique la table source.</p>`},
+{niveau:'Moyen', enonce:`<p>Écris la requête SQL qui récupère tous les élèves de la table "eleves" ayant plus de 16 ans, triés par âge décroissant.</p>`, aide:`Combine WHERE (pour le filtre sur l'âge) et ORDER BY ... DESC (pour le tri décroissant).`, correction:`<p><code>SELECT * FROM eleves WHERE age > 16 ORDER BY age DESC;</code></p><p>WHERE age > 16 filtre les élèves de plus de 16 ans, et ORDER BY age DESC trie les résultats du plus âgé au plus jeune.</p>`},
+{niveau:'Difficile', enonce:`<p>On a une table "eleves" (id, nom) et une table "notes" (id_eleve, matiere, note). Écris la requête SQL qui affiche le nom de chaque élève avec sa note en "Mathématiques" uniquement, en reliant les deux tables. Explique pourquoi un simple SELECT sur une seule table ne suffirait pas ici.</p>`, aide:`Il faut un JOIN pour relier les deux tables via la clé commune (id / id_eleve), puis un WHERE pour filtrer sur la matière.`, correction:`<p><code>SELECT eleves.nom, notes.note FROM eleves JOIN notes ON eleves.id = notes.id_eleve WHERE notes.matiere = 'Mathématiques';</code></p><p>Un simple SELECT sur une seule table ne suffit pas car le nom de l'élève est dans la table "eleves" tandis que la note et la matière sont dans la table "notes" — ces deux informations n'existent nulle part réunies dans une seule table. Le JOIN les relie via la clé commune (id de "eleves" = id_eleve de "notes"), ce qui permet ensuite d'appliquer le WHERE sur la matière pour ne garder que les notes de Mathématiques.</p>`},
+],
+flashcards:[
+{q:'SELECT — rôle de base',a:'Récupère des données : SELECT colonnes FROM table; — SELECT * FROM table; récupère toutes les colonnes.'},
+{q:'WHERE — rôle',a:'Filtre les lignes renvoyées selon une condition, ex : WHERE age > 16. Combinable avec AND / OR.'},
+{q:'Clé primaire',a:'Colonne qui identifie de façon unique chaque ligne d\'une table (souvent un id numérique auto-incrémenté).'},
+{q:'JOIN — à quoi ça sert',a:'Relie deux tables entre elles via une clé commune, pour récupérer des informations réparties dans plusieurs tables en une seule requête.'},
+{q:'Pourquoi séparer les données en plusieurs tables reliées plutôt qu\'une seule table géante',a:'Évite la duplication de données (ex : le nom d\'un élève répété sur chaque ligne de notes) — principe de normalisation, évite les incohérences si une donnée change.'},
+{q:'Danger d\'un UPDATE ou DELETE sans WHERE',a:'S\'applique à TOUTES les lignes de la table — erreur classique et potentiellement destructrice. Toujours vérifier sa clause WHERE avant d\'exécuter.'},
+{q:'ORDER BY ... DESC vs ASC',a:'DESC trie du plus grand au plus petit (décroissant), ASC du plus petit au plus grand (croissant, souvent le tri par défaut).'},
+]};
