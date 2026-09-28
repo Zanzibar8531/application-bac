@@ -653,7 +653,7 @@ function goHome() {
             <span>☁️ Synchroniser mes données</span>
             <span class="sync-status" id="sync-status-home"></span>
         </div>
-        <button class="update-check-btn" onclick="checkForUpdate()">🔄 Vérifier les mises à jour du site</button>
+        <button class="update-check-btn" onclick="checkForUpdate()">🔄 Mettre à jour le site</button>
     `);
     updateSyncStatusBadge();
     updateNotifBtn();
@@ -2915,38 +2915,53 @@ Cela remplacera tes données locales actuelles.`)) {
 }
 
 // ── BADGE STATUS ──────────────────────────────────────────────
-// ── VÉRIFICATION DES MISES À JOUR (bouton accueil) ────────────
-// Force le navigateur à re-télécharger sw.js (jamais mis en cache par
-// spec), et s'il a changé (nouvelle version), installe le nouveau et
-// recharge la page pour appliquer tous les fichiers à jour d'un coup.
-// Si rien n'a changé, ne recharge PAS — juste un message "déjà à jour".
-function checkForUpdate() {
-    if(!('serviceWorker' in navigator)){ window.location.reload(); return; }
-    showToast('Recherche d\'une mise à jour…', 'info');
-    navigator.serviceWorker.getRegistration().then(reg => {
-        if(!reg){ window.location.reload(); return; }
-        let updateFound = false;
-
-        reg.addEventListener('updatefound', () => {
-            updateFound = true;
-            const newSW = reg.installing;
-            if(!newSW) return;
-            newSW.addEventListener('statechange', () => {
-                if(newSW.state === 'installed' && navigator.serviceWorker.controller){
-                    newSW.postMessage('SKIP_WAITING');
-                }
-            });
-        });
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-            window.location.reload();
-        });
-
-        reg.update().then(() => {
-            setTimeout(() => {
-                if(!updateFound) showToast('Déjà à jour ✅', 'info');
-            }, 1500);
-        }).catch(() => showToast('Impossible de vérifier — vérifie ta connexion', 'warn'));
-    });
+// ── MISE À JOUR DU SITE (bouton accueil) ──────────────────────
+// Re-télécharge TOUS les fichiers depuis GitHub en ignorant les caches,
+// vide les caches du service worker, le désinscrit, puis recharge la page.
+// Ta progression (stockée dans le navigateur) n'est jamais touchée.
+// Fonctionne même si sw.js n'a pas changé.
+let _updating = false;
+async function checkForUpdate() {
+    if(_updating) return;
+    if(!navigator.onLine){ showToast("Pas de connexion — impossible de mettre à jour", 'warn'); return; }
+    _updating = true;
+    showToast("Mise à jour en cours…", 'info');
+    const stamp = Date.now();
+    // Les 3 premiers sont indispensables ; les autres sont re-téléchargés au mieux
+    const files = [
+        './index.html', './style.css', './script.js', './manifest.json', './sw.js', './data-init.js',
+        './francais.js', './maths.js', './histoire-geo.js', './anglais.js', './espagnol.js',
+        './physique-chimie.js', './ingenierie-dd.js', './innovation-techno.js', './informatique.js',
+        './cybersecurite.js', './investissement.js', './entrepreneuriat.js', './apprentissage.js', './juridique.js'
+    ];
+    const clearCaches = async () => {
+        if('caches' in window){
+            const keys = await caches.keys();
+            await Promise.all(keys.map(k => caches.delete(k)));
+        }
+    };
+    try {
+        // 1) Test réseau : si le site n'est pas joignable, on ne touche à rien
+        const probe = await fetch('./index.html?v=' + stamp, {cache:'no-store'});
+        if(!probe.ok) throw new Error('HTTP ' + probe.status);
+        // 2) On vide les caches pour que l'ancien service worker ne resserve pas de vieux fichiers
+        await clearCaches();
+        // 3) On re-télécharge chaque fichier en forçant le réseau (ignore aussi le cache HTTP)
+        const res = await Promise.allSettled(files.map(f => fetch(f, {cache:'reload'})));
+        const critical = [0, 1, 2];
+        if(critical.some(i => res[i].status !== 'fulfilled' || !res[i].value.ok)) throw new Error('fichiers principaux introuvables');
+        // 4) Nettoyage final + désinscription : le service worker se réinstalle proprement au rechargement
+        await clearCaches();
+        if('serviceWorker' in navigator){
+            const regs = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(regs.map(r => r.unregister()));
+        }
+        showToast("Mise à jour appliquée ✅ Rechargement…", 'info');
+        setTimeout(() => window.location.reload(), 800);
+    } catch(e) {
+        _updating = false;
+        showToast("Mise à jour impossible — vérifie ta connexion et réessaie", 'warn');
+    }
 }
 
 function updateSyncStatusBadge() {
