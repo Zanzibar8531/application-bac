@@ -757,7 +757,7 @@ function goModeChapters(mode) {
                 return `<div class="chcard" onclick="curChapter='${esc(ch)}';curTab='${mode}';renderChapter()">
                     <div class="chcard-icons">
                         <button class="chcard-icon-btn" onclick="event.stopPropagation();renameChapter('${esc(ch)}')" title="Renommer">✏️</button>
-                        <button class="chcard-icon-btn chcard-icon-del" onclick="event.stopPropagation();deleteChapter('${esc(ch)}')" title="Supprimer">🗑️</button>
+                        <button class="chcard-icon-btn chcard-icon-del" onclick="event.stopPropagation();deleteChapter('${esc(ch)}','${mode}')" title="Supprimer">🗑️</button>
                     </div>
                     <div class="chcard-name">${ch}</div>
                     <div class="chcard-meta">
@@ -1041,13 +1041,19 @@ function renameChapter(oldName, stayFn) {
     });
 }
 
-function deleteChapter(ch) {
+function deleteChapter(ch, mode) {
     const n = (db[curSubject][ch].flashcards||[]).length;
     customConfirm({
         icon:'🗑️', title:'Supprimer ce chapitre ?',
         message:`"${esc(ch)}" et ses ${n} mot(s) seront supprimés définitivement. Cette action est irréversible.`,
         confirmLabel:'Supprimer', cancelLabel:'Annuler', danger:true,
-        onConfirm:()=>{ delete db[curSubject][ch]; save(); goSubject(curSubject); }
+        onConfirm:()=>{
+            delete db[curSubject][ch]; save();
+            // Reste sur la liste de chapitres plutôt que de renvoyer à l'accueil de la matière —
+            // sauf s'il n'y a plus aucun chapitre, auquel cas il n'y a rien à lister.
+            if(Object.keys(db[curSubject]).length > 0 && mode) goModeChapters(mode);
+            else goSubject(curSubject);
+        }
     });
 }
 

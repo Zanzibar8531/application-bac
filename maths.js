@@ -357,4 +357,97 @@ flashcards:[
 {q:'Résoudre eˣ = a (a > 0)',a:'x = ln a'},
 {q:'eˣ est-elle positive ?',a:'Oui, eˣ > 0 pour tout x ∈ ℝ.'},
 ]},
+'Produit scalaire & loi d\'Al-Kashi': {
+cours:`<div class="attention-box">Ce chapitre est du programme de <mark>Première</mark>, souvent mal aimé — pas parce qu'il est difficile, mais parce qu'il y a <strong>3 formules différentes</strong> pour la même chose et qu'on ne sait plus laquelle utiliser. Ce cours te donne, pour chaque situation, la formule à choisir en premier réflexe.</p></div>
+
+<h3>1. Qu'est-ce que le produit scalaire ?</h3>
+<p>Le produit scalaire de deux vecteurs $\\vec{u}$ et $\\vec{v}$, noté $\\vec{u}\\cdot\\vec{v}$, est un <strong>nombre</strong> (pas un vecteur !). Il mesure à quel point deux vecteurs "pointent dans la même direction".</p>
+<div class="formula-box">
+Si $\\vec{u}\\cdot\\vec{v} > 0$ : les vecteurs pointent globalement dans la même direction.<br>
+Si $\\vec{u}\\cdot\\vec{v} = 0$ : les vecteurs sont <strong>orthogonaux</strong> (perpendiculaires).<br>
+Si $\\vec{u}\\cdot\\vec{v} < 0$ : les vecteurs pointent globalement dans des directions opposées.
+</div>
+
+<h3>2. Les 3 formules — laquelle choisir ?</h3>
+<div class="retenir-box">
+<strong>A) Avec des coordonnées</strong> → $\\vec{u}\\cdot\\vec{v} = xx' + yy'$ si $\\vec{u}(x;y)$ et $\\vec{v}(x';y')$.<br>
+<strong>B) Avec des normes et un angle</strong> → $\\vec{u}\\cdot\\vec{v} = \\|\\vec{u}\\| \\times \\|\\vec{v}\\| \\times \\cos(\\vec{u},\\vec{v})$<br>
+<strong>C) Avec 3 longueurs de triangle</strong> → $\\vec{AB}\\cdot\\vec{AC} = \\dfrac{AB^2 + AC^2 - BC^2}{2}$
+</div>
+<p>Réflexe à avoir : <strong>on te donne des coordonnées → formule A.</strong> <strong>On te donne des longueurs et un angle → formule B.</strong> <strong>On te donne 3 longueurs de triangle sans angle → formule C.</strong></p>
+
+<h3>Exemple — formule A (coordonnées)</h3>
+<p>$\\vec{u}(3;-2)$ et $\\vec{v}(1;4)$. $\\vec{u}\\cdot\\vec{v} = 3\\times 1 + (-2)\\times 4 = 3 - 8 = -5$.</p>
+
+<h3>Exemple — formule B (normes + angle)</h3>
+<p>$\\|\\vec{u}\\| = 4$, $\\|\\vec{v}\\| = 5$, angle entre eux $= 60°$. $\\vec{u}\\cdot\\vec{v} = 4 \\times 5 \\times \\cos(60°) = 20 \\times 0{,}5 = 10$.</p>
+
+<h3>Exemple — formule C (3 longueurs)</h3>
+<p>Triangle $ABC$ avec $AB=6$, $AC=8$, $BC=5$. $\\vec{AB}\\cdot\\vec{AC} = \\dfrac{6^2+8^2-5^2}{2} = \\dfrac{36+64-25}{2} = \\dfrac{75}{2} = 37{,}5$.</p>
+<div class="attention-box">Erreur n°1 la plus fréquente dans la formule C : mettre $BC^2$ (le côté OPPOSÉ au sommet A, entre les 2 autres points B et C) au lieu de $AB^2$ ou $AC^2$. Le côté qui se soustrait est toujours celui qui relie les <mark>deux extrémités</mark> des vecteurs (ici B et C), jamais celui qui part de l'origine commune A.</div>
+
+<h3>3. Test d'orthogonalité</h3>
+<p>Deux vecteurs sont perpendiculaires <strong>si et seulement si</strong> leur produit scalaire vaut 0. C'est l'usage le plus fréquent de la formule A.</p>
+<p><strong>Exemple :</strong> $\\vec{u}(2;3)$ et $\\vec{v}(-6;4)$. $\\vec{u}\\cdot\\vec{v} = 2\\times(-6) + 3\\times 4 = -12+12 = 0$ → les vecteurs sont <strong>orthogonaux</strong>.</p>
+
+<h3>4. La loi d'Al-Kashi (théorème de Pythagore généralisé)</h3>
+<p>Dans un triangle quelconque $ABC$ (pas forcément rectangle), avec $a=BC$, $b=AC$, $c=AB$ (chaque côté minuscule est <mark>en face</mark> du sommet majuscule correspondant) :</p>
+<div class="formula-box">
+$a^2 = b^2 + c^2 - 2bc\\cos(\\hat{A})$
+</div>
+<div class="attention-box">Repère bien : le côté $a$ (celui qu'on isole à gauche) est <strong>en face</strong> de l'angle $\\hat{A}$ utilisé dans le cosinus, à droite. Si tu cherches le côté en face de $\\hat{B}$, c'est $b^2 = a^2+c^2-2ac\\cos(\\hat{B})$ — la lettre isolée à gauche doit toujours correspondre à l'angle du cosinus à droite.</div>
+<div class="retenir-box">Si $\\hat{A}=90°$ : $\\cos(90°)=0$, donc $a^2=b^2+c^2$ : on retombe sur le <mark>théorème de Pythagore</mark>. Al-Kashi est donc une généralisation de Pythagore à n'importe quel triangle, pas seulement les triangles rectangles.</div>
+
+<h3>Utilisation n°1 — trouver un côté (on connaît 2 côtés + l'angle entre eux)</h3>
+<p><strong>Exemple :</strong> $b=7$, $c=5$, $\\hat{A}=60°$. Cherche $a$.</p>
+<p>$a^2 = 7^2+5^2-2\\times 7\\times 5\\times\\cos(60°) = 49+25-70\\times 0{,}5 = 74-35=39$</p>
+<p>$a=\\sqrt{39}\\approx 6{,}24$</p>
+
+<h3>Utilisation n°2 — trouver un angle (on connaît les 3 côtés)</h3>
+<p>On isole $\\cos(\\hat{A})$ dans la formule : $\\cos(\\hat{A}) = \\dfrac{b^2+c^2-a^2}{2bc}$</p>
+<p><strong>Exemple :</strong> $a=8$, $b=6$, $c=5$. Cherche $\\hat{A}$ (en face du côté $a$).</p>
+<p>$\\cos(\\hat{A}) = \\dfrac{6^2+5^2-8^2}{2\\times 6\\times 5} = \\dfrac{36+25-64}{60} = \\dfrac{-3}{60} = -0{,}05$</p>
+<p>$\\hat{A} = \\cos^{-1}(-0{,}05) \\approx 92{,}9°$</p>
+<div class="attention-box">Un résultat de cosinus <mark>négatif</mark> donne un angle <strong>obtus</strong> (entre 90° et 180°) — ce n'est pas une erreur, c'est normal pour certains triangles ! Vérifie juste que ta calculatrice est bien en mode <strong>degrés</strong> (ou radians, selon ce qu'on te demande) avant d'utiliser $\\cos^{-1}$ (parfois noté $\\arccos$).</div>
+
+<h3>5. Aire d'un triangle avec un angle</h3>
+<div class="formula-box">
+$\\text{Aire} = \\dfrac{1}{2} \\times b \\times c \\times \\sin(\\hat{A})$
+</div>
+<p>où $\\hat{A}$ est l'angle <strong>entre</strong> les côtés $b$ et $c$ dont tu connais les longueurs (contrairement à Al-Kashi qui utilise $\\cos$, l'aire utilise $\\sin$).</p>
+<p><strong>Exemple :</strong> $b=7$, $c=5$, $\\hat{A}=60°$. $\\text{Aire} = \\dfrac{1}{2}\\times 7\\times 5\\times\\sin(60°) = 17{,}5\\times 0{,}866 \\approx 15{,}2$ unités d'aire.</p>
+
+<h3>📋 Méthode : quelle formule choisir face à un exercice ?</h3>
+<div class="retenir-box">
+<strong>On te donne des coordonnées</strong> → produit scalaire formule A ($xx'+yy'$), souvent pour un test d'orthogonalité.<br>
+<strong>On te donne 2 côtés + l'angle entre eux, et on cherche le 3e côté</strong> → Al-Kashi, formule directe ($a^2=b^2+c^2-2bc\\cos A$).<br>
+<strong>On te donne les 3 côtés, et on cherche un angle</strong> → Al-Kashi, formule inversée ($\\cos A = \\frac{b^2+c^2-a^2}{2bc}$).<br>
+<strong>On te donne 2 côtés + l'angle entre eux, et on cherche une aire</strong> → $\\frac{1}{2}bc\\sin A$.
+</div>`,
+exercices:[
+{niveau:'Facile', enonce:`<p>Calcule $\\vec{u}\\cdot\\vec{v}$ avec $\\vec{u}(5;-1)$ et $\\vec{v}(2;3)$.</p>`, aide:`Utilise la formule A : xx' + yy'.`, correction:`<p>$\\vec{u}\\cdot\\vec{v} = 5\\times 2 + (-1)\\times 3 = 10-3 = 7$.</p>`},
+{niveau:'Facile', enonce:`<p>$\\|\\vec{u}\\|=3$, $\\|\\vec{v}\\|=6$, l'angle entre eux vaut $90°$. Calcule $\\vec{u}\\cdot\\vec{v}$ sans poser de calcul détaillé : justifie ta réponse en une phrase.</p>`, aide:`Que vaut cos(90°) ?`, correction:`<p>$\\cos(90°)=0$, donc $\\vec{u}\\cdot\\vec{v} = 3\\times 6\\times 0 = 0$ quelles que soient les normes. C'est cohérent : un angle de 90° signifie que les vecteurs sont orthogonaux, et le produit scalaire de deux vecteurs orthogonaux vaut toujours 0.</p>`},
+{niveau:'Facile', enonce:`<p>Les vecteurs $\\vec{u}(4;6)$ et $\\vec{v}(3;-2)$ sont-ils orthogonaux ?</p>`, aide:`Calcule le produit scalaire avec la formule A et regarde s'il vaut 0.`, correction:`<p>$\\vec{u}\\cdot\\vec{v} = 4\\times 3 + 6\\times(-2) = 12-12=0$. Le produit scalaire vaut 0, donc <strong>oui, les vecteurs sont orthogonaux</strong>.</p>`},
+{niveau:'Moyen', enonce:`<p>Dans un triangle $ABC$, $AB=9$, $AC=7$, $BC=6$. Calcule $\\vec{AB}\\cdot\\vec{AC}$.</p>`, aide:`Utilise la formule C, en faisant bien attention à quel côté se soustrait (celui qui relie les extrémités des deux vecteurs, donc BC).`, correction:`<p>$\\vec{AB}\\cdot\\vec{AC} = \\dfrac{AB^2+AC^2-BC^2}{2} = \\dfrac{81+49-36}{2} = \\dfrac{94}{2} = 47$.</p>`},
+{niveau:'Moyen', enonce:`<p>Dans un triangle $ABC$, $AB=10$, $AC=8$ et l'angle $\\hat{A}=45°$. Calcule $BC$ (valeur exacte puis arrondie au dixième).</p>`, aide:`On connaît 2 côtés et l'angle entre eux (en A) : c'est Al-Kashi, utilisation n°1. Attention : ici a = BC est en face de l'angle A.`, correction:`<p>$BC^2 = AB^2+AC^2-2\\times AB\\times AC\\times\\cos(\\hat{A}) = 100+64-2\\times 10\\times 8\\times\\cos(45°)$</p><p>$BC^2 = 164 - 160\\times\\dfrac{\\sqrt{2}}{2} = 164-80\\sqrt{2}$</p><p>$BC = \\sqrt{164-80\\sqrt{2}} \\approx 6{,}0$</p>`},
+{niveau:'Moyen', enonce:`<p>Dans un triangle $ABC$, $AB=6$, $AC=9$ et l'angle $\\hat{A}=50°$. Calcule l'aire du triangle (arrondie au dixième).</p>`, aide:`On connaît 2 côtés et l'angle entre eux : formule de l'aire avec sinus.`, correction:`<p>$\\text{Aire} = \\dfrac{1}{2}\\times AB\\times AC\\times\\sin(\\hat{A}) = \\dfrac{1}{2}\\times 6\\times 9\\times\\sin(50°) \\approx 27\\times 0{,}766 \\approx 20{,}7$ unités d'aire.</p>`},
+{niveau:'Difficile', enonce:`<p>Dans un triangle $ABC$, $a=BC=11$, $b=AC=7$, $c=AB=8$. Calcule l'angle $\\hat{A}$ (arrondi au degré), puis dis si le triangle est obtusangle (a un angle obtus) en $A$.</p>`, aide:`On connaît les 3 côtés : Al-Kashi formule inversée pour trouver cos(A). Un angle est obtus si son cosinus est négatif.`, correction:`<p>$\\cos(\\hat{A}) = \\dfrac{b^2+c^2-a^2}{2bc} = \\dfrac{49+64-121}{2\\times 7\\times 8} = \\dfrac{-8}{112} \\approx -0{,}071$</p><p>$\\hat{A} = \\cos^{-1}(-0{,}071) \\approx 94{,}1°$</p><p>Le cosinus est négatif et l'angle dépasse 90°, donc <strong>oui, le triangle est obtusangle en A</strong>.</p>`},
+{niveau:'Difficile', enonce:`<p>Démontre, à partir de la formule $\\vec{AB}\\cdot\\vec{AC} = \\|\\vec{AB}\\|\\times\\|\\vec{AC}\\|\\times\\cos(\\hat{A})$ et de la formule $\\vec{AB}\\cdot\\vec{AC}=\\dfrac{AB^2+AC^2-BC^2}{2}$, que l'on retrouve bien la loi d'Al-Kashi $BC^2=AB^2+AC^2-2\\times AB\\times AC\\times\\cos(\\hat{A})$.</p>`, aide:`Les deux expressions du produit scalaire sont égales : pose l'égalité, puis isole BC².`, correction:`<p>Les deux formules calculent la même chose, donc :</p><p>$AB\\times AC\\times\\cos(\\hat{A}) = \\dfrac{AB^2+AC^2-BC^2}{2}$</p><p>On multiplie les deux membres par 2 :</p><p>$2\\times AB\\times AC\\times\\cos(\\hat{A}) = AB^2+AC^2-BC^2$</p><p>On isole $BC^2$ :</p><p>$BC^2 = AB^2+AC^2-2\\times AB\\times AC\\times\\cos(\\hat{A})$ ✓ — c'est exactement la loi d'Al-Kashi. Elle n'est donc pas une formule à part : c'est une conséquence directe des deux façons de calculer le produit scalaire.</p>`},
+{niveau:'Difficile', enonce:`<p>Un triangle $ABC$ vérifie $AB=13$, $AC=14$, $BC=15$. Calcule l'aire du triangle en passant d'abord par l'angle $\\hat{A}$ (Al-Kashi puis formule de l'aire).</p>`, aide:`Étape 1 : trouve cos(A) avec Al-Kashi (3 côtés connus). Étape 2 : trouve sin(A) avec cos²+sin²=1 (A est forcément entre 0 et 180°, donc sin(A) > 0). Étape 3 : applique la formule de l'aire.`, correction:`<p><strong>Étape 1 :</strong> $\\cos(\\hat{A}) = \\dfrac{AB^2+AC^2-BC^2}{2\\times AB\\times AC} = \\dfrac{169+196-225}{2\\times 13\\times 14} = \\dfrac{140}{364} \\approx 0{,}3846$</p><p><strong>Étape 2 :</strong> $\\sin^2(\\hat{A}) = 1-0{,}3846^2 \\approx 0{,}8521$, donc $\\sin(\\hat{A})\\approx 0{,}923$ (positif car un angle de triangle est toujours entre 0° et 180°).</p><p><strong>Étape 3 :</strong> $\\text{Aire} = \\dfrac{1}{2}\\times AB\\times AC\\times\\sin(\\hat{A}) = \\dfrac{1}{2}\\times 13\\times 14\\times 0{,}923 \\approx 84$ unités d'aire.</p>`},
+],
+flashcards:[
+{q:'Le produit scalaire, c\'est un vecteur ou un nombre ?',a:'Un nombre (un scalaire) — jamais un vecteur, malgré le nom "produit".'},
+{q:'Formule du produit scalaire avec des coordonnées',a:'u⃗(x;y) et v⃗(x\';y\') : u⃗·v⃗ = xx\' + yy\''},
+{q:'Formule du produit scalaire avec normes et angle',a:'u⃗·v⃗ = ‖u⃗‖ × ‖v⃗‖ × cos(u⃗,v⃗)'},
+{q:'Formule du produit scalaire avec 3 longueurs de triangle (AB⃗·AC⃗)',a:'AB⃗·AC⃗ = (AB² + AC² − BC²) / 2 — le côté qui se soustrait relie toujours les extrémités des deux vecteurs (ici B et C), jamais l\'origine A.'},
+{q:'Test d\'orthogonalité de deux vecteurs',a:'Deux vecteurs sont orthogonaux si et seulement si leur produit scalaire vaut 0.'},
+{q:'Loi d\'Al-Kashi',a:'a² = b² + c² − 2bc·cos(Â), où a est le côté en face de l\'angle Â.'},
+{q:'Al-Kashi et Pythagore : le lien',a:'Si Â = 90°, cos(Â) = 0, donc a² = b² + c² : on retrouve Pythagore. Al-Kashi généralise Pythagore à tout triangle.'},
+{q:'Al-Kashi pour trouver un angle à partir des 3 côtés',a:'cos(Â) = (b² + c² − a²) / (2bc)'},
+{q:'Que signifie un cos(Â) négatif trouvé avec Al-Kashi ?',a:'L\'angle  est obtus (entre 90° et 180°) — ce n\'est pas une erreur, c\'est un résultat possible et normal.'},
+{q:'Aire d\'un triangle avec un angle entre deux côtés connus',a:'Aire = (1/2) × b × c × sin(Â), où  est l\'angle entre les côtés b et c.'},
+{q:'Al-Kashi utilise cos ou sin ?',a:'cos. L\'aire du triangle, elle, utilise sin. Ne pas confondre les deux formules.'},
+{q:'Quand utiliser la formule Al-Kashi "directe" (trouver un côté)',a:'Quand on connaît 2 côtés et l\'angle entre eux, et qu\'on cherche le 3e côté.'},
+{q:'Quand utiliser la formule Al-Kashi "inversée" (trouver un angle)',a:'Quand on connaît les 3 côtés du triangle et qu\'on cherche un angle.'},
+]},
 };

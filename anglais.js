@@ -140,4 +140,65 @@ PREBUILT['Anglais'] = {
       {q:"3 connecteurs logiques à varier à l'écrit",a:"however (cependant), therefore (par conséquent), moreover (de plus) — les utiliser variés est un critère de notation explicite.",score:0,interval:0,ease:2.5,due:null},
     ]
   }
+,
+'Genetically Modified Babies — Designer Babies': {
+    cours: `<h2>Genetically modified DNA: "designer babies"</h2>
+<div class="formula-box">
+<strong>Vocabulaire clé :</strong> gene editing (modification génique) · CRISPR (outil qui permet de "couper-coller" l'ADN) · a designer baby (bébé "sur mesure") · a genetic disease (une maladie génétique) · to screen an embryo (dépister un embryon) · ethics (l'éthique) · a slippery slope (une pente glissante, un engrenage dangereux)
+</div>
+
+<h3>Le sujet en bref</h3>
+<p>Grâce à des outils comme <strong>CRISPR</strong>, il est aujourd'hui possible de modifier l'ADN d'un embryon avant sa naissance : pour éliminer une maladie génétique grave, mais aussi, potentiellement, pour choisir certains traits (yeux, taille, intelligence...). C'est ce qu'on appelle familièrement les <strong>"designer babies"</strong> — des bébés "améliorés" ou "sur mesure". Le débat oppose deux usages très différents : soigner (<em>therapy</em>) et améliorer (<em>enhancement</em>).</p>
+<div class="attention-box">Distinction essentielle pour l'éval : <mark>therapy</mark> (soigner une maladie existante) vs <mark>enhancement</mark> (améliorer un trait qui n'est pas une maladie, comme la taille ou l'intelligence). La plupart des arguments "pour" concernent la thérapie ; la plupart des arguments "contre" visent l'amélioration.</p>
+
+<h3>✅ Arguments POUR</h3>
+<h4>Phrases simples</h4>
+<ul>
+<li><strong>"It can cure genetic diseases."</strong><br><em>→ Ça peut guérir des maladies génétiques.</em></li>
+<li><strong>"Parents want healthy babies."</strong><br><em>→ Les parents veulent des bébés en bonne santé.</em></li>
+<li><strong>"It can save lives."</strong><br><em>→ Ça peut sauver des vies.</em></li>
+</ul>
+<h4>Phrase plus complexe</h4>
+<p><strong>"Gene editing could eliminate hereditary diseases before birth, which would prevent a lifetime of suffering for both the child and their family."</strong></p>
+<p><em>→ La modification génique pourrait éliminer les maladies héréditaires avant la naissance, ce qui éviterait toute une vie de souffrance à l'enfant et à sa famille.</em></p>
+
+<h3>❌ Arguments CONTRE</h3>
+<h4>Phrases simples</h4>
+<ul>
+<li><strong>"It is not natural."</strong><br><em>→ Ce n'est pas naturel.</em></li>
+<li><strong>"Only rich people could afford it."</strong><br><em>→ Seules les personnes riches pourraient se le permettre.</em></li>
+<li><strong>"The baby cannot say yes or no."</strong><br><em>→ Le bébé ne peut pas dire oui ou non.</em></li>
+</ul>
+<h4>Phrase plus complexe</h4>
+<p><strong>"If only wealthy families can access this technology, it could widen the gap between rich and poor and create a form of genetic inequality."</strong></p>
+<p><em>→ Si seules les familles aisées peuvent accéder à cette technologie, cela pourrait creuser l'écart entre riches et pauvres et créer une forme d'inégalité génétique.</em></p>
+<p><strong>"Editing genes for non-medical reasons could lead to a slippery slope where society starts choosing which traits are 'acceptable'."</strong></p>
+<p><em>→ Modifier des gènes pour des raisons non médicales pourrait mener à un engrenage où la société commencerait à choisir quels traits sont "acceptables".</em></p>
+
+<h3>D'autres angles utiles à l'oral</h3>
+<ul>
+<li><strong>"Where do we draw the line?"</strong> <em>(Où fixe-t-on la limite ?)</em> — argument central : entre soigner une maladie et "améliorer" un enfant, la frontière est floue.</li>
+<li><strong>"Designer babies could reduce genetic diversity."</strong> <em>(Ça pourrait réduire la diversité génétique)</em> — si tout le monde choisit les mêmes traits "idéaux".</li>
+<li><strong>"Regulation is necessary, but banning research entirely could stop life-saving progress."</strong> <em>(Une régulation est nécessaire, mais interdire totalement la recherche pourrait stopper des progrès qui sauvent des vies)</em> — position nuancée, utile pour une conclusion équilibrée.</li>
+</ul>
+
+<h3>Structurer une réponse à l'oral (EOC/EOI)</h3>
+<div class="retenir-box">Un bon plan pour ce sujet : 1) définir le sujet (CRISPR, therapy vs enhancement) → 2) un argument pour, avec un exemple → 3) un argument contre, avec un exemple → 4) une position nuancée (<em>"In my opinion, gene therapy should be allowed, but enhancement raises serious ethical questions"</em>) → 5) ouverture (question pour la suite du débat, ex: <em>"Where do we draw the line?"</em>).</div>`,
+    exercices: [
+      {niveau:"Facile", enonce:"<p>Traduis en anglais : \"Ça peut guérir des maladies génétiques\" et \"Ce n'est pas naturel\".</p>", aide:"Ce sont deux phrases simples données dans le cours, une du côté POUR et une du côté CONTRE.", correction:"<p><strong>\"It can cure genetic diseases.\"</strong> (pour) et <strong>\"It is not natural.\"</strong> (contre).</p>"},
+      {niveau:"Moyen", enonce:"<p>Explique en anglais, en une phrase simple, la différence entre <em>therapy</em> et <em>enhancement</em> dans le débat sur les designer babies.</p>", aide:"Therapy = soigner une maladie déjà là. Enhancement = améliorer un trait qui n'est pas une maladie.", correction:"<p>Exemple de réponse : <strong>\"Therapy means curing a disease, but enhancement means changing a trait that is not a disease, like height or intelligence.\"</strong></p><p>(La thérapie soigne une maladie, l'amélioration change un trait qui n'est pas une maladie, comme la taille ou l'intelligence.) C'est la distinction la plus importante du débat : la plupart des arguments \"pour\" concernent la thérapie, la plupart des arguments \"contre\" concernent l'amélioration.</p>"},
+      {niveau:"Difficile", enonce:"<p>Rédige une réponse courte et structurée (4-5 phrases) donnant ton avis sur les designer babies, en utilisant au moins un argument pour, un argument contre, et un connecteur logique (however, therefore, moreover...).</p>", aide:"Reprends la structure du cours : définir → argument pour → argument contre (avec however) → position nuancée.", correction:`<p>Exemple de réponse : <strong>\"Gene editing could eliminate hereditary diseases before birth, which would prevent a lifetime of suffering for the child. However, if only wealthy families can access this technology, it could create a form of genetic inequality. Moreover, the baby cannot consent to these changes. In my opinion, gene therapy for diseases should be allowed, but enhancement raises serious ethical questions.\"</strong></p><p>(La modification génique pourrait éliminer des maladies héréditaires avant la naissance, ce qui éviterait toute une vie de souffrance à l'enfant. Cependant, si seules les familles riches peuvent y accéder, cela pourrait créer une inégalité génétique. De plus, le bébé ne peut pas consentir à ces changements. À mon avis, la thérapie génique pour les maladies devrait être autorisée, mais l'amélioration soulève de sérieuses questions éthiques.)</p><p>Cette réponse est bien notée car elle mêle un argument pour, un argument contre, un connecteur logique, et une position personnelle nuancée — exactement ce qu'attend le bac à l'oral comme à l'écrit.</p>`},
+    ],
+    flashcards: [
+      {q:"Gene editing",a:"Modification génique — le fait de modifier l'ADN, par exemple avec l'outil CRISPR.",score:0,interval:0,ease:2.5,due:null},
+      {q:"A designer baby",a:"Un bébé \"sur mesure\" / \"amélioré\", dont certains traits ont été choisis ou modifiés génétiquement avant la naissance.",score:0,interval:0,ease:2.5,due:null},
+      {q:"Therapy vs enhancement",a:"Therapy = soigner une maladie déjà présente. Enhancement = améliorer un trait qui n'est pas une maladie (taille, intelligence...). Distinction centrale du débat.",score:0,interval:0,ease:2.5,due:null},
+      {q:"\"It can cure genetic diseases.\"",a:"Ça peut guérir des maladies génétiques. (argument POUR, phrase simple)",score:0,interval:0,ease:2.5,due:null},
+      {q:"\"Only rich people could afford it.\"",a:"Seules les personnes riches pourraient se le permettre. (argument CONTRE, phrase simple)",score:0,interval:0,ease:2.5,due:null},
+      {q:"A slippery slope",a:"Une pente glissante / un engrenage dangereux — l'idée qu'une première étape acceptable mène à des dérives de plus en plus problématiques.",score:0,interval:0,ease:2.5,due:null},
+      {q:"\"Where do we draw the line?\"",a:"Où fixe-t-on la limite ? — question clé du débat entre soigner une maladie et \"améliorer\" un enfant.",score:0,interval:0,ease:2.5,due:null},
+      {q:"To screen an embryo",a:"Dépister un embryon (vérifier s'il porte une maladie génétique avant implantation).",score:0,interval:0,ease:2.5,due:null},
+      {q:"Formule pour une position nuancée à l'oral",a:"\"In my opinion, gene therapy should be allowed, but enhancement raises serious ethical questions.\" — à adapter pour montrer que tu vois les deux côtés du débat.",score:0,interval:0,ease:2.5,due:null},
+    ]
+  }
 };
