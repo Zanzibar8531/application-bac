@@ -14,8 +14,10 @@
     <link rel="manifest" href="manifest.json">
 
     <!-- Apple Touch Icons (placer les fichiers dans /icons/) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
     <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
     <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 
     <title>BacMaster — Première</title>
@@ -79,6 +81,7 @@
         <div class="tb-actions">
             <button class="music-btn" id="music-toggle-btn" onclick="toggleMusicPlayer()" title="Musique d'ambiance">🎵</button>
             <button class="music-btn" id="theme-toggle-btn" onclick="toggleDarkMode()" title="Mode sombre">🌙</button>
+            <button class="music-btn" id="install-app-btn" onclick="installBacMaster()" title="Installer BacMaster" style="display:none">📲</button>
         </div>
     </header>
     <main id="main"></main>
@@ -131,17 +134,49 @@
 </div>
     <!-- Service Worker Registration -->
     <script>
+    // Installation PWA : Chrome/Edge Android, Windows, etc.
+    let deferredInstallPrompt = null;
+    window.addEventListener('beforeinstallprompt', (event) => {
+        event.preventDefault();
+        deferredInstallPrompt = event;
+        const btn = document.getElementById('install-app-btn');
+        if (btn) btn.style.display = 'inline-flex';
+    });
+
+    async function installBacMaster() {
+        if (!deferredInstallPrompt) {
+            if (typeof showToast === 'function') {
+                showToast('Sur iPhone : Partager → Sur l’écran d’accueil. Sur Android, ouvre le menu ⋮ → Installer l’application.', 'info');
+            }
+            return;
+        }
+        deferredInstallPrompt.prompt();
+        const result = await deferredInstallPrompt.userChoice;
+        deferredInstallPrompt = null;
+        const btn = document.getElementById('install-app-btn');
+        if (btn) btn.style.display = 'none';
+        if (result.outcome === 'accepted' && typeof showToast === 'function') {
+            showToast('BacMaster est installé !', 'success');
+        }
+    }
+
+    window.addEventListener('appinstalled', () => {
+        deferredInstallPrompt = null;
+        const btn = document.getElementById('install-app-btn');
+        if (btn) btn.style.display = 'none';
+    });
+
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js')
+            navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' })
                 .then(reg => {
                     console.log('[SW] Enregistré :', reg.scope);
-                    // Notifier si une mise à jour est disponible
+                    reg.update();
                     reg.addEventListener('updatefound', () => {
                         const newSW = reg.installing;
+                        if (!newSW) return;
                         newSW.addEventListener('statechange', () => {
                             if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
-                                // Une nouvelle version est disponible
                                 if (typeof showToast === 'function') {
                                     showToast('Mise à jour disponible — rechargez la page !', 'info');
                                 }

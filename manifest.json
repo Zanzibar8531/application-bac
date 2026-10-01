@@ -2,7 +2,7 @@
   "name": "BacMaster — Révision Bac",
   "short_name": "BacMaster",
   "description": "Révise ton Bac avec des flashcards, QCM et cours interactifs.",
-  "start_url": "./index.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
@@ -14,38 +14,49 @@
       "src": "icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ],
-  "screenshots": [
-    {
-      "src": "icons/screenshot-mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow"
-    }
+  "categories": [
+    "education",
+    "productivity"
   ],
-  "categories": ["education", "productivity"],
   "shortcuts": [
     {
       "name": "Flashcards",
       "short_name": "Flashcards",
       "description": "Lancer une session de flashcards",
       "url": "./index.html#flashcards",
-      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "QCM",
       "short_name": "QCM",
       "description": "Faire un QCM",
       "url": "./index.html#qcm",
-      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
-  ]
+  ],
+  "id": "./",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "prefer_related_applications": false
 }

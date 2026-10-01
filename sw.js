@@ -4,8 +4,8 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-v50';
-const CACHE_STATIC = 'bacmaster-static-v50';
+const CACHE_NAME   = 'bacmaster-current';
+const CACHE_STATIC = 'bacmaster-static-current';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
@@ -16,6 +16,10 @@ const STATIC_ASSETS = [
   './bg-dark.jpg',
   './script.js',
   './manifest.json',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
+  './icons/apple-touch-icon.png',
+  './icons/favicon-32.png',
   './data-init.js',
   './francais.js',
   './maths.js',
