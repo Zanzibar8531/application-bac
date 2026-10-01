@@ -176,6 +176,231 @@ flashcards:[
 {q:'Qu\'est-ce que la paraphrase (à éviter) ?',a:'Raconter le texte sans l\'analyser. Il faut analyser COMMENT l\'auteur dit les choses.'},
 {q:'Oral bac français : étapes',a:'1. Explication linéaire (20 min prépa). 2. Question de grammaire. 3. Présentation d\'œuvre choisie.'},
 ]},
+
+/* ─────────────────────────────────────────────────────────────
+   GRAFFIGNY — cours général séparé du texte étudié
+   ───────────────────────────────────────────────────────────── */
+'Tout savoir sur Graffigny': {
+cours:`<h2>📚 Tout savoir sur Françoise de Graffigny et <em>Les Lettres d'une Péruvienne</em></h2>
+<div class="formula-box">
+<strong>Auteure :</strong> Françoise de Graffigny (1695-1758) · <strong>Œuvre :</strong> <em>Les Lettres d'une Péruvienne</em> · <strong>Publication :</strong> 1747 puis 1752<br>
+<strong>Genre :</strong> roman épistolaire · <strong>Parcours :</strong> « Un nouvel univers s'est offert à mes yeux »
+</div>
+
+<h3>👩 Françoise de Graffigny — l'essentiel sur l'auteure</h3>
+<p>Françoise de Graffigny est une écrivaine française du XVIII<sup>e</sup> siècle, née en 1695 et morte en 1758. Elle appartient au siècle des Lumières, période marquée par le développement de l'esprit critique, la réflexion sur la société et la confiance dans la raison et le savoir.</p>
+<p>Elle est notamment connue pour <em>Les Lettres d'une Péruvienne</em>, roman épistolaire qui connaît un important succès au XVIII<sup>e</sup> siècle. L'œuvre permet à Graffigny de porter un regard critique sur la société française en faisant parler une jeune étrangère qui découvre un monde qu'elle ne connaît pas.</p>
+
+<h3>☀️ Qui est Zilia ?</h3>
+<div class="retenir-box"><strong>Attention :</strong> Zilia est un personnage fictif, pas une personne historique. Pour parler de sa « vie », il faut donc parler de son <strong>parcours dans le roman</strong>.</div>
+<ol>
+<li><strong>Une jeune Péruvienne :</strong> Zilia est une princesse inca élevée dans le temple comme Vierge du Soleil.</li>
+<li><strong>La rupture :</strong> elle est arrachée à son pays et séparée d'Aza, l'homme qu'elle aime.</li>
+<li><strong>La découverte :</strong> elle arrive dans un monde européen dont elle ne comprend ni la langue ni les coutumes.</li>
+<li><strong>L'apprentissage :</strong> elle observe la société française, apprend et développe progressivement son esprit critique.</li>
+<li><strong>L'émancipation :</strong> elle cesse de faire dépendre son bonheur d'une relation amoureuse et construit sa propre conception du bonheur.</li>
+<li><strong>À la fin :</strong> elle choisit une vie indépendante, fondée sur l'amitié, la connaissance, la contemplation de la nature et les plaisirs simples.</li>
+</ol>
+
+<h3>🌍 Le contexte historique : la France du XVIII<sup>e</sup> siècle</h3>
+<ul>
+<li><strong>Ancien Régime :</strong> la société est organisée en trois ordres : noblesse, clergé et tiers état.</li>
+<li><strong>Inégalités :</strong> les privilèges et la naissance jouent un rôle majeur dans l'organisation sociale.</li>
+<li><strong>Vie mondaine :</strong> salons, spectacles, théâtre et opéras occupent une place importante dans la sociabilité des élites.</li>
+</ul>
+
+<h3>💡 Le siècle des Lumières</h3>
+<p>Le XVIII<sup>e</sup> siècle voit se développer une nouvelle manière de penser la société :</p>
+<ul>
+<li>affirmation de l'<strong>esprit critique</strong> ;</li>
+<li>remise en cause des autorités politiques, sociales et religieuses ;</li>
+<li>dénonciation du fanatisme et de l'intolérance ;</li>
+<li>confiance dans la <strong>raison</strong>, le savoir et le progrès ;</li>
+<li>réflexion sur la liberté, le bonheur et la place des femmes.</li>
+</ul>
+<div class="retenir-box"><strong>À retenir pour le bac :</strong> Graffigny utilise une héroïne étrangère pour regarder la société française avec distance. Ce décalage permet de rendre visibles des habitudes que les Français ne questionnent plus.</div>
+
+<h3>👀 Le regard étranger</h3>
+<p>Zilia découvre la France comme quelqu'un qui ne connaît pas ses codes. Ce procédé crée un <strong>regard neuf</strong> : ce qui paraît normal aux Européens peut lui sembler étrange, injuste ou incompréhensible.</p>
+<ul>
+<li>la place des femmes ;</li>
+<li>les inégalités sociales ;</li>
+<li>les pratiques religieuses et le fanatisme ;</li>
+<li>les vêtements, les apparences et les mondanités ;</li>
+<li>la langue et les difficultés de communication ;</li>
+<li>les arts, le théâtre et l'opéra ;</li>
+<li>la conception du bonheur et des relations humaines.</li>
+</ul>
+
+<h3>✉️ Pourquoi un roman épistolaire ?</h3>
+<p>Un roman épistolaire raconte l'histoire sous forme de lettres. Le lecteur a donc l'impression d'accéder directement aux pensées du personnage.</p>
+<ul>
+<li><strong>Intimité :</strong> Zilia écrit à des destinataires précis et exprime ses sentiments.</li>
+<li><strong>Point de vue :</strong> les événements sont racontés depuis son regard personnel.</li>
+<li><strong>Évolution :</strong> ses lettres permettent de suivre sa transformation intellectuelle et personnelle.</li>
+<li><strong>Regard critique :</strong> une étrangère peut observer la société française avec davantage de distance.</li>
+</ul>
+
+<h3>📖 Les sources et la construction de l'œuvre</h3>
+<ul>
+<li><strong><em>Histoire des Incas</em></strong> de Garcilaso de la Vega (1606) : une source importante pour l'univers péruvien et inca.</li>
+<li><strong><em>Lettres persanes</em></strong> de Montesquieu (1721) : modèle majeur du regard étranger. Usbek et Rica observent les mœurs françaises depuis leur position de voyageurs persans.</li>
+<li>Graffigny reprend ce principe pour faire découvrir la France à travers les yeux de Zilia.</li>
+</ul>
+
+<h3>🏛️ La culture inca dans le roman</h3>
+<ul>
+<li>Empire très étendu au XVI<sup>e</sup> siècle, notamment au Pérou, en Bolivie, en Équateur et au Chili actuels.</li>
+<li>Culte du Soleil et importance de la religion.</li>
+<li>Travail de l'or et savoir-faire techniques.</li>
+<li>Utilisation des <strong>quipos</strong> pour transmettre et conserver des informations.</li>
+<li>La conquête espagnole et la prise de Cuzco par Pizarro en 1533 constituent l'arrière-plan historique de l'histoire de Zilia.</li>
+</ul>
+
+<h3>🎭 La vie culturelle évoquée dans l'œuvre</h3>
+<ul>
+<li><strong>Salons mondains :</strong> rencontres, discussions, lectures et échanges intellectuels.</li>
+<li><strong>Comédie-Française :</strong> tragédies et comédies.</li>
+<li><strong>Théâtre du Palais-Royal :</strong> spectacles et opéras, mais aussi lieux de sociabilité.</li>
+</ul>
+
+<h3>🧭 Les grands thèmes à connaître</h3>
+<div class="formula-box">
+<strong>Découverte</strong> → Zilia découvre une société inconnue.<br>
+<strong>Altérité</strong> → son regard étranger permet de prendre du recul.<br>
+<strong>Éducation</strong> → la connaissance participe à son émancipation.<br>
+<strong>Condition féminine</strong> → le roman interroge la place accordée aux femmes.<br>
+<strong>Bonheur</strong> → Zilia cherche une définition du bonheur qui ne dépende pas de la passion amoureuse.<br>
+<strong>Nature</strong> → elle devient une source de contemplation et de réflexion.<br>
+<strong>Indépendance</strong> → l'évolution de Zilia mène à une autonomie personnelle et intellectuelle.
+</div>
+
+<h3>🧠 La trajectoire de Zilia en une phrase</h3>
+<p><strong>Enfermée → arrachée à son pays → étrangère en France → observatrice → femme instruite → femme indépendante.</strong></p>
+
+<h3>🎯 Ce qu'il faut absolument savoir pour le bac</h3>
+<ul>
+<li>Graffigny écrit au XVIII<sup>e</sup> siècle, dans le contexte des <strong>Lumières</strong>.</li>
+<li><em>Les Lettres d'une Péruvienne</em> est un <strong>roman épistolaire</strong>.</li>
+<li>Zilia est une <strong>jeune Péruvienne fictive</strong> utilisée comme personnage-observateur.</li>
+<li>Le <strong>regard étranger</strong> permet de questionner la société française.</li>
+<li>La connaissance et l'éducation participent à l'<strong>émancipation</strong> de Zilia.</li>
+<li>À la fin, elle privilégie <strong>l'amitié, la connaissance, la nature et l'indépendance</strong> plutôt qu'une nouvelle passion amoureuse.</li>
+</ul>`,
+exercices:[
+{niveau:'Facile',enonce:`<p>Qui est Zilia et pourquoi son regard est-il important dans le roman ?</p>`,aide:`Pense à son origine et au fait qu'elle découvre la société française.`,correction:`<p>Zilia est une jeune Péruvienne fictive. Son regard extérieur permet à Graffigny de présenter la société française comme un univers nouveau et donc de mettre en évidence ses habitudes, ses inégalités et ses contradictions.</p>`},
+{niveau:'Moyen',enonce:`<p>Explique en quelques lignes pourquoi <em>Les Lettres d'une Péruvienne</em> appartient au contexte des Lumières.</p>`,aide:`Cherche les idées de raison, critique sociale, connaissance et liberté.`,correction:`<p>Le roman appartient au siècle des Lumières parce qu'il valorise la connaissance et l'esprit critique et qu'il permet de questionner la société, la religion, les inégalités et la place des femmes grâce au regard étranger de Zilia.</p>`},
+{niveau:'Difficile',enonce:`<p>Montre comment le parcours de Zilia peut être compris comme un parcours d'émancipation.</p>`,aide:`Compare son enfermement au début du roman avec sa situation à la fin.`,correction:`<p>Au début, Zilia est enfermée dans le temple et définie par sa place dans la société inca et par son amour pour Aza. Les découvertes, l'apprentissage et l'observation de la société française développent progressivement son autonomie intellectuelle. À la fin, elle choisit elle-même son mode de vie et trouve le bonheur dans la connaissance, l'amitié, la nature et l'indépendance.</p>`}
+],
+flashcards:[
+{q:'Qui est Françoise de Graffigny ?',a:'Une écrivaine française du XVIIIe siècle (1695-1758), connue notamment pour Les Lettres d’une Péruvienne.'},
+{q:'Quel est le genre des Lettres d’une Péruvienne ?',a:'Un roman épistolaire.'},
+{q:'Qui est Zilia ?',a:'Une jeune Péruvienne fictive, princesse inca, qui découvre la société française.'},
+{q:'Pourquoi utiliser le regard étranger ?',a:'Pour rendre étranges les habitudes françaises et permettre une critique de la société.'},
+{q:'Quelle œuvre de Montesquieu sert de modèle ?',a:'Les Lettres persanes, publiées anonymement en 1721.'},
+{q:'Quelle est l’évolution de Zilia ?',a:'Elle passe de l’enfermement et de la dépendance à l’observation, au savoir et à l’indépendance.'},
+{q:'Que choisit Zilia à la fin ?',a:'Une vie indépendante fondée sur l’amitié, la connaissance, la nature et la contemplation plutôt que sur la passion amoureuse.'}
+]},
+
+'T5 — Lettre XXXVIII (Graffigny)': {
+cours:`<h2>✉️ T5 — <em>Les Lettres d'une Péruvienne</em>, Lettre XXXVIII · Graffigny</h2>
+<div class="formula-box">
+<strong>Auteure :</strong> Françoise de Graffigny (1695-1758) · <strong>Date :</strong> 1747<br>
+<strong>Destinataire :</strong> le chevalier Déterville · <strong>Moment :</strong> fin du roman<br>
+🎯 <strong>Problématique :</strong> Comment la Lettre XXXVIII transforme-t-elle l'éloge de l'amitié et de la nature en affirmation de l'indépendance et en nouvelle définition du bonheur ?
+</div>
+
+<h3>📍 Petite introduction</h3>
+<p>Cette lettre se situe à la fin du parcours de Zilia. Arrachée à son pays, séparée d'Aza et plongée dans une société inconnue, elle est devenue une femme capable de réfléchir par elle-même. Elle écrit ici à Déterville et lui explique qu'elle ne veut pas faire dépendre son bonheur de l'amour : elle préfère l'amitié, la connaissance, la contemplation de la nature et une vie indépendante.</p>
+<div class="retenir-box"><strong>Idée directrice :</strong> la lettre ne présente pas seulement un choix sentimental. Zilia propose une véritable philosophie du bonheur et affirme sa capacité à décider elle-même de sa manière de vivre.</div>
+
+<h3>📖 Texte — Lettre XXXVIII</h3>
+<blockquote>
+<p>Il est mille moyens de rendre l'amitié intéressante et d'en chasser l'ennui.</p>
+<p>Vous me donnerez quelque connaissance de vos sciences et de vos arts ; vous goûterez le plaisir de la supériorité ; je le reprendrai en développant dans votre cœur des vertus que vous n'y connaissez pas. Vous ornerez mon esprit de ce qui peut le rendre amusant, vous jouirez de votre ouvrage ; je tâcherai de vous rendre agréables les charmes naïfs de la simple amitié, et je me trouverai heureuse d'y réussir.</p>
+<p>Céline, en nous partageant sa tendresse, répandra dans nos entretiens la gaieté qui pourrait y manquer. Que nous resterait-il à désirer ?</p>
+<p>Vous craignez en vain que la solitude n'altère ma santé. Croyez-moi, Déterville, elle ne devient jamais dangereuse que par l'oisiveté. Toujours occupée, je saurai me faire des plaisirs nouveaux de tout ce que l'habitude rend insipide.</p>
+<p>Sans approfondir les secrets de la nature, le simple examen de ses merveilles n'est-il pas suffisant pour varier et renouveler sans cesse des occupations toujours agréables ? La vie suffit-elle pour acquérir une connaissance légère, mais intéressante, de l'univers, de ce qui m'environne, de ma propre existence ?</p>
+<p>Le plaisir d'être, ce plaisir oublié, ignoré même de tant d'aveugles humains, cette pensée si douce, ce bonheur si pur, je suis, je vis, j'existe, pourrait seul rendre heureux si l'on s'en souvenait, si l'on en jouissait, si l'on en connaissait le prix.</p>
+<p>Venez, Déterville, venez apprendre de moi à économiser les ressources de notre âme et les bienfaits de la nature. Renoncez aux sentiments tumultueux, destructeurs et imperceptibles de notre être ; venez apprendre à connaître les plaisirs innocents et durables, venez en jouir avec moi, vous trouverez dans mon cœur, dans mon amitié, dans mes sentiments tout ce qui peut vous dédommager de l'amour.</p>
+</blockquote>
+
+<h3>🔎 Lexique essentiel</h3>
+<ul>
+<li><strong>Vertus :</strong> qualités morales.</li>
+<li><strong>Ornerez :</strong> décorerez, enrichirez.</li>
+<li><strong>Entretiens :</strong> échanges, conversations.</li>
+<li><strong>Altérer :</strong> modifier, détériorer.</li>
+<li><strong>Oisiveté :</strong> absence d'activité, paresse.</li>
+<li><strong>Insipide :</strong> fade, sans intérêt.</li>
+<li><strong>Tumultueux :</strong> agité, violent, irrégulier.</li>
+<li><strong>Dédommager :</strong> compenser, consoler d'une perte.</li>
+</ul>
+
+<h3>🎨 Légende — une couleur par procédé</h3>
+<div class="fig-legende">
+<span class="fig-legende-item" style="background:#fef08a;color:#713f12">Métaphore</span>
+<span class="fig-legende-item" style="background:#bfdbfe;color:#1e3a8a">Comparaison</span>
+<span class="fig-legende-item" style="background:#bbf7d0;color:#14532d">Personnification</span>
+<span class="fig-legende-item" style="background:#ddd6fe;color:#4c1d95">Anaphore / répétition</span>
+<span class="fig-legende-item" style="background:#fed7aa;color:#7c2d12">Accumulation</span>
+<span class="fig-legende-item" style="background:#fca5a5;color:#7f1d1d">Antithèse</span>
+<span class="fig-legende-item" style="background:#fde68a;color:#78350f">Question rhétorique</span>
+<span class="fig-legende-item" style="background:#a7f3d0;color:#064e3b">Apostrophe</span>
+</div>
+<p><em>Dans cette version, chaque type de figure garde toujours la même couleur : cela permet de repérer rapidement les procédés dans le texte.</em></p>
+
+<h3>🖍️ Texte annoté — support du commentaire</h3>
+<div class="texte-annote">
+<p><span class="fig fig-metaphore" title="MÉTAPHORE — 'rendre l'amitié intéressante' et 'en chasser l'ennui' : l'amitié est présentée comme quelque chose que l'on peut enrichir et dont on peut repousser l'ennui. Zilia donne à l'amitié une véritable dynamique.">Il est mille moyens de rendre l'amitié intéressante et d'en chasser l'ennui.</span></p>
+<p><span class="fig fig-accumulation" title="ACCUMULATION — 'sciences', 'arts', 'vertus', 'esprit', 'plaisirs' : le vocabulaire montre que l'amitié repose sur un échange intellectuel et moral, pas seulement affectif.">Vous me donnerez quelque connaissance de vos sciences et de vos arts ; vous goûterez le plaisir de la supériorité ; je le reprendrai en développant dans votre cœur des vertus que vous n'y connaissez pas.</span> Vous ornerez mon esprit de ce qui peut le rendre amusant, vous jouirez de votre ouvrage ; je tâcherai de vous rendre agréables les charmes naïfs de la simple amitié, et je me trouverai heureuse d'y réussir.</p>
+<p><span class="fig fig-question" title="QUESTION RHÉTORIQUE — Zilia n'attend pas une véritable réponse : elle affirme qu'avec l'amitié et la gaieté, il ne manquerait plus rien à leur bonheur.">Que nous resterait-il à désirer ?</span></p>
+<p>Vous craignez en vain que la solitude n'altère ma santé. Croyez-moi, Déterville, <span class="fig fig-antithese" title="ANTITHÈSE — 'solitude' / 'oisiveté' : Zilia distingue la solitude choisie de l'inaction. La solitude n'est pas dangereuse en elle-même ; c'est l'oisiveté qui peut l'être.">elle ne devient jamais dangereuse que par l'oisiveté.</span> Toujours occupée, je saurai me faire des plaisirs nouveaux de tout ce que l'habitude rend insipide.</p>
+<p>Sans approfondir les secrets de la nature, le simple examen de ses merveilles <span class="fig fig-question" title="QUESTION RHÉTORIQUE — la question guide le lecteur vers une réponse implicite : observer la nature suffit à renouveler les occupations et à nourrir la réflexion.">n'est-il pas suffisant pour varier et renouveler sans cesse des occupations toujours agréables ?</span> <span class="fig fig-question" title="QUESTION RHÉTORIQUE — la question élargit la réflexion : une vie entière ne suffit même pas à connaître complètement le monde et soi-même.">La vie suffit-elle pour acquérir une connaissance légère, mais intéressante, de l'univers, de ce qui m'environne, de ma propre existence ?</span></p>
+<p><span class="fig fig-accumulation" title="ACCUMULATION — 'ce plaisir oublié', 'cette pensée si douce', 'ce bonheur si pur' : Zilia multiplie les reformulations pour donner une valeur presque philosophique au simple fait d'exister.">Le plaisir d'être, ce plaisir oublié, ignoré même de tant d'aveugles humains, cette pensée si douce, ce bonheur si pur,</span> <span class="fig fig-anaphore" title="RÉPÉTITION — 'je suis, je vis, j'existe' : la répétition de la première personne affirme l'existence comme une source autonome de bonheur.">je suis, je vis, j'existe</span>, pourrait seul rendre heureux si l'on s'en souvenait, si l'on en jouissait, si l'on en connaissait le prix.</p>
+<p><span class="fig fig-apostrophe" title="APOSTROPHE — 'Venez, Déterville' : Zilia interpelle directement son destinataire et transforme sa réflexion en invitation à partager sa nouvelle conception du bonheur.">Venez, Déterville, venez apprendre de moi</span> à économiser les ressources de notre âme et les bienfaits de la nature. <span class="fig fig-antithese" title="ANTITHÈSE — 'sentiments tumultueux, destructeurs' s'opposent aux 'plaisirs innocents et durables'. Zilia oppose la passion instable au bonheur calme qu'elle propose.">Renoncez aux sentiments tumultueux, destructeurs et imperceptibles de notre être ; venez apprendre à connaître les plaisirs innocents et durables</span>, venez en jouir avec moi, vous trouverez dans mon cœur, dans mon amitié, dans mes sentiments tout ce qui peut vous dédommager de l'amour.</p>
+</div>
+
+<h3>🧩 Construire le commentaire</h3>
+<div class="retenir-box"><strong>Plan possible :</strong><br>
+I. L'amitié comme échange enrichissant et réciproque.<br>
+II. La solitude et la connaissance comme nouvelles sources de bonheur.<br>
+III. Une véritable philosophie de vie : dépasser la passion et choisir une existence autonome.</div>
+
+<h3>🎤 Exemple de très bon commentaire linéaire</h3>
+<div class="analyse-lineaire-box">
+<p><strong>Introduction.</strong> Le texte que je vais étudier est un extrait de la Lettre XXXVIII des <em>Lettres d'une Péruvienne</em>, roman épistolaire de Françoise de Graffigny publié en 1747. À la fin du roman, Zilia, jeune Péruvienne autrefois arrachée à son pays et séparée d'Aza, a progressivement construit son autonomie. Elle s'adresse ici au chevalier Déterville pour lui proposer une autre manière de concevoir le bonheur. Nous pouvons donc nous demander comment cette lettre transforme l'éloge de l'amitié et de la nature en affirmation de l'indépendance de Zilia. Nous suivrons trois mouvements : l'amitié comme échange enrichissant ; la solitude transformée en source de connaissance et de bonheur ; enfin, une invitation à renoncer aux passions tumultueuses pour choisir une vie plus libre et plus durable.</p>
+<p><strong>Mouvement 1 — L'amitié comme échange enrichissant.</strong> Dès la première phrase, Zilia refuse de présenter l'amitié comme une relation passive : il existe « mille moyens » de la rendre « intéressante » et d'en chasser « l'ennui ». L'hyperbole « mille » donne à cette relation une richesse presque infinie. Surtout, la suite du passage repose sur une logique d'échange : Déterville apporte « sciences » et « arts », tandis que Zilia développe en lui des « vertus ». Les verbes d'action — « donnerez », « goûterez », « reprendre », « développant », « ornerez », « jouirez » — montrent que chacun apporte quelque chose à l'autre. L'amitié devient donc une relation réciproque et intellectuelle. La question rhétorique « Que nous resterait-il à désirer ? » conduit à une réponse implicite : une relation fondée sur le partage peut suffire au bonheur sans avoir besoin de passion amoureuse.</p>
+<p><strong>Mouvement 2 — La solitude comme espace de liberté et de connaissance.</strong> Zilia répond ensuite à la crainte de Déterville : « Vous craignez en vain que la solitude n'altère ma santé ». Elle renverse son raisonnement grâce à une distinction essentielle : la solitude n'est dangereuse que « par l'oisiveté ». Autrement dit, être seule ne signifie pas être malheureuse. Au contraire, Zilia affirme qu'elle saura rester « toujours occupée » et transformer ce qui pourrait sembler « insipide » en « plaisirs nouveaux ». La réflexion devient ensuite philosophique avec deux questions rhétoriques consacrées à la nature et à la connaissance. L'expression « la vie suffit-elle » suggère même que toute une existence ne permettrait pas d'épuiser les merveilles du monde. Zilia ne cherche donc plus son bonheur uniquement dans une relation : elle peut le trouver dans l'observation, l'apprentissage et la contemplation.</p>
+<p><strong>Mouvement 3 — Une nouvelle philosophie du bonheur.</strong> Le passage atteint son sommet avec « le plaisir d'être ». La répétition « je suis, je vis, j'existe » donne à l'existence elle-même une valeur positive. La phrase progresse ensuite vers une invitation directe : « Venez, Déterville, venez apprendre de moi ». L'apostrophe montre que Zilia ne se présente plus comme une jeune femme qui subit les événements : elle devient celle qui transmet un savoir. Enfin, elle oppose les « sentiments tumultueux, destructeurs » aux « plaisirs innocents et durables ». Cette antithèse résume toute son évolution : elle ne nie pas les sentiments, mais elle refuse désormais une passion qui pourrait rendre son bonheur dépendant d'autrui. La dernière phrase reprend les mots « mon cœur », « mon amitié », « mes sentiments » pour proposer à Déterville une relation différente, fondée sur la réciprocité et la durée.</p>
+<p><strong>Conclusion.</strong> Cette lettre marque donc une étape décisive dans l'évolution de Zilia. En transformant l'amitié en échange intellectuel, la solitude en espace de connaissance et la nature en source de contemplation, elle construit une conception personnelle du bonheur. Le texte dépasse ainsi le simple récit sentimental : il devient une réflexion philosophique sur la liberté et sur la possibilité, pour une femme, de choisir elle-même sa manière de vivre. On peut rapprocher cette démarche du projet des Lumières, qui valorise la connaissance, l'esprit critique et l'autonomie de la pensée.</p>
+</div>
+
+<h3>📌 Les procédés à savoir expliquer à l'oral</h3>
+<ul>
+<li><strong>Hyperbole :</strong> « mille moyens » → insiste sur la richesse des possibilités offertes par l'amitié.</li>
+<li><strong>Question rhétorique :</strong> « Que nous resterait-il à désirer ? » → affirme implicitement que le bonheur est déjà complet.</li>
+<li><strong>Antithèse :</strong> « sentiments tumultueux, destructeurs » / « plaisirs innocents et durables » → oppose passion instable et bonheur choisi.</li>
+<li><strong>Répétition / rythme ternaire :</strong> « je suis, je vis, j'existe » → affirme fortement l'existence personnelle de Zilia.</li>
+<li><strong>Apostrophe :</strong> « Venez, Déterville » → rend l'adresse directe et donne à Zilia une position de guide.</li>
+<li><strong>Présent de vérité générale :</strong> plusieurs formulations élargissent le propos de Zilia au-delà de son cas personnel et donnent une portée philosophique à la lettre.</li>
+</ul>
+
+<h3>📝 Mini-bilan à retenir</h3>
+<div class="retenir-box"><strong>La formule simple :</strong> Zilia ne remplace pas simplement « Aza par Déterville ». Elle change sa définition du bonheur : <strong>amour passionnel → amitié → connaissance → nature → indépendance</strong>.</div>`,
+exercices:[
+{niveau:'Facile',enonce:`<p>À qui Zilia écrit-elle cette lettre et quel est le thème principal du passage ?</p>`,aide:`Regarde le destinataire et ce que Zilia dit de l'amitié et du bonheur.`,correction:`<p>Zilia écrit au chevalier Déterville. Le passage développe une réflexion sur l'amitié, la connaissance, la nature et une conception indépendante du bonheur.</p>`},
+{niveau:'Moyen',enonce:`<p>Explique l'effet de la question « Que nous resterait-il à désirer ? ».</p>`,aide:`Demande-toi si Zilia attend vraiment une réponse.`,correction:`<p>Il s'agit d'une question rhétorique. Zilia n'attend pas de réponse : elle suggère qu'une relation fondée sur l'amitié, le partage et la gaieté pourrait déjà apporter tout ce qui est nécessaire au bonheur.</p>`},
+{niveau:'Difficile',enonce:`<p>Montre comment l'opposition entre les « sentiments tumultueux » et les « plaisirs innocents et durables » résume l'évolution de Zilia.</p>`,aide:`Compare la passion amoureuse avec la conception du bonheur défendue dans la lettre.`,correction:`<p>L'antithèse oppose une passion instable et potentiellement destructrice à un bonheur plus calme et durable. Elle résume le parcours de Zilia : elle ne veut plus que son existence soit organisée autour d'une passion amoureuse et choisit une vie fondée sur l'amitié, la connaissance, la nature et l'indépendance.</p>`}
+],
+flashcards:[
+{q:'À qui Zilia adresse-t-elle la Lettre XXXVIII ?',a:'Au chevalier Déterville.'},
+{q:'Quelle est la problématique possible ?',a:'Comment la lettre transforme-t-elle l’éloge de l’amitié et de la nature en affirmation de l’indépendance et en nouvelle définition du bonheur ?'},
+{q:'Pourquoi la question « Que nous resterait-il à désirer ? » est-elle rhétorique ?',a:'Parce qu’elle n’attend pas de réponse : elle affirme implicitement que l’amitié et le partage peuvent suffire au bonheur.'},
+{q:'Que signifie « je suis, je vis, j’existe » ?',a:'Zilia affirme que le simple fait d’exister peut devenir une source autonome de bonheur.'},
+{q:'Quelle opposition résume la fin de la lettre ?',a:'« sentiments tumultueux, destructeurs » contre « plaisirs innocents et durables » : passion instable contre bonheur choisi et durable.'},
+{q:'Quelle est l’évolution de Zilia dans cette lettre ?',a:'Elle passe d’une logique centrée sur l’amour à une conception autonome du bonheur fondée sur l’amitié, la connaissance, la nature et l’indépendance.'}
+]}
 };
 
 PREBUILT['Français']['T1 — Le dormeur du val'] = {

@@ -1,4 +1,6 @@
-:root{--bg:#eef1f8;--card:#f8f9fc;--border:#e0e4ee;--text:#0e1525;--muted:#64748b;--sb:#0e1525;--accent:#4f46e5;--green:#059669;--red:#dc2626;--yellow:#d97706;--c-fr:#059669;--c-math:#4f46e5;--c-hg:#9f1239;--c-ang:#1d4ed8;--c-esp:#ca8a04;--c-phy:#7c3aed;--c-idd:#0d9488;--c-it:#ea580c;--c-info:#0891b2;--c-cyber:#b91c1c;--c-bourse:#65a30d;--c-entr:#e11d48;--c-sci:#6366f1;--c-jur:#78716c;--r:14px;--rs:10px;--sh:0 2px 12px rgba(14,21,37,.07);--sh2:0 8px 28px rgba(14,21,37,.13);}
+:root{--bg:#efe7d6;--card:#faf5e9;--border:#ddceac;--text:#0e1525;--muted:#7b7260;--sb:#0e1525;--accent:#4f46e5;--green:#059669;--red:#dc2626;--yellow:#d97706;--c-fr:#059669;--c-math:#4f46e5;--c-hg:#9f1239;--c-ang:#1d4ed8;--c-esp:#ca8a04;--c-phy:#7c3aed;--c-idd:#0d9488;--c-it:#ea580c;--c-info:#0891b2;--c-cyber:#b91c1c;--c-bourse:#65a30d;--c-entr:#e11d48;--c-sci:#6366f1;--c-jur:#78716c;--r:14px;--rs:10px;--sh:0 2px 12px rgba(14,21,37,.07);--sh2:0 8px 28px rgba(14,21,37,.13);}
+/* Accent turquoise réservé au mode clair — le mode sombre garde son indigo (règle html[data-theme="dark"] ci-dessus, plus spécifique) */
+html:not([data-theme="dark"]){--accent:#0d9488;}
 
 html[data-theme="dark"]{
     --bg:#0d1420;--card:#161f30;--border:#2a3547;--text:#e7ebf3;--muted:#8b96ab;
@@ -40,61 +42,22 @@ html[data-theme="dark"] .topbar{box-shadow:0 6px 24px rgba(0,0,0,.5);}
    boréale en mode sombre ; nuages pastel doux en mode clair.
    background-attachment:fixed pour que ça ne défile pas avec la page. */
 html[data-theme="dark"] body{
-    background:
-        radial-gradient(2.2px 2.2px at 8% 22%,  #ffffff, transparent 70%),
-        radial-gradient(1.8px 1.8px at 18% 68%, #ffffff, transparent 70%),
-        radial-gradient(2.4px 2.4px at 28% 12%, #ffffff, transparent 70%),
-        radial-gradient(1.6px 1.6px at 37% 82%, #ffffff, transparent 70%),
-        radial-gradient(2.2px 2.2px at 46% 38%, #ffffff, transparent 70%),
-        radial-gradient(1.8px 1.8px at 55% 75%, #ffffff, transparent 70%),
-        radial-gradient(2.4px 2.4px at 64% 18%, #ffffff, transparent 70%),
-        radial-gradient(1.6px 1.6px at 72% 55%, #ffffff, transparent 70%),
-        radial-gradient(2.2px 2.2px at 81% 30%, #ffffff, transparent 70%),
-        radial-gradient(1.8px 1.8px at 89% 70%, #ffffff, transparent 70%),
-        radial-gradient(2.4px 2.4px at 94% 15%, #ffffff, transparent 70%),
-        radial-gradient(1.6px 1.6px at 12% 92%, #ffffff, transparent 70%),
-        radial-gradient(2px   2px   at 60% 92%, #ffffff, transparent 70%),
-        radial-gradient(2px   2px   at 5% 55%,  #ffffff, transparent 70%),
-        radial-gradient(1.9px 1.9px at 42% 6%,  #ffffff, transparent 70%),
-        radial-gradient(1.6px 1.6px at 24% 45%, #ffffff, transparent 70%),
-        radial-gradient(2.1px 2.1px at 33% 30%, #ffffff, transparent 70%),
-        radial-gradient(1.7px 1.7px at 50% 58%, #ffffff, transparent 70%),
-        radial-gradient(2px   2px   at 68% 88%, #ffffff, transparent 70%),
-        radial-gradient(2.2px 2.2px at 76% 62%, #ffffff, transparent 70%),
-        radial-gradient(1.8px 1.8px at 86% 48%, #ffffff, transparent 70%),
-        radial-gradient(2px   2px   at 97% 80%, #ffffff, transparent 70%),
-        radial-gradient(1.5px 1.5px at 3% 8%,   #ffffff, transparent 70%),
-        radial-gradient(1.5px 1.5px at 15% 55%, #ffffff, transparent 70%),
-        radial-gradient(1.5px 1.5px at 92% 92%, #ffffff, transparent 70%),
-        linear-gradient(115deg, transparent 20%, rgba(199,197,255,.12) 35%, rgba(224,222,255,.25) 47%, rgba(240,238,255,.32) 50%, rgba(224,222,255,.25) 53%, rgba(199,197,255,.12) 65%, transparent 80%),
-        radial-gradient(ellipse 60% 42% at 15% 18%, rgba(59,90,255,.65), transparent 68%),
-        radial-gradient(ellipse 55% 40% at 85% 22%, rgba(236,72,153,.55), transparent 68%),
-        radial-gradient(ellipse 58% 42% at 40% 88%, rgba(16,220,150,.5), transparent 68%),
-        radial-gradient(ellipse 50% 38% at 78% 82%, rgba(139,92,246,.5), transparent 68%),
-        radial-gradient(ellipse 45% 35% at 8% 70%, rgba(244,114,182,.4), transparent 68%),
-        var(--bg) !important;
+    background-color: var(--bg);
+    background-image: url("./bg-dark.jpg");
     background-attachment: fixed !important;
     background-repeat: no-repeat !important;
     background-size: cover !important;
+    background-position: center !important;
 }
 /* Mode clair : ciel de jour doux, en écho au ciel étoilé du mode sombre —
    un soleil discret, un dégradé de ciel, et quelques nuages flous. */
 html:not([data-theme="dark"]) body{
-    background:
-        radial-gradient(circle 180px at 82% 8%, rgba(255,241,181,.8), rgba(255,229,143,.3) 55%, transparent 75%),
-        radial-gradient(ellipse 38% 14% at 20% 22%, rgba(255,255,255,.45), transparent 70%),
-        radial-gradient(ellipse 32% 12% at 65% 38%, rgba(255,255,255,.38), transparent 70%),
-        radial-gradient(ellipse 42% 15% at 30% 68%, rgba(255,255,255,.35), transparent 70%),
-        radial-gradient(ellipse 34% 13% at 78% 85%, rgba(255,255,255,.3), transparent 70%),
-        radial-gradient(ellipse 60% 42% at 12% 15%, rgba(99,102,241,.38), transparent 68%),
-        radial-gradient(ellipse 55% 40% at 88% 18%, rgba(236,72,153,.32), transparent 68%),
-        radial-gradient(ellipse 58% 42% at 40% 88%, rgba(16,185,129,.35), transparent 68%),
-        radial-gradient(ellipse 50% 38% at 80% 80%, rgba(139,92,246,.32), transparent 68%),
-        radial-gradient(ellipse 45% 35% at 6% 68%, rgba(244,114,182,.3), transparent 68%),
-        linear-gradient(180deg, #cfe0fb 0%, #dde3f7 35%, #e6e9f4 65%, var(--bg) 100%) !important;
+    background-color: var(--bg);
+    background-image: url("./bg-light.jpg");
     background-attachment: fixed !important;
     background-repeat: no-repeat !important;
     background-size: cover !important;
+    background-position: center !important;
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .animate{animation:fadeUp .25s ease;}
@@ -204,7 +167,7 @@ html[data-theme="dark"] .dash-banner{background:linear-gradient(135deg,#1e2444,#
 .scard-jur::before{background:var(--c-jur);}
 
 /* BREADCRUMB */
-.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:0;flex-wrap:wrap;position:sticky;top:56px;z-index:90;background:rgba(244,246,251,.4);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:10px 12px 8px;margin:0 -12px;border-radius:0 0 14px 14px;border-bottom:1px solid var(--border);}
+.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:0;flex-wrap:wrap;position:sticky;top:56px;z-index:90;background:rgba(239,231,214,.45);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:10px 12px 8px;margin:0 -12px;border-radius:0 0 14px 14px;border-bottom:1px solid var(--border);}
 html[data-theme="dark"] .breadcrumb{background:rgba(13,20,32,.4);}
 .bc-btn{background:none;border:1.5px solid var(--border);border-radius:8px;padding:7px 13px;font-size:.82rem;font-weight:600;cursor:pointer;color:var(--muted);transition:all .15s;font-family:'DM Sans',sans-serif;}
 .bc-btn:hover{border-color:var(--text);color:var(--text);}
@@ -252,7 +215,11 @@ html[data-theme="dark"] .badge-recent{background:#7c2d12;color:#fdba74;}
 .edt-tab:hover{color:var(--text);}
 .edt-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
 .editor-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:5px;padding-bottom:11px;margin-bottom:11px;border-bottom:1px solid var(--border);}
-.editor-toolbar button,.editor-toolbar select{padding:6px 10px;border:1.5px solid var(--border);border-radius:7px;background:var(--bg);cursor:pointer;font-size:.78rem;font-weight:600;font-family:'DM Sans',sans-serif;transition:all .15s;}
+.editor-toolbar button,.editor-toolbar select{padding:6px 10px;border:1.5px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text);cursor:pointer;font-size:.78rem;font-weight:600;font-family:'DM Sans',sans-serif;transition:all .15s;}
+.editor-toolbar select option{background:var(--card);color:var(--text);}
+html[data-theme="dark"] .editor-toolbar button,
+html[data-theme="dark"] .editor-toolbar select{color:#f8fafc;background:#111827;}
+html[data-theme="dark"] .editor-toolbar select option{color:#f8fafc;background:#111827;}
 .editor-toolbar button:hover{background:#4f46e5;color:#fff;border-color:#4f46e5;}
 
 /* Barre d'outils de l'éditeur : reste visible en haut de l'écran pendant
@@ -271,9 +238,21 @@ html[data-theme="dark"] .badge-recent{background:#7c2d12;color:#fdba74;}
 .hl-row input[type="color"]{width:24px;height:22px;border:none;background:none;cursor:pointer;}
 .hl-hl{border:none !important;background:none !important;font-size:.76rem;padding:2px 4px !important;}
 .tc-icon{font-family:'Sora',sans-serif;font-weight:800;font-size:.85rem;color:var(--text);}
-.editor-area{min-height:340px;padding:16px;border:2px dashed var(--border);border-radius:var(--rs);outline:none;font-size:.93rem;line-height:1.75;background:#fafcff;color:#1e2937;}
-html[data-theme="dark"] .editor-area{background:#2b3242;color:#e5e9f0;}
+.editor-area{min-height:340px;padding:0 0 32px;border:2px dashed var(--border);border-radius:var(--rs);outline:none;font-size:1rem;line-height:1.9;background:transparent;color:inherit;}
+/* En édition, le contenu garde exactement le rendu du lecteur : mêmes titres, listes, encadrés et couleurs. */
+.editor-area.cours-body{max-width:740px;margin:0 auto;padding:0 0 32px;border:0;border-radius:0;background:transparent;box-shadow:none;}
+.editor-area.cours-body:focus{border:0;outline:2px solid color-mix(in srgb,var(--accent) 28%,transparent);outline-offset:8px;border-radius:10px;}
+html[data-theme="dark"] .editor-area{background:transparent;color:var(--text);}
 .editor-area:focus{border-color:var(--accent);}
+/* Les boutons de mise en forme restent lisibles en mode sombre. */
+html[data-theme="dark"] .editor-toolbar button,
+html[data-theme="dark"] .editor-toolbar select,
+html[data-theme="dark"] .editor-toolbar .tc-icon,
+html[data-theme="dark"] .editor-toolbar .hl-hl{color:#f8fafc !important;-webkit-text-fill-color:#f8fafc !important;background:#111827 !important;}
+html[data-theme="dark"] .editor-toolbar button b,
+html[data-theme="dark"] .editor-toolbar button i,
+html[data-theme="dark"] .editor-toolbar button u{color:#f8fafc !important;-webkit-text-fill-color:#f8fafc !important;}
+html[data-theme="dark"] .editor-toolbar button:hover{color:#fff !important;-webkit-text-fill-color:#fff !important;background:#4f46e5 !important;}
 
 /* Fractions insérées dans l'éditeur */
 .frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 3px;font-size:.9em;line-height:1.15;}

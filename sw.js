@@ -4,14 +4,16 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-v42';
-const CACHE_STATIC = 'bacmaster-static-v42';
+const CACHE_NAME   = 'bacmaster-v50';
+const CACHE_STATIC = 'bacmaster-static-v50';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
   './',
   './index.html',
   './style.css',
+  './bg-light.jpg',
+  './bg-dark.jpg',
   './script.js',
   './manifest.json',
   './data-init.js',
@@ -102,6 +104,7 @@ function isStaticAsset(url) {
   return url.origin === self.location.origin &&
     (localFiles.some(f => url.pathname.endsWith(f)) ||
      url.pathname.startsWith('/icons/') ||
+     /\/(bg-light|bg-dark|icon-192|icon-512)\.(jpg|png)$/.test(url.pathname) ||
      url.pathname.match(/\/(francais|maths|histoire-geo|anglais|espagnol|physique-chimie|ingenierie-dd|innovation-techno|informatique|cybersecurite|investissement|entrepreneuriat|apprentissage|juridique|data-init)\.js$/));
 }
 
