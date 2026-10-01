@@ -141,250 +141,64 @@ PREBUILT['Anglais'] = {
     ]
   }
 ,
-  'How to Describe a Picture — Décrire une image': {
-    cours: `<h2>How to describe a picture — Comment bien décrire une image</h2>
-<div class="retenir-box"><strong>Objectif pour l'oral :</strong> ne cherche pas à faire des phrases compliquées. Une bonne description = <strong>ce que tu vois + où c'est + ce que les personnes font + quelques détails + une petite interprétation</strong>.</div>
-
-<h3>1. La méthode simple en 5 étapes</h3>
-<ol>
-<li><strong>General view — Vue d'ensemble :</strong> dis ce que représente l'image et le lieu.</li>
-<li><strong>Location — Où ? :</strong> gauche, droite, premier plan, arrière-plan, centre…</li>
-<li><strong>People — Qui ? :</strong> personnes, vêtements, position, actions.</li>
-<li><strong>Details — Détails :</strong> objets, couleurs, météo, expressions, décor.</li>
-<li><strong>Interpretation — Interprétation :</strong> explique ce que tu penses que l'image montre, sans présenter ton hypothèse comme un fait.</li>
-</ol>
-<div class="formula-box"><strong>Ordre facile à retenir :</strong> <mark>General → Where → Who → What → Guess</mark><br>
-Vue générale → Où ? → Qui ? → Que font-ils ? → Que peut-on comprendre ?</div>
-
-<h3>2. Les mots indispensables : position dans l'image</h3>
-<table><tr><th>Français</th><th>Anglais</th></tr>
-<tr><td>à gauche</td><td><strong>on the left</strong></td></tr>
-<tr><td>à droite</td><td><strong>on the right</strong></td></tr>
-<tr><td>au centre</td><td><strong>in the centre / in the middle</strong></td></tr>
-<tr><td>en haut</td><td><strong>at the top</strong></td></tr>
-<tr><td>en bas</td><td><strong>at the bottom</strong></td></tr>
-<tr><td>au premier plan</td><td><strong>in the foreground</strong></td></tr>
-<tr><td>à l'arrière-plan</td><td><strong>in the background</strong></td></tr>
-<tr><td>à côté de</td><td><strong>next to / beside</strong></td></tr>
-<tr><td>derrière</td><td><strong>behind</strong></td></tr>
-<tr><td>devant</td><td><strong>in front of</strong></td></tr>
-<tr><td>entre</td><td><strong>between</strong></td></tr>
-<tr><td>près de / loin de</td><td><strong>near / far from</strong></td></tr>
-</table>
-
-<h3>3. Les personnes : vocabulaire simple</h3>
-<table><tr><th>Français</th><th>Anglais</th></tr>
-<tr><td>une personne / un homme / une femme / un enfant</td><td><strong>a person / a man / a woman / a child</strong></td></tr>
-<tr><td>être debout / assis</td><td><strong>to be standing / sitting</strong></td></tr>
-<tr><td>marcher / courir</td><td><strong>to walk / to run</strong></td></tr>
-<tr><td>parler / regarder</td><td><strong>to talk / to look at</strong></td></tr>
-<tr><td>sourire / rire</td><td><strong>to smile / to laugh</strong></td></tr>
-<tr><td>tenir quelque chose</td><td><strong>to hold something</strong></td></tr>
-<tr><td>porter un vêtement</td><td><strong>to wear</strong></td></tr>
-<tr><td>porter quelque chose dans les bras</td><td><strong>to carry</strong></td></tr>
-</table>
-
-<h3>4. Le temps à utiliser : le present continuous</h3>
-<div class="formula-box"><strong>BE + verbe en -ING</strong><br>
-He <strong>is standing</strong>. → Il est debout.<br>
-She <strong>is looking</strong> at the camera. → Elle regarde l'appareil photo.<br>
-They <strong>are talking</strong>. → Ils parlent.</div>
-<div class="attention-box"><strong>Attention :</strong> pour une image, tu peux utiliser le présent simple pour ce qui est visible (« The picture shows a city ») et le present continuous pour les actions (« A man is walking »).</div>
-
-<h3>5. Décrire sans inventer</h3>
-<p>Si tu ne sais pas exactement ce qui se passe, utilise une formule d'hypothèse. C'est mieux que d'affirmer quelque chose que tu ne peux pas voir.</p>
+'Genetically Modified Babies — Designer Babies': {
+    cours: `<h2>Genetically modified DNA: "designer babies"</h2>
 <div class="formula-box">
-<strong>I think...</strong> → Je pense que…<br>
-<strong>It seems that...</strong> → Il semble que…<br>
-<strong>It looks like...</strong> → On dirait que…<br>
-<strong>He/She might be...</strong> → Il/Elle est peut-être en train de…<br>
-<strong>Maybe...</strong> → Peut-être…<br>
-<strong>They could be...</strong> → Ils pourraient être…
-</div>
-<p><strong>Exemple :</strong> « They are at school » = je le sais grâce à l'image. « They might be students » = c'est une hypothèse.</p>
-
-<h3>6. Pour parler de l'ambiance</h3>
-<table><tr><th>Français</th><th>Anglais</th></tr>
-<tr><td>calme</td><td><strong>quiet / peaceful</strong></td></tr>
-<tr><td>animé</td><td><strong>busy / lively</strong></td></tr>
-<tr><td>joyeux</td><td><strong>happy / cheerful</strong></td></tr>
-<tr><td>triste</td><td><strong>sad</strong></td></tr>
-<tr><td>inquiétant</td><td><strong>disturbing / worrying</strong></td></tr>
-<tr><td>sombre</td><td><strong>dark</strong></td></tr>
-<tr><td>lumineux</td><td><strong>bright</strong></td></tr>
-<tr><td>bondé</td><td><strong>crowded</strong></td></tr>
-</table>
-
-<h3>7. Les phrases de secours pour ton oral</h3>
-<div class="formula-box">
-<strong>To start :</strong> « In this picture, I can see… » / « This picture shows… »<br>
-<strong>To locate :</strong> « On the left, there is… » / « In the background, we can see… »<br>
-<strong>To describe :</strong> « There is… » / « There are… » / « He is…-ing » / « They are…-ing »<br>
-<strong>To add :</strong> « Also… » / « Moreover… » / « We can also see… »<br>
-<strong>To guess :</strong> « I think… » / « Maybe… » / « It looks like… »<br>
-<strong>If you forget a word :</strong> « I don't know the exact word, but it is… » / « What I mean is… »
+<strong>Vocabulaire clé :</strong> gene editing (modification génique) · CRISPR (outil qui permet de "couper-coller" l'ADN) · a designer baby (bébé "sur mesure") · a genetic disease (une maladie génétique) · to screen an embryo (dépister un embryon) · ethics (l'éthique) · a slippery slope (une pente glissante, un engrenage dangereux)
 </div>
 
-<h3>8. Exemple de description A2</h3>
-<div class="formula-box"><strong>English :</strong><br>
-« In this picture, I can see a group of people in a city. In the foreground, there is a young woman. She is standing and looking at her phone. On the left, two people are walking. In the background, there are several buildings and cars. The picture looks quite busy. I think these people are going to work or school, but I'm not completely sure. »<br><br>
-<strong>Français :</strong><br>
-« Sur cette image, je peux voir un groupe de personnes dans une ville. Au premier plan, il y a une jeune femme. Elle est debout et regarde son téléphone. À gauche, deux personnes marchent. À l'arrière-plan, il y a plusieurs bâtiments et des voitures. L'image semble assez animée. Je pense que ces personnes vont au travail ou à l'école, mais je n'en suis pas complètement sûr. »</div>
-<div class="retenir-box"><strong>Pourquoi cette description fonctionne :</strong> elle n'utilise pas un anglais compliqué. Elle donne une vue générale, situe les éléments, décrit les actions, ajoute des détails et termine par une hypothèse. Pour un niveau A2, c'est beaucoup plus utile que d'essayer de faire des phrases très longues avec des mots qu'on ne maîtrise pas.</div>
+<h3>Le sujet en bref</h3>
+<p>Grâce à des outils comme <strong>CRISPR</strong>, il est aujourd'hui possible de modifier l'ADN d'un embryon avant sa naissance : pour éliminer une maladie génétique grave, mais aussi, potentiellement, pour choisir certains traits (yeux, taille, intelligence...). C'est ce qu'on appelle familièrement les <strong>"designer babies"</strong> — des bébés "améliorés" ou "sur mesure". Le débat oppose deux usages très différents : soigner (<em>therapy</em>) et améliorer (<em>enhancement</em>).</p>
+<div class="attention-box">Distinction essentielle pour l'éval : <mark>therapy</mark> (soigner une maladie existante) vs <mark>enhancement</mark> (améliorer un trait qui n'est pas une maladie, comme la taille ou l'intelligence). La plupart des arguments "pour" concernent la thérapie ; la plupart des arguments "contre" visent l'amélioration.</p>
 
-<h3>9. Les erreurs à éviter</h3>
+<h3>✅ Arguments POUR</h3>
+<h4>Phrases simples</h4>
 <ul>
-<li><strong>❌ « In the left »</strong> → <strong>✅ « On the left »</strong></li>
-<li><strong>❌ « He is wear a jacket »</strong> → <strong>✅ « He is wearing a jacket »</strong></li>
-<li><strong>❌ « There is two people »</strong> → <strong>✅ « There are two people »</strong></li>
-<li><strong>❌ traduire « il y a » par « it is »</strong> → <strong>✅ « there is / there are »</strong></li>
-<li><strong>❌ raconter une histoire certaine à partir d'une image</strong> → <strong>✅ « I think / maybe / it might be… »</strong></li>
-<li><strong>❌ rester bloqué parce qu'un mot manque</strong> → <strong>✅ expliquer le mot avec des mots simples</strong></li>
+<li><strong>"It can cure genetic diseases."</strong><br><em>→ Ça peut guérir des maladies génétiques.</em></li>
+<li><strong>"Parents want healthy babies."</strong><br><em>→ Les parents veulent des bébés en bonne santé.</em></li>
+<li><strong>"It can save lives."</strong><br><em>→ Ça peut sauver des vies.</em></li>
+</ul>
+<h4>Phrase plus complexe</h4>
+<p><strong>"Gene editing could eliminate hereditary diseases before birth, which would prevent a lifetime of suffering for both the child and their family."</strong></p>
+<p><em>→ La modification génique pourrait éliminer les maladies héréditaires avant la naissance, ce qui éviterait toute une vie de souffrance à l'enfant et à sa famille.</em></p>
+
+<h3>❌ Arguments CONTRE</h3>
+<h4>Phrases simples</h4>
+<ul>
+<li><strong>"It is not natural."</strong><br><em>→ Ce n'est pas naturel.</em></li>
+<li><strong>"Only rich people could afford it."</strong><br><em>→ Seules les personnes riches pourraient se le permettre.</em></li>
+<li><strong>"The baby cannot say yes or no."</strong><br><em>→ Le bébé ne peut pas dire oui ou non.</em></li>
+</ul>
+<h4>Phrase plus complexe</h4>
+<p><strong>"If only wealthy families can access this technology, it could widen the gap between rich and poor and create a form of genetic inequality."</strong></p>
+<p><em>→ Si seules les familles aisées peuvent accéder à cette technologie, cela pourrait creuser l'écart entre riches et pauvres et créer une forme d'inégalité génétique.</em></p>
+<p><strong>"Editing genes for non-medical reasons could lead to a slippery slope where society starts choosing which traits are 'acceptable'."</strong></p>
+<p><em>→ Modifier des gènes pour des raisons non médicales pourrait mener à un engrenage où la société commencerait à choisir quels traits sont "acceptables".</em></p>
+
+<h3>D'autres angles utiles à l'oral</h3>
+<ul>
+<li><strong>"Where do we draw the line?"</strong> <em>(Où fixe-t-on la limite ?)</em> — argument central : entre soigner une maladie et "améliorer" un enfant, la frontière est floue.</li>
+<li><strong>"Designer babies could reduce genetic diversity."</strong> <em>(Ça pourrait réduire la diversité génétique)</em> — si tout le monde choisit les mêmes traits "idéaux".</li>
+<li><strong>"Regulation is necessary, but banning research entirely could stop life-saving progress."</strong> <em>(Une régulation est nécessaire, mais interdire totalement la recherche pourrait stopper des progrès qui sauvent des vies)</em> — position nuancée, utile pour une conclusion équilibrée.</li>
 </ul>
 
-<h3>10. Mini-plan de 1 minute</h3>
-<div class="retenir-box"><strong>0–10 s :</strong> « This picture shows… »<br><strong>10–25 s :</strong> « In the foreground… On the left… In the background… »<br><strong>25–45 s :</strong> « The people are… / They are wearing… / There is… »<br><strong>45–60 s :</strong> « I think… / It looks like… / Maybe… »</div>`,
+<h3>Structurer une réponse à l'oral (EOC/EOI)</h3>
+<div class="retenir-box">Un bon plan pour ce sujet : 1) définir le sujet (CRISPR, therapy vs enhancement) → 2) un argument pour, avec un exemple → 3) un argument contre, avec un exemple → 4) une position nuancée (<em>"In my opinion, gene therapy should be allowed, but enhancement raises serious ethical questions"</em>) → 5) ouverture (question pour la suite du débat, ex: <em>"Where do we draw the line?"</em>).</div>`,
     exercices: [
-      {niveau:"Facile", enonce:"<p>Traduis : « À gauche, il y a deux personnes. »</p>", aide:"Pense à la structure <em>On the left, there are...</em>.", correction:"<p><strong>On the left, there are two people.</strong></p>"},
-      {niveau:"Moyen", enonce:"<p>Décris en anglais une personne qui est assise et regarde son téléphone. Utilise le present continuous.</p>", aide:"Commence par <em>He/She is...</em> puis ajoute les deux actions.", correction:"<p>Exemple : <strong>&quot;She is sitting and looking at her phone.&quot;</strong></p>"},
-      {niveau:"Difficile", enonce:"<p>Prépare une description orale de 45 à 60 secondes en suivant : vue générale → position → personnes/actions → détails → hypothèse.</p>", aide:"Utilise des phrases courtes. Si tu ne connais pas un mot, reformule au lieu de t'arrêter.", correction:"<p>Il n'y a pas une seule réponse. Vérifie surtout que ta description suit l'ordre demandé, utilise <strong>there is/there are</strong>, le <strong>present continuous</strong> pour les actions et une formule comme <strong>I think / maybe / it might be</strong> pour les hypothèses.</p>"}
+      {niveau:"Facile", enonce:"<p>Traduis en anglais : \"Ça peut guérir des maladies génétiques\" et \"Ce n'est pas naturel\".</p>", aide:"Ce sont deux phrases simples données dans le cours, une du côté POUR et une du côté CONTRE.", correction:"<p><strong>\"It can cure genetic diseases.\"</strong> (pour) et <strong>\"It is not natural.\"</strong> (contre).</p>"},
+      {niveau:"Moyen", enonce:"<p>Explique en anglais, en une phrase simple, la différence entre <em>therapy</em> et <em>enhancement</em> dans le débat sur les designer babies.</p>", aide:"Therapy = soigner une maladie déjà là. Enhancement = améliorer un trait qui n'est pas une maladie.", correction:"<p>Exemple de réponse : <strong>\"Therapy means curing a disease, but enhancement means changing a trait that is not a disease, like height or intelligence.\"</strong></p><p>(La thérapie soigne une maladie, l'amélioration change un trait qui n'est pas une maladie, comme la taille ou l'intelligence.) C'est la distinction la plus importante du débat : la plupart des arguments \"pour\" concernent la thérapie, la plupart des arguments \"contre\" concernent l'amélioration.</p>"},
+      {niveau:"Difficile", enonce:"<p>Rédige une réponse courte et structurée (4-5 phrases) donnant ton avis sur les designer babies, en utilisant au moins un argument pour, un argument contre, et un connecteur logique (however, therefore, moreover...).</p>", aide:"Reprends la structure du cours : définir → argument pour → argument contre (avec however) → position nuancée.", correction:`<p>Exemple de réponse : <strong>\"Gene editing could eliminate hereditary diseases before birth, which would prevent a lifetime of suffering for the child. However, if only wealthy families can access this technology, it could create a form of genetic inequality. Moreover, the baby cannot consent to these changes. In my opinion, gene therapy for diseases should be allowed, but enhancement raises serious ethical questions.\"</strong></p><p>(La modification génique pourrait éliminer des maladies héréditaires avant la naissance, ce qui éviterait toute une vie de souffrance à l'enfant. Cependant, si seules les familles riches peuvent y accéder, cela pourrait créer une inégalité génétique. De plus, le bébé ne peut pas consentir à ces changements. À mon avis, la thérapie génique pour les maladies devrait être autorisée, mais l'amélioration soulève de sérieuses questions éthiques.)</p><p>Cette réponse est bien notée car elle mêle un argument pour, un argument contre, un connecteur logique, et une position personnelle nuancée — exactement ce qu'attend le bac à l'oral comme à l'écrit.</p>`},
     ],
     flashcards: [
-      {q:"À gauche",a:"On the left",score:0,interval:0,ease:2.5,due:null},
-      {q:"À droite",a:"On the right",score:0,interval:0,ease:2.5,due:null},
-      {q:"Au premier plan",a:"In the foreground",score:0,interval:0,ease:2.5,due:null},
-      {q:"À l'arrière-plan",a:"In the background",score:0,interval:0,ease:2.5,due:null},
-      {q:"À côté de",a:"Next to / beside",score:0,interval:0,ease:2.5,due:null},
-      {q:"Devant / derrière",a:"In front of / behind",score:0,interval:0,ease:2.5,due:null},
-      {q:"Il y a",a:"There is (singulier) / There are (pluriel)",score:0,interval:0,ease:2.5,due:null},
-      {q:"Il est en train de marcher",a:"He is walking",score:0,interval:0,ease:2.5,due:null},
-      {q:"Porter un vêtement",a:"To wear — He is wearing a jacket.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Je pense que / peut-être",a:"I think / Maybe / It might be / It looks like...",score:0,interval:0,ease:2.5,due:null},
-      {q:"Comment commencer une description",a:"In this picture, I can see... / This picture shows...",score:0,interval:0,ease:2.5,due:null},
-      {q:"Que faire si je ne connais pas un mot ?",a:"Reformuler avec des mots simples : I don't know the exact word, but it is... / What I mean is...",score:0,interval:0,ease:2.5,due:null}
-    ]
-  },
-  'Genetic Modification — Arguments for and against': {
-    cours: `<h2>Genetic modification — Arguments for and against</h2>
-<div class="retenir-box"><strong>Objectif pour ton oral :</strong> tu n'as pas besoin de parler comme dans un article de presse. Tu dois surtout être capable de <strong>donner un argument, expliquer pourquoi, donner un exemple et répondre à un contre-argument</strong>.</div>
-
-<h3>1. Le vocabulaire minimum</h3>
-<table><tr><th>Français</th><th>Anglais</th></tr>
-<tr><td>modifier un gène</td><td><strong>to edit / modify a gene</strong></td></tr>
-<tr><td>modification génétique</td><td><strong>genetic modification / gene editing</strong></td></tr>
-<tr><td>ADN</td><td><strong>DNA</strong></td></tr>
-<tr><td>maladie génétique</td><td><strong>genetic disease</strong></td></tr>
-<tr><td>embryon</td><td><strong>embryo</strong></td></tr>
-<tr><td>trait / caractéristique</td><td><strong>trait / characteristic</strong></td></tr>
-<tr><td>soigner</td><td><strong>to treat / to prevent a disease</strong></td></tr>
-<tr><td>améliorer</td><td><strong>to enhance</strong></td></tr>
-<tr><td>risque</td><td><strong>risk</strong></td></tr>
-<tr><td>inégalité</td><td><strong>inequality</strong></td></tr>
-<tr><td>éthique</td><td><strong>ethics / ethical</strong></td></tr>
-<tr><td>consentement</td><td><strong>consent</strong></td></tr>
-</table>
-
-<h3>2. Une distinction très importante</h3>
-<div class="formula-box"><strong>Therapy / treatment</strong> = modifier un gène pour prévenir ou traiter une maladie génétique.<br><strong>Enhancement</strong> = modifier un trait qui n'est pas une maladie, par exemple certaines caractéristiques physiques.<br><br><strong>À l'oral :</strong> « There is a difference between treating a disease and improving a person. »</div>
-
-<h3>3. Arguments POUR — avec une vraie explication</h3>
-<div class="formula-box"><strong>① Prévenir certaines maladies génétiques</strong><br>
-<strong>Argument :</strong> Gene editing could help prevent some serious genetic diseases.<br>
-<strong>Pourquoi ?</strong> If a harmful genetic mutation is corrected, the risk linked to that mutation could be reduced.<br>
-<strong>Phrase simple :</strong> « It could help people avoid serious genetic diseases. »<br>
-<strong>Exemple :</strong> « For example, scientists are studying gene-editing techniques for some inherited diseases. »</div>
-
-<div class="formula-box"><strong>② Réduire la souffrance</strong><br>
-<strong>Argument :</strong> It could reduce suffering for patients and their families.<br>
-<strong>Pourquoi ?</strong> A serious genetic disease can require long-term treatment and can affect everyday life.<br>
-<strong>Phrase simple :</strong> « It could improve the quality of life of some patients. »</div>
-
-<div class="formula-box"><strong>③ Faire progresser la médecine</strong><br>
-<strong>Argument :</strong> Research on gene editing can help scientists understand diseases better.<br>
-<strong>Pourquoi ?</strong> Understanding genes can help researchers develop new treatments.<br>
-<strong>Phrase simple :</strong> « Genetic research could lead to new treatments. »</div>
-
-<div class="formula-box"><strong>④ Éviter de transmettre certaines maladies</strong><br>
-<strong>Argument :</strong> In some situations, genetic technologies could reduce the risk of passing a genetic disease to the next generation.<br>
-<strong>Pourquoi ?</strong> Some diseases are linked to mutations that can be inherited.<br>
-<strong>Phrase simple :</strong> « It could reduce the risk of passing a disease to a child. »</div>
-
-<h3>4. Arguments CONTRE — avec une vraie explication</h3>
-<div class="formula-box"><strong>① Risque d'erreurs</strong><br>
-<strong>Argument :</strong> Gene editing can have unintended effects.<br>
-<strong>Pourquoi ?</strong> Changing DNA is complex, so changing one part of the genome can have unexpected consequences.<br>
-<strong>Phrase simple :</strong> « There could be unexpected genetic effects. »</div>
-
-<div class="formula-box"><strong>② Inégalités entre riches et pauvres</strong><br>
-<strong>Argument :</strong> The technology could be expensive and not equally accessible.<br>
-<strong>Pourquoi ?</strong> If only wealthy families can afford it, access to genetic technologies could become unequal.<br>
-<strong>Phrase simple :</strong> « It could increase inequality between rich and poor people. »</div>
-
-<div class="formula-box"><strong>③ Le problème du consentement</strong><br>
-<strong>Argument :</strong> A future child cannot choose whether their genes are changed before birth.<br>
-<strong>Pourquoi ?</strong> The decision is made by other people, while the consequences may affect the child for life.
-<br><strong>Phrase simple :</strong> « The child cannot give consent before birth. »</div>
-
-<div class="formula-box"><strong>④ La frontière entre soigner et améliorer</strong><br>
-<strong>Argument :</strong> It may become difficult to decide where medical treatment stops and enhancement begins.<br>
-<strong>Pourquoi ?</strong> Preventing a serious disease is very different from choosing a non-medical characteristic.<br>
-<strong>Phrase simple :</strong> « Where do we draw the line? »</div>
-
-<div class="formula-box"><strong>⑤ Risque de pression sociale</strong><br>
-<strong>Argument :</strong> If some traits become considered "better", parents could feel pressure to choose them.<br>
-<strong>Pourquoi ?</strong> Society could start creating an idea of the "perfect" child.<br>
-<strong>Phrase simple :</strong> « Society could create pressure to have a "perfect" child. »</div>
-
-<h3>5. Comment construire un argument à l'oral</h3>
-<div class="retenir-box"><strong>ARGUMENT → BECAUSE → EXAMPLE → CONSEQUENCE</strong><br><br>
-<strong>Example :</strong> « Gene editing could reduce some genetic diseases <strong>because</strong> scientists can target specific genetic mutations. <strong>For example</strong>, researchers are studying gene-editing techniques for inherited diseases. <strong>As a result</strong>, this technology could improve the lives of some patients. »</div>
-<p>Tu n'as pas besoin de réciter cette phrase mot pour mot. Retient plutôt la logique : <strong>je dis mon idée → j'explique → je donne un exemple → je dis la conséquence.</strong></p>
-
-<h3>6. Répondre à l'argument de l'autre</h3>
-<div class="formula-box">
-<strong>« I understand this argument, but… »</strong> → Je comprends cet argument, mais…<br>
-<strong>« That's true, however… »</strong> → C'est vrai, cependant…<br>
-<strong>« I agree that…, but… »</strong> → Je suis d'accord que…, mais…<br>
-<strong>« On the other hand… »</strong> → D'un autre côté…<br>
-<strong>« The problem is that… »</strong> → Le problème, c'est que…
-</div>
-
-<h3>7. Un exemple de mini-débat A2</h3>
-<div class="formula-box"><strong>Question :</strong> « Should we modify human genes? »<br><br>
-<strong>Réponse :</strong> « I think there are advantages and disadvantages. On the one hand, gene editing could help prevent some genetic diseases. It could improve the quality of life of some patients. On the other hand, there are risks and ethical problems. For example, the technology could be expensive, so it could increase inequality. I think treating serious diseases is easier to justify than changing a person's appearance. »</div>
-<div class="retenir-box"><strong>Pourquoi c'est adapté à ton niveau :</strong> les phrases sont courtes, le vocabulaire est accessible et chaque idée est expliquée. Il vaut mieux dire 6 phrases simples et compréhensibles que 2 phrases très compliquées avec beaucoup de fautes.</div>
-
-<h3>8. Si la prof te pose une question imprévue</h3>
-<div class="formula-box">
-<strong>Pour gagner quelques secondes :</strong> « Let me think… » / « That's an interesting question. »<br>
-<strong>Pour nuancer :</strong> « It depends on the situation. » / « There are advantages and disadvantages. »<br>
-<strong>Si tu n'as pas compris :</strong> « Could you repeat the question, please? »<br>
-<strong>Si tu ne connais pas le mot :</strong> « I don't know the exact word, but I mean… »<br>
-<strong>Pour terminer :</strong> « So, in my opinion… » / « Overall, I think… »
-</div>
-
-<h3>9. Connecteurs à apprendre en priorité</h3>
-<div class="formula-box"><strong>First</strong> = d'abord · <strong>Also / Moreover</strong> = aussi / de plus · <strong>Because</strong> = parce que · <strong>For example</strong> = par exemple · <strong>However</strong> = cependant · <strong>Therefore</strong> = donc / par conséquent · <strong>On the other hand</strong> = d'un autre côté · <strong>In my opinion</strong> = à mon avis · <strong>Overall</strong> = dans l'ensemble</div>`,
-    exercices: [
-      {niveau:"Facile", enonce:"<p>Donne un argument POUR et un argument CONTRE la modification génétique en anglais, avec une phrase simple pour chacun.</p>", aide:"Tu peux utiliser : <em>It could...</em> pour le pour et <em>It could...</em> / <em>There could be...</em> pour le contre.", correction:"<p>Exemple POUR : <strong>It could help prevent some genetic diseases.</strong><br>Exemple CONTRE : <strong>It could increase inequality if it is too expensive.</strong></p>"},
-      {niveau:"Moyen", enonce:"<p>Développe cet argument en 3 phrases : « Gene editing could improve people's lives. » Ajoute <em>because</em> et <em>for example</em>.</p>", aide:"Structure : idée → pourquoi → exemple.", correction:"<p>Exemple : <strong>Gene editing could improve people's lives because it could help prevent some serious genetic diseases. For example, scientists are studying gene-editing techniques for inherited diseases.</strong></p>"},
-      {niveau:"Difficile", enonce:"<p>Réponds à la question « Should we modify human genes? » en 6 à 8 phrases. Donne au moins deux arguments POUR, deux CONTRE et termine par une opinion nuancée.</p>", aide:"Utilise : <em>On the one hand / On the other hand / However / In my opinion</em>. Ne cherche pas des phrases compliquées : explique bien chaque idée.", correction:"<p>Exemple : <strong>&quot;There are advantages and disadvantages. On the one hand, gene editing could help prevent some genetic diseases. It could also improve the quality of life of some patients. On the other hand, there could be unexpected effects. It could also increase inequality if only rich people can afford it. However, treating a serious disease is different from changing a person's appearance. In my opinion, medical uses are easier to justify than non-medical enhancement.&quot;</strong></p>"}
-    ],
-    flashcards: [
-      {q:"Genetic modification",a:"Modification génétique — changing genetic material / DNA.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Gene editing",a:"Modification de gènes — to edit or modify a gene.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Genetic disease",a:"Maladie génétique.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Therapy / treatment vs enhancement",a:"Therapy/treatment = traiter ou prévenir une maladie. Enhancement = améliorer un trait qui n'est pas une maladie.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Argument POUR : maladies",a:"Gene editing could help prevent some serious genetic diseases.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Argument POUR : médecine",a:"Genetic research could lead to new treatments and help scientists understand diseases better.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Argument CONTRE : risques",a:"Gene editing can have unintended effects because DNA is complex.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Argument CONTRE : inégalités",a:"If the technology is expensive, it could increase inequality between rich and poor people.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Argument CONTRE : consentement",a:"A future child cannot give consent before birth.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Where do we draw the line?",a:"Où fixe-t-on la limite ? — question sur la frontière entre soigner une maladie et améliorer une personne.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Pour développer un argument",a:"Argument → because → example → consequence.",score:0,interval:0,ease:2.5,due:null},
-      {q:"Pour répondre à un contre-argument",a:"I understand this argument, but... / That's true, however... / On the other hand...",score:0,interval:0,ease:2.5,due:null},
-      {q:"Si je n'ai pas compris la question",a:"Could you repeat the question, please?",score:0,interval:0,ease:2.5,due:null},
-      {q:"Si je bloque sur un mot",a:"I don't know the exact word, but I mean... — puis reformuler avec des mots simples.",score:0,interval:0,ease:2.5,due:null}
+      {q:"Gene editing",a:"Modification génique — le fait de modifier l'ADN, par exemple avec l'outil CRISPR.",score:0,interval:0,ease:2.5,due:null},
+      {q:"A designer baby",a:"Un bébé \"sur mesure\" / \"amélioré\", dont certains traits ont été choisis ou modifiés génétiquement avant la naissance.",score:0,interval:0,ease:2.5,due:null},
+      {q:"Therapy vs enhancement",a:"Therapy = soigner une maladie déjà présente. Enhancement = améliorer un trait qui n'est pas une maladie (taille, intelligence...). Distinction centrale du débat.",score:0,interval:0,ease:2.5,due:null},
+      {q:"\"It can cure genetic diseases.\"",a:"Ça peut guérir des maladies génétiques. (argument POUR, phrase simple)",score:0,interval:0,ease:2.5,due:null},
+      {q:"\"Only rich people could afford it.\"",a:"Seules les personnes riches pourraient se le permettre. (argument CONTRE, phrase simple)",score:0,interval:0,ease:2.5,due:null},
+      {q:"A slippery slope",a:"Une pente glissante / un engrenage dangereux — l'idée qu'une première étape acceptable mène à des dérives de plus en plus problématiques.",score:0,interval:0,ease:2.5,due:null},
+      {q:"\"Where do we draw the line?\"",a:"Où fixe-t-on la limite ? — question clé du débat entre soigner une maladie et \"améliorer\" un enfant.",score:0,interval:0,ease:2.5,due:null},
+      {q:"To screen an embryo",a:"Dépister un embryon (vérifier s'il porte une maladie génétique avant implantation).",score:0,interval:0,ease:2.5,due:null},
+      {q:"Formule pour une position nuancée à l'oral",a:"\"In my opinion, gene therapy should be allowed, but enhancement raises serious ethical questions.\" — à adapter pour montrer que tu vois les deux côtés du débat.",score:0,interval:0,ease:2.5,due:null},
     ]
   }
 };

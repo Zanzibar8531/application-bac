@@ -4,8 +4,8 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-current';
-const CACHE_STATIC = 'bacmaster-static-current';
+const CACHE_NAME   = 'bacmaster-pwa-v1';
+const CACHE_STATIC = 'bacmaster-static-pwa-v1';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
@@ -19,6 +19,7 @@ const STATIC_ASSETS = [
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/apple-touch-icon.png',
+  './icons/favicon-48.png',
   './icons/favicon-32.png',
   './data-init.js',
   './francais.js',

@@ -9,14 +9,6 @@ const _o = localStorage.getItem('my_db');
 if (_n) { db = JSON.parse(_n); }
 else if (_o) { db = JSON.parse(_o); }
 
-// Migration de l'ancien chapitre sur les designer babies :
-// on conserve ses scores de flashcards éventuels, mais on le renomme
-// afin que la nouvelle version PREBUILT puisse remplacer son contenu.
-if (db['Anglais'] && db['Anglais']['Genetically Modified Babies — Designer Babies'] && !db['Anglais']['Genetic Modification — Arguments for and against']) {
-    db['Anglais']['Genetic Modification — Arguments for and against'] = db['Anglais']['Genetically Modified Babies — Designer Babies'];
-    delete db['Anglais']['Genetically Modified Babies — Designer Babies'];
-}
-
 // Injecter les cours pré-chargés.
 // RÈGLE : le cours vient TOUJOURS de PREBUILT (source de vérité).
 // On préserve uniquement les flashcards de l'élève (scores SRS, ajouts perso).
