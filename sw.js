@@ -4,8 +4,8 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-pwa-v1-root-icons';
-const CACHE_STATIC = 'bacmaster-static-pwa-v1-root-icons';
+const CACHE_NAME   = 'bacmaster-pwa-v1';
+const CACHE_STATIC = 'bacmaster-static-pwa-v1';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
@@ -16,11 +16,11 @@ const STATIC_ASSETS = [
   './bg-dark.jpg',
   './script.js',
   './manifest.json',
-  './icon-192.png',
-  './icon-512.png',
-  './apple-touch-icon.png',
-  './favicon-48.png',
-  './favicon-32.png',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
+  './icons/apple-touch-icon.png',
+  './icons/favicon-48.png',
+  './icons/favicon-32.png',
   './data-init.js',
   './francais.js',
   './maths.js',
@@ -108,6 +108,7 @@ function isStaticAsset(url) {
   const localFiles = ['/index.html', '/style.css', '/script.js', '/manifest.json', '/'];
   return url.origin === self.location.origin &&
     (localFiles.some(f => url.pathname.endsWith(f)) ||
+     url.pathname.startsWith('/icons/') ||
      /\/(bg-light|bg-dark|icon-192|icon-512)\.(jpg|png)$/.test(url.pathname) ||
      url.pathname.match(/\/(francais|maths|histoire-geo|anglais|espagnol|physique-chimie|ingenierie-dd|innovation-techno|informatique|cybersecurite|investissement|entrepreneuriat|apprentissage|juridique|data-init)\.js$/));
 }
