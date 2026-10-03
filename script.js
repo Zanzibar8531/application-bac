@@ -555,12 +555,14 @@ function updateTopbarContext() {
     if (actions) {
         const active = !!curChapter && curTab === 'cours';
         actions.innerHTML = `
-          <button class="tb-course-action ${active?'':'disabled'}" ${active ? 'onclick="courseSelfTest(true)"' : 'disabled'} title="${active?'Me tester sur ce cours':'Ouvre un cours pour utiliser cette fonction'}">🧠 Me tester</button>
-          <button class="tb-course-action ${active?'':'disabled'}" ${active ? 'onclick="window.print()"' : 'disabled'} title="${active?'Imprimer le cours':'Ouvre un cours pour utiliser cette fonction'}">🖨️ Imprimer</button>
+          <button class="tb-course-action ${active?'':'disabled'}" ${active ? 'onclick="courseSelfTest(true)"' : 'disabled'} title="${active?'Me tester sur ce cours':'Ouvre un cours pour utiliser cette fonction'}"><span class="tb-action-icon">🧠</span><span class="tb-action-label">Me tester</span></button>
+          <button class="tb-course-action ${active?'':'disabled'}" ${active ? 'onclick="window.print()"' : 'disabled'} title="${active?'Imprimer le cours':'Ouvre un cours pour utiliser cette fonction'}"><span class="tb-action-icon">🖨️</span><span class="tb-action-label">Imprimer</span></button>
         `;
     }
 
     updateMobileCourseToc();
+    // Nettoyage des anciens éléments de progression de lecture.
+    document.querySelectorAll('.course-studybar, .mobile-course-progress, #course-progress-label, #course-progress-fill').forEach(el => el.remove());
 }
 
 function updateMobileCourseToc() {
@@ -600,7 +602,7 @@ function render(html) {
     if(hasUnsavedEdits && $('editor')){ clearTimeout(autosaveTimer); autosaveCoursNow(); }
     M().innerHTML = html;
     updateTopbarContext();
-    document.body.classList.remove('course-page');
+    document.body.classList.remove('course-page', 'home-page');
     M().classList.add('animate');
     setTimeout(()=>{ M().classList.remove('animate'); typesetMath(M()); }, 50);
     window.scrollTo(0,0);
@@ -675,6 +677,7 @@ function goHome() {
     const gs = globalStats();
     const urgentEvals = upcomingEvals(7);
     render(`
+        <div class="home-page">
         <div class="page-head animate">
             <h1>Mes Matières</h1>
             <p>Sélectionne une matière pour commencer à réviser</p>
@@ -734,7 +737,9 @@ function goHome() {
             <span class="sync-status" id="sync-status-home"></span>
         </div>
         <button class="update-check-btn" onclick="checkForUpdate()">🔄 Mettre à jour le site</button>
+        </div>
     `);
+    document.body.classList.add('home-page');
     updateSyncStatusBadge();
     updateNotifBtn();
 }
@@ -929,22 +934,8 @@ function setupCourseReader(box) {
         toc.innerHTML = `<div class="course-toc-title">Cours</div><p class="course-toc-empty">Ce cours est présenté en une seule partie.</p>`;
     }
 
-    const fill=box.querySelector('#course-progress-fill');
-    const label=box.querySelector('#course-progress-label');
-    const updateProgress=()=>{
-        const rect=body.getBoundingClientRect();
-        const viewport=window.innerHeight;
-        const total=Math.max(1,body.scrollHeight-viewport*.45);
-        const seen=Math.min(total,Math.max(0,viewport*.35-rect.top));
-        const pct=Math.round((seen/total)*100);
-        if(fill) fill.style.width=pct+'%';
-        if(label) label.textContent=pct+' %';
-        const mobileLabel = document.getElementById('mobile-course-progress');
-        if(mobileLabel) mobileLabel.textContent = pct+' %';
-    };
-    box._bmCourseProgressHandler=updateProgress;
-    window.addEventListener('scroll',updateProgress,{passive:true});
-    updateProgress();
+    // Le pourcentage de lecture a été retiré : le sommaire suffit pour se repérer
+    // et reste visible à gauche sur PC.
     if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([body]).catch(()=>{});
 }
 
@@ -1031,26 +1022,19 @@ function renderTabContent() {
         save();
     }
     if(curTab==='cours') {
+        box.classList.add('course-host');
         box.innerHTML = `
             <div class="course-layout">
                 <aside class="course-side-column">
-                    <div class="course-studybar" aria-label="Parcours d'apprentissage du cours">
-                        <div class="course-studybar-top">
-                            <div>
-                                <div class="course-kicker">📖 Parcours d'apprentissage</div>
-                                <div class="course-study-title">Comprendre → appliquer → mémoriser</div>
-                            </div>
-                            <div class="course-progress-label" id="course-progress-label">0 %</div>
-                        </div>
-                        <div class="course-progress"><span id="course-progress-fill"></span></div>
-                    </div>
                     <div class="course-toc" id="course-toc" aria-label="Sommaire du cours"></div>
                 </aside>
                 <div class="course-main-column">
-                    <div class="cours-body" id="printable-cours">${data.cours||'<p style="color:var(--muted)">Aucun cours. Clique sur ✏️ Éditer pour en ajouter un.</p>'}</div>
-                    <div class="course-end-check" id="course-end-check">
+                    <div class="ws-box course-content-card">
+                        <div class="cours-body" id="printable-cours">${data.cours||'<p style="color:var(--muted)">Aucun cours. Clique sur ✏️ Éditer pour en ajouter un.</p>'}</div>
+                        <div class="course-end-check" id="course-end-check">
                         <div class="course-end-icon">✓</div>
                         <div><strong>Cours terminé ? Ne t'arrête pas à la lecture.</strong><p>Ferme le cours, essaie de reformuler l'idée principale avec tes propres mots, puis passe aux exercices ou aux flashcards.</p></div>
+                        </div>
                     </div>
                 </div>
             </div>`;

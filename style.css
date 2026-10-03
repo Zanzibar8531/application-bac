@@ -29,7 +29,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
 /* LAYOUT */
 .shell{display:flex;flex-direction:column;min-height:100vh;}
-.topbar{position:sticky;top:0;z-index:100;height:60px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;padding:0 18px;box-shadow:0 6px 20px rgba(0,0,0,.14);border-radius:0 0 22px 22px;position:sticky;}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;padding:0 18px;box-shadow:0 6px 20px rgba(0,0,0,.14);border-radius:0 0 22px 22px;}
+.shell{padding-top:60px;}
 html[data-theme="dark"] .topbar{box-shadow:0 6px 24px rgba(0,0,0,.5);}
 .burger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:7px;border-radius:8px;transition:background .15s;flex-shrink:0;}
 .burger:hover{background:var(--bg);}
@@ -1913,4 +1914,327 @@ html[data-theme="dark"] .cours-body .analyse-lineaire-box strong{
 @media(max-width:800px){
   .modal-backdrop{padding:12px;}
   .selftest-modal-v2{width:min(560px,100%);max-height:calc(100vh - 24px);}
+}
+
+
+/* V2 étape 12 — navigation vraiment persistante + sommaire hors de la carte blanche */
+html, body { overflow-x: hidden; }
+/* La barre principale est fixe : elle reste visible même dans l'app PWA
+   standalone, où sticky peut se comporter différemment selon le moteur. */
+.topbar { position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; z-index: 1000 !important; }
+.shell { padding-top: 60px !important; }
+body.course-page .ws-header {
+  position: sticky !important;
+  top: 60px !important;
+  z-index: 900 !important;
+  background: var(--bg) !important;
+  padding: 8px 0 6px !important;
+  margin-bottom: 0 !important;
+  box-shadow: 0 5px 12px -10px rgba(0,0,0,.45);
+}
+body.course-page .ws-header .tab-bar { position: static !important; }
+
+/* Le conteneur du lecteur devient transparent : le sommaire est réellement
+   à côté de la carte blanche du cours, au lieu d'être enfermé dedans. */
+body.course-page .ws-box.course-host {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+}
+body.course-page .course-content-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  box-shadow: var(--sh);
+  padding: 20px;
+  min-width: 0;
+}
+@media (max-width:800px){
+  body.course-page .course-content-card { padding: 15px; }
+}
+
+/* Dans l'application installée, l'accueil avait visuellement plus gros que
+   dans Firefox. On dézoome uniquement le contenu de l'accueil, pas les cours. */
+@media (display-mode: standalone){
+  body.home-page #main { zoom: .88; }
+}
+@media (display-mode: standalone) and (max-width:600px){
+  body.home-page #main { zoom: .90; }
+}
+
+/* Accueil : classe dédiée pour pouvoir le dézoomer sans rétrécir les cours. */
+body.home-page #main { max-width: 1180px; }
+body.home-page .page-head { margin-bottom: 16px; }
+body.home-page .page-head h1 { font-size: 1.45rem; }
+body.home-page .page-head p { font-size: .82rem; }
+@media (max-width:600px){
+  body.home-page #main { padding: 10px 10px 60px; }
+  body.home-page .page-head { margin-bottom: 12px; }
+  body.home-page .page-head h1 { font-size: 1.15rem; }
+  body.home-page .page-head p { font-size: .76rem; }
+  body.home-page .dash-banner { gap: 12px; padding: 12px 14px; margin-bottom: 12px; }
+  body.home-page .dash-stat-val { font-size: 1.25rem; }
+  body.home-page .dash-stat-label { font-size: .64rem; }
+  body.home-page .dash-week-bar { width: 8px; height: 22px; }
+  body.home-page .stats-link-btn { padding: 9px; font-size: .76rem; }
+  body.home-page .sync-banner,
+  body.home-page .update-check-btn { font-size: .78rem; padding: 10px 12px; }
+  body.home-page .scard { padding: 14px 13px; }
+  body.home-page .scard-name { font-size: .9rem; }
+  body.home-page .scard-icon { font-size: 1.45rem; }
+  body.home-page .scard-meta { font-size: .68rem; }
+}
+
+@media (max-width:800px){
+  body.course-page .tb-course-actions { flex: 0 0 auto; gap: 4px; }
+  body.course-page .tb-course-action { width: 42px; min-width: 42px; height: 40px; padding: 6px !important; display:flex; align-items:center; justify-content:center; }
+  body.course-page .tb-course-action .tb-action-label { display:none; }
+  body.course-page .tb-course-action .tb-action-icon { font-size: 1.05rem; line-height:1; }
+}
+
+
+/* V2 étape 14 — sommaire réellement fixe à gauche + suppression définitive du pourcentage */
+@media (min-width:1101px){
+  /* Le sommaire est indépendant du défilement de la page. */
+  body.course-page .course-side-column{
+    position:fixed !important;
+    left:18px !important;
+    top:122px !important;
+    width:190px !important;
+    height:auto !important;
+    max-height:calc(100vh - 140px) !important;
+    z-index:50 !important;
+    align-self:auto !important;
+  }
+  body.course-page .course-toc{
+    position:static !important;
+    width:100% !important;
+    max-height:calc(100vh - 140px) !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+  }
+  /* Le cours commence à côté du sommaire, sans réserver une seconde colonne
+     qui se déplace avec lui. */
+  body.course-page .course-layout{
+    display:block !important;
+    width:100% !important;
+    max-width:none !important;
+    margin:0 !important;
+    padding-left:232px !important;
+    padding-right:18px !important;
+  }
+  body.course-page .course-main-column{
+    width:min(900px, calc(100vw - 250px)) !important;
+    margin:0 auto !important;
+  }
+}
+
+/* Sur les écrans intermédiaires, le sommaire reste dans le flux pour éviter
+   qu'il ne recouvre le cours. */
+@media (min-width:801px) and (max-width:1100px){
+  body.course-page .course-layout{
+    grid-template-columns:190px minmax(0,740px) !important;
+    gap:18px !important;
+    justify-content:start !important;
+  }
+  body.course-page .course-side-column{
+    position:sticky !important;
+    top:122px !important;
+    align-self:start !important;
+  }
+}
+
+/* Le pourcentage de lecture n'existe plus visuellement, y compris si une
+   ancienne version du HTML est encore présente dans le cache. */
+.course-studybar,
+.course-study-title,
+.course-progress,
+.course-progress-label,
+#course-progress-label,
+#course-progress-fill,
+.mobile-course-progress,
+[data-course-progress],
+[class*="course-progress"]{
+  display:none !important;
+}
+
+/* Accueil : la classe home-page est portée par #main, pas par body.
+   Cette règle s'applique donc réellement dans la PWA standalone. */
+@media (display-mode: standalone){
+  #main > .home-page{
+    zoom:.88;
+  }
+}
+@media (display-mode: standalone) and (max-width:600px){
+  #main > .home-page{
+    zoom:.90;
+  }
+}
+
+/* V2 étape 16 — élargissement réel de la zone de lecture.
+   Le .cours-body avait encore un max-width:740px qui annulait
+   l'élargissement du bloc extérieur. */
+@media (min-width:1101px){
+  body.course-page #main{
+    max-width:1500px !important;
+  }
+  body.course-page .course-main-column{
+    width:min(980px, calc(100vw - 270px)) !important;
+  }
+  body.course-page .course-content-card{
+    width:100% !important;
+    box-sizing:border-box !important;
+  }
+  body.course-page .course-content-card .cours-body{
+    max-width:none !important;
+    width:100% !important;
+    box-sizing:border-box !important;
+  }
+}
+
+/* V2 étape 17 — largeur de lecture alignée sur la barre des onglets + sommaire plus large */
+@media (min-width:1101px){
+  body.course-page .ws-header,
+  body.course-page > #main > .ws-box#ws-box{
+    width:min(1020px, calc(100vw - 320px)) !important;
+    margin-left:290px !important;
+    margin-right:18px !important;
+    box-sizing:border-box !important;
+  }
+  body.course-page .course-side-column{
+    left:18px !important;
+    width:250px !important;
+  }
+  body.course-page .course-layout{
+    padding-left:0 !important;
+    padding-right:0 !important;
+  }
+  body.course-page .course-main-column{
+    width:min(1020px, calc(100vw - 320px)) !important;
+    max-width:none !important;
+    margin:0 !important;
+  }
+  body.course-page .course-content-card{
+    width:100% !important;
+  }
+  body.course-page .course-content-card .cours-body{
+    width:100% !important;
+    max-width:none !important;
+  }
+}
+
+/* V2 étape 19 — recentrer la zone du cours dans l'espace disponible */
+@media (min-width:1101px){
+  body.course-page .course-main-column{
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+}
+
+/* V2 étape 20 — centrer le cours dans l'espace restant + texte légèrement plus grand */
+@media (min-width:1101px){
+  body.course-page .course-layout{
+    padding-left:270px !important;
+    padding-right:18px !important;
+    box-sizing:border-box !important;
+  }
+  body.course-page .course-main-column{
+    width:min(1020px, calc(100vw - 320px)) !important;
+    max-width:none !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+  body.course-page .course-content-card .cours-body{
+    font-size:1.03rem !important;
+  }
+}
+
+/* V2 étape 21 — lecture plus confortable + sommaire un peu plus présent */
+@media (min-width:1101px){
+  body.course-page .course-side-column{
+    width:280px !important;
+  }
+  body.course-page .course-toc-link{
+    font-size:.75rem !important;
+    line-height:1.4 !important;
+    padding:8px 8px !important;
+  }
+  body.course-page .course-toc-title{
+    font-size:.72rem !important;
+    padding:3px 7px 8px !important;
+  }
+  body.course-page .course-content-card .cours-body{
+    font-size:1.07rem !important;
+    line-height:1.72 !important;
+  }
+}
+
+
+/* V2 étape 22 — onglets alignés sur la carte du cours + texte plus lisible
+   (cours et sommaire). Les deux blocs (barre d'onglets et carte) partagent
+   exactement la même largeur et le même point de départ. */
+@media (min-width:1101px){
+  body.course-page .ws-header,
+  body.course-page #main > .ws-box#ws-box{
+    --cw: min(1020px, calc(100% - 328px));
+    width: var(--cw) !important;
+    max-width: none !important;
+    margin-left: calc(310px + (100% - 328px - var(--cw)) / 2) !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+  body.course-page .course-layout{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  body.course-page .course-main-column{
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+  }
+  body.course-page .course-side-column{
+    width: 270px !important;
+  }
+  body.course-page .course-content-card{
+    padding: 26px 30px !important;
+  }
+
+  /* Texte du cours : plus gros, partout (paragraphes, encadrés, listes, citation) */
+  body.course-page .cours-body{ font-size: 1rem !important; line-height: 1.8 !important; }
+  body.course-page .cours-body p{ font-size: 1rem !important; line-height: 1.8 !important; }
+  body.course-page .cours-body li{ font-size: .97rem !important; line-height: 1.7 !important; }
+  body.course-page .cours-body blockquote,
+  body.course-page .cours-body .quote-box{ font-size: 1rem !important; line-height: 1.85 !important; }
+  body.course-page .cours-body .formula-box{ font-size: .97rem !important; line-height: 1.8 !important; }
+  body.course-page .cours-body .retenir-box{ font-size: .97rem !important; line-height: 1.75 !important; }
+  body.course-page .cours-body .texte-annote{ font-size: .99rem !important; line-height: 2 !important; }
+  body.course-page .cours-body .analyse-lineaire-box{ font-size: .99rem !important; line-height: 1.85 !important; }
+  body.course-page .cours-body .fig-legende-item{ font-size: .85rem !important; padding: 4px 12px !important; }
+  body.course-page .cours-body h2{ font-size: 1.45rem !important; }
+  body.course-page .cours-body h3{ font-size: 1.08rem !important; }
+
+  /* Sommaire (colonne de gauche) : plus gros et plus lisible */
+  body.course-page .course-toc{ padding: 14px 12px !important; }
+  body.course-page .course-toc-title{ font-size: .8rem !important; padding: 3px 8px 10px !important; }
+  body.course-page .course-toc-link{ font-size: .92rem !important; line-height: 1.4 !important; padding: 9px 10px !important; font-weight: 600 !important; }
+}
+
+
+/* V2 étape 23 — moins d'espace perdu : sommaire plus large/gros, cours plus large */
+@media (min-width:1101px){
+  body.course-page{ --toc: clamp(250px, 17vw, 340px); --cw-max: 1300px; }
+  body.course-page #main{ max-width:none !important; }
+  body.course-page .ws-header,
+  body.course-page #main > .ws-box#ws-box{
+    --cw: min(var(--cw-max), calc(100% - var(--toc) - 22px - 38px));
+    width: var(--cw) !important;
+    margin-left: calc(var(--toc) + 22px + (100% - var(--toc) - 22px - var(--cw)) / 2) !important;
+    margin-right: 0 !important;
+  }
+  body.course-page .course-side-column{ width: var(--toc) !important; left:18px !important; }
+  body.course-page .course-toc{ padding: 16px 14px !important; }
+  body.course-page .course-toc-title{ font-size: .86rem !important; padding: 3px 8px 12px !important; }
+  body.course-page .course-toc-link{ font-size: 1.04rem !important; line-height: 1.4 !important; padding: 11px 12px !important; }
 }
