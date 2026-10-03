@@ -2238,3 +2238,21 @@ body.home-page .page-head p { font-size: .82rem; }
   body.course-page .course-toc-title{ font-size: .86rem !important; padding: 3px 8px 12px !important; }
   body.course-page .course-toc-link{ font-size: 1.04rem !important; line-height: 1.4 !important; padding: 11px 12px !important; }
 }
+
+
+/* V2 étape 24 — téléphone : bouton clair/sombre visible + défilement à 1 doigt */
+@media (max-width:600px){
+  /* Sur une page de cours, la barre du haut est pleine : on masque le nom
+     "BacMaster" (le menu ☰ reste) pour que le bouton 🌙 reste visible. */
+  body.course-page .tb-brand{ display:none !important; }
+  .topbar{ gap:8px !important; }
+}
+/* body ne doit pas devenir un conteneur de défilement à part (html + body en
+   overflow-x:hidden le faisaient) : c'est ce qui bloquait le défilement 1 doigt. */
+html{ overflow-x:hidden; }
+body{ overflow-x:clip !important; overflow-y:visible !important; }
+@media (display-mode: standalone){
+  body{ overscroll-behavior:auto !important; }
+  html{ overscroll-behavior-y:none; }
+}
+#main{ overscroll-behavior-y:auto !important; }
