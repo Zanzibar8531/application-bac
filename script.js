@@ -525,12 +525,82 @@ function closeSidebar() {
 }
 
 // ── PAGES ─────────────────────────────────────────────────────
+function updateTopbarContext() {
+    const nav = document.getElementById('tb-contextnav');
+    const actions = document.getElementById('tb-course-actions');
+    if (!nav) return;
+
+    const cfg = CFG.find(c => c.name === curSubject) || {icon:'📚'};
+    let navHtml = '';
+
+    // Le bouton Accueil reste disponible partout sauf sur l'accueil lui-même.
+    if (curSubject) {
+        navHtml += `<button class="tb-home-btn" onclick="goHome()" title="Accueil">🏠 Accueil</button>`;
+        navHtml += `<button onclick="goSubject('${esc(curSubject)}')" title="${esc(curSubject)}">${cfg.icon} ${esc(curSubject)}</button>`;
+    }
+    if (curChapter) {
+        navHtml += `<button onclick="goModeChapters(curTab==='voc'||curTab==='add'?'voc':'cours')" title="Retour aux chapitres">← Chapitres</button>`;
+        navHtml += `<span class="tb-chapter-title" title="${esc(curChapter)}">${esc(curChapter)}</span>`;
+        navHtml += `<button class="tb-rename" onclick="renameChapter('${esc(curChapter)}', renderChapter)" title="Renommer le chapitre">✏️</button>`;
+    } else if (curSubject) {
+        const modeLabels = {cours:'📖 Cours', voc:'📚 Vocabulaire', edit:'✏️ Éditer', add:'➕ Ajouter'};
+        if (modeLabels[curTab]) navHtml += `<span class="tb-mode-title">${modeLabels[curTab]}</span>`;
+    }
+
+    nav.innerHTML = navHtml;
+    nav.classList.add('show');
+
+    // Les deux actions gardent une place fixe dans la barre supérieure.
+    // Elles sont actives uniquement lorsqu'un cours est réellement ouvert.
+    if (actions) {
+        const active = !!curChapter && curTab === 'cours';
+        actions.innerHTML = `
+          <button class="tb-course-action ${active?'':'disabled'}" ${active ? 'onclick="courseSelfTest(true)"' : 'disabled'} title="${active?'Me tester sur ce cours':'Ouvre un cours pour utiliser cette fonction'}">🧠 Me tester</button>
+          <button class="tb-course-action ${active?'':'disabled'}" ${active ? 'onclick="window.print()"' : 'disabled'} title="${active?'Imprimer le cours':'Ouvre un cours pour utiliser cette fonction'}">🖨️ Imprimer</button>
+        `;
+    }
+
+    updateMobileCourseToc();
+}
+
+function updateMobileCourseToc() {
+    const tools = document.getElementById('course-mobile-tools');
+    const toc = document.getElementById('course-mobile-toc');
+    if (!tools || !toc) return;
+    if (!curChapter || curTab !== 'cours') {
+        tools.style.display = 'none';
+        toc.innerHTML = '';
+        return;
+    }
+    const body = document.getElementById('printable-cours');
+    if (!body) return;
+    const headings = [...body.querySelectorAll('h3')];
+    const links = headings.map((h,i)=>{
+        const id='bm-course-mobile-section-'+i;
+        h.id = h.id || ('bm-course-section-'+i);
+        return `<button class="sb-link course-mobile-toc-link" onclick="document.getElementById('${h.id}')?.scrollIntoView({behavior:'smooth',block:'start'});closeSidebar();">${i+1}. ${esc(h.textContent)}</button>`;
+    }).join('');
+    toc.innerHTML = links || `<div class="course-mobile-empty">Ce cours est présenté en une seule partie.</div>`;
+    const subtitle=document.getElementById('course-mobile-subtitle');
+    if(subtitle) subtitle.textContent = curChapter;
+
+    // Place la navigation immédiatement sous la matière active.
+    const subjectBtn=[...document.querySelectorAll('.sb-nav .sb-link')].find(b=>b.textContent.includes(curSubject));
+    if(subjectBtn){
+        const parent=subjectBtn.parentElement;
+        parent.insertBefore(tools, subjectBtn.nextSibling);
+    }
+    tools.style.display='block';
+}
+
 function render(html) {
     // Filet de sécurité : si on quitte l'éditeur de cours avec une modif pas
     // encore autosauvegardée (moins de 1,5s après la dernière frappe), on la
     // force à s'enregistrer immédiatement avant de changer de page.
     if(hasUnsavedEdits && $('editor')){ clearTimeout(autosaveTimer); autosaveCoursNow(); }
     M().innerHTML = html;
+    updateTopbarContext();
+    document.body.classList.remove('course-page');
     M().classList.add('animate');
     setTimeout(()=>{ M().classList.remove('animate'); typesetMath(M()); }, 50);
     window.scrollTo(0,0);
@@ -599,6 +669,8 @@ function startDailyReview() {
 
 function goHome() {
     clearInterval(qTimer);
+    curChapter = '';
+    curSubject = '';
     curTrackedPage = null;
     const gs = globalStats();
     const urgentEvals = upcomingEvals(7);
@@ -670,16 +742,12 @@ function goHome() {
 function goSubject(name) {
     clearInterval(qTimer);
     curTrackedPage = null;
+    curChapter = '';
     curSubject = name;
     if(!db[name]) db[name] = {};
     const cfg = CFG.find(c => c.name === name);
     const st  = subStats(name);
     render(`
-        <div class="breadcrumb">
-            <button class="bc-btn" onclick="goHome()">🏠 Accueil</button>
-            <span class="bc-sep">›</span>
-            <span class="bc-cur">${cfg.icon} ${name}</span>
-        </div>
         <div class="page-head">
             <h1>${cfg.icon} ${name}</h1>
             <p>${st.total} cartes · ${st.due} à réviser</p>
@@ -741,17 +809,11 @@ function mostRecentlyReadChapter(subj) {
 
 function goModeChapters(mode) {
     curTrackedPage = null;
+    curChapter = '';
     const cfg = CFG.find(c => c.name === curSubject);
     const chapters = Object.keys(db[curSubject]);
     const modeLabel = {cours:'📖 Cours', voc:'📚 Vocabulaire', edit:'✏️ Éditer', add:'➕ Ajouter'}[mode] || mode;
     render(`
-        <div class="breadcrumb">
-            <button class="bc-btn" onclick="goHome()">🏠</button>
-            <span class="bc-sep">›</span>
-            <button class="bc-btn" onclick="goSubject('${esc(curSubject)}')">${cfg.icon} ${curSubject}</button>
-            <span class="bc-sep">›</span>
-            <span class="bc-cur">${modeLabel}</span>
-        </div>
         <div class="page-head"><h1 style="font-size:1.2rem">Choisis un chapitre</h1></div>
         <div class="chapters-grid">
             ${(()=>{ const mostRecent = mostRecentlyReadChapter(curSubject); return chapters.map(ch => {
@@ -799,14 +861,6 @@ function renderChapterMenu() {
         { id:'flash',   icon:'🎴', label:'Flashcards',  sub:`${due} à réviser` },
     ];
     render(`
-        <div class="breadcrumb">
-            <button class="bc-btn" onclick="goHome()">🏠</button>
-            <span class="bc-sep">›</span>
-            <button class="bc-btn" onclick="goSubject('${esc(curSubject)}')">${cfg.icon} ${curSubject}</button>
-            <span class="bc-sep">›</span>
-            <span class="bc-cur">${esc(curChapter)}</span>
-            <button class="bc-rename-btn" onclick="renameChapter('${esc(curChapter)}', renderChapterMenu)" title="Renommer ce chapitre">✏️</button>
-        </div>
         <div class="page-head">
             <h1 style="font-size:1.25rem">${curChapter}</h1>
         </div>
@@ -841,16 +895,6 @@ function renderChapter() {
         {id:'add',    label:'➕ Ajouter'},
     ];
     render(`
-        <div class="breadcrumb">
-            <button class="bc-btn" onclick="goHome()">🏠</button>
-            <span class="bc-sep">›</span>
-            <button class="bc-btn" onclick="goSubject('${esc(curSubject)}')">${curSubject}</button>
-            <span class="bc-sep">›</span>
-            <button class="bc-btn" onclick="goModeChapters(curTab==='voc'||curTab==='add'?'voc':'cours')">← Chapitres</button>
-            <span class="bc-sep">›</span>
-            <span class="bc-cur">${esc(curChapter)}</span>
-            <button class="bc-rename-btn" onclick="renameChapter('${esc(curChapter)}', renderChapter)" title="Renommer ce chapitre">✏️</button>
-        </div>
         <div class="ws-header">
             <div class="tab-bar">
                 ${tabs.map(t=>`<button class="tab-btn ${curTab===t.id?'active':''}" onclick="switchTab('${t.id}')">${t.label}</button>`).join('')}
@@ -858,10 +902,120 @@ function renderChapter() {
         </div>
         <div class="ws-box" id="ws-box"></div>
     `);
+    document.body.classList.add('course-page');
+    document.body.classList.toggle('editing-course', curTab === 'edit');
     renderTabContent();
 }
 
 function switchTab(t) { curTab=t; vocEditingIndex=null; renderChapter(); }
+
+
+function setupCourseReader(box) {
+    const body = box.querySelector('#printable-cours');
+    const toc = box.querySelector('#course-toc');
+    if(!body || !toc) return;
+    const headings = [...body.querySelectorAll('h3')];
+    if(headings.length){
+        toc.innerHTML = `<div class="course-toc-title">Sommaire</div>` + headings.map((h,i)=>{
+            const id = 'bm-course-section-' + i;
+            h.id = id;
+            return `<button class="course-toc-link" data-target="${id}">${i+1}. ${esc(h.textContent)}</button>`;
+        }).join('');
+        toc.querySelectorAll('.course-toc-link').forEach(btn=>btn.addEventListener('click',()=>{
+            const target=$(btn.dataset.target);
+            if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+        }));
+    } else {
+        toc.innerHTML = `<div class="course-toc-title">Cours</div><p class="course-toc-empty">Ce cours est présenté en une seule partie.</p>`;
+    }
+
+    const fill=box.querySelector('#course-progress-fill');
+    const label=box.querySelector('#course-progress-label');
+    const updateProgress=()=>{
+        const rect=body.getBoundingClientRect();
+        const viewport=window.innerHeight;
+        const total=Math.max(1,body.scrollHeight-viewport*.45);
+        const seen=Math.min(total,Math.max(0,viewport*.35-rect.top));
+        const pct=Math.round((seen/total)*100);
+        if(fill) fill.style.width=pct+'%';
+        if(label) label.textContent=pct+' %';
+        const mobileLabel = document.getElementById('mobile-course-progress');
+        if(mobileLabel) mobileLabel.textContent = pct+' %';
+    };
+    box._bmCourseProgressHandler=updateProgress;
+    window.addEventListener('scroll',updateProgress,{passive:true});
+    updateProgress();
+    if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([body]).catch(()=>{});
+}
+
+let selfTestState = { questions: [], index: 0, revealed: false };
+let selfTestReturnScrollY = 0;
+
+function returnToCourseFromSelfTest(){
+    curTab = 'cours';
+    renderChapter();
+    requestAnimationFrame(()=>{
+        requestAnimationFrame(()=>window.scrollTo({top:selfTestReturnScrollY, behavior:'instant'}));
+    });
+}
+
+function buildSelfTestQuestions(){
+    const data=db[curSubject] && db[curSubject][curChapter];
+    if(!data) return [];
+    const questions=[];
+    (data.flashcards||[]).forEach(c=>{
+        if(c && c.q) questions.push({q:String(c.q), a:String(c.a||'')});
+    });
+    (data.exercices||[]).forEach(ex=>{
+        if(ex && ex.enonce) questions.push({
+            q:String(ex.enonce).replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim(),
+            a:String(ex.correction||'').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim()
+        });
+    });
+    if(!questions.length) questions.push({
+        q:'Reformule l’idée principale de ce chapitre sans regarder le cours.',
+        a:'Il n’y a pas encore de correction automatique : compare ta reformulation avec le cours et vérifie que tu peux expliquer l’idée avec tes propres mots.'
+    });
+    // Mélange léger : l'ordre n'est pas toujours le même, sans perdre la variété.
+    return questions.sort(()=>Math.random()-.5);
+}
+
+function courseSelfTest(reset=true){
+    selfTestReturnScrollY = window.scrollY || window.pageYOffset || 0;
+    if(reset || !selfTestState.questions.length || selfTestState.index>=selfTestState.questions.length){
+        selfTestState={questions:buildSelfTestQuestions(),index:0,revealed:false};
+    }
+    renderSelfTestModal();
+}
+
+function renderSelfTestModal(){
+    const item=selfTestState.questions[selfTestState.index];
+    if(!item) return goChapter(curChapter);
+    const total=selfTestState.questions.length;
+    render(`<div class="modal-backdrop" onclick="returnToCourseFromSelfTest()">
+      <div class="selftest-modal selftest-modal-v2" onclick="event.stopPropagation()">
+        <div class="selftest-kicker">🧠 Rappel actif · ${selfTestState.index+1}/${total}</div>
+        <h2>À toi de répondre</h2>
+        <p class="selftest-question">${esc(item.q)}</p>
+        <textarea id="selftest-answer" class="selftest-answer" placeholder="Écris ta réponse ici avant de regarder la correction…"></textarea>
+        ${selfTestState.revealed ? `<div class="selftest-answer-box"><strong>Réponse / correction</strong><div>${esc(item.a || 'Aucune correction enregistrée pour cette question.')}</div></div>` : `<p class="selftest-help">Réponds d'abord avec tes propres mots. Il n'y a pas besoin d'être parfait : l'objectif est de faire travailler ta mémoire et ton raisonnement.</p>`}
+        <div class="selftest-actions">
+          <button class="bc-btn" onclick="returnToCourseFromSelfTest()">← Retour au cours</button>
+          ${selfTestState.revealed ? `<button class="bc-btn" onclick="selfTestNext()">Question suivante →</button>` : `<button class="bc-btn" onclick="selfTestReveal()">👁️ Afficher la réponse</button>`}
+        </div>
+      </div></div>`);
+}
+function selfTestReveal(){
+    selfTestState.revealed=true;
+    renderSelfTestModal();
+}
+function selfTestNext(){
+    if(selfTestState.index < selfTestState.questions.length-1){
+        selfTestState.index++; selfTestState.revealed=false; renderSelfTestModal();
+    } else {
+        render(`<div class="modal-backdrop"><div class="selftest-modal selftest-modal-v2"><div class="selftest-kicker">🧠 Rappel actif terminé</div><h2>Bien joué.</h2><p class="selftest-help">Tu viens de faire travailler ta mémoire au lieu de simplement relire le cours.</p><div class="selftest-actions"><button class="bc-btn" onclick="returnToCourseFromSelfTest()">← Retour au cours</button><button class="bc-btn" onclick="switchTab('voc')">📚 Continuer avec les flashcards</button></div></div></div>`);
+    }
+}
 
 function renderTabContent() {
     const box = $('ws-box');
@@ -878,12 +1032,32 @@ function renderTabContent() {
     }
     if(curTab==='cours') {
         box.innerHTML = `
-            <div class="cours-print-bar">
-                <button class="bc-btn print-btn" onclick="window.print()">🖨️ Imprimer le cours</button>
-            </div>
-            <div class="cours-body" id="printable-cours">${data.cours||'<p style="color:var(--muted)">Aucun cours. Clique sur ✏️ Éditer pour en ajouter un.</p>'}</div>`;
+            <div class="course-layout">
+                <aside class="course-side-column">
+                    <div class="course-studybar" aria-label="Parcours d'apprentissage du cours">
+                        <div class="course-studybar-top">
+                            <div>
+                                <div class="course-kicker">📖 Parcours d'apprentissage</div>
+                                <div class="course-study-title">Comprendre → appliquer → mémoriser</div>
+                            </div>
+                            <div class="course-progress-label" id="course-progress-label">0 %</div>
+                        </div>
+                        <div class="course-progress"><span id="course-progress-fill"></span></div>
+                    </div>
+                    <div class="course-toc" id="course-toc" aria-label="Sommaire du cours"></div>
+                </aside>
+                <div class="course-main-column">
+                    <div class="cours-body" id="printable-cours">${data.cours||'<p style="color:var(--muted)">Aucun cours. Clique sur ✏️ Éditer pour en ajouter un.</p>'}</div>
+                    <div class="course-end-check" id="course-end-check">
+                        <div class="course-end-icon">✓</div>
+                        <div><strong>Cours terminé ? Ne t'arrête pas à la lecture.</strong><p>Ferme le cours, essaie de reformuler l'idée principale avec tes propres mots, puis passe aux exercices ou aux flashcards.</p></div>
+                    </div>
+                </div>
+            </div>`;
         typesetMath(box);
         setupFigTooltips(box);
+        setupCourseReader(box);
+        updateMobileCourseToc();
     }
     else if(curTab==='edit') {
         box.innerHTML = `
@@ -971,10 +1145,8 @@ function renderTabContent() {
             </div>
             <div id="editor" contenteditable="true" class="editor-area cours-body">${data.cours||''}</div>
             <button class="btn-save" id="sbtn" onclick="saveCours()">💾 Enregistrer</button>
-            <div class="editor-scroll-nav">
-                <button class="esn-arrow" onclick="scrollEditorTo('top')" title="Remonter en haut">⌃</button>
+            <div class="editor-scroll-nav" aria-label="Position dans l’éditeur">
                 <div class="esn-track" id="esn-track"><div class="esn-thumb" id="esn-thumb"></div></div>
-                <button class="esn-arrow" onclick="scrollEditorTo('bottom')" title="Descendre en bas">⌄</button>
             </div>
         `;
         initScrollSidebar();

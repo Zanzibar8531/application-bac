@@ -49,6 +49,13 @@
         <div class="sb-name">BacMaster</div>
         <button class="sb-close" onclick="closeSidebar()">✕</button>
     </div>
+    <div id="course-mobile-tools" class="course-mobile-tools" aria-label="Navigation du cours">
+        <div class="course-mobile-learning" id="course-mobile-learning">
+            <div><strong>📖 Navigation du cours</strong><span id="course-mobile-subtitle">Sections du chapitre</span></div>
+            <b id="mobile-course-progress">0 %</b>
+        </div>
+        <div id="course-mobile-toc"></div>
+    </div>
     <nav class="sb-nav">
         <button class="sb-link" onclick="goHome();closeSidebar()">🏠 Accueil</button>
         <div class="sb-sep">Mes matières</div>
@@ -77,6 +84,8 @@
         </button>
         <div class="tb-brand" onclick="goHome()">BacMaster</div>
         <button class="search-btn" onclick="openSearch()" title="Rechercher">🔍</button>
+        <div id="tb-course-actions" class="tb-course-actions" aria-label="Actions du cours"></div>
+        <nav id="tb-contextnav" class="tb-contextnav" aria-label="Navigation du cours"></nav>
         <div class="tb-actions">
             <button class="music-btn" id="music-toggle-btn" onclick="toggleMusicPlayer()" title="Musique d'ambiance">🎵</button>
             <button class="music-btn" id="theme-toggle-btn" onclick="toggleDarkMode()" title="Mode sombre">🌙</button>
