@@ -908,10 +908,6 @@ function renderChapter() {
         <div class="ws-box" id="ws-box"></div>
     `);
     document.body.classList.add('course-page');
-    document.body.classList.remove('editor-tab','vocab-tab','add-tab');
-    if (curTab === 'edit') document.body.classList.add('editor-tab');
-    if (curTab === 'voc') document.body.classList.add('vocab-tab');
-    if (curTab === 'add') document.body.classList.add('add-tab');
     document.body.classList.toggle('editing-course', curTab === 'edit');
     renderTabContent();
 }

@@ -223,23 +223,6 @@ html[data-theme="dark"] .badge-recent{background:#7c2d12;color:#fdba74;}
 .formula-table th{background:#f8fafc;font-weight:700;}
 
 
-/* Largeur des onglets secondaires : on ne touche PAS au lecteur de cours.
-   Éditer / Vocabulaire / Ajouter utilisent la même colonne visuelle que la carte du cours. */
-body.course-page.editor-tab #ws-box,
-body.course-page.vocab-tab #ws-box,
-body.course-page.add-tab #ws-box {
-  width: min(740px, calc(100vw - 40px));
-  max-width: 740px;
-  margin-left: auto;
-  margin-right: auto;
-  box-sizing: border-box;
-}
-body.course-page.editor-tab #editor.editor-area.cours-body {
-  width: 100%;
-  max-width: none;
-  box-sizing: border-box;
-}
-
 /* ============================================================
    V2 — LECTURE DES COURS : comprendre avant de mémoriser
    ============================================================ */
