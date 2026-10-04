@@ -550,6 +550,22 @@ function updateTopbarContext() {
     nav.innerHTML = navHtml;
     nav.classList.add('show');
 
+    // Mobile : la barre contextuelle ci-dessus est masquée (trop large). On affiche à la place
+    // deux boutons-icônes : 🏠 Accueil et ← Retour à la liste des chapitres.
+    const mnav = document.getElementById('tb-mobile-nav');
+    const topbar = document.querySelector('.topbar');
+    if (mnav) {
+        let mHtml = '';
+        if (curSubject) {
+            mHtml += `<button class="tb-mnav-btn" onclick="goHome()" title="Accueil" aria-label="Accueil">🏠</button>`;
+            if (curChapter) {
+                mHtml += `<button class="tb-mnav-btn" onclick="goModeChapters(curTab==='voc'||curTab==='add'?'voc':'cours')" title="Retour aux chapitres" aria-label="Retour aux chapitres">←</button>`;
+            }
+        }
+        mnav.innerHTML = mHtml;
+        if (topbar) topbar.classList.toggle('has-mnav', !!mHtml);
+    }
+
     // Les deux actions gardent une place fixe dans la barre supérieure.
     // Elles sont actives uniquement lorsqu'un cours est réellement ouvert.
     if (actions) {

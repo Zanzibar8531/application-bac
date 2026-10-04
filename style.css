@@ -2580,3 +2580,28 @@ body.course-page .editor-scroll-nav { display:none !important; }
     display:flex;align-items:center;justify-content:center;
   }
 }
+
+/* ================================================================
+   MOBILE — BOUTONS 🏠 ACCUEIL ET ← CHAPITRES DANS LA BARRE DU HAUT
+   La barre contextuelle (Accueil / matière / ← Chapitres) est trop
+   large pour un téléphone et reste masquée. Deux boutons-icônes la
+   remplacent. Sur petit écran, le texte « BacMaster » laisse sa place
+   au bouton 🏠 (c'est le même rôle : revenir à l'accueil).
+   ================================================================ */
+.tb-mobile-nav{display:none;}
+@media (max-width:800px){
+  .tb-mobile-nav{display:flex;order:3;gap:3px;flex:0 0 auto;align-items:center;}
+  .tb-mobile-nav:empty{display:none;}
+  .tb-mnav-btn{
+    width:34px;height:34px;padding:0;
+    display:flex;align-items:center;justify-content:center;
+    background:none;border:1.5px solid var(--border);border-radius:8px;
+    color:#0e1525;font-size:.95rem;font-weight:800;line-height:1;cursor:pointer;
+    flex-shrink:0;
+  }
+  .tb-mnav-btn:active{background:#4f46e5;color:#fff;border-color:#4f46e5;}
+  html[data-theme="dark"] .tb-mnav-btn{color:#e7ebf3;}
+}
+@media (max-width:600px){
+  .topbar.has-mnav .tb-brand{display:none !important;}
+}
