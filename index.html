@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <script>
+    /* Détecte si BacMaster tourne dans une fenêtre d'application (PWA installée)
+       et non dans un onglet de navigateur : active alors les zooms par page. */
+    (function(){
+      try{
+        var m=function(q){return window.matchMedia(q).matches;};
+        var app = ['standalone','minimal-ui','fullscreen','window-controls-overlay'].some(function(x){return m('(display-mode: '+x+')');})
+                  || window.navigator.standalone === true;
+        if(app) document.documentElement.classList.add('app-pc');
+      }catch(e){}
+    })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -146,6 +158,13 @@
             navigator.serviceWorker.register('./sw.js')
                 .then(reg => {
                     console.log('[SW] Enregistré :', reg.scope);
+                    // Recharge automatiquement quand une nouvelle version prend le contrôle
+                    if (navigator.serviceWorker.controller) {
+                        let reloaded = false;
+                        navigator.serviceWorker.addEventListener('controllerchange', () => {
+                            if (reloaded) return; reloaded = true; location.reload();
+                        });
+                    }
                     // Notifier si une mise à jour est disponible
                     reg.addEventListener('updatefound', () => {
                         const newSW = reg.installing;
