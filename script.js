@@ -1129,6 +1129,9 @@ function renderTabContent() {
             </div>
             <div id="editor" contenteditable="true" class="editor-area cours-body">${data.cours||''}</div>
             <button class="btn-save" id="sbtn" onclick="saveCours()">💾 Enregistrer</button>
+            <div class="editor-scroll-nav" aria-label="Position dans l’éditeur">
+                <div class="esn-track" id="esn-track"><div class="esn-thumb" id="esn-thumb"></div></div>
+            </div>
         `;
         setTimeout(trackEditorSelection, 50);
         const edEl = $('editor');
@@ -1174,26 +1177,25 @@ function renderTabContent() {
     }
 }
 
-// Défilement clavier natif : les flèches retrouvent le comportement
-// de la version navigateur. On ne détourne jamais les touches lorsqu'un
-// champ de saisie ou l'éditeur possède le focus.
-document.addEventListener('keydown', e => {
-    if (e.defaultPrevented) return;
-    if (!['ArrowUp','ArrowDown','PageUp','PageDown','Home','End'].includes(e.key)) return;
-    const t = e.target;
-    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
-    if (!document.body.classList.contains('course-page')) return;
-    const amount = Math.max(120, Math.round(window.innerHeight * 0.72));
-    let delta = 0;
-    if (e.key === 'ArrowUp') delta = -120;
-    if (e.key === 'ArrowDown') delta = 120;
-    if (e.key === 'PageUp') delta = -amount;
-    if (e.key === 'PageDown') delta = amount;
-    if (e.key === 'Home') delta = -window.scrollY;
-    if (e.key === 'End') delta = document.documentElement.scrollHeight;
-    e.preventDefault();
-    window.scrollBy({top: delta, behavior: 'auto'});
-});
+// Défilement clavier natif : les flèches restent disponibles sur les pages
+// de cours sans empêcher les champs de texte et l'éditeur de fonctionner.
+if(!window.__bmNativeScrollKeys){
+    window.__bmNativeScrollKeys = true;
+    document.addEventListener('keydown', e => {
+        if(!document.body.classList.contains('course-page')) return;
+        const t = e.target;
+        const editable = t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
+        if(editable) return;
+        let dy = 0;
+        if(e.key === 'ArrowDown') dy = 90;
+        else if(e.key === 'ArrowUp') dy = -90;
+        else if(e.key === 'PageDown') dy = window.innerHeight * 0.85;
+        else if(e.key === 'PageUp') dy = -window.innerHeight * 0.85;
+        else return;
+        e.preventDefault();
+        window.scrollBy({top:dy, behavior:'auto'});
+    }, {passive:false});
+}
 
 // ── ACTIONS ───────────────────────────────────────────────────
 function addChapter() {
