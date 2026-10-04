@@ -2258,7 +2258,7 @@ body{ overflow-x:clip !important; overflow-y:visible !important; }
 #main{ overscroll-behavior-y:auto !important; }
 
 
-/* V2 étape 25 — application installée sur PC : zoom différent selon la page
+/* V2 étape 25 — PC : zoom fixe selon la page, appliqué directement (sans détection)
    (équivalent d'un zoom navigateur, mais fixé par page)
      • Accueil ............................ 75 %
      • Menus (matière, chapitres, etc.) ... 80 %
@@ -2268,27 +2268,27 @@ body{ overflow-x:clip !important; overflow-y:visible !important; }
 @media (min-width:1101px){
 
   /* --- Neutralise les anciens zooms de l'accueil --- */
-  html.app-pc body.home-page #main { zoom:1 !important; }
-  html.app-pc #main > .home-page { zoom:1 !important; }
+  body.home-page #main { zoom:1 !important; }
+  #main > .home-page { zoom:1 !important; }
 
   /* --- Par défaut (menus, chapitres, flashcards, QCM…) : 80 % --- */
-  html.app-pc .topbar { zoom:.8; }
-  html.app-pc .shell { padding-top:48px !important; }
-  html.app-pc #main { zoom:.8; }
+  .topbar { zoom:.8; }
+  .shell { padding-top:48px !important; }
+  #main { zoom:.8; }
 
   /* --- Accueil : 75 % --- */
-  html.app-pc body.home-page .topbar { zoom:.75; }
-  html.app-pc body.home-page .shell { padding-top:45px !important; }
-  html.app-pc body.home-page #main { zoom:.75 !important; }
+  body.home-page .topbar { zoom:.75; }
+  body.home-page .shell { padding-top:45px !important; }
+  body.home-page #main { zoom:.75 !important; }
 
   /* --- Page de cours : haut 80 %, cours 75 %, sommaire 60 % --- */
-  html.app-pc body.course-page .shell { padding-top:48px !important; }
-  html.app-pc body.course-page #main { zoom:.75 !important; }
-  html.app-pc body.course-page { --tocm: 236px; }
-  html.app-pc body.course-page .ws-header { top:64px !important; }
-  html.app-pc body.course-page .editor-toolbar-sticky { top:64px; }
+  body.course-page .shell { padding-top:48px !important; }
+  body.course-page #main { zoom:.75 !important; }
+  body.course-page { --tocm: 236px; }
+  body.course-page .ws-header { top:64px !important; }
+  body.course-page .editor-toolbar-sticky { top:64px; }
 
-  html.app-pc body.course-page .course-side-column {
+  body.course-page .course-side-column {
     zoom:.8;                      /* .75 (page) × .8 = .6 au total */
     left:14px !important;
     top:116px !important;
@@ -2297,13 +2297,13 @@ body{ overflow-x:clip !important; overflow-y:visible !important; }
     height:auto !important;
     max-height:none !important;
   }
-  html.app-pc body.course-page .course-toc {
+  body.course-page .course-toc {
     max-height:100% !important;
     overflow-y:auto !important;
   }
 
-  html.app-pc body.course-page .ws-header,
-  html.app-pc body.course-page #main > .ws-box#ws-box {
+  body.course-page .ws-header,
+  body.course-page #main > .ws-box#ws-box {
     --cw: min(1700px, calc(100% - var(--tocm) - 20px));
     width: var(--cw) !important;
     margin-left: calc(var(--tocm) + (100% - var(--tocm) - 20px - var(--cw)) / 2) !important;
