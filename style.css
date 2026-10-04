@@ -2527,3 +2527,56 @@ body.course-page .editor-scroll-nav { display:none !important; }
   body.course-page .course-content-card{margin-left:0 !important;margin-right:0 !important;}
   body.course-page #ws-box:not(.course-host){padding:20px !important;}
 }
+
+/* ================================================================
+   MOBILE — BARRE DU HAUT COMPACTE
+   Dans un cours, la barre contenait burger + BacMaster + loupe +
+   Me tester + Imprimer + musique + thème : 404 px de large pour
+   un écran de 360 à 390 px, donc le bouton clair/sombre sortait de
+   l'écran. Boutons et logo sont réduits pour que tout tienne,
+   même sur un petit téléphone (360 px).
+   ================================================================ */
+@media (max-width:600px){
+  .topbar{
+    gap:5px !important;
+    padding-left:10px !important;
+    padding-right:10px !important;
+  }
+  .topbar .burger{
+    padding:5px !important;
+    gap:4px !important;
+  }
+  .topbar .burger span{width:17px !important;}
+  .topbar .tb-brand{
+    font-size:.92rem !important;
+    letter-spacing:-.2px;
+    white-space:nowrap;
+  }
+  .topbar .search-btn{
+    margin-left:0 !important;
+    padding:0 !important;
+    width:32px !important;
+    height:32px !important;
+    font-size:.82rem !important;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .topbar .tb-course-actions{gap:3px !important;}
+  body.course-page .topbar .tb-course-action,
+  .topbar .tb-course-action{
+    width:32px !important;
+    min-width:32px !important;
+    height:32px !important;
+    min-height:32px !important;
+    padding:0 !important;
+    border-radius:8px !important;
+  }
+  body.course-page .topbar .tb-course-action .tb-action-icon{font-size:.9rem !important;}
+  .topbar .tb-actions{gap:3px !important;}
+  .topbar .music-btn{
+    width:32px !important;
+    height:32px !important;
+    padding:0 !important;
+    font-size:.88rem !important;
+    display:flex;align-items:center;justify-content:center;
+  }
+}
