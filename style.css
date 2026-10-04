@@ -223,6 +223,23 @@ html[data-theme="dark"] .badge-recent{background:#7c2d12;color:#fdba74;}
 .formula-table th{background:#f8fafc;font-weight:700;}
 
 
+/* Largeur des onglets secondaires : on ne touche PAS au lecteur de cours.
+   Éditer / Vocabulaire / Ajouter utilisent la même colonne visuelle que la carte du cours. */
+body.course-page.editor-tab #ws-box,
+body.course-page.vocab-tab #ws-box,
+body.course-page.add-tab #ws-box {
+  width: min(740px, calc(100vw - 40px));
+  max-width: 740px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+body.course-page.editor-tab #editor.editor-area.cours-body {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
 /* ============================================================
    V2 — LECTURE DES COURS : comprendre avant de mémoriser
    ============================================================ */
@@ -2498,87 +2515,6 @@ body.course-page .editor-scroll-nav { display:none !important; }
   body.course-page > #main > .ws-box#ws-box {
     width:100% !important;
     max-width:none !important;
-    box-sizing:border-box !important;
-  }
-}
-
-/* ================================================================
-   CORRECTION — MÊME LARGEUR POUR TOUTES LES VUES D'UN CHAPITRE
-   La lecture, l'édition, le vocabulaire et l'ajout doivent partager
-   exactement la même colonne visuelle. Le défilement n'est pas modifié.
-   ================================================================ */
-@media (min-width:801px){
-  body.course-page > #main > .ws-box#ws-box,
-  body.course-page > #main > .ws-box#ws-box.course-host{
-    width:710px !important;
-    max-width:710px !important;
-    min-width:0 !important;
-    box-sizing:border-box !important;
-    margin-left:auto !important;
-    margin-right:auto !important;
-    overflow:visible !important;
-  }
-
-  /* Éditeur : sa zone interne ne doit jamais reprendre une largeur
-     supérieure à celle de la carte. */
-  body.course-page #ws-box > .editor-toolbar-sticky,
-  body.course-page #ws-box > .editor-toolbar-sticky > .edt-tabs,
-  body.course-page #ws-box > .editor-toolbar,
-  body.course-page #ws-box > #editor,
-  body.course-page #ws-box > .btn-save{
-    width:100% !important;
-    max-width:100% !important;
-    min-width:0 !important;
-    box-sizing:border-box !important;
-  }
-
-  body.course-page #ws-box > #editor.editor-area.cours-body{
-    width:100% !important;
-    max-width:100% !important;
-    margin-left:0 !important;
-    margin-right:0 !important;
-  }
-
-  /* Vocabulaire et ajout : aucun enfant ne doit provoquer un débordement
-     horizontal qui donnerait l'impression que la carte est gigantesque. */
-  body.course-page #ws-box > .voc-count,
-  body.course-page #ws-box > div,
-  body.course-page #ws-box > p,
-  body.course-page #ws-box > input,
-  body.course-page #ws-box > textarea,
-  body.course-page #ws-box > .field,
-  body.course-page #ws-box > .btn-save{
-    max-width:100% !important;
-    box-sizing:border-box !important;
-  }
-
-  body.course-page #ws-box .voc-row{
-    width:100% !important;
-    max-width:100% !important;
-    min-width:0 !important;
-    box-sizing:border-box !important;
-  }
-  body.course-page #ws-box .voc-q,
-  body.course-page #ws-box .voc-a{
-    min-width:0 !important;
-    overflow-wrap:anywhere !important;
-  }
-}
-
-@media (max-width:800px){
-  /* Sur téléphone on laisse la largeur native de l'écran pour préserver
-     exactement le défilement tactile restauré précédemment. */
-  body.course-page > #main > .ws-box#ws-box{
-    width:100% !important;
-    max-width:none !important;
-    min-width:0 !important;
-    box-sizing:border-box !important;
-  }
-  body.course-page #ws-box > #editor.editor-area.cours-body,
-  body.course-page #ws-box > .editor-toolbar-sticky,
-  body.course-page #ws-box > .editor-toolbar{
-    width:100% !important;
-    max-width:100% !important;
     box-sizing:border-box !important;
   }
 }
