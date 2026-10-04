@@ -2333,3 +2333,130 @@ body.course-page .course-content-card {
     font-size:.64rem !important;
   }
 }
+
+/* ================================================================
+   V3 — COMPACTION DE L'INTERFACE + BARRES DE DÉFILEMENT
+   Le cours garde sa taille/largeur actuelles. On compacte seulement
+   les boutons et cartes de navigation demandés.
+   ================================================================ */
+
+/* Barres de défilement : plus épaisses et plus faciles à attraper. */
+html {
+  scrollbar-width: auto;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  width: 13px;
+  height: 13px;
+}
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+.course-toc::-webkit-scrollbar {
+  width: 12px;
+}
+.course-toc::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  border-radius: 999px;
+}
+
+/* Accueil : cartes de matières et boutons généraux un peu moins gros. */
+@media (min-width:801px){
+  body.home-page .scard {
+    padding: 15px 13px 13px !important;
+  }
+  body.home-page .scard-icon {
+    font-size: 1.55rem !important;
+    margin-bottom: 7px !important;
+  }
+  body.home-page .scard h3 {
+    font-size: .86rem !important;
+    margin-bottom: 5px !important;
+  }
+  body.home-page .scard-meta,
+  body.home-page .scard > div[style*="font-size"] {
+    font-size: .67rem !important;
+  }
+  body.home-page .badge {
+    font-size: .63rem !important;
+    padding: 2px 6px !important;
+  }
+  body.home-page .stats-link-btn,
+  body.home-page .daily-review-btn,
+  body.home-page .bc-btn {
+    font-size: .76rem !important;
+    padding: 8px 11px !important;
+  }
+}
+
+/* Après le choix d'une matière : Cours / Vocabulaire / QCM /
+   Flashcards / Révision intensive / Exercices. */
+@media (min-width:801px){
+  body:not(.course-page) .menu-grid {
+    gap: 9px !important;
+  }
+  body:not(.course-page) .menu-tile {
+    padding: 16px 14px 14px !important;
+    border-radius: 13px !important;
+    gap: 5px !important;
+  }
+  body:not(.course-page) .menu-tile-icon {
+    font-size: 1.45rem !important;
+  }
+  body:not(.course-page) .menu-tile-label {
+    font-size: .86rem !important;
+  }
+  body:not(.course-page) .menu-tile-sub {
+    font-size: .67rem !important;
+  }
+}
+
+/* Liste des chapitres : cartes plus compactes sans rendre les titres
+   minuscules. */
+@media (min-width:801px){
+  body:not(.course-page) .chapters-grid {
+    gap: 9px !important;
+    margin-bottom: 14px !important;
+  }
+  body:not(.course-page) .chcard {
+    padding: 12px 13px !important;
+    border-radius: 12px !important;
+  }
+  body:not(.course-page) .chcard-name {
+    font-size: .82rem !important;
+    margin-bottom: 5px !important;
+    padding-right: 48px !important;
+  }
+  body:not(.course-page) .chcard-meta {
+    font-size: .67rem !important;
+    gap: 6px !important;
+  }
+  body:not(.course-page) .chcard-badge {
+    font-size: .62rem !important;
+    padding: 3px 7px !important;
+    margin-top: 6px !important;
+  }
+  body:not(.course-page) .chcard-icon-btn {
+    width: 27px !important;
+    height: 27px !important;
+    font-size: .72rem !important;
+  }
+  body:not(.course-page) .chcard-icons {
+    top: 8px !important;
+    right: 8px !important;
+    gap: 4px !important;
+  }
+}

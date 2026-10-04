@@ -4,8 +4,8 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-pwa-v2-layout-calibration';
-const CACHE_STATIC = 'bacmaster-static-pwa-v2-layout-calibration';
+const CACHE_NAME   = 'bacmaster-pwa-v3-ui-compaction';
+const CACHE_STATIC = 'bacmaster-static-pwa-v3-ui-compaction';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
