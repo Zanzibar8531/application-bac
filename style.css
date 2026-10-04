@@ -2266,30 +2266,53 @@ body.course-page .course-content-card {
    sont centrées sur la fenêtre, indépendamment du sommaire.
    ================================================================ */
 @media (min-width:1101px){
-  body.course-page .ws-header,
+  /* Le conteneur de mise en page prend toute la largeur de l'écran.
+     Ainsi le sommaire peut rester fixe à gauche sans être influencé
+     par le centrage du cours. Surtout : aucun transform ici, sinon
+     un élément fixed enfant peut être positionné par rapport au cours. */
   body.course-page .course-layout{
-    width:710px !important;
-    max-width:710px !important;
-    margin-left:0 !important;
+    width:100vw !important;
+    max-width:none !important;
+    margin-left:calc(50% - 50vw) !important;
     margin-right:0 !important;
+    padding:0 !important;
     position:relative !important;
-    left:50% !important;
-    transform:translateX(-50%) !important;
+    left:auto !important;
+    transform:none !important;
+    box-sizing:border-box !important;
   }
 
+  /* Les boutons et le cours restent sur le même axe, centré dans
+     la fenêtre et non dans le bloc sommaire + cours. */
+  body.course-page .ws-header{
+    width:710px !important;
+    max-width:710px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    position:sticky !important;
+    left:auto !important;
+    transform:none !important;
+  }
   body.course-page .ws-header .tab-bar{
     width:710px !important;
     max-width:710px !important;
-    margin:0 !important;
+    margin:0 auto !important;
   }
 
-  body.course-page .course-main-column,
+  body.course-page .course-main-column{
+    width:710px !important;
+    max-width:710px !important;
+    margin:0 auto !important;
+  }
+
   body.course-page .course-content-card{
     width:710px !important;
     max-width:710px !important;
     margin:0 !important;
   }
 
+  /* Sommaire réellement collé à gauche de l'écran, avec une vraie
+     zone libre avant le cours. */
   body.course-page .course-side-column{
     position:fixed !important;
     left:8px !important;
@@ -2297,5 +2320,16 @@ body.course-page .course-content-card {
     width:180px !important;
     max-width:180px !important;
     transform:none !important;
+    z-index:50 !important;
+  }
+
+  /* Interface générale légèrement plus compacte ; le texte du cours
+     reste à 1rem et n'est pas réduit par cette règle. */
+  body.course-page .course-toc-link{
+    font-size:.68rem !important;
+    line-height:1.25 !important;
+  }
+  body.course-page .course-toc-title{
+    font-size:.64rem !important;
   }
 }
