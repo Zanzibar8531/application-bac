@@ -2053,24 +2053,25 @@ body.course-page .course-content-card {
     max-width: 900px !important;
   }
 
-  /* Le sommaire reste à gauche, mais n'écrase plus la largeur du cours. */
+  /* Mise en page de référence : le cours est centré sous les boutons,
+     tandis que le sommaire reste complètement à gauche.
+     Les deux colonnes ne sont volontairement PAS centrées ensemble :
+     cela évite que le sommaire décale toute la zone de lecture. */
   body.course-page .course-layout {
-    display: grid !important;
-    grid-template-columns: 160px 710px !important;
-    gap: 24px !important;
-    width: 894px !important;
+    display: block !important;
+    width: 710px !important;
     max-width: calc(100vw - 36px) !important;
     padding: 0 !important;
     margin: 0 auto !important;
     box-sizing: border-box !important;
-    justify-content: center !important;
+    position: relative !important;
   }
 
   body.course-page .course-side-column {
-    position: sticky !important;
-    left: auto !important;
+    position: fixed !important;
+    left: 8px !important;
     top: 122px !important;
-    width: 160px !important;
+    width: 180px !important;
     max-height: calc(100vh - 140px) !important;
     z-index: 50 !important;
   }
@@ -2103,7 +2104,7 @@ body.course-page .course-content-card {
     line-height: 1.9 !important;
   }
   body.course-page .course-content-card .cours-body p {
-    font-size: .97rem !important;
+    font-size: 1rem !important;
     line-height: 1.9 !important;
   }
 
@@ -2116,7 +2117,7 @@ body.course-page .course-content-card {
     margin-right: auto !important;
     box-sizing: border-box !important;
   }
-  body.course-page .ws-header .tab-bar { width: 630px !important; margin: 0 auto !important; }
+  body.course-page .ws-header .tab-bar { width: 710px !important; max-width: calc(100vw - 36px) !important; margin: 0 auto !important; }
 
   /* Sommaire : même sensation de densité que la référence à 80 %. */
   body.course-page .course-toc-link {
@@ -2133,13 +2134,38 @@ body.course-page .course-content-card {
 /* ---------- Écrans intermédiaires ---------- */
 @media (min-width:801px) and (max-width:1100px){
   body.course-page .course-layout {
-    grid-template-columns: 170px minmax(0,710px) !important;
-    gap: 18px !important;
-    width: 100% !important;
-    max-width: 900px !important;
+    display: block !important;
+    width: min(710px, calc(100vw - 36px)) !important;
+    max-width: none !important;
     margin: 0 auto !important;
+    position: relative !important;
   }
-  body.course-page .course-main-column { min-width: 0 !important; }
+  body.course-page .course-side-column {
+    position: fixed !important;
+    left: 6px !important;
+    top: 122px !important;
+    width: 170px !important;
+    max-height: calc(100vh - 140px) !important;
+  }
+  body.course-page .course-main-column {
+    width: 100% !important;
+    max-width: 710px !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+  body.course-page .course-content-card {
+    width: 100% !important;
+    max-width: 710px !important;
+    box-sizing: border-box !important;
+  }
+  body.course-page .ws-header,
+  body.course-page > #main > .ws-box#ws-box,
+  body.course-page .ws-header .tab-bar {
+    width: min(710px, calc(100vw - 36px)) !important;
+    max-width: none !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
 }
 
 /* ---------- Mobile : aucun changement de philosophie ---------- */
@@ -2170,6 +2196,46 @@ body.course-page .course-content-card {
   display:none !important;
 }
 
+/* ================================================================
+   ALIGNEMENT FINAL — SOMMAIRE À GAUCHE / COURS AU CENTRE
+   Le sommaire reste dans son propre espace fixe. Le cours et les
+   boutons juste au-dessus sont centrés sur la largeur de l'écran,
+   indépendamment du sommaire.
+   ================================================================ */
+@media (min-width:1101px){
+  body.course-page .course-layout{
+    width:710px !important;
+    max-width:710px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    margin-top:0 !important;
+    padding:0 !important;
+  }
+  body.course-page .course-main-column{
+    width:710px !important;
+    max-width:710px !important;
+    margin:0 !important;
+  }
+  body.course-page .course-content-card{
+    width:710px !important;
+    max-width:710px !important;
+    margin:0 !important;
+  }
+  body.course-page .ws-header,
+  body.course-page .ws-header .tab-bar{
+    width:710px !important;
+    max-width:710px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+  body.course-page .course-side-column{
+    position:fixed !important;
+    left:8px !important;
+    width:180px !important;
+    top:122px !important;
+  }
+}
+
 /* Barre supérieure : compacte comme dans la référence navigateur. */
 @media (min-width:801px){
   .tb-contextnav{gap:5px !important;}
@@ -2190,5 +2256,46 @@ body.course-page .course-content-card {
     padding:6px 9px !important;
     border-radius:9px !important;
     font-size:.68rem !important;
+  }
+}
+
+/* ================================================================
+   CENTRAGE RÉEL DU COURS — correction finale
+   Le sommaire garde son espace fixe à gauche.
+   La barre Cours/Éditer/Vocabulaire/Ajouter et la carte du cours
+   sont centrées sur la fenêtre, indépendamment du sommaire.
+   ================================================================ */
+@media (min-width:1101px){
+  body.course-page .ws-header,
+  body.course-page .course-layout{
+    width:710px !important;
+    max-width:710px !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    position:relative !important;
+    left:50% !important;
+    transform:translateX(-50%) !important;
+  }
+
+  body.course-page .ws-header .tab-bar{
+    width:710px !important;
+    max-width:710px !important;
+    margin:0 !important;
+  }
+
+  body.course-page .course-main-column,
+  body.course-page .course-content-card{
+    width:710px !important;
+    max-width:710px !important;
+    margin:0 !important;
+  }
+
+  body.course-page .course-side-column{
+    position:fixed !important;
+    left:8px !important;
+    top:122px !important;
+    width:180px !important;
+    max-width:180px !important;
+    transform:none !important;
   }
 }
