@@ -2108,7 +2108,7 @@ body.course-page .course-content-card {
 
   /* La barre d'onglets était plus étroite que la carte dans la référence. */
   body.course-page .ws-header,
-  body.course-page > #main > .ws-box#ws-box {
+  body.course-page #ws-box {
     width: 710px !important;
     max-width: 710px !important;
     margin-left: auto !important;
@@ -2157,7 +2157,7 @@ body.course-page .course-content-card {
     box-sizing: border-box !important;
   }
   body.course-page .ws-header,
-  body.course-page > #main > .ws-box#ws-box,
+  body.course-page #ws-box,
   body.course-page .ws-header .tab-bar {
     width: min(710px, calc(100vw - 36px)) !important;
     max-width: none !important;
@@ -2473,14 +2473,14 @@ body.course-page .editor-scroll-nav { display:none !important; }
 
 /* Toutes les vues d'un chapitre gardent la même colonne que la lecture. */
 @media (min-width:801px){
-  body.course-page > #main > .ws-box#ws-box {
-    width:710px !important;
+  body.course-page #ws-box {
+    width:min(710px, calc(100vw - 36px)) !important;
     max-width:710px !important;
     margin-left:auto !important;
     margin-right:auto !important;
     box-sizing:border-box !important;
   }
-  body.course-page > #main > .ws-box#ws-box:not(.course-host) {
+  body.course-page #ws-box:not(.course-host) {
     padding:20px !important;
   }
   body.course-page #editor.editor-area.cours-body,
@@ -2495,9 +2495,35 @@ body.course-page .editor-scroll-nav { display:none !important; }
   }
 }
 @media (max-width:800px){
-  body.course-page > #main > .ws-box#ws-box {
+  body.course-page #ws-box {
     width:100% !important;
     max-width:none !important;
     box-sizing:border-box !important;
   }
+}
+
+
+/* ================================================================
+   COLONNE UNIQUE 710 px — Cours / Éditer / Vocabulaire / Ajouter
+   Les anciens sélecteurs "body > #main > .ws-box#ws-box" ne
+   correspondaient jamais à la vraie structure (#main est dans
+   .shell) : les onglets Éditer, Vocabulaire et Ajouter prenaient
+   donc toute la largeur de l'écran. Désormais la barre d'onglets,
+   le cours, l'éditeur, le vocabulaire et l'ajout partagent
+   exactement la même largeur.
+   ================================================================ */
+@media (min-width:801px){
+  body.course-page .ws-header,
+  body.course-page .ws-header .tab-bar,
+  body.course-page #ws-box,
+  body.course-page .course-main-column,
+  body.course-page .course-content-card{
+    width:min(710px, calc(100vw - 36px)) !important;
+    max-width:710px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    box-sizing:border-box !important;
+  }
+  body.course-page .course-content-card{margin-left:0 !important;margin-right:0 !important;}
+  body.course-page #ws-box:not(.course-host){padding:20px !important;}
 }
