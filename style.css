@@ -2171,142 +2171,72 @@ body.home-page .page-head p { font-size: .82rem; }
   }
 }
 
-
-/* V2 étape 22 — onglets alignés sur la carte du cours + texte plus lisible
-   (cours et sommaire). Les deux blocs (barre d'onglets et carte) partagent
-   exactement la même largeur et le même point de départ. */
+/* V2 étape 22 — proportions plus compactes, proches de la maquette de référence */
 @media (min-width:1101px){
-  body.course-page .ws-header,
-  body.course-page #main > .ws-box#ws-box{
-    --cw: min(1020px, calc(100% - 328px));
-    width: var(--cw) !important;
-    max-width: none !important;
-    margin-left: calc(310px + (100% - 328px - var(--cw)) / 2) !important;
-    margin-right: 0 !important;
-    box-sizing: border-box !important;
+  /* Sommaire : un peu plus compact */
+  body.course-page .course-side-column{
+    left:18px !important;
+    width:220px !important;
   }
+  body.course-page .course-toc-link{
+    font-size:.70rem !important;
+    line-height:1.32 !important;
+    padding:6px 7px !important;
+  }
+  body.course-page .course-toc-title{
+    font-size:.68rem !important;
+    padding:3px 7px 7px !important;
+  }
+
+  /* Cours : largeur réduite, mais toujours centrée dans l'espace disponible */
   body.course-page .course-layout{
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    padding-left:240px !important;
+    padding-right:18px !important;
   }
   body.course-page .course-main-column{
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
+    width:min(900px, calc(100vw - 280px)) !important;
+    max-width:900px !important;
   }
-  body.course-page .course-side-column{
-    width: 270px !important;
-  }
-  body.course-page .course-content-card{
-    padding: 26px 30px !important;
-  }
-
-  /* Texte du cours : plus gros, partout (paragraphes, encadrés, listes, citation) */
-  body.course-page .cours-body{ font-size: 1rem !important; line-height: 1.8 !important; }
-  body.course-page .cours-body p{ font-size: 1rem !important; line-height: 1.8 !important; }
-  body.course-page .cours-body li{ font-size: .97rem !important; line-height: 1.7 !important; }
-  body.course-page .cours-body blockquote,
-  body.course-page .cours-body .quote-box{ font-size: 1rem !important; line-height: 1.85 !important; }
-  body.course-page .cours-body .formula-box{ font-size: .97rem !important; line-height: 1.8 !important; }
-  body.course-page .cours-body .retenir-box{ font-size: .97rem !important; line-height: 1.75 !important; }
-  body.course-page .cours-body .texte-annote{ font-size: .99rem !important; line-height: 2 !important; }
-  body.course-page .cours-body .analyse-lineaire-box{ font-size: .99rem !important; line-height: 1.85 !important; }
-  body.course-page .cours-body .fig-legende-item{ font-size: .85rem !important; padding: 4px 12px !important; }
-  body.course-page .cours-body h2{ font-size: 1.45rem !important; }
-  body.course-page .cours-body h3{ font-size: 1.08rem !important; }
-
-  /* Sommaire (colonne de gauche) : plus gros et plus lisible */
-  body.course-page .course-toc{ padding: 14px 12px !important; }
-  body.course-page .course-toc-title{ font-size: .8rem !important; padding: 3px 8px 10px !important; }
-  body.course-page .course-toc-link{ font-size: .92rem !important; line-height: 1.4 !important; padding: 9px 10px !important; font-weight: 600 !important; }
-}
-
-
-/* V2 étape 23 — moins d'espace perdu : sommaire plus large/gros, cours plus large */
-@media (min-width:1101px){
-  body.course-page{ --toc: clamp(250px, 17vw, 340px); --cw-max: 1300px; }
-  body.course-page #main{ max-width:none !important; }
   body.course-page .ws-header,
-  body.course-page #main > .ws-box#ws-box{
-    --cw: min(var(--cw-max), calc(100% - var(--toc) - 22px - 38px));
-    width: var(--cw) !important;
-    margin-left: calc(var(--toc) + 22px + (100% - var(--toc) - 22px - var(--cw)) / 2) !important;
-    margin-right: 0 !important;
+  body.course-page > #main > .ws-box#ws-box{
+    width:min(900px, calc(100vw - 280px)) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
   }
-  body.course-page .course-side-column{ width: var(--toc) !important; left:18px !important; }
-  body.course-page .course-toc{ padding: 16px 14px !important; }
-  body.course-page .course-toc-title{ font-size: .86rem !important; padding: 3px 8px 12px !important; }
-  body.course-page .course-toc-link{ font-size: 1.04rem !important; line-height: 1.4 !important; padding: 11px 12px !important; }
-}
-
-
-/* V2 étape 24 — téléphone : bouton clair/sombre visible + défilement à 1 doigt */
-@media (max-width:600px){
-  /* Sur une page de cours, la barre du haut est pleine : on masque le nom
-     "BacMaster" (le menu ☰ reste) pour que le bouton 🌙 reste visible. */
-  body.course-page .tb-brand{ display:none !important; }
-  .topbar{ gap:8px !important; }
-}
-/* body ne doit pas devenir un conteneur de défilement à part (html + body en
-   overflow-x:hidden le faisaient) : c'est ce qui bloquait le défilement 1 doigt. */
-html{ overflow-x:hidden; }
-body{ overflow-x:clip !important; overflow-y:visible !important; }
-@media (display-mode: standalone){
-  body{ overscroll-behavior:auto !important; }
-  html{ overscroll-behavior-y:none; }
-}
-#main{ overscroll-behavior-y:auto !important; }
-
-
-/* V2 étape 25 — PC : zoom fixe selon la page, appliqué directement (sans détection)
-   (équivalent d'un zoom navigateur, mais fixé par page)
-     • Accueil ............................ 75 %
-     • Menus (matière, chapitres, etc.) ... 80 %
-     • Page de cours : barre du haut 80 %, sommaire 60 %, cours 75 %
-   Les zooms de l'accueil des étapes précédentes sont neutralisés ici
-   pour ne pas se cumuler. */
-@media (min-width:1101px){
-
-  /* --- Neutralise les anciens zooms de l'accueil --- */
-  body.home-page #main { zoom:1 !important; }
-  #main > .home-page { zoom:1 !important; }
-
-  /* --- Par défaut (menus, chapitres, flashcards, QCM…) : 80 % --- */
-  .topbar { zoom:.8; }
-  .shell { padding-top:48px !important; }
-  #main { zoom:.8; }
-
-  /* --- Accueil : 75 % --- */
-  body.home-page .topbar { zoom:.75; }
-  body.home-page .shell { padding-top:45px !important; }
-  body.home-page #main { zoom:.75 !important; }
-
-  /* --- Page de cours : haut 80 %, cours 75 %, sommaire 60 % --- */
-  body.course-page .shell { padding-top:48px !important; }
-  body.course-page #main { zoom:.75 !important; }
-  body.course-page { --tocm: 236px; }
-  body.course-page .ws-header { top:64px !important; }
-  body.course-page .editor-toolbar-sticky { top:64px; }
-
-  body.course-page .course-side-column {
-    zoom:.8;                      /* .75 (page) × .8 = .6 au total */
-    left:14px !important;
-    top:116px !important;
-    bottom:14px !important;
-    width:280px !important;
-    height:auto !important;
-    max-height:none !important;
-  }
-  body.course-page .course-toc {
-    max-height:100% !important;
-    overflow-y:auto !important;
+  body.course-page .course-content-card .cours-body{
+    font-size:1.03rem !important;
+    line-height:1.62 !important;
   }
 
-  body.course-page .ws-header,
-  body.course-page #main > .ws-box#ws-box {
-    --cw: min(1700px, calc(100% - var(--tocm) - 20px));
-    width: var(--cw) !important;
-    margin-left: calc(var(--tocm) + (100% - var(--tocm) - 20px - var(--cw)) / 2) !important;
-    margin-right: 0 !important;
+  /* Onglets : même largeur compacte que le cours */
+  body.course-page .ws-header .tab-bar{
+    width:100% !important;
+  }
+}
+
+/* Barre du haut : boutons plus compacts sur PC */
+@media (min-width:801px){
+  .tb-contextnav{gap:5px !important;}
+  .tb-contextnav button{
+    padding:6px 9px !important;
+    min-height:30px !important;
+    border-radius:9px !important;
+    font-size:.68rem !important;
+  }
+  .tb-contextnav .tb-chapter-title{
+    min-height:30px !important;
+    padding:0 8px !important;
+    font-size:.68rem !important;
+  }
+  .tb-contextnav .tb-rename{
+    min-width:30px !important;
+    padding:5px 7px !important;
+  }
+  .tb-course-actions{gap:5px !important;}
+  .tb-course-action{
+    min-height:30px !important;
+    padding:6px 9px !important;
+    border-radius:9px !important;
+    font-size:.68rem !important;
   }
 }
