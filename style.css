@@ -756,8 +756,17 @@ html { touch-action: manipulation; }
 
 /* V2 ergonomie : sur les pages de cours/édition, la petite barre native
    est masquée pour ne garder qu'une seule barre de déplacement, plus large. */
-body.course-page, body.course-page *{scrollbar-width:none;}
-body.course-page::-webkit-scrollbar, body.course-page *::-webkit-scrollbar{width:0;height:0;}
+/* Les pages de cours utilisent le défilement natif du navigateur/PWA.
+   Ne pas masquer la barre : cela conserve molette, flèches et geste tactile. */
+body.course-page, body.course-page * {
+  scrollbar-width: auto;
+}
+body.course-page {
+  touch-action: auto;
+}
+body.course-page #main {
+  touch-action: pan-y;
+}
 
 /* L'en-tête des onglets ne reste pas collé pendant l'édition : sinon il
    chevauche la barre d'outils sticky de l'éditeur lorsqu'on descend. */
@@ -2458,5 +2467,37 @@ body::-webkit-scrollbar-track,
     top: 8px !important;
     right: 8px !important;
     gap: 4px !important;
+  }
+}
+
+
+/* ================================================================
+   CORRECTION — largeur commune des onglets + défilement natif
+   ================================================================ */
+@media (min-width:801px){
+  body.course-page > #main > #ws-box {
+    width:710px !important;
+    max-width:calc(100vw - 36px) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    box-sizing:border-box !important;
+  }
+  body.course-page #ws-box > .editor-area.cours-body {
+    width:100% !important;
+    max-width:none !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    box-sizing:border-box !important;
+  }
+}
+@media (max-width:800px){
+  body.course-page > #main > #ws-box {
+    width:100% !important;
+    max-width:none !important;
+    box-sizing:border-box !important;
+  }
+  body.course-page #ws-box > .editor-area.cours-body {
+    width:100% !important;
+    max-width:none !important;
   }
 }
