@@ -6,7 +6,7 @@
 PREBUILT['Bases Juridiques & Admin'] = {
 
 'Comprendre sa fiche de paie & son contrat': {
-cours:`<h3>Lire une fiche de paie</h3>
+cours:`<div class="attention-box"><h3>Lire une fiche de paie comme une transformation</h3><p>La fiche de paie part du salaire brut puis fait apparaître différentes retenues et contributions pour aboutir au net. Pour comprendre un montant, il faut donc savoir <strong>à quelle étape du calcul il appartient</strong>.</p><p>Le salaire net avant impôt n'est pas le salaire brut, et le prélèvement à la source intervient encore après. Les cotisations correspondent notamment au financement de protections sociales : elles ne sont pas simplement des « frais » retirés au hasard.</p><h3>Comment lire un contrat ?</h3><p>Identifie les parties, la fonction, la rémunération, la durée et les clauses importantes. Si une clause semble avoir une portée juridique particulière, il faut vérifier le texte applicable et la situation réelle : ce cours donne des bases de compréhension, pas un avis juridique personnalisé.</p></div><hr><div class="attention-box"><h3>Lire une fiche de paie comme une transformation</h3><p>La fiche de paie part du salaire brut puis fait apparaître différentes retenues et contributions pour aboutir au net. Pour comprendre un montant, il faut donc savoir <strong>à quelle étape du calcul il appartient</strong>.</p><p>Le salaire net avant impôt n'est pas le salaire brut, et le prélèvement à la source intervient encore après. Les cotisations correspondent notamment au financement de protections sociales : elles ne sont pas simplement des « frais » retirés au hasard.</p><h3>Comment lire un contrat ?</h3><p>Identifie les parties, la fonction, la rémunération, la durée et les clauses importantes. Si une clause semble avoir une portée juridique particulière, il faut vérifier le texte applicable et la situation réelle : ce cours donne des bases de compréhension, pas un avis juridique personnalisé.</p></div><hr><hr><h3>Lire une fiche de paie</h3>
 <p>Une fiche de paie française contient toujours les mêmes grandes lignes :</p>
 <ul>
 <li><strong>Salaire brut</strong> : ce que ton employeur "affiche" avant les cotisations. C'est la base de calcul, pas ce que tu reçois.</li>
@@ -48,7 +48,7 @@ flashcards:[
 ]},
 
 'Vie pratique : logement, banque, démarches': {
-cours:`<h3>Le bail (contrat de location)</h3>
+cours:`<div class="attention-box"><h3>Comprendre une démarche administrative</h3><p>Une démarche repose généralement sur quatre éléments : <strong>qui doit agir, quel document est nécessaire, auprès de qui et dans quel délai</strong>. Cette grille permet de transformer une procédure confuse en étapes vérifiables.</p><p>Pour un logement, par exemple, il faut distinguer contrat, état des lieux, dépôt de garantie, charges et obligations de chacun. Pour une banque, distinguer compte, carte, frais, crédit et autorisations évite de traiter tous les produits comme s'ils étaient identiques.</p><h3>Pourquoi conserver des preuves ?</h3><p>Les contrats, courriels, reçus et justificatifs permettent de montrer ce qui a été demandé ou accepté. Pour toute situation réelle, les règles peuvent évoluer : il faut donc vérifier les sources officielles à jour.</p></div><hr><div class="attention-box"><h3>Comprendre une démarche administrative</h3><p>Une démarche repose généralement sur quatre éléments : <strong>qui doit agir, quel document est nécessaire, auprès de qui et dans quel délai</strong>. Cette grille permet de transformer une procédure confuse en étapes vérifiables.</p><p>Pour un logement, par exemple, il faut distinguer contrat, état des lieux, dépôt de garantie, charges et obligations de chacun. Pour une banque, distinguer compte, carte, frais, crédit et autorisations évite de traiter tous les produits comme s'ils étaient identiques.</p><h3>Pourquoi conserver des preuves ?</h3><p>Les contrats, courriels, reçus et justificatifs permettent de montrer ce qui a été demandé ou accepté. Pour toute situation réelle, les règles peuvent évoluer : il faut donc vérifier les sources officielles à jour.</p></div><hr><hr><h3>Le bail (contrat de location)</h3>
 <ul>
 <li><strong>Durée</strong> : 3 ans pour un logement vide loué par un particulier, 1 an pour un meublé (renouvelable tacitement).</li>
 <li><strong>Dépôt de garantie</strong> : max. 1 mois de loyer hors charges (logement vide), 2 mois pour un meublé. Doit être restitué sous 1 mois si l'état des lieux de sortie est conforme (2 mois sinon).</li>
@@ -56,7 +56,7 @@ cours:`<h3>Le bail (contrat de location)</h3>
 <li><strong>Préavis</strong> : délai à respecter avant de quitter le logement (souvent 1 mois en zone tendue, 3 mois sinon, réductible dans certains cas comme mutation professionnelle).</li>
 <li><strong>Garant / caution</strong> : personne qui s'engage à payer le loyer si le locataire ne peut pas.</li>
 </ul>
-<div class="attention-box">Fais toujours l'état des lieux d'entrée <mark>très minutieusement</mark> (photos datées de chaque défaut, même minime) — c'est ta seule protection pour récupérer l'intégralité de ton dépôt de garantie à la sortie.</div>
+
 
 <h3>Les assurances obligatoires</h3>
 <ul>
@@ -103,7 +103,7 @@ flashcards:[
 ]},
 
 'Droit du numérique & cybersécurité': {
-cours:`<h3>Le cadre légal français : les articles 323 du Code pénal</h3>
+cours:`<div class="attention-box"><h3>Comprendre le lien entre technique et droit</h3><p>Une action peut être techniquement possible sans être juridiquement autorisée. Pour analyser une situation numérique, identifie <strong>la donnée ou l'action, la personne concernée, la finalité et la règle applicable</strong>.</p><p>Par exemple, accéder à un compte sans autorisation n'est pas rendu légitime par le simple fait qu'une faille permette de le faire. De même, une donnée publique n'est pas automatiquement libre de tout usage.</p><h3>Comment raisonner sur une situation ?</h3><p>Décris d'abord les faits sans jugement, puis cherche la règle correspondante et enfin applique-la au cas. Pour une situation réelle, vérifie toujours les sources officielles et la réglementation en vigueur.</p></div><hr><div class="attention-box"><h3>Comprendre le lien entre technique et droit</h3><p>Une action peut être techniquement possible sans être juridiquement autorisée. Pour analyser une situation numérique, identifie <strong>la donnée ou l'action, la personne concernée, la finalité et la règle applicable</strong>.</p><p>Par exemple, accéder à un compte sans autorisation n'est pas rendu légitime par le simple fait qu'une faille permette de le faire. De même, une donnée publique n'est pas automatiquement libre de tout usage.</p><h3>Comment raisonner sur une situation ?</h3><p>Décris d'abord les faits sans jugement, puis cherche la règle correspondante et enfin applique-la au cas. Pour une situation réelle, vérifie toujours les sources officielles et la réglementation en vigueur.</p></div><hr><hr><h3>Le cadre légal français : les articles 323 du Code pénal</h3>
 <p>Souvent appelée "Loi Godfrain" (1988, intégrée depuis au Code pénal), cette base légale protège tout <strong>STAD</strong> (Système de Traitement Automatisé de Données) — c'est-à-dire concrètement n'importe quel système informatique (un PC, un serveur, un site web, un compte en ligne...).</p>
 <div class="formula-box">
 <strong>Art. 323-1</strong> : accès ou maintien frauduleux dans un STAD — jusqu'à 3 ans de prison et 100 000 € d'amende (peines aggravées si des données sont altérées ou si le système appartient à l'État).<br>
@@ -111,7 +111,7 @@ cours:`<h3>Le cadre légal français : les articles 323 du Code pénal</h3>
 <strong>Art. 323-3</strong> : introduire, modifier ou supprimer frauduleusement des données dans un STAD — jusqu'à 5 ans et 150 000 €.<br>
 <strong>Art. 323-3-1</strong> : le simple fait de détenir/fournir un outil conçu pour commettre ces infractions, sans motif légitime, est déjà punissable.
 </div>
-<div class="attention-box">Point essentiel à bien comprendre : la loi ne demande <mark>aucune preuve d'intention de nuire</mark> ni de dommage causé pour caractériser l'infraction. Le simple fait d'accéder sans autorisation à un système qui n'est pas le tien suffit — même "juste pour voir", même sans rien casser, même si le système était mal protégé (une porte mal fermée reste une porte qu'on n'a pas le droit d'ouvrir).</div>
+
 
 <h3>Ce qui reste 100% légal</h3>
 <ul>

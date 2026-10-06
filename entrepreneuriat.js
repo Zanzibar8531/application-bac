@@ -6,7 +6,7 @@
 PREBUILT['Entrepreneuriat & Contenu'] = {
 
 'Créer & faire grandir du contenu': {
-cours:`<h3>Trouver son format et sa niche</h3>
+cours:`<div class="attention-box"><h3>Comprendre pourquoi un contenu fonctionne</h3><p>Un contenu n'est pas seulement une publication : il propose une valeur à une audience précise. Avant de créer, il faut donc savoir <strong>pour qui, pour quel besoin et avec quelle promesse</strong>.</p><p>Une bonne idée peut échouer si elle n'est pas présentée clairement ou si elle ne correspond pas au public. À l'inverse, un format simple peut fonctionner s'il répond régulièrement à un besoin réel.</p><h3>Comment interpréter les statistiques ?</h3><p>Une vue, un clic ou un abonnement ne signifient pas la même chose. Relie chaque indicateur à ton objectif : attirer l'attention, faire regarder, faire comprendre ou faire agir. Les statistiques servent ensuite à tester une hypothèse et à améliorer le contenu.</p></div><hr><div class="attention-box"><h3>Comprendre pourquoi un contenu fonctionne</h3><p>Un contenu n'est pas seulement une publication : il propose une valeur à une audience précise. Avant de créer, il faut donc savoir <strong>pour qui, pour quel besoin et avec quelle promesse</strong>.</p><p>Une bonne idée peut échouer si elle n'est pas présentée clairement ou si elle ne correspond pas au public. À l'inverse, un format simple peut fonctionner s'il répond régulièrement à un besoin réel.</p><h3>Comment interpréter les statistiques ?</h3><p>Une vue, un clic ou un abonnement ne signifient pas la même chose. Relie chaque indicateur à ton objectif : attirer l'attention, faire regarder, faire comprendre ou faire agir. Les statistiques servent ensuite à tester une hypothèse et à améliorer le contenu.</p></div><hr><hr><h3>Trouver son format et sa niche</h3>
 <ul>
 <li><strong>Niche</strong> : sujet précis qui te permet de te démarquer plutôt que de viser "tout le monde". Une niche claire attire une audience plus fidèle qu'un contenu généraliste.</li>
 <li><strong>Format court vs long</strong> : TikTok/Reels/Shorts (15-60s, découverte rapide, algorithme très actif) vs YouTube long format (fidélisation, monétisation publicitaire plus stable).</li>
@@ -49,7 +49,7 @@ flashcards:[
 ]},
 
 'Monétisation & bases entrepreneuriales': {
-cours:`<h3>Monétiser son contenu</h3>
+cours:`<div class="attention-box"><h3>Comprendre la rentabilité</h3><p>Monétiser signifie transformer une valeur créée pour un public en revenus. Mais <strong>chiffre d'affaires ≠ bénéfice</strong> : il faut retirer les coûts nécessaires à la production, à la vente et au fonctionnement.</p><p>Un modèle économique explique qui paie, pour quoi, à quel prix et avec quels coûts. Une idée peut avoir beaucoup d'utilisateurs mais être non rentable si l'acquisition coûte plus cher que la valeur générée par un client.</p><h3>Comment tester une idée ?</h3><p>Commence par vérifier le problème et la volonté de payer avant d'investir énormément. Un petit test réel apporte souvent plus d'informations qu'une longue réflexion théorique.</p></div><hr><div class="attention-box"><h3>Comprendre la rentabilité</h3><p>Monétiser signifie transformer une valeur créée pour un public en revenus. Mais <strong>chiffre d'affaires ≠ bénéfice</strong> : il faut retirer les coûts nécessaires à la production, à la vente et au fonctionnement.</p><p>Un modèle économique explique qui paie, pour quoi, à quel prix et avec quels coûts. Une idée peut avoir beaucoup d'utilisateurs mais être non rentable si l'acquisition coûte plus cher que la valeur générée par un client.</p><h3>Comment tester une idée ?</h3><p>Commence par vérifier le problème et la volonté de payer avant d'investir énormément. Un petit test réel apporte souvent plus d'informations qu'une longue réflexion théorique.</p></div><hr><hr><h3>Monétiser son contenu</h3>
 <ul>
 <li><strong>Publicité intégrée à la plateforme</strong> : TikTok Creator Rewards, YouTube Partner Program — nécessite d'atteindre des seuils d'abonnés/vues avant de pouvoir en bénéficier.</li>
 <li><strong>Partenariats de marque (sponsoring)</strong> : une marque paie pour une mention/vidéo dédiée — souvent plus rentable qu'une pub automatique dès une audience de niche engagée.</li>
@@ -72,7 +72,7 @@ cours:`<h3>Monétiser son contenu</h3>
 <li>Nécessaire dès que l'activité devient <mark>récurrente et rémunératrice</mark> (pas pour une vente ponctuelle d'objets personnels sur Vinted par exemple).</li>
 <li>Permet de facturer légalement des clients/marques et de déclarer ses revenus.</li>
 </ul>
-<div class="attention-box">Toucher de l'argent d'une marque ou de la pub sans déclarer d'activité, dès que c'est <mark>régulier</mark>, n'est pas légal en France. Le statut auto-entrepreneur est simple et rapide à créer en ligne dès que ça devient sérieux.</div>
+
 
 <h3>Le business model canvas — vision simplifiée</h3>
 <p>Avant de lancer un projet, se poser 4 questions clés :</p>
@@ -98,7 +98,7 @@ flashcards:[
 ]},
 
 'Se lancer concrètement : ton premier petit projet': {
-cours:`<h3>Pourquoi c'est difficile de se lancer</h3>
+cours:`<div class="attention-box"><h3>Comprendre le rôle d'un premier projet</h3><p>Le premier projet sert surtout à apprendre à passer de l'idée à une réalisation. Il doit donc être assez petit pour être terminé, mais assez réel pour produire des retours.</p><p>Définis une <strong>version minimale</strong> : le plus petit produit qui permet de vérifier l'hypothèse principale. Fixe ensuite un critère de réussite observable. Sans critère, on risque de déclarer le projet réussi simplement parce qu'on l'a terminé.</p><h3>Pourquoi tester avant d'améliorer ?</h3><p>Les utilisateurs révèlent souvent des problèmes qu'on ne pouvait pas prévoir. Construire, mesurer, recueillir les retours puis modifier est plus efficace que d'ajouter de nombreuses fonctions avant d'avoir vérifié le besoin.</p></div><hr><div class="attention-box"><h3>Comprendre le rôle d'un premier projet</h3><p>Le premier projet sert surtout à apprendre à passer de l'idée à une réalisation. Il doit donc être assez petit pour être terminé, mais assez réel pour produire des retours.</p><p>Définis une <strong>version minimale</strong> : le plus petit produit qui permet de vérifier l'hypothèse principale. Fixe ensuite un critère de réussite observable. Sans critère, on risque de déclarer le projet réussi simplement parce qu'on l'a terminé.</p><h3>Pourquoi tester avant d'améliorer ?</h3><p>Les utilisateurs révèlent souvent des problèmes qu'on ne pouvait pas prévoir. Construire, mesurer, recueillir les retours puis modifier est plus efficace que d'ajouter de nombreuses fonctions avant d'avoir vérifié le besoin.</p></div><hr><hr><h3>Pourquoi c'est difficile de se lancer</h3>
 <p>Avoir "envie de se lancer depuis un moment" sans jamais commencer, c'est presque toujours le même blocage : on cherche <strong>LA</strong> bonne idée parfaite avant de faire le moindre premier pas. Résultat : on ne compare jamais des idées réelles entre elles, on compare une idée floue dans sa tête à l'angoisse de mal faire — et on ne fait rien.</p>
 <div class="retenir-box">La bonne question n'est pas "quelle est la meilleure idée ?" mais <mark>"quelle est la plus petite version de cette idée que je peux tester cette semaine ?"</mark> C'est le concept de <strong>MVP</strong> (Minimum Viable Product / produit minimum viable) : la version la plus simple d'un projet qui permet déjà de tester si ça marche, avant d'investir du temps ou de l'argent dans une version parfaite.</p>
 
@@ -116,7 +116,7 @@ cours:`<h3>Pourquoi c'est difficile de se lancer</h3>
 <li><strong>Des objets dont tu ne te sers plus</strong> → revente (Vinted, Leboncoin) : le side hustle le plus rapide à tester, zéro compétence à apprendre.</li>
 <li><strong>Une matière scolaire que tu maîtrises bien</strong> → petit soutien scolaire ponctuel à un plus jeune.</li>
 </ul>
-<div class="attention-box">Le piège à éviter : vouloir démarrer directement par le projet le plus ambitieux (créer une appli, monter une marque). Un premier projet réussi, c'est un projet <mark>terminé</mark>, même minuscule — pas un projet parfait resté à l'état d'idée.</div>
+
 
 <h3>La méthode en 4 étapes pour sortir de l'attentisme</h3>
 <ol>

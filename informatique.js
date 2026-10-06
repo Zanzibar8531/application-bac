@@ -6,7 +6,7 @@
 PREBUILT['Informatique'] = {
 
 'Programmation & algorithmique': {
-cours:`<h3>Qu'est-ce qu'un algorithme ?</h3>
+cours:`<div class="attention-box"><h3>Comprendre un algorithme</h3><p>Un algorithme est une suite d'étapes permettant de résoudre un problème. Avant d'écrire du code, il faut donc savoir <strong>quelles données entrent, quelle transformation on veut effectuer et quel résultat doit sortir</strong>.</p><h3>Pourquoi les conditions et les boucles ?</h3><p>Une condition permet de choisir un chemin selon une situation : <em>si la note est supérieure ou égale à 10, alors...</em>. Une boucle évite de répéter manuellement une même instruction : elle indique quand répéter et quand s'arrêter.</p><p>Pour déboguer, ne relis pas seulement le code visuellement : prends une petite entrée et simule les variables étape par étape. Cela permet de repérer où le comportement réel diverge de ce que tu avais prévu.</p></div><hr><div class="attention-box"><h3>Comprendre un algorithme</h3><p>Un algorithme est une suite d'étapes permettant de résoudre un problème. Avant d'écrire du code, il faut donc savoir <strong>quelles données entrent, quelle transformation on veut effectuer et quel résultat doit sortir</strong>.</p><h3>Pourquoi les conditions et les boucles ?</h3><p>Une condition permet de choisir un chemin selon une situation : <em>si la note est supérieure ou égale à 10, alors...</em>. Une boucle évite de répéter manuellement une même instruction : elle indique quand répéter et quand s'arrêter.</p><p>Pour déboguer, ne relis pas seulement le code visuellement : prends une petite entrée et simule les variables étape par étape. Cela permet de repérer où le comportement réel diverge de ce que tu avais prévu.</p></div><hr><hr><h3>Qu'est-ce qu'un algorithme ?</h3>
 <p>Une <strong>suite finie d'instructions précises</strong> qui permet de résoudre un problème ou d'accomplir une tâche. Un programme informatique est l'écriture d'un algorithme dans un langage compréhensible par une machine.</p>
 
 <h3>Les structures de base</h3>
@@ -65,14 +65,14 @@ flashcards:[
 ]},
 
 'Réseaux, systèmes & données': {
-cours:`<h3>Comment fonctionne Internet ?</h3>
+cours:`<div class="attention-box"><h3>Comprendre les couches d'un système informatique</h3><p>Un ordinateur et un réseau sont des ensembles de composants qui coopèrent. Le matériel fournit les ressources, le système d'exploitation les gère, les applications les utilisent et le réseau permet l'échange de données entre machines.</p><p>Une donnée n'est pas simplement « envoyée » : elle est représentée, découpée, adressée et transportée selon des protocoles. Cette idée explique pourquoi une erreur peut venir de l'application, de la configuration réseau, du protocole ou du matériel.</p><h3>Comment diagnostiquer un problème ?</h3><p>Pars du symptôme puis isole les couches : la machine fonctionne-t-elle ? Le réseau local répond-il ? L'adresse est-elle correcte ? Le service distant est-il accessible ? Cette démarche évite de modifier dix paramètres au hasard.</p></div><hr><div class="attention-box"><h3>Comprendre les couches d'un système informatique</h3><p>Un ordinateur et un réseau sont des ensembles de composants qui coopèrent. Le matériel fournit les ressources, le système d'exploitation les gère, les applications les utilisent et le réseau permet l'échange de données entre machines.</p><p>Une donnée n'est pas simplement « envoyée » : elle est représentée, découpée, adressée et transportée selon des protocoles. Cette idée explique pourquoi une erreur peut venir de l'application, de la configuration réseau, du protocole ou du matériel.</p><h3>Comment diagnostiquer un problème ?</h3><p>Pars du symptôme puis isole les couches : la machine fonctionne-t-elle ? Le réseau local répond-il ? L'adresse est-elle correcte ? Le service distant est-il accessible ? Cette démarche évite de modifier dix paramètres au hasard.</p></div><hr><hr><h3>Comment fonctionne Internet ?</h3>
 <ul>
 <li><strong>Adresse IP</strong> : identifiant numérique unique d'un appareil sur un réseau (ex : 192.168.1.1)</li>
 <li><strong>DNS</strong> (Domain Name System) : traduit un nom de domaine (google.com) en adresse IP</li>
 <li><strong>Protocole HTTP/HTTPS</strong> : règles d'échange entre navigateur et serveur web. Le "S" = connexion <mark>chiffrée</mark> (sécurisée)</li>
 <li><strong>Paquets</strong> : les données circulent découpées en petits paquets, réassemblés à l'arrivée</li>
 </ul>
-<div class="attention-box">Ne jamais entrer un mot de passe ou des infos bancaires sur un site en <mark>HTTP</mark> (sans le S) — les données circulent en clair et peuvent être interceptées. Vérifie toujours le cadenas/HTTPS avant de te connecter.</div>
+
 
 <h3>Client / Serveur</h3>
 <div class="formula-box">Le <strong>client</strong> (ton navigateur/ton app) envoie une requête. Le <strong>serveur</strong> (une machine distante qui héberge le site/service) traite la requête et renvoie une réponse.</div>
@@ -117,7 +117,7 @@ flashcards:[
 ]},
 
 'Python en pratique — premiers pas': {
-cours:`<h3>Installer Python</h3>
+cours:`<div class="attention-box"><h3>Comprendre ce que fait réellement un programme Python</h3><p>Une variable associe un nom à une valeur. Une expression produit une valeur. Une condition choisit une branche. Une boucle répète un traitement. Une fonction regroupe un traitement réutilisable.</p><p>Pour comprendre un programme, lis-le comme une transformation : <strong>valeurs initiales → instructions → nouvelles valeurs → résultat</strong>. Si tu ne sais pas ce qu'une variable contient à une ligne donnée, tu ne peux pas prévoir correctement la suite.</p><h3>Comment éviter le copier-coller incompris ?</h3><p>Après avoir vu un exemple, modifie une seule chose et prédis le résultat avant d'exécuter. Cette méthode permet de comprendre le rôle réel d'une instruction et de repérer les erreurs de logique, pas seulement les erreurs de syntaxe.</p></div><hr><div class="attention-box"><h3>Comprendre ce que fait réellement un programme Python</h3><p>Une variable associe un nom à une valeur. Une expression produit une valeur. Une condition choisit une branche. Une boucle répète un traitement. Une fonction regroupe un traitement réutilisable.</p><p>Pour comprendre un programme, lis-le comme une transformation : <strong>valeurs initiales → instructions → nouvelles valeurs → résultat</strong>. Si tu ne sais pas ce qu'une variable contient à une ligne donnée, tu ne peux pas prévoir correctement la suite.</p><h3>Comment éviter le copier-coller incompris ?</h3><p>Après avoir vu un exemple, modifie une seule chose et prédis le résultat avant d'exécuter. Cette méthode permet de comprendre le rôle réel d'une instruction et de repérer les erreurs de logique, pas seulement les erreurs de syntaxe.</p></div><hr><hr><h3>Installer Python</h3>
 <p>Va sur <mark>python.org</mark>, télécharge la dernière version, installe-la (coche "Add Python to PATH" sur Windows). Pour écrire ton code, un éditeur comme <strong>VS Code</strong> (gratuit) suffit largement au début.</p>
 
 <h3>Afficher un message : print()</h3>
@@ -136,7 +136,7 @@ print(nom, "a", age, "ans")</code></pre>
 <h3>Demander une info à l'utilisateur : input()</h3>
 <pre><code>nom = input("Comment tu t'appelles ? ")
 print("Salut", nom, "!")</code></pre>
-<div class="attention-box">input() renvoie toujours du <mark>texte (string)</mark>, même si on tape un nombre ! Pour faire un calcul, il faut convertir avec int() ou float() : <code>age = int(input("Ton âge ? "))</code></div>
+
 
 <h3>Les conditions : if / elif / else</h3>
 <pre><code>age = int(input("Quel âge as-tu ? "))
@@ -231,7 +231,7 @@ flashcards:[
 ]},
 
 'Ressources pour progresser (gratuit)': {
-cours:`<h3>Pratiquer Python sans rien installer</h3>
+cours:`<div class="attention-box"><h3>Comment apprendre à programmer avec des ressources</h3><p>Une ressource est utile si elle te permet de passer de l'explication à la pratique. Lire dix tutoriels sans écrire de code donne une impression de progression mais ne vérifie pas que tu sais produire quelque chose seul.</p><p>Choisis donc une ressource pour apprendre une notion précise, puis ferme-la et reproduis un petit exemple de mémoire. Ensuite modifie le programme et observe ce qui change.</p><h3>Comment choisir une bonne source ?</h3><p>Privilégie la documentation officielle, les cours clairement datés et les exemples vérifiables. Compare les informations lorsque plusieurs versions d'un langage ou d'une bibliothèque existent.</p></div><hr><div class="attention-box"><h3>Comment apprendre à programmer avec des ressources</h3><p>Une ressource est utile si elle te permet de passer de l'explication à la pratique. Lire dix tutoriels sans écrire de code donne une impression de progression mais ne vérifie pas que tu sais produire quelque chose seul.</p><p>Choisis donc une ressource pour apprendre une notion précise, puis ferme-la et reproduis un petit exemple de mémoire. Ensuite modifie le programme et observe ce qui change.</p><h3>Comment choisir une bonne source ?</h3><p>Privilégie la documentation officielle, les cours clairement datés et les exemples vérifiables. Compare les informations lorsque plusieurs versions d'un langage ou d'une bibliothèque existent.</p></div><hr><hr><h3>Pratiquer Python sans rien installer</h3>
 <ul>
 <li><strong>Replit</strong> (replit.com) : IDE en ligne, tu écris et exécutes du Python directement dans le navigateur, aucune installation nécessaire — parfait pour tester rapidement les exemples du chapitre précédent.</li>
 <li><strong>OpenClassrooms — "Apprenez les bases du langage Python"</strong> : cours français gratuit et complet, environ 6h, du niveau débutant.</li>
@@ -252,7 +252,7 @@ flashcards:[
 ]},
 
 'Créer une interface web (HTML/CSS/JS) — objectif décembre': {
-cours:`<h3>Pourquoi ces 3 langages, et dans quel ordre</h3>
+cours:`<div class="attention-box"><h3>Comprendre le rôle de HTML, CSS et JavaScript</h3><p><strong>HTML</strong> décrit la structure et le contenu, <strong>CSS</strong> décrit la présentation, et <strong>JavaScript</strong> ajoute le comportement et la logique. Cette séparation explique pourquoi modifier une couleur ne demande pas la même intervention que modifier une règle de calcul.</p><p>Le navigateur transforme d'abord le HTML en structure de document, applique les règles CSS, puis exécute le JavaScript qui peut lire et modifier cette structure. Comprendre cette chaîne aide à savoir où chercher lorsqu'un élément ne fonctionne pas.</p><h3>Comment construire sans se perdre ?</h3><p>Commence par une structure minimale, fais fonctionner une interaction, puis ajoute le style. Teste après chaque changement important : un gros fichier où tout est modifié en même temps devient difficile à diagnostiquer.</p></div><hr><div class="attention-box"><h3>Comprendre le rôle de HTML, CSS et JavaScript</h3><p><strong>HTML</strong> décrit la structure et le contenu, <strong>CSS</strong> décrit la présentation, et <strong>JavaScript</strong> ajoute le comportement et la logique. Cette séparation explique pourquoi modifier une couleur ne demande pas la même intervention que modifier une règle de calcul.</p><p>Le navigateur transforme d'abord le HTML en structure de document, applique les règles CSS, puis exécute le JavaScript qui peut lire et modifier cette structure. Comprendre cette chaîne aide à savoir où chercher lorsqu'un élément ne fonctionne pas.</p><h3>Comment construire sans se perdre ?</h3><p>Commence par une structure minimale, fais fonctionner une interaction, puis ajoute le style. Teste après chaque changement important : un gros fichier où tout est modifié en même temps devient difficile à diagnostiquer.</p></div><hr><hr><h3>Pourquoi ces 3 langages, et dans quel ordre</h3>
 <div class="formula-box">
 <strong>HTML</strong> : la structure (le squelette) — les titres, boutons, listes, zones de la page. Pas de logique, juste du contenu organisé.<br>
 <strong>CSS</strong> : l'apparence — couleurs, tailles, espacements, mise en page. Rend le HTML joli et organisé visuellement.<br>
@@ -316,7 +316,7 @@ titre.style.color = "red";                    // change le style directement
 const nouveauParagraphe = document.createElement("p");
 nouveauParagraphe.textContent = "Ajouté dynamiquement";
 document.body.appendChild(nouveauParagraphe);</code></pre>
-<div class="attention-box">C'est exactement ce mécanisme (<mark>créer/modifier des éléments en JS</mark>) que ton site utilise pour afficher une nouvelle flashcard ou changer de page sans jamais recharger le HTML de base.</div>
+
 
 <h3>Sauvegarder des données : localStorage</h3>
 <pre><code>// Sauvegarder une donnée (toujours en texte -> JSON pour un objet/tableau)
@@ -397,7 +397,7 @@ flashcards:[
 ]},
 
 'Git & le versioning — indispensable dès que tu codes': {
-cours:`<h3>Le problème que Git résout</h3>
+cours:`<div class="attention-box"><h3>Pourquoi Git existe</h3><p>Git conserve l'historique des modifications d'un projet. L'intérêt n'est pas seulement de « sauvegarder » : il permet de savoir <strong>ce qui a changé, quand, pourquoi et de revenir à un état précédent</strong>.</p><p>Un commit représente un état cohérent du projet. Une branche permet de travailler sur une modification sans perturber immédiatement la version principale. Le dépôt distant sert à partager et sauvegarder cet historique.</p><h3>Comment l'utiliser correctement ?</h3><p>Fais des commits petits et compréhensibles : une fonctionnalité ou une correction par étape. Avant de modifier beaucoup de fichiers, vérifie l'état du dépôt. Cette discipline transforme Git en filet de sécurité plutôt qu'en outil utilisé seulement après une catastrophe.</p></div><hr><div class="attention-box"><h3>Pourquoi Git existe</h3><p>Git conserve l'historique des modifications d'un projet. L'intérêt n'est pas seulement de « sauvegarder » : il permet de savoir <strong>ce qui a changé, quand, pourquoi et de revenir à un état précédent</strong>.</p><p>Un commit représente un état cohérent du projet. Une branche permet de travailler sur une modification sans perturber immédiatement la version principale. Le dépôt distant sert à partager et sauvegarder cet historique.</p><h3>Comment l'utiliser correctement ?</h3><p>Fais des commits petits et compréhensibles : une fonctionnalité ou une correction par étape. Avant de modifier beaucoup de fichiers, vérifie l'état du dépôt. Cette discipline transforme Git en filet de sécurité plutôt qu'en outil utilisé seulement après une catastrophe.</p></div><hr><hr><h3>Le problème que Git résout</h3>
 <p>Sans outil de suivi, on se retrouve vite avec des fichiers comme <mark>script_v2_final_VRAIMENT.js</mark> — impossible de savoir ce qui a changé, ni de revenir en arrière proprement si on casse quelque chose. <strong>Git</strong> est un logiciel de <mark>gestion de versions</mark> : il enregistre l'historique complet des modifications d'un projet, permet de revenir à n'importe quel état passé, et de travailler à plusieurs sans écraser le travail des autres.</p>
 <div class="retenir-box">C'est exactement l'outil derrière la synchronisation GitHub de ton propre site BacMaster — comprendre Git, c'est comprendre ce qui se passe vraiment quand tu synchronises tes fichiers.</div>
 
@@ -421,7 +421,7 @@ git add .              # ajoute TOUS les fichiers modifiés
 # Enregistrer une "photo" du projet à cet instant, avec un message
 git commit -m "Ajoute la page de statistiques"</code></pre>
 <div class="formula-box">Un <strong>commit</strong> est une photo instantanée du projet à un moment donné, accompagnée d'un message qui explique ce qui a changé. L'historique de Git est une suite de commits, chacun pouvant être consulté ou restauré individuellement.</div>
-<div class="attention-box">Un bon message de commit décrit <mark>ce qui a changé et pourquoi</mark>, pas juste "update" ou "fix" — "Corrige le double comptage des stats de session" est bien plus utile dans 6 mois que "fix bug".</div>
+
 
 <h3>Envoyer et récupérer : push et pull</h3>
 <pre><code># Envoyer tes commits locaux vers GitHub
@@ -464,7 +464,7 @@ flashcards:[
 ]},
 
 'Mini-projets Python — s\'entraîner en codant': {
-cours:`<h3>Comment utiliser ce chapitre</h3>
+cours:`<div class="attention-box"><h3>Comprendre comment transformer un problème en programme</h3><p>Avant de coder, définis les <strong>entrées, la sortie attendue et les étapes</strong>. Prends un exemple simple et fais-le à la main : les opérations que tu effectues deviennent ensuite des instructions, les choix deviennent des conditions et les répétitions deviennent des boucles.</p><h3>Pourquoi tester plusieurs cas ?</h3><p>Un programme peut fonctionner pour ton premier exemple et être faux dans un cas limite. Teste donc un cas normal, une valeur extrême, des égalités ou une entrée vide lorsque c'est pertinent. Le but est de vérifier que l'algorithme correspond à la règle que tu voulais programmer.</p><p>Quand un programme échoue, cherche la première valeur qui devient incorrecte. Suivre les variables étape par étape est généralement plus efficace que modifier plusieurs lignes au hasard.</p></div><hr><h3>Comment utiliser ce chapitre</h3>
 <p>Contrairement aux autres chapitres, celui-ci n'a rien à lire avant de commencer : les "exercices" ci-dessous sont de <mark>vrais petits programmes à écrire toi-même</mark>, sur Replit (replit.com) ou VS Code. Écris ton code, exécute-le, compare avec la correction seulement après avoir essayé.</p>
 <div class="retenir-box">Ne regarde pas la correction avant d'avoir vraiment essayé, même si ça bloque 10 minutes — c'est cette lutte qui fait progresser (effet de génération, vu dans "Science de l'Apprentissage"). Bloqué : relis le chapitre "Python en pratique" plutôt que de sauter direct à la correction.</div>
 <h3>Méthode pour attaquer un exercice de code</h3>
@@ -524,9 +524,9 @@ flashcards:[
 ]},
 
 'Mini-projets HTML/CSS/JS — construire une interface': {
-cours:`<h3>Comment utiliser ce chapitre</h3>
+cours:`<div class="attention-box"><h3>Apprendre en construisant</h3><p>Un mini-projet est utile lorsqu'il force à mobiliser plusieurs notions. Construire une interface oblige par exemple à structurer le HTML, gérer la présentation CSS et écrire une logique JavaScript qui répond à une action utilisateur.</p><h3>Comment découper un projet ?</h3><p>Commence par définir le comportement attendu avant le design : quelles données ? quelles actions ? quel résultat ? Construis ensuite une version minimale qui fonctionne, puis ajoute les améliorations une par une.</p><p>Quand un bug apparaît, réduis le problème à la plus petite partie qui échoue. Cette démarche apprend davantage que de remplacer du code au hasard.</p></div><hr><div class="attention-box"><h3>Apprendre en construisant</h3><p>Un mini-projet est utile lorsqu'il force à mobiliser plusieurs notions. Construire une interface oblige par exemple à structurer le HTML, gérer la présentation CSS et écrire une logique JavaScript qui répond à une action utilisateur.</p><h3>Comment découper un projet ?</h3><p>Commence par définir le comportement attendu avant le design : quelles données ? quelles actions ? quel résultat ? Construis ensuite une version minimale qui fonctionne, puis ajoute les améliorations une par une.</p><p>Quand un bug apparaît, réduis le problème à la plus petite partie qui échoue. Cette démarche apprend davantage que de remplacer du code au hasard.</p></div><hr><hr><h3>Comment utiliser ce chapitre</h3>
 <p>Même principe que les mini-projets Python : crée un fichier <code>.html</code> sur ton PC (ou sur Replit), écris le code toi-même, ouvre-le dans ton navigateur pour voir le résultat, puis compare avec la correction. Chaque exercice combine HTML + CSS + JS — exactement les 3 briques de ton propre site.</p>
-<div class="attention-box">Pour un fichier HTML autonome avec du JS dedans, le code JS se met entre des balises <code>&lt;script&gt;...&lt;/script&gt;</code>, juste avant <code>&lt;/body&gt;</code> — pas besoin de fichier séparé pour ces petits exercices.</div>`,
+`,
 exercices:[
 {niveau:'Facile', enonce:`<p><strong>Page à construire</strong> : une carte de profil simple avec ton prénom, une petite description ("Élève en Première STI2D"), et un bouton "Me contacter" qui, au clic, affiche une alerte JavaScript "Contacte-moi par email !". Ajoute un peu de style CSS : fond de carte coloré, coins arrondis, bouton avec une couleur de fond.</p>`, aide:`Structure de base : un &lt;div&gt; pour la carte, avec un &lt;h2&gt; pour le prénom, un &lt;p&gt; pour la description, et un &lt;button&gt;. Utilise border-radius en CSS pour les coins arrondis, et addEventListener("click", ...) pour l'alerte.`, correction:`<pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;

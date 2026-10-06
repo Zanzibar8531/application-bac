@@ -7,7 +7,7 @@
 PREBUILT['Innovation Techno.'] = {
 
 'Démarche de créativité & innovation': {
-cours:`<h3>Qu'est-ce qu'innover ?</h3>
+cours:`<div class="attention-box"><h3>Comprendre la différence entre invention et innovation</h3><p>Une invention est une nouvelle solution technique ou conceptuelle. Une innovation suppose en plus une <strong>mise en œuvre qui apporte une valeur réelle</strong> : elle peut répondre à un besoin, améliorer un usage ou créer un nouveau modèle.</p><p>Une démarche créative commence souvent par l'identification du problème, puis produit plusieurs idées avant de les sélectionner selon des critères. La phase de divergence cherche des possibilités ; la convergence les compare et en retient certaines.</p><h3>Pourquoi ne pas choisir la première idée ?</h3><p>Parce qu'une idée peut être originale mais impossible à fabriquer, trop chère ou inutile. Le prototypage permet de tester les hypothèses et de découvrir les défauts avant de consacrer davantage de ressources à la solution.</p></div><hr><div class="attention-box"><h3>Comprendre la différence entre invention et innovation</h3><p>Une invention est une nouvelle solution technique ou conceptuelle. Une innovation suppose en plus une <strong>mise en œuvre qui apporte une valeur réelle</strong> : elle peut répondre à un besoin, améliorer un usage ou créer un nouveau modèle.</p><p>Une démarche créative commence souvent par l'identification du problème, puis produit plusieurs idées avant de les sélectionner selon des critères. La phase de divergence cherche des possibilités ; la convergence les compare et en retient certaines.</p><h3>Pourquoi ne pas choisir la première idée ?</h3><p>Parce qu'une idée peut être originale mais impossible à fabriquer, trop chère ou inutile. Le prototypage permet de tester les hypothèses et de découvrir les défauts avant de consacrer davantage de ressources à la solution.</p></div><hr><hr><h3>Qu'est-ce qu'innover ?</h3>
 <p>Innover = créer une solution <strong>nouvelle</strong> qui répond à un <strong>besoin</strong> et qui trouve son marché. On distingue plusieurs types d'innovation :</p>
 <ul>
 <li><strong>Innovation de produit</strong> : un nouveau produit ou une amélioration significative</li>
@@ -25,7 +25,7 @@ cours:`<h3>Qu'est-ce qu'innover ?</h3>
 <li><strong>Prototyper</strong> : maquette rapide pour tester l'idée (papier, carton, impression 3D)</li>
 <li><strong>Tester &amp; itérer</strong> : confronter le prototype aux utilisateurs, améliorer</li>
 </ol>
-<div class="attention-box">Ne pas confondre <mark>diverger</mark> (produire un maximum d'idées, sans aucun jugement) et <mark>converger</mark> (sélectionner). Juger trop tôt pendant la phase de divergence tue la créativité — c'est l'erreur la plus fréquente en projet.</div>
+
 
 <h3>Méthodes de créativité</h3>
 <div class="formula-box">
@@ -60,7 +60,7 @@ flashcards:[
 ]},
 
 'Propriété intellectuelle & veille technologique': {
-cours:`<h3>Protéger une innovation</h3>
+cours:`<div class="attention-box"><h3>Comprendre la propriété intellectuelle</h3><p>Les différents droits ne protègent pas tous la même chose : un brevet concerne une invention technique répondant à des conditions précises, le droit d'auteur protège une œuvre originale, et une marque permet notamment d'identifier des produits ou services.</p><p>La veille technologique consiste à surveiller les évolutions d'un domaine pour repérer nouvelles techniques, concurrents, normes ou brevets. Elle sert à prendre de meilleures décisions, pas à copier automatiquement ce qu'on trouve.</p><h3>Comment faire une veille utile ?</h3><p>Définis d'abord la question à surveiller, sélectionne des sources fiables, compare les informations et date tes trouvailles. Une information non vérifiée ou sortie de son contexte peut conduire à une mauvaise décision technique.</p></div><hr><div class="attention-box"><h3>Comprendre la propriété intellectuelle</h3><p>Les différents droits ne protègent pas tous la même chose : un brevet concerne une invention technique répondant à des conditions précises, le droit d'auteur protège une œuvre originale, et une marque permet notamment d'identifier des produits ou services.</p><p>La veille technologique consiste à surveiller les évolutions d'un domaine pour repérer nouvelles techniques, concurrents, normes ou brevets. Elle sert à prendre de meilleures décisions, pas à copier automatiquement ce qu'on trouve.</p><h3>Comment faire une veille utile ?</h3><p>Définis d'abord la question à surveiller, sélectionne des sources fiables, compare les informations et date tes trouvailles. Une information non vérifiée ou sortie de son contexte peut conduire à une mauvaise décision technique.</p></div><hr><hr><h3>Protéger une innovation</h3>
 <ul>
 <li><strong>Brevet</strong> : protège une invention technique (fonctionnement, procédé). Durée : 20 ans. Déposé auprès de l'INPI en France.</li>
 <li><strong>Marque</strong> : protège un nom, logo, signe distinctif d'une entreprise.</li>
@@ -68,7 +68,7 @@ cours:`<h3>Protéger une innovation</h3>
 <li><strong>Droit d'auteur</strong> : protège automatiquement une œuvre de l'esprit (texte, code, création graphique) dès sa création.</li>
 </ul>
 <div class="formula-box">Pour être brevetable, une invention doit être : <strong>nouvelle</strong> (jamais divulguée), <strong>inventive</strong> (non évidente pour un professionnel du domaine), et avoir une <strong>application industrielle</strong>.</div>
-<div class="attention-box">Ne confonds pas Brevet et Droit d'auteur : le brevet doit être <mark>déposé</mark> (INPI, démarche active, coût), le droit d'auteur est <mark>automatique</mark> dès la création, sans aucune formalité.</div>
+
 
 <h3>La veille technologique</h3>
 <p>Processus qui consiste à <mark>surveiller en continu</mark> l'évolution des technologies, des brevets, de la concurrence et des marchés pour anticiper les innovations.</p>

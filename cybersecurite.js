@@ -6,13 +6,13 @@
 PREBUILT['Cybersécurité'] = {
 
 'Les menaces & attaques courantes': {
-cours:`<h3>Le phishing (hameçonnage)</h3>
+cours:`<div class="attention-box"><h3>Comprendre une attaque par son mécanisme</h3><p>Une attaque informatique n'est pas seulement un nom à mémoriser. Pour la comprendre, identifie <strong>la cible, la faiblesse exploitée, l'action de l'attaquant et la conséquence</strong>.</p><p>Un phishing trompe par exemple l'utilisateur pour lui faire révéler une information ou effectuer une action. Un malware est un programme conçu pour réaliser une action malveillante. Une attaque par force brute tente de nombreuses possibilités pour trouver un secret. Ces mécanismes sont différents, même s'ils peuvent être combinés.</p><h3>Comment les distinguer ?</h3><p>Demande-toi toujours : « l'attaquant exploite-t-il une personne, un mot de passe, une vulnérabilité logicielle ou une configuration ? ». Cette question permet de reconnaître la famille d'attaque au lieu d'apprendre une liste de définitions.</p></div><hr><div class="attention-box"><h3>Comprendre une attaque par son mécanisme</h3><p>Une attaque informatique n'est pas seulement un nom à mémoriser. Pour la comprendre, identifie <strong>la cible, la faiblesse exploitée, l'action de l'attaquant et la conséquence</strong>.</p><p>Un phishing trompe par exemple l'utilisateur pour lui faire révéler une information ou effectuer une action. Un malware est un programme conçu pour réaliser une action malveillante. Une attaque par force brute tente de nombreuses possibilités pour trouver un secret. Ces mécanismes sont différents, même s'ils peuvent être combinés.</p><h3>Comment les distinguer ?</h3><p>Demande-toi toujours : « l'attaquant exploite-t-il une personne, un mot de passe, une vulnérabilité logicielle ou une configuration ? ». Cette question permet de reconnaître la famille d'attaque au lieu d'apprendre une liste de définitions.</p></div><hr><hr><h3>Le phishing (hameçonnage)</h3>
 <p>Technique qui consiste à se faire passer pour une entité de confiance (banque, administration, entreprise) pour voler des informations (mots de passe, numéro de carte bancaire).</p>
 <ul>
 <li>Souvent par email ou SMS ("smishing") avec un lien vers un faux site imitant le vrai</li>
 <li><strong>Signaux d'alerte</strong> : urgence artificielle, fautes d'orthographe, adresse d'expéditeur bizarre, lien qui ne correspond pas au vrai domaine</li>
 </ul>
-<div class="attention-box">Avant de cliquer sur un lien "urgent" (banque, colis bloqué...), vérifie toujours <mark>l'adresse réelle du lien</mark> (survoler sans cliquer) et l'adresse de l'expéditeur — c'est le réflexe n°1 contre le phishing.</div>
+
 
 <h3>Les malwares (logiciels malveillants)</h3>
 <div class="formula-box">
@@ -53,7 +53,7 @@ flashcards:[
 ]},
 
 'Se protéger : bonnes pratiques': {
-cours:`<h3>Mots de passe robustes</h3>
+cours:`<div class="attention-box"><h3>Comprendre la défense comme une réduction du risque</h3><p>Une bonne pratique de sécurité n'est pas magique : elle réduit une possibilité d'attaque ou limite ses conséquences. Un mot de passe unique empêche par exemple qu'une fuite sur un site permette automatiquement d'entrer sur les autres.</p><p>L'authentification multifacteur ajoute une seconde preuve ; les mises à jour corrigent des vulnérabilités connues ; les sauvegardes permettent de récupérer les données après certains incidents. Chaque mesure répond donc à un risque précis.</p><h3>Comment choisir une protection ?</h3><p>Commence par identifier ce que tu cherches à protéger et contre quelle menace. Une solution disproportionnée ou mal configurée peut être inutile. La sécurité est un ensemble de couches, pas un bouton unique.</p></div><hr><div class="attention-box"><h3>Comprendre la défense comme une réduction du risque</h3><p>Une bonne pratique de sécurité n'est pas magique : elle réduit une possibilité d'attaque ou limite ses conséquences. Un mot de passe unique empêche par exemple qu'une fuite sur un site permette automatiquement d'entrer sur les autres.</p><p>L'authentification multifacteur ajoute une seconde preuve ; les mises à jour corrigent des vulnérabilités connues ; les sauvegardes permettent de récupérer les données après certains incidents. Chaque mesure répond donc à un risque précis.</p><h3>Comment choisir une protection ?</h3><p>Commence par identifier ce que tu cherches à protéger et contre quelle menace. Une solution disproportionnée ou mal configurée peut être inutile. La sécurité est un ensemble de couches, pas un bouton unique.</p></div><hr><hr><h3>Mots de passe robustes</h3>
 <ul>
 <li><strong>Longueur avant tout</strong> : 12-16 caractères minimum, plus important que la complexité seule</li>
 <li>Un mot de passe <mark>unique par service</mark> — jamais réutilisé</li>
@@ -103,8 +103,8 @@ flashcards:[
 ]},
 
 'Accès à distance à tes appareils (légal)': {
-cours:`<h3>La limite légale — à connaître avant tout</h3>
-<div class="attention-box">Accéder à distance à <mark>tes propres appareils</mark> (ton PC, ton téléphone, dont tu es propriétaire) est totalement légal. Accéder au système de quelqu'un d'autre, ou à un service en ligne (établissement scolaire, site de l'État...) <mark>sans autorisation explicite</mark>, est un délit pénal en France (article 323-1 du Code pénal), même à titre de "test" ou "par curiosité".</div>
+cours:`<div class="attention-box"><h3>Comprendre l'accès à distance</h3><p>Un accès distant permet de contrôler ou d'utiliser une machine depuis un autre appareil. Techniquement, cela suppose un service qui écoute, une connexion réseau et une authentification.</p><p>Le risque vient du fait qu'un service accessible depuis l'extérieur devient une nouvelle surface d'attaque. Il faut donc limiter les comptes autorisés, utiliser des méthodes d'authentification robustes, chiffrer la connexion et restreindre l'exposition réseau.</p><h3>Pourquoi le cadre légal compte ?</h3><p>Accéder à son propre appareil ou à un système pour lequel on possède une autorisation n'est pas la même chose qu'accéder à celui d'un tiers. Les mêmes techniques peuvent donc être légitimes dans un environnement de test et illégales ailleurs.</p></div><hr><div class="attention-box"><h3>Comprendre l'accès à distance</h3><p>Un accès distant permet de contrôler ou d'utiliser une machine depuis un autre appareil. Techniquement, cela suppose un service qui écoute, une connexion réseau et une authentification.</p><p>Le risque vient du fait qu'un service accessible depuis l'extérieur devient une nouvelle surface d'attaque. Il faut donc limiter les comptes autorisés, utiliser des méthodes d'authentification robustes, chiffrer la connexion et restreindre l'exposition réseau.</p><h3>Pourquoi le cadre légal compte ?</h3><p>Accéder à son propre appareil ou à un système pour lequel on possède une autorisation n'est pas la même chose qu'accéder à celui d'un tiers. Les mêmes techniques peuvent donc être légitimes dans un environnement de test et illégales ailleurs.</p></div><hr><hr><h3>La limite légale — à connaître avant tout</h3>
+
 
 <h3>Contrôler son PC depuis son téléphone : le SSH</h3>
 <p><strong>SSH (Secure Shell)</strong> : protocole qui permet de se connecter à distance à un ordinateur en ligne de commande, de façon chiffrée.</p>
@@ -148,13 +148,13 @@ flashcards:[
 ]},
 
 'Ressources pour progresser (gratuit et légal)': {
-cours:`<h3>S'entraîner légalement (environnements dédiés)</h3>
+cours:`<div class="attention-box"><h3>Apprendre la cybersécurité sans attaquer des systèmes réels</h3><p>La cybersécurité se pratique sur des environnements conçus pour l'entraînement : machines virtuelles, laboratoires, CTF et plateformes éducatives. Cela permet de comprendre les mécanismes sans prendre pour cible un système qui ne t'appartient pas.</p><p>Pour progresser, alterne théorie et pratique : comprendre une vulnérabilité, reproduire le principe dans un laboratoire autorisé, puis apprendre comment la corriger. La défense devient beaucoup plus claire lorsqu'on comprend le mécanisme de l'attaque.</p></div><hr><div class="attention-box"><h3>Apprendre la cybersécurité sans attaquer des systèmes réels</h3><p>La cybersécurité se pratique sur des environnements conçus pour l'entraînement : machines virtuelles, laboratoires, CTF et plateformes éducatives. Cela permet de comprendre les mécanismes sans prendre pour cible un système qui ne t'appartient pas.</p><p>Pour progresser, alterne théorie et pratique : comprendre une vulnérabilité, reproduire le principe dans un laboratoire autorisé, puis apprendre comment la corriger. La défense devient beaucoup plus claire lorsqu'on comprend le mécanisme de l'attaque.</p></div><hr><hr><h3>S'entraîner légalement (environnements dédiés)</h3>
 <div class="formula-box">
 <strong>Root-Me</strong> (root-me.org) : plateforme française de référence, gratuite, avec des centaines de défis de cybersécurité progressifs (web, cryptographie, réseau...) — l'endroit numéro 1 pour débuter légalement.<br>
 <strong>TryHackMe</strong> : plateforme anglophone très pédagogique, avec des parcours guidés pas à pas pour grands débutants.<br>
 <strong>Hack The Box</strong> : plus technique, pour progresser une fois les bases acquises.
 </div>
-<div class="attention-box">Tout ce que tu fais sur ces plateformes se passe dans des environnements <mark>dédiés et autorisés</mark> — c'est ce qui rend l'entraînement légal. Ne jamais appliquer ces techniques en dehors de ces environnements sans autorisation explicite.</div>
+
 
 <h3>Chaînes YouTube</h3>
 <ul>
@@ -172,7 +172,7 @@ flashcards:[
 ]},
 
 'Les bases du pentest (légal)': {
-cours:`<div class="attention-box">Tout ce chapitre s'applique <mark>exclusivement</mark> à tes propres machines/VM ou à des plateformes qui t'autorisent explicitement (Root-Me, TryHackMe, Hack The Box, machines volontairement vulnérables). Utiliser ces techniques sur un système qui ne t'appartient pas, sans autorisation écrite, est un délit (voir le chapitre de droit dédié).</div>
+cours:`<div class="attention-box"><h3>Comprendre un pentest</h3><p>Un test d'intrusion autorisé cherche à évaluer la sécurité d'un système selon un périmètre défini. Il suit généralement une logique : <strong>reconnaissance → identification des services → recherche de vulnérabilités → validation contrôlée → rapport</strong>.</p><p>Le rapport est aussi important que la découverte : une vulnérabilité doit être expliquée, évaluée et accompagnée d'une mesure de correction. Sans autorisation et périmètre clair, la même activité devient une intrusion.</p><h3>Pourquoi éviter le « hacking au hasard » ?</h3><p>Parce qu'un test sérieux répond à une question de sécurité précise. La méthode permet de reproduire les résultats et de vérifier ensuite que la correction fonctionne.</p></div><hr><div class="attention-box"><h3>Comprendre un pentest</h3><p>Un test d'intrusion autorisé cherche à évaluer la sécurité d'un système selon un périmètre défini. Il suit généralement une logique : <strong>reconnaissance → identification des services → recherche de vulnérabilités → validation contrôlée → rapport</strong>.</p><p>Le rapport est aussi important que la découverte : une vulnérabilité doit être expliquée, évaluée et accompagnée d'une mesure de correction. Sans autorisation et périmètre clair, la même activité devient une intrusion.</p><h3>Pourquoi éviter le « hacking au hasard » ?</h3><p>Parce qu'un test sérieux répond à une question de sécurité précise. La méthode permet de reproduire les résultats et de vérifier ensuite que la correction fonctionne.</p></div><hr><hr>
 
 <h3>La méthodologie d'un test d'intrusion (pentest)</h3>
 <div class="formula-box">
@@ -220,7 +220,7 @@ flashcards:[
 ]},
 
 'Sécurité défensive : durcir un système': {
-cours:`<h3>Réduire la surface d'attaque</h3>
+cours:`<div class="attention-box"><h3>Comprendre le durcissement</h3><p>Durcir un système signifie réduire sa surface d'attaque et limiter les conséquences d'une compromission. On supprime ou désactive ce qui n'est pas nécessaire, on réduit les privilèges, on met à jour et on surveille.</p><p>Le principe du <strong>moindre privilège</strong> est central : un compte ou un service ne doit disposer que des droits nécessaires à sa fonction. Ainsi, si ce compte est compromis, les possibilités de l'attaquant sont limitées.</p><h3>Comment vérifier un durcissement ?</h3><p>Après chaque modification, vérifie à la fois la sécurité et le fonctionnement du système. Une mesure qui bloque une fonction indispensable n'est pas une bonne configuration simplement parce qu'elle est « plus restrictive ».</p></div><hr><div class="attention-box"><h3>Comprendre le durcissement</h3><p>Durcir un système signifie réduire sa surface d'attaque et limiter les conséquences d'une compromission. On supprime ou désactive ce qui n'est pas nécessaire, on réduit les privilèges, on met à jour et on surveille.</p><p>Le principe du <strong>moindre privilège</strong> est central : un compte ou un service ne doit disposer que des droits nécessaires à sa fonction. Ainsi, si ce compte est compromis, les possibilités de l'attaquant sont limitées.</p><h3>Comment vérifier un durcissement ?</h3><p>Après chaque modification, vérifie à la fois la sécurité et le fonctionnement du système. Une mesure qui bloque une fonction indispensable n'est pas une bonne configuration simplement parce qu'elle est « plus restrictive ».</p></div><hr><hr><h3>Réduire la surface d'attaque</h3>
 <p>La <strong>surface d'attaque</strong> désigne l'ensemble des points par lesquels un système pourrait être attaqué (ports ouverts, services actifs, comptes existants...). Principe de base : <mark>désactiver tout ce qui n'est pas utilisé</mark> — un service inutile mais actif est une porte d'entrée potentielle inutile.</p>
 
 <h3>Le pare-feu (firewall)</h3>
@@ -267,7 +267,7 @@ flashcards:[
 ]},
 
 'OSINT & vie privée en ligne': {
-cours:`<h3>Qu'est-ce que l'OSINT ?</h3>
+cours:`<div class="attention-box"><h3>Comprendre l'OSINT</h3><p>L'OSINT consiste à rechercher et recouper des informations accessibles publiquement. Le point important est le <strong>recoupement</strong> : une information trouvée sur une page n'est pas automatiquement vraie.</p><p>Pour protéger sa vie privée, il faut aussi comprendre comment des informations apparemment anodines peuvent se combiner. Une photo, une localisation, un pseudonyme réutilisé et une date peuvent parfois permettre d'inférer beaucoup plus que chaque élément pris séparément.</p><h3>Quel raisonnement adopter ?</h3><p>Évalue la source, la date, l'origine de l'information et les sources indépendantes qui la confirment. Et respecte toujours la vie privée et le cadre légal : « public » ne signifie pas « tout usage est acceptable ».</p></div><hr><div class="attention-box"><h3>Comprendre l'OSINT</h3><p>L'OSINT consiste à rechercher et recouper des informations accessibles publiquement. Le point important est le <strong>recoupement</strong> : une information trouvée sur une page n'est pas automatiquement vraie.</p><p>Pour protéger sa vie privée, il faut aussi comprendre comment des informations apparemment anodines peuvent se combiner. Une photo, une localisation, un pseudonyme réutilisé et une date peuvent parfois permettre d'inférer beaucoup plus que chaque élément pris séparément.</p><h3>Quel raisonnement adopter ?</h3><p>Évalue la source, la date, l'origine de l'information et les sources indépendantes qui la confirment. Et respecte toujours la vie privée et le cadre légal : « public » ne signifie pas « tout usage est acceptable ».</p></div><hr><hr><h3>Qu'est-ce que l'OSINT ?</h3>
 <p><strong>OSINT</strong> (Open Source Intelligence, "renseignement en sources ouvertes") : la discipline qui consiste à collecter et recouper des informations <mark>publiquement accessibles</mark> (réseaux sociaux, sites web, forums, données publiques) pour construire un profil détaillé sur une personne, une entreprise ou un sujet. Contrairement au piratage, l'OSINT n'exploite aucune faille technique — tout ce qu'il utilise est déjà accessible à qui sait chercher au bon endroit.</p>
 <div class="retenir-box">L'OSINT est utilisé aussi bien par des professionnels légitimes (journalistes d'investigation, recruteurs, services de renseignement, enquêteurs) que par des attaquants en phase de <mark>reconnaissance</mark> avant une attaque d'ingénierie sociale — c'est un vrai métier autant qu'une compétence défensive à connaître.</p>
 
@@ -278,7 +278,7 @@ cours:`<h3>Qu'est-ce que l'OSINT ?</h3>
 <li><strong>Le décor d'une photo</strong> (reflet dans une fenêtre, plaque de rue visible, enseigne de magasin) peut suffire à localiser précisément un lieu, une technique appelée <mark>géolocalisation par indices visuels</mark>.</li>
 <li><strong>Les réponses à des "questions de sécurité"</strong> (nom de ton premier animal, ville de naissance) sont souvent devinables ou publiques sur les réseaux sociaux — un point faible classique.</li>
 </ul>
-<div class="attention-box">Une photo publiée avec la géolocalisation activée peut révéler ton adresse (photo prise chez toi), ton établissement scolaire, ou tes habitudes de déplacement — désactive la géolocalisation dans les paramètres de ton appareil photo/réseaux sociaux si tu ne veux pas partager cette information.</div>
+
 
 <h3>Quelques outils OSINT connus (usage légal et informatif)</h3>
 <div class="formula-box">
@@ -314,7 +314,7 @@ flashcards:[
 ]},
 
 'Cryptographie de base : comment ça protège tes données': {
-cours:`<h3>Pourquoi la cryptographie est partout sans qu'on la voie</h3>
+cours:`<div class="attention-box"><h3>Comprendre le chiffrement</h3><p>Le chiffrement transforme une information lisible en une forme incompréhensible sans la clé appropriée. Son objectif principal est de protéger la <strong>confidentialité</strong>, mais la cryptographie peut aussi servir à vérifier l'intégrité ou l'authenticité.</p><p>En chiffrement symétrique, la même clé sert à chiffrer et déchiffrer. En asymétrique, on utilise une paire de clés : publique et privée. La différence permet notamment de résoudre certains problèmes de partage de secrets.</p><h3>Ne pas confondre chiffrement et hachage</h3><p>Un chiffrement est conçu pour être inversé avec la bonne clé. Un hachage produit une empreinte destinée notamment à vérifier une donnée ; on ne doit pas le considérer comme un « chiffrement qu'on pourrait déchiffrer ».</p></div><hr><div class="attention-box"><h3>Comprendre le chiffrement</h3><p>Le chiffrement transforme une information lisible en une forme incompréhensible sans la clé appropriée. Son objectif principal est de protéger la <strong>confidentialité</strong>, mais la cryptographie peut aussi servir à vérifier l'intégrité ou l'authenticité.</p><p>En chiffrement symétrique, la même clé sert à chiffrer et déchiffrer. En asymétrique, on utilise une paire de clés : publique et privée. La différence permet notamment de résoudre certains problèmes de partage de secrets.</p><h3>Ne pas confondre chiffrement et hachage</h3><p>Un chiffrement est conçu pour être inversé avec la bonne clé. Un hachage produit une empreinte destinée notamment à vérifier une donnée ; on ne doit pas le considérer comme un « chiffrement qu'on pourrait déchiffrer ».</p></div><hr><hr><h3>Pourquoi la cryptographie est partout sans qu'on la voie</h3>
 <p>Chaque fois que tu vois un cadenas 🔒 dans la barre d'adresse, que tu payes en ligne, ou que tu envoies un message sur une appli chiffrée, de la <strong>cryptographie</strong> tourne en arrière-plan. C'est la science qui permet de transformer une information lisible en un contenu illisible pour qui n'a pas la clé — et de la retransformer en clair à l'arrivée.</p>
 
 <h3>Chiffrement symétrique : une seule clé</h3>
@@ -335,7 +335,7 @@ cours:`<h3>Pourquoi la cryptographie est partout sans qu'on la voie</h3>
 <li><strong>Vérifier l'intégrité d'un fichier</strong> : comparer le hash d'un fichier téléchargé à celui publié par la source officielle, pour vérifier qu'il n'a pas été altéré.</li>
 <li><strong>Stocker des mots de passe</strong> : un site sérieux ne stocke jamais ton mot de passe en clair, seulement son hash — même en cas de piratage de la base de données, les mots de passe ne sont pas directement lisibles.</li>
 </ul>
-<div class="attention-box">Un bon hash pour mot de passe utilise aussi un <mark>sel</mark> (salt) — une donnée aléatoire ajoutée avant hachage — pour empêcher les attaques par "rainbow tables" (tables précalculées de hash de mots de passe courants).</div>
+
 
 <h3>Le chiffrement de bout en bout (E2EE)</h3>
 <p>Dans une messagerie avec <strong>chiffrement de bout en bout</strong> (Signal, WhatsApp...), les messages sont chiffrés sur l'appareil de l'expéditeur et déchiffrés uniquement sur celui du destinataire — même l'entreprise qui gère le service ne peut pas lire le contenu en transit, contrairement à un chiffrement qui s'arrêterait seulement au niveau du serveur.</p>`,

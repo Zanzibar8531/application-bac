@@ -7,7 +7,7 @@
 PREBUILT['Ingénierie & Dév. Durable'] = {
 
 'Les 3 champs : Énergie, Information, Matière': {
-cours:`<h3>La démarche d'analyse en I2D</h3>
+cours:`<div class="attention-box"><h3>Pourquoi distinguer Énergie, Information et Matière ?</h3><p>Un système technique ne fait pas qu'« avoir des pièces » : il transforme et fait circuler des flux. La <strong>matière</strong> correspond aux éléments physiques, l'<strong>énergie</strong> permet d'alimenter ou d'actionner le système, et l'<strong>information</strong> permet de mesurer, décider et commander.</p><p>Un téléphone illustre les trois : batterie et énergie électrique, composants et matière, capteurs et données pour l'information. Cette séparation aide à construire un diagramme fonctionnel et à comprendre le rôle de chaque bloc.</p><h3>Comment analyser un système ?</h3><p>Pour chaque élément, demande-toi : reçoit-il une information, une énergie ou de la matière ? Que transforme-t-il ? Que transmet-il ensuite ? Cette méthode permet de passer d'une liste de composants à une vraie compréhension du fonctionnement.</p></div><hr><div class="attention-box"><h3>Pourquoi distinguer Énergie, Information et Matière ?</h3><p>Un système technique ne fait pas qu'« avoir des pièces » : il transforme et fait circuler des flux. La <strong>matière</strong> correspond aux éléments physiques, l'<strong>énergie</strong> permet d'alimenter ou d'actionner le système, et l'<strong>information</strong> permet de mesurer, décider et commander.</p><p>Un téléphone illustre les trois : batterie et énergie électrique, composants et matière, capteurs et données pour l'information. Cette séparation aide à construire un diagramme fonctionnel et à comprendre le rôle de chaque bloc.</p><h3>Comment analyser un système ?</h3><p>Pour chaque élément, demande-toi : reçoit-il une information, une énergie ou de la matière ? Que transforme-t-il ? Que transmet-il ensuite ? Cette méthode permet de passer d'une liste de composants à une vraie compréhension du fonctionnement.</p></div><hr><hr><h3>La démarche d'analyse en I2D</h3>
 <p>Tout le programme d'Ingénierie et Développement Durable repose sur l'analyse d'un système technique selon <strong>3 champs complémentaires</strong>, qui interagissent en permanence dans un produit industriel.</p>
 
 <h3>1. Champ Énergie</h3>
@@ -57,7 +57,7 @@ flashcards:[
 ]},
 
 'Développement durable & cycle de vie produit': {
-cours:`<h3>Les 3 piliers du développement durable</h3>
+cours:`<div class="attention-box"><h3>Comprendre le cycle de vie</h3><p>Un produit ne commence pas son histoire lorsqu'on l'achète et ne la termine pas lorsqu'on le jette. Son cycle de vie comprend notamment extraction des matières, fabrication, transport, utilisation et fin de vie. Chaque étape peut consommer des ressources et produire des impacts.</p><p>L'analyse de cycle de vie sert justement à éviter une conclusion trop simple. Un produit peut être meilleur sur une étape et moins bon sur une autre. Il faut donc comparer les impacts sur l'ensemble du cycle, selon des critères définis.</p><h3>Pourquoi parler de compromis ?</h3><p>Une solution technique doit souvent concilier coût, performance, durée de vie, réparabilité et impact environnemental. Le développement durable consiste à rechercher un équilibre argumenté, pas à déclarer qu'un matériau ou un produit est « écologique » sans préciser le critère étudié.</p></div><hr><div class="attention-box"><h3>Comprendre le cycle de vie</h3><p>Un produit ne commence pas son histoire lorsqu'on l'achète et ne la termine pas lorsqu'on le jette. Son cycle de vie comprend notamment extraction des matières, fabrication, transport, utilisation et fin de vie. Chaque étape peut consommer des ressources et produire des impacts.</p><p>L'analyse de cycle de vie sert justement à éviter une conclusion trop simple. Un produit peut être meilleur sur une étape et moins bon sur une autre. Il faut donc comparer les impacts sur l'ensemble du cycle, selon des critères définis.</p><h3>Pourquoi parler de compromis ?</h3><p>Une solution technique doit souvent concilier coût, performance, durée de vie, réparabilité et impact environnemental. Le développement durable consiste à rechercher un équilibre argumenté, pas à déclarer qu'un matériau ou un produit est « écologique » sans préciser le critère étudié.</p></div><hr><hr><h3>Les 3 piliers du développement durable</h3>
 <div class="formula-box">Le développement durable répond aux besoins du présent sans compromettre ceux des générations futures. Il repose sur 3 piliers indissociables :<br>
 <strong>1. Environnemental</strong> — préserver les ressources et les écosystèmes<br>
 <strong>2. Social</strong> — équité, conditions de travail, accès aux biens/services<br>
@@ -82,7 +82,7 @@ cours:`<h3>Les 3 piliers du développement durable</h3>
 
 <h3>Les stratégies de fin de vie (règle des "R")</h3>
 <div class="formula-box">Réduire → Réparer → Réutiliser → Reconditionner → Recycler → Valoriser (énergie) → Éliminer<br>Cet ordre représente les priorités environnementales, du meilleur au moins bon choix.</div>
-<div class="attention-box">L'<mark>ordre</mark> de cette règle est souvent testé : le recyclage n'est PAS la meilleure option — réduire et réparer passent avant, car ils évitent de consommer de nouvelles ressources.</div>
+
 
 <h3>Cahier des charges & besoin</h3>
 <p>Tout projet technique démarre par l'expression d'un <strong>besoin</strong>, formalisé dans un <strong>cahier des charges fonctionnel (CdCF)</strong> qui liste les fonctions attendues et les contraintes (normes, budget, délais, impact environnemental).</p>`,
@@ -103,7 +103,7 @@ flashcards:[
 ]},
 
 'Structures & résistance des matériaux': {
-cours:`<h3>Pourquoi étudier les structures ?</h3>
+cours:`<div class="attention-box"><h3>Comprendre pourquoi une structure tient</h3><p>Une structure reçoit des charges qui provoquent des efforts internes et des déformations. Selon la manière dont la charge agit, on peut rencontrer traction, compression, flexion, torsion ou cisaillement.</p><p>La forme compte autant que le matériau : une même quantité de matière peut être répartie différemment pour augmenter la rigidité. C'est pourquoi les poutres, nervures et profils ne sont pas dessinés au hasard.</p><h3>Comment raisonner sur une pièce ?</h3><p>Commence par identifier les forces et leurs points d'application, puis la façon dont la pièce est maintenue. Détermine ensuite le type de sollicitation dominant. Le choix du matériau et de la géométrie doit répondre à cette sollicitation avec une marge de sécurité suffisante.</p></div><hr><div class="attention-box"><h3>Comprendre pourquoi une structure tient</h3><p>Une structure reçoit des charges qui provoquent des efforts internes et des déformations. Selon la manière dont la charge agit, on peut rencontrer traction, compression, flexion, torsion ou cisaillement.</p><p>La forme compte autant que le matériau : une même quantité de matière peut être répartie différemment pour augmenter la rigidité. C'est pourquoi les poutres, nervures et profils ne sont pas dessinés au hasard.</p><h3>Comment raisonner sur une pièce ?</h3><p>Commence par identifier les forces et leurs points d'application, puis la façon dont la pièce est maintenue. Détermine ensuite le type de sollicitation dominant. Le choix du matériau et de la géométrie doit répondre à cette sollicitation avec une marge de sécurité suffisante.</p></div><hr><hr><h3>Pourquoi étudier les structures ?</h3>
 <p>Une <strong>structure</strong> (poutre, châssis, pont, carcasse d'un produit) doit supporter des charges sans se déformer excessivement ni casser. L'étude des structures permet de <mark>dimensionner</mark> correctement une pièce : ni trop faible (risque de rupture), ni surdimensionnée (surcoût, surpoids inutile).</p>
 
 <h3>Les efforts fondamentaux</h3>
@@ -119,7 +119,7 @@ cours:`<h3>Pourquoi étudier les structures ?</h3>
 <h3>La notion de contrainte</h3>
 <div class="formula-box">Contrainte $\\sigma = \\dfrac{F}{S}$ &nbsp;(en Pascal, Pa, ou souvent en MPa en pratique)<br>Avec F la force appliquée (en Newton) et S la section de la pièce (en m²).</div>
 <p>La contrainte mesure l'intensité de l'effort <mark>rapportée à la surface</mark> qui le supporte — c'est pour ça qu'une pièce plus large résiste mieux à une même force : la contrainte qu'elle subit est plus faible, répartie sur une plus grande section.</p>
-<div class="attention-box">Ne confonds pas <mark>force</mark> (en Newton, l'action globale) et <mark>contrainte</mark> (en Pa, l'intensité rapportée à la surface) — deux pièces peuvent subir la même force mais des contraintes très différentes si leurs sections sont différentes.</div>
+
 
 <h3>Résistance élastique limite et coefficient de sécurité</h3>
 <p>Chaque matériau a une <strong>limite élastique</strong> (Re) : en dessous, il retrouve sa forme initiale après déformation (comportement élastique) ; au-delà, la déformation devient permanente (comportement plastique), jusqu'à la rupture.</p>
@@ -147,7 +147,7 @@ flashcards:[
 ]},
 
 'Systèmes automatisés : capteurs, actionneurs & GRAFCET': {
-cours:`<h3>La chaîne d'information et la chaîne d'énergie, en pratique</h3>
+cours:`<div class="attention-box"><h3>Comprendre un système automatisé</h3><p>Un système automatisé doit <strong>percevoir, décider puis agir</strong>. Le capteur fournit une information sur l'état du système ; la partie commande traite cette information ; l'actionneur réalise l'action physique.</p><h3>Pourquoi le GRAFCET ?</h3><p>Le GRAFCET représente la succession des étapes et les conditions qui permettent de passer de l'une à l'autre. Une étape décrit un état ou une action active ; une transition indique la condition nécessaire pour continuer. Cela permet de transformer une description en langage courant en fonctionnement précis.</p><p>Pour construire un GRAFCET, pars du scénario réel : état initial → action → condition de fin → action suivante. Ne commence pas par dessiner des cases au hasard : le diagramme doit traduire le comportement du système.</p></div><hr><div class="attention-box"><h3>Comprendre un système automatisé</h3><p>Un système automatisé doit <strong>percevoir, décider puis agir</strong>. Le capteur fournit une information sur l'état du système ; la partie commande traite cette information ; l'actionneur réalise l'action physique.</p><h3>Pourquoi le GRAFCET ?</h3><p>Le GRAFCET représente la succession des étapes et les conditions qui permettent de passer de l'une à l'autre. Une étape décrit un état ou une action active ; une transition indique la condition nécessaire pour continuer. Cela permet de transformer une description en langage courant en fonctionnement précis.</p><p>Pour construire un GRAFCET, pars du scénario réel : état initial → action → condition de fin → action suivante. Ne commence pas par dessiner des cases au hasard : le diagramme doit traduire le comportement du système.</p></div><hr><hr><h3>La chaîne d'information et la chaîne d'énergie, en pratique</h3>
 <p>Tout système automatisé (portail motorisé, ascenseur, distributeur automatique) répète le même schéma : <mark>acquérir</mark> une information sur le réel, <mark>traiter</mark> cette information, puis <mark>agir</mark> sur le réel.</p>
 <div class="formula-box">
 <strong>Capteur</strong> (acquérir) → <strong>Partie commande</strong> / microcontrôleur (traiter) → <strong>Actionneur</strong> (agir)<br>
@@ -160,7 +160,7 @@ Ex. portail automatique : cellule photoélectrique (capteur) → carte électron
 <li><strong>Capteur analogique</strong> : renvoie une valeur continue (une infinité de valeurs possibles). Ex : capteur de température, potentiomètre.</li>
 <li><strong>Capteur numérique</strong> : renvoie directement une valeur codée en binaire, déjà exploitable par un microcontrôleur sans conversion. Ex : capteur de distance à ultrason avec sortie numérique.</li>
 </ul>
-<div class="attention-box">Ne confonds pas <mark>analogique</mark> (grandeur continue, il faut la convertir en numérique via un CAN — Convertisseur Analogique-Numérique — avant qu'un microcontrôleur puisse la traiter) et <mark>numérique</mark> (déjà en binaire, directement exploitable). C'est une confusion fréquente à l'oral.</div>
+
 
 <h3>Les actionneurs — agir sur le réel</h3>
 <ul>
@@ -208,7 +208,7 @@ flashcards:[
 ]},
 
 'Cours 1 — Approche design : conception, démarche & brevet': {
-cours:`<div class="formula-box">
+cours:`<div class="attention-box"><h3>Comprendre une démarche de conception</h3><p>Concevoir un objet ne consiste pas à dessiner directement la première idée. On part d'un <strong>besoin</strong>, on transforme ce besoin en fonctions et contraintes, puis on imagine plusieurs solutions avant de choisir et tester.</p><p>Le cahier des charges sert à rendre le besoin mesurable : coût maximal, dimensions, sécurité, ergonomie, performance, matériaux, etc. Une solution n'est donc pas « bonne » parce qu'elle paraît jolie ; elle est bonne si elle satisfait les fonctions et contraintes définies.</p><h3>Pourquoi un brevet ?</h3><p>Le brevet protège une invention répondant à des conditions précises. Il ne protège pas simplement une idée vague. Comprendre cette différence permet de relier innovation, conception et propriété industrielle.</p></div><hr><div class="attention-box"><h3>Comprendre une démarche de conception</h3><p>Concevoir un objet ne consiste pas à dessiner directement la première idée. On part d'un <strong>besoin</strong>, on transforme ce besoin en fonctions et contraintes, puis on imagine plusieurs solutions avant de choisir et tester.</p><p>Le cahier des charges sert à rendre le besoin mesurable : coût maximal, dimensions, sécurité, ergonomie, performance, matériaux, etc. Une solution n'est donc pas « bonne » parce qu'elle paraît jolie ; elle est bonne si elle satisfait les fonctions et contraintes définies.</p><h3>Pourquoi un brevet ?</h3><p>Le brevet protège une invention répondant à des conditions précises. Il ne protège pas simplement une idée vague. Comprendre cette différence permet de relier innovation, conception et propriété industrielle.</p></div><hr><hr><div class="formula-box">
 <strong>Cours 1 : Conception des produits &amp; développement durable — « Approche design »</strong><br>
 Programme : § 1.1.3 approche design et architecturale des produits · § 1.3.1 paramètres de la compétitivité (notions de brevet, d'ergonomie) · § 1.5.1 cycle de vie d'un produit.
 </div>
@@ -260,7 +260,7 @@ Programme : § 1.1.3 approche design et architecturale des produits · § 1.3.1 
 <li><strong>Matérialisation</strong> : souvent en 3 temps : maquettage (carton…), modélisation 3D, prototypage (impression 3D).</li>
 <li><strong>Intégration</strong> : implanter les nouveaux éléments et vérifier qu'ils s'intègrent correctement au produit.</li>
 </ol>
-<div class="attention-box">Ne mélange pas <mark>Idéation</mark> (trouver des idées) et <mark>Cristallisation</mark> (choisir parmi les idées et décrire comment les utiliser). Les trois temps de la Matérialisation vont du plus simple au plus abouti : maquette, modèle 3D, prototype.</div>
+
 
 <h3>3. Propriété intellectuelle — notions de brevet</h3>
 <p>La propriété intellectuelle se divise en deux catégories : la <strong>propriété industrielle</strong> et la <strong>propriété littéraire et artistique</strong>. La propriété industrielle a pour objet la protection et la valorisation des inventions, des innovations et des créations.</p>

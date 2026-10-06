@@ -5,7 +5,7 @@
 
 PREBUILT['Physique-Chimie'] = {
   'Mécanique & Énergie': {
-    cours: `<h2>Mécanique &amp; Énergie</h2>
+    cours: `<div class="attention-box"><h3>Relier mouvement, forces et énergie</h3><p>En mécanique, il faut distinguer <strong>décrire le mouvement</strong> et <strong>expliquer sa cause</strong>. La vitesse décrit comment la position évolue ; une force décrit une interaction capable de modifier le mouvement.</p><p>L'énergie permet une autre lecture : on suit des transferts et des conversions. Une chute transforme par exemple de l'énergie potentielle gravitationnelle en énergie cinétique, avec éventuellement des pertes sous forme thermique. Le bilan énergétique permet donc de vérifier si les grandeurs sont cohérentes.</p><h3>Quelle loi choisir ?</h3><p>Si on te demande une accélération ou un mouvement lié aux forces, pense aux lois de Newton. Si on compare des états avant/après ou des conversions, pense au bilan d'énergie. Le mot-clé de l'énoncé doit guider la loi utilisée, pas une formule apprise au hasard.</p></div><hr><div class="attention-box"><h3>Relier mouvement, forces et énergie</h3><p>En mécanique, il faut distinguer <strong>décrire le mouvement</strong> et <strong>expliquer sa cause</strong>. La vitesse décrit comment la position évolue ; une force décrit une interaction capable de modifier le mouvement.</p><p>L'énergie permet une autre lecture : on suit des transferts et des conversions. Une chute transforme par exemple de l'énergie potentielle gravitationnelle en énergie cinétique, avec éventuellement des pertes sous forme thermique. Le bilan énergétique permet donc de vérifier si les grandeurs sont cohérentes.</p><h3>Quelle loi choisir ?</h3><p>Si on te demande une accélération ou un mouvement lié aux forces, pense aux lois de Newton. Si on compare des états avant/après ou des conversions, pense au bilan d'énergie. Le mot-clé de l'énoncé doit guider la loi utilisée, pas une formule apprise au hasard.</p></div><hr><hr><h2>Mécanique &amp; Énergie</h2>
 <h3>Lois de Newton</h3>
 <div class="formula-box latex-block">
 <strong>1re loi (inertie) :</strong> $\sum \vec{F} = \vec{0} \Leftrightarrow$ mouvement rectiligne uniforme<br>
@@ -42,13 +42,13 @@ $$W = \vec{F} \cdot \vec{d} = Fd\cos\theta \qquad P = \frac{W}{\Delta t} = Fv$$
     ]
   },
   'Chimie — Solutions aqueuses': {
-    cours: `<h2>Chimie — Solutions aqueuses</h2>
+    cours: `<div class="attention-box"><h3>Comprendre une solution aqueuse</h3><p>Une solution est un mélange homogène : le <strong>solvant</strong> dissout un ou plusieurs <strong>solutés</strong>. Une solution aqueuse utilise l'eau comme solvant. La concentration permet de relier la quantité de soluté au volume de solution.</p><p>Lors d'une dilution, on ajoute du solvant sans changer la quantité de soluté transférée. C'est pourquoi, dans une dilution idéale, la quantité de matière de soluté se conserve : <em>C₁V₁=C₂V₂</em>. La concentration diminue parce que le même soluté est réparti dans un volume plus grand.</p><h3>Comment choisir la formule ?</h3><p>Identifie d'abord ce que représentent les grandeurs et leurs unités. Si tu connais la concentration et le volume, tu peux retrouver la quantité de matière. Pour une dilution, distingue toujours la solution mère de la solution fille : cela évite d'inverser les volumes et les concentrations.</p></div><hr><div class="attention-box"><h3>Comprendre une solution aqueuse</h3><p>Une solution est un mélange homogène : le <strong>solvant</strong> dissout un ou plusieurs <strong>solutés</strong>. Une solution aqueuse utilise l'eau comme solvant. La concentration permet de relier la quantité de soluté au volume de solution.</p><p>Lors d'une dilution, on ajoute du solvant sans changer la quantité de soluté transférée. C'est pourquoi, dans une dilution idéale, la quantité de matière de soluté se conserve : <em>C₁V₁=C₂V₂</em>. La concentration diminue parce que le même soluté est réparti dans un volume plus grand.</p><h3>Comment choisir la formule ?</h3><p>Identifie d'abord ce que représentent les grandeurs et leurs unités. Si tu connais la concentration et le volume, tu peux retrouver la quantité de matière. Pour une dilution, distingue toujours la solution mère de la solution fille : cela évite d'inverser les volumes et les concentrations.</p></div><hr><hr><h2>Chimie — Solutions aqueuses</h2>
 <h3>pH et acidité</h3>
 <div class="formula-box latex-block">
 $$\text{pH} = -\log[\text{H}_3\text{O}^+] \qquad [\text{H}_3\text{O}^+] = 10^{-\text{pH}}$$
 Acide : pH &lt; 7 — Neutre : pH = 7 — Basique : pH &gt; 7
 </div>
-<div class="attention-box">Le pH est une échelle <mark>logarithmique</mark> : passer de pH 3 à pH 4 divise la concentration en H₃O⁺ par 10, pas par une simple soustraction linéaire. Une petite variation de pH = un grand changement de concentration.</div>
+
 <h3>Couples acide/base</h3>
 <p>Transfert de proton H⁺ entre un <mark>acide (donneur)</mark> et une <mark>base (accepteur)</mark> : $AH + B \rightleftharpoons A^- + BH^+$</p>
 <h3>Concentration molaire et titrage</h3>
@@ -70,7 +70,7 @@ $$C = \frac{n}{V} \text{ (mol/L)} \qquad \text{Équivalence : } n_a = n_b \Right
     ]
   },
   'Électricité — circuits & lois de base': {
-    cours: `<h2>Électricité — Lois fondamentales</h2>
+    cours: `<div class="attention-box"><h3>Comprendre un circuit électrique</h3><p>La tension mesure une différence de potentiel entre deux points, tandis que le courant mesure le débit de charges électriques. La résistance décrit la façon dont un dipôle s'oppose au passage du courant.</p><p>La loi d'Ohm <strong>U=RI</strong> relie ces trois grandeurs pour un conducteur ohmique. Elle ne dit pas « qu'il faut toujours multiplier » : selon la grandeur cherchée, on isole <em>U</em>, <em>R</em> ou <em>I</em>.</p><h3>Pourquoi les lois des circuits ?</h3><p>Dans un circuit en série, le courant est le même dans les dipôles traversés successivement. Dans une dérivation, la tension est la même aux bornes des branches reliées aux mêmes nœuds et les courants se répartissent. Identifier la topologie du circuit permet donc de savoir quelle relation utiliser.</p></div><hr><div class="attention-box"><h3>Comprendre un circuit électrique</h3><p>La tension mesure une différence de potentiel entre deux points, tandis que le courant mesure le débit de charges électriques. La résistance décrit la façon dont un dipôle s'oppose au passage du courant.</p><p>La loi d'Ohm <strong>U=RI</strong> relie ces trois grandeurs pour un conducteur ohmique. Elle ne dit pas « qu'il faut toujours multiplier » : selon la grandeur cherchée, on isole <em>U</em>, <em>R</em> ou <em>I</em>.</p><h3>Pourquoi les lois des circuits ?</h3><p>Dans un circuit en série, le courant est le même dans les dipôles traversés successivement. Dans une dérivation, la tension est la même aux bornes des branches reliées aux mêmes nœuds et les courants se répartissent. Identifier la topologie du circuit permet donc de savoir quelle relation utiliser.</p></div><hr><hr><h2>Électricité — Lois fondamentales</h2>
 <h3>I. Courant électrique</h3>
 <p>Un courant électrique correspond à un <mark>déplacement de charges électriques</mark>. Les porteurs de charge sont soit des électrons (charge négative −e), soit des protons (charge positive +e). Dans les conducteurs métalliques (fils, câbles en cuivre ou aluminium), les porteurs de charge sont <mark>toujours des électrons</mark>.</p>
 <div class="formula-box">Charge élémentaire : $e = 1,602 \\times 10^{-19}\\,C$. La charge d'un système $Q = n \\times e$ (n entier), exprimée en Coulomb (C).</div>
@@ -95,7 +95,7 @@ Unité : le volt (V). $U_{AB}$ est représentée par une flèche dont la <mark>p
 
 <h3>Mesure de la tension</h3>
 <p>Le voltmètre (symbole V, bornes + et COM) indique $U_{mes} = (V_+) - (V_{COM})$.</p>
-<div class="attention-box">Pour mesurer $U_{AB}$ : il faut relier la <mark>borne + en A</mark> (donc $V_+=V_A$) et la <mark>borne COM en B</mark> (donc $V_{COM}=V_B$). Le voltmètre affiche alors bien $U_{mes} = V_A - V_B = U_{AB}$ — inverser les bornes inverserait le signe affiché !</div>
+
 
 <h3>III. Branche, maille et nœud</h3>
 <div class="formula-box">
