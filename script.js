@@ -3183,59 +3183,6 @@ function updateSyncStatusBadge() {
 }
 
 
-// ── STYLES COURS — INJECTION GARANTIE ────────────────────────
-(function() {
-    const id = 'bm-cours-styles';
-    if (document.getElementById(id)) return;
-    const s = document.createElement('style');
-    s.id = id;
-    s.textContent = `
-        .cours-body { font-size:1rem; line-height:1.9; color:#334155; max-width:740px; margin:0 auto; padding-bottom:32px; }
-        .cours-body h2 { font-family:'Sora',sans-serif; font-size:1.4rem; font-weight:800; color:#4f46e5 !important; -webkit-text-fill-color:#4f46e5 !important; background:none !important; -webkit-background-clip:unset !important; margin:0 0 1.2em; padding-bottom:12px; border-bottom:3px solid #e0e7ff; }
-        .cours-body h3 { font-family:'Sora',sans-serif; font-size:1rem; font-weight:700; color:#1e1b4b !important; -webkit-text-fill-color:#1e1b4b !important; background:linear-gradient(90deg,#eef2ff,#f5f3ff 80%,transparent) !important; border-left:4px solid #4f46e5; border-radius:0 12px 12px 0; padding:9px 14px 9px 18px; margin:1.8em 0 .8em; border-bottom:none !important; }
-        .cours-body p { margin-bottom:1em; line-height:1.9; color:#334155 !important; }
-        .cours-body strong, .cours-body b { color:#4338ca !important; -webkit-text-fill-color:#4338ca !important; font-weight:700; }
-        .cours-body em, .cours-body i { color:#7c3aed !important; -webkit-text-fill-color:#7c3aed !important; font-style:italic; }
-        .cours-body ul, .cours-body ol { padding:0; margin:.6em 0 1.4em; list-style:none; display:flex; flex-direction:column; gap:8px; }
-        .cours-body li { position:relative; padding:10px 14px 10px 2.6em; background:#f8faff; border:1.5px solid #e0e7ff; border-radius:12px; font-size:.95rem; line-height:1.65; color:#1e293b !important; -webkit-text-fill-color:#1e293b !important; margin:0; transition:all .18s; }
-        .cours-body li:hover { border-color:#6366f1; background:#eef2ff; transform:translateX(4px); }
-        .cours-body ul > li::before { content:'▸'; position:absolute; left:.85em; top:50%; transform:translateY(-50%); color:#6366f1; font-size:.95em; font-weight:700; }
-        .cours-body ol { counter-reset:ol-cours; }
-        .cours-body ol > li { counter-increment:ol-cours; }
-        .cours-body ol > li::before { content:counter(ol-cours); position:absolute; left:.55em; top:50%; transform:translateY(-50%); width:1.5em; height:1.5em; background:#4f46e5; color:#fff !important; -webkit-text-fill-color:#fff !important; border-radius:50%; font-size:.72em; font-weight:800; display:flex; align-items:center; justify-content:center; }
-        .cours-body blockquote, .cours-body .quote-box { margin:1.4em 0; padding:18px 20px 18px 26px; background:linear-gradient(135deg,#f5f3ff,#ede9fe); border-left:6px solid #7c3aed; border-radius:0 18px 18px 0; font-style:italic; font-size:1rem; line-height:1.8; color:#4c1d95 !important; -webkit-text-fill-color:#4c1d95 !important; box-shadow:0 4px 20px rgba(124,58,237,.12); position:relative; }
-        .formula-box { background:linear-gradient(135deg,#eff6ff,#dbeafe); border-left:5px solid #3b82f6; border-radius:0 16px 16px 0; padding:16px 20px; margin:16px 0; font-size:.93rem; line-height:1.9; color:#1e3a5f !important; -webkit-text-fill-color:#1e3a5f !important; }
-        .formula-box strong, .formula-box b { color:#1d4ed8 !important; -webkit-text-fill-color:#1d4ed8 !important; }
-        @media (max-width:600px) { .cours-body h2{font-size:1.2rem!important} .cours-body h3{font-size:.95rem!important} .cours-body li{font-size:.93rem!important} }
-
-        /* Figures de style — priorité maximale car ce bloc JS arrive après style.css */
-        .cours-body .fig, .texte-annote .fig { border-radius:4px !important; padding:1px 5px !important; cursor:pointer !important; border-bottom-style:solid !important; border-bottom-width:3px !important; }
-        .cours-body .fig-metaphore,    .texte-annote .fig-metaphore    { background:#fef08a !important; color:#713f12 !important; -webkit-text-fill-color:#713f12 !important; border-bottom-color:#ca8a04 !important; }
-        .cours-body .fig-comparaison,  .texte-annote .fig-comparaison  { background:#bfdbfe !important; color:#1e3a8a !important; -webkit-text-fill-color:#1e3a8a !important; border-bottom-color:#2563eb !important; }
-        .cours-body .fig-perso,        .texte-annote .fig-perso        { background:#bbf7d0 !important; color:#14532d !important; -webkit-text-fill-color:#14532d !important; border-bottom-color:#16a34a !important; }
-        .cours-body .fig-anaphore,     .texte-annote .fig-anaphore     { background:#ddd6fe !important; color:#4c1d95 !important; -webkit-text-fill-color:#4c1d95 !important; border-bottom-color:#7c3aed !important; }
-        .cours-body .fig-oxymore,      .texte-annote .fig-oxymore      { background:#fecaca !important; color:#7f1d1d !important; -webkit-text-fill-color:#7f1d1d !important; border-bottom-color:#dc2626 !important; }
-        .cours-body .fig-ironie,       .texte-annote .fig-ironie       { background:#fed7aa !important; color:#7c2d12 !important; -webkit-text-fill-color:#7c2d12 !important; border-bottom-color:#ea580c !important; }
-        .cours-body .fig-euphem,       .texte-annote .fig-euphem       { background:#bae6fd !important; color:#0c4a6e !important; -webkit-text-fill-color:#0c4a6e !important; border-bottom-color:#0284c7 !important; }
-        .cours-body .fig-accumulation, .texte-annote .fig-accumulation { background:#e9d5ff !important; color:#581c87 !important; -webkit-text-fill-color:#581c87 !important; border-bottom-color:#9333ea !important; }
-        .cours-body .fig-apostrophe,   .texte-annote .fig-apostrophe   { background:#a7f3d0 !important; color:#064e3b !important; -webkit-text-fill-color:#064e3b !important; border-bottom-color:#059669 !important; }
-        .cours-body .fig-question,     .texte-annote .fig-question     { background:#fde68a !important; color:#78350f !important; -webkit-text-fill-color:#78350f !important; border-bottom-color:#d97706 !important; }
-        .cours-body .fig-ellipse,      .texte-annote .fig-ellipse      { background:#a7f3d0 !important; color:#064e3b !important; -webkit-text-fill-color:#064e3b !important; border-bottom-color:#10b981 !important; }
-        .cours-body .fig-antithese,    .texte-annote .fig-antithese    { background:#fca5a5 !important; color:#7f1d1d !important; -webkit-text-fill-color:#7f1d1d !important; border-bottom-color:#ef4444 !important; }
-        .cours-body .fig-chute,        .texte-annote .fig-chute        { background:#312e81 !important; color:#e0e7ff !important; -webkit-text-fill-color:#e0e7ff !important; border-bottom-color:#818cf8 !important; }
-        .cours-body .fig-hyperbole,    .texte-annote .fig-hyperbole    { background:#fda4af !important; color:#881337 !important; -webkit-text-fill-color:#881337 !important; border-bottom-color:#f43f5e !important; }
-        .cours-body .fig-antiphrase,   .texte-annote .fig-antiphrase   { background:#fed7aa !important; color:#7c2d12 !important; -webkit-text-fill-color:#7c2d12 !important; border-bottom-color:#f97316 !important; }
-        .cours-body .fig-pleonasme,    .texte-annote .fig-pleonasme    { background:#bbf7d0 !important; color:#14532d !important; -webkit-text-fill-color:#14532d !important; border-bottom-color:#22c55e !important; }
-        .cours-body .fig-these,        .texte-annote .fig-these        { background:#bae6fd !important; color:#0c4a6e !important; -webkit-text-fill-color:#0c4a6e !important; border-bottom-color:#0ea5e9 !important; }
-        .cours-body .fig-concession,   .texte-annote .fig-concession   { background:#fbcfe8 !important; color:#831843 !important; -webkit-text-fill-color:#831843 !important; border-bottom-color:#ec4899 !important; }
-        .cours-body .fig-relativisme,  .texte-annote .fig-relativisme  { background:#fef08a !important; color:#713f12 !important; -webkit-text-fill-color:#713f12 !important; border-bottom-color:#ca8a04 !important; }
-        .cours-body .fig-note,         .texte-annote .fig-note         { background:#e2e8f0 !important; color:#1e293b !important; -webkit-text-fill-color:#1e293b !important; border-bottom-color:#64748b !important; }
-        .cours-body .fig-periphrase,   .texte-annote .fig-periphrase   { background:#bae6fd !important; color:#0c4a6e !important; -webkit-text-fill-color:#0c4a6e !important; border-bottom-color:#0284c7 !important; }
-        .cours-body .fig-synesthesie,  .texte-annote .fig-synesthesie  { background:#99f6e4 !important; color:#134e4a !important; -webkit-text-fill-color:#134e4a !important; border-bottom-color:#14b8a6 !important; }
-    `;
-    document.head.appendChild(s);
-})();
-
 // ── TOAST HELPER ─────────────────────────────────────────────
 function showToast(msg, type='info') {
     const existing = document.querySelector('.bm-toast');
