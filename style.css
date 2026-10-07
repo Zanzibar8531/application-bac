@@ -213,36 +213,6 @@ body {
 html[data-theme="dark"] .topbar {
   box-shadow: 0 6px 24px rgba(0,0,0,.5);
 }
-.burger {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 7px;
-  border-radius: 8px;
-  transition: background .15s;
-  flex-shrink: 0;
-  order: 1;
-}
-.burger:hover {
-  background: var(--bg);
-}
-.burger span {
-  display: block;
-  width: 20px;
-  height: 2px;
-  border-radius: 2px;
-  background: #0e1525;
-}
-.tb-brand {
-  font-family: 'Sora',sans-serif;
-  font-weight: 800;
-  font-size: 1.1rem;
-  cursor: pointer;
-  order: 2;
-}
 .tb-contextnav {
   align-items: center;
   scrollbar-width: none;
@@ -269,20 +239,6 @@ html[data-theme="dark"] .topbar {
   text-overflow: ellipsis;
   font: 700 .76rem 'DM Sans',sans-serif;
   min-width: 0;
-}
-.tb-course-actions {
-  display: flex;
-  align-items: center;
-}
-.tb-course-action {
-  border: 1px solid var(--border);
-  color: var(--text);
-  font: 700 .72rem 'DM Sans',sans-serif;
-  white-space: nowrap;
-}
-.tb-course-action:hover {
-  border-color: var(--accent);
-  color: var(--accent);
 }
 #main {
   flex: 1;
@@ -2485,26 +2441,6 @@ html[data-theme="dark"] .qcm-q-box {
 }
 
 /* ── MUSIC PLAYER ────────────────────────────────────────── */
-.music-btn {
-  background: none;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  padding: 6px 10px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all .15s;
-  flex-shrink: 0;
-}
-.music-btn:hover,
-.music-btn-active {
-  background: #4f46e5;
-  border-color: #4f46e5;
-}
-.tb-actions {
-  margin-left: auto;
-  display: flex;
-  gap: 6px;
-}
 .music-panel {
   position: fixed;
   bottom: 16px;
@@ -2624,32 +2560,13 @@ html[data-theme="dark"] .qcm-q-box {
 .sb-link {
   color: #ffffff !important;
 }
-.tb-brand {
-  color: #0e1525;
-}
-.music-btn {
-  color: #0e1525;
-}
 
 /* ── TOPBAR EN MODE SOMBRE ────────────────────────────────── */
 
 /* Les règles ci-dessus forcent du noir sur la topbar, pensée pour un fond
    clair — en mode sombre le fond devient sombre (--card), donc on éclaircit
    ces éléments pour qu'ils restent bien visibles. */
-html[data-theme="dark"] .topbar .bc-btn,
-html[data-theme="dark"] .topbar .burger span,
-html[data-theme="dark"] .burger span,
-html[data-theme="dark"] .tb-brand,
-html[data-theme="dark"] .music-btn {
-  color: #e7ebf3;
-}
-html[data-theme="dark"] .burger span {
-  background: #e7ebf3;
-}
-html[data-theme="dark"] .music-btn {
-  border-color: var(--border);
-}
-html[data-theme="dark"] .search-btn {
+html[data-theme="dark"] .topbar .bc-btn {
   color: #e7ebf3;
 }
 
@@ -2838,56 +2755,6 @@ html[data-theme="dark"] .voc-del-sq {
 }
 
 /* ── SEARCH ──────────────────────────────────────────────── */
-.search-btn {
-  margin-left: 4px;
-  background: none;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  padding: 6px 10px;
-  font-size: .95rem;
-  cursor: pointer;
-  color: #0e1525;
-  transition: all .15s;
-  order: 3;
-}
-.search-btn:hover {
-  background: #4f46e5;
-  color: #fff;
-  border-color: #4f46e5;
-}
-.search-result {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 11px 12px;
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  cursor: pointer;
-  margin-bottom: 7px;
-  transition: all .13s;
-}
-.search-result:hover {
-  border-color: var(--accent);
-  background: var(--bg);
-}
-.sr-icon {
-  font-size: 1.2rem;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-.sr-title {
-  font-weight: 600;
-  font-size: .88rem;
-  margin-bottom: 2px;
-}
-.sr-meta {
-  font-size: .74rem;
-  color: var(--muted);
-}
-.sr-body {
-  flex: 1;
-  min-width: 0;
-}
 
 /* ── LATEX / MATHJAX ─────────────────────────────────────── */
 .latex-block {
@@ -2938,8 +2805,7 @@ button,
 
 /* Le contenu de cours reste sélectionnable */
 .cours-body,
-.voc-row span,
-.search-result {
+.voc-row span {
   user-select: text;
   -webkit-user-select: text;
 }
@@ -4515,31 +4381,15 @@ html[data-theme="dark"] .cours-body .analyse-lineaire-box strong {
 }
 
 /* Barre du haut : trois zones (logo, contexte, actions) */
-.tb-brand {
-  grid-column: 1;
-}
 .tb-contextnav {
   grid-column: 2;
 }
-.tb-course-actions {
-  grid-column: 3;
-}
-.tb-actions {
-  grid-column: 4;
-}
 
 /* Le bloc gauche de la barre reste compact ; le contexte occupe réellement le centre. */
-.topbar {
-  grid-template-columns: auto minmax(0,1fr) auto auto;
-}
 .tb-contextnav button {
   max-width: 190px;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-.tb-course-action.disabled {
-  cursor: not-allowed;
-  opacity: .42;
 }
 
 /* Colonne sommaire : assez large pour lire les intitulés, mais sans manger le cours. */
@@ -4572,12 +4422,6 @@ html[data-theme="dark"] .cours-body .analyse-lineaire-box strong {
 
 /* Sur mobile, le sommaire quitte complètement le cours et rejoint le menu gauche. */
 @media(max-width:800px) {
-  .tb-course-actions {
-    grid-column: 3;
-  }
-  .tb-actions {
-    grid-column: 4;
-  }
   .course-side-column {
     display: none;
   }
@@ -4633,29 +4477,6 @@ html[data-theme="dark"] .cours-body .analyse-lineaire-box strong {
   overflow: hidden;
   justify-content: center;
 }
-.tb-course-actions {
-  order: 5;
-  flex: 0 0 auto;
-  margin-left: 0;
-}
-.tb-actions {
-  order: 6;
-  flex: 0 0 auto;
-}
-@media(max-width:800px) {
-  .tb-course-actions {
-    margin-left: auto;
-  }
-  .tb-course-action {
-    font-size: .66rem;
-    min-height: 32px;
-    padding: 7px 8px;
-    border-radius: 9px;
-  }
-  .tb-course-action.disabled {
-    display: none;
-  }
-}
 
 /* Barre du haut : boutons cohérents */
 .tb-contextnav button {
@@ -4689,22 +4510,6 @@ html[data-theme="dark"] .cours-body .analyse-lineaire-box strong {
   background: transparent;
   border-color: transparent;
   box-shadow: none;
-}
-.tb-course-actions {
-  gap: 7px;
-}
-.tb-course-action {
-  border: 1px solid color-mix(in srgb, var(--border) 80%, var(--accent));
-  background: var(--card);
-  box-shadow: 0 2px 8px rgba(14,21,37,.06);
-  transition: transform .15s ease, border-color .15s ease, background .15s ease, color .15s ease, box-shadow .15s ease;
-}
-.tb-course-action:not(.disabled):hover {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 9%, var(--card));
-  color: var(--accent);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(14,21,37,.10);
 }
 @media(max-width:800px) {
   .tb-contextnav {
@@ -4797,28 +4602,6 @@ body.home-page .page-head p {
   }
   body.home-page .scard-meta {
     font-size: .68rem;
-  }
-}
-@media(max-width:800px) {
-  body.course-page .tb-course-actions {
-    flex: 0 0 auto;
-    gap: 4px;
-  }
-  body.course-page .tb-course-action {
-    width: 42px;
-    min-width: 42px;
-    height: 40px;
-    padding: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  body.course-page .tb-course-action .tb-action-label {
-    display: none;
-  }
-  body.course-page .tb-course-action .tb-action-icon {
-    font-size: 1.05rem;
-    line-height: 1;
   }
 }
 
@@ -5024,24 +4807,15 @@ body.course-page .course-content-card {
     gap: 5px;
   }
   .tb-contextnav button {
-    padding: 6px 9px !important;
-    min-height: 30px;
-    border-radius: 9px;
-    font-size: .68rem;
+    padding: 6px 12px !important;
+    min-height: 38px;
+    border-radius: 11px;
+    font-size: .78rem;
   }
   .tb-contextnav .tb-chapter-title {
-    min-height: 30px;
-    padding: 0 8px;
-    font-size: .68rem;
-  }
-  .tb-course-actions {
-    gap: 5px;
-  }
-  .tb-course-action {
-    min-height: 30px;
-    padding: 6px 9px;
-    border-radius: 9px;
-    font-size: .68rem;
+    min-height: 38px;
+    padding: 0 10px;
+    font-size: .76rem;
   }
   body.home-page .scard {
     padding: 15px 13px 13px;
@@ -5211,69 +4985,7 @@ body.course-page .editor-scroll-nav {
    partagent exactement la même largeur.
    ============================================================ */
 
-/* ============================================================
-   MOBILE — BARRE DU HAUT COMPACTE
-   Boutons et logo réduits pour que tout tienne dès 320 px de large
-   (burger, logo, loupe, Me tester, Imprimer, musique, thème).
-   ============================================================ */
 @media (max-width:600px) {
-  .topbar {
-    gap: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-  .topbar .burger {
-    padding: 5px;
-    gap: 4px;
-  }
-  .topbar .burger span {
-    width: 17px;
-  }
-  .topbar .tb-brand {
-    font-size: .92rem;
-    letter-spacing: -.2px;
-    white-space: nowrap;
-  }
-  .topbar .search-btn {
-    margin-left: 0;
-    padding: 0;
-    width: 32px;
-    height: 32px;
-    font-size: .82rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .topbar .tb-course-actions {
-    gap: 3px !important;
-  }
-  body.course-page .topbar .tb-course-action,
-  .topbar .tb-course-action {
-    width: 32px;
-    min-width: 32px;
-    height: 32px;
-    min-height: 32px;
-    padding: 0;
-    border-radius: 8px;
-  }
-  body.course-page .topbar .tb-course-action .tb-action-icon {
-    font-size: .9rem;
-  }
-  .topbar .tb-actions {
-    gap: 3px;
-  }
-  .topbar .music-btn {
-    width: 32px;
-    height: 32px;
-    padding: 0;
-    font-size: .88rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .topbar.has-mnav .tb-brand {
-    display: none;
-  }
   .cours-body h2 {
     font-size: 1.2rem !important;
   }
@@ -5285,51 +4997,6 @@ body.course-page .editor-scroll-nav {
   }
 }
 
-/* ============================================================
-   MOBILE — BOUTONS ACCUEIL ET RETOUR DANS LA BARRE DU HAUT
-   La barre contextuelle desktop est masquée sur téléphone : deux
-   boutons-icônes (accueil, retour aux chapitres) la remplacent.
-   ============================================================ */
-.tb-mobile-nav {
-  display: none;
-}
-@media(max-width:800px) {
-  .tb-mobile-nav {
-    display: flex;
-    order: 3;
-    gap: 3px;
-    flex: 0 0 auto;
-    align-items: center;
-  }
-  .tb-mobile-nav:empty {
-    display: none;
-  }
-  .tb-mnav-btn {
-    width: 34px;
-    height: 34px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: none;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    color: #0e1525;
-    font-size: .95rem;
-    font-weight: 800;
-    line-height: 1;
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-  .tb-mnav-btn:active {
-    background: #4f46e5;
-    color: #fff;
-    border-color: #4f46e5;
-  }
-  html[data-theme="dark"] .tb-mnav-btn {
-    color: #e7ebf3;
-  }
-}
 
 /* ── Styles du cours (auparavant injectés par script.js) ── */
 .cours-body {
@@ -5582,4 +5249,156 @@ body.course-page .editor-scroll-nav {
   color: #134e4a !important;
   -webkit-text-fill-color: #134e4a !important;
   border-bottom-color: #14b8a6 !important;
+}
+
+/* ============================================================
+   BARRE DU HAUT — burger, logo, boutons d'action
+   ------------------------------------------------------------
+   Tous les boutons sont des carrés de --tb-btn, avec une icône
+   seule (le nom de l'action est dans l'infobulle / aria-label).
+   Sur téléphone, la taille s'adapte à la largeur de l'écran :
+   44 px au maximum, 34 px au minimum, pour que le logo et les
+   5 boutons (←, Me tester, Imprimer, musique, thème) tiennent.
+   ============================================================ */
+:root {
+  --tb-btn: 42px;
+}
+
+.burger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  flex: 0 0 auto;
+  width: 36px;
+  height: var(--tb-btn);
+  padding: 0 8px;
+  background: none;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .15s;
+}
+.burger:hover {
+  background: var(--bg);
+}
+.burger span {
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--text);
+}
+
+.tb-brand {
+  order: 2;
+  flex: 0 0 auto;
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: -.2px;
+  color: var(--text);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tb-mobile-nav {
+  display: none;
+  order: 3;
+}
+.tb-course-actions {
+  order: 5;
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 6px;
+}
+.tb-actions {
+  order: 6;
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 6px;
+}
+
+/* Les boutons carrés : retour (←), Me tester, Imprimer, musique, thème */
+.tb-mnav-btn,
+.tb-course-action,
+.music-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: var(--tb-btn);
+  height: var(--tb-btn);
+  padding: 0;
+  font-size: calc(var(--tb-btn) * .47);
+  line-height: 1;
+  color: var(--text);
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-color: color-mix(in srgb, var(--border) 80%, var(--accent));
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(14, 21, 37, .06);
+  cursor: pointer;
+  transition: border-color .15s, background .15s, transform .15s, box-shadow .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.tb-mnav-btn {
+  font-weight: 800;
+}
+.tb-mnav-btn:hover,
+.tb-course-action:not(.disabled):hover,
+.music-btn:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 9%, var(--card));
+  transform: translateY(-1px);
+}
+.tb-mnav-btn:active,
+.tb-course-action:not(.disabled):active,
+.music-btn:active {
+  transform: scale(.94);
+}
+.music-btn-active,
+.music-btn-active:hover {
+  color: #fff;
+  background: #4f46e5;
+  border-color: #4f46e5;
+}
+.tb-course-action.disabled {
+  opacity: .42;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+@media (max-width: 800px) {
+  :root {
+    --tb-btn: clamp(34px, calc((100vw - 160px) / 5), 44px);
+  }
+  .tb-brand {
+    font-size: clamp(.9rem, 4.1vw, 1.1rem);
+  }
+  .tb-mobile-nav {
+    display: flex;
+    align-items: center;
+  }
+  .tb-mobile-nav:empty {
+    display: none;
+  }
+  .tb-course-actions {
+    margin-left: auto;
+    gap: 4px;
+  }
+  .tb-actions {
+    gap: 4px;
+  }
+  .tb-course-action.disabled {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  .topbar {
+    gap: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }

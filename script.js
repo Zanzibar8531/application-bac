@@ -51,6 +51,14 @@ Object.entries(PREBUILT).forEach(([subj, chapters]) => {
                     existingCards.push({ q: f.q, a: f.a, score: 0, interval: 0, ease: 2.5, due: null });
                 }
             });
+            // Réparation : une ancienne carte dont la réponse contient un caractère de contrôle
+            // (formule LaTeX abîmée par un backslash mal échappé) reprend la version corrigée de PREBUILT.
+            // Les scores de révision sont conservés.
+            const fixedByQ = new Map(data.flashcards.map(f => [f.q, f]));
+            existingCards.forEach(c => {
+                const fixed = fixedByQ.get(c.q);
+                if (fixed && c.a !== fixed.a && /[\u0008\u000b\u000c\t]/.test(c.a)) c.a = fixed.a;
+            });
             db[subj][ch].flashcards = existingCards;
 
             // Les exercices ne sont pas édités par l'élève dans l'app :
@@ -142,10 +150,10 @@ function subStats(name) {
 
 // ── ACTIVITÉ & SÉRIE DE JOURS (dashboard global) ────────────────
 // Stocké séparément de `db` (pas une matière) pour ne jamais interférer
-// avec le sync GitHub ni la recherche qui parcourent Object.keys(db).
+// avec le sync GitHub qui parcourt Object.keys(db).
 // ── AGENDA DES ÉVALUATIONS ──────────────────────────────────────
 // Stocké séparément de `db` (comme l'activité) pour ne jamais interférer
-// avec le sync GitHub ni la recherche qui parcourent Object.keys(db).
+// avec le sync GitHub qui parcourt Object.keys(db).
 let curAgendaEvals = [];
 function getEvals() {
     try { return JSON.parse(localStorage.getItem('bacmaster_evals') || '[]'); }
@@ -205,7 +213,7 @@ function last7DaysActivity() {
 
 // ── SUIVI DU TEMPS PASSÉ (par jour → matière → activité) ────────
 // Stocké séparément de `db` et de l'activité booléenne, pour ne jamais
-// interférer avec le sync GitHub ni la recherche qui parcourent Object.keys(db).
+// interférer avec le sync GitHub qui parcourt Object.keys(db).
 // curTrackedPage est mis à jour explicitement par chaque écran "actif"
 // (lecture de cours, session flashcards, QCM, exercices) ; les écrans de
 // menu/accueil le remettent à null. Un tick régulier ajoute le temps écoulé
@@ -550,29 +558,23 @@ function updateTopbarContext() {
     nav.innerHTML = navHtml;
     nav.classList.add('show');
 
-    // Mobile : la barre contextuelle ci-dessus est masquée (trop large). On affiche à la place
-    // deux boutons-icônes : 🏠 Accueil et ← Retour à la liste des chapitres.
+    // Mobile : la barre contextuelle ci-dessus est masquée (trop large).
+    // Le logo "BacMaster" ramène à l'accueil ; on ajoute seulement le bouton ← (retour aux chapitres).
     const mnav = document.getElementById('tb-mobile-nav');
-    const topbar = document.querySelector('.topbar');
     if (mnav) {
-        let mHtml = '';
-        if (curSubject) {
-            mHtml += `<button class="tb-mnav-btn" onclick="goHome()" title="Accueil" aria-label="Accueil">🏠</button>`;
-            if (curChapter) {
-                mHtml += `<button class="tb-mnav-btn" onclick="goModeChapters(curTab==='voc'||curTab==='add'?'voc':'cours')" title="Retour aux chapitres" aria-label="Retour aux chapitres">←</button>`;
-            }
-        }
-        mnav.innerHTML = mHtml;
-        if (topbar) topbar.classList.toggle('has-mnav', !!mHtml);
+        mnav.innerHTML = (curSubject && curChapter)
+            ? `<button class="tb-mnav-btn" onclick="goModeChapters(curTab==='voc'||curTab==='add'?'voc':'cours')" title="Retour aux chapitres" aria-label="Retour aux chapitres">←</button>`
+            : '';
     }
 
     // Les deux actions gardent une place fixe dans la barre supérieure.
     // Elles sont actives uniquement lorsqu'un cours est réellement ouvert.
     if (actions) {
         const active = !!curChapter && curTab === 'cours';
+        const tip = t => active ? t : 'Ouvre un cours pour utiliser cette fonction';
         actions.innerHTML = `
-          <button class="tb-course-action ${active?'':'disabled'}" ${active ? 'onclick="courseSelfTest(true)"' : 'disabled'} title="${active?'Me tester sur ce cours':'Ouvre un cours pour utiliser cette fonction'}"><span class="tb-action-icon">🧠</span><span class="tb-action-label">Me tester</span></button>
-          <button class="tb-course-action ${active?'':'disabled'}" ${active ? 'onclick="window.print()"' : 'disabled'} title="${active?'Imprimer le cours':'Ouvre un cours pour utiliser cette fonction'}"><span class="tb-action-icon">🖨️</span><span class="tb-action-label">Imprimer</span></button>
+          <button class="tb-course-action ${active?'':'disabled'}" ${active ? 'onclick="courseSelfTest(true)"' : 'disabled'} title="${tip('Me tester sur ce cours')}" aria-label="Me tester">🧠</button>
+          <button class="tb-course-action ${active?'':'disabled'}" ${active ? 'onclick="window.print()"' : 'disabled'} title="${tip('Imprimer le cours')}" aria-label="Imprimer le cours">🖨️</button>
         `;
     }
 
@@ -2277,65 +2279,6 @@ function renderQCMResults(){
     `);
 }
 
-
-
-// ── RECHERCHE ─────────────────────────────────────────────────
-function openSearch() {
-    render(`
-        <div class="page-head"><h1>🔍 Recherche</h1></div>
-        <div class="ws-box" style="padding:18px">
-            <input type="text" id="search-input" class="field" placeholder="Mot-clé : chapitre, flashcard, cours…"
-                oninput="doSearch(this.value)" autofocus>
-            <div id="search-results" style="margin-top:14px"></div>
-        </div>
-    `);
-    setTimeout(() => { const el = $('search-input'); if(el) el.focus(); }, 80);
-}
-
-function doSearch(q) {
-    const box = $('search-results');
-    if(!box) return;
-    const term = q.trim().toLowerCase();
-    if(term.length < 2) { box.innerHTML = '<p style="color:var(--muted)">Saisis au moins 2 caractères…</p>'; return; }
-    const results = [];
-    Object.keys(db).forEach(subj => {
-        Object.keys(db[subj]).forEach(ch => {
-            const data = db[subj][ch];
-            // Match chapter name
-            if(ch.toLowerCase().includes(term)) {
-                results.push({type:'chapter', subj, ch, text: ch});
-            }
-            // Match cours content (strip HTML)
-            if(data.cours && data.cours.replace(/<[^>]+>/g,'').toLowerCase().includes(term)) {
-                results.push({type:'cours', subj, ch, text: 'Cours : ' + ch});
-            }
-            // Match flashcards
-            (data.flashcards||[]).forEach((card, i) => {
-                const match = card.q.toLowerCase().includes(term) || card.a.toLowerCase().includes(term);
-                if(match) results.push({type:'card', subj, ch, card, i,
-                    text: card.q.substring(0, 60) + (card.q.length > 60 ? '…' : '')});
-            });
-        });
-    });
-    if(!results.length) { box.innerHTML = '<p style="color:var(--muted)">Aucun résultat pour <b>' + esc(q) + '</b></p>'; return; }
-    const limited = results.slice(0, 30);
-    const CFGmap = {};
-    CFG.forEach(c => CFGmap[c.name] = c.icon);
-    box.innerHTML = '<p style="color:var(--muted);font-size:.8rem;margin-bottom:10px">' + results.length + ' résultat(s)</p>' +
-        limited.map(r => {
-            const icon = r.type==='card' ? '🃏' : r.type==='cours' ? '📖' : '📂';
-            const subjIcon = CFGmap[r.subj] || '📚';
-            const onclick = r.type==='card'
-                ? `curSubject='${esc(r.subj)}';curChapter='${esc(r.ch)}';curTab='voc';renderChapter()`
-                : `curSubject='${esc(r.subj)}';curChapter='${esc(r.ch)}';curTab='cours';renderChapter()`;
-            return '<div class="search-result" onclick="' + onclick + '">' +
-                '<span class="sr-icon">' + icon + '</span>' +
-                '<div class="sr-body">' +
-                '<div class="sr-title">' + r.text + '</div>' +
-                '<div class="sr-meta">' + subjIcon + ' ' + r.subj + ' › ' + r.ch + '</div>' +
-                '</div></div>';
-        }).join('');
-}
 
 
 // ── MATHJAX HELPER ────────────────────────────────────────────

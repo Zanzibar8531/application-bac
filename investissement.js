@@ -6,7 +6,7 @@
 PREBUILT['Bourse & Investissement'] = {
 
 'C\'est quoi la bourse, vraiment ?': {
-cours:`<div class="attention-box"><h3>Comprendre ce qu'est réellement la Bourse</h3><p>Une entreprise peut obtenir des capitaux en empruntant ou en ouvrant une partie de son capital. Une action représente donc une part de propriété. Quand elle est ensuite échangée sur un marché, son prix dépend des ordres d'achat et de vente et des anticipations des investisseurs.</p><p>Il faut séparer <strong>l'entreprise, l'action, son prix et ton rendement</strong>. Une hausse du cours signifie que le prix de marché a augmenté ; elle ne garantit pas que l'entreprise est devenue intrinsèquement plus rentable ni que ton rendement net sera identique après frais, dividendes et fiscalité.</p><h3>Pourquoi le cours bouge-t-il ?</h3><p>Une information nouvelle modifie les anticipations sur les bénéfices, les risques ou l'environnement économique. Les investisseurs réévaluent alors ce qu'ils sont prêts à payer. Comprendre cette chaîne est plus utile que retenir « une bonne nouvelle fait monter une action » sans contexte.</p></div><hr><h3>Pourquoi une entreprise a besoin d'argent</h3>
+cours:`<h3>Pourquoi une entreprise a besoin d'argent</h3>
 <p>Une entreprise qui veut grandir (construire une usine, embaucher, innover) a besoin d'argent qu'elle n'a pas forcément en caisse. Elle a <mark>2 grandes solutions</mark> :</p>
 <ul>
 <li><strong>Emprunter</strong> : à une banque, qu'elle devra rembourser avec des intérêts.</li>
@@ -52,7 +52,7 @@ flashcards:[
 ]},
 
 'Les bases de la bourse': {
-cours:`<div class="attention-box"><h3>Comprendre ce qu'on achète</h3><p>Une action représente une part de propriété d'une entreprise. Son prix de marché varie parce que des acheteurs et des vendeurs confrontent leurs ordres et leurs anticipations sur l'entreprise et son environnement.</p><p>Il faut distinguer <strong>prix, valeur, rendement et risque</strong>. Une action peut monter parce que les anticipations s'améliorent, mais cela ne signifie pas que le gain est garanti. Le rendement dépend aussi du prix payé, des éventuels dividendes, des frais et de l'évolution future du cours.</p><h3>Pourquoi diversifier ?</h3><p>Détenir plusieurs actifs réduit l'impact qu'un problème propre à une seule entreprise peut avoir sur l'ensemble du portefeuille. La diversification ne supprime pas le risque de marché, mais elle évite de dépendre d'un seul pari.</p></div><hr><div class="attention-box"><h3>Comprendre ce qu'on achète</h3><p>Une action représente une part de propriété d'une entreprise. Son prix de marché varie parce que des acheteurs et des vendeurs confrontent leurs ordres et leurs anticipations sur l'entreprise et son environnement.</p><p>Il faut distinguer <strong>prix, valeur, rendement et risque</strong>. Une action peut monter parce que les anticipations s'améliorent, mais cela ne signifie pas que le gain est garanti. Le rendement dépend aussi du prix payé, des éventuels dividendes, des frais et de l'évolution future du cours.</p><h3>Pourquoi diversifier ?</h3><p>Détenir plusieurs actifs réduit l'impact qu'un problème propre à une seule entreprise peut avoir sur l'ensemble du portefeuille. La diversification ne supprime pas le risque de marché, mais elle évite de dépendre d'un seul pari.</p></div><hr><hr><h3>Qu'est-ce qu'une action ?</h3>
+cours:`<h3>Qu'est-ce qu'une action ?</h3>
 <p>Une <strong>action</strong> est une part du capital d'une entreprise. En achetant une action, tu deviens copropriétaire (actionnaire) et tu peux :</p>
 <ul>
 <li>Toucher des <strong>dividendes</strong> : une part des bénéfices redistribuée aux actionnaires (pas garantie, décidée par l'entreprise)</li>
@@ -95,7 +95,7 @@ flashcards:[
 ]},
 
 'ETF, actions & stratégies d\'investissement': {
-cours:`<div class="attention-box"><h3>Comprendre ce que signifie investir</h3><p>Une action donne une exposition à une entreprise précise. Un ETF est un fonds qui regroupe plusieurs actifs selon un indice ou une stratégie. Acheter un ETF signifie donc acheter une part d'un portefeuille, pas une « action moyenne ».</p><p>Pour comparer deux investissements, regarde <strong>ce que tu détiens réellement, la diversification, les frais, le risque et l'horizon</strong>. Une stratégie ne se choisit pas parce qu'un produit a récemment monté : elle doit partir de ton objectif et du temps pendant lequel le capital peut rester investi.</p><h3>Pourquoi la diversification change le risque</h3><p>Si ton argent dépend d'une seule entreprise, un problème propre à cette entreprise peut fortement toucher ton portefeuille. Répartir l'exposition entre plusieurs actifs réduit ce risque spécifique, sans supprimer les fluctuations générales des marchés.</p></div><hr><h3>Qu'est-ce qu'un ETF ?</h3>
+cours:`<h3>Qu'est-ce qu'un ETF ?</h3>
 <p>Un <strong>ETF</strong> (Exchange Traded Fund, ou "tracker") est un fonds qui réplique la performance d'un indice (ex : un ETF CAC 40 suit le CAC 40, un ETF MSCI World suit le marché mondial). Acheter une part d'ETF = investir en une seule fois dans toutes les entreprises de l'indice.</p>
 <div class="formula-box">
 <strong>Avantages de l'ETF</strong> : diversification immédiate, frais de gestion très faibles (souvent &lt; 0,3%/an), pas besoin de choisir des actions individuellement.<br>
@@ -166,7 +166,7 @@ flashcards:[
 ]},
 
 'Matières premières : lire l\'économie mondiale': {
-cours:`<div class="attention-box"><h3>Comprendre le prix d'une matière première</h3><p>Le prix d'une matière première résulte surtout de l'équilibre entre <strong>offre et demande</strong>. Un choc sur la production, le transport ou la consommation peut donc modifier rapidement son prix.</p><p>Pour raisonner, construis une chaîne : perturbation de l'offre → quantité disponible → prix → coûts des entreprises et des ménages → effets possibles sur l'inflation et l'activité. Par exemple, une hausse durable du pétrole peut augmenter les coûts de transport et de production.</p><h3>Pourquoi éviter les règles absolues ?</h3><p>L'or ne monte pas automatiquement à chaque crise et une matière première ne permet pas à elle seule de prédire l'économie. Les taux, les monnaies, les anticipations et le contexte géopolitique interagissent. Il faut donc présenter des mécanismes et des scénarios, pas des certitudes.</p></div><hr><h3>Les matières premières, un langage différent</h3>
+cours:`<h3>Les matières premières, un langage différent</h3>
 <p>Contrairement à une action (qui dépend d'UNE entreprise précise), le prix d'une matière première dépend de <mark>l'offre et la demande mondiale</mark> — ça en fait un excellent indicateur pour comprendre l'économie globale, pas juste un pari.</p>
 
 <h3>L'or : le baromètre de la peur mondiale</h3>
@@ -209,9 +209,7 @@ flashcards:[
 ]},
 
 'Se lancer concrètement : ouvrir un PEA et choisir ses ETF': {
-cours:`<div class="attention-box"><h3>Comprendre le choix d'un investissement</h3><p>Un PEA ou un compte-titres est une <strong>enveloppe</strong> : ce n'est pas l'investissement lui-même. À l'intérieur, on choisit des actifs. Un ETF est un fonds coté qui cherche généralement à répliquer un indice ou une stratégie.</p><p>Pour comparer deux ETF, regarde notamment l'indice suivi, la diversification, les frais, la méthode de réplication, la devise, la taille du fonds et les risques. Le nom ou la performance récente ne suffit pas.</p><h3>Pourquoi l'horizon change le choix ?</h3><p>Plus l'horizon est long, plus on peut absorber certaines fluctuations, sans que cela garantisse un gain. L'argent nécessaire à court terme ne doit pas être traité comme un capital destiné à rester investi longtemps. La stratégie doit donc partir de l'objectif et de l'horizon, puis du produit.</p></div><hr><div class="attention-box"><h3>Comprendre le choix d'un investissement</h3><p>Un PEA ou un compte-titres est une <strong>enveloppe</strong> : ce n'est pas l'investissement lui-même. À l'intérieur, on choisit des actifs. Un ETF est un fonds coté qui cherche généralement à répliquer un indice ou une stratégie.</p><p>Pour comparer deux ETF, regarde notamment l'indice suivi, la diversification, les frais, la méthode de réplication, la devise, la taille du fonds et les risques. Le nom ou la performance récente ne suffit pas.</p><h3>Pourquoi l'horizon change le choix ?</h3><p>Plus l'horizon est long, plus on peut absorber certaines fluctuations, sans que cela garantisse un gain. L'argent nécessaire à court terme ne doit pas être traité comme un capital destiné à rester investi longtemps. La stratégie doit donc partir de l'objectif et de l'horizon, puis du produit.</p></div><hr><hr>
-
-<h3>Qui peut ouvrir un PEA, et comment</h3>
+cours:`<h3>Qui peut ouvrir un PEA, et comment</h3>
 <ul>
 <li>Il faut être <strong>majeur</strong> et résident fiscal français. Un seul PEA par personne (deux pour un couple).</li>
 <li>Ça s'ouvre en ligne chez une <mark>banque</mark> ou un <mark>courtier en ligne</mark> (Boursorama, Fortuneo, Trade Republic, Bourse Direct...) — comparer les frais avant de choisir.</li>
@@ -259,7 +257,7 @@ flashcards:[
 ]},
 
 'Inflation et taux d\'intérêt : comprendre les bases macro': {
-cours:`<div class="attention-box"><h3>Comprendre la chaîne inflation → taux → économie</h3><p>L'inflation est une hausse générale et durable du niveau des prix. Si les revenus ne progressent pas au même rythme, le pouvoir d'achat diminue. Les banques centrales utilisent notamment les taux d'intérêt pour influencer les conditions de financement et donc la demande.</p><p>Quand les taux augmentent, emprunter devient généralement plus coûteux. Cela peut ralentir certains achats et investissements et modifier la valorisation des actifs. Mais l'effet dépend de la situation de départ et des anticipations : il ne faut pas transformer un mécanisme général en règle mécanique.</p><h3>Comment analyser une actualité économique ?</h3><p>Pars de la variable qui change, puis suis les conséquences : <strong>taux → coût du crédit → dépenses/investissement → demande → inflation</strong>. Sépare ensuite ce mécanisme théorique de ce qui est réellement observé.</p></div><hr><h3>L'inflation : la base</h3>
+cours:`<h3>L'inflation : la base</h3>
 <div class="formula-box">L'<strong>inflation</strong> est la hausse générale et durable des prix dans une économie — mécaniquement, ta monnaie perd du <mark>pouvoir d'achat</mark> : avec la même somme, tu achètes moins de choses qu'avant.</div>
 <p>Elle se mesure généralement par l'<strong>IPC</strong> (Indice des Prix à la Consommation), qui suit l'évolution du prix d'un panier de biens et services représentatif de la consommation moyenne des ménages.</p>
 <div class="retenir-box">Une inflation <mark>modérée</mark> (autour de 2%/an, cible visée par la plupart des banques centrales) est considérée comme normale et même saine pour une économie. C'est l'inflation <strong>excessive</strong> (hyperinflation) ou au contraire la <strong>déflation</strong> (baisse des prix) qui posent de vrais problèmes économiques.</div>

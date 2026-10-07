@@ -94,14 +94,13 @@
         <button class="burger" onclick="toggleSidebar()">
             <span></span><span></span><span></span>
         </button>
-        <div class="tb-brand" onclick="goHome()">BacMaster</div>
+        <div class="tb-brand" onclick="goHome()" title="Accueil" role="button">BacMaster</div>
         <div id="tb-mobile-nav" class="tb-mobile-nav" aria-label="Navigation rapide"></div>
-        <button class="search-btn" onclick="openSearch()" title="Rechercher">🔍</button>
         <div id="tb-course-actions" class="tb-course-actions" aria-label="Actions du cours"></div>
         <nav id="tb-contextnav" class="tb-contextnav" aria-label="Navigation du cours"></nav>
         <div class="tb-actions">
-            <button class="music-btn" id="music-toggle-btn" onclick="toggleMusicPlayer()" title="Musique d'ambiance">🎵</button>
-            <button class="music-btn" id="theme-toggle-btn" onclick="toggleDarkMode()" title="Mode sombre">🌙</button>
+            <button class="music-btn" id="music-toggle-btn" onclick="toggleMusicPlayer()" title="Musique d'ambiance" aria-label="Musique d'ambiance">🎵</button>
+            <button class="music-btn" id="theme-toggle-btn" onclick="toggleDarkMode()" title="Mode sombre" aria-label="Mode clair / sombre">🌙</button>
         </div>
     </header>
     <main id="main"></main>
