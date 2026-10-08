@@ -71,7 +71,6 @@ html[data-theme="dark"] {
   padding: 0;
 }
 html {
-  scroll-behavior: smooth;
   scrollbar-width: auto;
 }
 body {
@@ -258,22 +257,29 @@ html[data-theme="dark"] .topbar {
    background-attachment:fixed pour que ça ne défile pas avec la page. */
 html[data-theme="dark"] body {
   background-color: var(--bg);
-  background-image: url("./bg-dark.jpg");
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
 }
 
 /* Mode clair : ciel de jour doux, en écho au ciel étoilé du mode sombre —
    un soleil discret, un dégradé de ciel, et quelques nuages flous. */
 html:not([data-theme="dark"]) body {
   background-color: var(--bg);
-  background-image: url("./bg-light.jpg");
-  background-attachment: fixed !important;
-  background-repeat: no-repeat !important;
-  background-size: cover !important;
-  background-position: center !important;
+}
+
+/* Le fond est un calque fixe derrière le contenu (au lieu de background-attachment: fixed,
+   qui obligeait le navigateur à repeindre l'image à chaque image du défilement). */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url("./bg-light.jpg") center / cover no-repeat;
+}
+html[data-theme="dark"] body::before {
+  background-image: url("./bg-dark.jpg");
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .animate {
@@ -2763,7 +2769,8 @@ html[data-theme="dark"] .voc-del-sq {
 .MathJax {
   font-size: 1.05em !important;
 }
-.formula-box mjx-container {
+/* Équations centrées ($$...$$) : sur leur propre ligne. Formules dans une phrase ($...$) : dans la ligne. */
+.formula-box mjx-container[display="true"] {
   display: block;
   margin: .4em 0;
 }
@@ -4807,15 +4814,15 @@ body.course-page .course-content-card {
     gap: 5px;
   }
   .tb-contextnav button {
-    padding: 6px 12px !important;
-    min-height: 38px;
-    border-radius: 11px;
-    font-size: .78rem;
+    padding: 6px 10px !important;
+    min-height: 34px;
+    border-radius: 10px;
+    font-size: .72rem;
   }
   .tb-contextnav .tb-chapter-title {
-    min-height: 38px;
+    min-height: 34px;
     padding: 0 10px;
-    font-size: .76rem;
+    font-size: .72rem;
   }
   body.home-page .scard {
     padding: 15px 13px 13px;
@@ -5257,11 +5264,11 @@ body.course-page .editor-scroll-nav {
    Tous les boutons sont des carrés de --tb-btn, avec une icône
    seule (le nom de l'action est dans l'infobulle / aria-label).
    Sur téléphone, la taille s'adapte à la largeur de l'écran :
-   44 px au maximum, 34 px au minimum, pour que le logo et les
+   38 px au maximum, 32 px au minimum, pour que le logo et les
    5 boutons (←, Me tester, Imprimer, musique, thème) tiennent.
    ============================================================ */
 :root {
-  --tb-btn: 42px;
+  --tb-btn: 36px;
 }
 
 .burger {
@@ -5372,7 +5379,7 @@ body.course-page .editor-scroll-nav {
 
 @media (max-width: 800px) {
   :root {
-    --tb-btn: clamp(34px, calc((100vw - 160px) / 5), 44px);
+    --tb-btn: clamp(32px, calc((100vw - 160px) / 5), 38px);
   }
   .tb-brand {
     font-size: clamp(.9rem, 4.1vw, 1.1rem);
