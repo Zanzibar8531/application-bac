@@ -4,8 +4,8 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-pwa-v10-fluide';
-const CACHE_STATIC = 'bacmaster-static-pwa-v10-fluide';
+const CACHE_NAME   = 'bacmaster-pwa-v11-defilement-cartes';
+const CACHE_STATIC = 'bacmaster-static-pwa-v11-defilement-cartes';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [

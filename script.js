@@ -109,6 +109,18 @@ const M  = () => $('main');
 function esc(s) { return String(s).replace(/\\/g,'\\\\').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,"\\'"); }
 function isDue(c) { return !c.due || Date.now() >= c.due; }
 
+// Un chapitre est « découvert » dès que son cours a été ouvert au moins une fois,
+// ou qu'une de ses cartes a déjà été révisée, ou qu'il n'a pas de cours à lire (ex. vocabulaire).
+// Les cartes d'un chapitre non découvert sont « à découvrir » : ce n'est PAS du retard.
+function chapterDiscovered(ch) {
+    if (!ch) return false;
+    if (ch.lastRead) return true;
+    if (!String(ch.cours || '').trim()) return true;
+    return (ch.flashcards || []).some(c => c.due);
+}
+// Carte réellement « à revoir » : chapitre découvert ET échéance atteinte.
+function isDueIn(ch, c) { return chapterDiscovered(ch) && isDue(c); }
+
 // ── FRISE CHRONOLOGIQUE INTERACTIVE (Histoire-Géo) ──────────────
 function showFriseDetail(btn) {
     document.querySelectorAll('.frise-pt').forEach(b => b.classList.remove('active'));
@@ -138,14 +150,15 @@ function scrollToFrise() {
 }
 
 function subStats(name) {
-    if (!db[name]) return {total:0,due:0,mastered:0};
-    let t=0,d=0,m=0;
+    if (!db[name]) return {total:0,due:0,mastered:0,discovered:0};
+    let t=0,d=0,m=0,disc=0;
     Object.values(db[name]).forEach(ch=>{
+        const known = chapterDiscovered(ch);
         (ch.flashcards||[]).forEach(c=>{
-            t++; if(isDue(c))d++; if((c.interval||0)>=7)m++;
+            t++; if(known) disc++; if(known && isDue(c))d++; if((c.interval||0)>=7)m++;
         });
     });
-    return {total:t,due:d,mastered:m};
+    return {total:t,due:d,mastered:m,discovered:disc};
 }
 
 // ── ACTIVITÉ & SÉRIE DE JOURS (dashboard global) ────────────────
@@ -640,6 +653,7 @@ function startDailyReview() {
         if(!db[ev.subject]) return;
         let due = [], notDue = [];
         Object.keys(db[ev.subject]).forEach(ch => {
+            if(!chapterDiscovered(db[ev.subject][ch])) return; // cours jamais ouvert : rien à « revoir »
             (db[ev.subject][ch].flashcards || []).forEach(c => {
                 const k = ev.subject+'|'+ch+'|'+c.q+'|'+c.a;
                 if(seen.has(k)) return;
@@ -661,7 +675,7 @@ function startDailyReview() {
         Object.keys(db[s.name]).forEach(ch => {
             (db[s.name][ch].flashcards || []).forEach(c => {
                 const k = s.name+'|'+ch+'|'+c.q+'|'+c.a;
-                if(!seen.has(k) && isDue(c)) { seen.add(k); queue.push({card:c, ch, subj:s.name}); }
+                if(!seen.has(k) && isDueIn(db[s.name][ch], c)) { seen.add(k); queue.push({card:c, ch, subj:s.name}); }
             });
         });
     });
@@ -773,7 +787,7 @@ function goSubject(name) {
     render(`
         <div class="page-head">
             <h1>${cfg.icon} ${name}</h1>
-            <p>${st.total} cartes · ${st.due} à réviser</p>
+            <p>${st.total} cartes · ${st.discovered} découvertes · ${st.due} à réviser</p>
         </div>
         <div class="menu-grid">
             <button class="menu-tile menu-tile-cours" onclick="goModeChapters('cours')">
@@ -841,7 +855,8 @@ function goModeChapters(mode) {
         <div class="chapters-grid">
             ${(()=>{ const mostRecent = mostRecentlyReadChapter(curSubject); return chapters.map(ch => {
                 const cards = db[curSubject][ch].flashcards || [];
-                const due   = cards.filter(isDue).length;
+                const due   = cards.filter(c => isDueIn(db[curSubject][ch], c)).length;
+                const toDiscover = chapterDiscovered(db[curSubject][ch]) ? 0 : cards.length;
                 const lastRead = db[curSubject][ch].lastRead;
                 let badge;
                 if(ch === mostRecent) badge = `<span class="chcard-badge badge-recent">📍 Dernier lu</span>`;
@@ -855,7 +870,7 @@ function goModeChapters(mode) {
                     <div class="chcard-name">${ch}</div>
                     <div class="chcard-meta">
                         <span>📋 ${cards.length} mots</span>
-                        ${due > 0 ? `<span style="color:#4f46e5">⏰ ${due} à réviser</span>` : '<span style="color:#059669">✓ À jour</span>'}
+                        ${due > 0 ? `<span style="color:#4f46e5">⏰ ${due} à réviser</span>` : (toDiscover > 0 ? '<span style="color:#d97706">🆕 À découvrir</span>' : '<span style="color:#059669">✓ À jour</span>')}
                     </div>
                     ${badge}
                 </div>`;
@@ -876,12 +891,13 @@ function renderChapterMenu() {
     curTrackedPage = null;
     const cfg = CFG.find(c => c.name === curSubject);
     const cards = (db[curSubject][curChapter].flashcards || []);
-    const due   = cards.filter(isDue).length;
+    const due   = cards.filter(c => isDueIn(db[curSubject][curChapter], c)).length;
+    const discovered = chapterDiscovered(db[curSubject][curChapter]);
     const menuItems = [
         { id:'cours',   icon:'📖', label:'Cours',      sub:'Lire le cours' },
         { id:'voc',     icon:'📚', label:'Vocabulaire', sub:`${cards.length} mot(s)` },
         { id:'qcm',     icon:'🧠', label:'QCM',         sub:'Questions auto-générées' },
-        { id:'flash',   icon:'🎴', label:'Flashcards',  sub:`${due} à réviser` },
+        { id:'flash',   icon:'🎴', label:'Flashcards',  sub: discovered ? `${due} à réviser` : `🆕 ${cards.length} à découvrir` },
     ];
     render(`
         <div class="page-head">
@@ -1195,25 +1211,8 @@ function renderTabContent() {
     }
 }
 
-// Défilement clavier natif : les flèches restent disponibles sur les pages
-// de cours sans empêcher les champs de texte et l'éditeur de fonctionner.
-if(!window.__bmNativeScrollKeys){
-    window.__bmNativeScrollKeys = true;
-    document.addEventListener('keydown', e => {
-        if(!document.body.classList.contains('course-page')) return;
-        const t = e.target;
-        const editable = t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
-        if(editable) return;
-        let dy = 0;
-        if(e.key === 'ArrowDown') dy = 90;
-        else if(e.key === 'ArrowUp') dy = -90;
-        else if(e.key === 'PageDown') dy = window.innerHeight * 0.85;
-        else if(e.key === 'PageUp') dy = -window.innerHeight * 0.85;
-        else return;
-        e.preventDefault();
-        window.scrollBy({top:dy, behavior:'auto'});
-    }, {passive:false});
-}
+// Défilement clavier : 100 % natif (↑ ↓ PageUp PageDown Espace), comme dans un navigateur.
+// Aucun gestionnaire personnalisé : le navigateur gère la vitesse et la fluidité.
 
 // ── ACTIONS ───────────────────────────────────────────────────
 function addChapter() {
@@ -1815,12 +1814,13 @@ function openSRS() {
             ${chapters.length>6?`<input type="text" class="cb-search" placeholder="🔎 Rechercher un chapitre..." oninput="filterCbList(this,'srs-cb')">`:''}
             <div class="cb-list" id="srs-cb-list">
                 ${chapters.map(ch=>{
-                    const due=(db[curSubject][ch].flashcards||[]).filter(isDue).length;
+                    const known=chapterDiscovered(db[curSubject][ch]);
+                    const due=(db[curSubject][ch].flashcards||[]).filter(c=>isDueIn(db[curSubject][ch],c)).length;
                     const tot=(db[curSubject][ch].flashcards||[]).length;
                     return `<label class="cb-item">
                         <input type="checkbox" class="srs-cb" value="${ch}" ${due>0?'checked':''}>
                         <span style="flex:1">${ch}</span>
-                        <span class="cb-right ${due>0?'due':''}">${due>0?due+' à réviser':tot+' cartes'}</span>
+                        <span class="cb-right ${due>0?'due':''}">${due>0?due+' à réviser':(known?tot+' cartes':'🆕 '+tot+' à découvrir')}</span>
                     </label>`;
                 }).join('')}
             </div>
