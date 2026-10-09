@@ -4,8 +4,8 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-pwa-v16-parcours';
-const CACHE_STATIC = 'bacmaster-static-pwa-v16-parcours';
+const CACHE_NAME   = 'bacmaster-pwa-v17-vocal';
+const CACHE_STATIC = 'bacmaster-static-pwa-v17-vocal';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
@@ -19,6 +19,8 @@ const STATIC_ASSETS = [
   './erreurs.js',
   './evaluation.js',
   './parcours.js',
+  './vocal.js',
+  './navigation.js',
   './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png',

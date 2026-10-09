@@ -151,7 +151,7 @@ function psSubjectSummaryHTML(subject) {
                 <button class="bc-btn" onclick="psMiniWeak('${esc(subject)}')">🎯 Mini-évaluation sur mes points faibles</button>
             </div></div>`;
     }
-    return `<div class="ps-summary">${pills}</div>${ready}`;
+    return `<div class="ps-summary">${pills}<button class="bc-btn" onclick="openCourseStats('${esc(subject)}','subject')">📊 Statistiques des cours</button></div>${ready}`;
 }
 
 // Bandeau en haut du menu d'un chapitre
@@ -169,6 +169,7 @@ function psChapterBannerHTML(subject, chapter) {
         if (st.id === 'review') acts.push(btn('📖 Relire le cours', `psOpenTab('${S}','${C}','cours')`));
         acts.push(btn('🧪 Réévaluer', `openEval('${S}','${C}')`));
     }
+    acts.push(btn('📊 Statistiques du chapitre', `openChapterStats('${S}','${C}','subject')`));
     return `<div class="ws-box ps-banner" style="border-left-color:${st.col}">
         <div class="ps-banner-top"><span class="ps-big">${st.icon}</span><div><strong>${st.label}</strong>
         <div class="ps-reason">${psH(st.reason)}</div></div></div>
@@ -178,6 +179,7 @@ function psChapterBannerHTML(subject, chapter) {
 function psOpenTab(s, c, tab) {
     if (!db[s] || !db[s][c]) return;
     curSubject = s; curChapter = c; curTab = tab;
+    chapFrom = 'menu';
     renderChapter();
 }
 function psOpenChapter(s, c) {
@@ -203,6 +205,11 @@ function psPrioritiesHTML() {
                 <span class="sk-ch-name">${s.icon} ${s.icon2} ${psH(s.chapter)}</span>
                 <span class="sk-na" style="white-space:normal;text-align:right;max-width:55%">${psH(s.reason)}</span></button>`).join('')}`
             : `<p class="sk-hint" style="margin-top:10px">Aucun chapitre à reprendre en urgence. 👍</p>`}
+        <p style="font-weight:700;margin:16px 0 4px">📊 Statistiques détaillées par cours</p>
+        ${CFG.filter(c => db[c.name] && Object.keys(db[c.name]).length).map(c => {
+            const n = Object.keys(db[c.name]).length;
+            return `<button class="sk-ch" onclick="openCourseStats('${esc(c.name)}','stats')"><span class="sk-ch-name">${c.icon} ${psH(c.name)}</span><span class="sk-na">${n} chapitre${n > 1 ? 's' : ''} →</span></button>`;
+        }).join('')}
     </div>`;
 }
 
@@ -268,4 +275,114 @@ function psChangesHTML(before, subject, chapters) {
     }).join('');
     return rows ? `<div class="ws-box"><h3 style="margin-bottom:6px">📚 État de tes cours</h3>
         <p class="sk-hint">Pour valider un chapitre (🟢 Appris) : au moins ${psPct(PS_PASS)} % sur ${PS_MIN_Q} questions de ce chapitre, dans un quiz ou un contrôle.</p>${rows}</div>` : '';
+}
+
+
+// ═════════════════════════════════════════════════════════════
+// STATISTIQUES PAR COURS ET PAR CHAPITRE
+// Accessibles depuis l'onglet Statistiques, la page d'une matière
+// et le menu d'un chapitre.
+// ═════════════════════════════════════════════════════════════
+function psChapterData(subject, chapter) {
+    const ch = db[subject][chapter];
+    const cards = ch.flashcards || [], exos = ch.exercices || [];
+    const events = getPerf().filter(e => e.s === subject && e.c === chapter);
+    const errs = getErrors().filter(e => e.s === subject && e.c === chapter);
+    const evals = getAssess().filter(r => r.s === subject && r.ch && r.ch[chapter] && r.ch[chapter][1] > 0)
+        .sort((a, b) => b.t - a.t);
+    const exo = { reussi: 0, presque: 0, a_revoir: 0, nonfait: 0 };
+    exos.forEach(x => { exo[x.status && exo[x.status] !== undefined ? x.status : 'nonfait']++; });
+    return {
+        ch, state: psState(subject, chapter), events,
+        cards: { total: cards.length, seen: cards.filter(c => c.due).length, due: cards.filter(c => isDueIn(ch, c)).length,
+                 mastered: cards.filter(c => (c.interval || 0) >= 7).length },
+        exo, nExo: exos.length,
+        skills: SK_GENERIC.map(ax => Object.assign({ ax }, skScore(events, ax))),
+        evals, errActive: errs.filter(e => e.st === 'actif').length, errDone: errs.filter(e => e.st === 'résolu').length,
+        answers: events.length,
+    };
+}
+
+// Page : tous les chapitres d'une matière, avec l'essentiel de chacun
+function openCourseStats(subject, from) {
+    clearInterval(qTimer); curTrackedPage = null;
+    if (subject) curSubject = subject;
+    const s = curSubject, cfg = CFG.find(c => c.name === s);
+    const chapters = Object.keys(db[s] || {});
+    const backJs = from === 'stats' ? 'openStats()' : `goSubject('${esc(s)}')`;
+    const rows = chapters.map(c => {
+        const d = psChapterData(s, c), st = d.state;
+        const last = d.evals[0] ? Math.round(d.evals[0].ch[c][0] / d.evals[0].ch[c][1] * 100) + ' %' : '—';
+        const exoDone = d.exo.reussi + d.exo.presque + d.exo.a_revoir;
+        return `<button class="ps-row" onclick="openChapterStats('${esc(s)}','${esc(c)}','${from || 'subject'}')">
+            <div class="ps-row-top"><span class="ps-row-name">${psH(c)}</span>
+                <span class="ps-pill" style="color:${st.col};border-color:${st.col}">${st.icon} ${st.label}</span></div>
+            <div class="ps-chips">
+                <span title="Cartes maîtrisées">🎴 ${d.cards.mastered}/${d.cards.total}</span>
+                <span title="Exercices faits">✏️ ${exoDone}/${d.nExo}</span>
+                <span title="Dernière évaluation sur ce chapitre">🧪 ${last}</span>
+                <span title="Erreurs à retravailler">📓 ${d.errActive}</span>
+            </div></button>`;
+    }).join('');
+    render(`
+        <div class="breadcrumb"><button class="bc-btn" onclick="${backJs}">← ${from === 'stats' ? 'Statistiques' : (cfg ? cfg.icon + ' ' : '') + psH(s)}</button></div>
+        <div class="page-head"><h1>📊 Statistiques — ${psH(s)}</h1>
+            <p style="color:var(--muted);font-size:.85rem">Un résumé par chapitre. Touche un chapitre pour voir le détail.</p></div>
+        <div class="ws-box">${rows || '<p style="color:var(--muted)">Aucun chapitre dans cette matière.</p>'}
+            <p class="sk-hint" style="margin-top:10px">🎴 cartes maîtrisées · ✏️ exercices faits · 🧪 dernière évaluation · 📓 erreurs à retravailler</p></div>
+    `);
+}
+
+// Page : tout sur un chapitre
+function openChapterStats(subject, chapter, from) {
+    clearInterval(qTimer); curTrackedPage = null;
+    if (!db[subject] || !db[subject][chapter]) return;
+    curSubject = subject;
+    const d = psChapterData(subject, chapter), st = d.state, S = esc(subject), C = esc(chapter);
+    const bar = (n, tot, col) => `<div class="sk-bar"><div class="sk-bar-fill" style="width:${tot ? Math.round(n / tot * 100) : 0}%;background:${col}"></div></div>`;
+    const lineBar = (label, n, tot, col) => `<div class="sk-row"><div class="sk-row-top"><strong>${label}</strong> <span class="sk-na">${n} / ${tot}</span></div><div class="sk-row-bar">${bar(n, tot, col)}</div></div>`;
+    const lastRead = d.ch.lastRead ? psDate(d.ch.lastRead) : 'jamais';
+    const evalTypes = { controle: '📝 Contrôle', mini: '🎯 Mini-évaluation' };
+    render(`
+        <div class="breadcrumb"><button class="bc-btn" onclick="openCourseStats('${S}','${from || 'subject'}')">← Statistiques des cours</button></div>
+        <div class="page-head"><h1 style="font-size:1.3rem">📊 ${psH(chapter)}</h1>
+            <p style="color:var(--muted);font-size:.85rem">${psH(subject)} · dernière lecture : ${lastRead} · ${d.answers} réponse${d.answers > 1 ? 's' : ''} enregistrée${d.answers > 1 ? 's' : ''}</p></div>
+
+        <div class="ws-box ps-banner" style="border-left-color:${st.col}"><div class="ps-banner-top"><span class="ps-big">${st.icon}</span>
+            <div><strong>${st.label}</strong><div class="ps-reason">${psH(st.reason)}</div></div></div>
+            <div class="sk-actions">
+                <button class="bc-btn" onclick="psOpenChapter('${S}','${C}')">📖 Ouvrir le chapitre</button>
+                <button class="bc-btn" onclick="openEval('${S}','${C}')">🧪 Évaluer</button>
+                <button class="bc-btn" onclick="psMiniChapter('${S}','${C}')">🎯 Mini-évaluation</button>
+            </div></div>
+
+        <div class="ws-box"><h3 style="margin-bottom:10px">🎴 Flashcards</h3>
+            <div class="ps-grid">
+                <div><b>${d.cards.total}</b><span>cartes</span></div>
+                <div><b>${d.cards.seen}</b><span>déjà révisées</span></div>
+                <div><b>${d.cards.due}</b><span>à revoir</span></div>
+                <div><b>${d.cards.mastered}</b><span>maîtrisées</span></div>
+            </div>
+            ${lineBar('Maîtrisées', d.cards.mastered, d.cards.total, 'var(--green)')}
+        </div>
+
+        ${d.nExo ? `<div class="ws-box"><h3 style="margin-bottom:6px">✏️ Exercices (${d.nExo})</h3>
+            ${lineBar('🟢 Réussis', d.exo.reussi, d.nExo, 'var(--green)')}
+            ${lineBar('🟡 Presque', d.exo.presque, d.nExo, 'var(--yellow)')}
+            ${lineBar('🔴 À revoir', d.exo.a_revoir, d.nExo, 'var(--red)')}
+            <p class="sk-hint">${d.exo.nonfait} pas encore fait${d.exo.nonfait > 1 ? 's' : ''}.</p></div>` : ''}
+
+        <div class="ws-box"><h3 style="margin-bottom:6px">🎯 Compétences sur ce chapitre</h3>
+            ${d.skills.map(x => `<div class="sk-row"><div class="sk-row-top"><strong>${x.ax.label}</strong></div><div class="sk-row-bar">${skBar(x.score, x.n)}</div></div>`).join('')}</div>
+
+        <div class="ws-box"><h3 style="margin-bottom:6px">🧪 Évaluations sur ce chapitre</h3>
+            ${d.evals.length ? d.evals.slice(0, 8).map(r => {
+                const p = Math.round(r.ch[chapter][0] / r.ch[chapter][1] * 100), lv = skLevel(p / 100);
+                return `<div class="asm-hist-row"><span>${psDate(r.t)} · ${evalTypes[r.mode] || '⚡ Quiz'}</span><strong style="color:${lv.col}">${p} %</strong></div>`;
+            }).join('') : '<p class="sk-hint">Pas encore évalué.</p>'}</div>
+
+        <div class="ws-box"><h3 style="margin-bottom:6px">📓 Carnet d'erreurs</h3>
+            <p style="font-size:.9rem">${d.errActive} à retravailler · ${d.errDone} résolue${d.errDone > 1 ? 's' : ''}</p>
+            <button class="bc-btn" style="margin-top:8px" onclick="openErrors('${S}')">Ouvrir le carnet →</button></div>
+    `);
 }

@@ -78,6 +78,7 @@ let curTab      = 'cours';
 let selChapters = [];
 
 // SRS
+let chapFrom = 'list';   // d'où on arrive dans un chapitre : 'list' (liste de chapitres) ou 'menu' (menu du chapitre)
 let srsQueue = [], srsAgain = [], srsCur = null, srsFlipped = false, dailyReviewMode = false;
 let sessDone = 0, sessTotal = 0, sessStats = {seen:0,right:0,wrong:0};
 let qTimer = null, qSecs = 0;
@@ -786,6 +787,7 @@ function goSubject(name) {
     const cfg = CFG.find(c => c.name === name);
     const st  = subStats(name);
     render(`
+        <div class="breadcrumb"><button class="bc-btn" onclick="goHome()">← Accueil</button></div>
         <div class="page-head">
             <h1>${cfg.icon} ${name}</h1>
             <p>${st.total} cartes · ${st.discovered} découvertes · ${st.due} à réviser</p>
@@ -812,6 +814,7 @@ function goSubject(name) {
                 <span class="menu-tile-label">Exercices</span>
                 <span class="menu-tile-sub">Énoncés + corrections</span>
             </button>
+            ${typeof vcTile==='function' ? vcTile(name) : ''}
             <button class="menu-tile menu-tile-eval" onclick="openEval('${esc(name)}')">
                 <span class="menu-tile-icon">🧪</span>
                 <span class="menu-tile-label">Évaluation</span>
@@ -858,6 +861,7 @@ function goModeChapters(mode) {
     const chapters = Object.keys(db[curSubject]);
     const modeLabel = {cours:'📖 Cours', voc:'📚 Vocabulaire', edit:'✏️ Éditer', add:'➕ Ajouter'}[mode] || mode;
     render(`
+        <div class="breadcrumb"><button class="bc-btn" onclick="goSubject('${esc(curSubject)}')">← ${cfg ? cfg.icon : ''} ${curSubject}</button></div>
         <div class="page-head"><h1 style="font-size:1.2rem">Choisis un chapitre</h1></div>
         <div class="chapters-grid">
             ${(()=>{ const mostRecent = mostRecentlyReadChapter(curSubject); return chapters.map(ch => {
@@ -869,7 +873,7 @@ function goModeChapters(mode) {
                 if(ch === mostRecent) badge = `<span class="chcard-badge badge-recent">📍 Dernier lu</span>`;
                 else if(!lastRead) badge = `<span class="chcard-badge badge-new">🆕 Nouveau</span>`;
                 else badge = `<span class="chcard-badge badge-read">✅ Lu ${fmtShortDate(lastRead)}</span>`;
-                return `<div class="chcard" onclick="curChapter='${esc(ch)}';curTab='${mode}';renderChapter()">
+                return `<div class="chcard" onclick="curChapter='${esc(ch)}';curTab='${mode}';chapFrom='list';renderChapter()">
                     <div class="chcard-icons">
                         <button class="chcard-icon-btn" onclick="event.stopPropagation();renameChapter('${esc(ch)}')" title="Renommer">✏️</button>
                         <button class="chcard-icon-btn chcard-icon-del" onclick="event.stopPropagation();deleteChapter('${esc(ch)}','${mode}')" title="Supprimer">🗑️</button>
@@ -908,6 +912,7 @@ function renderChapterMenu() {
         { id:'flash',   icon:'🎴', label:'Flashcards',  sub: discovered ? `${due} à réviser` : `🆕 ${cards.length} à découvrir` },
     ];
     render(`
+        <div class="breadcrumb"><button class="bc-btn" onclick="goSubject('${esc(curSubject)}')">← ${cfg ? cfg.icon : ''} ${curSubject}</button></div>
         <div class="page-head">
             <h1 style="font-size:1.25rem">${curChapter}</h1>
         </div>
@@ -931,7 +936,14 @@ function handleMenuTile(id) {
     if (id === 'eval')  { openEval(curSubject, curChapter); return; }
     if (id === 'flash') { openSRS(); return; }
     curTab = id === 'cours' ? 'cours' : 'voc';
+    chapFrom = 'menu';
     renderChapter();
+}
+
+// Bouton « retour » de la page d'un cours : revient là d'où on vient
+function chapBack() {
+    if (chapFrom === 'menu' && db[curSubject] && db[curSubject][curChapter]) renderChapterMenu();
+    else goModeChapters(curTab === 'edit' || curTab === 'add' ? curTab : (curTab || 'cours'));
 }
 
 function renderChapter() {
@@ -943,6 +955,7 @@ function renderChapter() {
         {id:'add',    label:'➕ Ajouter'},
     ];
     render(`
+        <div class="breadcrumb"><button class="bc-btn" onclick="chapBack()">← ${chapFrom === 'menu' ? curChapter : 'Chapitres'}</button></div>
         <div class="ws-header">
             <div class="tab-bar">
                 ${tabs.map(t=>`<button class="tab-btn ${curTab===t.id?'active':''}" onclick="switchTab('${t.id}')">${t.label}</button>`).join('')}
@@ -1202,8 +1215,8 @@ function renderTabContent() {
                     </div>
                 </div>` : `
                 <div class="voc-row">
-                    <span class="voc-q">${c.q}</span>
-                    <span class="voc-a">${c.a}</span>
+                    <span class="voc-q">${c.q}${typeof vcSpeakBtn==='function' ? vcSpeakBtn(c,'q',curSubject) : ''}</span>
+                    <span class="voc-a">${c.a}${typeof vcSpeakBtn==='function' ? vcSpeakBtn(c,'a',curSubject) : ''}</span>
                     <button class="voc-edit-sq" onclick="vocEditingIndex=${i};renderTabContent()" title="Modifier">✏️</button>
                     <button class="voc-del-sq" onclick="delVoc(${i})" title="Supprimer">🗑</button>
                 </div>`).join('')}</div>`;
@@ -1856,11 +1869,11 @@ function renderSRSCard() {
                 <div class="fc-3d" id="fc3d">
                     <div class="fc-face fc-front">
                         <span class="fc-label">Question</span>
-                        <span class="fc-q">${card.q}</span>
+                        <span class="fc-q">${card.q}</span>${typeof vcSpeakBtn==='function' ? vcSpeakBtn(card,'q',srsCur.subj||curSubject) : ''}
                     </div>
                     <div class="fc-face fc-back">
                         <span class="fc-label">Réponse correcte</span>
-                        <span class="fc-q">${card.a}</span>
+                        <span class="fc-q">${card.a}</span>${typeof vcSpeakBtn==='function' ? vcSpeakBtn(card,'a',srsCur.subj||curSubject) : ''}
                     </div>
                 </div>
             </div>
@@ -1889,6 +1902,7 @@ function renderSRSCard() {
         </div>
     `);
     setTimeout(()=>{const el=$('srs-ans');if(el)el.focus();},80);
+    if(typeof vcAutoPlay==='function' && srsCur) vcAutoPlay(srsCur.card, srsCur.subj||curSubject, 'q');
 }
 
 // ── COMPARAISON TOLÉRANTE (fautes de frappe, accents, ponctuation) ──
@@ -1961,6 +1975,7 @@ function revealSRS(skip){
         typesetMath(fz); // la réponse peut contenir du LaTeX ($...$) — sans ça, elle s'affichait en brut
     }
     const rr=$('rating-row');if(rr)rr.style.display='grid';
+    if(typeof vcAutoPlay==='function' && srsCur) vcAutoPlay(srsCur.card, srsCur.subj||curSubject, 'a');
     // On ne pré-sélectionne un bouton que dans les cas sans ambiguïté (match exact ou carte
     // passée) — dans tous les autres cas, c'est à l'élève de choisir sa note en toute honnêteté,
     // sans suggestion biaisée de l'app.
@@ -2332,6 +2347,7 @@ function renderExo() {
             <div class="exo-enonce">
                 <div class="exo-label">📋 Énoncé</div>
                 ${exo.enonce}
+                ${typeof vcExoBtns==='function' ? vcExoBtns(exo, curSubject) : ''}
             </div>
             ${exo.aide?`
             <details class="exo-aide">

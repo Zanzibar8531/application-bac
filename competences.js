@@ -16,7 +16,7 @@
    et portent e = identifiant de l'évaluation) · exo = exercice.
 
    Événement : { t: horodatage, s: matière, c: chapitre,
-                 y: 'flash' | 'qcm' | 'comp' | 'assoc' | 'cours' | 'exo',
+                 y: 'flash' | 'qcm' | 'comp' | 'assoc' | 'cours' | 'exo' | 'ecoute' | 'parle',
                  r: résultat de 0 à 1, n: niveau (exercices) }
 
    Ce fichier doit être chargé AVANT script.js.
@@ -70,7 +70,6 @@ const SK_GENERIC = [
 
 const chIn = re => ev => re.test(ev.c || '');
 const SOON_NEXT  = "Pas encore mesuré : il faudra un type d'exercice dédié (prochaines étapes).";
-const SOON_VOCAL = "Sera mesuré avec le mode vocal (étape 6).";
 
 const SK_MODELS = {
     'Maths': [
@@ -89,17 +88,17 @@ const SK_MODELS = {
     'Anglais': [
         { id: 'voc',  label: 'Vocabulaire', desc: 'Chapitre : Vocabulary & Expressions.', match: chIn(/vocab/i) },
         { id: 'gram', label: 'Grammaire',   desc: 'Chapitres : Grammar, Advanced Grammar, Linkers.', match: chIn(/grammar|linkers/i) },
-        { id: 'co', label: 'Compréhension orale',  desc: 'Comprendre un document audio.', soon: SOON_VOCAL },
+        { id: 'co', label: 'Compréhension orale',  desc: 'Comprendre ce que tu entends : mots et dictées de phrases (Vocal › Écoute).', match: ev => ev.y === 'ecoute' },
         { id: 'ce', label: 'Compréhension écrite', desc: 'Comprendre un texte.', soon: SOON_NEXT },
-        { id: 'eo', label: 'Expression orale',     desc: 'Parler, décrire une image.', soon: SOON_VOCAL },
+        { id: 'eo', label: 'Expression orale',     desc: 'Prononcer et dire à voix haute (Vocal › Parle).', match: ev => ev.y === 'parle' },
         { id: 'ee', label: 'Expression écrite',    desc: 'Rédiger un texte structuré.', soon: SOON_NEXT },
     ],
     'Espagnol': [
         { id: 'voc',  label: 'Vocabulaire', desc: 'Chapitre : Vocabulario esencial.', match: chIn(/vocab/i) },
         { id: 'gram', label: 'Grammaire',   desc: 'Chapitre : Gramatica.', match: chIn(/gram/i) },
-        { id: 'co', label: 'Compréhension orale',  desc: 'Comprendre un document audio.', soon: SOON_VOCAL },
+        { id: 'co', label: 'Compréhension orale',  desc: 'Comprendre ce que tu entends : mots et dictées de phrases (Vocal › Écoute).', match: ev => ev.y === 'ecoute' },
         { id: 'ce', label: 'Compréhension écrite', desc: 'Comprendre un texte.', soon: SOON_NEXT },
-        { id: 'eo', label: 'Expression orale',     desc: 'Parler, décrire une image.', soon: SOON_VOCAL },
+        { id: 'eo', label: 'Expression orale',     desc: 'Prononcer et dire à voix haute (Vocal › Parle).', match: ev => ev.y === 'parle' },
         { id: 'ee', label: 'Expression écrite',    desc: 'Rédiger un texte structuré.', soon: SOON_NEXT },
     ],
 };
@@ -276,7 +275,7 @@ function openSkills(subject) {
         ${isLangSubject(s) ? `
         <div class="ws-box sk-cecrl">
             <strong>Niveau CECRL (A1 → C2)</strong>
-            <p>Pas encore estimé. Je ne veux pas inventer un niveau à partir de simples flashcards : il sera calculé avec l'écoute et l'expression (étape 6) et des exercices de compréhension et d'expression écrite.</p>
+            <p>Pas encore estimé. Je ne veux pas inventer un niveau à partir de simples flashcards : il demandera des exercices de compréhension et d'expression écrite en plus de l'oral : ce n'est pas encore possible.</p>
         </div>` : ''}
 
         ${chapters.length ? `

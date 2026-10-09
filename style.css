@@ -8,7 +8,7 @@
      4. Espace de travail : cours, éditeur, vocabulaire, ajout
      5. Modes d'étude : flashcards, exercices,
         compétences (radar), carnet d'erreurs, évaluation,
-        états des cours
+        états des cours, statistiques par cours, vocal
      6. Fenêtres et panneaux : confirmation, synchro, export,
         recherche, musique, graphiques, "Me tester"
      7. Contenu des cours : mise en forme éditoriale, frises,
@@ -1899,7 +1899,7 @@ html[data-theme="dark"] .cc-btn-cancel:hover {
 }
 .prog-bar {
   height: 5px;
-  background: #f1f5f9;
+  background: var(--border);
   border-radius: 3px;
   margin-bottom: 16px;
   overflow: hidden;
@@ -2138,6 +2138,7 @@ html[data-theme="dark"] .qcm-q-box {
   border-radius: var(--rs);
   cursor: pointer;
   font-weight: 500;
+  color: var(--text);
   background: var(--card);
   transition: all .12s;
   text-align: left;
@@ -2151,6 +2152,9 @@ html[data-theme="dark"] .qcm-q-box {
   border-color: var(--accent);
   background: #eff6ff;
   transform: translateX(2px);
+}
+html[data-theme="dark"] .qcm-opt:hover:not(:disabled) {
+  background: rgba(79,70,229,.18);
 }
 .opt-letter {
   font-weight: 800;
@@ -4133,6 +4137,180 @@ html[data-theme="dark"] input[type="date"] {
 .er-btn-mini {
   background: linear-gradient(135deg, #9a3412, #ea580c);
 }
+
+/* ── STATISTIQUES PAR COURS ─────────────────────────────── */
+.ps-row {
+  display: block;
+  width: 100%;
+  padding: 12px 4px;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--border);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.ps-row:first-child {
+  border-top: none;
+}
+.ps-row:hover {
+  background: rgba(127,127,127,.08);
+}
+.ps-row-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.ps-row-name {
+  font-weight: 700;
+  font-size: .92rem;
+}
+.ps-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 6px;
+  font-size: .78rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+.ps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.ps-grid div {
+  background: rgba(127,127,127,.1);
+  border-radius: var(--rs);
+  padding: 10px 4px;
+}
+.ps-grid b {
+  display: block;
+  font-size: 1.3rem;
+}
+.ps-grid span {
+  font-size: .68rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+/* ── VOCAL (écoute, prononciation) ──────────────────────── */
+.menu-tile-vocal {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+}
+.menu-tile-parle {
+  background: linear-gradient(135deg, #7e22ce, #c026d3);
+}
+.vc-menu {
+  margin-bottom: 14px;
+}
+.vc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-left: 8px;
+  vertical-align: middle;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-size: .9rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.vc-btn:hover {
+  border-color: var(--accent);
+}
+.vc-exo-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-style: italic;
+}
+.vc-exo-line .vc-btn {
+  margin-left: 0;
+}
+.vc-status {
+  min-height: 0;
+  font-size: .86rem;
+  margin-bottom: 14px;
+}
+.vc-status div {
+  margin-bottom: 4px;
+}
+.vc-set {
+  display: block;
+  font-weight: 700;
+  font-size: .85rem;
+  margin-bottom: 10px;
+}
+.vc-set .field {
+  margin-top: 6px;
+}
+.vc-player {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0 6px;
+}
+.vc-play,
+.vc-slow {
+  padding: 13px 18px;
+  border-radius: var(--rs);
+  border: none;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.vc-play {
+  flex: 1;
+  min-width: 180px;
+  color: #fff;
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+}
+.vc-mic {
+  background: linear-gradient(135deg, #7e22ce, #c026d3);
+}
+.vc-play:disabled {
+  opacity: .6;
+}
+.vc-slow {
+  color: var(--text);
+  background: var(--card);
+  border: 1.5px solid var(--border);
+}
+.vc-target {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 8px 0 2px;
+}
+.vc-gloss {
+  color: var(--muted);
+  font-size: .9rem;
+}
+.vc-diff {
+  margin-top: 8px;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+.vc-ok {
+  color: var(--green);
+  font-weight: 700;
+}
+.vc-miss {
+  color: var(--red);
+  font-weight: 700;
+  text-decoration: underline wavy;
+}
+.er-ty-ecoute  { background: rgba(37,99,235,.15);  color: #2563eb; }
+.er-ty-parle   { background: rgba(192,38,211,.15); color: #c026d3; }
 
 /* ── MODULE EXERCICES ────────────────────────────────────── */
 .menu-tile-exo {

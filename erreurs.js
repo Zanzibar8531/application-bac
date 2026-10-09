@@ -60,14 +60,20 @@ const ERR_TYPES = {
     'Confusion':      { cls: 'confusion', desc: "En évaluation, tu as choisi ou associé une mauvaise réponse : tu l'as confondue avec une autre." },
     'Exercice raté':  { cls: 'exo',      desc: "Exercice à revoir : tu n'as pas su le résoudre." },
     'Presque réussi': { cls: 'presque',  desc: "Exercice presque réussi : une étape ou un détail t'a échappé." },
+    'Écoute':         { cls: 'ecoute',   desc: "À l'écoute (Vocal), tu n'as pas compris ou pas bien noté." },
+    'Prononciation':  { cls: 'parle',    desc: "À l'oral (Vocal), la reconnaissance vocale ne t'a pas bien compris." },
 };
 function errTypeOf(ev) {
     if (ev.y === 'exo')  return ev.r === 0 ? 'Exercice raté' : 'Presque réussi';
+    if (ev.y === 'ecoute') return 'Écoute';
+    if (ev.y === 'parle')  return 'Prononciation';
     if (ev.y === 'qcm' || ev.y === 'comp' || ev.y === 'assoc') return 'Confusion';
     return ev.r === 0 ? 'Oubli' : 'Hésitation';
 }
 function errSkillOf(ev) {
     if (ev.y === 'exo') return ev.n === 'Difficile' ? 'Raisonnement' : 'Application';
+    if (ev.y === 'ecoute') return 'Compréhension orale';
+    if (ev.y === 'parle')  return 'Expression orale';
     if (ev.y === 'comp')  return 'Compréhension';
     if (ev.y === 'assoc') return 'Mobilisation';
     return 'Connaissances';
