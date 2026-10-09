@@ -82,9 +82,6 @@ let srsQueue = [], srsAgain = [], srsCur = null, srsFlipped = false, dailyReview
 let sessDone = 0, sessTotal = 0, sessStats = {seen:0,right:0,wrong:0};
 let qTimer = null, qSecs = 0;
 
-// QCM
-let qcmList = [], qcmIdx = 0, qcmScore = 0, qcmCur = null;
-
 const CFG = [
     {name:'Français',    icon:'📝', cls:'fr'},
     {name:'Maths',       icon:'📐', cls:'math'},
@@ -228,7 +225,7 @@ function last7DaysActivity() {
 // Stocké séparément de `db` et de l'activité booléenne, pour ne jamais
 // interférer avec le sync GitHub qui parcourt Object.keys(db).
 // curTrackedPage est mis à jour explicitement par chaque écran "actif"
-// (lecture de cours, session flashcards, QCM, exercices) ; les écrans de
+// (lecture de cours, session flashcards, évaluation, exercices) ; les écrans de
 // menu/accueil le remettent à null. Un tick régulier ajoute le temps écoulé
 // à l'activité en cours, tant que l'onglet est visible.
 let curTrackedPage = null;
@@ -242,7 +239,7 @@ function saveTimeLog(log) { localStorage.setItem('bacmaster_timelog', JSON.strin
 
 function addTimeSeconds(subject, activity, seconds) {
     if(!subject || !activity || seconds <= 0) return;
-    logActivity(); // toute activité réellement trackée (cours, exercices, flashcards, QCM) allume la bougie du jour
+    logActivity(); // toute activité réellement trackée (cours, exercices, flashcards, évaluation) allume la bougie du jour
     const today = new Date().toISOString().slice(0,10);
     const log = getTimeLog();
     if(!log[today]) log[today] = {};
@@ -330,9 +327,9 @@ function heatmapLevel(sec) {
 }
 
 function globalStats() {
-    let total=0, mastered=0, due=0;
-    CFG.forEach(s => { const st = subStats(s.name); total += st.total; mastered += st.mastered; due += st.due; });
-    return { total, mastered, due, streak: computeStreak() };
+    let total=0, mastered=0, due=0, discovered=0;
+    CFG.forEach(s => { const st = subStats(s.name); total += st.total; mastered += st.mastered; due += st.due; discovered += st.discovered; });
+    return { total, mastered, due, discovered, streak: computeStreak() };
 }
 
 // ── PAGE DÉTAIL D'UNE JOURNÉE (temps passé) ──────────────────
@@ -345,7 +342,7 @@ function openDayDetail(dateKey) {
     const totalSec = dayTimeTotal(dateKey);
 
     // Trie les matières par temps décroissant, et à l'intérieur de chaque
-    // matière, trie les activités (cours/flashcards/QCM/exercices) aussi par temps décroissant.
+    // matière, trie les activités (cours/flashcards/évaluation/exercices) aussi par temps décroissant.
     const subjects = Object.keys(day)
         .map(subj => {
             const activities = Object.entries(day[subj]).sort((a,b) => b[1]-a[1]);
@@ -437,6 +434,10 @@ function openStats() {
         </div>
 
         ${bestSubj ? `<p style="color:var(--muted);font-size:.85rem;margin:4px 0 16px">Cette semaine, ta matière la plus travaillée : <strong style="color:var(--text)">${esc(bestSubj[0])}</strong> (${fmtDuration(bestSubj[1])}).</p>` : ''}
+
+        ${typeof psPrioritiesHTML==='function' ? psPrioritiesHTML() : ''}
+        ${typeof skillsOverviewHTML==='function' ? skillsOverviewHTML() : ''}
+        ${typeof errorsOverviewHTML==='function' ? errorsOverviewHTML() : ''}
 
         <div class="ws-box">
             <h3 style="margin-bottom:14px">Répartition par matière (7 derniers jours)</h3>
@@ -642,7 +643,6 @@ function render(html) {
 // ── RÉVISION DU JOUR (multi-matières) ────────────────────────────
 function startDailyReview() {
     dailyReviewMode = true;
-    intensiveMode = false;
     const seen = new Set(); let queue = [];
 
     // 1. Priorité : matières avec une évaluation dans les 7 prochains jours.
@@ -741,6 +741,7 @@ function goHome() {
             <button class="stats-link-btn" onclick="openStats()">📊 Voir mes statistiques</button>
         </div>
         ${gs.due>0?`<button class="daily-review-btn" onclick="startDailyReview()">🌅 Révision du jour — ${gs.due} carte${gs.due>1?'s':''} à revoir${urgentEvals.length>0?`, priorité ${urgentEvals[0].subject}`:', toutes matières'}</button>`:''}
+        <p class="card-counts">🎴 ${gs.total} disponibles · ${gs.discovered} découvertes · ${gs.due} à revoir</p>
         <button class="bc-btn" id="notif-btn" onclick="askNotifPermission()" style="margin-bottom:10px;width:100%;text-align:center">🔕 Activer les rappels</button>
         `:''}
         <button class="bc-btn" onclick="openAgenda()" style="margin-bottom:16px;width:100%;text-align:center">📅 Mes évaluations${urgentEvals.length>0?` (${urgentEvals.length})`:''}</button>
@@ -789,6 +790,7 @@ function goSubject(name) {
             <h1>${cfg.icon} ${name}</h1>
             <p>${st.total} cartes · ${st.discovered} découvertes · ${st.due} à réviser</p>
         </div>
+        ${typeof psSubjectSummaryHTML==='function' ? psSubjectSummaryHTML(name) : ''}
         <div class="menu-grid">
             <button class="menu-tile menu-tile-cours" onclick="goModeChapters('cours')">
                 <span class="menu-tile-icon">📖</span>
@@ -800,25 +802,30 @@ function goSubject(name) {
                 <span class="menu-tile-label">Vocabulaire</span>
                 <span class="menu-tile-sub">${st.total} mot(s)</span>
             </button>
-            <button class="menu-tile menu-tile-qcm" onclick="openQCM()">
-                <span class="menu-tile-icon">🧠</span>
-                <span class="menu-tile-label">QCM</span>
-                <span class="menu-tile-sub">Questions auto-générées</span>
-            </button>
             <button class="menu-tile menu-tile-flash" onclick="openSRS()">
                 <span class="menu-tile-icon">🎴</span>
                 <span class="menu-tile-label">Flashcards</span>
                 <span class="menu-tile-sub">${st.due > 0 ? st.due + ' à réviser' : '✓ À jour'}</span>
             </button>
-            <button class="menu-tile menu-tile-intensive" onclick="openIntensive()">
-                <span class="menu-tile-icon">🔥</span>
-                <span class="menu-tile-label">Révision Intensive</span>
-                <span class="menu-tile-sub">Toutes les cartes · veille d'exam</span>
-            </button>
             <button class="menu-tile menu-tile-exo" onclick="openExercices()">
                 <span class="menu-tile-icon">✏️</span>
                 <span class="menu-tile-label">Exercices</span>
                 <span class="menu-tile-sub">Énoncés + corrections</span>
+            </button>
+            <button class="menu-tile menu-tile-eval" onclick="openEval('${esc(name)}')">
+                <span class="menu-tile-icon">🧪</span>
+                <span class="menu-tile-label">Évaluation</span>
+                <span class="menu-tile-sub">Vérifier ta maîtrise réelle</span>
+            </button>
+            <button class="menu-tile menu-tile-errors" onclick="openErrors('${esc(name)}')">
+                <span class="menu-tile-icon">📓</span>
+                <span class="menu-tile-label">Carnet d'erreurs</span>
+                <span class="menu-tile-sub">${typeof errCount==='function' ? errCount(name) : 0} à retravailler</span>
+            </button>
+            <button class="menu-tile menu-tile-skills" onclick="openSkills('${esc(name)}')">
+                <span class="menu-tile-icon">🎯</span>
+                <span class="menu-tile-label">Compétences</span>
+                <span class="menu-tile-sub">Radar · points faibles · quoi travailler</span>
             </button>
         </div>
     `);
@@ -872,6 +879,7 @@ function goModeChapters(mode) {
                         <span>📋 ${cards.length} mots</span>
                         ${due > 0 ? `<span style="color:#4f46e5">⏰ ${due} à réviser</span>` : (toDiscover > 0 ? '<span style="color:#d97706">🆕 À découvrir</span>' : '<span style="color:#059669">✓ À jour</span>')}
                     </div>
+                    ${typeof psPill==='function' ? psPill(curSubject, ch) : ''}
                     ${badge}
                 </div>`;
             }).join(''); })()}
@@ -896,13 +904,14 @@ function renderChapterMenu() {
     const menuItems = [
         { id:'cours',   icon:'📖', label:'Cours',      sub:'Lire le cours' },
         { id:'voc',     icon:'📚', label:'Vocabulaire', sub:`${cards.length} mot(s)` },
-        { id:'qcm',     icon:'🧠', label:'QCM',         sub:'Questions auto-générées' },
+        { id:'eval',    icon:'🧪', label:'Évaluation',  sub:'Vérifier ce chapitre' },
         { id:'flash',   icon:'🎴', label:'Flashcards',  sub: discovered ? `${due} à réviser` : `🆕 ${cards.length} à découvrir` },
     ];
     render(`
         <div class="page-head">
             <h1 style="font-size:1.25rem">${curChapter}</h1>
         </div>
+        ${typeof psChapterBannerHTML==='function' ? psChapterBannerHTML(curSubject, curChapter) : ''}
         <div class="menu-grid">
             ${menuItems.map(m => `
             <button class="menu-tile" onclick="handleMenuTile('${m.id}')">
@@ -919,7 +928,7 @@ function renderChapterMenu() {
 }
 
 function handleMenuTile(id) {
-    if (id === 'qcm')   { openQCM(); return; }
+    if (id === 'eval')  { openEval(curSubject, curChapter); return; }
     if (id === 'flash') { openSRS(); return; }
     curTab = id === 'cours' ? 'cours' : 'voc';
     renderChapter();
@@ -1718,74 +1727,6 @@ function addVoc(){
     setTimeout(()=>{if($('vfb'))$('vfb').innerHTML='';},2000);
 }
 
-// ── RÉVISION INTENSIVE ──────────────────────────────────────
-let intensiveMode = false;
-let intensiveShuffle = true;
-
-function openIntensive() {
-    curTrackedPage = null;
-    clearInterval(qTimer);
-    const chapters = Object.keys(db[curSubject]);
-    render(`
-        <div class="breadcrumb">
-            <button class="bc-btn" onclick="goSubject('${esc(curSubject)}')">← ${curSubject}</button>
-        </div>
-        <div class="ws-box">
-        <div class="setup-wrap">
-            <h3>🔥 Révision Intensive</h3>
-            <div class="info-box orange"><b>Mode intensif :</b> Toutes les cartes en boucle, sans filtrage par date. Parfait la veille d'un exam. Les scores SRS ne sont pas modifiés.</div>
-            <p style="font-weight:700;margin-bottom:10px;">Chapitres à inclure :</p>
-            <div class="cb-list">
-                ${chapters.map(ch => {
-                    const tot = (db[curSubject][ch].flashcards || []).length;
-                    return `<label class="cb-item">
-                        <input type="checkbox" class="int-cb" value="${ch}" ${tot > 0 ? 'checked' : ''}>
-                        <span style="flex:1">${ch}</span>
-                        <span class="cb-right">${tot} cartes</span>
-                    </label>`;
-                }).join('')}
-            </div>
-            <div class="btn-row">
-                <button class="bc-btn" onclick="document.querySelectorAll('.int-cb').forEach(c=>c.checked=true)">Tout cocher</button>
-                <button class="bc-btn" onclick="document.querySelectorAll('.int-cb').forEach(c=>c.checked=false)">Tout décocher</button>
-            </div>
-            <label class="cb-item" style="margin-bottom:14px;padding:12px;border-radius:10px;border:1.5px solid var(--border);">
-                <input type="checkbox" id="int-shuffle" checked>
-                <span style="flex:1;font-weight:600">🔀 Mélanger les cartes</span>
-            </label>
-            <button class="btn-main" style="background:linear-gradient(135deg,#ea580c,#f97316);box-shadow:0 4px 14px rgba(234,88,12,.3)" onclick="startIntensive()">🔥 Lancer la session</button>
-        </div>
-        </div>
-    `);
-}
-
-function startIntensive() {
-    const cbs = [...document.querySelectorAll('.int-cb:checked')];
-    if (!cbs.length) { showToast('Sélectionne au moins un chapitre !', 'warn'); return; }
-    intensiveShuffle = document.getElementById('int-shuffle')?.checked ?? true;
-    selChapters = cbs.map(c => c.value);
-    const seen = new Set(); srsQueue = [];
-    selChapters.forEach(ch => {
-        (db[curSubject][ch].flashcards || []).forEach(c => {
-            const k = c.q + '|' + c.a;
-            if (!seen.has(k)) { seen.add(k); srsQueue.push({ card: c, ch }); }
-        });
-    });
-    if (!srsQueue.length) { showToast('Aucune carte dans ces chapitres !', 'warn'); return; }
-    if (intensiveShuffle) srsQueue = srsQueue.sort(() => Math.random() - .5);
-    intensiveMode = true;
-    dailyReviewMode = false;
-    srsAgain = []; sessDone = 0; sessTotal = srsQueue.length;
-    sessStats = { seen: 0, right: 0, wrong: 0 }; qSecs = 0;
-    clearInterval(qTimer);
-    qTimer = setInterval(() => {
-        qSecs++;
-        const el = $('srs-timer');
-        if (el) { const m = String(Math.floor(qSecs/60)).padStart(2,'0'); const s = String(qSecs%60).padStart(2,'0'); el.textContent = m+':'+s; }
-    }, 1000);
-    renderSRSCard();
-}
-
 // ── SRS SETUP ─────────────────────────────────────────────────
 // ── RECHERCHE EN DIRECT DANS UNE LISTE DE CHAPITRES ─────────────
 function filterCbList(input, cbClass) {
@@ -1836,7 +1777,6 @@ function openSRS() {
 
 // ── SRS SESSION ───────────────────────────────────────────────
 function startSRS() {
-    intensiveMode = false;
     dailyReviewMode = false;
     const cbs=[...document.querySelectorAll('.srs-cb:checked')];
     if(!cbs.length){showToast('Sélectionne au moins un chapitre !','warn');return;}
@@ -1890,22 +1830,6 @@ function confirmStopSRS(){
 
 function renderSRSCard() {
     srsCur=srsQueue.shift()||srsAgain.shift()||null;
-    // Mode intensif : si plus de cartes, on recharge toute la pile en ordre aléatoire
-    if(!srsCur && intensiveMode){
-        const seen=new Set(); srsQueue=[];
-        selChapters.forEach(ch=>{
-            (db[curSubject][ch].flashcards||[]).forEach(card=>{
-                const k=card.q+'|'+card.a;
-                if(!seen.has(k)){seen.add(k);srsQueue.push({card,ch});}
-            });
-        });
-        srsQueue=srsQueue.sort(()=>Math.random()-.5);
-        srsAgain=[];
-        sessTotal+=srsQueue.length;
-        srsCur=srsQueue.shift()||null;
-        if(!srsCur){renderSRSResults();return;}
-        showToast('🔄 Nouvelle boucle — bon courage !','info');
-    }
     srsFlipped=false;
     if(!srsCur){renderSRSResults();return;}
     const {card}=srsCur;
@@ -1921,7 +1845,6 @@ function renderSRSCard() {
         </div>
         <div class="ws-box">
         <div class="srs-wrap">
-            ${intensiveMode ? '<div class="int-badge">🔥 Mode Intensif</div>' : ''}
             <div class="srs-prog-row">
                 <span>${sessDone+1} / ${tot}</span>
                 <span id="srs-timer">${m}:${s}</span>
@@ -2049,17 +1972,8 @@ function rateSRS(r){
     if(!srsCur)return;
     logActivity();
     const {card,ch}=srsCur;
-
-    // Mode intensif : on ne touche pas aux données SRS, on remet juste en file si "encore"
-    if(intensiveMode){
-        // Peu importe la réponse, la carte repart toujours dans la file
-        srsAgain.push(srsCur);
-        if(r==='good'||r==='easy') sessStats.right++;
-        else sessStats.wrong++;
-        sessDone++;
-        renderSRSCard();
-        return;
-    }
+    // Journal de compétences (competences.js) : 1 = réussi, 0,5 = difficile, 0 = raté
+    if(typeof logPerf==='function') logPerf(srsCur.subj||curSubject, ch, 'flash', (r==='good'||r==='easy')?1:(r==='hard'?0.5:0), '', {k:card.q+'|'+card.a, q:card.q, a:card.a});
 
     const iv=card.interval||0; const e=card.ease||2.5;
     const DAY=86400000; const now=Date.now();
@@ -2085,13 +1999,13 @@ function renderSRSResults(){
     const msg=pct>=80?'Excellente session !':pct>=60?'Bien joué, continue !':'Revois les cartes difficiles.';
     const mins=Math.floor(qSecs/60); const secs=qSecs%60;
     const accuracy = tot === 0 ? '—' : pct + '%';
-    const subjLabel = dailyReviewMode ? '🌅 Révision du jour · toutes matières' : `${curSubject} · ${selChapters.length} chapitre(s)${intensiveMode ? ' · 🔥 Intensif' : ''}`;
+    const subjLabel = dailyReviewMode ? '🌅 Révision du jour · toutes matières' : `${curSubject} · ${selChapters.length} chapitre(s)`;
     const actionButtons = dailyReviewMode ? `
                 <button class="btn-main" onclick="startDailyReview()">🔄 Continuer la révision du jour</button>
                 <button class="bc-btn se-home-btn" onclick="goHome()">← Retour à l'accueil</button>
     ` : `
                 <button class="btn-main" onclick="openSRS()">🔄 Nouvelle session</button>
-                <button class="btn-main" style="background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 4px 14px rgba(5,150,105,.3)" onclick="openQCM()">🧠 Faire un QCM</button>
+                <button class="btn-main" style="background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 4px 14px rgba(5,150,105,.3)" onclick="openEval('${esc(curSubject)}')">🧪 Faire une évaluation</button>
                 <button class="bc-btn se-home-btn" onclick="goSubject('${esc(curSubject)}')">← Retour au menu</button>
     `;
     render(`
@@ -2116,170 +2030,9 @@ function renderSRSResults(){
     `);
 }
 
-// ── QCM SETUP ─────────────────────────────────────────────────
+// ── COULEUR D'UNE MATIÈRE ─────────────────────────────────────
 const SUBJ_COLORS = {fr:'#059669',math:'#4f46e5',hg:'#9f1239',ang:'#1d4ed8',esp:'#ca8a04',phy:'#7c3aed',idd:'#0d9488',it:'#ea580c',info:'#0891b2',cyber:'#b91c1c',bourse:'#65a30d',entr:'#e11d48',sci:'#6366f1',jur:'#78716c'};
 function subjectColor(name){ const cfg=CFG.find(c=>c.name===name); return cfg ? (SUBJ_COLORS[cfg.cls]||'#4f46e5') : '#4f46e5'; }
-
-function openQCM() {
-    clearInterval(qTimer);
-    curTrackedPage = null;
-    const chapters=Object.keys(db[curSubject]);
-    render(`
-        <div class="breadcrumb">
-            <button class="bc-btn" onclick="goSubject('${esc(curSubject)}')">← ${curSubject}</button>
-        </div>
-        <div class="ws-box">
-        <div class="setup-wrap">
-            <h3>🧠 QCM Auto-généré</h3>
-            <div class="info-box green"><b>QCM :</b> Questions à 4 choix générées automatiquement depuis ton vocabulaire.</div>
-            <p style="font-weight:700;margin-bottom:10px;">Chapitres :</p>
-            ${chapters.length>6?`<input type="text" class="cb-search" placeholder="🔎 Rechercher un chapitre..." oninput="filterCbList(this,'qcm-cb')">`:''}
-            <div class="cb-list" id="qcm-cb-list">
-                ${chapters.map(ch=>{
-                    const n=(db[curSubject][ch].flashcards||[]).length;
-                    return `<label class="cb-item">
-                        <input type="checkbox" class="qcm-cb" value="${ch}" ${n>0?'checked':''}>
-                        <span style="flex:1">${ch}</span>
-                        <span class="cb-right">${n} mots</span>
-                    </label>`;
-                }).join('')}
-            </div>
-            <label style="font-weight:700;display:block;margin-bottom:8px">Nombre de questions :</label>
-            <select id="qcm-n" class="field" style="margin-bottom:14px">
-                <option value="10" selected>10 questions</option>
-                <option value="25">25 questions</option>
-                <option value="0">∞ Infini (tout le vocabulaire)</option>
-            </select>
-            <div class="btn-row">
-                <button class="bc-btn" onclick="document.querySelectorAll('.qcm-cb').forEach(c=>c.checked=true)">Tout cocher</button>
-                <button class="bc-btn" onclick="document.querySelectorAll('.qcm-cb').forEach(c=>c.checked=false)">Tout décocher</button>
-            </div>
-            <button class="btn-main green" onclick="startQCM()">🚀 Commencer</button>
-        </div>
-        </div>
-    `);
-}
-
-// ── QCM SESSION ───────────────────────────────────────────────
-function startQCM(){
-    const cbs=[...document.querySelectorAll('.qcm-cb:checked')];
-    if(!cbs.length){showToast('Sélectionne au moins un chapitre !','warn');return;}
-    const n=parseInt($('qcm-n').value);
-    const seen=new Set(); let full=[];
-    cbs.forEach(cb=>{
-        (db[curSubject][cb.value].flashcards||[]).forEach(c=>{
-            const k=c.q+'|'+c.a;
-            if(!seen.has(k)){seen.add(k);full.push(c);}
-        });
-    });
-    if(full.length<2){showToast('Il faut au moins 2 mots pour générer un QCM !','warn');return;}
-    let all=[...full].sort(()=>Math.random()-.5);
-    if(n>0)all=all.slice(0,n);
-    // Les mauvaises réponses piochent dans TOUT le pool sélectionné (pas seulement
-    // les n questions tirées), pour avoir un vrai mélange à chaque question
-    // plutôt que de recycler sans arrêt les 2-3 mêmes distracteurs.
-    qcmList=all.map(card=>{
-        const wrong=full.filter(c=>c.a!==card.a).sort(()=>Math.random()-.5).slice(0,3);
-        const opts=[...wrong.map(c=>c.a),card.a].sort(()=>Math.random()-.5);
-        return{q:card.q,correct:card.a,opts};
-    });
-    qcmIdx=0; qcmScore=0; qSecs=0;
-    clearInterval(qTimer);
-    qTimer=setInterval(()=>{ qSecs++; },1000);
-    renderQCM();
-}
-
-function confirmStopQCM(){
-    customConfirm({
-        icon:'🧠', title:'Arrêter le QCM ?',
-        message:`Ton score actuel (${qcmScore}/${qcmIdx}) ne sera pas comptabilisé.`,
-        confirmLabel:'Arrêter', cancelLabel:'Continuer', danger:true,
-        onConfirm:()=>{ openQCM(); }
-    });
-}
-
-function renderQCM(){
-    if(qcmIdx>=qcmList.length){renderQCMResults();return;}
-    qcmCur=qcmList[qcmIdx];
-    curTrackedPage = { subject: curSubject, activity: '📝 QCM' };
-    const {q,opts}=qcmCur;
-    const pct=Math.round(qcmIdx/qcmList.length*100);
-    const letters=['A','B','C','D'];
-    const sc=subjectColor(curSubject);
-    render(`
-        <div class="breadcrumb">
-            <button class="bc-btn" onclick="confirmStopQCM()">✕ Arrêter</button>
-        </div>
-        <div class="ws-box">
-        <div class="qcm-wrap">
-            <div class="srs-prog-row">
-                <span>Question <b>${qcmIdx+1}</b> / ${qcmList.length}</span>
-                <span>Score : <b>${qcmScore}/${qcmIdx}</b></span>
-            </div>
-            <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:linear-gradient(90deg,${sc},${sc}99)"></div></div>
-            <div class="qcm-q-box" style="border-top-color:${sc}">
-                <div class="qcm-q-label" style="color:${sc}">🧠 Définition / traduction de</div>
-                <div class="qcm-q-text">${q}</div>
-            </div>
-            <div class="qcm-opts">
-                ${opts.map((o,i)=>`<button class="qcm-opt" id="opt${i}" onclick="answerQCM(${i})">
-                    <span class="opt-letter opt-letter-${i}">${letters[i]}</span><span>${o}</span>
-                </button>`).join('')}
-            </div>
-            <button class="qcm-next" id="qnext" style="background:${sc}" onclick="nextQCM()">
-                ${qcmIdx+1<qcmList.length?'Question suivante →':'Voir les résultats →'}
-            </button>
-        </div>
-        </div>
-    `);
-}
-
-function answerQCM(i){
-    if(!qcmCur)return;
-    logActivity();
-    const {correct,opts}=qcmCur;
-    document.querySelectorAll('.qcm-opt').forEach((b,j)=>{
-        b.disabled=true;
-        if(opts[j]===correct)b.classList.add('correct');
-        else if(j===i&&opts[j]!==correct)b.classList.add('wrong');
-    });
-    if(opts[i]===correct)qcmScore++;
-    const nb=$('qnext');if(nb)nb.style.display='block';
-}
-
-function nextQCM(){qcmIdx++;renderQCM();}
-
-function renderQCMResults(){
-    curTrackedPage = null;
-    const pct=qcmList.length===0?0:Math.round(qcmScore/qcmList.length*100);
-    const emoji=pct>=80?'🏆':pct>=60?'👍':'📚';
-    const msg=pct>=80?'Excellent travail !':pct>=60?'Pas mal, continue !':'Révise encore ce chapitre !';
-    const mins=Math.floor(qSecs/60); const secs=qSecs%60;
-    render(`
-        <div class="ws-box">
-        <div class="session-end">
-            <div class="se-emoji">${emoji}</div>
-            <div class="se-title">${msg}</div>
-            <div class="se-subject">${curSubject} · QCM</div>
-            <div class="se-pct">${pct}%</div>
-            <div class="se-label">de réussite</div>
-            <div class="results-grid" style="margin:18px auto;">
-                <div class="res-stat"><div class="res-n" style="color:#059669">${qcmScore}</div><div class="res-l">Correctes</div></div>
-                <div class="res-stat"><div class="res-n" style="color:#dc2626">${qcmList.length-qcmScore}</div><div class="res-l">Fausses</div></div>
-                <div class="res-stat"><div class="res-n" style="color:#4f46e5">${qcmList.length}</div><div class="res-l">Total</div></div>
-                <div class="res-stat"><div class="res-n" style="color:#0891b2">${mins}m${String(secs).padStart(2,'0')}s</div><div class="res-l">Durée</div></div>
-            </div>
-            <div class="se-actions">
-                <button class="btn-main green" onclick="openQCM()">🔄 Rejouer le QCM</button>
-                <button class="btn-main" onclick="openSRS()">🎴 Flashcards</button>
-                <button class="bc-btn se-home-btn" onclick="goSubject('${esc(curSubject)}')">← Retour au menu</button>
-            </div>
-        </div>
-        </div>
-    `);
-}
-
-
 
 // ── MATHJAX HELPER ────────────────────────────────────────────
 function typesetMath(el) {
@@ -2544,6 +2297,10 @@ function rateExo(status) {
         exos[item.originalIndex].status = status;
         exos[item.originalIndex].lastAttempt = new Date().toISOString();
         save();
+        if(typeof logPerf==='function'){
+            const pl = typeof errPlain==='function' ? errPlain(item.exo.enonce) : '';
+            logPerf(curSubject, item.ch, 'exo', status==='reussi'?1:(status==='presque'?0.5:0), item.exo.niveau||'Moyen', pl ? {k:pl, q:pl, x:item.originalIndex} : undefined);
+        }
     }
     if(curExoIdx < curExoList.length - 1){ curExoIdx++; exoShowCorrection=false; renderExo(); }
     else openExoResults();
