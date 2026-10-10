@@ -42,9 +42,19 @@ Object.entries(PREBUILT).forEach(([subj, chapters]) => {
                 db[subj][ch].cours = data.cours;
             }
 
+            // Corrections de cartes existantes (PREBUILT_FIXES) : on garde la progression de révision
+            const existingCards = db[subj][ch].flashcards || [];
+            PREBUILT_FIXES.filter(f => f.s === subj && f.ch === ch).forEach(f => {
+                const norm = t => String(t).replace(/\\/g, '');
+                const card = existingCards.find(c => norm(c.q) === norm(f.oldQ));
+                if (!card) return;
+                if (f.oldA !== undefined && norm(card.a) !== norm(f.oldA)) return;   // carte modifiée par l'élève : on n'y touche pas
+                if (f.q !== undefined) card.q = f.q;
+                if (f.a !== undefined) card.a = f.a;
+            });
+
             // Pour les flashcards, on fusionne : on garde les scores SRS acquis,
             // mais on ajoute les nouvelles cartes ajoutées dans PREBUILT
-            const existingCards = db[subj][ch].flashcards || [];
             const existingQs = new Set(existingCards.map(c => c.q));
             data.flashcards.forEach(f => {
                 if (!existingQs.has(f.q)) {
