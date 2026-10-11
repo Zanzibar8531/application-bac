@@ -4,8 +4,8 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-pwa-v18-cours';
-const CACHE_STATIC = 'bacmaster-static-pwa-v18-cours';
+const CACHE_NAME   = 'bacmaster-pwa-v19-espagnol';
+const CACHE_STATIC = 'bacmaster-static-pwa-v19-espagnol';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [

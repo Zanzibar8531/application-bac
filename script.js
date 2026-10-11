@@ -17,6 +17,14 @@ if (db['Anglais'] && db['Anglais']['Genetically Modified Babies — Designer Bab
     delete db['Anglais']['Genetically Modified Babies — Designer Babies'];
 }
 
+// Renommages de chapitres (PREBUILT_RENAMES) : la progression de l'élève suit le nouveau nom.
+PREBUILT_RENAMES.forEach(r => {
+    if (db[r.s] && db[r.s][r.old] && !db[r.s][r.new]) {
+        db[r.s][r.new] = db[r.s][r.old];
+        delete db[r.s][r.old];
+    }
+});
+
 // Injecter les cours pré-chargés.
 // RÈGLE : le cours vient TOUJOURS de PREBUILT (source de vérité).
 // On préserve uniquement les flashcards de l'élève (scores SRS, ajouts perso).
