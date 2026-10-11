@@ -80,8 +80,18 @@ Object.entries(PREBUILT).forEach(([subj, chapters]) => {
             db[subj][ch].flashcards = existingCards;
 
             // Les exercices ne sont pas édités par l'élève dans l'app :
-            // on les synchronise toujours depuis PREBUILT (dernière version de Claude).
-            db[subj][ch].exercices = data.exercices || [];
+            // on les synchronise toujours depuis PREBUILT (dernière version de Claude),
+            // MAIS on conserve le résultat de l'élève (statut, dernière tentative) pour chaque énoncé inchangé.
+            const exoKey = e => String(e.enonce || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+            const oldExos = new Map((db[subj][ch].exercices || []).map(e => [exoKey(e), e]));
+            db[subj][ch].exercices = (data.exercices || []).map(e => {
+                const o = oldExos.get(exoKey(e));
+                if (!o || (!o.status && !o.lastAttempt)) return e;
+                const kept = Object.assign({}, e);
+                if (o.status) kept.status = o.status;
+                if (o.lastAttempt) kept.lastAttempt = o.lastAttempt;
+                return kept;
+            });
         }
     });
 });
