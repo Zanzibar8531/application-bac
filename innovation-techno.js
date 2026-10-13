@@ -4,7 +4,6 @@
    Spécialité STI2D — 3h/semaine
    ============================================================ */
 
-
 PREBUILT["Innovation Techno."] = {
 
 "Démarche de créativité & innovation": {
@@ -97,7 +96,7 @@ flashcards:[
 {q:"Droit d'auteur",a:"Protège automatiquement une œuvre de l'esprit dès sa création, sans dépôt nécessaire (contrairement au brevet)."},
 {q:"Veille technologique — définition",a:"Surveillance continue des évolutions technologiques, brevets et marchés pour anticiper les innovations."},
 {q:"3 types de veille",a:"Veille concurrentielle (concurrents), veille technologique (nouvelles technos), veille réglementaire (normes/lois)."},
-{q:"Marquage CE",a:"Marquage obligatoire en Europe attestant qu'un produit respecte les exigences de sécurité, santé et environnement."},
+{q:"Marquage CE",a:"Marquage obligatoire pour de nombreux produits vendus dans l'Union européenne : le fabricant déclare la conformité de son produit aux exigences européennes de sécurité, santé et environnement. Ce n'est pas un label de qualité."},
 {q:"INPI",a:"Institut National de la Propriété Industrielle — organisme français où l'on dépose brevets, marques et dessins/modèles."},
 {q:"Marque : durée de protection",a:"10 ans, renouvelable indéfiniment (par périodes de 10 ans)."},
 {q:"Dessin et modèle : durée de protection",a:"5 ans, renouvelable par périodes de 5 ans jusqu'à 25 ans maximum."},
@@ -118,7 +117,7 @@ flashcards:[
 
 };
 
-// Correction de cartes déjà présentes chez l'élève (sa progression de révision est conservée)
+// Corrections de cartes déjà présentes chez l'élève (sa progression de révision est conservée)
 PREBUILT_FIXES.push(...[
  {
   "s": "Innovation Techno.",
