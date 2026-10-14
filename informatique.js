@@ -3,726 +3,399 @@
    Cours et flashcards — Informatique (culture perso)
    ============================================================ */
 
-PREBUILT['Informatique'] = {
+PREBUILT["Informatique"] = {
 
-'Programmation & algorithmique': {
-cours:`<h3>Qu'est-ce qu'un algorithme ?</h3>
-<p>Une <strong>suite finie d'instructions précises</strong> qui permet de résoudre un problème ou d'accomplir une tâche. Un programme informatique est l'écriture d'un algorithme dans un langage compréhensible par une machine.</p>
-
-<h3>Les structures de base</h3>
-<ul>
-<li><strong>Variable</strong> : espace mémoire nommé qui stocke une valeur (nombre, texte, booléen...)</li>
-<li><strong>Condition (si/sinon)</strong> : exécute des instructions différentes selon un test logique</li>
-<li><strong>Boucle</strong> : répète des instructions. <em>Pour</em> (nombre de répétitions connu) ou <em>Tant que</em> (répète tant qu'une condition est vraie)</li>
-<li><strong>Fonction</strong> : bloc de code réutilisable, qui prend des paramètres et peut renvoyer un résultat</li>
-</ul>
-<div class="retenir-box">Boucle <mark>Pour</mark> = tu sais déjà combien de tours tu vas faire. Boucle <mark>Tant que</mark> = tu ne sais pas d'avance, ça dépend d'une condition qui peut changer en cours de route.</div>
-
-<h3>Les langages de programmation</h3>
-<div class="formula-box">
-<strong>Python</strong> : langage simple à lire, très utilisé en data/IA/scripts.<br>
-<strong>JavaScript</strong> : langage du web, s'exécute dans le navigateur (interactivité des sites).<br>
-<strong>C / C++</strong> : langages bas niveau, rapides, utilisés en systèmes embarqués/jeux vidéo.<br>
-<strong>Java / C#</strong> : langages orientés objet, très utilisés en entreprise.<br>
-<strong>HTML/CSS</strong> : ne sont pas des langages de programmation mais de <em>structure</em> (HTML) et de <em>mise en forme</em> (CSS) pour le web.
-</div>
-
-<h3>Programmation orientée objet (POO)</h3>
-<ul>
-<li><strong>Classe</strong> : modèle/plan qui décrit des propriétés (attributs) et des comportements (méthodes)</li>
-<li><strong>Objet</strong> : une <mark>instance concrète</mark> d'une classe</li>
-<li>Ex : classe <em>Voiture</em> (attributs : couleur, vitesse ; méthodes : accélérer, freiner) → objet <em>maVoiture = Voiture("rouge")</em></li>
-</ul>
-
-<h3>Complexité algorithmique</h3>
-<p>Mesure l'efficacité d'un algorithme selon la taille des données (notation <strong>O(n)</strong>) :</p>
-<ul>
-<li><strong>O(1)</strong> : temps constant, quelle que soit la taille des données</li>
-<li><strong>O(n)</strong> : temps proportionnel au nombre de données (ex : parcourir une liste)</li>
-<li><strong>O(n²)</strong> : temps qui explose avec la taille (ex : comparer chaque élément à tous les autres)</li>
-<li><strong>O(log n)</strong> : très efficace (ex : recherche dichotomique dans une liste triée)</li>
-</ul>`,
+"Programmation & algorithmique": {
+cours:"<h3>Qu'est-ce qu'un algorithme ?</h3>\n<p>Une <strong>suite finie d'instructions précises</strong> qui permet de résoudre un problème ou d'accomplir une tâche. Un programme informatique est l'écriture d'un algorithme dans un langage compréhensible par une machine.</p>\n\n<h3>Les structures de base</h3>\n<ul>\n<li><strong>Variable</strong> : espace mémoire nommé qui stocke une valeur (nombre, texte, booléen...)</li>\n<li><strong>Condition (si/sinon)</strong> : exécute des instructions différentes selon un test logique</li>\n<li><strong>Boucle</strong> : répète des instructions. <em>Pour</em> (nombre de répétitions connu) ou <em>Tant que</em> (répète tant qu'une condition est vraie)</li>\n<li><strong>Fonction</strong> : bloc de code réutilisable, qui prend des paramètres et peut renvoyer un résultat</li>\n</ul>\n<div class=\"retenir-box\">Boucle <mark>Pour</mark> = tu sais déjà combien de tours tu vas faire. Boucle <mark>Tant que</mark> = tu ne sais pas d'avance, ça dépend d'une condition qui peut changer en cours de route.</div>\n\n<h3>Les langages de programmation</h3>\n<div class=\"formula-box\">\n<strong>Python</strong> : langage simple à lire, très utilisé en data/IA/scripts.<br>\n<strong>JavaScript</strong> : langage du web, s'exécute dans le navigateur (interactivité des sites).<br>\n<strong>C / C++</strong> : langages bas niveau, rapides, utilisés en systèmes embarqués/jeux vidéo.<br>\n<strong>Java / C#</strong> : langages orientés objet, très utilisés en entreprise.<br>\n<strong>HTML/CSS</strong> : ne sont pas des langages de programmation mais de <em>structure</em> (HTML) et de <em>mise en forme</em> (CSS) pour le web.\n</div>\n\n<h3>Programmation orientée objet (POO)</h3>\n<ul>\n<li><strong>Classe</strong> : modèle/plan qui décrit des propriétés (attributs) et des comportements (méthodes)</li>\n<li><strong>Objet</strong> : une <mark>instance concrète</mark> d'une classe</li>\n<li>Ex : classe <em>Voiture</em> (attributs : couleur, vitesse ; méthodes : accélérer, freiner) → objet <em>maVoiture = Voiture(\"rouge\")</em></li>\n</ul>\n\n<h3>Complexité algorithmique</h3>\n<p>Mesure l'efficacité d'un algorithme selon la taille des données (notation <strong>O(n)</strong>) :</p>\n<ul>\n<li><strong>O(1)</strong> : temps constant, quelle que soit la taille des données</li>\n<li><strong>O(n)</strong> : temps proportionnel au nombre de données (ex : parcourir une liste)</li>\n<li><strong>O(n²)</strong> : temps qui explose avec la taille (ex : comparer chaque élément à tous les autres)</li>\n<li><strong>O(log n)</strong> : très efficace (ex : recherche dichotomique dans une liste triée)</li>\n</ul>\n\n<h3>Types de données et opérateurs</h3>\n<div class=\"formula-box\">\n<strong>Entier</strong> (<code>int</code>) : 7, −3 &nbsp;·&nbsp; <strong>Flottant</strong> (<code>float</code>) : 2.5 &nbsp;·&nbsp; <strong>Chaîne</strong> (<code>str</code>) : \"texte\" &nbsp;·&nbsp; <strong>Booléen</strong> (<code>bool</code>) : Vrai ou Faux<br>\nArithmétique : <code>+ - * /</code> &nbsp; <code>//</code> (division entière) &nbsp; <code>%</code> (reste, « modulo ») &nbsp; <code>**</code> (puissance)<br>\nComparaison : <code>==</code> (égal) &nbsp; <code>!=</code> (différent) &nbsp; <code>&lt; &gt; &lt;= &gt;=</code><br>\nLogique : <code>and</code> (ET) &nbsp; <code>or</code> (OU) &nbsp; <code>not</code> (NON)\n</div>\n<p><strong>Exemples :</strong> <code>17 // 5</code> donne 3 (combien de fois 5 « rentre » dans 17) ; <code>17 % 5</code> donne 2 (le reste). Un nombre <code>n</code> est pair si <code>n % 2 == 0</code>.</p>\n<div class=\"attention-box\">Ne confonds pas <code>=</code> (<em>affecter</em> une valeur à une variable) et <code>==</code> (<em>comparer</em> deux valeurs). <code>a = 5</code> range 5 dans a ; <code>a == 5</code> demande « a vaut-il 5 ? ».</div>\n<p><strong>Logique :</strong> ET est vrai seulement si les <em>deux</em> conditions sont vraies ; OU est vrai si <em>au moins une</em> l'est ; NON inverse la valeur.</p>\n\n<h3>Lire et écrire un algorithme : pseudo-code et trace</h3>\n<p>Avant de coder, on écrit souvent l'algorithme en <strong>pseudo-code</strong> (du français structuré : <em>Si… Alors… Sinon</em>, <em>Pour… de… à…</em>, <em>Tant que</em>). Pour vérifier un algorithme, on fait une <mark>trace d'exécution</mark> : un tableau qui donne la valeur de chaque variable après chaque tour. C'est la méthode la plus sûre pour comprendre ce que fait un programme ou trouver un bug.</p>\n\n<h3>Listes, parcours et recherche</h3>\n<p>Une <strong>liste</strong> (ou tableau) range plusieurs valeurs ; le premier élément est à l'indice <mark>0</mark>. Pour <strong>chercher</strong> une valeur :</p>\n<ul>\n<li><strong>Recherche séquentielle</strong> : on regarde les éléments un par un. Complexité <strong>O(n)</strong>. Fonctionne sur une liste quelconque.</li>\n<li><strong>Recherche dichotomique</strong> : sur une liste <em>triée</em>, on regarde l'élément du milieu et on élimine la moitié qui ne peut pas contenir la valeur, puis on recommence. Complexité <strong>O(log n)</strong>.</li>\n</ul>\n<div class=\"retenir-box\">Pourquoi la dichotomie est si rapide : chaque étape <mark>divise par 2</mark> la zone à explorer. Pour 1 000 éléments, 10 comparaisons au maximum suffisent ($2^{10} = 1\\,024$) ; pour 1 million d'éléments, environ 20 ($2^{20} \\approx 1{,}05$ million). Doubler la taille de la liste ne coûte qu'<strong>une étape de plus</strong>.</div>\n\n<h3>Trier une liste</h3>\n<p>Les tris simples (par sélection, par insertion) comparent beaucoup d'éléments entre eux : complexité <strong>O(n²)</strong>. Les tris plus efficaces (tri fusion, tri rapide) atteignent en général <strong>O(n log n)</strong>. En pratique, on utilise le tri fourni par le langage (<code>sorted()</code> ou <code>.sort()</code> en Python) plutôt que de le réécrire.</p>\n\n<h3>Variables locales et paramètres</h3>\n<ul>\n<li>Un <strong>paramètre</strong> est le nom utilisé dans la définition d'une fonction ; un <strong>argument</strong> est la valeur passée lors de l'appel (<code>carre(5)</code> : 5 est l'argument).</li>\n<li>Une variable créée <em>dans</em> une fonction est <strong>locale</strong> : elle n'existe plus après la fin de la fonction.</li>\n</ul>\n\n<h3>Les trois types d'erreurs</h3>\n<div class=\"formula-box\">\n<strong>Erreur de syntaxe</strong> : le code est mal écrit (parenthèse oubliée, indentation) : le programme ne démarre pas.<br>\n<strong>Erreur d'exécution</strong> : le programme démarre puis plante (division par zéro, indice hors de la liste).<br>\n<strong>Erreur de logique</strong> : le programme tourne sans erreur mais donne un <em>mauvais résultat</em> (le plus difficile à repérer : il faut tester et tracer).\n</div>\n\n<h3>Erreurs à éviter</h3>\n<div class=\"attention-box\">\n❌ Confondre <code>=</code> et <code>==</code>.<br>\n❌ Compter à partir de 1 dans une liste (le premier indice est 0).<br>\n❌ Oublier de modifier la variable de la condition dans une boucle « Tant que » : la boucle ne s'arrête jamais (boucle infinie).<br>\n❌ Utiliser la recherche dichotomique sur une liste <strong>non triée</strong> : le résultat est faux.<br>\n❌ Ne jamais tester son programme avec des valeurs limites (0, liste vide, nombre négatif).\n</div>",
 exercices:[
-{niveau:'Facile', enonce:`<p>Un programme doit afficher les nombres de 1 à 10. Avant même de l'écrire, sais-tu combien de fois la boucle va s'exécuter ? Quel type de boucle (Pour ou Tant que) est le plus adapté ici ? Justifie ta réponse.</p>`, aide:`Repense à la différence entre les deux boucles vue dans le cours : laquelle se choisit quand le nombre de répétitions est connu à l'avance ?`, correction:`<p>Le nombre de répétitions est connu à l'avance (10 fois) : la boucle <strong>Pour</strong> est donc la plus adaptée. La boucle <strong>Tant que</strong> serait plutôt utilisée si l'arrêt dépendait d'une condition qui change en cours d'exécution (ex : "tant que l'utilisateur n'a pas tapé 'stop'").</p>`},
-{niveau:'Moyen', enonce:`<p>Déroule à la main cet algorithme et donne la valeur affichée à la fin :</p><pre><code>compteur ← 0
-Tant que compteur < 5
-    compteur ← compteur + 2
-Fin Tant que
-Afficher compteur</code></pre>`, aide:`Trace un tableau avec la valeur de compteur avant et après chaque tour de boucle, et vérifie la condition à chaque fois avant de continuer.`, correction:`<p>Tour 1 : compteur=0 (0&lt;5 vrai) → compteur=2<br>Tour 2 : compteur=2 (2&lt;5 vrai) → compteur=4<br>Tour 3 : compteur=4 (4&lt;5 vrai) → compteur=6<br>Tour 4 : compteur=6 (6&lt;5 FAUX) → on sort de la boucle</p><p>La valeur affichée est <strong>6</strong>. Piège classique : la boucle s'arrête dès que la condition devient fausse, même si compteur "dépasse" 5 au lieu de tomber exactement dessus.</p>`},
-{niveau:'Difficile', enonce:`<p>Un algorithme parcourt une liste de $n$ éléments avec une boucle, et à l'intérieur de cette boucle, une deuxième boucle parcourt à nouveau toute la liste (boucles imbriquées). Quelle est la complexité de cet algorithme en notation O ? Si $n$ est multiplié par 10, le temps d'exécution est-il aussi multiplié par 10 ?</p>`, aide:`Pour chacun des n passages de la boucle extérieure, combien de fois la boucle intérieure s'exécute-t-elle ? Multiplie les deux.`, correction:`<p>Pour chaque élément de la boucle extérieure ($n$ passages), la boucle intérieure s'exécute aussi $n$ fois : au total $n \\times n = n^2$ opérations. La complexité est donc <strong>O(n²)</strong>.</p><p>Si $n$ est multiplié par 10, le nombre d'opérations est multiplié par $10^2 = 100$, PAS par 10 — c'est la caractéristique d'une complexité quadratique : elle explose beaucoup plus vite que la taille des données elle-même, contrairement à une complexité O(n) où multiplier n par 10 multiplie le temps par 10 seulement.</p>`},
+{niveau:"Facile",
+ enonce:"<p>Un programme doit afficher les nombres de 1 à 10. Avant même de l'écrire, sais-tu combien de fois la boucle va s'exécuter ? Quel type de boucle (Pour ou Tant que) est le plus adapté ici ? Justifie ta réponse.</p>",
+ aide:"Repense à la différence entre les deux boucles vue dans le cours : laquelle se choisit quand le nombre de répétitions est connu à l'avance ?",
+ correction:"<p>Le nombre de répétitions est connu à l'avance (10 fois) : la boucle <strong>Pour</strong> est donc la plus adaptée. La boucle <strong>Tant que</strong> serait plutôt utilisée si l'arrêt dépendait d'une condition qui change en cours d'exécution (ex : \"tant que l'utilisateur n'a pas tapé 'stop'\").</p>"},
+{niveau:"Moyen",
+ enonce:"<p>Déroule à la main cet algorithme et donne la valeur affichée à la fin :</p><pre><code>compteur ← 0\nTant que compteur < 5\n    compteur ← compteur + 2\nFin Tant que\nAfficher compteur</code></pre>",
+ aide:"Trace un tableau avec la valeur de compteur avant et après chaque tour de boucle, et vérifie la condition à chaque fois avant de continuer.",
+ correction:"<p>Tour 1 : compteur=0 (0&lt;5 vrai) → compteur=2<br>Tour 2 : compteur=2 (2&lt;5 vrai) → compteur=4<br>Tour 3 : compteur=4 (4&lt;5 vrai) → compteur=6<br>Tour 4 : compteur=6 (6&lt;5 FAUX) → on sort de la boucle</p><p>La valeur affichée est <strong>6</strong>. Piège classique : la boucle s'arrête dès que la condition devient fausse, même si compteur \"dépasse\" 5 au lieu de tomber exactement dessus.</p>"},
+{niveau:"Difficile",
+ enonce:"<p>Un algorithme parcourt une liste de $n$ éléments avec une boucle, et à l'intérieur de cette boucle, une deuxième boucle parcourt à nouveau toute la liste (boucles imbriquées). Quelle est la complexité de cet algorithme en notation O ? Si $n$ est multiplié par 10, le temps d'exécution est-il aussi multiplié par 10 ?</p>",
+ aide:"Pour chacun des n passages de la boucle extérieure, combien de fois la boucle intérieure s'exécute-t-elle ? Multiplie les deux.",
+ correction:"<p>Pour chaque élément de la boucle extérieure ($n$ passages), la boucle intérieure s'exécute aussi $n$ fois : au total $n \\times n = n^2$ opérations. La complexité est donc <strong>O(n²)</strong>.</p><p>Si $n$ est multiplié par 10, le nombre d'opérations est multiplié par $10^2 = 100$, PAS par 10 — c'est la caractéristique d'une complexité quadratique : elle explose beaucoup plus vite que la taille des données elle-même, contrairement à une complexité O(n) où multiplier n par 10 multiplie le temps par 10 seulement.</p>"},
+{niveau:"Facile",
+ enonce:"<p>Donne la valeur de chaque expression Python :<br>a) <code>17 // 5</code> &nbsp; b) <code>17 % 5</code> &nbsp; c) <code>2**3 + 1</code> &nbsp; d) <code>10 / 4</code> &nbsp; e) <code>True and not False</code> &nbsp; f) <code>7 > 3 and 2 == 3</code></p>",
+ aide:"// donne le quotient entier, % donne le reste, ** est la puissance. Pour les booléens, évalue chaque partie puis combine avec ET / OU / NON.",
+ correction:"<p>a) <strong>3</strong> (5 rentre 3 fois dans 17).</p><p>b) <strong>2</strong> (17 = 3×5 + 2).</p><p>c) <strong>9</strong> ($2^3 = 8$, puis +1).</p><p>d) <strong>2.5</strong> (la division <code>/</code> donne un flottant).</p><p>e) <strong>True</strong> : <code>not False</code> vaut True, et True ET True = True.</p><p>f) <strong>False</strong> : <code>7 > 3</code> est vrai, mais <code>2 == 3</code> est faux ; Vrai ET Faux = Faux.</p>"},
+{niveau:"Moyen",
+ enonce:"<p>Fais la trace d'exécution et donne la valeur affichée :</p><pre><code>s = 0\nfor i in range(1, 5):\n    s = s + i * i\nprint(s)</code></pre>",
+ aide:"range(1, 5) donne les valeurs 1, 2, 3, 4 (la borne 5 est exclue). À chaque tour, ajoute i au carré à s.",
+ correction:"<p>Trace :</p><table class=\"formula-table\"><tr><th>i</th><th>i × i</th><th>s après le tour</th></tr><tr><td>1</td><td>1</td><td>1</td></tr><tr><td>2</td><td>4</td><td>5</td></tr><tr><td>3</td><td>9</td><td>14</td></tr><tr><td>4</td><td>16</td><td>30</td></tr></table><p>Le programme affiche <strong>30</strong> (somme des carrés de 1 à 4). Piège : <code>range(1, 5)</code> s'arrête à 4, pas à 5.</p>"},
+{niveau:"Difficile",
+ enonce:"<p>La liste triée est <code>[2, 5, 8, 12, 16, 23, 38, 56, 72, 91]</code> (indices de 0 à 9). On cherche <code>23</code> par dichotomie en prenant à chaque étape l'élément d'indice <code>(début + fin) // 2</code>.<br>1) Déroule les étapes. Combien de comparaisons faut-il ?<br>2) Combien de comparaisons au maximum pour cette liste de 10 éléments ?<br>3) Et pour 1 000 éléments ? Compare avec la recherche séquentielle.</p>",
+ aide:"Commence avec début = 0 et fin = 9. Si l'élément du milieu est trop petit, on repart avec début = milieu + 1 ; s'il est trop grand, avec fin = milieu − 1.",
+ correction:"<table class=\"formula-table\"><tr><th>Étape</th><th>début</th><th>fin</th><th>milieu</th><th>valeur au milieu</th><th>Décision</th></tr><tr><td>1</td><td>0</td><td>9</td><td>4</td><td>16</td><td>16 &lt; 23 : on garde la moitié droite (début = 5)</td></tr><tr><td>2</td><td>5</td><td>9</td><td>7</td><td>56</td><td>56 &gt; 23 : on garde la moitié gauche (fin = 6)</td></tr><tr><td>3</td><td>5</td><td>6</td><td>5</td><td>23</td><td>Trouvé !</td></tr></table><p>1) <strong>3 comparaisons</strong> (la séquentielle en aurait fait 6, car 23 est à l'indice 5).</p><p>2) Au maximum <strong>4</strong> comparaisons pour 10 éléments.</p><p>3) Au maximum <strong>10</strong> pour 1 000 éléments ($2^{10} = 1\\,024$), contre jusqu'à 1 000 en séquentielle. C'est la différence entre <strong>O(log n)</strong> et <strong>O(n)</strong>.</p>"}
 ],
 flashcards:[
-{q:'Algorithme — définition',a:'Suite finie d\'instructions précises permettant de résoudre un problème ou accomplir une tâche.'},
-{q:'Boucle "pour" vs boucle "tant que"',a:'"Pour" : nombre de répétitions connu à l\'avance. "Tant que" : répète tant qu\'une condition reste vraie (nombre inconnu).'},
-{q:'Variable — définition',a:'Espace mémoire nommé qui stocke une valeur pouvant changer au cours du programme.'},
-{q:'Fonction en programmation',a:'Bloc de code réutilisable qui prend des paramètres en entrée et peut renvoyer un résultat.'},
-{q:'Python — pour quoi est-il très utilisé ?',a:'Langage simple à lire et à écrire, très utilisé en data science, intelligence artificielle et scripts automatisés.'},
-{q:'JavaScript — rôle principal',a:'Langage qui s\'exécute dans le navigateur pour rendre les sites web interactifs (contrairement à HTML/CSS qui structurent/stylisent).'},
-{q:'Différence classe / objet (POO)',a:'Classe = modèle décrivant attributs et méthodes. Objet = instance concrète créée à partir de cette classe.'},
-{q:'Complexité O(1) vs O(n)',a:'O(1) : temps constant quelle que soit la taille des données. O(n) : temps proportionnel au nombre de données.'},
-{q:'Recherche dichotomique — complexité et condition',a:'Complexité O(log n), très rapide, mais nécessite que la liste soit déjà triée.'},
-{q:'Compilé vs interprété',a:'Langage compilé (C++) : traduit entièrement en code machine avant exécution. Langage interprété (Python) : exécuté ligne par ligne par un interpréteur.'},
+{q:"Algorithme — définition",a:"Suite finie d'instructions précises permettant de résoudre un problème ou accomplir une tâche."},
+{q:"Boucle \"pour\" vs boucle \"tant que\"",a:"\"Pour\" : nombre de répétitions connu à l'avance. \"Tant que\" : répète tant qu'une condition reste vraie (nombre inconnu)."},
+{q:"Variable — définition",a:"Espace mémoire nommé qui stocke une valeur pouvant changer au cours du programme."},
+{q:"Fonction en programmation",a:"Bloc de code réutilisable qui prend des paramètres en entrée et peut renvoyer un résultat."},
+{q:"Python — pour quoi est-il très utilisé ?",a:"Langage simple à lire et à écrire, très utilisé en data science, intelligence artificielle et scripts automatisés."},
+{q:"JavaScript — rôle principal",a:"Langage qui s'exécute dans le navigateur pour rendre les sites web interactifs (contrairement à HTML/CSS qui structurent/stylisent)."},
+{q:"Différence classe / objet (POO)",a:"Classe = modèle décrivant attributs et méthodes. Objet = instance concrète créée à partir de cette classe."},
+{q:"Complexité O(1) vs O(n)",a:"O(1) : temps constant quelle que soit la taille des données. O(n) : temps proportionnel au nombre de données."},
+{q:"Recherche dichotomique — complexité et condition",a:"Complexité O(log n), très rapide, mais nécessite que la liste soit déjà triée."},
+{q:"Compilé vs interprété",a:"Langage compilé (C++) : traduit entièrement en code machine avant exécution. Langage interprété (Python) : exécuté ligne par ligne par un interpréteur."},
+{q:"Les 4 types de données de base",a:"Entier (int), flottant (float), chaîne de caractères (str), booléen (bool)."},
+{q:"Opérateurs // et % en Python",a:"// : division entière (17 // 5 = 3). % : reste de la division, « modulo » (17 % 5 = 2)."},
+{q:"Comment tester qu'un nombre n est pair ?",a:"n % 2 == 0 (le reste de la division par 2 est nul)."},
+{q:"Différence entre = et ==",a:"= affecte une valeur à une variable. == compare deux valeurs et renvoie Vrai ou Faux."},
+{q:"Opérateurs logiques ET, OU, NON",a:"ET : vrai si les deux conditions sont vraies. OU : vrai si au moins une est vraie. NON : inverse la valeur."},
+{q:"Trace d'exécution : à quoi sert-elle ?",a:"Tableau des valeurs des variables à chaque tour : permet de comprendre ce que fait un algorithme ou de trouver un bug."},
+{q:"Recherche séquentielle vs dichotomique",a:"Séquentielle : élément par élément, O(n), liste quelconque. Dichotomique : on divise la zone par 2 à chaque étape, O(log n), liste triée obligatoire."},
+{q:"Nombre d'étapes maximum d'une dichotomie sur 1 000 éléments",a:"10 (car 2¹⁰ = 1 024). Pour 1 million d'éléments : environ 20."},
+{q:"Complexité des tris simples et des tris efficaces",a:"Tris simples (sélection, insertion) : O(n²). Tris efficaces (fusion, rapide) : en général O(n log n)."},
+{q:"Paramètre vs argument",a:"Paramètre : le nom dans la définition de la fonction. Argument : la valeur passée à l'appel (carre(5) : 5 est l'argument)."},
+{q:"Les 3 types d'erreurs d'un programme",a:"Syntaxe (le programme ne démarre pas), exécution (il plante en cours de route), logique (il tourne mais donne un mauvais résultat)."},
+{q:"Variable locale",a:"Variable créée dans une fonction : elle n'existe plus après la fin de la fonction."}
 ]},
 
-'Réseaux, systèmes & données': {
-cours:`<h3>Comment fonctionne Internet ?</h3>
-<ul>
-<li><strong>Adresse IP</strong> : identifiant numérique unique d'un appareil sur un réseau (ex : 192.168.1.1)</li>
-<li><strong>DNS</strong> (Domain Name System) : traduit un nom de domaine (google.com) en adresse IP</li>
-<li><strong>Protocole HTTP/HTTPS</strong> : règles d'échange entre navigateur et serveur web. Le "S" = connexion <mark>chiffrée</mark> (sécurisée)</li>
-<li><strong>Paquets</strong> : les données circulent découpées en petits paquets, réassemblés à l'arrivée</li>
-</ul>
-
-
-<h3>Client / Serveur</h3>
-<div class="formula-box">Le <strong>client</strong> (ton navigateur/ton app) envoie une requête. Le <strong>serveur</strong> (une machine distante qui héberge le site/service) traite la requête et renvoie une réponse.</div>
-
-<h3>Systèmes d'exploitation (OS)</h3>
-<p>Logiciel qui gère les ressources matérielles (processeur, mémoire, stockage) et permet aux autres programmes de s'exécuter. Exemples : Windows, macOS, Linux, Android, iOS.</p>
-<ul>
-<li><strong>Processus</strong> : programme en cours d'exécution</li>
-<li><strong>RAM</strong> : mémoire vive, rapide mais <mark>volatile</mark> (effacée à l'extinction)</li>
-<li><strong>Stockage (SSD/HDD)</strong> : mémoire persistante mais plus lente que la RAM</li>
-</ul>
-
-<h3>Bases de données</h3>
-<ul>
-<li><strong>Base de données relationnelle</strong> (SQL) : données organisées en tables liées entre elles (MySQL, PostgreSQL)</li>
-<li><strong>Base NoSQL</strong> : données non structurées en tables, plus flexible (MongoDB) — utile pour de gros volumes hétérogènes</li>
-<li><strong>Requête SQL de base</strong> : <code>SELECT * FROM utilisateurs WHERE age > 18;</code></li>
-</ul>
-
-<h3>Intelligence artificielle — les bases</h3>
-<ul>
-<li><strong>Machine Learning</strong> : un système apprend des motifs à partir de données, sans être programmé explicitement pour chaque cas</li>
-<li><strong>Réseau de neurones / Deep Learning</strong> : sous-catégorie du ML inspirée du cerveau, utilisée pour la reconnaissance d'images, le texte (comme les LLM type ChatGPT/Claude)</li>
-<li><strong>Données d'entraînement</strong> : plus elles sont nombreuses et de qualité, plus le modèle est performant</li>
-</ul>`,
+"Réseaux, systèmes & données": {
+cours:"<h3>Comment fonctionne Internet ?</h3>\n<ul>\n<li><strong>Adresse IP</strong> : identifiant numérique d'un appareil sur un réseau, qui permet de lui envoyer des données (ex : 192.168.1.1)</li>\n<li><strong>DNS</strong> (Domain Name System) : traduit un nom de domaine (google.com) en adresse IP</li>\n<li><strong>Protocole HTTP/HTTPS</strong> : règles d'échange entre navigateur et serveur web. Le \"S\" = connexion <mark>chiffrée</mark> : les données ne sont pas lisibles par quelqu'un qui intercepterait la communication. Attention : HTTPS ne prouve pas que le site est <em>honnête</em> (un site de phishing peut aussi être en HTTPS)</li>\n<li><strong>Paquets</strong> : les données circulent découpées en petits paquets, réassemblés à l'arrivée</li>\n</ul>\n\n\n<h3>Client / Serveur</h3>\n<div class=\"formula-box\">Le <strong>client</strong> (ton navigateur/ton app) envoie une requête. Le <strong>serveur</strong> (une machine distante qui héberge le site/service) traite la requête et renvoie une réponse.</div>\n\n<h3>Systèmes d'exploitation (OS)</h3>\n<p>Logiciel qui gère les ressources matérielles (processeur, mémoire, stockage) et permet aux autres programmes de s'exécuter. Exemples : Windows, macOS, Linux, Android, iOS.</p>\n<ul>\n<li><strong>Processus</strong> : programme en cours d'exécution</li>\n<li><strong>RAM</strong> : mémoire vive, rapide mais <mark>volatile</mark> (effacée à l'extinction)</li>\n<li><strong>Stockage (SSD/HDD)</strong> : mémoire persistante mais plus lente que la RAM</li>\n</ul>\n\n<h3>Bases de données</h3>\n<ul>\n<li><strong>Base de données relationnelle</strong> (SQL) : données organisées en tables liées entre elles (MySQL, PostgreSQL)</li>\n<li><strong>Base NoSQL</strong> : données non structurées en tables, plus flexible (MongoDB) — utile pour de gros volumes hétérogènes</li>\n<li><strong>Requête SQL de base</strong> : <code>SELECT * FROM utilisateurs WHERE age > 18;</code></li>\n</ul>\n\n<h3>Intelligence artificielle — les bases</h3>\n<ul>\n<li><strong>Machine Learning</strong> : un système apprend des motifs à partir de données, sans être programmé explicitement pour chaque cas</li>\n<li><strong>Réseau de neurones / Deep Learning</strong> : sous-catégorie du ML inspirée du cerveau, utilisée pour la reconnaissance d'images, le texte (comme les LLM type ChatGPT/Claude)</li>\n<li><strong>Données d'entraînement</strong> : plus elles sont nombreuses et de qualité, plus le modèle est performant</li>\n</ul>\n\n<h3>Adresses IP : IPv4, IPv6, privée et publique</h3>\n<ul>\n<li><strong>IPv4</strong> : adresse sur 32 bits, écrite en 4 nombres de 0 à 255 (<code>192.168.1.1</code>). Les adresses IPv4 se faisant rares, <strong>IPv6</strong> utilise 128 bits.</li>\n<li><strong>Adresse privée</strong> : valable seulement dans un réseau local (ex : <code>192.168.x.x</code>, <code>10.x.x.x</code>). Plusieurs foyers peuvent donc avoir la même adresse privée sans conflit.</li>\n<li><strong>Adresse publique</strong> : unique sur Internet ; c'est celle que ta box présente au reste du monde. Ta box partage cette adresse entre tous les appareils de la maison.</li>\n</ul>\n\n<h3>Réseau local, routeur et ports</h3>\n<ul>\n<li><strong>LAN</strong> (réseau local : maison, lycée) et <strong>Internet</strong> (réseau de réseaux) sont reliés par un <strong>routeur</strong> (ta « box »), qui aiguille les paquets vers la bonne destination.</li>\n<li>Un <strong>port</strong> indique à quel service d'un appareil s'adresse le paquet : <strong>80</strong> pour HTTP, <strong>443</strong> pour HTTPS.</li>\n<li>Connexion : <strong>filaire</strong> (Ethernet, plus stable) ou <strong>sans fil</strong> (Wifi, plus pratique mais plus sensible aux interférences).</li>\n</ul>\n\n<h3>Que se passe-t-il quand tu tapes wikipedia.org ?</h3>\n<ol>\n<li>Le navigateur demande au <strong>DNS</strong> l'adresse IP correspondant au nom.</li>\n<li>Il ouvre une connexion avec le serveur à cette adresse (port 443 si HTTPS).</li>\n<li>Il envoie une <strong>requête HTTP</strong> (« donne-moi cette page »).</li>\n<li>Le serveur renvoie une <strong>réponse</strong> (la page, découpée en paquets).</li>\n<li>Le navigateur assemble et <strong>affiche</strong> la page.</li>\n</ol>\n\n<h3>Débit, bits et octets</h3>\n<div class=\"formula-box\">1 octet = 8 bits &nbsp;·&nbsp; débit en <strong>bits</strong>/s (Mb/s) &nbsp;·&nbsp; taille de fichier en <strong>octets</strong> (Mo, Go)<br>\nDurée de téléchargement = taille (en bits) ÷ débit (en bits/s)</div>\n<p><strong>Exemple.</strong> Un fichier de $500\\ \\text{Mo}$ avec un débit de $100\\ \\text{Mb/s}$ : $500\\times 8 = 4\\,000\\ \\text{Mb}$, donc $\\dfrac{4\\,000}{100} = 40\\ \\text{s}$. Le <strong>ping</strong> (latence) est une autre mesure : le temps d'aller-retour d'un petit message, en millisecondes.</p>\n\n<h3>Binaire et hexadécimal</h3>\n<p>Un ordinateur ne manipule que des <strong>0 et des 1</strong> (système binaire, base 2). Chaque chiffre est un <strong>bit</strong> ; 8 bits forment un <strong>octet</strong>, qui peut prendre $2^8 = 256$ valeurs (de 0 à 255).</p>\n<div class=\"formula-box\">Binaire → décimal : on additionne les puissances de 2 : $10110_2 = 16 + 4 + 2 = 22$<br>\nDécimal → binaire : on divise par 2 en notant les restes (ou on décompose en puissances de 2) : $25 = 16 + 8 + 1 = 11001_2$<br>\nHexadécimal (base 16, chiffres 0-9 puis A-F) : $\\text{FF}_{16} = 255$, utilisé par exemple pour les couleurs web : <code>#FF0000</code> = rouge pur (R = 255, V = 0, B = 0)</div>\n\n<h3>Erreurs à éviter</h3>\n<div class=\"attention-box\">\n❌ Confondre <strong>bit</strong> (b minuscule) et <strong>octet</strong> (o ou B) : un débit de 100 Mb/s correspond à 12,5 Mo/s au plus, pas 100.<br>\n❌ Croire que « https:// » garantit que le site est fiable.<br>\n❌ Penser qu'une adresse IP privée est visible depuis Internet.<br>\n❌ Oublier qu'en binaire on lit de la <em>droite</em> vers la <em>gauche</em> (les puissances de 2 augmentent vers la gauche).\n</div>",
 exercices:[
-{niveau:'Facile', enonce:`<p>Tu tapes "wikipedia.org" dans ton navigateur. Quel service traduit ce nom en une adresse IP compréhensible par les machines pour que la connexion puisse se faire ?</p>`, aide:`C'est l'un des acronymes du cours, littéralement "système de noms de domaine".`, correction:`<p>Le <strong>DNS</strong> (Domain Name System). Sans lui, il faudrait retenir des adresses IP numériques pour chaque site au lieu de simples noms de domaine.</p>`},
-{niveau:'Moyen', enonce:`<p>Un site te demande ton mot de passe pour te connecter, mais tu remarques que l'URL commence par <code>http://</code> (sans le "S"). Que dois-tu faire, et pourquoi exactement ?</p>`, aide:`Relis la différence entre HTTP et HTTPS dans le cours — que se passe-t-il concrètement aux données échangées sans le "S" ?`, correction:`<p>Il ne faut <strong>pas</strong> entrer ton mot de passe sur ce site. Sans le "S" (chiffrement), les données que tu envoies circulent <mark>en clair</mark> sur le réseau et peuvent être interceptées par un tiers malveillant sur le même réseau (ex : un faux point d'accès Wifi public). Toujours vérifier la présence du cadenas/HTTPS avant de saisir des informations sensibles.</p>`},
-{niveau:'Difficile', enonce:`<p>Un réseau social doit stocker des milliards de publications, chacune pouvant contenir du texte, des images, des commentaires imbriqués et des réactions de formats très différents d'un post à l'autre. Une base de données relationnelle (SQL) classique, avec des tables à colonnes fixes, est-elle le choix le plus adapté ici ? Justifie en utilisant le vocabulaire du cours.</p>`, aide:`Repense à la différence entre SQL (tables structurées, schéma fixe) et NoSQL (flexible, pas de structure de table imposée) — quel type de données colle le mieux à chaque système ?`, correction:`<p>Une base <strong>NoSQL</strong> serait généralement plus adaptée ici. Les publications ont des structures très hétérogènes (texte seul, texte+image, commentaires imbriqués à profondeur variable...), ce qui colle mal à des tables SQL à colonnes fixes et identiques pour chaque ligne. NoSQL permet de stocker des documents de structures différentes sans devoir forcer un schéma rigide commun, et gère plus facilement de très gros volumes de données hétérogènes — exactement le cas d'usage décrit dans le cours.</p>`},
+{niveau:"Facile",
+ enonce:"<p>Tu tapes \"wikipedia.org\" dans ton navigateur. Quel service traduit ce nom en une adresse IP compréhensible par les machines pour que la connexion puisse se faire ?</p>",
+ aide:"C'est l'un des acronymes du cours, littéralement \"système de noms de domaine\".",
+ correction:"<p>Le <strong>DNS</strong> (Domain Name System). Sans lui, il faudrait retenir des adresses IP numériques pour chaque site au lieu de simples noms de domaine.</p>"},
+{niveau:"Moyen",
+ enonce:"<p>Un site te demande ton mot de passe pour te connecter, mais tu remarques que l'URL commence par <code>http://</code> (sans le \"S\"). Que dois-tu faire, et pourquoi exactement ?</p>",
+ aide:"Relis la différence entre HTTP et HTTPS dans le cours — que se passe-t-il concrètement aux données échangées sans le \"S\" ?",
+ correction:"<p>Il ne faut <strong>pas</strong> entrer ton mot de passe sur ce site. Sans le \"S\" (chiffrement), les données que tu envoies circulent <mark>en clair</mark> sur le réseau et peuvent être interceptées par un tiers malveillant sur le même réseau (ex : un faux point d'accès Wifi public). Toujours vérifier la présence du cadenas/HTTPS avant de saisir des informations sensibles.</p>"},
+{niveau:"Difficile",
+ enonce:"<p>Un réseau social doit stocker des milliards de publications, chacune pouvant contenir du texte, des images, des commentaires imbriqués et des réactions de formats très différents d'un post à l'autre. Une base de données relationnelle (SQL) classique, avec des tables à colonnes fixes, est-elle le choix le plus adapté ici ? Justifie en utilisant le vocabulaire du cours.</p>",
+ aide:"Repense à la différence entre SQL (tables structurées, schéma fixe) et NoSQL (flexible, pas de structure de table imposée) — quel type de données colle le mieux à chaque système ?",
+ correction:"<p>Une base <strong>NoSQL</strong> serait généralement plus adaptée ici. Les publications ont des structures très hétérogènes (texte seul, texte+image, commentaires imbriqués à profondeur variable...), ce qui colle mal à des tables SQL à colonnes fixes et identiques pour chaque ligne. NoSQL permet de stocker des documents de structures différentes sans devoir forcer un schéma rigide commun, et gère plus facilement de très gros volumes de données hétérogènes — exactement le cas d'usage décrit dans le cours.</p>"},
+{niveau:"Facile",
+ enonce:"<p>1) Convertis $25$ en binaire.<br>2) Convertis $10110_2$ en décimal.<br>3) Combien de valeurs différentes peut-on coder sur un octet ?</p>",
+ aide:"Décompose en puissances de 2 : 1, 2, 4, 8, 16, 32… Un octet = 8 bits, donc 2 puissance 8 valeurs.",
+ correction:"<p>1) $25 = 16 + 8 + 1$, donc $25 = 11001_2$.</p><p>2) $10110_2 = 16 + 4 + 2 = 22$.</p><p>3) $2^8 = 256$ valeurs (de 0 à 255).</p>"},
+{niveau:"Moyen",
+ enonce:"<p>Tu télécharges un fichier de $1{,}2\\ \\text{Go}$ (prends $1\\ \\text{Go} = 1\\,000\\ \\text{Mo}$) avec un débit de $80\\ \\text{Mb/s}$. Combien de temps faut-il ? Pourquoi le résultat ne serait-il pas $15\\ \\text{s}$ en divisant $1\\,200$ par $80$ ?</p>",
+ aide:"Convertis la taille en bits : 1 octet = 8 bits. Puis divise par le débit exprimé en bits par seconde.",
+ correction:"<p>$1{,}2\\ \\text{Go} = 1\\,200\\ \\text{Mo}$, soit $1\\,200\\times 8 = 9\\,600\\ \\text{Mb}$. Durée : $\\dfrac{9\\,600}{80} = 120\\ \\text{s}$ = <strong>2 minutes</strong>.</p><p>Diviser $1\\,200$ par $80$ donnerait $15\\ \\text{s}$ : c'est faux car la taille est en <strong>octets</strong> et le débit en <strong>bits</strong>. Il faut multiplier par $8$. (En pratique, le temps réel est un peu plus long : le débit annoncé est un maximum.)</p>"},
+{niveau:"Difficile",
+ enonce:"<p>Remets dans l'ordre les étapes qui se produisent quand tu tapes <code>https://wikipedia.org</code> : A. le serveur renvoie la page en paquets ; B. le navigateur demande l'adresse IP au DNS ; C. le navigateur envoie une requête HTTP ; D. le navigateur assemble et affiche la page ; E. le navigateur se connecte au serveur sur le port 443.<br>Puis explique pourquoi un site en HTTPS n'est pas forcément un site honnête.</p>",
+ aide:"On part du nom du site (que la machine ne comprend pas) vers son adresse IP, puis on se connecte, on demande, on reçoit, on affiche.",
+ correction:"<p>Ordre : <strong>B → E → C → A → D</strong>. Le DNS traduit le nom en adresse IP ; on se connecte au serveur (port 443 pour HTTPS) ; on envoie la requête ; le serveur répond par paquets ; le navigateur réassemble et affiche.</p><p>HTTPS signifie que l'échange est <strong>chiffré</strong> : personne ne peut le lire en route. Mais il ne dit rien sur les intentions du propriétaire du site : un site de phishing peut très bien utiliser HTTPS. Il faut donc aussi vérifier l'adresse exacte du site et ne jamais donner ses identifiants sur un lien reçu par message.</p>"}
 ],
 flashcards:[
-{q:'Adresse IP — à quoi sert-elle ?',a:'Identifiant numérique unique d\'un appareil sur un réseau, permettant de le localiser pour lui envoyer des données.'},
-{q:'Rôle du DNS',a:'Traduit un nom de domaine lisible (ex : google.com) en adresse IP compréhensible par les machines.'},
-{q:'HTTP vs HTTPS',a:'HTTPS ajoute une couche de chiffrement (SSL/TLS) à HTTP : les données échangées entre navigateur et serveur sont sécurisées.'},
-{q:'Modèle client/serveur',a:'Le client envoie une requête (ex : ouvrir un site), le serveur la traite et renvoie une réponse.'},
-{q:'Rôle d\'un système d\'exploitation (OS)',a:'Gère les ressources matérielles (CPU, mémoire, stockage) et permet aux logiciels de s\'exécuter. Ex : Windows, Linux, Android.'},
-{q:'RAM vs stockage (SSD/HDD)',a:'RAM : mémoire vive, très rapide mais effacée à l\'extinction. Stockage : mémoire persistante mais plus lente.'},
-{q:'Base de données relationnelle (SQL)',a:'Données organisées en tables liées entre elles, interrogées avec le langage SQL. Ex : MySQL, PostgreSQL.'},
-{q:'SQL vs NoSQL',a:'SQL : données structurées en tables avec relations. NoSQL : plus flexible, adapté aux gros volumes de données hétérogènes (ex : MongoDB).'},
-{q:'Machine Learning — principe',a:'Un système apprend à repérer des motifs à partir de données d\'exemple, au lieu d\'être programmé explicitement pour chaque cas.'},
-{q:'Deep Learning',a:'Sous-catégorie du Machine Learning basée sur des réseaux de neurones à plusieurs couches, utilisée notamment pour les images et le langage (LLM).'},
+{q:"Adresse IP — à quoi sert-elle ?",a:"Identifiant numérique unique d'un appareil sur un réseau, permettant de le localiser pour lui envoyer des données."},
+{q:"Rôle du DNS",a:"Traduit un nom de domaine lisible (ex : google.com) en adresse IP compréhensible par les machines."},
+{q:"HTTP vs HTTPS",a:"HTTPS ajoute une couche de chiffrement (SSL/TLS) à HTTP : les données échangées entre navigateur et serveur sont sécurisées."},
+{q:"Modèle client/serveur",a:"Le client envoie une requête (ex : ouvrir un site), le serveur la traite et renvoie une réponse."},
+{q:"Rôle d'un système d'exploitation (OS)",a:"Gère les ressources matérielles (CPU, mémoire, stockage) et permet aux logiciels de s'exécuter. Ex : Windows, Linux, Android."},
+{q:"RAM vs stockage (SSD/HDD)",a:"RAM : mémoire vive, très rapide mais effacée à l'extinction. Stockage : mémoire persistante mais plus lente."},
+{q:"Base de données relationnelle (SQL)",a:"Données organisées en tables liées entre elles, interrogées avec le langage SQL. Ex : MySQL, PostgreSQL."},
+{q:"SQL vs NoSQL",a:"SQL : données structurées en tables avec relations. NoSQL : plus flexible, adapté aux gros volumes de données hétérogènes (ex : MongoDB)."},
+{q:"Machine Learning — principe",a:"Un système apprend à repérer des motifs à partir de données d'exemple, au lieu d'être programmé explicitement pour chaque cas."},
+{q:"Deep Learning",a:"Sous-catégorie du Machine Learning basée sur des réseaux de neurones à plusieurs couches, utilisée notamment pour les images et le langage (LLM)."},
+{q:"IPv4 vs IPv6",a:"IPv4 : adresse sur 32 bits (4 nombres de 0 à 255). IPv6 : 128 bits, créée car les adresses IPv4 se font rares."},
+{q:"Adresse IP privée vs publique",a:"Privée : valable seulement dans un réseau local (192.168.x.x, 10.x.x.x). Publique : unique sur Internet, c'est celle de la box."},
+{q:"Rôle d'un routeur (la box)",a:"Relier le réseau local à Internet et aiguiller les paquets vers la bonne destination."},
+{q:"Ports 80 et 443",a:"80 : HTTP (non chiffré). 443 : HTTPS (chiffré). Le port indique à quel service s'adresse le paquet."},
+{q:"Les étapes quand on tape une adresse web",a:"DNS (nom → IP) → connexion au serveur → requête HTTP → réponse du serveur en paquets → affichage par le navigateur."},
+{q:"Octet et bit : conversion",a:"1 octet = 8 bits. Débit en bits/s (Mb/s), taille de fichier en octets (Mo, Go)."},
+{q:"Durée de téléchargement : formule",a:"Durée = taille en bits ÷ débit en bits/s. Ex : 500 Mo à 100 Mb/s : 500 × 8 / 100 = 40 s."},
+{q:"Ping",a:"Temps d'aller-retour d'un petit message entre ton appareil et un serveur, en millisecondes (latence)."},
+{q:"Combien de valeurs un octet peut-il prendre ?",a:"2⁸ = 256 valeurs, de 0 à 255."},
+{q:"Convertir 10110₂ en décimal",a:"16 + 4 + 2 = 22."},
+{q:"Pourquoi l'hexadécimal pour les couleurs web ?",a:"Chaque composante (rouge, vert, bleu) tient sur un octet (0 à 255), qui s'écrit avec 2 chiffres hexadécimaux : #FF0000 = rouge pur."},
+{q:"HTTPS garantit-il qu'un site est honnête ?",a:"Non : il chiffre l'échange, mais un site frauduleux peut aussi utiliser HTTPS. Il faut vérifier l'adresse et rester méfiant."}
 ]},
 
-'Python en pratique — premiers pas': {
-cours:`<h3>Installer Python</h3>
-<p>Va sur <mark>python.org</mark>, télécharge la dernière version, installe-la (coche "Add Python to PATH" sur Windows). Pour écrire ton code, un éditeur comme <strong>VS Code</strong> (gratuit) suffit largement au début.</p>
-
-<h3>Afficher un message : print()</h3>
-<pre><code>print("Bonjour Martin !")
-print("2 + 2 =", 2 + 2)</code></pre>
-
-<h3>Les variables</h3>
-<pre><code>nom = "Martin"
-age = 18
-taille = 1.75
-est_majeur = True
-
-print(nom, "a", age, "ans")</code></pre>
-<div class="retenir-box">Pas besoin de préciser le type en Python (contrairement à d'autres langages) — <mark>age = 18</mark> suffit, Python devine tout seul que c'est un nombre entier.</div>
-
-<h3>Demander une info à l'utilisateur : input()</h3>
-<pre><code>nom = input("Comment tu t'appelles ? ")
-print("Salut", nom, "!")</code></pre>
-
-
-<h3>Les conditions : if / elif / else</h3>
-<pre><code>age = int(input("Quel âge as-tu ? "))
-
-if age >= 18:
-    print("Tu es majeur")
-elif age >= 13:
-    print("Tu es adolescent")
-else:
-    print("Tu es enfant")</code></pre>
-<div class="attention-box">L'<mark>indentation</mark> (les espaces au début de ligne) n'est pas juste esthétique en Python — c'est ce qui définit un bloc de code. Une mauvaise indentation = erreur ou bug silencieux.</div>
-
-<h3>Les boucles</h3>
-<pre><code># Boucle "pour" — nombre de répétitions connu
-for i in range(5):
-    print("Tour numéro", i)
-
-# Boucle "tant que" — jusqu'à ce qu'une condition change
-compteur = 0
-while compteur < 3:
-    print("Compteur =", compteur)
-    compteur = compteur + 1</code></pre>
-
-<h3>Les listes</h3>
-<pre><code>matieres = ["Maths", "Anglais", "Physique-Chimie"]
-print(matieres[0])        # Maths (le premier élément, index 0)
-matieres.append("SVT")    # ajoute un élément à la fin
-
-for m in matieres:
-    print("Matière :", m)</code></pre>
-<div class="retenir-box">En Python (comme dans presque tous les langages), les listes commencent à l'<mark>index 0</mark>, pas 1. Le premier élément est <code>liste[0]</code>, pas <code>liste[1]</code>.</div>
-
-<h3>Les fonctions</h3>
-<pre><code>def carre(x):
-    return x * x
-
-resultat = carre(5)
-print(resultat)   # 25
-
-def saluer(nom, age):
-    print(f"Salut {nom}, tu as {age} ans")
-
-saluer("Martin", 18)</code></pre>
-
-<h3>Petit programme complet</h3>
-<pre><code># Calcule la moyenne d'une liste de notes
-notes = [14, 8, 16, 12, 10]
-total = 0
-
-for note in notes:
-    total = total + note
-
-moyenne = total / len(notes)
-print("Moyenne :", moyenne)
-
-if moyenne >= 10:
-    print("Admis !")
-else:
-    print("À rattraper...")</code></pre>`,
+"Python en pratique — premiers pas": {
+cours:"<h3>Installer Python</h3>\n<p>Va sur <mark>python.org</mark>, télécharge la dernière version, installe-la (coche \"Add Python to PATH\" sur Windows). Pour écrire ton code, un éditeur comme <strong>VS Code</strong> (gratuit) suffit largement au début.</p>\n\n<h3>Afficher un message : print()</h3>\n<pre><code>print(\"Bonjour Martin !\")\nprint(\"2 + 2 =\", 2 + 2)</code></pre>\n\n<h3>Les variables</h3>\n<pre><code>nom = \"Martin\"\nage = 18\ntaille = 1.75\nest_majeur = True\n\nprint(nom, \"a\", age, \"ans\")</code></pre>\n<div class=\"retenir-box\">Pas besoin de préciser le type en Python (contrairement à d'autres langages) — <mark>age = 18</mark> suffit, Python devine tout seul que c'est un nombre entier.</div>\n\n<h3>Demander une info à l'utilisateur : input()</h3>\n<pre><code>nom = input(\"Comment tu t'appelles ? \")\nprint(\"Salut\", nom, \"!\")</code></pre>\n\n\n<h3>Les conditions : if / elif / else</h3>\n<pre><code>age = int(input(\"Quel âge as-tu ? \"))\n\nif age >= 18:\n    print(\"Tu es majeur\")\nelif age >= 13:\n    print(\"Tu es adolescent\")\nelse:\n    print(\"Tu es enfant\")</code></pre>\n<div class=\"attention-box\">L'<mark>indentation</mark> (les espaces au début de ligne) n'est pas juste esthétique en Python — c'est ce qui définit un bloc de code. Une mauvaise indentation = erreur ou bug silencieux.</div>\n\n<h3>Les boucles</h3>\n<pre><code># Boucle \"pour\" — nombre de répétitions connu\nfor i in range(5):\n    print(\"Tour numéro\", i)\n\n# Boucle \"tant que\" — jusqu'à ce qu'une condition change\ncompteur = 0\nwhile compteur < 3:\n    print(\"Compteur =\", compteur)\n    compteur = compteur + 1</code></pre>\n\n<h3>Les listes</h3>\n<pre><code>matieres = [\"Maths\", \"Anglais\", \"Physique-Chimie\"]\nprint(matieres[0])        # Maths (le premier élément, index 0)\nmatieres.append(\"SVT\")    # ajoute un élément à la fin\n\nfor m in matieres:\n    print(\"Matière :\", m)</code></pre>\n<div class=\"retenir-box\">En Python (comme dans presque tous les langages), les listes commencent à l'<mark>index 0</mark>, pas 1. Le premier élément est <code>liste[0]</code>, pas <code>liste[1]</code>.</div>\n\n<h3>Les fonctions</h3>\n<pre><code>def carre(x):\n    return x * x\n\nresultat = carre(5)\nprint(resultat)   # 25\n\ndef saluer(nom, age):\n    print(f\"Salut {nom}, tu as {age} ans\")\n\nsaluer(\"Martin\", 18)</code></pre>\n\n<h3>Petit programme complet</h3>\n<pre><code># Calcule la moyenne d'une liste de notes\nnotes = [14, 8, 16, 12, 10]\ntotal = 0\n\nfor note in notes:\n    total = total + note\n\nmoyenne = total / len(notes)\nprint(\"Moyenne :\", moyenne)\n\nif moyenne >= 10:\n    print(\"Admis !\")\nelse:\n    print(\"À rattraper...\")</code></pre>\n\n<h3>Opérateurs, division et puissance</h3>\n<pre><code>print(7 / 2)    # 3.5  (division classique)\nprint(7 // 2)   # 3    (division entière)\nprint(7 % 2)    # 1    (reste)\nprint(2 ** 3)   # 8    (puissance)</code></pre>\n\n<h3>range() avec début, fin et pas</h3>\n<pre><code>for i in range(5):         # 0, 1, 2, 3, 4\nfor i in range(2, 6):      # 2, 3, 4, 5  (la fin est exclue)\nfor i in range(2, 10, 3):  # 2, 5, 8     (de 3 en 3)</code></pre>\n<div class=\"retenir-box\">Dans <code>range(a, b)</code>, la borne <mark>b est exclue</mark>. C'est la source n°1 d'erreurs « de un en trop ou en moins ».</div>\n\n<h3>Les chaînes de caractères</h3>\n<pre><code>mot = \"Python\"\nprint(len(mot))          # 6 (nombre de caractères)\nprint(mot.upper())       # PYTHON\nprint(mot[0])            # P (premier caractère, index 0)\nprint(\"Bonjour \" + mot)  # concaténation : Bonjour Python</code></pre>\n\n<h3>Les dictionnaires : associer une clé à une valeur</h3>\n<pre><code>notes = {\"Maths\": 14, \"Anglais\": 16, \"Physique\": 9}\nprint(notes[\"Maths\"])        # 14\nnotes[\"SVT\"] = 12            # ajoute ou modifie une entrée\n\nfor matiere, note in notes.items():\n    print(matiere, \":\", note)</code></pre>\n<p>Une <strong>liste</strong> se repère par un <em>indice</em> (0, 1, 2…) ; un <strong>dictionnaire</strong> se repère par une <em>clé</em> (un nom). Pratique pour des données « étiquetées ».</p>\n\n<h3>Lire un message d'erreur</h3>\n<p>Quand Python plante, il affiche un message : <mark>lis la dernière ligne</mark> (le type d'erreur et sa cause) et le numéro de ligne indiqué.</p>\n<ul>\n<li><code>SyntaxError</code> : le code est mal écrit (parenthèse ou deux-points oublié).</li>\n<li><code>IndentationError</code> : mauvaise indentation.</li>\n<li><code>NameError</code> : une variable n'existe pas (faute de frappe, ou pas encore définie).</li>\n<li><code>TypeError</code> : on mélange des types incompatibles, par exemple <code>\"5\" + 1</code> (texte + nombre).</li>\n<li><code>IndexError</code> : indice hors de la liste (liste de 3 éléments, on demande <code>liste[3]</code>).</li>\n</ul>\n<div class=\"attention-box\">Piège classique : <code>age = input(\"Âge ? \")</code> donne du <strong>texte</strong>. Écrire <code>age + 1</code> provoque une <code>TypeError</code> ; il faut <code>age = int(input(\"Âge ? \"))</code>.</div>\n\n<h3>Déboguer : la méthode</h3>\n<ol>\n<li>Lire le message d'erreur (dernière ligne).</li>\n<li>Aller à la ligne indiquée (l'erreur est parfois juste <em>avant</em>).</li>\n<li>Ajouter des <code>print()</code> pour voir les valeurs des variables à chaque étape.</li>\n<li>Tester avec un exemple simple dont on connaît la réponse.</li>\n</ol>",
 exercices:[
-{niveau:'Facile', enonce:`<p>Qu'affiche exactement ce code Python ?</p><pre><code>print("Score :", 10 + 5)</code></pre>`, aide:`print() peut afficher plusieurs éléments séparés par une virgule — Python les affiche à la suite, séparés par un espace. Calcule d'abord 10+5.`, correction:`<p>Le code affiche : <strong>Score : 15</strong></p><p>Python calcule d'abord 10+5=15, puis affiche "Score :" suivi d'un espace puis de la valeur 15 (print() insère automatiquement un espace entre les éléments séparés par des virgules).</p>`},
-{niveau:'Moyen', enonce:`<p>Ce code contient une erreur qui l'empêche de fonctionner. Trouve-la et corrige-la :</p><pre><code>age = int(input("Ton âge ? "))
-if age >= 18:
-print("Tu es majeur")</code></pre>`, aide:`Relis la partie du cours sur l'indentation — qu'est-ce qui définit un bloc de code en Python ?`, correction:`<p>Il manque l'<strong>indentation</strong> de la ligne <code>print("Tu es majeur")</code> : en Python, tout ce qui appartient au bloc d'un <code>if</code> doit être décalé (indenté), sinon Python ne sait pas que cette ligne fait partie du bloc conditionnel.</p><pre><code>age = int(input("Ton âge ? "))
-if age >= 18:
-    print("Tu es majeur")</code></pre>`},
-{niveau:'Difficile', enonce:`<p>Écris un programme Python qui définit une <strong>fonction</strong> <code>moyenne(notes)</code> prenant une liste de notes en paramètre et renvoyant leur moyenne (utilise <code>return</code>). Utilise ensuite cette fonction sur la liste <code>[12, 15, 8, 17]</code> et affiche "Admis" si la moyenne est ≥ 10, sinon "Recalé".</p>`, aide:`Pour calculer une moyenne : additionne tous les éléments de la liste (avec une boucle for ou la fonction sum()), puis divise par len(liste). N'oublie pas le mot-clé return pour renvoyer le résultat depuis la fonction.`, correction:`<pre><code>def moyenne(notes):
-    total = 0
-    for note in notes:
-        total = total + note
-    return total / len(notes)
-
-mes_notes = [12, 15, 8, 17]
-m = moyenne(mes_notes)
-print("Moyenne :", m)
-
-if m >= 10:
-    print("Admis")
-else:
-    print("Recalé")</code></pre><p>Ici, moyenne = (12+15+8+17)/4 = 52/4 = 13 → le programme affichera "Admis". Version alternative plus courte : <code>return sum(notes) / len(notes)</code> avec la fonction native <code>sum()</code>.</p>`},
+{niveau:"Facile",
+ enonce:"<p>Qu'affiche exactement ce code Python ?</p><pre><code>print(\"Score :\", 10 + 5)</code></pre>",
+ aide:"print() peut afficher plusieurs éléments séparés par une virgule — Python les affiche à la suite, séparés par un espace. Calcule d'abord 10+5.",
+ correction:"<p>Le code affiche : <strong>Score : 15</strong></p><p>Python calcule d'abord 10+5=15, puis affiche \"Score :\" suivi d'un espace puis de la valeur 15 (print() insère automatiquement un espace entre les éléments séparés par des virgules).</p>"},
+{niveau:"Moyen",
+ enonce:"<p>Ce code contient une erreur qui l'empêche de fonctionner. Trouve-la et corrige-la :</p><pre><code>age = int(input(\"Ton âge ? \"))\nif age >= 18:\nprint(\"Tu es majeur\")</code></pre>",
+ aide:"Relis la partie du cours sur l'indentation — qu'est-ce qui définit un bloc de code en Python ?",
+ correction:"<p>Il manque l'<strong>indentation</strong> de la ligne <code>print(\"Tu es majeur\")</code> : en Python, tout ce qui appartient au bloc d'un <code>if</code> doit être décalé (indenté), sinon Python ne sait pas que cette ligne fait partie du bloc conditionnel.</p><pre><code>age = int(input(\"Ton âge ? \"))\nif age >= 18:\n    print(\"Tu es majeur\")</code></pre>"},
+{niveau:"Difficile",
+ enonce:"<p>Écris un programme Python qui définit une <strong>fonction</strong> <code>moyenne(notes)</code> prenant une liste de notes en paramètre et renvoyant leur moyenne (utilise <code>return</code>). Utilise ensuite cette fonction sur la liste <code>[12, 15, 8, 17]</code> et affiche \"Admis\" si la moyenne est ≥ 10, sinon \"Recalé\".</p>",
+ aide:"Pour calculer une moyenne : additionne tous les éléments de la liste (avec une boucle for ou la fonction sum()), puis divise par len(liste). N'oublie pas le mot-clé return pour renvoyer le résultat depuis la fonction.",
+ correction:"<pre><code>def moyenne(notes):\n    total = 0\n    for note in notes:\n        total = total + note\n    return total / len(notes)\n\nmes_notes = [12, 15, 8, 17]\nm = moyenne(mes_notes)\nprint(\"Moyenne :\", m)\n\nif m >= 10:\n    print(\"Admis\")\nelse:\n    print(\"Recalé\")</code></pre><p>Ici, moyenne = (12+15+8+17)/4 = 52/4 = 13 → le programme affichera \"Admis\". Version alternative plus courte : <code>return sum(notes) / len(notes)</code> avec la fonction native <code>sum()</code>.</p>"},
+{niveau:"Facile",
+ enonce:"<p>Qu'affiche ce programme ?</p><pre><code>print(7 // 2, 7 % 2, 2 ** 3)</code></pre>",
+ aide:"// : quotient entier ; % : reste ; ** : puissance. print() sépare les valeurs par un espace.",
+ correction:"<p>Le programme affiche : <strong>3 1 8</strong>.</p><p>$7 // 2 = 3$ ; $7 \\% 2 = 1$ (car $7 = 3\\times 2 + 1$) ; $2^3 = 8$.</p>"},
+{niveau:"Moyen",
+ enonce:"<p>1) Qu'affiche ce code ?</p><pre><code>for i in range(2, 10, 3):\n    print(i)</code></pre><p>2) Ce code plante. Quelle erreur apparaît et comment la corriger ?</p><pre><code>age = input(\"Ton âge ? \")\nprint(\"Dans un an : \", age + 1)</code></pre>",
+ aide:"1) range(début, fin, pas) : la fin est exclue. 2) Que renvoie toujours input() ?",
+ correction:"<p>1) Le code affiche <strong>2</strong>, <strong>5</strong>, <strong>8</strong> (un nombre par ligne). Après 8, la valeur suivante serait 11, qui dépasse la borne 10.</p><p>2) <code>input()</code> renvoie du <strong>texte</strong> : <code>age + 1</code> additionne du texte et un nombre, d'où une <code>TypeError</code>. Correction :</p><pre><code>age = int(input(\"Ton âge ? \"))\nprint(\"Dans un an : \", age + 1)</code></pre>"},
+{niveau:"Difficile",
+ enonce:"<p>On a le dictionnaire <code>notes = {\"Maths\": 14, \"Anglais\": 16, \"Physique\": 9}</code>. Écris un programme qui :<br>1) calcule et affiche la moyenne des notes ;<br>2) affiche le nom des matières dans lesquelles la note est supérieure ou égale à 10.</p>",
+ aide:"notes.values() donne les valeurs, notes.items() donne les couples (clé, valeur). sum() et len() servent pour la moyenne.",
+ correction:"<pre><code>notes = {\"Maths\": 14, \"Anglais\": 16, \"Physique\": 9}\n\ntotal = 0\nfor note in notes.values():\n    total = total + note\nmoyenne = total / len(notes)\nprint(\"Moyenne :\", moyenne)\n\nfor matiere, note in notes.items():\n    if note >= 10:\n        print(matiere)</code></pre><p>Résultat : <strong>Moyenne : 13.0</strong>, puis <strong>Maths</strong> et <strong>Anglais</strong> ($14+16+9 = 39$ ; $39/3 = 13$). Version courte pour la moyenne : <code>sum(notes.values()) / len(notes)</code>.</p>"}
 ],
 flashcards:[
-{q:'Comment afficher du texte en Python',a:'Avec print("ton texte"). Ex : print("Bonjour")'},
-{q:'Pourquoi pas besoin de préciser le type d\'une variable en Python',a:'Python devine automatiquement le type (nombre, texte, booléen...) à partir de la valeur assignée.'},
-{q:'Que renvoie toujours input() ?',a:'Du texte (string), même si l\'utilisateur tape un nombre. Il faut convertir avec int() ou float() pour faire des calculs.'},
-{q:'Pourquoi l\'indentation compte en Python',a:'Elle définit les blocs de code (ce qui appartient à un if, une boucle, une fonction). Ce n\'est pas juste esthétique, une erreur d\'indentation casse le programme.'},
-{q:'Syntaxe d\'une boucle "pour" en Python',a:'for i in range(5): puis le code indenté en dessous — répète 5 fois, i valant 0, 1, 2, 3, 4.'},
-{q:'Premier index d\'une liste en Python',a:'0, pas 1. Le premier élément est liste[0].'},
-{q:'Comment ajouter un élément à une liste',a:'Avec .append() : maliste.append("nouvel élément")'},
-{q:'Comment définir une fonction en Python',a:'def nom_fonction(parametres): puis le code indenté, avec return pour renvoyer un résultat.'},
-{q:'f-string en Python',a:'Permet d\'insérer des variables dans du texte : f"Salut {nom}, tu as {age} ans"'},
+{q:"Comment afficher du texte en Python",a:"Avec print(\"ton texte\"). Ex : print(\"Bonjour\")"},
+{q:"Pourquoi pas besoin de préciser le type d'une variable en Python",a:"Python devine automatiquement le type (nombre, texte, booléen...) à partir de la valeur assignée."},
+{q:"Que renvoie toujours input() ?",a:"Du texte (string), même si l'utilisateur tape un nombre. Il faut convertir avec int() ou float() pour faire des calculs."},
+{q:"Pourquoi l'indentation compte en Python",a:"Elle définit les blocs de code (ce qui appartient à un if, une boucle, une fonction). Ce n'est pas juste esthétique, une erreur d'indentation casse le programme."},
+{q:"Syntaxe d'une boucle \"pour\" en Python",a:"for i in range(5): puis le code indenté en dessous — répète 5 fois, i valant 0, 1, 2, 3, 4."},
+{q:"Premier index d'une liste en Python",a:"0, pas 1. Le premier élément est liste[0]."},
+{q:"Comment ajouter un élément à une liste",a:"Avec .append() : maliste.append(\"nouvel élément\")"},
+{q:"Comment définir une fonction en Python",a:"def nom_fonction(parametres): puis le code indenté, avec return pour renvoyer un résultat."},
+{q:"f-string en Python",a:"Permet d'insérer des variables dans du texte : f\"Salut {nom}, tu as {age} ans\""},
+{q:"Quelle est la différence entre / , // et % en Python ?",a:"/ : division classique (7 / 2 = 3.5). // : division entière (7 // 2 = 3). % : reste (7 % 2 = 1)."},
+{q:"range(2, 10, 3) donne quoi ?",a:"2, 5, 8 : on part de 2, on avance de 3 en 3, et la borne 10 est exclue."},
+{q:"Dans range(a, b), la borne b est-elle incluse ?",a:"Non, elle est exclue : range(2, 6) donne 2, 3, 4, 5."},
+{q:"len() sert à quoi ?",a:"À donner le nombre d'éléments d'une liste ou de caractères d'une chaîne : len(\"Python\") = 6."},
+{q:"Liste vs dictionnaire",a:"Liste : repérée par un indice (0, 1, 2…). Dictionnaire : repéré par une clé, ex : notes[\"Maths\"]."},
+{q:"Comment lire un message d'erreur Python ?",a:"Lire la dernière ligne (type d'erreur et cause) et regarder le numéro de ligne indiqué."},
+{q:"TypeError : cause fréquente avec input()",a:"input() renvoie du texte ; \"5\" + 1 est impossible. Il faut convertir : int(input(...))."},
+{q:"IndexError : cause",a:"On demande un indice qui n'existe pas dans la liste (ex : liste[3] pour une liste de 3 éléments, indices 0 à 2)."},
+{q:"NameError : cause",a:"On utilise une variable qui n'existe pas (faute de frappe ou pas encore définie)."},
+{q:"Méthode de débogage",a:"Lire l'erreur, aller à la ligne indiquée, ajouter des print() pour voir les valeurs, tester avec un exemple simple dont on connaît le résultat."}
 ]},
 
-'Ressources pour progresser (gratuit)': {
-cours:`<h3>Pratiquer Python sans rien installer</h3>
-<ul>
-<li><strong>Replit</strong> (replit.com) : IDE en ligne, tu écris et exécutes du Python directement dans le navigateur, aucune installation nécessaire — parfait pour tester rapidement les exemples du chapitre précédent.</li>
-<li><strong>OpenClassrooms — "Apprenez les bases du langage Python"</strong> : cours français gratuit et complet, environ 6h, du niveau débutant.</li>
-</ul>
-
-<h3>Chaînes YouTube pour la culture informatique/tech</h3>
-<div class="formula-box">
-<strong>Micode</strong> : le youtubeur français de référence pour l'informatique et la cybersécurité grand public — vulgarise le hacking, les arnaques en ligne, l'IA, avec des enquêtes/infiltrations bien montées (+1,5M abonnés).<br>
-<strong>IT-Connect</strong> : chaîne française plus technique (administration système, réseau, cybersécurité côté défensif) — un peu plus pointue mais accessible.
-</div>
-
-<h3>Pour aller plus loin</h3>
-<p>Une fois à l'aise avec les bases Python, la meilleure façon de progresser est de <mark>faire de vrais petits projets</mark> plutôt que d'enchaîner les cours théoriques : automatiser une tâche répétitive, faire un petit jeu texte, analyser un fichier de données. C'est en pratiquant qu'on retient vraiment.</p>`,
-flashcards:[
-{q:'Replit — utilité',a:'IDE en ligne pour écrire et exécuter du Python (et d\'autres langages) directement dans le navigateur, sans rien installer.'},
-{q:'Micode — c\'est quoi ?',a:'Youtubeur français de référence en informatique/cybersécurité grand public, connu pour ses vidéos d\'infiltration d\'arnaqueurs et de vulgarisation tech.'},
-{q:'Meilleure façon de progresser après les bases Python',a:'Faire de vrais petits projets personnels (automatisation, jeu texte, analyse de données) plutôt que d\'enchaîner uniquement des cours théoriques.'},
-]},
-
-'Créer une interface web (HTML/CSS/JS) — objectif décembre': {
-cours:`<h3>Pourquoi ces 3 langages, et dans quel ordre</h3>
-<div class="formula-box">
-<strong>HTML</strong> : la structure (le squelette) — les titres, boutons, listes, zones de la page. Pas de logique, juste du contenu organisé.<br>
-<strong>CSS</strong> : l'apparence — couleurs, tailles, espacements, mise en page. Rend le HTML joli et organisé visuellement.<br>
-<strong>JavaScript</strong> : le comportement — ce qui réagit quand tu cliques, tape, ou que la page change dynamiquement. C'est lui qui rend un bouton "vivant".
-</div>
-<p>C'est exactement l'ordre dans lequel ton propre site (BacMaster) est construit : <mark>index.html</mark> pour la structure, <mark>style.css</mark> pour l'apparence, <mark>script.js</mark> pour tout ce qui bouge (clics, flashcards, sauvegarde...).</p>
-
-<h3>HTML — la structure de base</h3>
-<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;Ma page&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;h1&gt;Titre principal&lt;/h1&gt;
-    &lt;p&gt;Un paragraphe de texte.&lt;/p&gt;
-    &lt;button id="monBouton"&gt;Clique-moi&lt;/button&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
-<div class="retenir-box">Chaque élément HTML a une <mark>balise ouvrante</mark> et une <mark>balise fermante</mark> (<code>&lt;p&gt;...&lt;/p&gt;</code>). L'attribut <code>id="..."</code> donne un nom unique à un élément pour pouvoir le cibler plus tard en CSS ou en JS.</div>
-
-<h3>CSS — styliser les éléments</h3>
-<pre><code>#monBouton {
-    background-color: #4A90E2;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    border: none;
-}
-
-#monBouton:hover {
-    background-color: #357ABD;
-}</code></pre>
-<div class="formula-box">Le <strong>sélecteur</strong> cible l'élément (<code>#id</code>, <code>.classe</code>, ou une balise directement comme <code>button</code>). <code>:hover</code> applique un style seulement quand la souris survole l'élément.</div>
-
-<h3>Le modèle Flexbox (mise en page moderne)</h3>
-<pre><code>.conteneur {
-    display: flex;
-    justify-content: center;   /* alignement horizontal */
-    align-items: center;       /* alignement vertical */
-    gap: 12px;                 /* espace entre les éléments */
-}</code></pre>
-<div class="retenir-box">Flexbox est la méthode la plus utilisée aujourd'hui pour aligner et espacer des éléments (boutons côte à côte, cartes en grille...) — bien plus simple que les anciennes méthodes (float, position absolue).</div>
-
-<h3>JavaScript — rendre un bouton "vivant"</h3>
-<pre><code>// Sélectionner l'élément HTML par son id
-const bouton = document.getElementById("monBouton");
-
-// Réagir à un clic
-bouton.addEventListener("click", function() {
-    alert("Tu as cliqué !");
-});</code></pre>
-<div class="formula-box"><strong>document.getElementById("id")</strong> récupère un élément HTML précis pour le manipuler.<br><strong>addEventListener("click", ...)</strong> exécute une fonction à chaque fois que l'élément est cliqué.</div>
-
-<h3>Modifier le contenu de la page dynamiquement</h3>
-<pre><code>const titre = document.getElementById("titre");
-titre.textContent = "Nouveau texte !";       // change le texte
-titre.style.color = "red";                    // change le style directement
-
-// Créer et ajouter un nouvel élément
-const nouveauParagraphe = document.createElement("p");
-nouveauParagraphe.textContent = "Ajouté dynamiquement";
-document.body.appendChild(nouveauParagraphe);</code></pre>
-
-
-<h3>Sauvegarder des données : localStorage</h3>
-<pre><code>// Sauvegarder une donnée (toujours en texte -> JSON pour un objet/tableau)
-localStorage.setItem("score", JSON.stringify(42));
-
-// Relire une donnée sauvegardée
-const score = JSON.parse(localStorage.getItem("score"));
-console.log(score); // 42</code></pre>
-<div class="retenir-box">localStorage garde des données <mark>même après avoir fermé le navigateur</mark> — c'est exactement ce que ton site utilise pour se souvenir de tes flashcards et de ta progression d'un jour à l'autre.</div>
-
-<h3>Un mini-projet pour t'entraîner : un compteur de clics</h3>
-<pre><code>&lt;button id="btn"&gt;Clique !&lt;/button&gt;
-&lt;p id="compteur"&gt;0&lt;/p&gt;
-
-&lt;script&gt;
-let total = 0;
-const btn = document.getElementById("btn");
-const compteur = document.getElementById("compteur");
-
-btn.addEventListener("click", function() {
-    total = total + 1;
-    compteur.textContent = total;
-});
-&lt;/script&gt;</code></pre>
-<p>Ce petit exemple combine déjà les 3 briques : un bouton (HTML), une variable qui garde l'état en mémoire (JS), et l'affichage qui se met à jour (JS modifie le HTML). C'est la base de <strong>tout</strong> bouton interactif d'une vraie appli, y compris de ton propre site.</p>
-
-<h3>Feuille de route réaliste jusqu'à décembre</h3>
-<ol>
-<li><strong>HTML + CSS de base</strong> : balises, sélecteurs, flexbox — savoir construire une page simple et la styliser (2-3 semaines, à ton rythme).</li>
-<li><strong>JavaScript de base</strong> : variables, conditions, boucles, fonctions (déjà vu en Python — la logique se transpose, seule la syntaxe change).</li>
-<li><strong>JavaScript du DOM</strong> : sélectionner des éléments, écouter des clics, modifier la page — ce qui rend un site "vivant".</li>
-<li><strong>Petits projets progressifs</strong> : compteur de clics → liste de tâches (todo-list) avec ajout/suppression → mini flashcard maison avec localStorage. Chaque projet ajoute une brique de plus vers une vraie interface de révision.</li>
-</ol>
-<div class="retenir-box">Le vrai déclic vient toujours des <mark>petits projets</mark>, pas des cours théoriques enchaînés — exactement comme pour Python (voir le chapitre "Science de l'Apprentissage" sur l'effet de génération).</div>`,
+"Ressources pour progresser (gratuit)": {
+cours:"<h3>Pratiquer Python sans rien installer</h3>\n<ul>\n<li><strong>Replit</strong> (replit.com) : IDE en ligne, tu écris et exécutes du Python directement dans le navigateur, aucune installation nécessaire — parfait pour tester rapidement les exemples du chapitre précédent.</li>\n<li><strong>OpenClassrooms — \"Apprenez les bases du langage Python\"</strong> : cours français pour débutants (vérifie sur le site que le parcours est toujours gratuit).</li>\n</ul>\n\n<h3>Chaînes YouTube pour la culture informatique/tech</h3>\n<div class=\"formula-box\">\n<strong>Micode</strong> : le youtubeur français de référence pour l'informatique et la cybersécurité grand public — vulgarise le hacking, les arnaques en ligne, l'IA, avec des enquêtes/infiltrations bien montées.<br>\n<strong>IT-Connect</strong> : chaîne française plus technique (administration système, réseau, cybersécurité côté défensif) — un peu plus pointue mais accessible.\n</div>\n\n<h3>Pour aller plus loin</h3>\n<p>Une fois à l'aise avec les bases Python, la meilleure façon de progresser est de <mark>faire de vrais petits projets</mark> plutôt que d'enchaîner les cours théoriques : automatiser une tâche répétitive, faire un petit jeu texte, analyser un fichier de données. C'est en pratiquant qu'on retient vraiment.</p>\n\n<h3>Bon à savoir sur les ressources gratuites</h3>\n<ul>\n<li>Les offres gratuites <mark>changent souvent</mark> (limites, fonctionnalités, abonnements) : vérifie sur le site avant de t'appuyer dessus, et garde une alternative (un éditeur en ligne comme un autre, ou VS Code sur ton PC).</li>\n<li>Une bonne ressource pour débutant : une <strong>explication claire</strong>, des <strong>exercices à faire</strong>, des exemples qui s'exécutent.</li>\n<li><strong>Sécurité :</strong> ne donne jamais ton mot de passe, ton jeton GitHub ou une clé d'accès à un site, un tutoriel ou une personne qui te le demande.</li>\n</ul>",
 exercices:[
-{niveau:'Facile', enonce:`<p>Tu veux changer la couleur de fond d'un bouton. Quel langage dois-tu utiliser : HTML, CSS ou JavaScript ?</p>`, aide:`Repense au rôle de chacun des 3 langages : lequel gère l'apparence ?`, correction:`<p><strong>CSS</strong>. Le HTML crée le bouton (structure), le CSS définit son apparence (couleur, taille...), et le JavaScript gérerait plutôt ce qui se passe quand on clique dessus (comportement).</p>`},
-{niveau:'Moyen', enonce:`<p>Ce code JavaScript ne fonctionne pas comme prévu (erreur dans la console). Trouve le problème :</p><pre><code>const btn = document.getElementById("btn");
-btn.addEventListener("click", function() {
-    compteur = compteur + 1;
-    document.getElementById("affichage").textContent = compteur;
-});</code></pre>`, aide:`La variable "compteur" est-elle déclarée quelque part avant d'être utilisée ? Que se passe-t-il en JavaScript si on essaie d'utiliser une variable qui n'existe pas encore ?`, correction:`<p>La variable <code>compteur</code> n'est jamais <strong>déclarée</strong> avant d'être utilisée (pas de <code>let compteur = 0;</code>) — ça provoque une erreur ("compteur is not defined"). Il faut la déclarer en dehors de la fonction pour qu'elle garde sa valeur entre chaque clic :</p><pre><code>let compteur = 0;
-const btn = document.getElementById("btn");
-btn.addEventListener("click", function() {
-    compteur = compteur + 1;
-    document.getElementById("affichage").textContent = compteur;
-});</code></pre>`},
-{niveau:'Difficile', enonce:`<p>Écris le code HTML + JavaScript complet pour un bouton "J'aime" (id="like") qui, à chaque clic, augmente de 1 un compteur affiché dans un élément (id="nbLikes"), et qui change le texte du bouton en "❤️ Aimé !" dès le premier clic (sans revenir en arrière si on reclique).</p>`, aide:`Utilise une variable pour savoir si le bouton a déjà été cliqué au moins une fois (un booléen), en plus du compteur de likes lui-même.`, correction:`<pre><code>&lt;button id="like"&gt;🤍 J'aime&lt;/button&gt;
-&lt;p id="nbLikes"&gt;0&lt;/p&gt;
 
-&lt;script&gt;
-let nbLikes = 0;
-let dejaClique = false;
-
-const btnLike = document.getElementById("like");
-const affichage = document.getElementById("nbLikes");
-
-btnLike.addEventListener("click", function() {
-    nbLikes = nbLikes + 1;
-    affichage.textContent = nbLikes;
-    if (!dejaClique) {
-        btnLike.textContent = "❤️ Aimé !";
-        dejaClique = true;
-    }
-});
-&lt;/script&gt;</code></pre><p>Le booléen <code>dejaClique</code> permet de ne changer le texte du bouton qu'une seule fois, même si l'utilisateur reclique plusieurs fois (le compteur, lui, continue d'augmenter à chaque clic).</p>`},
 ],
 flashcards:[
-{q:'Rôle du HTML, CSS et JavaScript',a:'HTML : structure/contenu. CSS : apparence/mise en page. JavaScript : comportement/interactivité.'},
-{q:'Balise HTML — structure',a:'Une balise ouvrante et une balise fermante entourent le contenu, ex : &lt;p&gt;texte&lt;/p&gt;. L\'attribut id="..." donne un nom unique à un élément.'},
-{q:'Sélecteur CSS #id vs .classe',a:'#id cible un élément unique précis. .classe peut s\'appliquer à plusieurs éléments partageant la même classe.'},
-{q:'Flexbox — utilité',a:'Modèle de mise en page CSS moderne (display: flex) pour aligner et espacer facilement des éléments horizontalement ou verticalement.'},
-{q:'document.getElementById()',a:'Fonction JavaScript qui récupère un élément HTML précis (via son id) pour pouvoir le lire ou le modifier.'},
-{q:'addEventListener("click", ...)',a:'Méthode JavaScript qui exécute une fonction à chaque fois que l\'élément ciblé est cliqué par l\'utilisateur.'},
-{q:'Modifier le texte d\'un élément en JS',a:'element.textContent = "nouveau texte" — remplace le contenu textuel affiché.'},
-{q:'localStorage — utilité',a:'Stocke des données côté navigateur qui persistent même après fermeture — nécessite JSON.stringify() pour sauvegarder un objet/tableau, et JSON.parse() pour le relire.'},
-{q:'Les 3 briques d\'un bouton interactif',a:'Un élément HTML (le bouton), une variable JS qui garde l\'état en mémoire, et une instruction JS qui met à jour l\'affichage après le clic.'},
-{q:'Feuille de route suggérée pour apprendre le front-end',a:'HTML/CSS de base → JavaScript de base (logique) → JavaScript du DOM (interactivité) → petits projets progressifs (compteur → todo-list → mini flashcards maison).'},
+{q:"Replit — utilité",a:"IDE en ligne pour écrire et exécuter du Python (et d'autres langages) directement dans le navigateur, sans rien installer."},
+{q:"Micode — c'est quoi ?",a:"Youtubeur français de référence en informatique/cybersécurité grand public, connu pour ses vidéos d'infiltration d'arnaqueurs et de vulgarisation tech."},
+{q:"Meilleure façon de progresser après les bases Python",a:"Faire de vrais petits projets personnels (automatisation, jeu texte, analyse de données) plutôt que d'enchaîner uniquement des cours théoriques."},
+{q:"Pourquoi vérifier une ressource gratuite avant de s'y appuyer ?",a:"Les offres gratuites changent (limites, abonnements) : il faut vérifier sur le site et garder une alternative."},
+{q:"Que ne faut-il jamais donner à un site ou un tutoriel ?",a:"Mot de passe, jeton GitHub, clé d'accès : ce sont des informations secrètes."}
 ]},
 
-'Git & le versioning — indispensable dès que tu codes': {
-cours:`<h3>Le problème que Git résout</h3>
-<p>Sans outil de suivi, on se retrouve vite avec des fichiers comme <mark>script_v2_final_VRAIMENT.js</mark> — impossible de savoir ce qui a changé, ni de revenir en arrière proprement si on casse quelque chose. <strong>Git</strong> est un logiciel de <mark>gestion de versions</mark> : il enregistre l'historique complet des modifications d'un projet, permet de revenir à n'importe quel état passé, et de travailler à plusieurs sans écraser le travail des autres.</p>
-<div class="retenir-box">C'est exactement l'outil derrière la synchronisation GitHub de ton propre site BacMaster — comprendre Git, c'est comprendre ce qui se passe vraiment quand tu synchronises tes fichiers.</div>
-
-<h3>Git vs GitHub</h3>
-<div class="formula-box">
-<strong>Git</strong> : le logiciel de gestion de versions lui-même, installé sur ton ordinateur, fonctionne même sans internet.<br>
-<strong>GitHub</strong> : un site web qui héberge en ligne des projets Git (des "dépôts"/"repos"), permet de les partager, collaborer, et sert de sauvegarde à distance. Il existe des équivalents (GitLab, Bitbucket).
-</div>
-
-<h3>Le cycle de base : init, add, commit</h3>
-<pre><code># Démarrer le suivi Git dans un dossier de projet
-git init
-
-# Voir l'état actuel (quels fichiers ont changé)
-git status
-
-# Ajouter les fichiers modifiés à la prochaine "photo" (staging)
-git add index.html
-git add .              # ajoute TOUS les fichiers modifiés
-
-# Enregistrer une "photo" du projet à cet instant, avec un message
-git commit -m "Ajoute la page de statistiques"</code></pre>
-<div class="formula-box">Un <strong>commit</strong> est une photo instantanée du projet à un moment donné, accompagnée d'un message qui explique ce qui a changé. L'historique de Git est une suite de commits, chacun pouvant être consulté ou restauré individuellement.</div>
-
-
-<h3>Envoyer et récupérer : push et pull</h3>
-<pre><code># Envoyer tes commits locaux vers GitHub
-git push
-
-# Récupérer les derniers commits présents sur GitHub
-git pull</code></pre>
-<p>C'est exactement ce que fait le bouton de synchronisation de ton site : il envoie (push) les fichiers modifiés vers ton dépôt GitHub personnel.</p>
-
-<h3>Les branches : travailler sans tout casser</h3>
-<div class="formula-box">Une <strong>branche</strong> est une ligne de développement parallèle et indépendante. La branche <mark>main</mark> (ou <em>master</em>) contient généralement la version stable du projet. On crée une nouvelle branche pour tester une fonctionnalité risquée, sans toucher à la version qui fonctionne.</div>
-<pre><code>git branch nouvelle-fonctionnalite   # crée la branche
-git checkout nouvelle-fonctionnalite # bascule dessus
-# ... on code, on commit sur cette branche ...
-git checkout main
-git merge nouvelle-fonctionnalite    # fusionne les changements dans main</code></pre>
-<div class="retenir-box">Travailler sur une branche séparée pour une nouveauté risquée, c'est comme faire une copie de sauvegarde de ton code avant d'expérimenter — si ça casse tout, la branche <em>main</em> reste intacte.</div>
-
-<h3>Le fichier .gitignore</h3>
-<p>Fichier spécial qui liste ce que Git doit <mark>ignorer</mark> et ne jamais enregistrer (fichiers temporaires, mots de passe/clés API, dossiers volumineux type <code>node_modules</code>). Essentiel pour ne jamais publier accidentellement une information sensible sur un dépôt, surtout s'il est public.</p>
-<div class="attention-box">Une clé API ou un mot de passe accidentellement commité et poussé sur un dépôt <mark>public</mark> doit être considéré comme compromis immédiatement, même si tu le supprimes juste après — l'historique Git garde une trace de tout, et des robots scannent en permanence GitHub à la recherche de clés exposées.</div>
-
-<h3>Conflit de fusion (merge conflict)</h3>
-<p>Se produit quand deux modifications touchent la <mark>même ligne</mark> d'un même fichier sur deux branches différentes — Git ne peut pas deviner laquelle garder, et demande à l'humain de trancher manuellement.</p>`,
+"Créer une interface web (HTML/CSS/JS) — objectif décembre": {
+cours:"<h3>Pourquoi ces 3 langages, et dans quel ordre</h3>\n<div class=\"formula-box\">\n<strong>HTML</strong> : la structure (le squelette) — les titres, boutons, listes, zones de la page. Pas de logique, juste du contenu organisé.<br>\n<strong>CSS</strong> : l'apparence — couleurs, tailles, espacements, mise en page. Rend le HTML joli et organisé visuellement.<br>\n<strong>JavaScript</strong> : le comportement — ce qui réagit quand tu cliques, tape, ou que la page change dynamiquement. C'est lui qui rend un bouton \"vivant\".\n</div>\n<p>C'est exactement l'ordre dans lequel ton propre site (BacMaster) est construit : <mark>index.html</mark> pour la structure, <mark>style.css</mark> pour l'apparence, <mark>script.js</mark> pour tout ce qui bouge (clics, flashcards, sauvegarde...).</p>\n\n<h3>HTML — la structure de base</h3>\n<pre><code>&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head&gt;\n    &lt;title&gt;Ma page&lt;/title&gt;\n&lt;/head&gt;\n&lt;body&gt;\n    &lt;h1&gt;Titre principal&lt;/h1&gt;\n    &lt;p&gt;Un paragraphe de texte.&lt;/p&gt;\n    &lt;button id=\"monBouton\"&gt;Clique-moi&lt;/button&gt;\n&lt;/body&gt;\n&lt;/html&gt;</code></pre>\n<div class=\"retenir-box\">Chaque élément HTML a une <mark>balise ouvrante</mark> et une <mark>balise fermante</mark> (<code>&lt;p&gt;...&lt;/p&gt;</code>). L'attribut <code>id=\"...\"</code> donne un nom unique à un élément pour pouvoir le cibler plus tard en CSS ou en JS.</div>\n\n<h3>CSS — styliser les éléments</h3>\n<pre><code>#monBouton {\n    background-color: #4A90E2;\n    color: white;\n    padding: 10px 20px;\n    border-radius: 8px;\n    border: none;\n}\n\n#monBouton:hover {\n    background-color: #357ABD;\n}</code></pre>\n<div class=\"formula-box\">Le <strong>sélecteur</strong> cible l'élément (<code>#id</code>, <code>.classe</code>, ou une balise directement comme <code>button</code>). <code>:hover</code> applique un style seulement quand la souris survole l'élément.</div>\n\n<h3>Le modèle Flexbox (mise en page moderne)</h3>\n<pre><code>.conteneur {\n    display: flex;\n    justify-content: center;   /* alignement horizontal */\n    align-items: center;       /* alignement vertical */\n    gap: 12px;                 /* espace entre les éléments */\n}</code></pre>\n<div class=\"retenir-box\">Flexbox est la méthode la plus utilisée aujourd'hui pour aligner et espacer des éléments (boutons côte à côte, cartes en grille...) — bien plus simple que les anciennes méthodes (float, position absolue).</div>\n\n<h3>JavaScript — rendre un bouton \"vivant\"</h3>\n<pre><code>// Sélectionner l'élément HTML par son id\nconst bouton = document.getElementById(\"monBouton\");\n\n// Réagir à un clic\nbouton.addEventListener(\"click\", function() {\n    alert(\"Tu as cliqué !\");\n});</code></pre>\n<div class=\"formula-box\"><strong>document.getElementById(\"id\")</strong> récupère un élément HTML précis pour le manipuler.<br><strong>addEventListener(\"click\", ...)</strong> exécute une fonction à chaque fois que l'élément est cliqué.</div>\n\n<h3>Modifier le contenu de la page dynamiquement</h3>\n<pre><code>const titre = document.getElementById(\"titre\");\ntitre.textContent = \"Nouveau texte !\";       // change le texte\ntitre.style.color = \"red\";                    // change le style directement\n\n// Créer et ajouter un nouvel élément\nconst nouveauParagraphe = document.createElement(\"p\");\nnouveauParagraphe.textContent = \"Ajouté dynamiquement\";\ndocument.body.appendChild(nouveauParagraphe);</code></pre>\n\n\n<h3>Sauvegarder des données : localStorage</h3>\n<pre><code>// Sauvegarder une donnée (toujours en texte -> JSON pour un objet/tableau)\nlocalStorage.setItem(\"score\", JSON.stringify(42));\n\n// Relire une donnée sauvegardée\nconst score = JSON.parse(localStorage.getItem(\"score\"));\nconsole.log(score); // 42</code></pre>\n<div class=\"retenir-box\">localStorage garde des données <mark>même après avoir fermé le navigateur</mark> — c'est exactement ce que ton site utilise pour se souvenir de tes flashcards et de ta progression d'un jour à l'autre.</div>\n\n<h3>Un mini-projet pour t'entraîner : un compteur de clics</h3>\n<pre><code>&lt;button id=\"btn\"&gt;Clique !&lt;/button&gt;\n&lt;p id=\"compteur\"&gt;0&lt;/p&gt;\n\n&lt;script&gt;\nlet total = 0;\nconst btn = document.getElementById(\"btn\");\nconst compteur = document.getElementById(\"compteur\");\n\nbtn.addEventListener(\"click\", function() {\n    total = total + 1;\n    compteur.textContent = total;\n});\n&lt;/script&gt;</code></pre>\n<p>Ce petit exemple combine déjà les 3 briques : un bouton (HTML), une variable qui garde l'état en mémoire (JS), et l'affichage qui se met à jour (JS modifie le HTML). C'est la base de <strong>tout</strong> bouton interactif d'une vraie appli, y compris de ton propre site.</p>\n\n<h3>Feuille de route réaliste jusqu'à décembre</h3>\n<ol>\n<li><strong>HTML + CSS de base</strong> : balises, sélecteurs, flexbox — savoir construire une page simple et la styliser (2-3 semaines, à ton rythme).</li>\n<li><strong>JavaScript de base</strong> : variables, conditions, boucles, fonctions (déjà vu en Python — la logique se transpose, seule la syntaxe change).</li>\n<li><strong>JavaScript du DOM</strong> : sélectionner des éléments, écouter des clics, modifier la page — ce qui rend un site \"vivant\".</li>\n<li><strong>Petits projets progressifs</strong> : compteur de clics → liste de tâches (todo-list) avec ajout/suppression → mini flashcard maison avec localStorage. Chaque projet ajoute une brique de plus vers une vraie interface de révision.</li>\n</ol>\n<div class=\"retenir-box\">Le vrai déclic vient toujours des <mark>petits projets</mark>, pas des cours théoriques enchaînés — exactement comme pour Python (voir le chapitre \"Science de l'Apprentissage\" sur l'effet de génération).</div>\n\n<h3>Relier le CSS et le JavaScript à la page</h3>\n<pre><code>&lt;head&gt;\n    &lt;meta charset=\"UTF-8\"&gt;\n    &lt;meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"&gt;\n    &lt;link rel=\"stylesheet\" href=\"style.css\"&gt;\n&lt;/head&gt;\n&lt;body&gt;\n    ... le contenu de la page ...\n    &lt;script src=\"script.js\"&gt;&lt;/script&gt;   &lt;!-- en bas, avant la fermeture de body --&gt;\n&lt;/body&gt;</code></pre>\n<div class=\"attention-box\">Le script se place <mark>après</mark> le contenu (ou avec l'attribut <code>defer</code>) : si le navigateur lit le JavaScript avant que les éléments existent, <code>getElementById</code> renvoie <code>null</code> et le programme plante.</div>\n\n<h3>Le modèle de boîte CSS (box model)</h3>\n<p>Chaque élément est une boîte à 4 couches, de l'intérieur vers l'extérieur : le <strong>contenu</strong>, le <strong>padding</strong> (marge intérieure), la <strong>bordure</strong> (border) et la <strong>marge extérieure</strong> (margin).</p>\n<div class=\"formula-box\">Par défaut (<code>box-sizing: content-box</code>) : largeur visible = <em>width</em> + 2 × padding + 2 × border.<br>\nAvec <code>box-sizing: border-box</code> : <em>width</em> <strong>inclut</strong> le padding et la bordure (beaucoup plus simple pour dimensionner).</div>\n<p>Exemple : <code>width: 200px; padding: 20px; border: 5px solid;</code> donne par défaut une boîte visible de $200 + 2\\times 20 + 2\\times 5 = 250\\ \\text{px}$ de large.</p>\n\n<h3>Sélectionner : querySelector</h3>\n<pre><code>document.querySelector(\"#titre\")       // le premier élément avec id=\"titre\"\ndocument.querySelector(\".carte\")       // le premier élément avec class=\"carte\"\ndocument.querySelectorAll(\".carte\")    // TOUS les éléments avec cette classe</code></pre>\n<p>On utilise la même syntaxe que dans le CSS : <code>#</code> pour un <em>id</em>, <code>.</code> pour une <em>classe</em>.</p>\n\n<h3>Changer l'apparence avec les classes</h3>\n<pre><code>element.classList.add(\"actif\");       // ajoute la classe\nelement.classList.remove(\"actif\");    // la retire\nelement.classList.toggle(\"actif\");    // l'ajoute si absente, la retire si présente\nelement.classList.contains(\"actif\");  // true / false</code></pre>\n<div class=\"retenir-box\">Plutôt que de modifier les styles un par un en JavaScript (<code>element.style.color = ...</code>), on <mark>change une classe</mark> et on laisse le CSS faire le travail : le code est plus propre et plus facile à modifier.</div>\n\n<h3>Plus d'événements</h3>\n<ul>\n<li><code>\"click\"</code> : clic ; <code>\"input\"</code> : à chaque caractère tapé dans un champ ; <code>\"change\"</code> : quand la valeur est validée.</li>\n<li>La fonction reçoit un objet <code>event</code> ; <code>event.target</code> désigne l'élément qui a déclenché l'événement.</li>\n</ul>\n\n<h3>Adapter à tous les écrans (responsive)</h3>\n<pre><code>.conteneur { display: flex; gap: 12px; }\n\n@media (max-width: 600px) {\n    .conteneur { flex-direction: column; }   /* sur petit écran : en colonne */\n}</code></pre>\n<p>La règle <code>@media</code> n'est appliquée que si la condition est vraie (ici : écran de 600 px de large ou moins). C'est ce qui permet à une page de s'afficher correctement sur téléphone <em>et</em> sur ordinateur.</p>\n\n<h3>Déboguer avec les outils du navigateur</h3>\n<p>Appuie sur <strong>F12</strong> (ou clic droit → « Inspecter ») : l'onglet <em>Éléments</em> montre le HTML et le CSS appliqués, l'onglet <em>Console</em> affiche les erreurs JavaScript et les <code>console.log(...)</code> que tu y mets. C'est ton meilleur outil pour comprendre pourquoi « ça ne marche pas ».</p>\n\n<h3>Erreurs à éviter</h3>\n<div class=\"attention-box\">\n❌ Mettre le script <strong>avant</strong> le HTML qu'il manipule (élément introuvable, <code>null</code>).<br>\n❌ Oublier le <code>#</code> (id) ou le <code>.</code> (classe) dans un sélecteur.<br>\n❌ Écrire <code>getElementByID</code> au lieu de <code>getElementById</code> : JavaScript distingue les majuscules et les minuscules.<br>\n❌ Oublier de fermer une balise ou une accolade.<br>\n❌ Ne jamais regarder la console : elle indique presque toujours la cause du problème.\n</div>",
 exercices:[
-{niveau:'Facile', enonce:`<p>Tu viens de modifier trois fichiers de ton projet et tu veux enregistrer une "photo" de ces changements avec un message expliquant ce que tu as fait. Quelle suite de commandes Git dois-tu utiliser ?</p>`, aide:`Relis le cycle de base : il y a une étape pour préparer les fichiers, puis une pour enregistrer réellement le commit.`, correction:`<p><code>git add .</code> (ajoute tous les fichiers modifiés à l'étape de préparation) suivi de <code>git commit -m "ton message"</code> (enregistre la photo avec un message explicatif). L'étape <code>add</code> est nécessaire avant <code>commit</code> — Git ne commit que ce qui a été explicitement ajouté.</p>`},
-{niveau:'Moyen', enonce:`<p>Tu veux tester une nouvelle fonctionnalité risquée sur ton site sans prendre le risque de casser la version qui fonctionne actuellement en ligne. Quelle approche Git recommande le cours, et pourquoi est-ce plus sûr que de modifier directement les fichiers de la branche main ?</p>`, aide:`Relis la partie sur les branches — que permet de faire une branche séparée par rapport à la branche principale ?`, correction:`<p>Créer une <strong>nouvelle branche</strong> dédiée à cette fonctionnalité (<code>git branch nouvelle-fonctionnalite</code> puis <code>git checkout nouvelle-fonctionnalite</code>), y développer et tester la nouveauté, et ne fusionner (<code>git merge</code>) dans <em>main</em> que lorsque tout fonctionne. C'est plus sûr car la branche <em>main</em> reste intacte et fonctionnelle pendant toute la durée du développement risqué — si l'expérimentation échoue, il suffit d'abandonner la branche sans aucun impact sur la version stable.</p>`},
-{niveau:'Difficile', enonce:`<p>Un développeur commite par erreur un fichier contenant une clé API secrète sur un dépôt GitHub public, s'en rend compte 10 minutes plus tard, et supprime immédiatement le fichier avec un nouveau commit. Explique pourquoi cette clé doit malgré tout être considérée comme compromise, en t'appuyant sur ce que le cours dit du fonctionnement de l'historique Git.</p>`, aide:`Le cours précise qu'un commit est une "photo" conservée dans l'historique — supprimer un fichier dans un NOUVEAU commit fait-il disparaître les anciennes photos où il apparaissait encore ?`, correction:`<p>Supprimer le fichier dans un nouveau commit ne fait <strong>pas disparaître</strong> les commits précédents où il apparaissait encore — l'historique Git conserve chaque "photo" successive du projet, y compris celles où la clé était visible. N'importe qui peut consulter cet historique complet (via <code>git log</code> ou l'interface GitHub) et retrouver la clé dans un commit antérieur, même si le fichier actuel ne la contient plus.</p><p>De plus, comme le dépôt est public, des robots scannent en permanence GitHub à la recherche de clés API exposées, souvent en quelques minutes seulement après publication — la clé doit donc être immédiatement révoquée/régénérée auprès du service concerné, la supprimer du dépôt ne suffit absolument pas à annuler le risque.</p>`},
+{niveau:"Facile",
+ enonce:"<p>Tu veux changer la couleur de fond d'un bouton. Quel langage dois-tu utiliser : HTML, CSS ou JavaScript ?</p>",
+ aide:"Repense au rôle de chacun des 3 langages : lequel gère l'apparence ?",
+ correction:"<p><strong>CSS</strong>. Le HTML crée le bouton (structure), le CSS définit son apparence (couleur, taille...), et le JavaScript gérerait plutôt ce qui se passe quand on clique dessus (comportement).</p>"},
+{niveau:"Moyen",
+ enonce:"<p>Ce code JavaScript ne fonctionne pas comme prévu (erreur dans la console). Trouve le problème :</p><pre><code>const btn = document.getElementById(\"btn\");\nbtn.addEventListener(\"click\", function() {\n    compteur = compteur + 1;\n    document.getElementById(\"affichage\").textContent = compteur;\n});</code></pre>",
+ aide:"La variable \"compteur\" est-elle déclarée quelque part avant d'être utilisée ? Que se passe-t-il en JavaScript si on essaie d'utiliser une variable qui n'existe pas encore ?",
+ correction:"<p>La variable <code>compteur</code> n'est jamais <strong>déclarée</strong> avant d'être utilisée (pas de <code>let compteur = 0;</code>) — ça provoque une erreur (\"compteur is not defined\"). Il faut la déclarer en dehors de la fonction pour qu'elle garde sa valeur entre chaque clic :</p><pre><code>let compteur = 0;\nconst btn = document.getElementById(\"btn\");\nbtn.addEventListener(\"click\", function() {\n    compteur = compteur + 1;\n    document.getElementById(\"affichage\").textContent = compteur;\n});</code></pre>"},
+{niveau:"Difficile",
+ enonce:"<p>Écris le code HTML + JavaScript complet pour un bouton \"J'aime\" (id=\"like\") qui, à chaque clic, augmente de 1 un compteur affiché dans un élément (id=\"nbLikes\"), et qui change le texte du bouton en \"❤️ Aimé !\" dès le premier clic (sans revenir en arrière si on reclique).</p>",
+ aide:"Utilise une variable pour savoir si le bouton a déjà été cliqué au moins une fois (un booléen), en plus du compteur de likes lui-même.",
+ correction:"<pre><code>&lt;button id=\"like\"&gt;🤍 J'aime&lt;/button&gt;\n&lt;p id=\"nbLikes\"&gt;0&lt;/p&gt;\n\n&lt;script&gt;\nlet nbLikes = 0;\nlet dejaClique = false;\n\nconst btnLike = document.getElementById(\"like\");\nconst affichage = document.getElementById(\"nbLikes\");\n\nbtnLike.addEventListener(\"click\", function() {\n    nbLikes = nbLikes + 1;\n    affichage.textContent = nbLikes;\n    if (!dejaClique) {\n        btnLike.textContent = \"❤️ Aimé !\";\n        dejaClique = true;\n    }\n});\n&lt;/script&gt;</code></pre><p>Le booléen <code>dejaClique</code> permet de ne changer le texte du bouton qu'une seule fois, même si l'utilisateur reclique plusieurs fois (le compteur, lui, continue d'augmenter à chaque clic).</p>"},
+{niveau:"Moyen",
+ enonce:"<p>Une boîte a pour règles CSS : <code>width: 200px; padding: 20px; border: 5px solid; margin: 10px;</code> (avec <code>box-sizing: content-box</code>).<br>1) Quelle est la largeur visible de la boîte (bordures comprises) ?<br>2) Quelle largeur horizontale occupe-t-elle au total dans la page (marges comprises) ?<br>3) Que devient la largeur visible avec <code>box-sizing: border-box</code> ?</p>",
+ aide:"Additionne contenu + 2 × padding + 2 × bordure pour la largeur visible, puis ajoute 2 × margin pour la place occupée. Avec border-box, width inclut padding et bordure.",
+ correction:"<p>1) $200 + 2\\times 20 + 2\\times 5 = 250\\ \\text{px}$.</p><p>2) $250 + 2\\times 10 = 270\\ \\text{px}$ (la marge est à l'extérieur de la boîte).</p><p>3) Avec <code>border-box</code>, la largeur visible est directement <strong>200 px</strong> : le contenu se réduit à $200 - 40 - 10 = 150\\ \\text{px}$.</p>"},
+{niveau:"Moyen",
+ enonce:"<p>Cette page affiche une erreur dans la console (<em>Cannot read properties of null</em>). Trouve la cause et corrige.</p><pre><code>&lt;head&gt;\n  &lt;script&gt;\n    document.getElementById(\"btn\").addEventListener(\"click\", function() {\n      alert(\"Salut !\");\n    });\n  &lt;/script&gt;\n&lt;/head&gt;\n&lt;body&gt;\n  &lt;button id=\"btn\"&gt;Clique&lt;/button&gt;\n&lt;/body&gt;</code></pre>",
+ aide:"Le navigateur lit la page de haut en bas. Au moment où le script s'exécute, le bouton existe-t-il déjà ?",
+ correction:"<p>Le script est placé dans le <code>head</code>, donc il s'exécute <strong>avant</strong> que le bouton n'existe : <code>getElementById(\"btn\")</code> renvoie <code>null</code>, et <code>null.addEventListener</code> provoque l'erreur.</p><p>Correction : placer le script <strong>après</strong> le bouton, juste avant <code>&lt;/body&gt;</code> :</p><pre><code>&lt;body&gt;\n  &lt;button id=\"btn\"&gt;Clique&lt;/button&gt;\n  &lt;script&gt;\n    document.getElementById(\"btn\").addEventListener(\"click\", function() {\n      alert(\"Salut !\");\n    });\n  &lt;/script&gt;\n&lt;/body&gt;</code></pre><p>(Autre solution : garder le script dans le <code>head</code> en lui ajoutant l'attribut <code>defer</code> quand il est dans un fichier externe.)</p>"},
+{niveau:"Difficile",
+ enonce:"<p>Trois cartes sont placées côte à côte dans un conteneur (<code>class=\"conteneur\"</code>) avec Flexbox. Écris le CSS pour que, sur un écran de 600 px de large ou moins, les cartes passent l'une en dessous de l'autre.</p>",
+ aide:"Le conteneur est en display: flex (direction « row » par défaut). Quelle propriété change la direction en colonne ? Et quelle règle CSS applique des styles selon la largeur d'écran ?",
+ correction:"<pre><code>.conteneur {\n    display: flex;\n    gap: 12px;\n}\n\n@media (max-width: 600px) {\n    .conteneur {\n        flex-direction: column;\n    }\n}</code></pre><p>Par défaut, Flexbox aligne en <em>ligne</em>. Sur petit écran, la règle <code>@media</code> passe en <code>flex-direction: column</code> : les cartes s'empilent. Le <code>gap</code> continue de les espacer.</p>"}
 ],
 flashcards:[
-{q:'Git — définition',a:'Logiciel de gestion de versions qui enregistre l\'historique des modifications d\'un projet et permet de revenir en arrière ou de travailler à plusieurs sans écraser le travail des autres.'},
-{q:'Différence Git / GitHub',a:'Git est le logiciel de gestion de versions (fonctionne même hors ligne). GitHub est un site qui héberge en ligne des projets Git et permet de les partager.'},
-{q:'Un commit — définition',a:'Une "photo" instantanée du projet à un moment donné, accompagnée d\'un message expliquant les changements effectués.'},
-{q:'git add vs git commit',a:'git add prépare les fichiers modifiés pour le prochain commit (staging). git commit enregistre réellement cette sélection avec un message.'},
-{q:'git push vs git pull',a:'git push envoie tes commits locaux vers le dépôt distant (GitHub). git pull récupère les derniers commits présents sur le dépôt distant.'},
-{q:'À quoi sert une branche Git ?',a:'Développer une fonctionnalité en parallèle, sans toucher à la version stable (souvent la branche main), pour pouvoir fusionner seulement une fois que ça fonctionne.'},
-{q:'.gitignore — utilité',a:'Fichier qui liste ce que Git doit ignorer et ne jamais enregistrer (fichiers temporaires, clés API, mots de passe, dossiers volumineux).'},
-{q:'Conflit de fusion (merge conflict)',a:'Se produit quand deux modifications touchent la même ligne d\'un même fichier sur deux branches différentes — Git demande alors à l\'humain de trancher manuellement.'},
-{q:'Que faire si une clé API est accidentellement publiée sur un dépôt public ?',a:'La considérer comme compromise immédiatement et la révoquer/régénérer auprès du service — la supprimer du code ne suffit pas car l\'historique Git la conserve.'},
+{q:"Rôle du HTML, CSS et JavaScript",a:"HTML : structure/contenu. CSS : apparence/mise en page. JavaScript : comportement/interactivité."},
+{q:"Balise HTML — structure",a:"Une balise ouvrante et une balise fermante entourent le contenu, ex : &lt;p&gt;texte&lt;/p&gt;. L'attribut id=\"...\" donne un nom unique à un élément."},
+{q:"Sélecteur CSS #id vs .classe",a:"#id cible un élément unique précis. .classe peut s'appliquer à plusieurs éléments partageant la même classe."},
+{q:"Flexbox — utilité",a:"Modèle de mise en page CSS moderne (display: flex) pour aligner et espacer facilement des éléments horizontalement ou verticalement."},
+{q:"document.getElementById()",a:"Fonction JavaScript qui récupère un élément HTML précis (via son id) pour pouvoir le lire ou le modifier."},
+{q:"addEventListener(\"click\", ...)",a:"Méthode JavaScript qui exécute une fonction à chaque fois que l'élément ciblé est cliqué par l'utilisateur."},
+{q:"Modifier le texte d'un élément en JS",a:"element.textContent = \"nouveau texte\" — remplace le contenu textuel affiché."},
+{q:"localStorage — utilité",a:"Stocke des données côté navigateur qui persistent même après fermeture — nécessite JSON.stringify() pour sauvegarder un objet/tableau, et JSON.parse() pour le relire."},
+{q:"Les 3 briques d'un bouton interactif",a:"Un élément HTML (le bouton), une variable JS qui garde l'état en mémoire, et une instruction JS qui met à jour l'affichage après le clic."},
+{q:"Feuille de route suggérée pour apprendre le front-end",a:"HTML/CSS de base → JavaScript de base (logique) → JavaScript du DOM (interactivité) → petits projets progressifs (compteur → todo-list → mini flashcards maison)."},
+{q:"Où placer la balise <script> dans une page ?",a:"En bas, avant </body> (ou avec l'attribut defer), pour que les éléments existent quand le script s'exécute."},
+{q:"Que renvoie getElementById si l'élément n'existe pas (encore) ?",a:"null : ensuite, toute action sur cet élément provoque une erreur."},
+{q:"Les 4 couches du modèle de boîte CSS",a:"Contenu, padding (marge intérieure), border (bordure), margin (marge extérieure)."},
+{q:"box-sizing: border-box",a:"La largeur (width) inclut le padding et la bordure, ce qui simplifie le dimensionnement."},
+{q:"Largeur visible avec content-box",a:"width + 2 × padding + 2 × border. Ex : 200 + 2×20 + 2×5 = 250 px."},
+{q:"querySelector vs querySelectorAll",a:"querySelector renvoie le premier élément qui correspond au sélecteur CSS ; querySelectorAll les renvoie tous."},
+{q:"classList.toggle(\"actif\")",a:"Ajoute la classe si elle est absente, la retire si elle est présente. Pratique pour un mode sombre ou un menu."},
+{q:"Pourquoi changer une classe plutôt que element.style ?",a:"Le style reste dans le CSS : le code est plus propre et plus facile à modifier."},
+{q:"Événements input et change",a:"input : à chaque caractère tapé. change : quand la valeur est validée (perte de focus, Entrée)."},
+{q:"Que fait @media (max-width: 600px) ?",a:"Applique des règles CSS seulement quand l'écran fait 600 px de large ou moins (adaptation au téléphone)."},
+{q:"Où voir les erreurs JavaScript ?",a:"Dans la console des outils du navigateur (F12 ou clic droit → Inspecter)."},
+{q:"Pourquoi la balise meta viewport ?",a:"Elle indique au navigateur mobile d'utiliser la largeur réelle de l'écran : indispensable pour un site adapté au téléphone."}
 ]},
 
-'Mini-projets Python — s\'entraîner en codant': {
-cours:`<h3>Comment utiliser ce chapitre</h3>
-<p>Contrairement aux autres chapitres, celui-ci n'a rien à lire avant de commencer : les "exercices" ci-dessous sont de <mark>vrais petits programmes à écrire toi-même</mark>, sur Replit (replit.com) ou VS Code. Écris ton code, exécute-le, compare avec la correction seulement après avoir essayé.</p>
-<div class="retenir-box">Ne regarde pas la correction avant d'avoir vraiment essayé, même si ça bloque 10 minutes — c'est cette lutte qui fait progresser (effet de génération, vu dans "Science de l'Apprentissage"). Bloqué : relis le chapitre "Python en pratique" plutôt que de sauter direct à la correction.</div>
-<h3>Méthode pour attaquer un exercice de code</h3>
-<ol>
-<li><strong>Comprendre l'énoncé</strong> : quelles sont les entrées ? Quelle sortie est attendue ?</li>
-<li><strong>Découper en petites étapes</strong> avant de coder (sur papier ou en commentaires <code># étape 1...</code>).</li>
-<li><strong>Coder étape par étape</strong>, en testant après CHAQUE petite étape (pas tout d'un coup à la fin).</li>
-<li><strong>Tester avec plusieurs cas</strong>, y compris des cas limites (0, nombre négatif, texte vide...).</li>
-</ol>`,
+"Git & le versioning — indispensable dès que tu codes": {
+cours:"<h3>Le problème que Git résout</h3>\n<p>Sans outil de suivi, on se retrouve vite avec des fichiers comme <mark>script_v2_final_VRAIMENT.js</mark> — impossible de savoir ce qui a changé, ni de revenir en arrière proprement si on casse quelque chose. <strong>Git</strong> est un logiciel de <mark>gestion de versions</mark> : il enregistre l'historique complet des modifications d'un projet, permet de revenir à n'importe quel état passé, et de travailler à plusieurs sans écraser le travail des autres.</p>\n<div class=\"retenir-box\">C'est exactement l'outil derrière la synchronisation GitHub de ton propre site BacMaster — comprendre Git, c'est comprendre ce qui se passe vraiment quand tu synchronises tes fichiers.</div>\n\n<h3>Git vs GitHub</h3>\n<div class=\"formula-box\">\n<strong>Git</strong> : le logiciel de gestion de versions lui-même, installé sur ton ordinateur, fonctionne même sans internet.<br>\n<strong>GitHub</strong> : un site web qui héberge en ligne des projets Git (des \"dépôts\"/\"repos\"), permet de les partager, collaborer, et sert de sauvegarde à distance. Il existe des équivalents (GitLab, Bitbucket).\n</div>\n\n<h3>Le cycle de base : init, add, commit</h3>\n<pre><code># Démarrer le suivi Git dans un dossier de projet\ngit init\n\n# Voir l'état actuel (quels fichiers ont changé)\ngit status\n\n# Ajouter les fichiers modifiés à la prochaine \"photo\" (staging)\ngit add index.html\ngit add .              # ajoute TOUS les fichiers modifiés\n\n# Enregistrer une \"photo\" du projet à cet instant, avec un message\ngit commit -m \"Ajoute la page de statistiques\"</code></pre>\n<div class=\"formula-box\">Un <strong>commit</strong> est une photo instantanée du projet à un moment donné, accompagnée d'un message qui explique ce qui a changé. L'historique de Git est une suite de commits, chacun pouvant être consulté ou restauré individuellement.</div>\n\n\n<h3>Envoyer et récupérer : push et pull</h3>\n<pre><code># Envoyer tes commits locaux vers GitHub\ngit push\n\n# Récupérer les derniers commits présents sur GitHub\ngit pull</code></pre>\n<p>C'est exactement ce que fait le bouton de synchronisation de ton site : il envoie (push) les fichiers modifiés vers ton dépôt GitHub personnel.</p>\n\n<h3>Les branches : travailler sans tout casser</h3>\n<div class=\"formula-box\">Une <strong>branche</strong> est une ligne de développement parallèle et indépendante. La branche <mark>main</mark> (ou <em>master</em>) contient généralement la version stable du projet. On crée une nouvelle branche pour tester une fonctionnalité risquée, sans toucher à la version qui fonctionne.</div>\n<pre><code>git branch nouvelle-fonctionnalite   # crée la branche\ngit checkout nouvelle-fonctionnalite # bascule dessus\n# ... on code, on commit sur cette branche ...\ngit checkout main\ngit merge nouvelle-fonctionnalite    # fusionne les changements dans main</code></pre>\n<div class=\"retenir-box\">Travailler sur une branche séparée pour une nouveauté risquée, c'est comme faire une copie de sauvegarde de ton code avant d'expérimenter — si ça casse tout, la branche <em>main</em> reste intacte.</div>\n\n<h3>Le fichier .gitignore</h3>\n<p>Fichier spécial qui liste ce que Git doit <mark>ignorer</mark> et ne jamais enregistrer (fichiers temporaires, mots de passe/clés API, dossiers volumineux type <code>node_modules</code>). Essentiel pour ne jamais publier accidentellement une information sensible sur un dépôt, surtout s'il est public.</p>\n<div class=\"attention-box\">Une clé API ou un mot de passe accidentellement commité et poussé sur un dépôt <mark>public</mark> doit être considéré comme compromis immédiatement, même si tu le supprimes juste après — l'historique Git garde une trace de tout, et des robots scannent en permanence GitHub à la recherche de clés exposées.</div>\n\n<h3>Conflit de fusion (merge conflict)</h3>\n<p>Se produit quand deux modifications touchent la <mark>même ligne</mark> d'un même fichier sur deux branches différentes — Git ne peut pas deviner laquelle garder, et demande à l'humain de trancher manuellement.</p>\n\n<h3>Les 4 zones de Git</h3>\n<div class=\"formula-box\">\n<strong>Répertoire de travail</strong> : tes fichiers tels que tu les modifies.<br>\n→ <code>git add</code> → <strong>Zone de préparation</strong> (staging) : ce qui sera dans le prochain commit.<br>\n→ <code>git commit</code> → <strong>Dépôt local</strong> : l'historique des commits sur ton ordinateur.<br>\n→ <code>git push</code> → <strong>Dépôt distant</strong> (GitHub).\n</div>\n\n<h3>Commandes utiles en plus</h3>\n<ul>\n<li><code>git clone adresse</code> : copie un dépôt GitHub sur ton ordinateur.</li>\n<li><code>git log --oneline</code> : liste les commits (un par ligne).</li>\n<li><code>git diff</code> : montre ce qui a changé depuis le dernier commit.</li>\n<li><code>git restore fichier</code> : annule les modifications <em>non commitées</em> d'un fichier.</li>\n<li><code>git revert identifiant</code> : annule un commit <em>en créant un nouveau commit</em> (sûr, l'historique est conservé).</li>\n</ul>\n<div class=\"attention-box\"><code>git reset --hard</code> efface les modifications non commitées <strong>sans retour possible</strong> : à n'utiliser qu'en sachant exactement ce que l'on fait.</div>\n\n<h3>Écrire un bon message de commit</h3>\n<p>Un message clair décrit <strong>ce qui a changé et pourquoi</strong>, en une ligne : « Corrige le calcul du coefficient de sécurité » vaut mieux que « modif » ou « fix ». Un commit par idée : c'est ce qui permet de retrouver et d'annuler un changement précis.</p>\n\n<h3>Fusionner et résoudre un conflit</h3>\n<p><code>git pull</code> équivaut à récupérer les nouveautés du dépôt distant puis à les <strong>fusionner</strong> avec ton travail. Si deux personnes ont modifié la même ligne, Git marque le conflit dans le fichier :</p>\n<pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD\ntitre = \"Version A\"\n=======\ntitre = \"Version B\"\n&gt;&gt;&gt;&gt;&gt;&gt;&gt; nouvelle-fonctionnalite</code></pre>\n<p>Entre <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> et <code>=======</code> : <strong>ta version actuelle</strong>. Entre <code>=======</code> et <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> : la version <strong>à fusionner</strong>. Pour résoudre : on garde la bonne version (ou un mélange), on <mark>supprime les lignes de marquage</mark>, puis on fait <code>git add</code> et <code>git commit</code>.</p>\n<div class=\"retenir-box\">Si <code>git push</code> est <mark>refusé</mark> parce que le dépôt distant contient des commits que tu n'as pas : fais d'abord <code>git pull</code> (résous les conflits éventuels, commit), puis <code>git push</code>.</div>\n\n<h3>Collaborer : fork et pull request</h3>\n<ul>\n<li><strong>Fork</strong> : ta copie personnelle d'un dépôt qui ne t'appartient pas, sur ton compte GitHub.</li>\n<li><strong>Pull request</strong> : tu proposes d'intégrer les changements d'une branche dans une autre ; les autres peuvent les relire et les commenter <em>avant</em> la fusion.</li>\n</ul>\n\n<h3>Secrets et .gitignore</h3>\n<pre><code># exemple de .gitignore\n.env\nnode_modules/\n*.log</code></pre>\n<div class=\"attention-box\">Un <strong>jeton d'accès</strong> (token), un mot de passe ou une clé API ne doivent <strong>jamais</strong> être écrits dans un fichier du dépôt, ni collés dans un message ou une conversation. On les met dans un fichier ignoré par Git (comme <code>.env</code>), et on les <em>révoque</em> immédiatement si on les a exposés.</div>\n\n<h3>Le lien avec ton propre site</h3>\n<p>Quand tu envoies des fichiers sur GitHub avec « Add file → Upload files » puis « Commit changes », tu fais un <strong>commit</strong> depuis l'interface web, sans taper de commande. Mettre à jour ton site, c'est donc committer de nouvelles versions des fichiers : l'historique te permet de retrouver la version qui marchait si une mise à jour pose problème.</p>",
 exercices:[
-{niveau:'Facile', enonce:`<p><strong>Programme à écrire</strong> : demande à l'utilisateur son prénom et son âge (avec <code>input()</code>), puis affiche une phrase du type : <em>"Bonjour Martin, tu as 17 ans. Dans 10 ans, tu auras 27 ans !"</em>. Le calcul de l'âge dans 10 ans doit être fait par le programme, pas écrit en dur.</p>`, aide:`N'oublie pas que input() renvoie toujours du texte — il faut convertir l'âge en entier avec int() avant de pouvoir faire un calcul dessus. Utilise une f-string (f"...{variable}...") pour construire la phrase proprement.`, correction:`<pre><code>prenom = input("Quel est ton prénom ? ")
-age = int(input("Quel est ton âge ? "))
-age_futur = age + 10
-
-print(f"Bonjour {prenom}, tu as {age} ans. Dans 10 ans, tu auras {age_futur} ans !")</code></pre><p>Teste avec ton vrai prénom et âge — puis avec un âge à 1 chiffre pour vérifier que ça marche aussi.</p>`},
-{niveau:'Moyen', enonce:`<p><strong>Programme à écrire</strong> : un convertisseur de température qui affiche un petit menu :</p><pre>1. Celsius vers Fahrenheit
-2. Fahrenheit vers Celsius
-Choix : </pre><p>Selon le choix (1 ou 2), demande la température à convertir puis affiche le résultat. Formules : $F = C \\times \\frac{9}{5} + 32$ et $C = (F - 32) \\times \\frac{5}{9}$.</p>`, aide:`Utilise un if/elif/else pour gérer le choix. Attention à bien convertir l'input en nombre (float, pour gérer les décimales) avant de calculer. Gère aussi le cas où l'utilisateur tape autre chose que 1 ou 2 (else).`, correction:`<pre><code>print("1. Celsius vers Fahrenheit")
-print("2. Fahrenheit vers Celsius")
-choix = input("Choix : ")
-
-if choix == "1":
-    c = float(input("Température en °C : "))
-    f = c * 9/5 + 32
-    print(f"{c}°C = {f}°F")
-elif choix == "2":
-    f = float(input("Température en °F : "))
-    c = (f - 32) * 5/9
-    print(f"{f}°F = {c}°C")
-else:
-    print("Choix invalide, tape 1 ou 2.")</code></pre><p>Teste avec 0°C (doit donner 32°F) et 100°C (doit donner 212°F) pour vérifier que la formule est correcte.</p>`},
-{niveau:'Difficile', enonce:`<p><strong>Programme à écrire</strong> : un jeu du "plus ou moins" — le programme choisit un nombre secret entre 1 et 100 (aléatoire), et le joueur doit le deviner. Après chaque proposition, le programme dit "Trop grand", "Trop petit" ou "Gagné !", et compte le nombre d'essais. Le jeu s'arrête quand le joueur trouve le nombre.</p>`, aide:`Pour le nombre aléatoire, utilise le module random : import random puis random.randint(1, 100). Utilise une boucle "tant que" qui continue tant que le nombre proposé est différent du nombre secret. N'oublie pas de convertir l'input en entier et d'incrémenter un compteur d'essais à chaque tour.`, correction:`<pre><code>import random
-
-nombre_secret = random.randint(1, 100)
-essais = 0
-trouve = False
-
-print("Devine le nombre entre 1 et 100 !")
-
-while not trouve:
-    proposition = int(input("Ta proposition : "))
-    essais = essais + 1
-
-    if proposition < nombre_secret:
-        print("Trop petit !")
-    elif proposition > nombre_secret:
-        print("Trop grand !")
-    else:
-        print(f"Gagné ! Tu as trouvé en {essais} essais.")
-        trouve = True</code></pre><p><strong>Pour aller plus loin</strong> : limite le nombre d'essais à 10 et affiche "Perdu" si le joueur ne trouve pas à temps (indice : ajoute une condition <code>essais >= 10</code> dans la boucle).</p>`},
+{niveau:"Facile",
+ enonce:"<p>Tu viens de modifier trois fichiers de ton projet et tu veux enregistrer une \"photo\" de ces changements avec un message expliquant ce que tu as fait. Quelle suite de commandes Git dois-tu utiliser ?</p>",
+ aide:"Relis le cycle de base : il y a une étape pour préparer les fichiers, puis une pour enregistrer réellement le commit.",
+ correction:"<p><code>git add .</code> (ajoute tous les fichiers modifiés à l'étape de préparation) suivi de <code>git commit -m \"ton message\"</code> (enregistre la photo avec un message explicatif). L'étape <code>add</code> est nécessaire avant <code>commit</code> — Git ne commit que ce qui a été explicitement ajouté.</p>"},
+{niveau:"Moyen",
+ enonce:"<p>Tu veux tester une nouvelle fonctionnalité risquée sur ton site sans prendre le risque de casser la version qui fonctionne actuellement en ligne. Quelle approche Git recommande le cours, et pourquoi est-ce plus sûr que de modifier directement les fichiers de la branche main ?</p>",
+ aide:"Relis la partie sur les branches — que permet de faire une branche séparée par rapport à la branche principale ?",
+ correction:"<p>Créer une <strong>nouvelle branche</strong> dédiée à cette fonctionnalité (<code>git branch nouvelle-fonctionnalite</code> puis <code>git checkout nouvelle-fonctionnalite</code>), y développer et tester la nouveauté, et ne fusionner (<code>git merge</code>) dans <em>main</em> que lorsque tout fonctionne. C'est plus sûr car la branche <em>main</em> reste intacte et fonctionnelle pendant toute la durée du développement risqué — si l'expérimentation échoue, il suffit d'abandonner la branche sans aucun impact sur la version stable.</p>"},
+{niveau:"Difficile",
+ enonce:"<p>Un développeur commite par erreur un fichier contenant une clé API secrète sur un dépôt GitHub public, s'en rend compte 10 minutes plus tard, et supprime immédiatement le fichier avec un nouveau commit. Explique pourquoi cette clé doit malgré tout être considérée comme compromise, en t'appuyant sur ce que le cours dit du fonctionnement de l'historique Git.</p>",
+ aide:"Le cours précise qu'un commit est une \"photo\" conservée dans l'historique — supprimer un fichier dans un NOUVEAU commit fait-il disparaître les anciennes photos où il apparaissait encore ?",
+ correction:"<p>Supprimer le fichier dans un nouveau commit ne fait <strong>pas disparaître</strong> les commits précédents où il apparaissait encore — l'historique Git conserve chaque \"photo\" successive du projet, y compris celles où la clé était visible. N'importe qui peut consulter cet historique complet (via <code>git log</code> ou l'interface GitHub) et retrouver la clé dans un commit antérieur, même si le fichier actuel ne la contient plus.</p><p>De plus, comme le dépôt est public, des robots scannent en permanence GitHub à la recherche de clés API exposées, souvent en quelques minutes seulement après publication — la clé doit donc être immédiatement révoquée/régénérée auprès du service concerné, la supprimer du dépôt ne suffit absolument pas à annuler le risque.</p>"},
+{niveau:"Facile",
+ enonce:"<p>Associe chaque commande à son rôle : <code>git clone</code>, <code>git diff</code>, <code>git restore</code>, <code>git revert</code>.<br>1) Annuler un commit en conservant l'historique. 2) Copier un dépôt GitHub sur l'ordinateur. 3) Voir ce qui a changé depuis le dernier commit. 4) Annuler les modifications non commitées d'un fichier.</p>",
+ aide:"Pense au verbe : cloner = copier ; diff = différence ; restore = remettre en l'état ; revert = revenir sur.",
+ correction:"<p><code>git revert</code> → 1. <code>git clone</code> → 2. <code>git diff</code> → 3. <code>git restore</code> → 4.</p><p>Attention : <code>revert</code> crée un <em>nouveau commit</em> qui annule l'ancien, alors que <code>restore</code> ne touche qu'aux modifications <em>non encore commitées</em>.</p>"},
+{niveau:"Moyen",
+ enonce:"<p>Après un <code>git pull</code>, ce fichier contient :</p><pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD\ncouleur = \"bleu\"\n=======\ncouleur = \"vert\"\n&gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/main</code></pre><p>1) Que représente chaque partie ?<br>2) Tu décides de garder « vert ». Que doit contenir le fichier final ?<br>3) Quelles commandes faut-il taper ensuite ?</p>",
+ aide:"La première partie, sous HEAD, est ta version ; la seconde est celle qui arrive de l'autre dépôt. Les lignes <<<<, ==== et >>>> sont des marqueurs de Git, pas du code.",
+ correction:"<p>1) Sous <code>HEAD</code> : ta version locale (<code>couleur = \"bleu\"</code>). Après <code>=======</code> : la version venant de <code>origin/main</code> (<code>couleur = \"vert\"</code>).</p><p>2) Le fichier final ne doit contenir que : <code>couleur = \"vert\"</code>. Les trois lignes de marqueurs et la version écartée sont supprimées.</p><p>3) <code>git add fichier</code> pour marquer le conflit comme résolu, puis <code>git commit</code> (le message proposé par défaut convient), et ensuite <code>git push</code> si besoin.</p>"},
+{niveau:"Difficile",
+ enonce:"<p>Tu fais <code>git push</code> et Git répond que ton envoi est refusé car le dépôt distant contient des commits que tu n'as pas en local. Un camarade a modifié la même ligne que toi.<br>1) Explique ce qui s'est passé.<br>2) Donne dans l'ordre les étapes pour régler le problème.<br>3) Pourquoi Git n'écrase-t-il pas simplement le travail du camarade ?</p>",
+ aide:"Pense au dépôt distant comme à un historique partagé : ton historique local et le distant ont divergé. Il faut d'abord récupérer, puis fusionner, puis envoyer.",
+ correction:"<p>1) Vos historiques ont <strong>divergé</strong> : ton camarade a envoyé un commit sur le dépôt distant pendant que tu en faisais un de ton côté. Git refuse ton <code>push</code> pour ne pas écraser son travail.</p><p>2) Étapes : <strong>(a)</strong> <code>git pull</code> pour récupérer et fusionner ses commits ; <strong>(b)</strong> un conflit apparaît sur la ligne modifiée par vous deux : ouvrir le fichier, choisir ou combiner les versions, supprimer les marqueurs ; <strong>(c)</strong> <code>git add</code> puis <code>git commit</code> pour enregistrer la fusion ; <strong>(d)</strong> <code>git push</code>.</p><p>3) Parce que Git est conçu pour <strong>ne jamais perdre de travail sans décision humaine</strong> : quand deux modifications touchent la même ligne, il ne peut pas deviner laquelle garder. C'est à toi de trancher.</p>"}
 ],
 flashcards:[
-{q:'Que faire avant de coder un exercice ?',a:'Comprendre l\'énoncé (entrées/sortie attendue), puis découper le problème en petites étapes avant d\'écrire le moindre code.'},
-{q:'Comment tester son code efficacement',a:'Tester après chaque petite étape (pas tout à la fin), et avec plusieurs cas incluant des cas limites (0, négatif, texte vide...).'},
-{q:'Module Python pour générer un nombre aléatoire',a:'import random, puis random.randint(a, b) pour un entier aléatoire entre a et b inclus.'},
-{q:'Pourquoi essayer avant de regarder la correction',a:'C\'est l\'effort de recherche (effet de génération) qui fait vraiment progresser, même si ça bloque un moment.'},
+{q:"Git — définition",a:"Logiciel de gestion de versions qui enregistre l'historique des modifications d'un projet et permet de revenir en arrière ou de travailler à plusieurs sans écraser le travail des autres."},
+{q:"Différence Git / GitHub",a:"Git est le logiciel de gestion de versions (fonctionne même hors ligne). GitHub est un site qui héberge en ligne des projets Git et permet de les partager."},
+{q:"Un commit — définition",a:"Une \"photo\" instantanée du projet à un moment donné, accompagnée d'un message expliquant les changements effectués."},
+{q:"git add vs git commit",a:"git add prépare les fichiers modifiés pour le prochain commit (staging). git commit enregistre réellement cette sélection avec un message."},
+{q:"git push vs git pull",a:"git push envoie tes commits locaux vers le dépôt distant (GitHub). git pull récupère les derniers commits présents sur le dépôt distant."},
+{q:"À quoi sert une branche Git ?",a:"Développer une fonctionnalité en parallèle, sans toucher à la version stable (souvent la branche main), pour pouvoir fusionner seulement une fois que ça fonctionne."},
+{q:".gitignore — utilité",a:"Fichier qui liste ce que Git doit ignorer et ne jamais enregistrer (fichiers temporaires, clés API, mots de passe, dossiers volumineux)."},
+{q:"Conflit de fusion (merge conflict)",a:"Se produit quand deux modifications touchent la même ligne d'un même fichier sur deux branches différentes — Git demande alors à l'humain de trancher manuellement."},
+{q:"Que faire si une clé API est accidentellement publiée sur un dépôt public ?",a:"La considérer comme compromise immédiatement et la révoquer/régénérer auprès du service — la supprimer du code ne suffit pas car l'historique Git la conserve."},
+{q:"Les 4 zones de Git",a:"Répertoire de travail → (git add) zone de préparation → (git commit) dépôt local → (git push) dépôt distant."},
+{q:"git clone : à quoi ça sert ?",a:"À copier un dépôt (par exemple depuis GitHub) sur son ordinateur."},
+{q:"git log --oneline et git diff",a:"log --oneline : liste des commits, un par ligne. diff : montre les changements depuis le dernier commit."},
+{q:"git restore fichier",a:"Annule les modifications non commitées d'un fichier (le remet comme au dernier commit)."},
+{q:"git revert vs git reset --hard",a:"revert annule un commit en créant un nouveau commit (historique conservé, sûr). reset --hard efface les modifications non commitées sans retour possible."},
+{q:"Qu'est-ce qu'un bon message de commit ?",a:"Une ligne claire qui dit ce qui a changé et pourquoi (ex : « Corrige le calcul du coefficient de sécurité »), un commit par idée."},
+{q:"git pull : que fait-il ?",a:"Récupère les nouveautés du dépôt distant et les fusionne avec ton travail local."},
+{q:"Lire un conflit : <<<<<<< HEAD … ======= … >>>>>>>",a:"Entre <<<<<<< et ======= : ta version actuelle. Entre ======= et >>>>>>> : la version à fusionner. On garde la bonne, on supprime les marqueurs, puis add et commit."},
+{q:"git push refusé : que faire ?",a:"Faire d'abord git pull (résoudre les conflits, commiter), puis git push."},
+{q:"Fork vs pull request",a:"Fork : sa copie personnelle d'un dépôt. Pull request : proposition d'intégrer les changements d'une branche, relue avant la fusion."},
+{q:"Où mettre un jeton d'accès ou un mot de passe ?",a:"Jamais dans le dépôt ni dans un message : dans un fichier ignoré (.env dans .gitignore). S'il a été exposé, le révoquer immédiatement."},
+{q:"Upload files + Commit changes sur GitHub",a:"C'est un commit fait depuis l'interface web : il enregistre une nouvelle version des fichiers dans l'historique."}
 ]},
 
-'Mini-projets HTML/CSS/JS — construire une interface': {
-cours:`<h3>Comment utiliser ce chapitre</h3>
-<p>Même principe que les mini-projets Python : crée un fichier <code>.html</code> sur ton PC (ou sur Replit), écris le code toi-même, ouvre-le dans ton navigateur pour voir le résultat, puis compare avec la correction. Chaque exercice combine HTML + CSS + JS — exactement les 3 briques de ton propre site.</p>
-`,
+"Mini-projets Python — s'entraîner en codant": {
+cours:"<h3>Comment utiliser ce chapitre</h3>\n<p>Contrairement aux autres chapitres, celui-ci n'a rien à lire avant de commencer : les \"exercices\" ci-dessous sont de <mark>vrais petits programmes à écrire toi-même</mark>, sur Replit (replit.com) ou VS Code. Écris ton code, exécute-le, compare avec la correction seulement après avoir essayé.</p>\n<div class=\"retenir-box\">Ne regarde pas la correction avant d'avoir vraiment essayé, même si ça bloque 10 minutes — c'est cette lutte qui fait progresser (effet de génération, vu dans \"Science de l'Apprentissage\"). Bloqué : relis le chapitre \"Python en pratique\" plutôt que de sauter direct à la correction.</div>\n<h3>Méthode pour attaquer un exercice de code</h3>\n<ol>\n<li><strong>Comprendre l'énoncé</strong> : quelles sont les entrées ? Quelle sortie est attendue ?</li>\n<li><strong>Découper en petites étapes</strong> avant de coder (sur papier ou en commentaires <code># étape 1...</code>).</li>\n<li><strong>Coder étape par étape</strong>, en testant après CHAQUE petite étape (pas tout d'un coup à la fin).</li>\n<li><strong>Tester avec plusieurs cas</strong>, y compris des cas limites (0, nombre négatif, texte vide...).</li>\n</ol>\n\n<h3>Avant de dire « j'ai fini » : la check-list</h3>\n<ul>\n<li>Le programme fait-il ce que l'énoncé demande, <strong>pour plusieurs valeurs</strong> ?</li>\n<li>Ai-je testé un <strong>cas limite</strong> (0, un nombre négatif, une chaîne vide, une liste d'un seul élément) ?</li>\n<li>Les noms de variables sont-ils clairs (<code>moyenne</code> plutôt que <code>m</code>) ?</li>\n<li>Y a-t-il des <code>print()</code> de test que je peux supprimer ?</li>\n</ul>\n<h3>Si ça bloque : 4 gestes</h3>\n<ol>\n<li>Relire le message d'erreur (dernière ligne, numéro de ligne).</li>\n<li>Ajouter un <code>print()</code> pour voir la valeur d'une variable.</li>\n<li>Réduire le problème : tester d'abord sur un exemple très simple.</li>\n<li>Expliquer le code à voix haute, ligne par ligne : l'erreur se révèle souvent toute seule.</li>\n</ol>",
 exercices:[
-{niveau:'Facile', enonce:`<p><strong>Page à construire</strong> : une carte de profil simple avec ton prénom, une petite description ("Élève en Première STI2D"), et un bouton "Me contacter" qui, au clic, affiche une alerte JavaScript "Contacte-moi par email !". Ajoute un peu de style CSS : fond de carte coloré, coins arrondis, bouton avec une couleur de fond.</p>`, aide:`Structure de base : un &lt;div&gt; pour la carte, avec un &lt;h2&gt; pour le prénom, un &lt;p&gt; pour la description, et un &lt;button&gt;. Utilise border-radius en CSS pour les coins arrondis, et addEventListener("click", ...) pour l'alerte.`, correction:`<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-&lt;style&gt;
-.carte {
-    background: #4A90E2;
-    color: white;
-    border-radius: 12px;
-    padding: 20px;
-    width: 250px;
-    font-family: sans-serif;
-    text-align: center;
-}
-.carte button {
-    margin-top: 10px;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 8px;
-    background: white;
-    color: #4A90E2;
-    cursor: pointer;
-}
-&lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-
-&lt;div class="carte"&gt;
-    &lt;h2&gt;Martin&lt;/h2&gt;
-    &lt;p&gt;Élève en Première STI2D&lt;/p&gt;
-    &lt;button id="btnContact"&gt;Me contacter&lt;/button&gt;
-&lt;/div&gt;
-
-&lt;script&gt;
-document.getElementById("btnContact").addEventListener("click", function() {
-    alert("Contacte-moi par email !");
-});
-&lt;/script&gt;
-
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>`},
-{niveau:'Moyen', enonce:`<p><strong>Page à construire</strong> : une liste de tâches (todo-list) simple. Un champ de texte + un bouton "Ajouter" : quand on clique, le texte tapé s'ajoute à une liste affichée en dessous. Chaque tâche de la liste doit avoir un bouton "✕" à côté pour la supprimer.</p>`, aide:`Utilise document.createElement("li") pour créer chaque nouvelle tâche, et element.remove() sur le bouton ✕ pour la supprimer (dans son propre addEventListener au moment de la création). Récupère le texte du champ avec .value, et pense à le vider après ajout.`, correction:`<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;body&gt;
-
-&lt;input type="text" id="champTache" placeholder="Nouvelle tâche"&gt;
-&lt;button id="btnAjouter"&gt;Ajouter&lt;/button&gt;
-&lt;ul id="listeTaches"&gt;&lt;/ul&gt;
-
-&lt;script&gt;
-const champ = document.getElementById("champTache");
-const liste = document.getElementById("listeTaches");
-
-document.getElementById("btnAjouter").addEventListener("click", function() {
-    const texte = champ.value;
-    if (texte === "") return; // ne rien faire si le champ est vide
-
-    const li = document.createElement("li");
-    li.textContent = texte;
-
-    const btnSupprimer = document.createElement("button");
-    btnSupprimer.textContent = "✕";
-    btnSupprimer.addEventListener("click", function() {
-        li.remove();
-    });
-
-    li.appendChild(btnSupprimer);
-    liste.appendChild(li);
-    champ.value = ""; // vide le champ après ajout
-});
-&lt;/script&gt;
-
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>`},
-{niveau:'Difficile', enonce:`<p><strong>Page à construire</strong> : une mini-flashcard. Une carte affiche une question ; au clic, elle se retourne (change de couleur/contenu) pour montrer la réponse. Deux boutons "Facile" / "Difficile" permettent de passer à la carte suivante parmi un tableau de 3 questions/réponses. Un compteur affiche "Carte X / 3".</p>`, aide:`Stocke tes 3 flashcards dans un tableau de mini-objets JS : [{q:"...",a:"..."}, ...]. Garde une variable "index" pour savoir quelle carte est affichée. La fonction qui affiche une carte doit remettre "question visible" (pas la réponse) à chaque nouvelle carte.`, correction:`<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;body&gt;
-
-&lt;p id="compteur"&gt;Carte 1 / 3&lt;/p&gt;
-&lt;div id="carte" style="border:2px solid #4A90E2;padding:20px;width:250px;cursor:pointer;"&gt;
-    &lt;p id="contenu"&gt;...&lt;/p&gt;
-&lt;/div&gt;
-&lt;button id="btnFacile"&gt;Facile ➜ suivante&lt;/button&gt;
-&lt;button id="btnDifficile"&gt;Difficile ➜ suivante&lt;/button&gt;
-
-&lt;script&gt;
-const cartes = [
-    {q: "Capitale de la France ?", a: "Paris"},
-    {q: "2 + 2 = ?", a: "4"},
-    {q: "Symbole chimique de l'eau ?", a: "H2O"}
-];
-
-let index = 0;
-let flippee = false;
-
-const contenu = document.getElementById("contenu");
-const compteur = document.getElementById("compteur");
-const carte = document.getElementById("carte");
-
-function afficherCarte() {
-    flippee = false;
-    contenu.textContent = cartes[index].q;
-    compteur.textContent = "Carte " + (index + 1) + " / " + cartes.length;
-}
-
-carte.addEventListener("click", function() {
-    flippee = !flippee;
-    contenu.textContent = flippee ? cartes[index].a : cartes[index].q;
-});
-
-function carteSuivante() {
-    index = index + 1;
-    if (index >= cartes.length) index = 0; // on reboucle au début
-    afficherCarte();
-}
-
-document.getElementById("btnFacile").addEventListener("click", carteSuivante);
-document.getElementById("btnDifficile").addEventListener("click", carteSuivante);
-
-afficherCarte();
-&lt;/script&gt;
-
-&lt;/body&gt;
-&lt;/html&gt;</code></pre><p>C'est exactement ce mécanisme (tableau d'objets + index + affichage dynamique) qui fait tourner le vrai mode Flashcards de ton site BacMaster !</p>`},
+{niveau:"Facile",
+ enonce:"<p><strong>Programme à écrire</strong> : demande à l'utilisateur son prénom et son âge (avec <code>input()</code>), puis affiche une phrase du type : <em>\"Bonjour Martin, tu as 17 ans. Dans 10 ans, tu auras 27 ans !\"</em>. Le calcul de l'âge dans 10 ans doit être fait par le programme, pas écrit en dur.</p>",
+ aide:"N'oublie pas que input() renvoie toujours du texte — il faut convertir l'âge en entier avec int() avant de pouvoir faire un calcul dessus. Utilise une f-string (f\"...{variable}...\") pour construire la phrase proprement.",
+ correction:"<pre><code>prenom = input(\"Quel est ton prénom ? \")\nage = int(input(\"Quel est ton âge ? \"))\nage_futur = age + 10\n\nprint(f\"Bonjour {prenom}, tu as {age} ans. Dans 10 ans, tu auras {age_futur} ans !\")</code></pre><p>Teste avec ton vrai prénom et âge — puis avec un âge à 1 chiffre pour vérifier que ça marche aussi.</p>"},
+{niveau:"Moyen",
+ enonce:"<p><strong>Programme à écrire</strong> : un convertisseur de température qui affiche un petit menu :</p><pre>1. Celsius vers Fahrenheit\n2. Fahrenheit vers Celsius\nChoix : </pre><p>Selon le choix (1 ou 2), demande la température à convertir puis affiche le résultat. Formules : $F = C \\times \\frac{9}{5} + 32$ et $C = (F - 32) \\times \\frac{5}{9}$.</p>",
+ aide:"Utilise un if/elif/else pour gérer le choix. Attention à bien convertir l'input en nombre (float, pour gérer les décimales) avant de calculer. Gère aussi le cas où l'utilisateur tape autre chose que 1 ou 2 (else).",
+ correction:"<pre><code>print(\"1. Celsius vers Fahrenheit\")\nprint(\"2. Fahrenheit vers Celsius\")\nchoix = input(\"Choix : \")\n\nif choix == \"1\":\n    c = float(input(\"Température en °C : \"))\n    f = c * 9/5 + 32\n    print(f\"{c}°C = {f}°F\")\nelif choix == \"2\":\n    f = float(input(\"Température en °F : \"))\n    c = (f - 32) * 5/9\n    print(f\"{f}°F = {c}°C\")\nelse:\n    print(\"Choix invalide, tape 1 ou 2.\")</code></pre><p>Teste avec 0°C (doit donner 32°F) et 100°C (doit donner 212°F) pour vérifier que la formule est correcte.</p>"},
+{niveau:"Difficile",
+ enonce:"<p><strong>Programme à écrire</strong> : un jeu du \"plus ou moins\" — le programme choisit un nombre secret entre 1 et 100 (aléatoire), et le joueur doit le deviner. Après chaque proposition, le programme dit \"Trop grand\", \"Trop petit\" ou \"Gagné !\", et compte le nombre d'essais. Le jeu s'arrête quand le joueur trouve le nombre.</p>",
+ aide:"Pour le nombre aléatoire, utilise le module random : import random puis random.randint(1, 100). Utilise une boucle \"tant que\" qui continue tant que le nombre proposé est différent du nombre secret. N'oublie pas de convertir l'input en entier et d'incrémenter un compteur d'essais à chaque tour.",
+ correction:"<pre><code>import random\n\nnombre_secret = random.randint(1, 100)\nessais = 0\ntrouve = False\n\nprint(\"Devine le nombre entre 1 et 100 !\")\n\nwhile not trouve:\n    proposition = int(input(\"Ta proposition : \"))\n    essais = essais + 1\n\n    if proposition < nombre_secret:\n        print(\"Trop petit !\")\n    elif proposition > nombre_secret:\n        print(\"Trop grand !\")\n    else:\n        print(f\"Gagné ! Tu as trouvé en {essais} essais.\")\n        trouve = True</code></pre><p><strong>Pour aller plus loin</strong> : limite le nombre d'essais à 10 et affiche \"Perdu\" si le joueur ne trouve pas à temps (indice : ajoute une condition <code>essais >= 10</code> dans la boucle).</p>"},
+{niveau:"Facile",
+ enonce:"<p><strong>Programme à écrire</strong> : demande un nombre à l'utilisateur et affiche sa table de multiplication de 1 à 10, sous la forme <em>« 7 x 1 = 7 »</em>.</p>",
+ aide:"Convertis l'entrée avec int(). Utilise for i in range(1, 11) (la borne 11 est exclue) et une f-string.",
+ correction:"<pre><code>n = int(input(\"Quelle table ? \"))\n\nfor i in range(1, 11):\n    print(f\"{n} x {i} = {n * i}\")</code></pre><p>Pour <code>n = 7</code>, les premières lignes sont <strong>7 x 1 = 7</strong>, <strong>7 x 2 = 14</strong>… et la dernière <strong>7 x 10 = 70</strong>. Test à faire aussi avec <code>n = 0</code> (cas limite).</p>"},
+{niveau:"Moyen",
+ enonce:"<p><strong>Programme à écrire</strong> : FizzBuzz. Pour chaque nombre de 1 à 20, affiche « Fizz » s'il est multiple de 3, « Buzz » s'il est multiple de 5, « FizzBuzz » s'il est multiple des deux, sinon le nombre lui-même.</p>",
+ aide:"Teste d'abord le cas « multiple de 3 ET de 5 » (donc de 15), sinon le programme affichera Fizz ou Buzz seulement. Multiple : n % 3 == 0.",
+ correction:"<pre><code>for n in range(1, 21):\n    if n % 15 == 0:\n        print(\"FizzBuzz\")\n    elif n % 3 == 0:\n        print(\"Fizz\")\n    elif n % 5 == 0:\n        print(\"Buzz\")\n    else:\n        print(n)</code></pre><p>Début de l'affichage : 1, 2, <strong>Fizz</strong>, 4, <strong>Buzz</strong>, <strong>Fizz</strong>, 7, 8, <strong>Fizz</strong>, <strong>Buzz</strong>, 11, <strong>Fizz</strong>, 13, 14, <strong>FizzBuzz</strong>… L'ordre des tests est essentiel : si on testait « multiple de 3 » en premier, 15 afficherait « Fizz » au lieu de « FizzBuzz ».</p>"},
+{niveau:"Difficile",
+ enonce:"<p><strong>Programme à écrire</strong> : un contrôle de mot de passe. Le programme redemande le mot de passe tant qu'il n'est pas valide, et indique la raison du refus. Règles : au moins 8 caractères et au moins un chiffre.</p>",
+ aide:"Utilise while True avec break quand le mot de passe est accepté. len(mdp) donne la longueur ; any(c.isdigit() for c in mdp) vérifie la présence d'un chiffre.",
+ correction:"<pre><code>while True:\n    mdp = input(\"Choisis un mot de passe : \")\n    if len(mdp) < 8:\n        print(\"Trop court (8 caractères minimum).\")\n    elif not any(c.isdigit() for c in mdp):\n        print(\"Il faut au moins un chiffre.\")\n    else:\n        print(\"Mot de passe accepté.\")\n        break</code></pre><p>Tests : <code>abc</code> → « Trop court » ; <code>abcdefgh</code> → « Il faut au moins un chiffre » ; <code>abcdefg1</code> → accepté. La boucle <code>while True</code> ne s'arrête que grâce au <code>break</code>. (En vrai, un bon mot de passe est surtout <em>long</em> : cette règle n'est qu'un exercice.)</p>"}
 ],
 flashcards:[
-{q:'Où placer le code JavaScript dans un fichier HTML autonome',a:'Entre des balises <script>...</script>, généralement juste avant la balise fermante </body>.'},
-{q:'Créer un élément HTML dynamiquement en JS',a:'document.createElement("li") crée l\'élément, puis parent.appendChild(element) l\'ajoute réellement à la page.'},
-{q:'Supprimer un élément du DOM en JS',a:'element.remove() — à appeler sur l\'élément lui-même (souvent récupéré via une variable créée avec createElement).'},
-{q:'Pourquoi vider un champ de texte après l\'avoir lu (ex : todo-list)',a:'champ.value = "" remet le champ à vide, pour que l\'utilisateur puisse taper la tâche suivante sans effacer manuellement.'},
-{q:'Structure pour stocker plusieurs flashcards en JS',a:'Un tableau d\'objets, ex : [{q:"...",a:"..."}, {q:"...",a:"..."}] — chaque objet regroupe une question et sa réponse.'},
+{q:"Que faire avant de coder un exercice ?",a:"Comprendre l'énoncé (entrées/sortie attendue), puis découper le problème en petites étapes avant d'écrire le moindre code."},
+{q:"Comment tester son code efficacement",a:"Tester après chaque petite étape (pas tout à la fin), et avec plusieurs cas incluant des cas limites (0, négatif, texte vide...)."},
+{q:"Module Python pour générer un nombre aléatoire",a:"import random, puis random.randint(a, b) pour un entier aléatoire entre a et b inclus."},
+{q:"Pourquoi essayer avant de regarder la correction",a:"C'est l'effort de recherche (effet de génération) qui fait vraiment progresser, même si ça bloque un moment."},
+{q:"Que faire quand un programme bloque ?",a:"Lire le message d'erreur, ajouter des print() pour voir les variables, tester sur un exemple simple, expliquer le code ligne par ligne."},
+{q:"Qu'est-ce qu'un cas limite ?",a:"Une valeur extrême ou inhabituelle (0, négatif, chaîne vide, liste d'un seul élément) qui révèle des bugs que les valeurs normales cachent."},
+{q:"Comment tester si un nombre est multiple de 3 ?",a:"n % 3 == 0 (le reste de la division par 3 est nul)."},
+{q:"Boucle « tant que True » avec break",a:"while True: répète indéfiniment ; break interrompt la boucle quand la condition de sortie est atteinte (ex : mot de passe valide)."}
 ]},
+
+"Mini-projets HTML/CSS/JS — construire une interface": {
+cours:"<h3>Comment utiliser ce chapitre</h3>\n<p>Même principe que les mini-projets Python : crée un fichier <code>.html</code> sur ton PC (ou sur Replit), écris le code toi-même, ouvre-le dans ton navigateur pour voir le résultat, puis compare avec la correction. Chaque exercice combine HTML + CSS + JS — exactement les 3 briques de ton propre site.</p>\n\n<h3>Méthode pour un mini-projet web</h3>\n<ol>\n<li><strong>Dessine</strong> d'abord sur papier ce que tu veux voir (boutons, zones de texte).</li>\n<li><strong>HTML</strong> : écris la structure, donne un <code>id</code> aux éléments que le JavaScript devra manipuler.</li>\n<li><strong>CSS</strong> : style simple, puis affine.</li>\n<li><strong>JavaScript</strong> : un comportement à la fois, en testant après chaque ajout (clic → affichage → sauvegarde).</li>\n<li>Ouvre la <strong>console</strong> (F12) : elle indique les erreurs et les <code>console.log</code>.</li>\n</ol>\n<div class=\"attention-box\">Pièges fréquents : script placé avant le HTML ; <code>id</code> mal écrit (majuscules !) ; oubli de convertir une valeur lue dans un champ (c'est toujours du <em>texte</em>) ; oubli de sauvegarder dans <code>localStorage</code> après une modification.</div>",
+exercices:[
+{niveau:"Facile",
+ enonce:"<p><strong>Page à construire</strong> : une carte de profil simple avec ton prénom, une petite description (\"Élève en Première STI2D\"), et un bouton \"Me contacter\" qui, au clic, affiche une alerte JavaScript \"Contacte-moi par email !\". Ajoute un peu de style CSS : fond de carte coloré, coins arrondis, bouton avec une couleur de fond.</p>",
+ aide:"Structure de base : un &lt;div&gt; pour la carte, avec un &lt;h2&gt; pour le prénom, un &lt;p&gt; pour la description, et un &lt;button&gt;. Utilise border-radius en CSS pour les coins arrondis, et addEventListener(\"click\", ...) pour l'alerte.",
+ correction:"<pre><code>&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head&gt;\n&lt;style&gt;\n.carte {\n    background: #4A90E2;\n    color: white;\n    border-radius: 12px;\n    padding: 20px;\n    width: 250px;\n    font-family: sans-serif;\n    text-align: center;\n}\n.carte button {\n    margin-top: 10px;\n    padding: 8px 16px;\n    border: none;\n    border-radius: 8px;\n    background: white;\n    color: #4A90E2;\n    cursor: pointer;\n}\n&lt;/style&gt;\n&lt;/head&gt;\n&lt;body&gt;\n\n&lt;div class=\"carte\"&gt;\n    &lt;h2&gt;Martin&lt;/h2&gt;\n    &lt;p&gt;Élève en Première STI2D&lt;/p&gt;\n    &lt;button id=\"btnContact\"&gt;Me contacter&lt;/button&gt;\n&lt;/div&gt;\n\n&lt;script&gt;\ndocument.getElementById(\"btnContact\").addEventListener(\"click\", function() {\n    alert(\"Contacte-moi par email !\");\n});\n&lt;/script&gt;\n\n&lt;/body&gt;\n&lt;/html&gt;</code></pre>"},
+{niveau:"Moyen",
+ enonce:"<p><strong>Page à construire</strong> : une liste de tâches (todo-list) simple. Un champ de texte + un bouton \"Ajouter\" : quand on clique, le texte tapé s'ajoute à une liste affichée en dessous. Chaque tâche de la liste doit avoir un bouton \"✕\" à côté pour la supprimer.</p>",
+ aide:"Utilise document.createElement(\"li\") pour créer chaque nouvelle tâche, et element.remove() sur le bouton ✕ pour la supprimer (dans son propre addEventListener au moment de la création). Récupère le texte du champ avec .value, et pense à le vider après ajout.",
+ correction:"<pre><code>&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;body&gt;\n\n&lt;input type=\"text\" id=\"champTache\" placeholder=\"Nouvelle tâche\"&gt;\n&lt;button id=\"btnAjouter\"&gt;Ajouter&lt;/button&gt;\n&lt;ul id=\"listeTaches\"&gt;&lt;/ul&gt;\n\n&lt;script&gt;\nconst champ = document.getElementById(\"champTache\");\nconst liste = document.getElementById(\"listeTaches\");\n\ndocument.getElementById(\"btnAjouter\").addEventListener(\"click\", function() {\n    const texte = champ.value;\n    if (texte === \"\") return; // ne rien faire si le champ est vide\n\n    const li = document.createElement(\"li\");\n    li.textContent = texte;\n\n    const btnSupprimer = document.createElement(\"button\");\n    btnSupprimer.textContent = \"✕\";\n    btnSupprimer.addEventListener(\"click\", function() {\n        li.remove();\n    });\n\n    li.appendChild(btnSupprimer);\n    liste.appendChild(li);\n    champ.value = \"\"; // vide le champ après ajout\n});\n&lt;/script&gt;\n\n&lt;/body&gt;\n&lt;/html&gt;</code></pre>"},
+{niveau:"Difficile",
+ enonce:"<p><strong>Page à construire</strong> : une mini-flashcard. Une carte affiche une question ; au clic, elle se retourne (change de couleur/contenu) pour montrer la réponse. Deux boutons \"Facile\" / \"Difficile\" permettent de passer à la carte suivante parmi un tableau de 3 questions/réponses. Un compteur affiche \"Carte X / 3\".</p>",
+ aide:"Stocke tes 3 flashcards dans un tableau de mini-objets JS : [{q:\"...\",a:\"...\"}, ...]. Garde une variable \"index\" pour savoir quelle carte est affichée. La fonction qui affiche une carte doit remettre \"question visible\" (pas la réponse) à chaque nouvelle carte.",
+ correction:"<pre><code>&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;body&gt;\n\n&lt;p id=\"compteur\"&gt;Carte 1 / 3&lt;/p&gt;\n&lt;div id=\"carte\" style=\"border:2px solid #4A90E2;padding:20px;width:250px;cursor:pointer;\"&gt;\n    &lt;p id=\"contenu\"&gt;...&lt;/p&gt;\n&lt;/div&gt;\n&lt;button id=\"btnFacile\"&gt;Facile ➜ suivante&lt;/button&gt;\n&lt;button id=\"btnDifficile\"&gt;Difficile ➜ suivante&lt;/button&gt;\n\n&lt;script&gt;\nconst cartes = [\n    {q: \"Capitale de la France ?\", a: \"Paris\"},\n    {q: \"2 + 2 = ?\", a: \"4\"},\n    {q: \"Symbole chimique de l'eau ?\", a: \"H2O\"}\n];\n\nlet index = 0;\nlet flippee = false;\n\nconst contenu = document.getElementById(\"contenu\");\nconst compteur = document.getElementById(\"compteur\");\nconst carte = document.getElementById(\"carte\");\n\nfunction afficherCarte() {\n    flippee = false;\n    contenu.textContent = cartes[index].q;\n    compteur.textContent = \"Carte \" + (index + 1) + \" / \" + cartes.length;\n}\n\ncarte.addEventListener(\"click\", function() {\n    flippee = !flippee;\n    contenu.textContent = flippee ? cartes[index].a : cartes[index].q;\n});\n\nfunction carteSuivante() {\n    index = index + 1;\n    if (index >= cartes.length) index = 0; // on reboucle au début\n    afficherCarte();\n}\n\ndocument.getElementById(\"btnFacile\").addEventListener(\"click\", carteSuivante);\ndocument.getElementById(\"btnDifficile\").addEventListener(\"click\", carteSuivante);\n\nafficherCarte();\n&lt;/script&gt;\n\n&lt;/body&gt;\n&lt;/html&gt;</code></pre><p>C'est exactement ce mécanisme (tableau d'objets + index + affichage dynamique) qui fait tourner le vrai mode Flashcards de ton site BacMaster !</p>"},
+{niveau:"Moyen",
+ enonce:"<p><strong>Page à construire</strong> : un compteur de clics qui <strong>garde sa valeur</strong> quand on recharge la page. Un bouton « Clique ! » augmente le compteur ; un bouton « Remise à zéro » le remet à 0.</p>",
+ aide:"Sauvegarde la valeur dans localStorage à chaque changement, et relis-la au chargement avec Number(...) (localStorage stocke du texte). Number(null) vaut 0.",
+ correction:"<pre><code>&lt;button id=\"btn\"&gt;Clique !&lt;/button&gt;\n&lt;button id=\"reset\"&gt;Remise à zéro&lt;/button&gt;\n&lt;p id=\"compteur\"&gt;0&lt;/p&gt;\n\n&lt;script&gt;\nlet total = Number(localStorage.getItem(\"total\")) || 0;\nconst compteur = document.getElementById(\"compteur\");\ncompteur.textContent = total;\n\ndocument.getElementById(\"btn\").addEventListener(\"click\", function() {\n    total = total + 1;\n    compteur.textContent = total;\n    localStorage.setItem(\"total\", total);\n});\n\ndocument.getElementById(\"reset\").addEventListener(\"click\", function() {\n    total = 0;\n    compteur.textContent = total;\n    localStorage.setItem(\"total\", total);\n});\n&lt;/script&gt;</code></pre><p>Au chargement, <code>localStorage.getItem(\"total\")</code> renvoie <code>null</code> la première fois : <code>Number(null)</code> vaut 0, donc le compteur démarre à 0. Ensuite, la valeur sauvegardée est relue (en texte, convertie en nombre).</p>"},
+{niveau:"Difficile",
+ enonce:"<p><strong>Page à construire</strong> : un bouton « Mode sombre » qui bascule le thème de la page (fond sombre / fond clair) et <strong>mémorise le choix</strong> pour la prochaine visite.</p>",
+ aide:"Définis une classe CSS « sombre » sur le body. Utilise classList.toggle pour la basculer, classList.contains pour savoir dans quel état on est, et localStorage pour mémoriser.",
+ correction:"<pre><code>&lt;style&gt;\nbody { background: #ffffff; color: #222222; font-family: sans-serif; }\nbody.sombre { background: #1e1e1e; color: #eeeeee; }\n&lt;/style&gt;\n\n&lt;button id=\"theme\"&gt;Mode sombre&lt;/button&gt;\n&lt;p&gt;Texte de la page.&lt;/p&gt;\n\n&lt;script&gt;\nconst body = document.body;\n\nif (localStorage.getItem(\"theme\") === \"sombre\") {\n    body.classList.add(\"sombre\");\n}\n\ndocument.getElementById(\"theme\").addEventListener(\"click\", function() {\n    body.classList.toggle(\"sombre\");\n    const actif = body.classList.contains(\"sombre\");\n    localStorage.setItem(\"theme\", actif ? \"sombre\" : \"clair\");\n});\n&lt;/script&gt;</code></pre><p>Le CSS décrit les <em>deux apparences</em> ; le JavaScript ne fait que <strong>changer une classe</strong>. Au chargement, on relit la préférence sauvegardée et on réapplique la classe si besoin.</p>"}
+],
+flashcards:[
+{q:"Où placer le code JavaScript dans un fichier HTML autonome",a:"Entre des balises <script>...</script>, généralement juste avant la balise fermante </body>."},
+{q:"Créer un élément HTML dynamiquement en JS",a:"document.createElement(\"li\") crée l'élément, puis parent.appendChild(element) l'ajoute réellement à la page."},
+{q:"Supprimer un élément du DOM en JS",a:"element.remove() — à appeler sur l'élément lui-même (souvent récupéré via une variable créée avec createElement)."},
+{q:"Pourquoi vider un champ de texte après l'avoir lu (ex : todo-list)",a:"champ.value = \"\" remet le champ à vide, pour que l'utilisateur puisse taper la tâche suivante sans effacer manuellement."},
+{q:"Structure pour stocker plusieurs flashcards en JS",a:"Un tableau d'objets, ex : [{q:\"...\",a:\"...\"}, {q:\"...\",a:\"...\"}] — chaque objet regroupe une question et sa réponse."},
+{q:"Pourquoi donner un id aux éléments HTML manipulés par JavaScript ?",a:"Pour pouvoir les retrouver précisément avec getElementById ou querySelector(\"#id\")."},
+{q:"Valeur lue dans un champ : quel type ?",a:"Toujours du texte. Il faut la convertir (Number(...)) avant de calculer."},
+{q:"Relire un nombre depuis localStorage",a:"localStorage ne stocke que du texte : Number(localStorage.getItem(\"clé\")) || 0 convertit en nombre et donne 0 si rien n'est sauvegardé."},
+{q:"Appliquer un mode sombre proprement",a:"Définir une classe CSS (ex : .sombre) et utiliser classList.toggle(\"sombre\") sur le body, puis sauvegarder le choix dans localStorage."}
+]},
+
+"Bases de données & SQL — écrire ses premières requêtes": {
+cours:"<h3>Pourquoi une base de données plutôt qu'un fichier ?</h3>\n<p>Un fichier texte ou un tableur devient vite ingérable dès qu'il y a beaucoup de données liées entre elles (des utilisateurs, leurs commandes, les produits...) : recherches lentes, incohérences, risques de doublons. Une <strong>base de données relationnelle</strong> organise les données en <mark>tables</mark> (comme des feuilles de tableur reliées entre elles) et permet d'interroger, filtrer et croiser ces données rapidement grâce à un langage dédié : le <strong>SQL</strong>.</p>\n\n<h3>Table, ligne, colonne : le vocabulaire de base</h3>\n<div class=\"formula-box\">\n<strong>Table</strong> : un ensemble de données du même type (ex : une table \"eleves\").<br>\n<strong>Colonne (champ)</strong> : une propriété de chaque enregistrement (ex : nom, age, classe).<br>\n<strong>Ligne (enregistrement)</strong> : une entrée complète de la table (ex : un élève précis avec toutes ses infos).<br>\n<strong>Clé primaire</strong> : une colonne qui identifie de façon unique chaque ligne (souvent un id numérique auto-incrémenté).\n</div>\n\n<h3>SELECT — récupérer des données</h3>\n<div class=\"formula-box\">\n<strong>SELECT</strong> colonne1, colonne2 <strong>FROM</strong> table;<br>\n<strong>SELECT * FROM</strong> table; <span style=\"opacity:.7\">(* = toutes les colonnes)</span>\n</div>\n<p>Exemple : <code>SELECT nom, age FROM eleves;</code> renvoie le nom et l'âge de tous les élèves de la table.</p>\n\n<h3>WHERE — filtrer les résultats</h3>\n<div class=\"formula-box\">\n<strong>SELECT</strong> * <strong>FROM</strong> table <strong>WHERE</strong> condition;\n</div>\n<p>Exemple : <code>SELECT * FROM eleves WHERE classe = 'Premiere STI2D';</code> ne renvoie que les élèves de cette classe. On peut combiner des conditions avec <strong>AND</strong> / <strong>OR</strong> : <code>WHERE age &gt; 16 AND classe = 'Premiere STI2D'</code>.</p>\n\n<h3>ORDER BY, LIMIT — trier et limiter</h3>\n<div class=\"formula-box\">\n<strong>ORDER BY</strong> colonne <strong>ASC</strong>|<strong>DESC</strong> : trie les résultats (croissant/décroissant).<br>\n<strong>LIMIT</strong> n : ne garde que les n premiers résultats.\n</div>\n<p>Exemple : <code>SELECT * FROM eleves ORDER BY age DESC LIMIT 3;</code> renvoie les 3 élèves les plus âgés.</p>\n\n<h3>JOIN — relier deux tables entre elles</h3>\n<p>C'est le cœur du modèle relationnel : au lieu de tout dupliquer dans une seule table géante, on relie des tables via une clé commune. Exemple : une table \"eleves\" (id, nom) et une table \"notes\" (id_eleve, matiere, note), reliées par id_eleve.</p>\n<div class=\"formula-box\">\n<strong>SELECT</strong> eleves.nom, notes.matiere, notes.note<br>\n<strong>FROM</strong> eleves<br>\n<strong>JOIN</strong> notes <strong>ON</strong> eleves.id = notes.id_eleve;\n</div>\n<div class=\"attention-box\">Sans le <mark>JOIN</mark>, il faudrait dupliquer le nom de l'élève dans chaque ligne de notes — source d'erreurs si le nom change un jour (il faudrait le corriger partout). Séparer les données en tables reliées évite cette duplication : c'est le principe de <strong>normalisation</strong>.</div>\n\n<h3>INSERT, UPDATE, DELETE — modifier les données</h3>\n<div class=\"formula-box\">\n<strong>INSERT INTO</strong> table (colonne1, colonne2) <strong>VALUES</strong> (valeur1, valeur2);<br>\n<strong>UPDATE</strong> table <strong>SET</strong> colonne = nouvelle_valeur <strong>WHERE</strong> condition;<br>\n<strong>DELETE FROM</strong> table <strong>WHERE</strong> condition;\n</div>\n<div class=\"attention-box\">Un <mark>UPDATE</mark> ou un <mark>DELETE</mark> sans clause <strong>WHERE</strong> s'applique à TOUTES les lignes de la table — une des erreurs les plus classiques (et dangereuses) en SQL. Toujours vérifier sa clause WHERE avant d'exécuter, surtout un DELETE.</div>\n\n<h3>Où pratiquer sans rien installer</h3>\n<p>Des sites comme <strong>SQLBolt</strong> ou <strong>SQLZoo</strong> permettent d'écrire et tester de vraies requêtes SQL directement dans le navigateur, avec des exercices progressifs — un bon complément à ce chapitre pour s'entraîner concrètement.</p>\n\n<h3>Fonctions d'agrégation : calculer sur plusieurs lignes</h3>\n<div class=\"formula-box\">\n<strong>COUNT(*)</strong> : nombre de lignes &nbsp;·&nbsp; <strong>AVG(col)</strong> : moyenne &nbsp;·&nbsp; <strong>SUM(col)</strong> : somme &nbsp;·&nbsp; <strong>MIN(col)</strong> / <strong>MAX(col)</strong> : plus petite / plus grande valeur\n</div>\n<p>Exemple : <code>SELECT AVG(note) FROM notes WHERE matiere = 'Maths';</code> renvoie la moyenne des notes de maths.</p>\n\n<h3>GROUP BY et HAVING : un résultat par groupe</h3>\n<p><strong>GROUP BY</strong> regroupe les lignes qui partagent une même valeur, puis les fonctions d'agrégation s'appliquent <em>à chaque groupe</em>. <strong>HAVING</strong> filtre les groupes obtenus.</p>\n<pre><code>SELECT eleves.nom, AVG(notes.note)\nFROM eleves\nJOIN notes ON eleves.id = notes.id_eleve\nGROUP BY eleves.nom\nHAVING AVG(notes.note) >= 10;</code></pre>\n<div class=\"retenir-box\"><mark>WHERE</mark> filtre les <strong>lignes avant</strong> le regroupement ; <mark>HAVING</mark> filtre les <strong>groupes après</strong> le calcul des agrégats. On ne peut pas écrire <code>WHERE AVG(note) >= 10</code>.</div>\n\n<h3>LIKE et DISTINCT</h3>\n<ul>\n<li><code>WHERE nom LIKE 'S%'</code> : noms qui <em>commencent</em> par S (<code>%</code> remplace n'importe quelle suite de caractères).</li>\n<li><code>SELECT DISTINCT matiere FROM notes;</code> : liste chaque matière <em>une seule fois</em>, sans doublons.</li>\n</ul>\n\n<h3>Ordre d'écriture d'une requête</h3>\n<div class=\"formula-box\">SELECT … FROM … JOIN … ON … WHERE … GROUP BY … HAVING … ORDER BY … LIMIT …</div>\n<p>On n'utilise que les clauses nécessaires, mais <strong>toujours dans cet ordre</strong>.</p>\n\n<h3>Clé étrangère</h3>\n<p>Une <strong>clé étrangère</strong> est une colonne qui contient la clé primaire d'une autre table : c'est ce qui crée le lien entre les tables (ici, <code>notes.id_eleve</code> pointe vers <code>eleves.id</code>). Elle garantit qu'une note est toujours rattachée à un élève qui existe.</p>\n\n<h3>Sécurité : l'injection SQL</h3>\n<div class=\"attention-box\">Si un site construit une requête en <strong>collant directement</strong> ce que l'utilisateur a tapé, un pirate peut y glisser du SQL (par exemple dans un champ « nom » ou « mot de passe ») et lire ou détruire des données. La parade : utiliser des <strong>requêtes préparées</strong> (paramétrées), qui traitent toujours la saisie comme une simple valeur, jamais comme du code.</div>\n\n<h3>Erreurs à éviter</h3>\n<div class=\"attention-box\">\n❌ UPDATE ou DELETE sans WHERE.<br>\n❌ Utiliser WHERE avec une fonction d'agrégation (c'est HAVING).<br>\n❌ Oublier le GROUP BY quand on mélange une colonne et un agrégat.<br>\n❌ Oublier la condition ON d'un JOIN (on obtient toutes les combinaisons possibles).<br>\n❌ Mettre des guillemets doubles pour du texte : en SQL, le texte s'écrit entre apostrophes <code>'comme ça'</code>.\n</div>",
+exercices:[
+{niveau:"Facile",
+ enonce:"<p>Écris la requête SQL qui récupère uniquement les colonnes \"nom\" et \"note\" de la table \"notes\".</p>",
+ aide:"Utilise SELECT en listant uniquement les colonnes voulues, séparées par une virgule.",
+ correction:"<p><code>SELECT nom, note FROM notes;</code></p><p>On liste les colonnes voulues après SELECT (séparées par une virgule), puis FROM indique la table source.</p>"},
+{niveau:"Moyen",
+ enonce:"<p>Écris la requête SQL qui récupère tous les élèves de la table \"eleves\" ayant plus de 16 ans, triés par âge décroissant.</p>",
+ aide:"Combine WHERE (pour le filtre sur l'âge) et ORDER BY ... DESC (pour le tri décroissant).",
+ correction:"<p><code>SELECT * FROM eleves WHERE age > 16 ORDER BY age DESC;</code></p><p>WHERE age > 16 filtre les élèves de plus de 16 ans, et ORDER BY age DESC trie les résultats du plus âgé au plus jeune.</p>"},
+{niveau:"Difficile",
+ enonce:"<p>On a une table \"eleves\" (id, nom) et une table \"notes\" (id_eleve, matiere, note). Écris la requête SQL qui affiche le nom de chaque élève avec sa note en \"Mathématiques\" uniquement, en reliant les deux tables. Explique pourquoi un simple SELECT sur une seule table ne suffirait pas ici.</p>",
+ aide:"Il faut un JOIN pour relier les deux tables via la clé commune (id / id_eleve), puis un WHERE pour filtrer sur la matière.",
+ correction:"<p><code>SELECT eleves.nom, notes.note FROM eleves JOIN notes ON eleves.id = notes.id_eleve WHERE notes.matiere = 'Mathématiques';</code></p><p>Un simple SELECT sur une seule table ne suffit pas car le nom de l'élève est dans la table \"eleves\" tandis que la note et la matière sont dans la table \"notes\" — ces deux informations n'existent nulle part réunies dans une seule table. Le JOIN les relie via la clé commune (id de \"eleves\" = id_eleve de \"notes\"), ce qui permet ensuite d'appliquer le WHERE sur la matière pour ne garder que les notes de Mathématiques.</p>"},
+{niveau:"Moyen",
+ enonce:"<p>Deux tables :</p><table class=\"formula-table\"><tr><th colspan=\"3\">eleves</th><th colspan=\"3\">notes</th></tr><tr><th>id</th><th>nom</th><th>classe</th><th>id_eleve</th><th>matiere</th><th>note</th></tr><tr><td>1</td><td>Lina</td><td>1STI2D</td><td>1</td><td>Maths</td><td>14</td></tr><tr><td>2</td><td>Karim</td><td>1STI2D</td><td>1</td><td>Anglais</td><td>16</td></tr><tr><td>3</td><td>Sacha</td><td>1STI2D</td><td>2</td><td>Maths</td><td>9</td></tr><tr><td>4</td><td>Emma</td><td>1STI2D</td><td>2</td><td>Anglais</td><td>12</td></tr><tr><td></td><td></td><td></td><td>3</td><td>Maths</td><td>18</td></tr><tr><td></td><td></td><td></td><td>4</td><td>Maths</td><td>11</td></tr><tr><td></td><td></td><td></td><td>4</td><td>Anglais</td><td>7</td></tr></table><p>1) Écris la requête qui donne le nombre de notes de Maths et le résultat obtenu.<br>2) Écris la requête qui donne la moyenne des notes de Maths et le résultat.<br>3) Écris la requête qui donne le nom des élèves ayant une note de Maths inférieure à 10, et le résultat.</p>",
+ aide:"COUNT(*) et AVG(note) avec WHERE matiere = 'Maths'. Pour la question 3, il faut relier les deux tables avec un JOIN.",
+ correction:"<p>1) <code>SELECT COUNT(*) FROM notes WHERE matiere = 'Maths';</code> → <strong>4</strong> (14, 9, 18 et 11).</p><p>2) <code>SELECT AVG(note) FROM notes WHERE matiere = 'Maths';</code> → <strong>13</strong> ($(14 + 9 + 18 + 11)/4 = 52/4 = 13$).</p><p>3) <code>SELECT eleves.nom FROM eleves JOIN notes ON eleves.id = notes.id_eleve WHERE notes.matiere = 'Maths' AND notes.note &lt; 10;</code> → <strong>Karim</strong> (la seule note de Maths inférieure à 10 est le 9 de l'élève 2).</p>"},
+{niveau:"Difficile",
+ enonce:"<p>Avec les mêmes tables <em>eleves</em> et <em>notes</em> que l'exercice précédent, écris la requête qui affiche le nom de chaque élève avec sa moyenne (toutes matières), <strong>uniquement pour ceux dont la moyenne est supérieure ou égale à 10</strong>, triés par nom. Donne le résultat. Pourquoi ne peut-on pas utiliser WHERE pour la condition sur la moyenne ?</p>",
+ aide:"Il faut un JOIN, un GROUP BY pour calculer une moyenne par élève, puis HAVING pour filtrer sur cette moyenne.",
+ correction:"<pre><code>SELECT eleves.nom, AVG(notes.note)\nFROM eleves\nJOIN notes ON eleves.id = notes.id_eleve\nGROUP BY eleves.nom\nHAVING AVG(notes.note) >= 10\nORDER BY eleves.nom;</code></pre><p>Moyennes calculées : Lina $= (14+16)/2 = 15$ ; Karim $= (9+12)/2 = 10{,}5$ ; Sacha $= 18$ ; Emma $= (11+7)/2 = 9$.</p><p>Résultat (Emma est exclue car $9 < 10$) : <strong>Karim 10,5 · Lina 15 · Sacha 18</strong> (dans l'ordre alphabétique).</p><p><code>WHERE</code> s'applique aux lignes <em>avant</em> le regroupement : à ce moment-là, la moyenne n'existe pas encore. La condition sur une valeur calculée par un agrégat s'écrit donc avec <code>HAVING</code>, <em>après</em> le <code>GROUP BY</code>.</p>"}
+],
+flashcards:[
+{q:"SELECT — rôle de base",a:"Récupère des données : SELECT colonnes FROM table; — SELECT * FROM table; récupère toutes les colonnes."},
+{q:"WHERE — rôle",a:"Filtre les lignes renvoyées selon une condition, ex : WHERE age > 16. Combinable avec AND / OR."},
+{q:"Clé primaire",a:"Colonne qui identifie de façon unique chaque ligne d'une table (souvent un id numérique auto-incrémenté)."},
+{q:"JOIN — à quoi ça sert",a:"Relie deux tables entre elles via une clé commune, pour récupérer des informations réparties dans plusieurs tables en une seule requête."},
+{q:"Pourquoi séparer les données en plusieurs tables reliées plutôt qu'une seule table géante",a:"Évite la duplication de données (ex : le nom d'un élève répété sur chaque ligne de notes) — principe de normalisation, évite les incohérences si une donnée change."},
+{q:"Danger d'un UPDATE ou DELETE sans WHERE",a:"S'applique à TOUTES les lignes de la table — erreur classique et potentiellement destructrice. Toujours vérifier sa clause WHERE avant d'exécuter."},
+{q:"ORDER BY ... DESC vs ASC",a:"DESC trie du plus grand au plus petit (décroissant), ASC du plus petit au plus grand (croissant, souvent le tri par défaut)."},
+{q:"Fonctions d'agrégation SQL",a:"COUNT (nombre de lignes), AVG (moyenne), SUM (somme), MIN et MAX (plus petite et plus grande valeur)."},
+{q:"GROUP BY : rôle",a:"Regroupe les lignes qui ont la même valeur dans une colonne, pour appliquer les agrégats (COUNT, AVG…) à chaque groupe."},
+{q:"WHERE vs HAVING",a:"WHERE filtre les lignes avant le regroupement. HAVING filtre les groupes après le calcul des agrégats."},
+{q:"LIKE 'S%'",a:"Sélectionne les valeurs qui commencent par S (% remplace n'importe quelle suite de caractères)."},
+{q:"DISTINCT : rôle",a:"Supprime les doublons dans le résultat : SELECT DISTINCT matiere FROM notes liste chaque matière une seule fois."},
+{q:"Ordre d'écriture d'une requête SQL",a:"SELECT … FROM … JOIN … ON … WHERE … GROUP BY … HAVING … ORDER BY … LIMIT …"},
+{q:"Clé étrangère",a:"Colonne qui contient la clé primaire d'une autre table : elle crée le lien entre les tables (notes.id_eleve → eleves.id)."},
+{q:"Injection SQL",a:"Attaque où l'utilisateur glisse du code SQL dans un champ de saisie. Parade : requêtes préparées (la saisie est traitée comme une valeur, jamais comme du code)."},
+{q:"Texte en SQL : apostrophes ou guillemets ?",a:"Apostrophes : WHERE matiere = 'Maths'."},
+{q:"JOIN sans condition ON",a:"On obtient toutes les combinaisons possibles entre les lignes des deux tables : résultat énorme et faux."}
+]},
+
 };
-
-PREBUILT['Informatique']['Bases de données & SQL — écrire ses premières requêtes'] = {
-cours:`<h3>Pourquoi une base de données plutôt qu'un fichier ?</h3>
-<p>Un fichier texte ou un tableur devient vite ingérable dès qu'il y a beaucoup de données liées entre elles (des utilisateurs, leurs commandes, les produits...) : recherches lentes, incohérences, risques de doublons. Une <strong>base de données relationnelle</strong> organise les données en <mark>tables</mark> (comme des feuilles de tableur reliées entre elles) et permet d'interroger, filtrer et croiser ces données rapidement grâce à un langage dédié : le <strong>SQL</strong>.</p>
-
-<h3>Table, ligne, colonne : le vocabulaire de base</h3>
-<div class="formula-box">
-<strong>Table</strong> : un ensemble de données du même type (ex : une table "eleves").<br>
-<strong>Colonne (champ)</strong> : une propriété de chaque enregistrement (ex : nom, age, classe).<br>
-<strong>Ligne (enregistrement)</strong> : une entrée complète de la table (ex : un élève précis avec toutes ses infos).<br>
-<strong>Clé primaire</strong> : une colonne qui identifie de façon unique chaque ligne (souvent un id numérique auto-incrémenté).
-</div>
-
-<h3>SELECT — récupérer des données</h3>
-<div class="formula-box">
-<strong>SELECT</strong> colonne1, colonne2 <strong>FROM</strong> table;<br>
-<strong>SELECT * FROM</strong> table; <span style="opacity:.7">(* = toutes les colonnes)</span>
-</div>
-<p>Exemple : <code>SELECT nom, age FROM eleves;</code> renvoie le nom et l'âge de tous les élèves de la table.</p>
-
-<h3>WHERE — filtrer les résultats</h3>
-<div class="formula-box">
-<strong>SELECT</strong> * <strong>FROM</strong> table <strong>WHERE</strong> condition;
-</div>
-<p>Exemple : <code>SELECT * FROM eleves WHERE classe = 'Premiere STI2D';</code> ne renvoie que les élèves de cette classe. On peut combiner des conditions avec <strong>AND</strong> / <strong>OR</strong> : <code>WHERE age &gt; 16 AND classe = 'Premiere STI2D'</code>.</p>
-
-<h3>ORDER BY, LIMIT — trier et limiter</h3>
-<div class="formula-box">
-<strong>ORDER BY</strong> colonne <strong>ASC</strong>|<strong>DESC</strong> : trie les résultats (croissant/décroissant).<br>
-<strong>LIMIT</strong> n : ne garde que les n premiers résultats.
-</div>
-<p>Exemple : <code>SELECT * FROM eleves ORDER BY age DESC LIMIT 3;</code> renvoie les 3 élèves les plus âgés.</p>
-
-<h3>JOIN — relier deux tables entre elles</h3>
-<p>C'est le cœur du modèle relationnel : au lieu de tout dupliquer dans une seule table géante, on relie des tables via une clé commune. Exemple : une table "eleves" (id, nom) et une table "notes" (id_eleve, matiere, note), reliées par id_eleve.</p>
-<div class="formula-box">
-<strong>SELECT</strong> eleves.nom, notes.matiere, notes.note<br>
-<strong>FROM</strong> eleves<br>
-<strong>JOIN</strong> notes <strong>ON</strong> eleves.id = notes.id_eleve;
-</div>
-<div class="attention-box">Sans le <mark>JOIN</mark>, il faudrait dupliquer le nom de l'élève dans chaque ligne de notes — source d'erreurs si le nom change un jour (il faudrait le corriger partout). Séparer les données en tables reliées évite cette duplication : c'est le principe de <strong>normalisation</strong>.</div>
-
-<h3>INSERT, UPDATE, DELETE — modifier les données</h3>
-<div class="formula-box">
-<strong>INSERT INTO</strong> table (colonne1, colonne2) <strong>VALUES</strong> (valeur1, valeur2);<br>
-<strong>UPDATE</strong> table <strong>SET</strong> colonne = nouvelle_valeur <strong>WHERE</strong> condition;<br>
-<strong>DELETE FROM</strong> table <strong>WHERE</strong> condition;
-</div>
-<div class="attention-box">Un <mark>UPDATE</mark> ou un <mark>DELETE</mark> sans clause <strong>WHERE</strong> s'applique à TOUTES les lignes de la table — une des erreurs les plus classiques (et dangereuses) en SQL. Toujours vérifier sa clause WHERE avant d'exécuter, surtout un DELETE.</div>
-
-<h3>Où pratiquer sans rien installer</h3>
-<p>Des sites comme <strong>SQLBolt</strong> ou <strong>SQLZoo</strong> permettent d'écrire et tester de vraies requêtes SQL directement dans le navigateur, avec des exercices progressifs — un bon complément à ce chapitre pour s'entraîner concrètement.</p>`,
-exercices:[
-{niveau:'Facile', enonce:`<p>Écris la requête SQL qui récupère uniquement les colonnes "nom" et "note" de la table "notes".</p>`, aide:`Utilise SELECT en listant uniquement les colonnes voulues, séparées par une virgule.`, correction:`<p><code>SELECT nom, note FROM notes;</code></p><p>On liste les colonnes voulues après SELECT (séparées par une virgule), puis FROM indique la table source.</p>`},
-{niveau:'Moyen', enonce:`<p>Écris la requête SQL qui récupère tous les élèves de la table "eleves" ayant plus de 16 ans, triés par âge décroissant.</p>`, aide:`Combine WHERE (pour le filtre sur l'âge) et ORDER BY ... DESC (pour le tri décroissant).`, correction:`<p><code>SELECT * FROM eleves WHERE age > 16 ORDER BY age DESC;</code></p><p>WHERE age > 16 filtre les élèves de plus de 16 ans, et ORDER BY age DESC trie les résultats du plus âgé au plus jeune.</p>`},
-{niveau:'Difficile', enonce:`<p>On a une table "eleves" (id, nom) et une table "notes" (id_eleve, matiere, note). Écris la requête SQL qui affiche le nom de chaque élève avec sa note en "Mathématiques" uniquement, en reliant les deux tables. Explique pourquoi un simple SELECT sur une seule table ne suffirait pas ici.</p>`, aide:`Il faut un JOIN pour relier les deux tables via la clé commune (id / id_eleve), puis un WHERE pour filtrer sur la matière.`, correction:`<p><code>SELECT eleves.nom, notes.note FROM eleves JOIN notes ON eleves.id = notes.id_eleve WHERE notes.matiere = 'Mathématiques';</code></p><p>Un simple SELECT sur une seule table ne suffit pas car le nom de l'élève est dans la table "eleves" tandis que la note et la matière sont dans la table "notes" — ces deux informations n'existent nulle part réunies dans une seule table. Le JOIN les relie via la clé commune (id de "eleves" = id_eleve de "notes"), ce qui permet ensuite d'appliquer le WHERE sur la matière pour ne garder que les notes de Mathématiques.</p>`},
-],
-flashcards:[
-{q:'SELECT — rôle de base',a:'Récupère des données : SELECT colonnes FROM table; — SELECT * FROM table; récupère toutes les colonnes.'},
-{q:'WHERE — rôle',a:'Filtre les lignes renvoyées selon une condition, ex : WHERE age > 16. Combinable avec AND / OR.'},
-{q:'Clé primaire',a:'Colonne qui identifie de façon unique chaque ligne d\'une table (souvent un id numérique auto-incrémenté).'},
-{q:'JOIN — à quoi ça sert',a:'Relie deux tables entre elles via une clé commune, pour récupérer des informations réparties dans plusieurs tables en une seule requête.'},
-{q:'Pourquoi séparer les données en plusieurs tables reliées plutôt qu\'une seule table géante',a:'Évite la duplication de données (ex : le nom d\'un élève répété sur chaque ligne de notes) — principe de normalisation, évite les incohérences si une donnée change.'},
-{q:'Danger d\'un UPDATE ou DELETE sans WHERE',a:'S\'applique à TOUTES les lignes de la table — erreur classique et potentiellement destructrice. Toujours vérifier sa clause WHERE avant d\'exécuter.'},
-{q:'ORDER BY ... DESC vs ASC',a:'DESC trie du plus grand au plus petit (décroissant), ASC du plus petit au plus grand (croissant, souvent le tri par défaut).'},
-]};
