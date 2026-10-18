@@ -23,7 +23,7 @@ exercices:[
 {niveau:"Facile",
  enonce:"<p>Une vidéo a $2\\,000$ vues, $100$ likes, $20$ commentaires et $10$ partages. Une vidéo de $30$ secondes est regardée en moyenne $12$ secondes. Calcule le taux d'engagement et le taux de rétention.</p>",
  aide:"Engagement = (likes + commentaires + partages) ÷ vues. Rétention = durée moyenne regardée ÷ durée de la vidéo.",
- correction:"<p>Engagement : $\\dfrac{100 + 20 + 10}{2000} = \\dfrac{130}{2000} = 0{,}065 = 6{,}5\\ \\%$.</p><p>Rétention : $\\dfrac{12}{30} = 0{,}4 = 40\\ \\%$.</p>"},
+ correction:"<p>Engagement : $$\\begin{aligned} \\dfrac{100 + 20 + 10}{2000} &= \\dfrac{130}{2000} = 0{,}065 \\\\ &= 6{,}5\\ \\% \\,. \\end{aligned}$$</p><p>Rétention : $\\dfrac{12}{30} = 0{,}4 = 40\\ \\%$.</p>"},
 {niveau:"Moyen",
  enonce:"<p>Vidéo A : $5\\,000$ vues, durée moyenne regardée $4$ s sur $20$ s. Vidéo B : $2\\,000$ vues, durée moyenne regardée $14$ s sur $20$ s. Laquelle est la plus susceptible d'être poussée par l'algorithme ? Que ferais-tu pour la prochaine vidéo ?</p>",
  aide:"Calcule la rétention de chaque vidéo : les algorithmes de recommandation regardent surtout le temps de visionnage et la rétention.",

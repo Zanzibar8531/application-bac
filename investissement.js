@@ -233,7 +233,7 @@ exercices:[
 {niveau:"Difficile",
  enonce:"<p>Un placement rapporte $2\\ \\%$ par an alors que l'inflation est de $3\\ \\%$. Calcule le rendement réel exact, puis le pouvoir d'achat de $10\\,000\\ \\text{€}$ placés sur ce support au bout de $10$ ans (en euros d'aujourd'hui). Que conclure pour un objectif à long terme ?</p>",
  aide:"Rendement réel = 1,02 ÷ 1,03 − 1. Pouvoir d'achat final = 10 000 × (1,02 ÷ 1,03) puissance 10.",
- correction:"<p>Rendement réel $= \\dfrac{1{,}02}{1{,}03} - 1\\approx -0{,}97\\ \\%$ par an.</p><p>Pouvoir d'achat : $10\\,000\\times\\left(\\dfrac{1{,}02}{1{,}03}\\right)^{10}\\approx 10\\,000\\times 0{,}907\\approx 9\\,070\\ \\text{€}$.</p><p>Malgré des intérêts positifs, l'épargne <strong>perd environ 9 % de pouvoir d'achat</strong> en dix ans. Pour un objectif long, ne pas protéger son capital de l'inflation est aussi un risque, mais le placer en actions comporte d'autres risques (volatilité) : on équilibre selon l'horizon.</p>"}
+ correction:"<p>Rendement réel $= \\dfrac{1{,}02}{1{,}03} - 1\\approx -0{,}97\\ \\%$ par an.</p><p>Pouvoir d'achat : $$\\begin{aligned} 10\\,000\\times\\left(\\dfrac{1{,}02}{1{,}03}\\right)^{10} &\\approx 10\\,000\\times 0{,}907 \\\\ &\\approx 9\\,070\\ \\text{€} \\,. \\end{aligned}$$</p><p>Malgré des intérêts positifs, l'épargne <strong>perd environ 9 % de pouvoir d'achat</strong> en dix ans. Pour un objectif long, ne pas protéger son capital de l'inflation est aussi un risque, mais le placer en actions comporte d'autres risques (volatilité) : on équilibre selon l'horizon.</p>"}
 ],
 flashcards:[
 {q:"Inflation — définition",a:"Hausse générale et durable des prix dans une économie, qui fait perdre du pouvoir d'achat à la monnaie."},

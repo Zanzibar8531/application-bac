@@ -6061,3 +6061,49 @@ body.course-page .editor-scroll-nav {
     padding-right: 10px;
   }
 }
+
+/* ============================================================
+   Correctifs v26 (vidéo du 16/10/2026)
+   1. Cartes de chapitres : les icônes ✏️ / 🗑️ ne recouvrent plus le titre
+   2. Formules trop larges : défilement horizontal au lieu d'être coupées
+   ============================================================ */
+html body .chcard > .chcard-icons {
+  position: static !important;
+  display: flex !important;
+  justify-content: flex-end;
+  gap: 4px;
+  margin: -2px -2px 2px 0 !important;
+}
+html body .chcard .chcard-name {
+  padding-right: 0 !important;
+}
+html body .chcard .chcard-icon-btn {
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px;
+  font-size: 0.8rem;
+}
+.mjx-wide {
+  display: block !important;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 6px 0;
+  padding: 4px 0 6px;
+  text-align: left !important;
+  -webkit-overflow-scrolling: touch;
+}
+mjx-container[display="true"] {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 4px;
+}
+
+/* Tableaux plus larges que l'écran : défilement horizontal au lieu de dépasser */
+table.user-table, .cours-body table, .formula-table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
