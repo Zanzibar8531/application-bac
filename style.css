@@ -6107,3 +6107,17 @@ table.user-table, .cours-body table, .formula-table {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
+
+/* La barre sombre sous l'en-tête (« ← Accueil », « ← Chapitres »…) est supprimée :
+   plus de fond, de flou, de trait ni de collage en haut de l'écran. Le bouton reste, simple. */
+html body .breadcrumb,
+html[data-theme="dark"] body .breadcrumb {
+  position: static !important;
+  background: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: none !important;
+  border-radius: 0 !important;
+  padding: 4px 0 10px !important;
+  margin: 0 !important;
+}
