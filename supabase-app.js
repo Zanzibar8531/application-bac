@@ -1,13 +1,24 @@
 /* Bac Master — cours partagés et progression personnelle synchronisés via Supabase. */
 (() => {
   const cfg = window.BACMASTER_SUPABASE_CONFIG || {};
-  const state = { client: null, user: null, role: 'reader', channel: null, profileChannel: null, progressChannel: null, pollTimer: null, lastProgressSeen: null, sharedInitialized: false, timer: null, privateTimer: null, progressTimer: null, applyingRemote: false, applyingProgress: false, adminPanel: false, profileLabels: {}, deviceId: (window.crypto?.randomUUID ? window.crypto.randomUUID() : String(Date.now())+'-'+Math.random()) };
+  const state = { client: null, user: null, role: 'reader', channel: null, profileChannel: null, progressChannel: null, pollTimer: null, lastProgressSeen: null, sharedInitialized: false, timer: null, privateTimer: null, progressTimer: null, applyingRemote: false, applyingProgress: false, adminPanel: false, profileLabels: {}, deviceId: (window.crypto?.randomUUID ? window.crypto.randomUUID() : String(Date.now())+'-'+Math.random()), courseRevision: 0, courseDirty: false, progressRevision: 0, progressDirty: false, publishPromise: null, progressPublishPromise: null, refreshPromise: null, progressRefreshPromise: null, lastPublishedCourses: '', lastPublishedProgress: '' };
   const $ = (id) => document.getElementById(id);
+  // Canonical comparison: JSONB can return object keys in a different order.
+  // Without this, each background poll can trigger an unnecessary merge/save.
+  function stableStringify(value) {
+    if (value === null || typeof value !== 'object') return JSON.stringify(value);
+    if (Array.isArray(value)) return '[' + value.map(stableStringify).join(',') + ']';
+    return '{' + Object.keys(value).sort().map(key => JSON.stringify(key) + ':' + stableStringify(value[key])).join(',') + '}';
+  }
   function status(msg, bad=false) {
     const el=$('bm-supabase-status'); if(el){el.textContent=msg;el.style.color=bad?'#b42318':'';}
     const toast=$('bm-sync-toast');
     if(toast && state.user && msg && !$('bm-supabase-panel')?.hidden){ /* account panel already shows status */ }
-    else if(toast && state.user && msg){toast.textContent=msg;toast.dataset.kind=bad?'error':(/synchronis|chargés|actualisés/i.test(msg)?'success':'');toast.style.display='block';clearTimeout(state.toastTimer);state.toastTimer=setTimeout(()=>{toast.style.display='none';},bad?9000:3500);}
+    else if(toast && state.user && msg){
+      // Background polling should not flood the screen with routine success messages.
+      const routineSuccess=/^(Cours partagés chargés\.|Cours actualisés en temps réel\.|Cours partagés actualisés\.|Progression personnelle synchronisée\.|Progression personnelle actualisée\.|Cours partagés synchronisés\.)$/.test(msg);
+      if(bad || !routineSuccess){toast.textContent=msg;toast.dataset.kind=bad?'error':(/synchronis|chargés|actualisés/i.test(msg)?'success':'');toast.style.display='block';clearTimeout(state.toastTimer);state.toastTimer=setTimeout(()=>{toast.style.display='none';},bad?9000:3500);}
+    }
     if(bad) console.error('[BacMaster Supabase]',msg);
   }
   function addPanel() {
@@ -205,26 +216,42 @@
   }
   async function refreshProgress(){
     if(!state.client||!state.user)return;
-    const {data,error}=await state.client.from('user_data').select('data').eq('user_id',state.user.id).maybeSingle();
-    if(error){status('Cours connectés, mais progression indisponible : '+error.message+'. Vérifie le fichier SQL de synchronisation de progression.',true);return;}
-    const remote=data?.data;
-    if(remote?.bacmasterProgressVersion===1){
-      const versionKey=String(remote.updatedAt||'')+'|'+String(remote.origin||'');
-      if(remote.origin!==state.deviceId && versionKey!==state.lastProgressSeen){mergeProgress(remote);status('Progression personnelle actualisée.');}
-      state.lastProgressSeen=versionKey;
-    } else await publishProgress();
+    if(state.progressDirty || state.progressPublishPromise) return;
+    if(state.progressRefreshPromise) return state.progressRefreshPromise;
+    state.progressRefreshPromise=(async()=>{
+      const {data,error}=await state.client.from('user_data').select('data').eq('user_id',state.user.id).maybeSingle();
+      if(error){status('Cours connectés, mais progression indisponible : '+error.message+'. Vérifie les droits de la table user_data.',true);return;}
+      const remote=data?.data;
+      if(remote?.bacmasterProgressVersion===1){
+        const versionKey=String(remote.updatedAt||'')+'|'+String(remote.origin||'');
+        if(remote.origin!==state.deviceId && versionKey!==state.lastProgressSeen){mergeProgress(remote);status('Progression personnelle actualisée.');}
+        state.lastProgressSeen=versionKey;
+        state.lastPublishedProgress=stableStringify(remote);
+      } else if(!state.progressDirty) await publishProgress();
+    })().finally(()=>{state.progressRefreshPromise=null;});
+    return state.progressRefreshPromise;
   }
   async function publishProgress(){
     if(!state.client||!state.user||state.applyingProgress)return;
+    if(state.progressPublishPromise) return state.progressPublishPromise;
+    const revision=state.progressRevision;
     const local=serialiseProgress();
-    // Relire l'état serveur avant l'envoi pour conserver les progrès déjà reçus d'un autre appareil.
-    const {data:current,error:readError}=await state.client.from('user_data').select('data').eq('user_id',state.user.id).maybeSingle();
-    if(readError){status('Erreur de lecture de la progression : '+readError.message,true);return;}
-    const merged=current?.data?.bacmasterProgressVersion===1?mergeProgressObjects(current.data,local):local;
-    merged.origin=state.deviceId; merged.updatedAt=new Date().toISOString();
-    const {error}=await state.client.from('user_data').upsert({user_id:state.user.id,data:merged,updated_at:new Date().toISOString()},{onConflict:'user_id'});
-    if(error){status('Erreur de synchronisation de la progression : '+error.message,true);return;}
-    status('Progression personnelle synchronisée.');
+    const localString=stableStringify(local);
+    if(!state.progressDirty && localString===state.lastPublishedProgress) return;
+    state.progressPublishPromise=(async()=>{
+      const {data:current,error:readError}=await state.client.from('user_data').select('data').eq('user_id',state.user.id).maybeSingle();
+      if(readError){status('Erreur de lecture de la progression : '+readError.message,true);return;}
+      const merged=current?.data?.bacmasterProgressVersion===1?mergeProgressObjects(current.data,local):local;
+      merged.origin=state.deviceId; merged.updatedAt=new Date().toISOString();
+      const {error}=await state.client.from('user_data').upsert({user_id:state.user.id,data:merged,updated_at:new Date().toISOString()},{onConflict:'user_id'});
+      if(error){status('Erreur de synchronisation de la progression : '+error.message,true);return;}
+      state.lastPublishedProgress=stableStringify(merged);
+      state.lastProgressSeen=String(merged.updatedAt)+'|'+String(merged.origin);
+      if(state.progressRevision===revision) state.progressDirty=false;
+      status('Progression personnelle synchronisée.');
+      if(state.progressRevision!==revision) scheduleProgressPublish();
+    })().catch(e=>status('Erreur de synchronisation de la progression : '+(e?.message||e),true)).finally(()=>{state.progressPublishPromise=null;});
+    return state.progressPublishPromise;
   }
   function mergeProgressObjects(a,b){
     const out={...a,...b,chapters:{...(a.chapters||{})},local:{...(a.local||{})}};
@@ -236,39 +263,67 @@
     out.local={...(a.local||{}),...(b.local||{})};
     return out;
   }
-  function scheduleProgressPublish(){if(!state.user||state.applyingRemote||state.applyingProgress)return;clearTimeout(state.progressTimer);state.progressTimer=setTimeout(publishProgress,900);}
+  function scheduleProgressPublish(){if(!state.user||state.applyingRemote||state.applyingProgress)return;state.progressDirty=true;state.progressRevision++;clearTimeout(state.progressTimer);state.progressTimer=setTimeout(publishProgress,1000);}
   async function publish() {
-    if(!state.client || !state.user || !['admin','editor'].includes(state.role) || state.applyingRemote) return;
+    if(!state.client || !state.user || !['admin','editor'].includes(state.role) || state.applyingRemote)return;
+    if(state.publishPromise)return state.publishPromise;
+    const revision=state.courseRevision;
     const content=serialiseCourses();
-    const {error}=await state.client.from('bacmaster_shared_content').upsert({id:'main',content,updated_at:new Date().toISOString(),updated_by:state.user.id});
-    if(error) { status('Erreur de synchronisation : '+error.message,true); return; }
-    status('Cours partagés synchronisés.');
+    const snapshot=stableStringify(content);
+    if(!state.courseDirty && snapshot===state.lastPublishedCourses) return;
+    state.publishPromise=(async()=>{
+      const {error}=await state.client.from('bacmaster_shared_content').upsert({id:'main',content,updated_at:new Date().toISOString(),updated_by:state.user.id});
+      if(error){status('Erreur de synchronisation des cours : '+error.message,true);return;}
+      state.lastPublishedCourses=snapshot;
+      if(state.courseRevision===revision) state.courseDirty=false;
+      status('Cours partagés synchronisés.');
+      if(state.courseRevision!==revision) schedulePublish();
+    })().catch(e=>status('Erreur de synchronisation des cours : '+(e?.message||e),true)).finally(()=>{state.publishPromise=null;});
+    return state.publishPromise;
   }
-  function schedulePublish(){ if(!state.user || !['admin','editor'].includes(state.role) || state.applyingRemote) return; clearTimeout(state.timer); state.timer=setTimeout(publish,1200); }
+  function schedulePublish(){
+    if(!state.user || !['admin','editor'].includes(state.role) || state.applyingRemote)return;
+    state.courseDirty=true;state.courseRevision++;
+    clearTimeout(state.timer);state.timer=setTimeout(publish,700);
+  }
   async function refreshShared() {
     if(!state.client||!state.user)return;
-    const {data,error}=await state.client.from('bacmaster_shared_content').select('content,updated_by,updated_at').eq('id','main').maybeSingle();
-    if(error){status('Lecture impossible : '+error.message,true);return;}
-    if(data?.content && Object.keys(data.content).length) {
-      // Compare serialized course content, not updated_by: two devices on the same
-      // account have the same user ID but still need to receive each other's changes.
-      const local=serialiseCourses();
-      if(JSON.stringify(data.content)!==JSON.stringify(local)) {
-        mergeCourses(data.content, state.sharedInitialized);
-        const merged=serialiseCourses();
-        // On first load, preserve local-only chapters and publish the merged result
-        // for editors instead of silently discarding unsynced work on this device.
-        if(!state.sharedInitialized && ['admin','editor'].includes(state.role) && JSON.stringify(merged)!==JSON.stringify(data.content)) await publish();
-        else status('Cours partagés chargés.');
-      }
-      state.sharedInitialized=true;
-    }
-    else if(['admin','editor'].includes(state.role)) { status('Espace partagé vide : publication des cours de cet appareil…'); await publish(); state.sharedInitialized=true; }
-    else { status('Aucun cours partagé publié pour le moment.'); state.sharedInitialized=true; }
+    if(state.courseDirty || state.publishPromise) return;
+    if(state.refreshPromise)return state.refreshPromise;
+    state.refreshPromise=(async()=>{
+      const {data,error}=await state.client.from('bacmaster_shared_content').select('content,updated_by,updated_at').eq('id','main').maybeSingle();
+      if(error){status('Lecture impossible : '+error.message,true);return;}
+      if(data?.content && Object.keys(data.content).length) {
+        const remoteString=stableStringify(data.content);
+        const wasInitialized=state.sharedInitialized;
+        const localString=stableStringify(serialiseCourses());
+        state.lastPublishedCourses=remoteString;
+        if(remoteString!==localString && !state.courseDirty){
+          mergeCourses(data.content, wasInitialized);
+          const mergedString=stableStringify(serialiseCourses());
+          state.lastPublishedCourses=mergedString;
+          // On first load, keep local-only chapters on an editor/admin device and publish
+          // the merged result once. On later polls, the server is authoritative for deletes.
+          if(!wasInitialized && ['admin','editor'].includes(state.role) && mergedString!==remoteString){
+            state.courseDirty=true; state.courseRevision++;
+            await publish();
+          } else status('Cours partagés actualisés.');
+        }
+        state.sharedInitialized=true;
+      } else if(['admin','editor'].includes(state.role)) {
+        state.sharedInitialized=true;
+        state.courseDirty=true;
+        await publish();
+      } else { status('Aucun cours partagé publié pour le moment.'); state.sharedInitialized=true; }
+    })().finally(()=>{state.refreshPromise=null;});
+    return state.refreshPromise;
   }
   async function connectSession(session) {
     if(state.pollTimer){clearInterval(state.pollTimer);state.pollTimer=null;}
-    state.user=session?.user||null;
+    const nextUser=session?.user||null;
+    const userChanged=(state.user?.id||null)!==(nextUser?.id||null);
+    if(userChanged){state.sharedInitialized=false;state.courseDirty=false;state.progressDirty=false;state.lastPublishedCourses='';state.lastPublishedProgress='';state.courseRevision=0;state.progressRevision=0;clearTimeout(state.timer);clearTimeout(state.progressTimer);clearTimeout(state.privateTimer);}
+    state.user=nextUser;
     const gate=$('bm-supabase-panel'),chip=$('bm-supabase-account-chip');
     if(!state.user){state.role='reader';if(gate)gate.hidden=false;if(chip)chip.hidden=true;status('Choisis une option pour continuer.');return;}
     if(gate)gate.hidden=true;if(chip)chip.hidden=false;
@@ -281,7 +336,7 @@
     if(state.channel) await state.client.removeChannel(state.channel);
     if(state.profileChannel) await state.client.removeChannel(state.profileChannel);
     state.profileChannel=state.client.channel('bacmaster-profile-'+state.user.id).on('postgres_changes',{event:'UPDATE',schema:'public',table:'bacmaster_profiles',filter:'user_id=eq.'+state.user.id},async()=>{const {data:p}=await state.client.from('bacmaster_profiles').select('display_name,role').eq('user_id',state.user.id).maybeSingle();if(p){state.role=p.role||'reader';if(chip){chip.textContent='☁️ '+(p.display_name||state.user.email||'Mon compte')+' · '+state.role;chip.dataset.account=(p.display_name||state.user.email)+' — '+state.role;}if(state.role!=='admin' && $('bm-supabase-admin'))$('bm-supabase-admin').hidden=true;}}).subscribe((st)=>{if(st==='CHANNEL_ERROR'||st==='TIMED_OUT')status('Connexion temps réel au profil interrompue : '+st,true);});
-    state.channel=state.client.channel('bacmaster-shared-live').on('postgres_changes',{event:'*',schema:'public',table:'bacmaster_shared_content',filter:'id=eq.main'},payload=>{if(payload.new?.content && JSON.stringify(payload.new.content)!==JSON.stringify(serialiseCourses())) { mergeCourses(payload.new.content); status('Cours actualisés en temps réel.'); }}).subscribe((st)=>{if(st==='CHANNEL_ERROR'||st==='TIMED_OUT')status('Temps réel des cours indisponible : '+st+' (la vérification périodique reste active).',true);});
+    state.channel=state.client.channel('bacmaster-shared-live').on('postgres_changes',{event:'*',schema:'public',table:'bacmaster_shared_content',filter:'id=eq.main'},payload=>{if(payload.new?.content && !state.courseDirty && !state.publishPromise && stableStringify(payload.new.content)!==stableStringify(serialiseCourses())) { mergeCourses(payload.new.content); state.lastPublishedCourses=stableStringify(serialiseCourses()); status('Cours actualisés en temps réel.'); }}).subscribe((st)=>{if(st==='CHANNEL_ERROR'||st==='TIMED_OUT')status('Temps réel des cours indisponible : '+st+' (la vérification périodique reste active).',true);});
     if(state.progressChannel) await state.client.removeChannel(state.progressChannel);
     state.progressChannel=state.client.channel('bacmaster-progress-live-'+state.user.id).on('postgres_changes',{event:'*',schema:'public',table:'user_data',filter:'user_id=eq.'+state.user.id},payload=>{const incoming=payload.new?.data;if(incoming?.bacmasterProgressVersion===1 && incoming.origin!==state.deviceId){mergeProgress(incoming);status('Progression actualisée depuis un autre appareil.');}}).subscribe((st)=>{if(st==='CHANNEL_ERROR'||st==='TIMED_OUT')status('Temps réel de la progression indisponible : '+st,true);});
     await syncPrivateChapter();
@@ -303,9 +358,11 @@
   async function manualSync(){
     if(!state.user){status('Connecte-toi d’abord.',true);return;}
     status('Synchronisation en cours…');
-    if(['admin','editor'].includes(state.role)) await publish(); else await refreshShared();
-    await refreshProgress();
-    status('Synchronisation manuelle terminée. Vérifie les messages précédents en cas d’erreur.');
+    clearTimeout(state.timer); clearTimeout(state.progressTimer);
+    if(['admin','editor'].includes(state.role)){state.courseDirty=true;state.courseRevision++;await publish();}
+    else await refreshShared();
+    state.progressDirty=true;state.progressRevision++;await publishProgress();
+    if(!state.courseDirty && !state.progressDirty) status('Synchronisation terminée.');
   }
   function hookSave(){
     // script.js calls this explicit hook from save(); no monkey-patching of global bindings.

@@ -2883,7 +2883,7 @@ async function checkForUpdate() {
     const stamp = Date.now();
     // Les 3 premiers sont indispensables ; les autres sont re-téléchargés au mieux
     const files = [
-        './index.html', './style.css', './script.js', './manifest.json', './sw.js', './data-init.js',
+        './index.html', './style.css', './script.js', './supabase-config.js', './supabase-app.js', './navigation.js', './manifest.json', './sw.js', './data-init.js',
         './francais.js', './maths.js', './histoire-geo.js', './anglais.js', './espagnol.js',
         './physique-chimie.js', './ingenierie-dd.js', './innovation-techno.js', './informatique.js',
         './cybersecurite.js', './investissement.js', './entrepreneuriat.js', './apprentissage.js', './juridique.js',
@@ -2903,7 +2903,7 @@ async function checkForUpdate() {
         await clearCaches();
         // 3) On re-télécharge chaque fichier en forçant le réseau (ignore aussi le cache HTTP)
         const res = await Promise.allSettled(files.map(f => fetch(f, {cache:'reload'})));
-        const critical = [0, 1, 2];
+        const critical = [0, 1, 2, 3, 4];
         if(critical.some(i => res[i].status !== 'fulfilled' || !res[i].value.ok)) throw new Error('fichiers principaux introuvables');
         // 4) Nettoyage final + désinscription : le service worker se réinstalle proprement au rechargement
         await clearCaches();
