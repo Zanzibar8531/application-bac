@@ -4,8 +4,8 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-pwa-v28-complet';
-const CACHE_STATIC = 'bacmaster-static-pwa-v28-complet';
+const CACHE_NAME   = 'bacmaster-pwa-v29-sync';
+const CACHE_STATIC = 'bacmaster-static-pwa-v29-sync';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
@@ -15,6 +15,8 @@ const STATIC_ASSETS = [
   './bg-light.jpg',
   './bg-dark.jpg',
   './script.js',
+  './supabase-config.js',
+  './supabase-app.js',
   './competences.js',
   './erreurs.js',
   './evaluation.js',
