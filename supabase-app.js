@@ -1,9 +1,15 @@
 /* Bac Master — cours partagés et progression personnelle synchronisés via Supabase. */
 (() => {
   const cfg = window.BACMASTER_SUPABASE_CONFIG || {};
-  const state = { client: null, user: null, role: 'reader', channel: null, profileChannel: null, progressChannel: null, timer: null, privateTimer: null, progressTimer: null, applyingRemote: false, applyingProgress: false, adminPanel: false, profileLabels: {}, deviceId: (window.crypto?.randomUUID ? window.crypto.randomUUID() : String(Date.now())+'-'+Math.random()) };
+  const state = { client: null, user: null, role: 'reader', channel: null, profileChannel: null, progressChannel: null, pollTimer: null, lastProgressSeen: null, sharedInitialized: false, timer: null, privateTimer: null, progressTimer: null, applyingRemote: false, applyingProgress: false, adminPanel: false, profileLabels: {}, deviceId: (window.crypto?.randomUUID ? window.crypto.randomUUID() : String(Date.now())+'-'+Math.random()) };
   const $ = (id) => document.getElementById(id);
-  function status(msg, bad=false) { const el=$('bm-supabase-status'); if(el){el.textContent=msg;el.style.color=bad?'#b42318':'';} }
+  function status(msg, bad=false) {
+    const el=$('bm-supabase-status'); if(el){el.textContent=msg;el.style.color=bad?'#b42318':'';}
+    const toast=$('bm-sync-toast');
+    if(toast && state.user && msg && !$('bm-supabase-panel')?.hidden){ /* account panel already shows status */ }
+    else if(toast && state.user && msg){toast.textContent=msg;toast.dataset.kind=bad?'error':(/synchronis|chargés|actualisés/i.test(msg)?'success':'');toast.style.display='block';clearTimeout(state.toastTimer);state.toastTimer=setTimeout(()=>{toast.style.display='none';},bad?9000:3500);}
+    if(bad) console.error('[BacMaster Supabase]',msg);
+  }
   function addPanel() {
     if ($('bm-supabase-panel')) return;
     const style=document.createElement('style');
@@ -23,6 +29,9 @@
       #bm-supabase-card .bm-form{margin-top:10px;text-align:left}
       #bm-supabase-card .bm-form[hidden],#bm-supabase-landing[hidden]{display:none!important}
       #bm-supabase-status{font-size:12px;line-height:1.45;margin-top:12px;overflow-wrap:anywhere;color:#56647d;min-height:16px}
+      #bm-sync-toast{position:fixed;z-index:999996;right:16px;top:16px;max-width:min(420px,calc(100vw - 32px));padding:11px 14px;border-radius:12px;background:#14213d;color:#fff;box-shadow:0 8px 28px #0003;font:13px/1.45 system-ui,sans-serif;display:none}
+      #bm-sync-toast[data-kind=error]{background:#8f2020}
+      #bm-sync-toast[data-kind=success]{background:#17633c}
       .bm-sidebar-account-wrap{padding:8px 12px 12px}
       #bm-supabase-account-chip.bm-sidebar-account{display:block;width:100%;text-align:left;border:1px solid #ffffff30;border-radius:12px;padding:11px 12px;background:rgba(19,31,57,.92);color:#fff;box-shadow:0 4px 18px #0002;font:600 13px system-ui,sans-serif;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
       #bm-supabase-account-chip[hidden]{display:none!important}
@@ -38,6 +47,7 @@
       @media(max-width:480px){#bm-supabase-card{padding:23px 19px}#bm-supabase-card h1{font-size:27px}}
     `;
     document.head.appendChild(style);
+    if(!$('bm-sync-toast')){const toast=document.createElement('div');toast.id='bm-sync-toast';toast.setAttribute('role','status');toast.setAttribute('aria-live','polite');document.body.appendChild(toast);}
     const p=document.createElement('section'); p.id='bm-supabase-panel'; p.setAttribute('aria-modal','true'); p.setAttribute('role','dialog');
     p.innerHTML=`<div id="bm-supabase-card">
       <div class="bm-logo" aria-hidden="true">🌌</div><h1>BacMaster</h1>
@@ -50,7 +60,7 @@
     let chip=$('bm-supabase-account-chip'); if(!chip){chip=document.createElement('button');chip.id='bm-supabase-account-chip';chip.type='button';chip.textContent='☁️ Mon compte';const wrap=document.querySelector('.bm-sidebar-account-wrap');(wrap||document.getElementById('sidebar')||document.body).appendChild(chip);} chip.hidden=true;
     function showForm(mode){$('bm-supabase-landing').hidden=true;$('bm-supabase-form').hidden=false;$('bm-supabase-name').hidden=mode!=='signup';$('bm-supabase-form-title').textContent=mode==='signup'?'Crée ton compte BacMaster.':'Connecte-toi pour continuer.';$('bm-supabase-submit').textContent=mode==='signup'?'Créer mon compte':'Se connecter';$('bm-supabase-password').autocomplete=mode==='signup'?'new-password':'current-password';p.dataset.mode=mode;status('');}
     $('bm-supabase-open-signin').onclick=()=>showForm('signin');$('bm-supabase-open-signup').onclick=()=>showForm('signup');$('bm-supabase-back').onclick=()=>{$('bm-supabase-form').hidden=true;$('bm-supabase-landing').hidden=false;status('');};$('bm-supabase-submit').onclick=()=>p.dataset.mode==='signup'?signUp():signIn();
-    chip.onclick=()=>{p.hidden=false;$('bm-supabase-landing').hidden=true;$('bm-supabase-form').hidden=true;const account=$('bm-supabase-account-info');if(account)account.remove();const info=document.createElement('div');info.id='bm-supabase-account-info';info.style='margin:10px 0;color:#52617d';info.textContent=$('bm-supabase-account-chip').dataset.account||'Connecté';$('bm-supabase-card').insertBefore(info,$('bm-supabase-status'));const admin=document.createElement('button');admin.id='bm-supabase-admin-open';admin.className='bm-secondary';admin.style.width='100%';admin.textContent='⚙️ Administration';admin.hidden=state.role!=='admin';admin.onclick=()=>{p.hidden=true;openAdminPanel();};$('bm-supabase-card').insertBefore(admin,$('bm-supabase-status'));const out=document.createElement('button');out.id='bm-supabase-signout';out.className='bm-secondary';out.style.width='100%';out.textContent='Se déconnecter';out.onclick=signOut;$('bm-supabase-card').insertBefore(out,$('bm-supabase-status'));const close=document.createElement('button');close.id='bm-supabase-close-account';close.className='bm-back';close.textContent='Retour aux cours';close.onclick=()=>{p.hidden=true;info.remove();out.remove();admin.remove();close.remove();};$('bm-supabase-card').insertBefore(close,$('bm-supabase-status'));};
+    chip.onclick=()=>{p.hidden=false;$('bm-supabase-landing').hidden=true;$('bm-supabase-form').hidden=true;const account=$('bm-supabase-account-info');if(account)account.remove();const info=document.createElement('div');info.id='bm-supabase-account-info';info.style='margin:10px 0;color:#52617d';info.textContent=$('bm-supabase-account-chip').dataset.account||'Connecté';$('bm-supabase-card').insertBefore(info,$('bm-supabase-status'));const admin=document.createElement('button');admin.id='bm-supabase-admin-open';admin.className='bm-secondary';admin.style.width='100%';admin.textContent='⚙️ Administration';admin.hidden=state.role!=='admin';admin.onclick=()=>{p.hidden=true;openAdminPanel();};$('bm-supabase-card').insertBefore(admin,$('bm-supabase-status'));const sync=document.createElement('button');sync.id='bm-supabase-sync-now';sync.className='bm-secondary';sync.style.width='100%';sync.textContent='🔄 Synchroniser maintenant';sync.onclick=async()=>{sync.disabled=true;sync.textContent='Synchronisation…';await manualSync();sync.disabled=false;sync.textContent='🔄 Synchroniser maintenant';};$('bm-supabase-card').insertBefore(sync,$('bm-supabase-status'));const out=document.createElement('button');out.id='bm-supabase-signout';out.className='bm-secondary';out.style.width='100%';out.textContent='Se déconnecter';out.onclick=signOut;$('bm-supabase-card').insertBefore(out,$('bm-supabase-status'));const close=document.createElement('button');close.id='bm-supabase-close-account';close.className='bm-back';close.textContent='Retour aux cours';close.onclick=()=>{p.hidden=true;info.remove();out.remove();admin.remove();close.remove();sync.remove();};$('bm-supabase-card').insertBefore(close,$('bm-supabase-status'));};
   }
   function addAdminPanel(){
     if($('bm-supabase-admin')) return;
@@ -120,7 +130,7 @@
       }
     } return out;
   }
-  function mergeCourses(remote) {
+  function mergeCourses(remote, reconcileDeletes=true) {
     if(!remote || typeof remote!=='object' || typeof db==='undefined' || !db) return;
     state.applyingRemote=true;
     try {
@@ -134,8 +144,19 @@
           local.exercices=(incoming.exercices||[]).map(e=>{const x={...e}; const prev=oldMap.get(key(e)); if(prev?.status) x.status=prev.status; if(prev?.lastAttempt) x.lastAttempt=prev.lastAttempt; return x;});
         }
       }
+      // The shared document is authoritative for user-created chapters. Remove local
+      // custom chapters deleted on another device, but retain built-in PREBUILT chapters.
+      if(reconcileDeletes) for(const [subject, chapters] of Object.entries(db)) {
+        const remoteSubject=remote[subject]||{}; const builtIn=(typeof PREBUILT!=='undefined'&&PREBUILT[subject])?PREBUILT[subject]:{};
+        for(const chapter of Object.keys(chapters||{})) {
+          if(isPrivateChapter(chapter,chapters[chapter])) continue;
+          if(Object.prototype.hasOwnProperty.call(remoteSubject,chapter)) continue;
+          if(Object.prototype.hasOwnProperty.call(builtIn,chapter)) continue;
+          delete chapters[chapter];
+        }
+      }
       if(typeof window.save==='function') window.save(); else localStorage.setItem('bacmaster_db',JSON.stringify(db));
-      if(typeof window.goHome==='function') window.goHome();
+      // Keep the current view open; the refreshed data is used on the next render.
     } finally { state.applyingRemote=false; }
   }
   // La progression est stockée séparément des cours, dans une ligne user_data par compte.
@@ -187,8 +208,11 @@
     const {data,error}=await state.client.from('user_data').select('data').eq('user_id',state.user.id).maybeSingle();
     if(error){status('Cours connectés, mais progression indisponible : '+error.message+'. Vérifie le fichier SQL de synchronisation de progression.',true);return;}
     const remote=data?.data;
-    if(remote?.bacmasterProgressVersion===1){mergeProgress(remote);status('Progression personnelle chargée.');}
-    else await publishProgress();
+    if(remote?.bacmasterProgressVersion===1){
+      const versionKey=String(remote.updatedAt||'')+'|'+String(remote.origin||'');
+      if(remote.origin!==state.deviceId && versionKey!==state.lastProgressSeen){mergeProgress(remote);status('Progression personnelle actualisée.');}
+      state.lastProgressSeen=versionKey;
+    } else await publishProgress();
   }
   async function publishProgress(){
     if(!state.client||!state.user||state.applyingProgress)return;
@@ -222,13 +246,28 @@
   }
   function schedulePublish(){ if(!state.user || !['admin','editor'].includes(state.role) || state.applyingRemote) return; clearTimeout(state.timer); state.timer=setTimeout(publish,1200); }
   async function refreshShared() {
-    const {data,error}=await state.client.from('bacmaster_shared_content').select('content,updated_by').eq('id','main').maybeSingle();
+    if(!state.client||!state.user)return;
+    const {data,error}=await state.client.from('bacmaster_shared_content').select('content,updated_by,updated_at').eq('id','main').maybeSingle();
     if(error){status('Lecture impossible : '+error.message,true);return;}
-    if(data?.content && Object.keys(data.content).length) { mergeCourses(data.content); status('Cours partagés chargés.'); }
-    else if(['admin','editor'].includes(state.role)) { status('Espace partagé vide : publication des cours de cet appareil…'); await publish(); }
-    else status('Aucun cours partagé publié pour le moment.');
+    if(data?.content && Object.keys(data.content).length) {
+      // Compare serialized course content, not updated_by: two devices on the same
+      // account have the same user ID but still need to receive each other's changes.
+      const local=serialiseCourses();
+      if(JSON.stringify(data.content)!==JSON.stringify(local)) {
+        mergeCourses(data.content, state.sharedInitialized);
+        const merged=serialiseCourses();
+        // On first load, preserve local-only chapters and publish the merged result
+        // for editors instead of silently discarding unsynced work on this device.
+        if(!state.sharedInitialized && ['admin','editor'].includes(state.role) && JSON.stringify(merged)!==JSON.stringify(data.content)) await publish();
+        else status('Cours partagés chargés.');
+      }
+      state.sharedInitialized=true;
+    }
+    else if(['admin','editor'].includes(state.role)) { status('Espace partagé vide : publication des cours de cet appareil…'); await publish(); state.sharedInitialized=true; }
+    else { status('Aucun cours partagé publié pour le moment.'); state.sharedInitialized=true; }
   }
   async function connectSession(session) {
+    if(state.pollTimer){clearInterval(state.pollTimer);state.pollTimer=null;}
     state.user=session?.user||null;
     const gate=$('bm-supabase-panel'),chip=$('bm-supabase-account-chip');
     if(!state.user){state.role='reader';if(gate)gate.hidden=false;if(chip)chip.hidden=true;status('Choisis une option pour continuer.');return;}
@@ -241,20 +280,37 @@
     addAdminPanel();
     if(state.channel) await state.client.removeChannel(state.channel);
     if(state.profileChannel) await state.client.removeChannel(state.profileChannel);
-    state.profileChannel=state.client.channel('bacmaster-profile-'+state.user.id).on('postgres_changes',{event:'UPDATE',schema:'public',table:'bacmaster_profiles',filter:'user_id=eq.'+state.user.id},async()=>{const {data:p}=await state.client.from('bacmaster_profiles').select('display_name,role').eq('user_id',state.user.id).maybeSingle();if(p){state.role=p.role||'reader';if(chip){chip.textContent='☁️ '+(p.display_name||state.user.email||'Mon compte')+' · '+state.role;chip.dataset.account=(p.display_name||state.user.email)+' — '+state.role;}if(state.role!=='admin' && $('bm-supabase-admin'))$('bm-supabase-admin').hidden=true;}}).subscribe();
-    state.channel=state.client.channel('bacmaster-shared-live').on('postgres_changes',{event:'*',schema:'public',table:'bacmaster_shared_content',filter:'id=eq.main'},payload=>{if(payload.new?.updated_by!==state.user?.id && payload.new?.content) { mergeCourses(payload.new.content); status('Cours actualisés en temps réel.'); }}).subscribe();
+    state.profileChannel=state.client.channel('bacmaster-profile-'+state.user.id).on('postgres_changes',{event:'UPDATE',schema:'public',table:'bacmaster_profiles',filter:'user_id=eq.'+state.user.id},async()=>{const {data:p}=await state.client.from('bacmaster_profiles').select('display_name,role').eq('user_id',state.user.id).maybeSingle();if(p){state.role=p.role||'reader';if(chip){chip.textContent='☁️ '+(p.display_name||state.user.email||'Mon compte')+' · '+state.role;chip.dataset.account=(p.display_name||state.user.email)+' — '+state.role;}if(state.role!=='admin' && $('bm-supabase-admin'))$('bm-supabase-admin').hidden=true;}}).subscribe((st)=>{if(st==='CHANNEL_ERROR'||st==='TIMED_OUT')status('Connexion temps réel au profil interrompue : '+st,true);});
+    state.channel=state.client.channel('bacmaster-shared-live').on('postgres_changes',{event:'*',schema:'public',table:'bacmaster_shared_content',filter:'id=eq.main'},payload=>{if(payload.new?.content && JSON.stringify(payload.new.content)!==JSON.stringify(serialiseCourses())) { mergeCourses(payload.new.content); status('Cours actualisés en temps réel.'); }}).subscribe((st)=>{if(st==='CHANNEL_ERROR'||st==='TIMED_OUT')status('Temps réel des cours indisponible : '+st+' (la vérification périodique reste active).',true);});
     if(state.progressChannel) await state.client.removeChannel(state.progressChannel);
-    state.progressChannel=state.client.channel('bacmaster-progress-live-'+state.user.id).on('postgres_changes',{event:'*',schema:'public',table:'user_data',filter:'user_id=eq.'+state.user.id},payload=>{const incoming=payload.new?.data;if(incoming?.bacmasterProgressVersion===1 && incoming.origin!==state.deviceId){mergeProgress(incoming);status('Progression actualisée depuis un autre appareil.');}}).subscribe();
+    state.progressChannel=state.client.channel('bacmaster-progress-live-'+state.user.id).on('postgres_changes',{event:'*',schema:'public',table:'user_data',filter:'user_id=eq.'+state.user.id},payload=>{const incoming=payload.new?.data;if(incoming?.bacmasterProgressVersion===1 && incoming.origin!==state.deviceId){mergeProgress(incoming);status('Progression actualisée depuis un autre appareil.');}}).subscribe((st)=>{if(st==='CHANNEL_ERROR'||st==='TIMED_OUT')status('Temps réel de la progression indisponible : '+st,true);});
     await syncPrivateChapter();
     await refreshShared();
     await refreshProgress();
+    // Realtime is preferred, but this fallback also supports projects where the
+    // Supabase publication was not enabled for a table. Updates appear within ~8s.
+    if(state.pollTimer) clearInterval(state.pollTimer);
+    state.pollTimer=setInterval(async()=>{
+      if(!state.user||document.visibilityState==='hidden')return;
+      await refreshShared();
+      await refreshProgress();
+    },8000);
     if(!['admin','editor'].includes(state.role)) status('Connecté en lecture seule. Les cours partagés sont accessibles en consultation.');
   }
   async function signIn(){const email=$('bm-supabase-email').value.trim(),password=$('bm-supabase-password').value;if(!email||!password){status('Renseigne ton e-mail et ton mot de passe.',true);return;} status('Connexion…');const {data,error}=await state.client.auth.signInWithPassword({email,password});if(error){status(error.message,true);return;}await connectSession(data.session);}
   async function signUp(){const email=$('bm-supabase-email').value.trim(),password=$('bm-supabase-password').value,name=$('bm-supabase-name').value.trim();if(!email||!password){status('Renseigne ton e-mail et un mot de passe.',true);return;}if(password.length<8){status('Choisis un mot de passe de 8 caractères minimum.',true);return;}status('Création du compte…');const {data,error}=await state.client.auth.signUp({email,password,options:{data:{display_name:name}}});if(error){status(error.message,true);return;}if(data.session)await connectSession(data.session);else status('Compte créé. Vérifie tes e-mails pour confirmer l’inscription, puis connecte-toi.');}
-  async function signOut(){if(state.channel)await state.client.removeChannel(state.channel);if(state.profileChannel)await state.client.removeChannel(state.profileChannel);if(state.progressChannel)await state.client.removeChannel(state.progressChannel);if($('bm-supabase-admin'))$('bm-supabase-admin').hidden=true;await state.client.auth.signOut();state.user=null;state.role='reader';const info=$('bm-supabase-account-info'),out=$('bm-supabase-signout'),admin=$('bm-supabase-admin-open'),close=$('bm-supabase-close-account');if(info)info.remove();if(out)out.remove();if(admin)admin.remove();if(close)close.remove();if($('bm-supabase-panel'))$('bm-supabase-panel').hidden=false;if($('bm-supabase-account-chip'))$('bm-supabase-account-chip').hidden=true;$('bm-supabase-landing').hidden=false;$('bm-supabase-form').hidden=true;status('Tu es déconnecté.');}
-  async function manualSync(){if(!state.user){status('Connecte-toi d’abord.',true);return;}if(['admin','editor'].includes(state.role))await publish();else await refreshShared();}
-  function hookSave(){if(typeof window.save!=='function')return;const original=window.save;window.save=function(){original();schedulePublish();schedulePrivatePublish();scheduleProgressPublish();};}
+  async function signOut(){if(state.pollTimer){clearInterval(state.pollTimer);state.pollTimer=null;}if(state.channel)await state.client.removeChannel(state.channel);if(state.profileChannel)await state.client.removeChannel(state.profileChannel);if(state.progressChannel)await state.client.removeChannel(state.progressChannel);if($('bm-supabase-admin'))$('bm-supabase-admin').hidden=true;await state.client.auth.signOut();state.user=null;state.role='reader';const info=$('bm-supabase-account-info'),out=$('bm-supabase-signout'),admin=$('bm-supabase-admin-open'),close=$('bm-supabase-close-account');if(info)info.remove();if(out)out.remove();if(admin)admin.remove();if(close)close.remove();const sync=$('bm-supabase-sync-now');if(sync)sync.remove();if($('bm-supabase-panel'))$('bm-supabase-panel').hidden=false;if($('bm-supabase-account-chip'))$('bm-supabase-account-chip').hidden=true;$('bm-supabase-landing').hidden=false;$('bm-supabase-form').hidden=true;status('Tu es déconnecté.');}
+  async function manualSync(){
+    if(!state.user){status('Connecte-toi d’abord.',true);return;}
+    status('Synchronisation en cours…');
+    if(['admin','editor'].includes(state.role)) await publish(); else await refreshShared();
+    await refreshProgress();
+    status('Synchronisation manuelle terminée. Vérifie les messages précédents en cas d’erreur.');
+  }
+  function hookSave(){
+    // script.js calls this explicit hook from save(); no monkey-patching of global bindings.
+    window.BacMasterSync={onLocalSave(){if(state.applyingRemote||state.applyingProgress)return;schedulePublish();schedulePrivatePublish();scheduleProgressPublish();}};
+  }
   async function init(){addPanel();addAdminPanel();if(!cfg.url||!cfg.publishableKey){status('Configuration Supabase manquante.',true);return;}if(!window.supabase?.createClient){status('Client Supabase indisponible : vérifie la connexion Internet.',true);return;}state.client=window.supabase.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});hookSave();const {data:{session},error}=await state.client.auth.getSession();if(error)status('Impossible de récupérer la session : '+error.message,true);await connectSession(session);state.client.auth.onAuthStateChange((_event,session)=>{setTimeout(()=>connectSession(session),0);});}
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
 })();

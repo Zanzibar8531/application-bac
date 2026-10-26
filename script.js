@@ -97,7 +97,12 @@ Object.entries(PREBUILT).forEach(([subj, chapters]) => {
 });
 save();
 
-function save() { localStorage.setItem('bacmaster_db', JSON.stringify(db)); }
+function save() {
+    localStorage.setItem('bacmaster_db', JSON.stringify(db));
+    // Explicit hook: Supabase sync no longer relies on replacing a global function.
+    // It is installed by supabase-app.js after the main application has loaded.
+    try { if (window.BacMasterSync && typeof window.BacMasterSync.onLocalSave === 'function') window.BacMasterSync.onLocalSave(); } catch (e) { console.warn('[BacMaster] Synchronisation différée :', e); }
+}
 
 // ── ÉTAT GLOBAL ───────────────────────────────────────────────
 let curSubject  = '';
