@@ -61,6 +61,7 @@
         <div class="sb-name">BacMaster</div>
         <button class="sb-close" onclick="closeSidebar()">✕</button>
     </div>
+    <div class="bm-sidebar-account-wrap"><button id="bm-supabase-account-chip" class="bm-sidebar-account" type="button" hidden>☁️ Mon compte</button></div>
     <div id="course-mobile-tools" class="course-mobile-tools" aria-label="Navigation du cours">
         <div class="course-mobile-learning" id="course-mobile-learning">
             <div><strong>📖 Navigation du cours</strong><span id="course-mobile-subtitle">Sections du chapitre</span></div>
@@ -127,6 +128,9 @@
 <script src="vocal.js"></script>
 <script src="script.js"></script>
 <script src="navigation.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="supabase-app.js"></script>
 <!-- ── MUSIC PLAYER (persistant) ── -->
 <div id="music-panel" class="music-panel" style="display:none">
     <div class="mp-header">

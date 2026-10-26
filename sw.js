@@ -4,8 +4,8 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-pwa-v27-corrections-video';
-const CACHE_STATIC = 'bacmaster-static-pwa-v27-corrections-video';
+const CACHE_NAME   = 'bacmaster-pwa-v28-complet';
+const CACHE_STATIC = 'bacmaster-static-pwa-v28-complet';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
