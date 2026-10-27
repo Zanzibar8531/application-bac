@@ -674,6 +674,28 @@ function render(html) {
     window.scrollTo(0,0);
 }
 
+// ── RAFRAÎCHISSEMENT APRÈS SYNCHRO ────────────────────────────
+// Appelé par supabase-app.js quand un cours ou la progression change sur un autre appareil.
+// Ne touche jamais à l'éditeur, à un champ en cours de saisie, ni à une session de révision.
+function refreshCurrentView() {
+    if (typeof hasUnsavedEdits !== 'undefined' && hasUnsavedEdits) return false;
+    if ($('editor')) return false;
+    const a = document.activeElement;
+    if (a && (/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName) || a.isContentEditable)) return false;
+    const y = window.scrollY;
+    const restore = () => setTimeout(() => window.scrollTo(0, y), 80);
+    if ($('ws-box') && curSubject && curChapter) {
+        if (!db[curSubject] || !db[curSubject][curChapter]) { goModeChapters('cours'); return true; }
+        if (curTab === 'cours' || curTab === 'voc') { renderTabContent(); restore(); return true; }
+        return false;
+    }
+    if (document.querySelector('.chapters-grid') && curSubject && !curChapter && curListMode && db[curSubject]) {
+        goModeChapters(curListMode); restore(); return true;
+    }
+    return false;
+}
+window.BacMasterRefreshView = refreshCurrentView;
+
 // ── RÉVISION DU JOUR (multi-matières) ────────────────────────────
 function startDailyReview() {
     dailyReviewMode = true;
@@ -887,7 +909,9 @@ function mostRecentlyReadChapter(subj) {
     return best;
 }
 
+let curListMode = '';
 function goModeChapters(mode) {
+    curListMode = mode;
     curTrackedPage = null;
     curChapter = '';
     const cfg = CFG.find(c => c.name === curSubject);
