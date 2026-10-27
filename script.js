@@ -821,15 +821,10 @@ function goHome() {
                 </div>`;
             }).join('')}
         </div>
-        <div class="sync-banner" onclick="openSync()">
-            <span>☁️ Synchroniser mes données</span>
-            <span class="sync-status" id="sync-status-home"></span>
-        </div>
-        <button class="update-check-btn" onclick="checkForUpdate()">🔄 Mettre à jour le site</button>
+        <button class="update-check-btn" style="opacity:.75" onclick="openSync()">💾 Exporter / importer mes données</button>
         </div>
     `);
     document.body.classList.add('home-page');
-    updateSyncStatusBadge();
     updateNotifBtn();
 }
 
@@ -1241,7 +1236,7 @@ function renderTabContent() {
             </div>
             </div>
             <div id="editor" contenteditable="true" class="editor-area cours-body">${data.cours||''}</div>
-            <button class="btn-save" id="sbtn" onclick="saveCours()">💾 Enregistrer</button>
+            <div class="save-status" id="sbtn" role="status">✅ Enregistré automatiquement</div>
             <div class="editor-scroll-nav" aria-label="Position dans l’éditeur">
                 <div class="esn-track" id="esn-track"><div class="esn-thumb" id="esn-thumb"></div></div>
             </div>
@@ -1717,6 +1712,22 @@ function insertGraph() {
     showToast('Graphique inséré ✅');
 }
 
+// Recharge l'éditeur avec le contenu fusionné (modif d'un autre éditeur), en gardant la position du curseur.
+function reloadEditorFromDb(){
+    const ed=$('editor'); if(!ed||!curSubject||!curChapter||!db[curSubject]||!db[curSubject][curChapter]) return;
+    const next=db[curSubject][curChapter].cours||'';
+    if(ed.innerHTML===next) return;
+    let offset=-1; const sel=window.getSelection();
+    if(sel&&sel.rangeCount&&ed.contains(sel.anchorNode)){ const r=document.createRange(); r.selectNodeContents(ed); r.setEnd(sel.anchorNode,sel.anchorOffset); offset=r.toString().length; }
+    const top=ed.scrollTop; ed.innerHTML=next; ed.scrollTop=top;
+    if(offset>=0){
+        const w=document.createTreeWalker(ed,NodeFilter.SHOW_TEXT); let n,left=offset;
+        while((n=w.nextNode())){ if(left<=n.length){ const r=document.createRange(); r.setStart(n,left); r.collapse(true); sel.removeAllRanges(); sel.addRange(r); break; } left-=n.length; }
+    }
+    hasUnsavedEdits=false;
+}
+window.BacMasterReloadEditor=reloadEditorFromDb;
+
 function saveCours(){
     const ed=$('editor'); if(!ed)return;
     clearTimeout(autosaveTimer);
@@ -1724,13 +1735,12 @@ function saveCours(){
     db[curSubject][curChapter].userEdited=true; // empêche l'écrasement par PREBUILT au prochain chargement
     save();
     hasUnsavedEdits=false;
-    const b=$('sbtn'); b.textContent='✅ Enregistré !'; b.classList.add('saved');
-    setTimeout(()=>{if(b){b.textContent='💾 Enregistrer';b.classList.remove('saved');}},2000);
+    const b=$('sbtn'); if(b){b.textContent='✅ Enregistré automatiquement'; b.classList.add('saved');}
 }
 
 // ── AUTOSAVE de l'éditeur de cours ────────────────────────────
 // Se déclenche 1,5s après la dernière frappe (débounce), pour ne jamais perdre
-// une modification si l'élève quitte la page sans cliquer sur "Enregistrer".
+// une modification si l'élève quitte la page.
 let autosaveTimer = null;
 let hasUnsavedEdits = false;
 
@@ -1751,7 +1761,6 @@ function autosaveCoursNow(){
     if(b){
         b.textContent='✅ Enregistré automatiquement';
         b.classList.add('saved');
-        setTimeout(()=>{ if(b && !hasUnsavedEdits){ b.textContent='💾 Enregistrer'; b.classList.remove('saved'); } }, 2000);
     }
 }
 
@@ -2461,64 +2470,26 @@ function openExoResults() {
 // Repo : Zanzibar8531/application_bac
 // ══════════════════════════════════════════════════════════════
 
-const GH_USER   = 'Zanzibar8531';
-const GH_REPO   = 'application_bac';
-const GH_FILE   = 'bacmaster_sync.json';   // fichier créé dans le repo
-const GH_BRANCH = 'main';
-
-// Token stocké localement (jamais dans le code publié)
-function ghToken() { return localStorage.getItem('bm_gh_token') || ''; }
-function ghSetToken(t) { localStorage.setItem('bm_gh_token', t.trim()); }
-
-function ghHeaders() {
-    return {
-        'Authorization': `token ${ghToken()}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.github.v3+json',
-        'X-GitHub-Api-Version': '2022-11-28'
-    };
-}
-
-// ── OUVRIR LE PANNEAU SYNC ────────────────────────────────────
 function openSync() {
-    const token = ghToken();
-    const lastSync = localStorage.getItem('bm_last_sync');
-    const lastDate = lastSync ? new Date(lastSync).toLocaleString('fr-FR') : 'Jamais';
-
     render(`
         <div class="breadcrumb">
             <button class="bc-btn" onclick="goHome()">🏠 Accueil</button>
             <span class="bc-sep">›</span>
-            <span class="bc-cur">☁️ Synchronisation</span>
+            <span class="bc-cur">💾 Exporter / importer</span>
         </div>
         <div class="ws-box sync-panel">
             <div class="sync-header">
-                <div class="sync-icon">☁️</div>
-                <h2 style="margin:0 0 4px">Sync Multi-Appareils</h2>
+                <div class="sync-icon">💾</div>
+                <h2 style="margin:0 0 4px">Sauvegarde sur fichier</h2>
                 <p style="color:var(--muted);font-size:.85rem;margin:0">
-                    Tes données sur tous tes appareils
+                    Tes cours et ta progression se synchronisent tout seuls avec ton compte. Ici, tu peux en plus en garder une copie dans un fichier.
                 </p>
             </div>
 
-            <div class="sync-info-box">
-                <div class="sync-info-row">
-                    <span>📱 Dernier sync</span>
-                    <strong>${lastDate}</strong>
-                </div>
-                <div class="sync-info-row">
-                    <span>📦 Repo</span>
-                    <strong>${GH_USER}/${GH_REPO}</strong>
-                </div>
-                <div class="sync-info-row">
-                    <span>🔑 Token</span>
-                    <strong>${token ? '✅ Configuré' : '❌ Non configuré'}</strong>
-                </div>
-            </div>
-
             <div class="sync-export-box">
-                <label class="sync-label">💾 Export ciblé (sans compte)</label>
+                <label class="sync-label">📤 Exporter</label>
                 <p style="font-size:.78rem;color:var(--muted);margin:2px 0 8px">
-                    Choisis exactement quelles matières/chapitres inclure dans le fichier .json — pratique pour ne donner à Claude que ce qui a besoin d'être mis au propre le soir.
+                    Choisis exactement quelles matières/chapitres inclure dans le fichier .json.
                 </p>
                 <button class="bc-btn" style="width:100%;text-align:center" onclick="openExportPicker()">🎯 Choisir & exporter</button>
             </div>
@@ -2526,46 +2497,11 @@ function openSync() {
             <div class="sync-export-box">
                 <label class="sync-label">📥 Importer un fichier .json</label>
                 <p style="font-size:.78rem;color:var(--muted);margin:2px 0 8px">
-                    Remets dans l'app un fichier que Claude t'a renvoyé après l'avoir mis au propre. Les fiches déjà connues sont mises à jour (ta progression de révision est conservée), les nouvelles sont ajoutées.
+                    Remets dans l'app un fichier exporté ou mis au propre. Les fiches déjà connues sont mises à jour.
                 </p>
                 <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="handleImportFile(this)">
-                <button class="bc-btn" style="width:100%;text-align:center" onclick="document.getElementById('import-file-input').click()">📥 Choisir un fichier à importer</button>
+                <button class="bc-btn" style="width:100%;text-align:center" onclick="document.getElementById('import-file-input').click()">📥 Choisir un fichier .json</button>
             </div>
-
-            ${!token ? `
-            <div class="sync-token-section">
-                <label class="sync-label">🔑 Token GitHub</label>
-                <input type="password" id="gh-token-input" class="field"
-                    placeholder="ghp_..." value="${token}"
-                    style="font-family:monospace;font-size:.85rem">
-                <p style="font-size:.78rem;color:var(--muted);margin-top:6px">
-                    Settings → Developer settings → Personal access tokens (classic) → scope: repo
-                </p>
-                <button class="btn-main" style="margin-top:8px" onclick="saveToken()">
-                    💾 Enregistrer le token
-                </button>
-            </div>` : `
-            <div class="sync-actions">
-                <button class="btn-main sync-btn-up" onclick="syncUpload()">
-                    <span class="sync-btn-icon">⬆️</span>
-                    <div>
-                        <div style="font-weight:700">Envoyer vers GitHub</div>
-                        <div style="font-size:.78rem;opacity:.8">Sauvegarder depuis cet appareil</div>
-                    </div>
-                </button>
-                <button class="btn-main sync-btn-down" onclick="syncDownload()">
-                    <span class="sync-btn-icon">⬇️</span>
-                    <div>
-                        <div style="font-weight:700">Récupérer depuis GitHub</div>
-                        <div style="font-size:.78rem;opacity:.8">Charger sur cet appareil</div>
-                    </div>
-                </button>
-                <button class="bc-btn" style="width:100%;text-align:center;margin-top:4px"
-                    onclick="changeToken()">🔧 Changer le token</button>
-            </div>
-            `}
-
-            <div id="sync-log" class="sync-log" style="display:none"></div>
         </div>
     `);
 }
@@ -2741,220 +2677,6 @@ function downloadSelectedExport() {
     });
     exportData(filtered);
 }
-
-// ── TOKEN ──────────────────────────────────────────────────────
-function saveToken() {
-    const val = document.getElementById('gh-token-input')?.value?.trim();
-    if (!val || !(val.startsWith('ghp_') || val.startsWith('github_pat_'))) {
-        showToast('Token invalide — doit commencer par ghp_ ou github_pat_', 'warn');
-        return;
-    }
-    ghSetToken(val);
-    showToast('✅ Token enregistré !', 'info');
-    openSync();
-}
-
-function changeToken() {
-    localStorage.removeItem('bm_gh_token');
-    openSync();
-}
-
-// ── LOG HELPER ────────────────────────────────────────────────
-function syncLog(msg, type='info') {
-    const box = document.getElementById('sync-log');
-    if (!box) return;
-    box.style.display = 'block';
-    const colors = {info:'#4f46e5', ok:'#059669', error:'#dc2626', warn:'#d97706'};
-    box.innerHTML += `<div style="color:${colors[type]||'#4f46e5'};margin-bottom:4px">
-        ${type==='ok'?'✅':type==='error'?'❌':type==='warn'?'⚠️':'ℹ️'} ${msg}
-    </div>`;
-    box.scrollTop = box.scrollHeight;
-}
-
-// ── UPLOAD → GitHub ───────────────────────────────────────────
-async function syncUpload() {
-    if (!ghToken()) { showToast('Configure ton token d\'abord', 'warn'); return; }
-
-    const log = document.getElementById('sync-log');
-    if(log){ log.innerHTML=''; log.style.display='block'; }
-    syncLog('Préparation des données...');
-
-    // Préparer les données à sauvegarder
-    const payload = {
-        version: 2,
-        date: new Date().toISOString(),
-        device: navigator.userAgent.includes('Mobile') ? 'mobile' : 'desktop',
-        db: db
-    };
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
-
-    syncLog('Connexion à GitHub...');
-
-    try {
-        // Vérifier si le fichier existe déjà (pour avoir son SHA)
-        const checkRes = await fetch(
-            `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`,
-            { headers: ghHeaders() }
-        );
-
-        let sha = null;
-        if (checkRes.ok) {
-            const existing = await checkRes.json();
-            sha = existing.sha;
-            syncLog('Fichier existant trouvé, mise à jour...');
-        } else {
-            syncLog('Creation d\'un nouveau fichier sync...');
-        }
-
-        // Envoyer les données
-        const body = {
-            message: `BacMaster sync — ${new Date().toLocaleString('fr-FR')}`,
-            content: content,
-            branch: GH_BRANCH,
-        };
-        if (sha) body.sha = sha;
-
-        const pushRes = await fetch(
-            `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${GH_FILE}`,
-            { method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body) }
-        );
-
-        if (!pushRes.ok) {
-            const err = await pushRes.json();
-            throw new Error(err.message || `Erreur ${pushRes.status}`);
-        }
-
-        localStorage.setItem('bm_last_sync', new Date().toISOString());
-        syncLog('Données envoyées avec succès !', 'ok');
-        syncLog(`📦 ${Object.keys(db).length} matières sauvegardées`, 'ok');
-        showToast('☁️ Sauvegarde réussie !', 'info');
-        updateSyncStatusBadge();
-
-    } catch(e) {
-        syncLog(`Erreur : ${e.message}`, 'error');
-        if (e.message.includes('401')) {
-            syncLog('Token invalide ou expiré. Va dans Paramètres GitHub → régénère ton token.', 'warn');
-        } else if (e.message.includes('404')) {
-            syncLog('Repo introuvable. Vérifie que le repo est public ou que le token a le scope "repo".', 'warn');
-        }
-    }
-}
-
-// ── DOWNLOAD ← GitHub ────────────────────────────────────────
-async function syncDownload() {
-    if (!ghToken()) { showToast('Configure ton token d\'abord', 'warn'); return; }
-
-    const log = document.getElementById('sync-log');
-    if(log){ log.innerHTML=''; log.style.display='block'; }
-    syncLog('Connexion à GitHub...');
-
-    try {
-        const res = await fetch(
-            `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`,
-            { headers: ghHeaders() }
-        );
-
-        if (!res.ok) {
-            if (res.status === 404) throw new Error('Aucune sauvegarde trouvée — fais d\'abord un envoi depuis un autre appareil.');
-            throw new Error(`Erreur ${res.status}`);
-        }
-
-        const file = await res.json();
-        const raw = decodeURIComponent(escape(atob(file.content.split('\n').join(''))));
-        const payload = JSON.parse(raw);
-
-        syncLog(`Sauvegarde trouvée — ${new Date(payload.date).toLocaleString('fr-FR')}`, 'ok');
-        syncLog(`Appareil source : ${payload.device}`);
-
-        // Confirmation avant d'écraser les données locales
-        if (!confirm(`Récupérer la sauvegarde du ${new Date(payload.date).toLocaleString('fr-FR')} ?
-
-Cela remplacera tes données locales actuelles.`)) {
-            syncLog('Annulé.', 'warn');
-            return;
-        }
-
-        // Appliquer les données
-        Object.keys(payload.db).forEach(subj => {
-            db[subj] = payload.db[subj];
-        });
-        save();
-
-        localStorage.setItem('bm_last_sync', new Date().toISOString());
-        syncLog('Données restaurées avec succès !', 'ok');
-        showToast('⬇️ Données récupérées !', 'info');
-        updateSyncStatusBadge();
-
-        setTimeout(() => goHome(), 1500);
-
-    } catch(e) {
-        syncLog(`Erreur : ${e.message}`, 'error');
-    }
-}
-
-// ── BADGE STATUS ──────────────────────────────────────────────
-// ── MISE À JOUR DU SITE (bouton accueil) ──────────────────────
-// Re-télécharge TOUS les fichiers depuis GitHub en ignorant les caches,
-// vide les caches du service worker, le désinscrit, puis recharge la page.
-// Ta progression (stockée dans le navigateur) n'est jamais touchée.
-// Fonctionne même si sw.js n'a pas changé.
-let _updating = false;
-async function checkForUpdate() {
-    if(_updating) return;
-    if(!navigator.onLine){ showToast("Pas de connexion — impossible de mettre à jour", 'warn'); return; }
-    _updating = true;
-    showToast("Mise à jour en cours…", 'info');
-    const stamp = Date.now();
-    // Les 3 premiers sont indispensables ; les autres sont re-téléchargés au mieux
-    const files = [
-        './index.html', './style.css', './script.js', './supabase-config.js', './supabase-app.js', './navigation.js', './manifest.json', './sw.js', './data-init.js',
-        './francais.js', './maths.js', './histoire-geo.js', './anglais.js', './espagnol.js',
-        './physique-chimie.js', './ingenierie-dd.js', './innovation-techno.js', './informatique.js',
-        './cybersecurite.js', './investissement.js', './entrepreneuriat.js', './apprentissage.js', './juridique.js',
-        './bg-light.jpg', './bg-dark.jpg'
-    ];
-    const clearCaches = async () => {
-        if('caches' in window){
-            const keys = await caches.keys();
-            await Promise.all(keys.map(k => caches.delete(k)));
-        }
-    };
-    try {
-        // 1) Test réseau : si le site n'est pas joignable, on ne touche à rien
-        const probe = await fetch('./index.html?v=' + stamp, {cache:'no-store'});
-        if(!probe.ok) throw new Error('HTTP ' + probe.status);
-        // 2) On vide les caches pour que l'ancien service worker ne resserve pas de vieux fichiers
-        await clearCaches();
-        // 3) On re-télécharge chaque fichier en forçant le réseau (ignore aussi le cache HTTP)
-        const res = await Promise.allSettled(files.map(f => fetch(f, {cache:'reload'})));
-        const critical = [0, 1, 2, 3, 4];
-        if(critical.some(i => res[i].status !== 'fulfilled' || !res[i].value.ok)) throw new Error('fichiers principaux introuvables');
-        // 4) Nettoyage final + désinscription : le service worker se réinstalle proprement au rechargement
-        await clearCaches();
-        if('serviceWorker' in navigator){
-            const regs = await navigator.serviceWorker.getRegistrations();
-            await Promise.all(regs.map(r => r.unregister()));
-        }
-        showToast("Mise à jour appliquée ✅ Rechargement…", 'info');
-        setTimeout(() => window.location.reload(), 800);
-    } catch(e) {
-        _updating = false;
-        showToast("Mise à jour impossible — vérifie ta connexion et réessaie", 'warn');
-    }
-}
-
-function updateSyncStatusBadge() {
-    const el = document.getElementById('sync-status-home');
-    if (!el) return;
-    const last = localStorage.getItem('bm_last_sync');
-    if (!last) { el.textContent = '⚠️ Jamais synchronisé'; el.style.color='#d97706'; return; }
-    const mins = Math.round((Date.now() - new Date(last)) / 60000);
-    if (mins < 5)  { el.textContent = '✅ À jour'; el.style.color='#059669'; }
-    else if (mins < 60)  { el.textContent = `🕐 Il y a ${mins} min`; el.style.color='#4f46e5'; }
-    else if (mins < 1440){ el.textContent = `🕐 Il y a ${Math.round(mins/60)}h`; el.style.color='#d97706'; }
-    else                 { el.textContent = `⚠️ Il y a ${Math.round(mins/1440)}j`; el.style.color='#dc2626'; }
-}
-
 
 // ── TOAST HELPER ─────────────────────────────────────────────
 function showToast(msg, type='info') {

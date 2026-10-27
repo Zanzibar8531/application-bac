@@ -4,8 +4,8 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-pwa-v33-temps-reel';
-const CACHE_STATIC = 'bacmaster-static-pwa-v33-temps-reel';
+const CACHE_NAME   = 'bacmaster-pwa-v34';
+const CACHE_STATIC = 'bacmaster-static-pwa-v34';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
@@ -17,6 +17,8 @@ const STATIC_ASSETS = [
   './script.js',
   './supabase-config.js',
   './supabase-app.js',
+  './bm-merge.js',
+  './bm-admin.js',
   './competences.js',
   './erreurs.js',
   './evaluation.js',
@@ -113,7 +115,7 @@ self.addEventListener('fetch', event => {
 
 // ── HELPERS : Détection du type de requête ───────────────────
 function isStaticAsset(url) {
-  const localFiles = ['/index.html', '/style.css', '/script.js', '/supabase-app.js', '/supabase-config.js', '/navigation.js', '/manifest.json', '/'];
+  const localFiles = ['/index.html', '/style.css', '/script.js', '/supabase-app.js', '/bm-merge.js', '/bm-admin.js', '/supabase-config.js', '/navigation.js', '/manifest.json', '/'];
   return url.origin === self.location.origin &&
     (localFiles.some(f => url.pathname.endsWith(f)) ||
      url.pathname.startsWith('/icons/') ||

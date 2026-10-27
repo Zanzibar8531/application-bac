@@ -6121,3 +6121,9 @@ html[data-theme="dark"] body .breadcrumb {
   padding: 4px 0 10px !important;
   margin: 0 !important;
 }
+
+
+/* ── v34 : indicateur d'enregistrement automatique + passage en conflit de fusion ── */
+.save-status{display:inline-block;margin:12px 0 4px;padding:7px 14px;border-radius:99px;font-size:.82rem;font-weight:600;background:rgba(80,90,120,.12);color:var(--muted,#66739a)}
+.save-status.saved{background:rgba(34,160,90,.14);color:#17733f}
+.bm-conflit{background:#fff4d6;border:1px dashed #d9a400;color:#6b4e00;border-radius:10px;padding:8px 12px;font-size:.88rem}

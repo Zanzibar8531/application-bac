@@ -1,7 +1,7 @@
 /* Bac Master — cours partagés et progression personnelle synchronisés via Supabase. */
 (() => {
   const cfg = window.BACMASTER_SUPABASE_CONFIG || {};
-  const state = { client: null, user: null, role: 'reader', channel: null, profileChannel: null, progressChannel: null, pollTimer: null, lastProgressSeen: null, sharedInitialized: false, timer: null, privateTimer: null, progressTimer: null, applyingRemote: false, applyingProgress: false, adminPanel: false, profileLabels: {}, deviceId: (window.crypto?.randomUUID ? window.crypto.randomUUID() : String(Date.now())+'-'+Math.random()), courseRevision: 0, courseDirty: false, progressRevision: 0, progressDirty: false, publishPromise: null, progressPublishPromise: null, refreshPromise: null, progressRefreshPromise: null, lastPublishedCourses: '', lastPublishedProgress: '', tableMode: false, published: new Map(), deferred: new Map(), chapPublishPromise: null, chapRepublish: false, lastChapSeen: 0, chapPollBusy: false, refreshViewTimer: null };
+  const state = { client: null, user: null, role: 'reader', channel: null, profileChannel: null, progressChannel: null, pollTimer: null, lastProgressSeen: null, sharedInitialized: false, timer: null, privateTimer: null, progressTimer: null, applyingRemote: false, applyingProgress: false, adminPanel: false, profileLabels: {}, deviceId: (window.crypto?.randomUUID ? window.crypto.randomUUID() : String(Date.now())+'-'+Math.random()), courseRevision: 0, courseDirty: false, progressRevision: 0, progressDirty: false, publishPromise: null, progressPublishPromise: null, refreshPromise: null, progressRefreshPromise: null, lastPublishedCourses: '', lastPublishedProgress: '', tableMode: false, published: new Map(), chapPublishPromise: null, chapRepublish: false, lastChapSeen: 0, chapPollBusy: false, refreshViewTimer: null };
   const $ = (id) => document.getElementById(id);
   // Canonical comparison: JSONB can return object keys in a different order.
   // Without this, each background poll can trigger an unnecessary merge/save.
@@ -71,48 +71,10 @@
     let chip=$('bm-supabase-account-chip'); if(!chip){chip=document.createElement('button');chip.id='bm-supabase-account-chip';chip.type='button';chip.textContent='☁️ Mon compte';const wrap=document.querySelector('.bm-sidebar-account-wrap');(wrap||document.getElementById('sidebar')||document.body).appendChild(chip);} chip.hidden=true;
     function showForm(mode){$('bm-supabase-landing').hidden=true;$('bm-supabase-form').hidden=false;$('bm-supabase-name').hidden=mode!=='signup';$('bm-supabase-form-title').textContent=mode==='signup'?'Crée ton compte BacMaster.':'Connecte-toi pour continuer.';$('bm-supabase-submit').textContent=mode==='signup'?'Créer mon compte':'Se connecter';$('bm-supabase-password').autocomplete=mode==='signup'?'new-password':'current-password';p.dataset.mode=mode;status('');}
     $('bm-supabase-open-signin').onclick=()=>showForm('signin');$('bm-supabase-open-signup').onclick=()=>showForm('signup');$('bm-supabase-back').onclick=()=>{$('bm-supabase-form').hidden=true;$('bm-supabase-landing').hidden=false;status('');};$('bm-supabase-submit').onclick=()=>p.dataset.mode==='signup'?signUp():signIn();
-    chip.onclick=()=>{p.hidden=false;$('bm-supabase-landing').hidden=true;$('bm-supabase-form').hidden=true;const account=$('bm-supabase-account-info');if(account)account.remove();const info=document.createElement('div');info.id='bm-supabase-account-info';info.style='margin:10px 0;color:#52617d';info.textContent=$('bm-supabase-account-chip').dataset.account||'Connecté';$('bm-supabase-card').insertBefore(info,$('bm-supabase-status'));const admin=document.createElement('button');admin.id='bm-supabase-admin-open';admin.className='bm-secondary';admin.style.width='100%';admin.textContent='⚙️ Administration';admin.hidden=state.role!=='admin';admin.onclick=()=>{p.hidden=true;openAdminPanel();};$('bm-supabase-card').insertBefore(admin,$('bm-supabase-status'));const sync=document.createElement('button');sync.id='bm-supabase-sync-now';sync.className='bm-secondary';sync.style.width='100%';sync.textContent='🔄 Synchroniser maintenant';sync.onclick=async()=>{sync.disabled=true;sync.textContent='Synchronisation…';await manualSync();sync.disabled=false;sync.textContent='🔄 Synchroniser maintenant';};$('bm-supabase-card').insertBefore(sync,$('bm-supabase-status'));const out=document.createElement('button');out.id='bm-supabase-signout';out.className='bm-secondary';out.style.width='100%';out.textContent='Se déconnecter';out.onclick=signOut;$('bm-supabase-card').insertBefore(out,$('bm-supabase-status'));const close=document.createElement('button');close.id='bm-supabase-close-account';close.className='bm-back';close.textContent='Retour aux cours';close.onclick=()=>{p.hidden=true;info.remove();out.remove();admin.remove();close.remove();sync.remove();};$('bm-supabase-card').insertBefore(close,$('bm-supabase-status'));};
+    chip.onclick=()=>{p.hidden=false;$('bm-supabase-landing').hidden=true;$('bm-supabase-form').hidden=true;const account=$('bm-supabase-account-info');if(account)account.remove();const info=document.createElement('div');info.id='bm-supabase-account-info';info.style='margin:10px 0;color:#52617d';info.textContent=$('bm-supabase-account-chip').dataset.account||'Connecté';$('bm-supabase-card').insertBefore(info,$('bm-supabase-status'));const admin=document.createElement('button');admin.id='bm-supabase-admin-open';admin.className='bm-secondary';admin.style.width='100%';admin.textContent='⚙️ Administration';admin.hidden=state.role!=='admin';admin.onclick=()=>{p.hidden=true;openAdminPanel();};$('bm-supabase-card').insertBefore(admin,$('bm-supabase-status'));const out=document.createElement('button');out.id='bm-supabase-signout';out.className='bm-secondary';out.style.width='100%';out.textContent='Se déconnecter';out.onclick=signOut;$('bm-supabase-card').insertBefore(out,$('bm-supabase-status'));const close=document.createElement('button');close.id='bm-supabase-close-account';close.className='bm-back';close.textContent='Retour aux cours';close.onclick=()=>{p.hidden=true;info.remove();out.remove();admin.remove();close.remove();};$('bm-supabase-card').insertBefore(close,$('bm-supabase-status'));};
   }
-  function addAdminPanel(){
-    if($('bm-supabase-admin')) return;
-    const panel=document.createElement('section');panel.id='bm-supabase-admin';panel.hidden=true;panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');
-    panel.innerHTML=`<div id="bm-supabase-admin-card"><h2>⚙️ Administration BacMaster</h2><p class="bm-admin-note">Gère les rôles et consulte le journal des modifications. Un lecteur consulte les cours, un éditeur peut les modifier, un administrateur gère aussi les accès.</p><div class="bm-admin-actions"><button id="bm-admin-refresh">Actualiser</button><button id="bm-admin-audit-btn">Voir l’historique</button><button id="bm-admin-close">Fermer</button></div><div id="bm-admin-message" role="status" class="bm-admin-note"></div><h3>Comptes et autorisations</h3><div id="bm-admin-users">Chargement…</div><h3>Historique des modifications</h3><div id="bm-admin-audit" hidden></div></div>`;
-    document.body.appendChild(panel);
-    $('bm-admin-close').onclick=()=>{panel.hidden=true;};$('bm-admin-refresh').onclick=loadAdminUsers;$('bm-admin-audit-btn').onclick=loadAudit;
-  }
-  function adminMessage(msg,bad=false){const el=$('bm-admin-message');if(el){el.textContent=msg;el.style.color=bad?'#b42318':'';}}
-  async function loadAdminUsers(){
-    if(state.role!=='admin')return;
-    $('bm-admin-users').textContent='Chargement des comptes…';
-    const {data,error}=await state.client.from('bacmaster_profiles').select('user_id,display_name,email,role,created_at').order('created_at',{ascending:true});
-    if(error){$('bm-admin-users').textContent='Impossible de charger les comptes. Exécute supabase_admin_migration.sql dans Supabase. Détail : '+error.message;return;}
-    state.profileLabels=Object.fromEntries((data||[]).map(p=>[p.user_id,p.display_name||p.email||p.user_id]));
-    const host=$('bm-admin-users');host.replaceChildren();
-    if(!data?.length){host.textContent='Aucun compte trouvé.';return;}
-    data.forEach(profile=>{
-      const row=document.createElement('div');row.className='bm-admin-row';
-      const info=document.createElement('div');info.style='flex:1;min-width:180px';
-      const name=document.createElement('strong');name.textContent=profile.display_name||profile.email||profile.user_id;info.appendChild(name);
-      const email=document.createElement('div');email.className='bm-admin-note';email.textContent=(profile.email||'E-mail indisponible')+' · '+profile.user_id;info.appendChild(email);row.appendChild(info);
-      const select=document.createElement('select');select.setAttribute('aria-label','Rôle pour '+(profile.email||profile.user_id));
-      [['reader','Lecteur'],['editor','Éditeur'],['admin','Administrateur']].forEach(([value,label])=>{const opt=document.createElement('option');opt.value=value;opt.textContent=label;opt.selected=profile.role===value;select.appendChild(opt);});row.appendChild(select);
-      const save=document.createElement('button');save.textContent='Enregistrer';save.onclick=async()=>{
-        if(profile.user_id===state.user?.id && select.value!=='admin' && !confirm('Tu vas retirer tes propres droits administrateur. Continuer ?')){select.value=profile.role;return;}
-        save.disabled=true;const {error:updateError}=await state.client.from('bacmaster_profiles').update({role:select.value}).eq('user_id',profile.user_id);
-        save.disabled=false;if(updateError){adminMessage('Modification refusée : '+updateError.message,true);return;}
-        profile.role=select.value;adminMessage('Rôle mis à jour. La révocation des droits est appliquée par Supabase.');
-        if(profile.user_id===state.user?.id){state.role=select.value;if(state.role!=='admin'){$('bm-supabase-admin').hidden=true;}}
-      };row.appendChild(save);host.appendChild(row);
-    });
-  }
-  async function loadAudit(){
-    if(state.role!=='admin')return;const host=$('bm-admin-audit');host.hidden=false;host.textContent='Chargement de l’historique…';
-    const {data,error}=await state.client.from('bacmaster_audit_log').select('id,table_name,operation,actor_user_id,target_user_id,record_id,changed_at,old_data,new_data').order('changed_at',{ascending:false}).limit(100);
-    if(error){host.textContent='Historique indisponible. Exécute supabase_admin_migration.sql. Détail : '+error.message;return;}
-    host.replaceChildren();if(!data?.length){host.textContent='Aucune modification enregistrée pour le moment.';return;}
-    data.forEach(item=>{const row=document.createElement('div');row.className='bm-audit-entry';const date=new Date(item.changed_at).toLocaleString('fr-FR');const summary=document.createElement('strong');summary.textContent=`${date} — ${item.operation} sur ${item.table_name}`;row.appendChild(summary);const details=document.createElement('div');details.textContent=`Auteur : ${state.profileLabels[item.actor_user_id]||item.actor_user_id||'non identifié'} · Cible : ${state.profileLabels[item.target_user_id]||item.target_user_id||item.record_id||'—'}`;row.appendChild(details);if(item.table_name==='bacmaster_profiles'){const roles=document.createElement('div');roles.textContent=`Rôle : ${item.old_data?.role||'—'} → ${item.new_data?.role||'—'}`;row.appendChild(roles);}host.appendChild(row);});
-  }
-  function openAdminPanel(){addAdminPanel();if(state.role!=='admin'){status('Accès réservé aux administrateurs.',true);return;}$('bm-supabase-admin').hidden=false;loadAdminUsers();}
+  function addAdminPanel(){}
+  function openAdminPanel(){if(window.BacMasterUI)window.BacMasterUI.openAdmin();}
   function isPrivateChapter(chapter,data){return String(chapter||'').trim().toLocaleLowerCase('fr-FR')==='la personne'||String(data?.titre||data?.title||'').trim().toLocaleLowerCase('fr-FR')==='la personne';}
   function findPrivateChapter(){if(typeof db==='undefined'||!db)return null;for(const [subject,chapters] of Object.entries(db)){if(!chapters||typeof chapters!=='object')continue;for(const [chapter,data] of Object.entries(chapters)){if(data&&typeof data==='object'&&isPrivateChapter(chapter,data))return {subject,chapter,data};}}return null;}
   function removePrivateChapterFromDb(){if(typeof db==='undefined'||!db)return;for(const [subject,chapters] of Object.entries(db)){if(!chapters||typeof chapters!=='object')continue;for(const [chapter,data] of Object.entries(chapters)){if(isPrivateChapter(chapter,data))delete chapters[chapter];}}}
@@ -325,15 +287,20 @@
   }
 
   // ─── Mode temps réel : un chapitre = une ligne (table bacmaster_chapters) ───
-  // Seuls les chapitres modifiés sont envoyés (quelques Ko au lieu d'1 Mo) et Supabase
-  // diffuse uniquement ce chapitre aux autres appareils.
+  // • Seuls les chapitres modifiés sont envoyés ; Supabase ne diffuse que ce chapitre.
+  // • Écriture « compare-and-swap » : si quelqu'un a modifié le chapitre entre-temps,
+  //   les deux versions sont FUSIONNÉES (bm-merge.js) au lieu d'écraser l'autre.
+  // • Si l'éditeur est ouvert, le texte fusionné y est rechargé en direct.
+  const T='bacmaster_chapters';
   const CAN_EDIT=()=>['admin','editor'].includes(state.role);
   const DELETED='\u0000deleted';
   const chapKey=(subject,chapter)=>subject+'::'+chapter;
+  const parseStr=str=>{try{return str&&str!==DELETED?JSON.parse(str):null;}catch{return null;}};
   function builtInChapter(subject,chapter){return typeof PREBUILT!=='undefined'&&PREBUILT[subject]&&Object.prototype.hasOwnProperty.call(PREBUILT[subject],chapter);}
   function builtInQuestions(subject,chapter){try{return new Set((PREBUILT[subject][chapter].flashcards||[]).map(c=>String(c.q)));}catch{return new Set();}}
   function localChapterStr(subject,chapter){const d=db?.[subject]?.[chapter];return d&&typeof d==='object'?stableStringify(serialiseChapter(d)):null;}
   function editorOpenOn(subject,chapter){try{return !!$('editor')&&curSubject===subject&&curChapter===chapter;}catch{return false;}}
+  function flushEditor(){try{if($('editor')&&curSubject&&curChapter&&db[curSubject]&&db[curSubject][curChapter])db[curSubject][curChapter].cours=$('editor').innerHTML;}catch{}}
   function scheduleRefreshView(){
     clearTimeout(state.refreshViewTimer);
     state.refreshViewTimer=setTimeout(()=>{
@@ -343,21 +310,20 @@
     },250);
   }
   async function detectTableMode(){
-    const {error}=await state.client.from('bacmaster_chapters').select('id').limit(1);
+    const {error}=await state.client.from(T).select('id').limit(1);
     state.tableMode=!error;
     if(error) console.warn('[BacMaster] Table bacmaster_chapters absente : mode ancien (lent). Exécute supabase_temps_reel.sql.',error.message);
     return state.tableMode;
   }
-  function applyRowToDb(row){
+  function applyContentToDb(subject,chapter,content,deleted){
     state.applyingRemote=true;
     try{
-      const {subject,chapter}=row;
-      if(row.deleted){
+      if(deleted){
         if(!builtInChapter(subject,chapter)&&db[subject]) delete db[subject][chapter];
       } else {
         if(!db[subject]) db[subject]={};
         if(!db[subject][chapter]) db[subject][chapter]={cours:'',flashcards:[],exercices:[]};
-        const local=db[subject][chapter],inc=row.content||{};
+        const local=db[subject][chapter],inc=content||{};
         local.cours=String(inc.cours??local.cours??'');local.userEdited=!!inc.userEdited;
         const oldCards=local.flashcards||[];const byQ=new Map(oldCards.map(c=>[String(c.q),c]));
         const next=(inc.flashcards||[]).map(c=>{const q=String(c.q??''),a=String(c.a??'');const old=byQ.get(q);if(old){old.a=a;return old;}return {q,a,score:0,interval:0,ease:2.5,due:null};});
@@ -376,62 +342,104 @@
   function ingestRow(row,initial=false){
     if(!row||!row.id||!row.subject||!row.chapter) return false;
     if(isPrivateChapter(row.chapter,{titre:row.chapter})) return false;
+    const {subject,chapter}=row;
     const rowStr=row.deleted?DELETED:stableStringify(row.content||{});
     const known=state.published.get(row.id);
-    if(known&&known.str===rowStr) return false; // écho de notre propre écriture
+    if(known&&known.remoteStr===rowStr){known.ver=row.updated_at||known.ver;return false;} // écho de notre propre écriture
+    const open=editorOpenOn(subject,chapter);
+    let content=row.content||{},didMerge=false;
     if(!initial&&CAN_EDIT()&&known){
-      const cur=localChapterStr(row.subject,row.chapter);
-      if(cur!==null&&cur!==known.str) return false; // modifs locales pas encore envoyées : elles gagneront
+      if(open) flushEditor();
+      const cur=localChapterStr(subject,chapter);
+      const dirty=cur!==null&&cur!==known.str;           // j'ai des modifs pas encore envoyées
+      if(dirty&&row.deleted){known.remoteStr=DELETED;known.ver=row.updated_at||null;return false;} // supprimé ailleurs mais je l'ai modifié : je le garde
+      if(dirty){
+        const r=window.BacMasterMerge.mergeChapter(parseStr(known.remoteStr),serialiseChapter(db[subject][chapter]),row.content||{});
+        content=r.content;didMerge=true;
+        if(r.conflicts) status('Modification simultanée : les deux versions ont été gardées. Vérifie le passage signalé dans le cours.');
+        else status('Modifications d’un autre éditeur fusionnées avec les tiennes.');
+      }
     }
-    if(!initial&&editorOpenOn(row.subject,row.chapter)){
-      if(!state.deferred.has(row.id)) status('Ce cours vient d’être modifié ailleurs : ferme l’éditeur pour le recharger.');
-      state.deferred.set(row.id,row);return false;
-    }
-    applyRowToDb(row);
-    const stillThere=!!db?.[row.subject]?.[row.chapter];
-    state.published.set(row.id,{str:(row.deleted&&!stillThere)?DELETED:localChapterStr(row.subject,row.chapter),subject:row.subject,chapter:row.chapter});
+    if(row.deleted&&open) return false;                    // on ne supprime pas un cours en cours d'édition
+    applyContentToDb(subject,chapter,content,!!row.deleted);
+    const stillThere=!!db?.[subject]?.[chapter];
+    state.published.set(row.id,{str:(row.deleted&&!stillThere)?DELETED:(didMerge?stableStringify(serialiseChapter(row.content||{})):localChapterStr(subject,chapter)),remoteStr:rowStr,ver:row.updated_at||null,subject,chapter});
+    const k=state.published.get(row.id);
+    if(didMerge) setTimeout(publishChapters,120);   // résultat fusionné à renvoyer
+    if(open){try{if(typeof window.BacMasterReloadEditor==='function')window.BacMasterReloadEditor();}catch{}}
     return true;
   }
-  function retryDeferred(){
-    let changed=false;
-    for(const [id,row] of [...state.deferred]){if(editorOpenOn(row.subject,row.chapter))continue;state.deferred.delete(id);if(ingestRow(row))changed=true;}
-    return changed;
-  }
   function noteSeen(row){const t=Date.parse(row.updated_at||'');if(t&&t>state.lastChapSeen)state.lastChapSeen=t;}
+  const verOf=(data,id)=>{const r=(data||[]).find(x=>x.id===id);return r?r.updated_at:null;};
+  // Écrit un chapitre existant sans écraser le travail d'un autre : en cas de conflit, on fusionne puis on réessaie.
+  async function casWrite(r){
+    for(let attempt=0;attempt<5;attempt++){
+      const known=state.published.get(r.id);
+      const d=db?.[r.subject]?.[r.chapter];if(!d)return true;
+      const content=serialiseChapter(d),str=stableStringify(content);
+      if(known&&known.remoteStr===str){state.published.set(r.id,{...known,str});return true;}
+      let data=[],error=null;
+      if(known?.ver)({data,error}=await state.client.from(T).update({content,deleted:false}).eq('id',r.id).eq('updated_at',known.ver).select('id,updated_at'));
+      if(error){status('Erreur de synchronisation des cours : '+error.message,true);return false;}
+      if(data&&data.length){state.published.set(r.id,{str,remoteStr:str,ver:data[0].updated_at,subject:r.subject,chapter:r.chapter});return true;}
+      // Quelqu'un est passé avant nous : on relit sa version et on fusionne.
+      const {data:rem,error:e2}=await state.client.from(T).select('id,subject,chapter,content,deleted,updated_at').eq('id',r.id).maybeSingle();
+      if(e2){status('Erreur de synchronisation des cours : '+e2.message,true);return false;}
+      if(!rem){ // la ligne n'existe plus : on la recrée
+        const {data:ins,error:e3}=await state.client.from(T).upsert([{id:r.id,subject:r.subject,chapter:r.chapter,content,deleted:false}],{onConflict:'id'}).select('id,updated_at');
+        if(e3){status('Erreur de synchronisation des cours : '+e3.message,true);return false;}
+        state.published.set(r.id,{str,remoteStr:str,ver:verOf(ins,r.id),subject:r.subject,chapter:r.chapter});return true;
+      }
+      noteSeen(rem);
+      if(!ingestRow(rem)&&known){known.ver=rem.updated_at;}   // fusion locale ; met à jour la base de comparaison
+      scheduleRefreshView();
+    }
+    status('Conflit de synchronisation persistant sur un cours : réessai au prochain enregistrement.',true);return false;
+  }
   async function publishChapters(){
     if(!state.client||!state.user||!CAN_EDIT()||state.applyingRemote||!state.tableMode)return;
     if(state.chapPublishPromise){state.chapRepublish=true;return state.chapPublishPromise;}
     state.chapPublishPromise=(async()=>{
+      let rounds=0;
       do{
         state.chapRepublish=false;
-        const rows=[],current=new Set();
+        const fresh=[],existing=[],tomb=[],current=new Set();
         for(const [subject,chapters] of Object.entries(db||{})){
           if(!chapters||typeof chapters!=='object')continue;
           for(const [chapter,data] of Object.entries(chapters)){
             if(!data||typeof data!=='object'||isPrivateChapter(chapter,data))continue;
             const id=chapKey(subject,chapter);current.add(id);
-            const content=serialiseChapter(data),str=stableStringify(content);
-            if(state.published.get(id)?.str!==str)rows.push({id,subject,chapter,content,deleted:false,_str:str});
+            const content=serialiseChapter(data),str=stableStringify(content),known=state.published.get(id);
+            if(!known)fresh.push({id,subject,chapter,content,str});
+            else if(known.str!==str)existing.push({id,subject,chapter});
           }
         }
-        for(const [id,info] of state.published) if(!current.has(id)&&info.str!==DELETED)rows.push({id,subject:info.subject,chapter:info.chapter,content:{},deleted:true,_str:DELETED});
-        if(!rows.length)break;
+        for(const [id,info] of state.published) if(!current.has(id)&&info.str!==DELETED)tomb.push({id,subject:info.subject,chapter:info.chapter});
+        if(!fresh.length&&!existing.length&&!tomb.length)break;
+        // 1) nouveaux chapitres : envoi groupé
         const batches=[];let cur=[],size=0;
-        for(const r of rows){const n=r._str.length;if(cur.length&&size+n>600000){batches.push(cur);cur=[];size=0;}cur.push(r);size+=n;}
+        for(const r of fresh){const n=r.str.length;if(cur.length&&size+n>600000){batches.push(cur);cur=[];size=0;}cur.push(r);size+=n;}
         if(cur.length)batches.push(cur);
-        for(const r of rows)state.published.set(r.id,{str:r._str,subject:r.subject,chapter:r.chapter});
         for(const b of batches){
-          const payload=b.map(({_str,...r})=>r);
-          const {error}=await state.client.from('bacmaster_chapters').upsert(payload,{onConflict:'id'});
-          if(error){for(const r of b)state.published.delete(r.id);status('Erreur de synchronisation des cours : '+error.message,true);return;}
+          const {data,error}=await state.client.from(T).upsert(b.map(({id,subject,chapter,content})=>({id,subject,chapter,content,deleted:false})),{onConflict:'id'}).select('id,updated_at');
+          if(error){status('Erreur de synchronisation des cours : '+error.message,true);return;}
+          for(const r of b)state.published.set(r.id,{str:r.str,remoteStr:r.str,ver:verOf(data,r.id),subject:r.subject,chapter:r.chapter});
+        }
+        // 2) chapitres modifiés : écriture protégée + fusion
+        for(const r of existing) if(!(await casWrite(r)))return;
+        // 3) suppressions
+        for(const r of tomb){
+          const {error}=await state.client.from(T).update({deleted:true,content:{}}).eq('id',r.id);
+          if(error){status('Erreur de synchronisation des cours : '+error.message,true);return;}
+          state.published.set(r.id,{str:DELETED,remoteStr:DELETED,ver:null,subject:r.subject,chapter:r.chapter});
         }
         status('Cours partagés synchronisés.');
-      }while(state.chapRepublish);
+      }while(state.chapRepublish&&++rounds<5);
     })().catch(e=>status('Erreur de synchronisation des cours : '+(e?.message||e),true)).finally(()=>{state.chapPublishPromise=null;});
     return state.chapPublishPromise;
   }
   async function loadChapters(){
-    const {data,error}=await state.client.from('bacmaster_chapters').select('id,subject,chapter,content,deleted,updated_at').order('updated_at',{ascending:true});
+    const {data,error}=await state.client.from(T).select('id,subject,chapter,content,deleted,updated_at').order('updated_at',{ascending:true});
     if(error){status('Lecture des cours impossible : '+error.message,true);return;}
     if(!data.length){
       // Première utilisation : on repart de l'ancien document partagé, puis un éditeur publie chapitre par chapitre.
@@ -450,8 +458,8 @@
     if(!state.client||!state.user||!state.tableMode||state.chapPollBusy)return;
     state.chapPollBusy=true;
     try{
-      let changed=retryDeferred();
-      let q=state.client.from('bacmaster_chapters').select('id,subject,chapter,content,deleted,updated_at');
+      let changed=false;
+      let q=state.client.from(T).select('id,subject,chapter,content,deleted,updated_at');
       if(state.lastChapSeen)q=q.gt('updated_at',new Date(state.lastChapSeen-3000).toISOString());
       const {data,error}=await q.order('updated_at',{ascending:true});
       if(!error&&data)for(const row of data){noteSeen(row);if(ingestRow(row))changed=true;}
@@ -460,7 +468,7 @@
     finally{state.chapPollBusy=false;}
   }
   function chaptersChannel(){
-    return state.client.channel('bacmaster-chapters-live').on('postgres_changes',{event:'*',schema:'public',table:'bacmaster_chapters'},payload=>{
+    return state.client.channel('bacmaster-chapters-live').on('postgres_changes',{event:'*',schema:'public',table:T},payload=>{
       const row=payload.new;if(!row||!row.id)return;noteSeen(row);
       if(ingestRow(row)){status('Cours actualisés en temps réel.');scheduleRefreshView();}
     }).subscribe(st=>{
@@ -472,7 +480,7 @@
     if(state.pollTimer){clearInterval(state.pollTimer);state.pollTimer=null;}
     const nextUser=session?.user||null;
     const userChanged=(state.user?.id||null)!==(nextUser?.id||null);
-    if(userChanged){state.sharedInitialized=false;state.courseDirty=false;state.progressDirty=false;state.lastPublishedCourses='';state.lastPublishedProgress='';state.courseRevision=0;state.progressRevision=0;state.published=new Map();state.deferred=new Map();state.lastChapSeen=0;state.tableMode=false;clearTimeout(state.timer);clearTimeout(state.progressTimer);clearTimeout(state.privateTimer);}
+    if(userChanged){try{window.BacMasterUI&&window.BacMasterUI.onDisconnect();}catch{}state.sharedInitialized=false;state.courseDirty=false;state.progressDirty=false;state.lastPublishedCourses='';state.lastPublishedProgress='';state.courseRevision=0;state.progressRevision=0;state.published=new Map();state.lastChapSeen=0;state.tableMode=false;clearTimeout(state.timer);clearTimeout(state.progressTimer);clearTimeout(state.privateTimer);}
     state.user=nextUser;
     const gate=$('bm-supabase-panel'),chip=$('bm-supabase-account-chip');
     if(!state.user){state.role='reader';if(gate)gate.hidden=false;if(chip)chip.hidden=true;status('Choisis une option pour continuer.');return;}
@@ -480,7 +488,7 @@
     let {data:profile,error}=await state.client.from('bacmaster_profiles').select('display_name,role').eq('user_id',state.user.id).maybeSingle();
     if(error){if(gate)gate.hidden=false;if(chip)chip.hidden=true;status('Profil indisponible : '+error.message+'. Vérifie le script SQL.',true);return;}
     if(!profile){if(gate)gate.hidden=false;if(chip)chip.hidden=true;status('Profil non créé. Vérifie que le script SQL complet a été exécuté.',true);return;}
-    state.role=profile.role||'reader';const account=(profile.display_name||state.user.email)+' — '+state.role;
+    state.role=profile.role||'reader';state.displayName=profile.display_name||state.user.email||'Quelqu’un';const account=(profile.display_name||state.user.email)+' — '+state.role;
     if(chip){chip.textContent='☁️ '+(profile.display_name||state.user.email||'Mon compte')+' · '+state.role;chip.dataset.account=account;}
     addAdminPanel();
     if(state.channel) await state.client.removeChannel(state.channel);
@@ -501,11 +509,12 @@
       if(state.tableMode) await pollChapters(); else await refreshShared();
       await refreshProgress();
     },4000);
+    try{window.BacMasterUI&&window.BacMasterUI.onConnect();}catch(e){console.warn(e);}
     if(!['admin','editor'].includes(state.role)) status('Connecté en lecture seule. Les cours partagés sont accessibles en consultation.');
   }
   async function signIn(){const email=$('bm-supabase-email').value.trim(),password=$('bm-supabase-password').value;if(!email||!password){status('Renseigne ton e-mail et ton mot de passe.',true);return;} status('Connexion…');const {data,error}=await state.client.auth.signInWithPassword({email,password});if(error){status(error.message,true);return;}await connectSession(data.session);}
   async function signUp(){const email=$('bm-supabase-email').value.trim(),password=$('bm-supabase-password').value,name=$('bm-supabase-name').value.trim();if(!email||!password){status('Renseigne ton e-mail et un mot de passe.',true);return;}if(password.length<8){status('Choisis un mot de passe de 8 caractères minimum.',true);return;}status('Création du compte…');const {data,error}=await state.client.auth.signUp({email,password,options:{data:{display_name:name}}});if(error){status(error.message,true);return;}if(data.session)await connectSession(data.session);else status('Compte créé. Vérifie tes e-mails pour confirmer l’inscription, puis connecte-toi.');}
-  async function signOut(){if(state.pollTimer){clearInterval(state.pollTimer);state.pollTimer=null;}if(state.channel)await state.client.removeChannel(state.channel);if(state.profileChannel)await state.client.removeChannel(state.profileChannel);if(state.progressChannel)await state.client.removeChannel(state.progressChannel);if($('bm-supabase-admin'))$('bm-supabase-admin').hidden=true;await state.client.auth.signOut();state.user=null;state.role='reader';const info=$('bm-supabase-account-info'),out=$('bm-supabase-signout'),admin=$('bm-supabase-admin-open'),close=$('bm-supabase-close-account');if(info)info.remove();if(out)out.remove();if(admin)admin.remove();if(close)close.remove();const sync=$('bm-supabase-sync-now');if(sync)sync.remove();if($('bm-supabase-panel'))$('bm-supabase-panel').hidden=false;if($('bm-supabase-account-chip'))$('bm-supabase-account-chip').hidden=true;$('bm-supabase-landing').hidden=false;$('bm-supabase-form').hidden=true;status('Tu es déconnecté.');}
+  async function signOut(){try{window.BacMasterUI&&window.BacMasterUI.onDisconnect();}catch{}if(state.pollTimer){clearInterval(state.pollTimer);state.pollTimer=null;}if(state.channel)await state.client.removeChannel(state.channel);if(state.profileChannel)await state.client.removeChannel(state.profileChannel);if(state.progressChannel)await state.client.removeChannel(state.progressChannel);if($('bm-supabase-admin'))$('bm-supabase-admin').hidden=true;await state.client.auth.signOut();state.user=null;state.role='reader';const info=$('bm-supabase-account-info'),out=$('bm-supabase-signout'),admin=$('bm-supabase-admin-open'),close=$('bm-supabase-close-account');if(info)info.remove();if(out)out.remove();if(admin)admin.remove();if(close)close.remove();const sync=$('bm-supabase-sync-now');if(sync)sync.remove();if($('bm-supabase-panel'))$('bm-supabase-panel').hidden=false;if($('bm-supabase-account-chip'))$('bm-supabase-account-chip').hidden=true;$('bm-supabase-landing').hidden=false;$('bm-supabase-form').hidden=true;status('Tu es déconnecté.');}
   async function manualSync(){
     if(!state.user){status('Connecte-toi d’abord.',true);return;}
     status('Synchronisation en cours…');
@@ -518,7 +527,7 @@
   }
   function hookSave(){
     // script.js calls this explicit hook from save(); no monkey-patching of global bindings.
-    window.BacMasterSync={onLocalSave(){if(state.applyingRemote||state.applyingProgress)return;schedulePublish();schedulePrivatePublish();scheduleProgressPublish();}};
+    window.BacMasterSync={api:{state,status,stableStringify},onLocalSave(){if(state.applyingRemote||state.applyingProgress)return;schedulePublish();schedulePrivatePublish();scheduleProgressPublish();}};
   }
   async function init(){addPanel();addAdminPanel();if(!cfg.url||!cfg.publishableKey){status('Configuration Supabase manquante.',true);return;}if(!window.supabase?.createClient){status('Client Supabase indisponible : vérifie la connexion Internet.',true);return;}state.client=window.supabase.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});hookSave();const wake=()=>{if(!state.user||document.visibilityState==='hidden')return;(state.tableMode?pollChapters():refreshShared());refreshProgress();};document.addEventListener('visibilitychange',wake);window.addEventListener('focus',wake);window.addEventListener('online',wake);const {data:{session},error}=await state.client.auth.getSession();if(error)status('Impossible de récupérer la session : '+error.message,true);await connectSession(session);state.client.auth.onAuthStateChange((_event,session)=>{setTimeout(()=>connectSession(session),0);});}
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();

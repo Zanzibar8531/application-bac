@@ -1,6 +1,46 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<script>
+/* Garde-fou BacMaster : répare les données locales corrompues (ou venant d'un autre site de la même adresse
+   github.io) avant que l'appli ne démarre, et propose un bouton « Réparer » si l'appli ne s'affiche pas. */
+(function(){
+  var KEYS={bacmaster_db:'o',my_db:'o',bacmaster_evals:'a',bacmaster_activity:'a',bacmaster_timelog:'o'};
+  function isObj(v){return v&&typeof v==='object'&&!Array.isArray(v);}
+  try{
+    Object.keys(KEYS).forEach(function(k){
+      var raw=localStorage.getItem(k); if(raw===null) return;
+      var ok=false;
+      try{
+        var v=JSON.parse(raw);
+        ok=KEYS[k]==='a'?Array.isArray(v):isObj(v);
+        if(ok&&(k==='bacmaster_db'||k==='my_db')){
+          for(var s in v){ if(!isObj(v[s])){ok=false;break;} for(var c in v[s]){ if(!isObj(v[s][c])){ok=false;break;} } if(!ok)break; }
+        }
+      }catch(e){ok=false;}
+      if(!ok){ try{localStorage.setItem('bm_backup_'+k,raw);}catch(e){} try{localStorage.removeItem(k);}catch(e){} }
+    });
+  }catch(e){}
+  var errs=[];
+  window.addEventListener('error',function(ev){errs.push(ev.message||'Erreur');});
+  window.addEventListener('unhandledrejection',function(ev){errs.push(String(ev.reason&&ev.reason.message||ev.reason||'Erreur'));});
+  window.addEventListener('load',function(){
+    setTimeout(function(){
+      if(!errs.length||document.body.innerText.indexOf('Mes Matières')!==-1) return;
+      var d=document.createElement('div');
+      d.style.cssText='position:fixed;left:12px;right:12px;top:80px;z-index:99999;background:#fff;color:#111;border:2px solid #c0392b;border-radius:14px;padding:16px;font:15px/1.4 system-ui,sans-serif;box-shadow:0 8px 30px rgba(0,0,0,.25)';
+      d.innerHTML='<b>BacMaster n’a pas pu démarrer.</b><br><small style="color:#555">'+String(errs[0]).replace(/</g,'&lt;')+'</small><br><br><button id="bm-fix" style="padding:10px 16px;border:0;border-radius:10px;background:#2c7be5;color:#fff;font-size:15px;cursor:pointer">🔧 Réparer et recharger</button>';
+      document.body.appendChild(d);
+      document.getElementById('bm-fix').onclick=async function(){
+        try{Object.keys(KEYS).forEach(function(k){var r=localStorage.getItem(k);if(r!==null){try{localStorage.setItem('bm_backup_'+k,r);}catch(e){}localStorage.removeItem(k);}});}catch(e){}
+        try{var regs=await navigator.serviceWorker.getRegistrations();for(var i=0;i<regs.length;i++)await regs[i].unregister();}catch(e){}
+        try{var ks=await caches.keys();for(var j=0;j<ks.length;j++)await caches.delete(ks[j]);}catch(e){}
+        location.reload();
+      };
+    },2000);
+  });
+})();
+</script>
     <script>
     /* Détecte si BacMaster tourne dans une fenêtre d'application (PWA installée)
        et non dans un onglet de navigateur : active alors les zooms par page. */
@@ -129,6 +169,8 @@
 <script src="script.js"></script>
 <script src="navigation.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="bm-merge.js"></script>
+<script src="bm-admin.js"></script>
 <script src="supabase-config.js"></script>
 <script src="supabase-app.js"></script>
 <!-- ── MUSIC PLAYER (persistant) ── -->
