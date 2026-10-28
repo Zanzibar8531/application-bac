@@ -4,8 +4,8 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-pwa-v34';
-const CACHE_STATIC = 'bacmaster-static-pwa-v34';
+const CACHE_NAME   = 'bacmaster-pwa-v35';
+const CACHE_STATIC = 'bacmaster-static-pwa-v35';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
@@ -41,8 +41,11 @@ const STATIC_ASSETS = [
   './ingenierie-dd.js',
   './innovation-techno.js',
   './informatique.js',
+  './informatique-code.js',
   './cybersecurite.js',
+  './cybersecurite-plus.js',
   './investissement.js',
+  './investissement-pratique.js',
   './entrepreneuriat.js',
   './apprentissage.js',
   './juridique.js',
@@ -120,7 +123,7 @@ function isStaticAsset(url) {
     (localFiles.some(f => url.pathname.endsWith(f)) ||
      url.pathname.startsWith('/icons/') ||
      /\/(bg-light|bg-dark|icon-192|icon-512)\.(jpg|png)$/.test(url.pathname) ||
-     url.pathname.match(/\/(francais|maths|histoire-geo|anglais|espagnol|physique-chimie|ingenierie-dd|innovation-techno|informatique|cybersecurite|investissement|entrepreneuriat|apprentissage|juridique|data-init)\.js$/));
+     url.pathname.match(/\/(francais|maths|histoire-geo|anglais|espagnol|physique-chimie|ingenierie-dd|innovation-techno|informatique|informatique-code|cybersecurite|cybersecurite-plus|investissement|investissement-pratique|entrepreneuriat|apprentissage|juridique|data-init)\.js$/));
 }
 
 function isCDNRequest(url) {
