@@ -4,8 +4,8 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-pwa-v35';
-const CACHE_STATIC = 'bacmaster-static-pwa-v35';
+const CACHE_NAME   = 'bacmaster-pwa-v36';
+const CACHE_STATIC = 'bacmaster-static-pwa-v36';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
@@ -19,6 +19,11 @@ const STATIC_ASSETS = [
   './supabase-app.js',
   './bm-merge.js',
   './bm-admin.js',
+  './bm-goal.js',
+  './bm-stats.js',
+  './bm-editor.js',
+  './icon-192.png',
+  './icon-512.png',
   './competences.js',
   './erreurs.js',
   './evaluation.js',
@@ -118,7 +123,7 @@ self.addEventListener('fetch', event => {
 
 // ── HELPERS : Détection du type de requête ───────────────────
 function isStaticAsset(url) {
-  const localFiles = ['/index.html', '/style.css', '/script.js', '/supabase-app.js', '/bm-merge.js', '/bm-admin.js', '/supabase-config.js', '/navigation.js', '/manifest.json', '/'];
+  const localFiles = ['/index.html', '/style.css', '/script.js', '/supabase-app.js', '/bm-merge.js', '/bm-admin.js', '/bm-goal.js', '/bm-stats.js', '/bm-editor.js', '/supabase-config.js', '/navigation.js', '/manifest.json', '/'];
   return url.origin === self.location.origin &&
     (localFiles.some(f => url.pathname.endsWith(f)) ||
      url.pathname.startsWith('/icons/') ||
@@ -193,4 +198,36 @@ self.addEventListener('message', event => {
   if (event.data === 'CLEAR_CACHE') {
     caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
   }
+});
+
+
+// ── NOTIFICATIONS (rappels d'objectif quotidien) ───────────────
+// « push » : message envoyé par le serveur même application fermée.
+self.addEventListener('push', event => {
+  let data = {};
+  try { data = event.data ? event.data.json() : {}; } catch (e) { data = { body: event.data ? event.data.text() : '' }; }
+  event.waitUntil(self.registration.showNotification(data.title || 'BacMaster 📚', {
+    body: data.body || 'Ton objectif du jour t’attend.',
+    icon: './icon-192.png',
+    badge: './icon-192.png',
+    tag: data.tag || 'bm-goal',
+    renotify: true,
+    vibrate: [80, 40, 80],
+    data: { url: data.url || './?revise=1' },
+    actions: [{ action: 'revise', title: '📚 Réviser' }, { action: 'later', title: 'Plus tard' }]
+  }));
+});
+
+// Clic : on ramène l'appli au premier plan (ou on l'ouvre) et on lance la révision.
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  if (event.action === 'later') return;
+  const target = new URL((event.notification.data && event.notification.data.url) || './?revise=1', self.registration.scope).href;
+  event.waitUntil((async () => {
+    const all = await clients.matchAll({ type: 'window', includeUncontrolled: true });
+    for (const c of all) {
+      if (c.url.startsWith(self.registration.scope)) { await c.focus(); c.postMessage({ type: 'bm-revise' }); return; }
+    }
+    await clients.openWindow(target);
+  })());
 });

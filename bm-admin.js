@@ -26,6 +26,8 @@
     (kids || []).forEach(c => c != null && el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c));
     return el;
   }
+  const AVC = [['#6366f1', '#8b5cf6'], ['#ec4899', '#f43f5e'], ['#0ea5e9', '#14b8a6'], ['#f59e0b', '#ef4444'], ['#10b981', '#84cc16'], ['#8b5cf6', '#d946ef']];
+  const avatarColor = id => { let k = 0; String(id || '').split('').forEach(c => { k = (k * 31 + c.charCodeAt(0)) >>> 0; }); const [a, b] = AVC[k % AVC.length]; return `linear-gradient(135deg,${a},${b})`; };
   const initials = n => String(n || '?').trim().split(/\s+/).slice(0, 2).map(x => x[0] || '').join('').toUpperCase() || '?';
   const labels = {};   // user_id -> nom
   const who = id => labels[id] || (id ? 'Compte inconnu' : 'Système');
@@ -83,7 +85,40 @@
     #bm-presence[hidden]{display:none!important}#bm-presence .pd{width:9px;height:9px;border-radius:50%;background:#35d07f;flex:none;animation:bmpulse 1.6s infinite}
     @keyframes bmpulse{50%{opacity:.35}}
     #bm-sidebar-admin{display:block;width:100%;margin-top:8px;text-align:left;border:1px solid #ffffff30;border-radius:12px;padding:11px 12px;background:rgba(19,31,57,.92);color:#fff;font:600 14px system-ui;cursor:pointer}
-    #bm-sidebar-admin[hidden]{display:none!important}`;
+    #bm-sidebar-admin[hidden]{display:none!important}
+    /* ── v36 : version colorée ── */
+    #bm-adm{background:rgba(24,16,60,.62)}
+    #bm-adm .hd{background:linear-gradient(120deg,#4338ca 0%,#7c3aed 45%,#db2777 100%);padding:18px 22px;box-shadow:0 4px 18px rgba(124,58,237,.35)}
+    #bm-adm .hd h2{font-size:21px}#bm-adm .hd p{opacity:.9}
+    #bm-adm .tabs{background:linear-gradient(180deg,#fff,#f3f0ff)}
+    #bm-adm .tabs button{border-radius:10px 10px 0 0;transition:.15s}
+    #bm-adm .tabs button:hover{background:#f1eeff}
+    #bm-adm .tabs button[data-tab=users].on{color:#4338ca;border-bottom-color:#6366f1;background:#eef0ff}
+    #bm-adm .tabs button[data-tab=activity].on{color:#c2410c;border-bottom-color:#f97316;background:#fff2e8}
+    #bm-adm .tabs button[data-tab=history].on{color:#0f766e;border-bottom-color:#14b8a6;background:#e6faf7}
+    #bm-adm .body{background:linear-gradient(180deg,#f3f0ff 0%,#f7f9ff 40%,#f5f7fc 100%)}
+    #bm-adm .stat{border:0;color:#fff;position:relative;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.14)}
+    #bm-adm .stat:after{content:"";position:absolute;right:-18px;top:-18px;width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,.18)}
+    #bm-adm .stat span{color:rgba(255,255,255,.9);font-weight:600}#bm-adm .stat b{font-size:28px}
+    #bm-adm .stat.s1{background:linear-gradient(135deg,#6366f1,#4338ca)}#bm-adm .stat.s2{background:linear-gradient(135deg,#f59e0b,#ea580c)}
+    #bm-adm .stat.s3{background:linear-gradient(135deg,#10b981,#047857)}#bm-adm .stat.s4{background:linear-gradient(135deg,#0ea5e9,#0369a1)}
+    #bm-adm .stat.s5{background:linear-gradient(135deg,#ec4899,#be185d)}
+    #bm-adm .card{border:1px solid #e3def9;box-shadow:0 6px 22px rgba(99,102,241,.10);overflow:hidden}
+    #bm-adm .row:hover{background:#faf8ff}
+    #bm-adm .av{color:#fff;font-size:14px;box-shadow:0 3px 10px rgba(0,0,0,.2)}
+    #bm-adm .pill{padding:3px 11px;font-size:11.5px;letter-spacing:.2px}
+    #bm-adm .pill.reader{background:#dbeafe;color:#1d4ed8}#bm-adm .pill.editor{background:#d1fae5;color:#047857}#bm-adm .pill.admin{background:linear-gradient(135deg,#fcd34d,#f97316);color:#7c2d12}
+    #bm-adm select{border:2px solid #ddd6fe;border-radius:10px;font-weight:600;color:#3730a3;background:#faf8ff}
+    #bm-adm select:focus,#bm-adm input[type=search]:focus{outline:none;border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.18)}
+    #bm-adm input[type=search]{border:2px solid #ddd6fe;border-radius:12px}
+    #bm-adm .btn.pri{background:linear-gradient(135deg,#6366f1,#8b5cf6);border:0;box-shadow:0 4px 12px rgba(99,102,241,.4)}
+    #bm-adm .btn.pri:hover{filter:brightness(1.08)}
+    #bm-adm .feed .ico{font-size:17px;color:#fff}
+    #bm-adm .feed .ico.c-edit{background:linear-gradient(135deg,#60a5fa,#2563eb)}#bm-adm .feed .ico.c-del{background:linear-gradient(135deg,#fb7185,#e11d48)}#bm-adm .feed .ico.c-key{background:linear-gradient(135deg,#fbbf24,#d97706)}
+    #bm-adm .item.on{background:linear-gradient(90deg,#e0f7f3,#f0fdfa);box-shadow:inset 4px 0 0 #14b8a6}
+    #bm-adm .note{background:linear-gradient(135deg,#fff7e0,#ffeccb);border-color:#f6d28a}
+    #bm-adm .dot{background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.25)}
+    #bm-sidebar-admin{background:linear-gradient(135deg,#4338ca,#db2777);border:0;box-shadow:0 4px 14px rgba(219,39,119,.4)}`;
     document.head.appendChild(st);
   }
 
@@ -127,7 +162,7 @@
     try { await loadProfiles(); } catch (e) { return fail(body, e, 'Impossible de charger les comptes.'); }
     const online = onlineList();
     const count = r => profiles.filter(p => p.role === r).length;
-    const stats = h('div', { class: 'stats' }, [['Comptes', profiles.length], ['Administrateurs', count('admin')], ['Éditeurs', count('editor')], ['Lecteurs', count('reader')], ['En ligne', online.length + 1]].map(([t, n]) => h('div', { class: 'stat' }, [h('b', { text: String(n) }), h('span', { text: t })])));
+    const stats = h('div', { class: 'stats' }, [['Comptes', profiles.length], ['Administrateurs', count('admin')], ['Éditeurs', count('editor')], ['Lecteurs', count('reader')], ['En ligne', online.length + 1]].map(([t, n], i) => h('div', { class: 'stat s' + (i + 1) }, [h('b', { text: String(n) }), h('span', { text: t })])));
     const search = h('input', { type: 'search', placeholder: 'Rechercher un nom ou une adresse e-mail…', 'aria-label': 'Rechercher un compte' });
     const list = h('div', { class: 'card' });
     function draw() {
@@ -151,7 +186,7 @@
           renderUsers();
         });
         list.appendChild(h('div', { class: 'row' }, [
-          h('div', { class: 'av', text: initials(p.display_name || p.email) }),
+          h('div', { class: 'av', style: 'background:' + avatarColor(p.user_id || p.email), text: initials(p.display_name || p.email) }),
           h('div', { class: 'grow' }, [h('b', { text: p.display_name || 'Sans nom' }), h('div', { class: 'muted', text: (p.email || 'e-mail indisponible') + ' · inscrit le ' + fmt(p.created_at).split(' ')[0] })]),
           isOn ? h('span', { class: 'muted' }, [h('span', { class: 'dot' }), 'en ligne']) : null,
           h('span', { class: 'pill ' + p.role, text: ROLES[p.role] || p.role }), sel]));
@@ -169,13 +204,13 @@
       sb().from('bacmaster_chapters').select('id,subject,chapter,deleted,updated_at,updated_by').order('updated_at', { ascending: false }).limit(40),
       sb().from('bacmaster_audit_log').select('id,actor_user_id,target_user_id,changed_at,old_data,new_data,table_name').eq('table_name', 'bacmaster_profiles').order('changed_at', { ascending: false }).limit(30)]);
     const items = [];
-    (ch.data || []).forEach(r => items.push({ at: r.updated_at, ico: r.deleted ? '🗑️' : '✏️', text: `${who(r.updated_by)} a ${r.deleted ? 'supprimé' : 'modifié'} « ${r.subject} › ${r.chapter} »` }));
-    (au.data || []).forEach(r => { if (r.old_data && r.new_data && r.old_data.role !== r.new_data.role) items.push({ at: r.changed_at, ico: '🔑', text: `${who(r.actor_user_id)} a changé le rôle de ${who(r.target_user_id)} : ${ROLES[r.old_data.role] || r.old_data.role} → ${ROLES[r.new_data.role] || r.new_data.role}` }); });
+    (ch.data || []).forEach(r => items.push({ at: r.updated_at, ico: r.deleted ? '🗑️' : '✏️', cls: r.deleted ? 'c-del' : 'c-edit', text: `${who(r.updated_by)} a ${r.deleted ? 'supprimé' : 'modifié'} « ${r.subject} › ${r.chapter} »` }));
+    (au.data || []).forEach(r => { if (r.old_data && r.new_data && r.old_data.role !== r.new_data.role) items.push({ at: r.changed_at, ico: '🔑', cls: 'c-key', text: `${who(r.actor_user_id)} a changé le rôle de ${who(r.target_user_id)} : ${ROLES[r.old_data.role] || r.old_data.role} → ${ROLES[r.new_data.role] || r.new_data.role}` }); });
     items.sort((a, b) => new Date(b.at) - new Date(a.at));
     if (ch.error) return fail(body, ch.error, 'Exécute supabase_temps_reel.sql.');
     const list = h('div', { class: 'card feed' });
     if (!items.length) list.appendChild(h('div', { class: 'empty', text: 'Aucune activité pour le moment.' }));
-    items.slice(0, 50).forEach(i => list.appendChild(h('div', { class: 'row' }, [h('div', { class: 'ico', text: i.ico }), h('div', { class: 'grow', text: i.text }), h('div', { class: 'muted', title: fmt(i.at), text: ago(i.at) })])));
+    items.slice(0, 50).forEach(i => list.appendChild(h('div', { class: 'row' }, [h('div', { class: 'ico ' + (i.cls || ''), text: i.ico }), h('div', { class: 'grow', text: i.text }), h('div', { class: 'muted', title: fmt(i.at), text: ago(i.at) })])));
     body.replaceChildren(list);
   }
 

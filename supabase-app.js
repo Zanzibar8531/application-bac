@@ -137,6 +137,44 @@
   }
   // La progression est stockée séparément des cours, dans une ligne user_data par compte.
   // On ne transfère que les résultats personnels, jamais le contenu des cours.
+  // ── Statistiques & objectif : fusion intelligente entre appareils (au lieu d'écraser) ──
+  const LOCAL_KEYS=['bacmaster_evals','bacmaster_evals_at','bacmaster_activity','bacmaster_timelog','bacmaster_timelog_dev','bacmaster_goal'];
+  function mergeLocalMaps(a,b){
+    a=a||{};b=b||{};const out={};
+    for(const key of new Set([...Object.keys(a),...Object.keys(b)])){
+      const x=a[key],y=b[key];
+      if(x===undefined){out[key]=y;continue;} if(y===undefined){out[key]=x;continue;}
+      if(key==='bacmaster_activity'){out[key]=[...new Set([...(Array.isArray(x)?x:[]),...(Array.isArray(y)?y:[])])].sort().slice(-400);}
+      else if(key==='bacmaster_timelog'){ // pour chaque jour / matière / activité, on garde le plus grand temps connu
+        const t={};for(const src of [x,y]){for(const [day,subs] of Object.entries(src||{})){for(const [sub,acts] of Object.entries(subs||{})){for(const [act,sec] of Object.entries(acts||{})){((t[day]=t[day]||{})[sub]=t[day][sub]||{})[act]=Math.max(Number(sec)||0,(t[day][sub][act])||0);}}}}
+        out[key]=t;
+      }
+      else if(key==='bacmaster_timelog_dev'){ // temps mesuré par chaque appareil : on garde, pour chaque appareil, la plus grande valeur connue
+        const t={};for(const src of [x,y]){for(const [dev,log] of Object.entries(src||{})){for(const [day,subs] of Object.entries(log||{})){for(const [sub,acts] of Object.entries(subs||{})){for(const [act,sec] of Object.entries(acts||{})){const d=(t[dev]=t[dev]||{});((d[day]=d[day]||{})[sub]=d[day][sub]||{})[act]=Math.max(Number(sec)||0,d[day][sub][act]||0);}}}}}
+        out[key]=t;
+      }
+      else if(key==='bacmaster_goal'){ // le réglage modifié en dernier gagne ; l'historique des objectifs est fusionné
+        const newer=(Number(y&&y.updatedAt)||0)>=(Number(x&&x.updatedAt)||0)?y:x,older=newer===y?x:y;
+        out[key]={...newer,history:{...((older&&older.history)||{}),...((newer&&newer.history)||{})}};
+      }
+      else out[key]=y;
+    }
+    // l'agenda : la version modifiée en dernier gagne (permet aussi de supprimer une évaluation)
+    if(a.bacmaster_evals!==undefined&&b.bacmaster_evals!==undefined){const winB=(Number(b.bacmaster_evals_at)||0)>=(Number(a.bacmaster_evals_at)||0);out.bacmaster_evals=winB?b.bacmaster_evals:a.bacmaster_evals;out.bacmaster_evals_at=Math.max(Number(a.bacmaster_evals_at)||0,Number(b.bacmaster_evals_at)||0);}
+    return out;
+  }
+  function resetLocalProgress(){
+    state.applyingProgress=true;
+    try{
+      for(const subjectData of Object.values(db||{})){ if(!subjectData||typeof subjectData!=='object')continue;
+        for(const data of Object.values(subjectData)){ if(!data||typeof data!=='object')continue;
+          for(const c of (data.flashcards||[])){c.score=0;c.interval=0;c.ease=2.5;c.due=null;}
+          for(const e of (data.exercices||[])){delete e.status;delete e.lastAttempt;} } }
+      for(const k of [...LOCAL_KEYS,'bacmaster_notif_sent','bacmaster_bonus_sent','bacmaster_goal_done_day','bacmaster_push_on'])localStorage.removeItem(k);
+      if(typeof window.save==='function')window.save();else localStorage.setItem('bacmaster_db',JSON.stringify(db));
+    }finally{state.applyingProgress=false;}
+  }
+  function currentLocalMap(){const m={};for(const key of LOCAL_KEYS){const v=localStorage.getItem(key);if(v!==null){try{m[key]=JSON.parse(v)}catch{}}}return m;}
   function serialiseProgress(){
     const chapters={};
     for(const [subject, subjectData] of Object.entries(db||{})){
@@ -157,7 +195,7 @@
       }
     }
     const local={};
-    for(const key of ['bacmaster_evals','bacmaster_activity','bacmaster_timelog']){
+    for(const key of LOCAL_KEYS){
       const value=localStorage.getItem(key); if(value!==null){try{local[key]=JSON.parse(value)}catch{}}
     }
     return {bacmasterProgressVersion:1,origin:state.deviceId,updatedAt:new Date().toISOString(),chapters,local};
@@ -175,7 +213,8 @@
         const savedExercises=entry.exercises||{};
         for(const ex of (data.exercices||[])){const saved=savedExercises[key(ex)];if(saved){if(saved.status)ex.status=saved.status;if(saved.lastAttempt)ex.lastAttempt=saved.lastAttempt;}}
       }
-      for(const [key,value] of Object.entries(remote.local||{})) if(['bacmaster_evals','bacmaster_activity','bacmaster_timelog'].includes(key)) localStorage.setItem(key,JSON.stringify(value));
+      const mergedLocal=mergeLocalMaps(currentLocalMap(),remote.local||{});
+      for(const [key,value] of Object.entries(mergedLocal)) if(LOCAL_KEYS.includes(key)) localStorage.setItem(key,JSON.stringify(value));
       if(typeof window.save==='function') window.save(); else localStorage.setItem('bacmaster_db',JSON.stringify(db));
       scheduleRefreshView();
     } finally {state.applyingProgress=false;}
@@ -226,7 +265,7 @@
       if(!old){out.chapters[k]=v;continue;}
       out.chapters[k]={...old,...v,cards:{...(old.cards||{}),...(v.cards||{})},exercises:{...(old.exercises||{}),...(v.exercises||{})}};
     }
-    out.local={...(a.local||{}),...(b.local||{})};
+    out.local=mergeLocalMaps(a.local,b.local);
     return out;
   }
   function scheduleProgressPublish(){if(!state.user||state.applyingRemote||state.applyingProgress)return;state.progressDirty=true;state.progressRevision++;clearTimeout(state.progressTimer);state.progressTimer=setTimeout(publishProgress,400);}
@@ -485,6 +524,7 @@
     const gate=$('bm-supabase-panel'),chip=$('bm-supabase-account-chip');
     if(!state.user){state.role='reader';if(gate)gate.hidden=false;if(chip)chip.hidden=true;status('Choisis une option pour continuer.');return;}
     if(gate)gate.hidden=true;if(chip)chip.hidden=false;
+    {const last=localStorage.getItem('bacmaster_last_user');if(last&&last!==state.user.id)resetLocalProgress();localStorage.setItem('bacmaster_last_user',state.user.id);}
     let {data:profile,error}=await state.client.from('bacmaster_profiles').select('display_name,role').eq('user_id',state.user.id).maybeSingle();
     if(error){if(gate)gate.hidden=false;if(chip)chip.hidden=true;status('Profil indisponible : '+error.message+'. Vérifie le script SQL.',true);return;}
     if(!profile){if(gate)gate.hidden=false;if(chip)chip.hidden=true;status('Profil non créé. Vérifie que le script SQL complet a été exécuté.',true);return;}
@@ -527,8 +567,15 @@
   }
   function hookSave(){
     // script.js calls this explicit hook from save(); no monkey-patching of global bindings.
-    window.BacMasterSync={api:{state,status,stableStringify},onLocalSave(){if(state.applyingRemote||state.applyingProgress)return;schedulePublish();schedulePrivatePublish();scheduleProgressPublish();}};
+    window.BacMasterSync={api:{state,status,stableStringify},
+      onStatsChange(){
+        if(!state.user||state.applyingProgress)return;
+        state.statsDirty=true;
+        if(!state.statsTimer)state.statsTimer=setTimeout(()=>{state.statsTimer=null;if(state.statsDirty){state.statsDirty=false;scheduleProgressPublish();}},15000);
+      },
+      flushStats(){if(state.statsDirty&&state.user){state.statsDirty=false;clearTimeout(state.statsTimer);state.statsTimer=null;scheduleProgressPublish();}},
+      onLocalSave(){if(state.applyingRemote||state.applyingProgress)return;schedulePublish();schedulePrivatePublish();scheduleProgressPublish();}};
   }
-  async function init(){addPanel();addAdminPanel();if(!cfg.url||!cfg.publishableKey){status('Configuration Supabase manquante.',true);return;}if(!window.supabase?.createClient){status('Client Supabase indisponible : vérifie la connexion Internet.',true);return;}state.client=window.supabase.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});hookSave();const wake=()=>{if(!state.user||document.visibilityState==='hidden')return;(state.tableMode?pollChapters():refreshShared());refreshProgress();};document.addEventListener('visibilitychange',wake);window.addEventListener('focus',wake);window.addEventListener('online',wake);const {data:{session},error}=await state.client.auth.getSession();if(error)status('Impossible de récupérer la session : '+error.message,true);await connectSession(session);state.client.auth.onAuthStateChange((_event,session)=>{setTimeout(()=>connectSession(session),0);});}
+  async function init(){addPanel();addAdminPanel();if(!cfg.url||!cfg.publishableKey){status('Configuration Supabase manquante.',true);return;}if(!window.supabase?.createClient){status('Client Supabase indisponible : vérifie la connexion Internet.',true);return;}state.client=window.supabase.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});hookSave();const wake=()=>{if(!state.user||document.visibilityState==='hidden')return;(state.tableMode?pollChapters():refreshShared());refreshProgress();};document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&window.BacMasterSync)window.BacMasterSync.flushStats();else wake();});window.addEventListener('focus',wake);window.addEventListener('online',wake);const {data:{session},error}=await state.client.auth.getSession();if(error)status('Impossible de récupérer la session : '+error.message,true);await connectSession(session);state.client.auth.onAuthStateChange((_event,session)=>{setTimeout(()=>connectSession(session),0);});}
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
 })();

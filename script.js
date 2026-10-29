@@ -203,19 +203,29 @@ function getEvals() {
     try { return JSON.parse(localStorage.getItem('bacmaster_evals') || '[]'); }
     catch(e) { return []; }
 }
-function saveEvals(evals) { localStorage.setItem('bacmaster_evals', JSON.stringify(evals)); }
+function saveEvals(evals) { localStorage.setItem('bacmaster_evals', JSON.stringify(evals)); localStorage.setItem('bacmaster_evals_at', String(Date.now())); bmStatsChanged(); }
 function purgeOldEvals() {
-    const today = new Date().toISOString().slice(0,10);
+    const today = dayKey(new Date());
     const before = getEvals();
     const evals = before.filter(e => (new Date(e.date) - new Date(today)) / 86400000 >= -2);
     if(evals.length !== before.length) saveEvals(evals);
     return evals;
 }
 function upcomingEvals(days) {
-    const today = new Date().toISOString().slice(0,10);
+    const today = dayKey(new Date());
     return purgeOldEvals()
         .filter(e => { const d = (new Date(e.date) - new Date(today)) / 86400000; return d >= 0 && d <= days; })
         .sort((a,b) => new Date(a.date) - new Date(b.date));
+}
+
+// Clé de jour AAAA-MM-JJ en heure LOCALE (évite que la journée change à 1-2 h du matin en France).
+function dayKey(d) {
+    d = d || new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+function bmStatsChanged() {
+    try { if (window.BacMasterSync && window.BacMasterSync.onStatsChange) window.BacMasterSync.onStatsChange(); } catch (e) {}
+    try { if (window.BacMasterGoal && window.BacMasterGoal.onProgress) window.BacMasterGoal.onProgress(); } catch (e) {}
 }
 
 function getActivityDates() {
@@ -223,21 +233,22 @@ function getActivityDates() {
     catch(e) { return []; }
 }
 function logActivity() {
-    const today = new Date().toISOString().slice(0,10);
+    const today = dayKey(new Date());
     const dates = getActivityDates();
     if(!dates.includes(today)) {
         dates.push(today);
         if(dates.length > 400) dates.shift(); // garde un historique raisonnable
         localStorage.setItem('bacmaster_activity', JSON.stringify(dates));
+        bmStatsChanged();
     }
 }
 function computeStreak() {
     const dates = new Set(getActivityDates());
     let d = new Date();
-    const todayKey = d.toISOString().slice(0,10);
+    const todayKey = dayKey(d);
     if(!dates.has(todayKey)) d.setDate(d.getDate()-1); // pas encore révisé aujourd'hui : ok si hier compte
     let streak = 0;
-    while(dates.has(d.toISOString().slice(0,10))) {
+    while(dates.has(dayKey(d))) {
         streak++;
         d.setDate(d.getDate()-1);
     }
@@ -249,7 +260,7 @@ function last7DaysActivity() {
     for(let i = 6; i >= 0; i--) {
         const d = new Date();
         d.setDate(d.getDate() - i);
-        const key = d.toISOString().slice(0,10);
+        const key = dayKey(d);
         days.push({ key, label: d.toLocaleDateString('fr-FR', {weekday:'short'}).slice(0,1).toUpperCase(), active: dates.has(key) });
     }
     return days;
@@ -265,24 +276,45 @@ function last7DaysActivity() {
 let curTrackedPage = null;
 let timeTrackLastTick = Date.now();
 
+// Le temps de révision est compté PAR APPAREIL puis additionné : si tu révises 10 min sur le téléphone
+// et 10 min sur l'ordinateur le même jour, tu as bien 20 min (aucun double comptage).
+function deviceId() {
+    let id = localStorage.getItem('bacmaster_device_id');
+    if (!id) { id = 'd' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4); localStorage.setItem('bacmaster_device_id', id); }
+    return id;
+}
+function readJSON(key) { try { return JSON.parse(localStorage.getItem(key) || '{}') || {}; } catch (e) { return {}; } }
 function getTimeLog() {
-    try { return JSON.parse(localStorage.getItem('bacmaster_timelog') || '{}'); }
-    catch(e) { return {}; }
+    const out = JSON.parse(JSON.stringify(readJSON('bacmaster_timelog')));          // ancien cumul (avant le comptage par appareil)
+    for (const log of Object.values(readJSON('bacmaster_timelog_dev'))) {
+        for (const [day, subs] of Object.entries(log || {})) for (const [sub, acts] of Object.entries(subs || {})) for (const [act, sec] of Object.entries(acts || {})) {
+            ((out[day] = out[day] || {})[sub] = out[day][sub] || {})[act] = (out[day][sub][act] || 0) + (Number(sec) || 0);
+        }
+    }
+    return out;
 }
 function saveTimeLog(log) { localStorage.setItem('bacmaster_timelog', JSON.stringify(log)); }
 
 function addTimeSeconds(subject, activity, seconds) {
     if(!subject || !activity || seconds <= 0) return;
     logActivity(); // toute activité réellement trackée (cours, exercices, flashcards, évaluation) allume la bougie du jour
-    const today = new Date().toISOString().slice(0,10);
-    const log = getTimeLog();
+    const today = dayKey(new Date());
+    const dev = readJSON('bacmaster_timelog_dev'), me = deviceId();
+    const log = dev[me] = dev[me] || {};
     if(!log[today]) log[today] = {};
     if(!log[today][subject]) log[today][subject] = {};
     log[today][subject][activity] = (log[today][subject][activity] || 0) + seconds;
-    saveTimeLog(log);
     // Purge : garde un historique raisonnable (~120 jours)
-    const keys = Object.keys(log).sort();
-    if(keys.length > 120) { delete log[keys[0]]; saveTimeLog(log); }
+    const base = readJSON('bacmaster_timelog');
+    const days = [...new Set([...Object.keys(base), ...Object.values(dev).flatMap(l => Object.keys(l || {}))])].sort();
+    if(days.length > 120) {
+        const cut = days[days.length - 120];
+        for (const k of Object.keys(base)) if (k < cut) delete base[k];
+        for (const l of Object.values(dev)) for (const k of Object.keys(l || {})) if (k < cut) delete l[k];
+        saveTimeLog(base);
+    }
+    localStorage.setItem('bacmaster_timelog_dev', JSON.stringify(dev));
+    bmStatsChanged();
 }
 
 function timeTrackTick() {
@@ -323,7 +355,7 @@ function dateKeysRange(nDays) {
     for(let i = nDays-1; i >= 0; i--) {
         const d = new Date();
         d.setDate(d.getDate() - i);
-        keys.push(d.toISOString().slice(0,10));
+        keys.push(dayKey(d));
     }
     return keys;
 }
@@ -510,7 +542,7 @@ function openStats() {
 
 // ── PAGE AGENDA ──────────────────────────────────────────────
 function openAgenda() {
-    const today = new Date().toISOString().slice(0,10);
+    const today = dayKey(new Date());
     curAgendaEvals = purgeOldEvals().sort((a,b) => new Date(a.date) - new Date(b.date));
     render(`
         <div class="breadcrumb">
@@ -773,12 +805,13 @@ function goHome() {
         ${urgentEvals.length>0 ? `
         <div class="eval-banner">
             ${urgentEvals.map(e=>{
-                const diff = Math.round((new Date(e.date)-new Date(new Date().toISOString().slice(0,10)))/86400000);
+                const diff = Math.round((new Date(e.date)-new Date(dayKey(new Date())))/86400000);
                 const cfg = CFG.find(c=>c.name===e.subject);
                 const diffLabel = diff===0?"aujourd'hui":diff===1?'demain':`dans ${diff} jours`;
                 return `<span class="eval-chip">${cfg?cfg.icon:'📚'} ${esc(e.subject)} — ${diffLabel}</span>`;
             }).join('')}
         </div>` : ''}
+        ${typeof bmGoalCardHTML==='function' ? bmGoalCardHTML() : ''}
         ${gs.total>0?`
         <div class="dash-banner">
             <div class="dash-stat">
@@ -798,7 +831,6 @@ function goHome() {
         </div>
         ${gs.due>0?`<button class="daily-review-btn" onclick="startDailyReview()">🌅 Révision du jour — ${gs.due} carte${gs.due>1?'s':''} à revoir${urgentEvals.length>0?`, priorité ${urgentEvals[0].subject}`:', toutes matières'}</button>`:''}
         <p class="card-counts">🎴 ${gs.total} disponibles · ${gs.discovered} découvertes · ${gs.due} à revoir</p>
-        <button class="bc-btn" id="notif-btn" onclick="askNotifPermission()" style="margin-bottom:10px;width:100%;text-align:center">🔕 Activer les rappels</button>
         `:''}
         <button class="bc-btn" onclick="openAgenda()" style="margin-bottom:16px;width:100%;text-align:center">📅 Mes évaluations${urgentEvals.length>0?` (${urgentEvals.length})`:''}</button>
         <div class="subjects-grid">
@@ -1153,91 +1185,9 @@ function renderTabContent() {
     }
     else if(curTab==='edit') {
         box.innerHTML = `
-            <div class="editor-toolbar-sticky">
-            <div class="edt-tabs">
-                <button class="edt-tab active" onclick="switchEditTab(this,'texte')">✏️ Texte</button>
-                <button class="edt-tab" onclick="switchEditTab(this,'maths')">🧮 Maths</button>
-                <button class="edt-tab" onclick="switchEditTab(this,'insert')">➕ Insérer</button>
-            </div>
-            <div class="editor-toolbar edt-panel" data-panel="texte">
-                <button onclick="fmt('undo')" title="Annuler">↩️</button>
-                <button onclick="fmt('redo')" title="Rétablir">↪️</button>
-                <span class="etb-sep"></span>
-                <select onchange="applyHeading(this.value);this.selectedIndex=0" title="Titre de section">
-                    <option value="" disabled selected>Titre</option>
-                    <option value="H3">Titre principal</option>
-                    <option value="H4">Sous-titre</option>
-                    <option value="P">Texte normal</option>
-                </select>
-                <span class="etb-sep"></span>
-                <button onclick="fmt('bold')" title="Gras"><b>G</b></button>
-                <button onclick="fmt('italic')" title="Italique"><i>I</i></button>
-                <button onclick="fmt('underline')" title="Souligné"><u>S</u></button>
-                <button onclick="fmt('removeFormat')" title="Effacer la mise en forme">🧹</button>
-                <span class="etb-sep"></span>
-                <button onclick="fmt('insertUnorderedList')" title="Liste à puces">• Liste</button>
-                <button onclick="fmt('insertOrderedList')" title="Liste numérotée">1. Liste</button>
-                <button onclick="fmt('indent')" title="Augmenter le retrait">⇥|</button>
-                <button onclick="fmt('outdent')" title="Diminuer le retrait">|⇤</button>
-                <span class="etb-sep"></span>
-                <button onclick="fmt('justifyLeft')" title="Aligner à gauche">⇤</button>
-                <button onclick="fmt('justifyCenter')" title="Centrer">≡</button>
-                <button onclick="fmt('justifyRight')" title="Aligner à droite">⇥</button>
-                <span class="etb-sep"></span>
-                <select onchange="applyFontSize(this.value);this.selectedIndex=0" title="Taille du texte">
-                    <option value="" disabled selected>Taille</option>
-                    <option value="12">12</option>
-                    <option value="14">14</option>
-                    <option value="16">16 (normal)</option>
-                    <option value="18">18</option>
-                    <option value="20">20</option>
-                    <option value="24">24</option>
-                    <option value="32">32</option>
-                    <option value="40">40</option>
-                </select>
-                <div class="hl-row" title="Couleur du texte">
-                    <span class="tc-icon">A</span>
-                    <input type="color" id="tcc" value="#0e1525" onchange="fmt('foreColor',this.value)">
-                </div>
-                <div class="hl-row" title="Surligner">
-                    <input type="color" id="hlc" value="#fef08a">
-                    <button class="hl-hl" onclick="applyHL()">🖍️</button>
-                </div>
-            </div>
-            <div class="editor-toolbar edt-panel" data-panel="maths" style="display:none">
-                <button onclick="insertSymbol('√')" title="Racine carrée">√</button>
-                <button onclick="insertSymbol('×')" title="Multiplier">×</button>
-                <button onclick="insertSymbol('÷')" title="Diviser">÷</button>
-                <button onclick="insertSymbol('±')" title="Plus ou moins">±</button>
-                <button onclick="insertSymbol('π')" title="Pi">π</button>
-                <button onclick="insertSymbol('Δ')" title="Delta">Δ</button>
-                <button onclick="insertSymbol('°')" title="Degré">°</button>
-                <button onclick="insertSymbol('≤')" title="Inférieur ou égal">≤</button>
-                <button onclick="insertSymbol('≥')" title="Supérieur ou égal">≥</button>
-                <button onclick="insertSymbol('≠')" title="Différent">≠</button>
-                <button onclick="insertSymbol('∞')" title="Infini">∞</button>
-                <span class="etb-sep"></span>
-                <button onclick="insertPow(2)" title="Insérer un carré ex.">x²</button>
-                <button onclick="insertPow(3)" title="Insérer un cube ex.">x³</button>
-                <button onclick="fmt('superscript')" title="Activer/désactiver l'exposant — tape ensuite ton chiffre">xⁿ</button>
-                <button onclick="fmt('subscript')" title="Activer/désactiver l'indice — tape ensuite ton chiffre">xₙ</button>
-                <button onclick="insertTenPow()" title="×10 avec exposant à compléter">×10ⁿ</button>
-                <button onclick="insertFraction()" title="Insérer une fraction a/b">a/b</button>
-            </div>
-            <div class="editor-toolbar edt-panel" data-panel="insert" style="display:none">
-                <button onclick="insertTable()" title="Insérer un tableau">▦ Tableau</button>
-                <button onclick="openGraphTool()" title="Tracer et insérer un graphique de fonction">📈 Graphique</button>
-                <span class="etb-sep"></span>
-                <button onclick="insertColorBox('formula-box')" title="Encadré bleu — formule/point clé">🔷 Encadré formule</button>
-                <button onclick="insertColorBox('retenir-box')" title="Encadré jaune — à retenir">⭐ À retenir</button>
-                <button onclick="insertColorBox('attention-box')" title="Encadré rouge — attention/piège">⚠️ Attention</button>
-                <span class="etb-sep"></span>
-                <button onclick="insertTermTooltip()" title="Sélectionne un mot/groupe de mots puis clique ici pour ajouter une explication au clic">💬 Terme expliqué</button>
-            </div>
-            </div>
+            ${typeof bmRibbonHTML==='function' ? bmRibbonHTML() : ''}
             <div id="editor" contenteditable="true" class="editor-area cours-body">${data.cours||''}</div>
-            <div class="save-status" id="sbtn" role="status">✅ Enregistré automatiquement</div>
-            <div class="editor-scroll-nav" aria-label="Position dans l’éditeur">
+                        <div class="editor-scroll-nav" aria-label="Position dans l’éditeur">
                 <div class="esn-track" id="esn-track"><div class="esn-thumb" id="esn-thumb"></div></div>
             </div>
         `;
@@ -2515,7 +2465,7 @@ function exportData(customData) {
         const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        const stamp = new Date().toISOString().slice(0,10);
+        const stamp = dayKey(new Date());
         a.href = url; a.download = 'bacmaster-export-' + stamp + '.json';
         document.body.appendChild(a); a.click(); a.remove();
         setTimeout(()=>URL.revokeObjectURL(url), 1000);
@@ -2781,7 +2731,7 @@ function updateThemeBtn() {
 // visite à CHAQUE ouverture, et déclenche une notification locale si besoin.
 function checkReminderGap() {
     const last = localStorage.getItem('bm_last_visit');
-    const today = new Date().toISOString().slice(0,10);
+    const today = dayKey(new Date());
     if(last && last !== today) {
         const gapDays = Math.round((new Date(today) - new Date(last)) / 86400000);
         if(gapDays >= 2 && Notification && Notification.permission === 'granted') {
@@ -2811,7 +2761,6 @@ function updateNotifBtn() {
 document.addEventListener("DOMContentLoaded", () => {
     goHome();
     updateThemeBtn();
-    checkReminderGap();
     const savedYt = localStorage.getItem('bm_custom_yt');
     const ytInput = document.getElementById('yt-custom-url');
     if(ytInput) {
