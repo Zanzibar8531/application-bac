@@ -812,27 +812,8 @@ function goHome() {
             }).join('')}
         </div>` : ''}
         ${typeof bmGoalCardHTML==='function' ? bmGoalCardHTML() : ''}
-        ${gs.total>0?`
-        <div class="dash-banner">
-            <div class="dash-stat">
-                <div class="dash-stat-val">${gs.streak>0?'🔥':'💤'} ${gs.streak}</div>
-                <div class="dash-stat-label">jour${gs.streak>1?'s':''} d'affilée</div>
-            </div>
-            <div class="dash-sep"></div>
-            <div class="dash-stat">
-                <div class="dash-stat-val">🎯 ${gs.mastered}</div>
-                <div class="dash-stat-label">carte${gs.mastered>1?'s':''} maîtrisée${gs.mastered>1?'s':''} / ${gs.total}</div>
-            </div>
-            <div class="dash-sep"></div>
-            <div class="dash-week">
-                ${last7DaysActivity().map(d=>`<div class="dash-week-day" onclick="openDayDetail('${d.key}')" title="Voir le détail du ${new Date(d.key).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}"><div class="dash-week-bar ${d.active?'active':''}"></div><div class="dash-week-label">${d.label}</div></div>`).join('')}
-            </div>
-            <button class="stats-link-btn" onclick="openStats()">📊 Voir mes statistiques</button>
-        </div>
-        ${gs.due>0?`<button class="daily-review-btn" onclick="startDailyReview()">🌅 Révision du jour — ${gs.due} carte${gs.due>1?'s':''} à revoir${urgentEvals.length>0?`, priorité ${urgentEvals[0].subject}`:', toutes matières'}</button>`:''}
-        <p class="card-counts">🎴 ${gs.total} disponibles · ${gs.discovered} découvertes · ${gs.due} à revoir</p>
-        `:''}
-        <button class="bc-btn" onclick="openAgenda()" style="margin-bottom:16px;width:100%;text-align:center">📅 Mes évaluations${urgentEvals.length>0?` (${urgentEvals.length})`:''}</button>
+        ${gs.total>0&&gs.due>0?`<button class="daily-review-btn" onclick="startDailyReview()">🌅 Révision du jour — ${gs.due} carte${gs.due>1?'s':''} à revoir${urgentEvals.length>0?`, priorité ${urgentEvals[0].subject}`:''}</button>`:''}
+        <button class="bh-eval" onclick="openAgenda()">📅 Mes évaluations${urgentEvals.length>0?` (${urgentEvals.length})`:''}</button>
         <div class="subjects-grid">
             ${CFG.map(s=>{
                 const st = subStats(s.name);
@@ -884,7 +865,7 @@ function goSubject(name) {
             <button class="menu-tile menu-tile-voc" onclick="goModeChapters('voc')">
                 <span class="menu-tile-icon">📚</span>
                 <span class="menu-tile-label">Vocabulaire</span>
-                <span class="menu-tile-sub">${st.total} mot(s)</span>
+                <span class="menu-tile-sub">${st.total} ${['Anglais','Espagnol'].includes(name)?'mot':'carte'}${st.total>1?'s':''}</span>
             </button>
             <button class="menu-tile menu-tile-flash" onclick="openSRS()">
                 <span class="menu-tile-icon">🎴</span>
@@ -964,7 +945,7 @@ function goModeChapters(mode) {
                     </div>
                     <div class="chcard-name">${ch}</div>
                     <div class="chcard-meta">
-                        <span>📋 ${cards.length} mots</span>
+                        <span>📋 ${cards.length} ${['Anglais','Espagnol'].includes(curSubject)?'mot'+(cards.length>1?'s':''):'carte'+(cards.length>1?'s':'')}</span>
                         ${due > 0 ? `<span style="color:#4f46e5">⏰ ${due} à réviser</span>` : (toDiscover > 0 ? '<span style="color:#d97706">🆕 À découvrir</span>' : '<span style="color:#059669">✓ À jour</span>')}
                     </div>
                     ${typeof psPill==='function' ? psPill(curSubject, ch) : ''}
@@ -991,7 +972,7 @@ function renderChapterMenu() {
     const discovered = chapterDiscovered(db[curSubject][curChapter]);
     const menuItems = [
         { id:'cours',   icon:'📖', label:'Cours',      sub:'Lire le cours' },
-        { id:'voc',     icon:'📚', label:'Vocabulaire', sub:`${cards.length} mot(s)` },
+        { id:'voc',     icon:'📚', label:'Vocabulaire', sub:`${cards.length} ${(['Anglais','Espagnol'].includes(curSubject)?'mot':'carte')}${cards.length>1?'s':''}` },
         { id:'eval',    icon:'🧪', label:'Évaluation',  sub:'Vérifier ce chapitre' },
         { id:'flash',   icon:'🎴', label:'Flashcards',  sub: discovered ? `${due} à réviser` : `🆕 ${cards.length} à découvrir` },
     ];
@@ -1003,7 +984,7 @@ function renderChapterMenu() {
         ${typeof psChapterBannerHTML==='function' ? psChapterBannerHTML(curSubject, curChapter) : ''}
         <div class="menu-grid">
             ${menuItems.map(m => `
-            <button class="menu-tile" onclick="handleMenuTile('${m.id}')">
+            <button class="menu-tile menu-tile-${m.id}" onclick="handleMenuTile('${m.id}')">
                 <span class="menu-tile-icon">${m.icon}</span>
                 <span class="menu-tile-label">${m.label}</span>
                 <span class="menu-tile-sub">${m.sub}</span>
@@ -1206,7 +1187,7 @@ function renderTabContent() {
         const cards = data.flashcards||[];
         box.innerHTML = cards.length===0
             ? '<p style="color:var(--muted);text-align:center;padding:20px;">Aucun mot. Clique sur ➕ Ajouter pour commencer.</p>'
-            : `<p class="voc-count">${cards.length} mot(s)</p>
+            : `<p class="voc-count">${cards.length} ${(['Anglais','Espagnol'].includes(curSubject)?'mot':'carte')}${cards.length>1?'s':''}</p>
                <div>${cards.map((c,i)=> i===vocEditingIndex ? `
                 <div class="voc-row voc-row-editing">
                     <input type="text" id="voc-edit-q" class="field" value="${esc(c.q)}" placeholder="Mot ou question">
@@ -1269,7 +1250,7 @@ function deleteChapter(ch, mode) {
     const n = (db[curSubject][ch].flashcards||[]).length;
     customConfirm({
         icon:'🗑️', title:'Supprimer ce chapitre ?',
-        message:`"${esc(ch)}" et ses ${n} mot(s) seront supprimés définitivement. Cette action est irréversible.`,
+        message:`"${esc(ch)}" et ses ${n} ${(['Anglais','Espagnol'].includes(curSubject)?'mot':'carte')}${n>1?'s':''} seront supprimés définitivement. Cette action est irréversible.`,
         confirmLabel:'Supprimer', cancelLabel:'Annuler', danger:true,
         onConfirm:()=>{
             delete db[curSubject][ch]; save();

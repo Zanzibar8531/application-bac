@@ -77,17 +77,35 @@
       <circle cx="55" cy="55" r="${r}" fill="none" stroke="currentColor" stroke-opacity=".12" stroke-width="10"/>
       <circle cx="55" cy="55" r="${r}" fill="none" stroke="url(#bgg)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" transform="rotate(-90 55 55)"/></svg>`;
   }
+  function weekHTML() {
+    const today = dayKey();
+    return `<div class="bh-week" role="list" aria-label="7 derniers jours">${window.last7DaysActivity().map(d => `<button class="bh-day ${d.active ? 'met' : d.partial ? 'part' : ''} ${d.key === today ? 'now' : ''}" role="listitem" onclick="openDayDetail('${d.key}')" title="${new Date(d.key + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}${d.active ? ' — objectif atteint' : ''}" aria-label="${d.label} ${d.active ? 'objectif atteint' : d.partial ? 'révision partielle' : 'rien'}"><span>${d.active ? '✓' : d.label}</span></button>`).join('')}</div>`;
+  }
   function cardInner() {
     const s = status(), st = s.streak;
+    let gs = { mastered: 0, total: 0, due: 0 }; try { gs = globalStats(); } catch (e) { /* ignore */ }
     const msg = s.done ? `Objectif atteint, bravo ! Tu peux continuer pour prendre de l’avance.`
       : s.sec === 0 ? `${s.g.minutes} min aujourd’hui pour ${st > 0 ? 'garder ta série' : 'lancer ta série'}.`
       : `Plus que <strong>${s.remainMin} min</strong> pour valider ta journée.`;
-    const reviewLabel = s.due > 0 ? `🌅 Réviser (${s.due} carte${s.due > 1 ? 's' : ''})` : '📚 Réviser maintenant';
-    return `<div class="bg-ring">${ring(s.pct, `Objectif du jour : ${s.doneMin} minutes sur ${s.g.minutes}`, s.done)}<div class="bg-ringtxt"><b>${s.doneMin}</b><span>/ ${s.g.minutes} min</span></div></div>
-      <div class="bg-body">
-        <div class="bg-title">${st > 0 ? '🔥' : '🎯'} ${st > 0 ? `Série de ${st} jour${st > 1 ? 's' : ''}` : 'Objectif du jour'}${s.done ? ' <span class="bg-ok">✓ validé</span>' : s.atRisk ? ' <span class="bg-risk">à sauver</span>' : ''}</div>
-        <div class="bg-sub">${msg}</div>
-        <div class="bg-actions"><button class="bg-btn pri" onclick="BacMasterGoal.start()">${reviewLabel}</button><button class="bg-btn" onclick="BacMasterGoal.openSettings()">⚙️ Objectif &amp; rappels</button></div>
+    const reviewLabel = s.due > 0 ? `🌅 Réviser · ${s.due} carte${s.due > 1 ? 's' : ''}` : '📚 Réviser maintenant';
+    const mpct = gs.total ? Math.round(gs.mastered / gs.total * 100) : 0;
+    return `<div class="bh-top">
+        <div class="bg-ring">${ring(s.pct, `Objectif du jour : ${s.doneMin} minutes sur ${s.g.minutes}`, s.done)}<div class="bg-ringtxt"><b>${s.doneMin}</b><span>/ ${s.g.minutes} min</span></div></div>
+        <div class="bg-body">
+          <div class="bg-title">${st > 0 ? '🔥' : '🎯'} ${st > 0 ? `Série de ${st} jour${st > 1 ? 's' : ''}` : 'Objectif du jour'}${s.done ? ' <span class="bg-ok">✓ validé</span>' : s.atRisk ? ' <span class="bg-risk">à sauver</span>' : ''}</div>
+          <div class="bg-sub">${msg}</div>
+          ${weekHTML()}
+        </div>
+      </div>
+      <div class="bh-kpis">
+        <div class="bh-kpi k1"><b>${st}</b><span>jour${st > 1 ? 's' : ''} d’affilée</span></div>
+        <div class="bh-kpi k2"><b>${gs.mastered}<small>/${gs.total}</small></b><span>cartes maîtrisées</span><i style="width:${mpct}%"></i></div>
+        <div class="bh-kpi k3"><b>${gs.due}</b><span>à revoir aujourd’hui</span></div>
+      </div>
+      <div class="bg-actions">
+        <button class="bg-btn pri" onclick="BacMasterGoal.start()">${reviewLabel}</button>
+        <button class="bg-btn stats" onclick="openStats()">📊 Mes statistiques</button>
+        <button class="bg-btn soft" onclick="BacMasterGoal.openSettings()">⚙️ Objectif &amp; rappels</button>
       </div>`;
   }
   window.bmGoalCardHTML = function () { recordToday(); return `<div class="bg-card ${status().done ? 'done' : ''}" id="bm-goal-card">${cardInner()}</div>`; };
