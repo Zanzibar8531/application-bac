@@ -6385,3 +6385,95 @@ p{text-wrap:pretty}
 .subjects-grid .scard,.chcard,.menu-tile{box-shadow:0 2px 6px rgba(20,25,60,.06),0 10px 24px rgba(20,25,60,.07)}
 .chcard-meta,.scard-meta{font-variant-numeric:tabular-nums}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ═════════════════════ v39 — COULEUR PAR MATIÈRE, RUBAN COMPACT, CARTE D'OBJECTIF COMPACTE ═════════════════════ */
+/* Une couleur par matière, la même partout : carte d'accueil, menu latéral, chapitres */
+.scard-fr,.sb-fr{--c:#059669}.scard-math,.sb-math{--c:#4f46e5}.scard-hg,.sb-hg{--c:#be123c}.scard-ang,.sb-ang{--c:#2563eb}
+.scard-esp,.sb-esp{--c:#d97706}.scard-phy,.sb-phy{--c:#7c3aed}.scard-idd,.sb-idd{--c:#0d9488}.scard-it,.sb-it{--c:#ea580c}
+.scard-info,.sb-info{--c:#0891b2}.scard-cyber,.sb-cyber{--c:#dc2626}.scard-bourse,.sb-bourse{--c:#65a30d}.scard-entr,.sb-entr{--c:#db2777}
+.scard-sci,.sb-sci{--c:#6366f1}.scard-jur,.sb-jur{--c:#78716c}
+
+/* Cartes de matières : entièrement colorées, teintées vers le bleu nuit du fond pour rester harmonieuses */
+.subjects-grid .scard{background:linear-gradient(150deg,color-mix(in srgb,var(--c) 78%,#140e42),color-mix(in srgb,var(--c) 46%,#140e42))!important;color:#fff!important;
+  border:1px solid color-mix(in srgb,var(--c) 60%,#ffffff 14%)!important;box-shadow:0 10px 26px color-mix(in srgb,var(--c) 35%,transparent)!important}
+.subjects-grid .scard:hover{box-shadow:0 16px 36px color-mix(in srgb,var(--c) 55%,transparent)!important}
+.subjects-grid .scard::before{display:none!important}
+.subjects-grid .scard h3,.subjects-grid .scard .scard-name{color:#fff!important}
+.subjects-grid .scard div[style*="muted"],.subjects-grid .scard .scard-meta{color:rgba(255,255,255,.82)!important}
+.subjects-grid .scard .scard-icon{background:rgba(255,255,255,.2)!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.subjects-grid .scard .scard-bar{background:rgba(255,255,255,.25)!important}
+.subjects-grid .scard .scard-bar-fill{background:#fff!important}
+.subjects-grid .scard .badge{background:rgba(255,255,255,.22)!important;color:#fff!important;border:1px solid rgba(255,255,255,.3)!important}
+
+/* Menu latéral : même couleur que la carte de la matière */
+.sb-fr,.sb-math,.sb-hg,.sb-ang,.sb-esp,.sb-phy,.sb-idd,.sb-it,.sb-info,.sb-cyber,.sb-bourse,.sb-entr,.sb-sci,.sb-jur{
+  border-left:4px solid var(--c)!important;border-radius:6px 12px 12px 6px!important;margin:2px 0;color:#fff!important;
+  background:linear-gradient(90deg,color-mix(in srgb,var(--c) 42%,transparent),color-mix(in srgb,var(--c) 8%,transparent) 90%)!important}
+.sb-fr:hover,.sb-math:hover,.sb-hg:hover,.sb-ang:hover,.sb-esp:hover,.sb-phy:hover,.sb-idd:hover,.sb-it:hover,.sb-info:hover,.sb-cyber:hover,.sb-bourse:hover,.sb-entr:hover,.sb-sci:hover,.sb-jur:hover{
+  background:linear-gradient(90deg,color-mix(in srgb,var(--c) 75%,transparent),color-mix(in srgb,var(--c) 20%,transparent) 95%)!important;transform:translateX(3px)}
+
+/* Cartes de chapitres : teinte de la matière, lisible en mode clair comme en mode sombre */
+.chapters-grid{--c:#6366f1}
+html .chapters-grid .chcard{background:color-mix(in srgb,var(--c) 13%,#ffffff)!important;border:1px solid color-mix(in srgb,var(--c) 38%,transparent)!important;color:var(--text)!important;box-shadow:0 4px 14px color-mix(in srgb,var(--c) 18%,transparent)!important}
+html[data-theme="dark"] .chapters-grid .chcard{background:linear-gradient(150deg,color-mix(in srgb,var(--c) 40%,#0c1030),color-mix(in srgb,var(--c) 20%,#0c1030))!important;
+  border:1px solid color-mix(in srgb,var(--c) 55%,transparent)!important;color:#fff!important;box-shadow:0 8px 22px rgba(0,0,0,.35)!important}
+.chapters-grid .chcard:before{background:var(--c)!important}
+.chapters-grid .chcard:hover{box-shadow:0 14px 30px color-mix(in srgb,var(--c) 40%,transparent)!important}
+html[data-theme="dark"] .chapters-grid .chcard .chcard-name{color:#fff!important}
+html[data-theme="dark"] .chapters-grid .chcard .chcard-meta,html[data-theme="dark"] .chapters-grid .chcard .chcard-meta *{color:rgba(255,255,255,.78)!important}
+html[data-theme="dark"] .chapters-grid .chcard .chcard-icon-btn{background:rgba(255,255,255,.14)!important}
+.chapters-grid .chcard[style*="dashed"]{background:transparent!important;border-color:color-mix(in srgb,var(--c) 55%,transparent)!important}
+
+/* ── Carte « objectif du jour » : compacte ── */
+.bg-card{padding:14px 16px!important;gap:10px!important;border-radius:20px!important;margin-bottom:12px!important}
+.bg-card:before{width:160px;height:160px;right:-50px;top:-50px}
+.bh-top{gap:14px!important}
+.bg-ring{width:84px!important;height:84px!important}.bg-ringtxt b{font-size:1.4rem!important}.bg-ringtxt span{font-size:.6rem!important}
+.bg-title{font-size:1rem!important;gap:6px!important}.bg-sub{margin:2px 0 8px!important;font-size:.84rem!important}
+.bh-week{gap:5px!important;margin-top:0!important}.bh-day{width:26px!important;height:26px!important;font-size:.66rem!important;border-width:1.5px!important}
+.bh-kpis{display:flex!important;flex-wrap:wrap;gap:8px!important}
+.bh-kpi{flex:1 1 120px;padding:6px 12px!important;display:flex;align-items:baseline;gap:8px;border-radius:12px!important}
+.bh-kpi b{font-size:1.05rem!important;display:inline!important}.bh-kpi span{font-size:.7rem!important}
+.bg-actions{gap:8px!important}.bg-btn{padding:9px 12px!important;font-size:.82rem!important;border-radius:12px!important;min-height:0}
+.bh-eval{padding:9px 14px!important;margin-bottom:12px!important;font-size:.85rem!important;border-radius:14px!important}
+@media(max-width:640px){.bh-top{flex-direction:row!important;text-align:left!important}.bg-title{justify-content:flex-start!important}.bh-week{justify-content:flex-start!important}
+  .bg-ring{width:72px!important;height:72px!important}.bg-actions{grid-template-columns:1fr 1fr!important}.bh-kpi{flex:1 1 90px;flex-direction:column;gap:0;padding:6px 10px!important}}
+
+/* ── Ruban de l'éditeur : compact, façon Word, lisible en clair et en sombre ── */
+.rb .rb-top{padding:4px 6px 0!important}
+.rb .rb-top .rb-btn.quick{width:26px!important;height:26px!important}.rb .rb-top .rb-btn.quick svg{width:16px;height:16px}
+.rb .rb-tab{padding:5px 13px!important;font-size:.8rem!important;border-radius:6px 6px 0 0!important}
+.rb .rb-tab.on{background:var(--card)!important;color:var(--text)!important;font-weight:700}
+.rb .rb-top .save-status{margin:0 2px 4px auto!important;font-size:.66rem!important;padding:3px 9px!important}
+.rb .rb-panel{padding:6px 4px 4px!important;min-height:0!important;row-gap:4px!important}
+.rb .rb-group{padding:0 7px!important}
+.rb .rb-row{min-height:30px!important;gap:1px!important}
+.rb .rb-glabel{font-size:.58rem!important;margin-top:2px!important;opacity:.8}
+.rb .rb-btn{width:28px!important;height:28px!important;border-radius:5px!important;font-size:.82rem!important}
+.rb .rb-btn svg{width:17px;height:17px}
+.rb .rb-btn.on{background:#2b579a!important;border-color:#2b579a!important;color:#fff!important}
+.rb .rb-size{height:28px!important;font-size:.76rem!important;padding:0 2px!important;margin-right:3px!important;border-radius:5px!important}
+.rb .rb-sep{margin:4px 3px!important}
+.rb .rb-style{min-width:54px!important;height:28px!important;padding:0 8px!important;margin-right:2px!important;border-radius:5px!important}
+.rb .rb-style span{font-size:.76rem!important}
+.rb .rb-big{min-width:54px!important;height:42px!important;gap:1px!important;font-size:.64rem!important;padding:2px 6px!important}.rb .rb-big svg{width:20px!important;height:20px!important}
+.rb .rb-box{min-width:56px!important;height:42px!important;font-size:.64rem!important;padding:2px 6px!important}
+.rb .rb-A{font-size:.95rem!important}.rb .rb-bar{left:5px!important;right:5px!important;bottom:2px!important;height:3px!important}
+.rb .rb-sw{width:22px;height:22px}.rb .rb-pop{width:150px}
+@media(max-width:700px){
+  .rb .rb-panel{flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .rb .rb-panel::-webkit-scrollbar{display:none}
+  .rb .rb-group{flex:none}
+  .rb .rb-btn{width:34px!important;height:34px!important}.rb .rb-size{height:34px!important}.rb .rb-style{height:34px!important}
+  .rb .rb-top{overflow-x:auto}.rb .rb-top .save-status{display:none}
+  .rb .rb-pop{position:fixed!important;left:10px!important;right:10px!important;bottom:12px!important;top:auto!important;width:auto!important;z-index:100002;justify-content:center}
+  .rb .rb-tblpop{align-items:center}
+}
+.rb .rb-stylesel{height:26px;border-radius:5px;border:1px solid rgba(120,120,140,.4);background:var(--card);color:var(--text);font-size:.74rem;font-weight:600;font-family:inherit;padding:0 2px;width:96px;cursor:pointer}
+@media(max-width:700px){.rb .rb-stylesel{height:34px}}
+
+@media(min-width:701px){
+  .rb .rb-btn{width:26px!important;height:26px!important}.rb .rb-btn svg{width:16px;height:16px}
+  .rb .rb-group{padding:0 5px!important}.rb .rb-size{height:26px!important;width:44px}.rb .rb-sep{margin:4px 2px!important}
+  .rb .rb-row{min-height:28px!important}
+}

@@ -51,10 +51,7 @@
         ${group('Paragraphe',
           btn('insertUnorderedList', svg('ul'), 'Liste à puces') + btn('insertOrderedList', svg('ol'), 'Liste numérotée') + btn('outdent', svg('outdent'), 'Diminuer le retrait') + btn('indent', svg('indent'), 'Augmenter le retrait')
           + `<span class="rb-sep"></span>` + btn('justifyLeft', svg('left'), 'Aligner à gauche') + btn('justifyCenter', svg('center'), 'Centrer') + btn('justifyRight', svg('right'), 'Aligner à droite') + btn('justifyFull', svg('just'), 'Justifier'))}
-        ${group('Styles',
-          `<button type="button" class="rb-style" data-rb-style="P" title="Texte normal"><span style="font-size:14px">Normal</span></button>`
-          + `<button type="button" class="rb-style" data-rb-style="H3" title="Titre principal"><span style="font-size:17px;font-weight:700">Titre 1</span></button>`
-          + `<button type="button" class="rb-style" data-rb-style="H4" title="Sous-titre"><span style="font-size:15px;font-weight:600;color:var(--accent)">Titre 2</span></button>`)}
+        ${group('Style', `<select class="rb-stylesel" id="rb-style" title="Style du paragraphe" aria-label="Style du paragraphe"><option value="P">Normal</option><option value="H3">Titre 1</option><option value="H4">Titre 2</option></select>`)}
       </div>
       <div class="rb-panel" data-rb-panel="insert" hidden>
         ${group('Tableaux & graphiques',
@@ -111,6 +108,7 @@
   document.addEventListener('change', e => {
     const t = e.target;
     if (t.id === 'rb-size') { const v = t.value; run(() => applyFontSize(v)); }
+    else if (t.id === 'rb-style') { const v = t.value; run(() => applyHeading(v)); }
     else if (t.matches && t.matches('[data-rb-txt-custom]')) { run(() => fmt('foreColor', t.value)); closePops(); }
     else if (t.matches && t.matches('[data-rb-hl-custom]')) { run(() => { restoreEditorSelection(); document.execCommand('hiliteColor', false, t.value); }); closePops(); }
   });
@@ -131,7 +129,7 @@
     });
     let n = sel.anchorNode; n = n && n.nodeType === 3 ? n.parentElement : n;
     const block = n && n.closest ? (n.closest('h3') ? 'H3' : n.closest('h4') ? 'H4' : 'P') : 'P';
-    rb.querySelectorAll('[data-rb-style]').forEach(b => b.classList.toggle('on', b.dataset.rbStyle === block));
+    const ss = $('rb-style'); if (ss) ss.value = block;
     const size = n ? Math.round(parseFloat(getComputedStyle(n).fontSize)) : 0, s = $('rb-size');
     if (s && size) { const o = [...s.options].find(x => +x.value === size); s.selectedIndex = o ? [...s.options].indexOf(o) : 0; if (!o) s.options[0].textContent = size; }
   });

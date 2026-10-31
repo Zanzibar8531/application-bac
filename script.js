@@ -812,7 +812,6 @@ function goHome() {
             }).join('')}
         </div>` : ''}
         ${typeof bmGoalCardHTML==='function' ? bmGoalCardHTML() : ''}
-        ${gs.total>0&&gs.due>0?`<button class="daily-review-btn" onclick="startDailyReview()">🌅 Révision du jour — ${gs.due} carte${gs.due>1?'s':''} à revoir${urgentEvals.length>0?`, priorité ${urgentEvals[0].subject}`:''}</button>`:''}
         <button class="bh-eval" onclick="openAgenda()">📅 Mes évaluations${urgentEvals.length>0?` (${urgentEvals.length})`:''}</button>
         <div class="subjects-grid">
             ${CFG.map(s=>{
@@ -928,7 +927,7 @@ function goModeChapters(mode) {
     render(`
         <div class="breadcrumb"><button class="bc-btn" onclick="goSubject('${esc(curSubject)}')">← ${cfg ? cfg.icon : ''} ${curSubject}</button></div>
         <div class="page-head"><h1 style="font-size:1.2rem">Choisis un chapitre</h1></div>
-        <div class="chapters-grid">
+        <div class="chapters-grid" style="--c:${subjectColor(curSubject)}">
             ${(()=>{ const mostRecent = mostRecentlyReadChapter(curSubject); return chapters.map(ch => {
                 const cards = db[curSubject][ch].flashcards || [];
                 const due   = cards.filter(c => isDueIn(db[curSubject][ch], c)).length;
