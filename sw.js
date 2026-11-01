@@ -4,8 +4,8 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-pwa-v39';
-const CACHE_STATIC = 'bacmaster-static-pwa-v39';
+const CACHE_NAME   = 'bacmaster-pwa-v40';
+const CACHE_STATIC = 'bacmaster-static-pwa-v40';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
@@ -22,6 +22,7 @@ const STATIC_ASSETS = [
   './bm-goal.js',
   './bm-stats.js',
   './bm-editor.js',
+  './bm-agenda.js',
   './icon-192.png',
   './icon-512.png',
   './competences.js',
@@ -123,7 +124,7 @@ self.addEventListener('fetch', event => {
 
 // ── HELPERS : Détection du type de requête ───────────────────
 function isStaticAsset(url) {
-  const localFiles = ['/index.html', '/style.css', '/script.js', '/supabase-app.js', '/bm-merge.js', '/bm-admin.js', '/bm-goal.js', '/bm-stats.js', '/bm-editor.js', '/supabase-config.js', '/navigation.js', '/manifest.json', '/'];
+  const localFiles = ['/index.html', '/style.css', '/script.js', '/supabase-app.js', '/bm-merge.js', '/bm-admin.js', '/bm-goal.js', '/bm-stats.js', '/bm-editor.js', '/bm-agenda.js', '/supabase-config.js', '/navigation.js', '/manifest.json', '/'];
   return url.origin === self.location.origin &&
     (localFiles.some(f => url.pathname.endsWith(f)) ||
      url.pathname.startsWith('/icons/') ||
@@ -206,10 +207,12 @@ self.addEventListener('message', event => {
 self.addEventListener('push', event => {
   let data = {};
   try { data = event.data ? event.data.json() : {}; } catch (e) { data = { body: event.data ? event.data.text() : '' }; }
+  const mood = ['push', 'worry', 'party'].includes(data.mood) ? data.mood : 'push';
   event.waitUntil(self.registration.showNotification(data.title || 'BacMaster 📚', {
     body: data.body || 'Ton objectif du jour t’attend.',
-    icon: './icon-192.png',
-    badge: './icon-192.png',
+    icon: './mascot-' + mood + '.png',        // la mascotte, en grand à droite
+    image: './banner-' + mood + '.png',       // grande image colorée sous le texte
+    badge: './badge.png',                     // petit « B » blanc dans la barre d'état (doit être monochrome)
     tag: data.tag || 'bm-goal',
     renotify: true,
     vibrate: [80, 40, 80],

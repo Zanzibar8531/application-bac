@@ -130,7 +130,7 @@
           <section class="bs-card"><h2>🧩 Où va mon temps</h2><p class="bs-sub">Répartition sur ${period === 7 ? '7 jours' : period === 30 ? '30 jours' : '3 mois'}.</p>${donutSVG(bySubj, periodSec)}</section>
         </div>
 
-        <section class="bs-card"><h2>Mes matières</h2><div class="bs-subjects">${rows.length ? rows.sort((a, b) => b.mastered - a.mastered).map(r => `<div class="bs-subj"><div class="bs-subj-top"><span>${r.icon} ${esc(r.name)}</span><b>${r.mastered}%</b></div><div class="bs-track"><i class="d" style="width:${r.discovered}%;background:${r.color}33"></i><i class="m" style="width:${r.mastered}%;background:${r.color}"></i></div></div>`).join('') : '<p class="bs-empty">Aucune carte pour l’instant.</p>'}</div></section>
+        <section class="bs-card"><h2>Mes matières</h2><p class="bs-sub">Touche une matière pour voir le temps passé et tes réussites en détail.</p><div class="bs-subjects">${rows.length ? rows.sort((a, b) => b.mastered - a.mastered).map(r => `<button class="bs-subj" onclick="openSubjectStats('${esc(r.name).replace(/'/g, '\\&#39;')}','stats')" aria-label="Détail ${esc(r.name)}"><div class="bs-subj-top"><span>${r.icon} ${esc(r.name)}</span><b>${r.mastered}% ›</b></div><div class="bs-track"><i class="d" style="width:${r.discovered}%;background:${r.color}33"></i><i class="m" style="width:${r.mastered}%;background:${r.color}"></i></div></button>`).join('') : '<p class="bs-empty">Aucune carte pour l’instant.</p>'}</div></section>
 
         <section class="bs-card"><h2>🗓️ Assiduité — 16 semaines</h2><p class="bs-sub">Chaque case est un jour. Plus elle est foncée, plus tu as révisé.</p>${heatmapHTML(16, goalMin)}</section>
 
@@ -146,4 +146,79 @@
       </div>`);
   };
   window.BacMasterStats = { setPeriod(p) { period = p; const y = window.scrollY; window.openStats(); window.scrollTo(0, y); } };
+})();
+
+
+/* ============================================================
+   Statistiques détaillées d'UNE matière : temps par activité, réussites, évaluations, chapitres
+   ============================================================ */
+(function () {
+  'use strict';
+  let sPeriod = 30;
+  const esc = t => String(t == null ? '' : t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const ACTS = [['📖', 'Lecture du cours', '#6366f1'], ['🎴', 'Flashcards', '#0ea5e9'], ['🧩', 'Exercices', '#10b981']];
+  const actOf = a => ACTS.find(x => String(a).startsWith(x[0]));
+  // Temps d'une matière : { par activité, par chapitre, par jour } sur une période (null = depuis toujours)
+  function subjectTime(subject, days) {
+    const log = getTimeLog(), keys = days ? new Set(dateKeysRange(days)) : null, res = { act: {}, ch: {}, day: {}, total: 0 };
+    for (const [day, subs] of Object.entries(log)) {
+      if (keys && !keys.has(day)) continue;
+      for (const [act, sec] of Object.entries((subs || {})[subject] || {})) {
+        const a = actOf(act), chap = String(act).split(' — ').slice(1).join(' — ');
+        if (a) res.act[a[1]] = (res.act[a[1]] || 0) + sec;
+        if (chap) res.ch[chap] = (res.ch[chap] || 0) + sec;
+        res.day[day] = (res.day[day] || 0) + sec; res.total += sec;
+      }
+    }
+    return res;
+  }
+  const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+  function dayBars(keys, perDay, color) {
+    const vals = keys.map(k => Math.round((perDay[k] || 0) / 60)), max = Math.max(10, ...vals), W = 640, H = 150, pb = 22, pt = 8, bw = Math.max(3, Math.min(24, (W - 20) / keys.length * 0.6)), step = (W - 20) / keys.length;
+    return `<svg viewBox="0 0 ${W} ${H}" class="bs-chart" role="img" aria-label="Minutes par jour"><g>${keys.map((k, i) => { const h = vals[i] / max * (H - pb - pt), x = 10 + step * i + (step - bw) / 2;
+      return `<rect x="${x.toFixed(1)}" y="${(H - pb - h).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(vals[i] ? 3 : 0, h).toFixed(1)}" rx="${Math.min(6, bw / 2)}" fill="${color}"><title>${new Date(k + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })} — ${vals[i]} min</title></rect>${keys.length <= 14 || i % Math.ceil(keys.length / 8) === 0 ? `<text x="${(x + bw / 2).toFixed(1)}" y="${H - 6}" text-anchor="middle" class="bs-axis">${new Date(k + 'T12:00:00').getDate()}</text>` : ''}`; }).join('')}</g></svg>`;
+  }
+
+  window.openSubjectStats = function (subject, from) {
+    if (!subject || !db[subject]) return;
+    try { clearInterval(qTimer); } catch (e) { /* ignore */ }
+    curTrackedPage = null; curSubject = subject;
+    const cfg = CFG.find(c => c.name === subject) || { icon: '📚' }, col = subjectColor(subject);
+    const T = subjectTime(subject, sPeriod || null), life = subjectTime(subject, null);
+    const chapters = Object.keys(db[subject]).map(c => ({ name: c, d: psChapterData(subject, c) }));
+    const sum = f => chapters.reduce((a, c) => a + f(c.d), 0);
+    const cards = { total: sum(d => d.cards.total), seen: sum(d => d.cards.seen), mastered: sum(d => d.cards.mastered) };
+    const exo = { reussi: sum(d => d.exo.reussi), presque: sum(d => d.exo.presque), a_revoir: sum(d => d.exo.a_revoir), nonfait: sum(d => d.exo.nonfait) };
+    const exoDone = exo.reussi + exo.presque + exo.a_revoir, nExo = exoDone + exo.nonfait;
+    const ev = getPerf().filter(e => e.s === subject), flash = ev.filter(e => e.y === 'flash' || e.y === 'card'), flashOk = flash.length ? Math.round(flash.reduce((a, e) => a + (+e.r || 0), 0) / flash.length * 100) : null;
+    const assess = getAssess().filter(r => r.s === subject).sort((a, b) => a.t - b.t), avgEval = assess.length ? Math.round(assess.reduce((a, r) => a + r.score, 0) / assess.length * 100) : null;
+    const keys = dateKeysRange(sPeriod === 0 ? 90 : Math.max(sPeriod, 7));
+    const maxAct = Math.max(1, ...ACTS.map(a => T.act[a[1]] || 0));
+    const actRows = ACTS.map(a => { const v = T.act[a[1]] || 0; return `<div class="sx-act"><div class="sx-act-top"><span>${a[0]} ${a[1]}</span><b>${fmtDuration(v)}</b></div><div class="bs-track"><i class="m" style="width:${pct(v, maxAct)}%;background:${a[2]}"></i></div><small>${pct(v, T.total)} % du temps de ${esc(subject)}</small></div>`; }).join('');
+    const evBars = assess.slice(-8).map(r => `<div class="sx-ev" title="${new Date(r.t).toLocaleDateString('fr-FR')} — ${Math.round(r.score * 100)} %"><i style="height:${Math.max(6, Math.round(r.score * 100))}%;background:${r.score >= .75 ? '#22c55e' : r.score >= .5 ? '#f59e0b' : '#ef4444'}"></i><span>${Math.round(r.score * 100)}</span></div>`).join('');
+    const rows = chapters.sort((a, b) => (T.ch[b.name] || 0) - (T.ch[a.name] || 0)).map(c => { const d = c.d, st = d.state, done = d.exo.reussi + d.exo.presque + d.exo.a_revoir, last = d.evals[0] ? Math.round(d.evals[0].ch[c.name][0] / d.evals[0].ch[c.name][1] * 100) + ' %' : '—';
+      return `<button class="sx-row" onclick="openChapterStats('${esc(subject).replace(/'/g, '\\&#39;')}','${esc(c.name).replace(/'/g, '\\&#39;')}','${esc(from || 'subject')}')"><div class="sx-row-top"><b>${esc(c.name)}</b><span class="ps-pill" style="color:${st.col};border-color:${st.col}">${st.icon} ${st.label}</span></div>
+        <div class="ps-chips"><span title="Temps passé (période)">⏱️ ${fmtDuration(T.ch[c.name] || 0)}</span><span title="Cartes maîtrisées">🎴 ${d.cards.mastered}/${d.cards.total}</span><span title="Exercices faits">✏️ ${done}/${d.nExo}</span><span title="Dernière évaluation">🧪 ${last}</span></div></button>`; }).join('');
+    const back = from === 'stats' ? "openStats()" : `goSubject('${esc(subject).replace(/'/g, '\\&#39;')}')`;
+    render(`
+      <div class="breadcrumb"><button class="bc-btn" onclick="${back}">← ${from === 'stats' ? 'Statistiques' : esc(subject)}</button></div>
+      <div class="bs-page" style="--c:${col}">
+        <section class="sx-hero"><div class="sx-hero-ico">${cfg.icon}</div><div><h1>${esc(subject)}</h1><p>${fmtDuration(life.total)} de révision au total</p>
+          <div class="bs-hero-pills"><span class="bs-pill">🎴 <b>${cards.mastered}</b>/${cards.total} maîtrisées</span>${flashOk !== null ? `<span class="bs-pill">✅ <b>${flashOk}%</b> de bonnes réponses</span>` : ''}${avgEval !== null ? `<span class="bs-pill">🧪 moyenne <b>${avgEval}%</b></span>` : ''}</div></div></section>
+        <div class="bs-seg" role="tablist" aria-label="Période">${[[7, '7 jours'], [30, '30 jours'], [0, 'Tout']].map(([p, l]) => `<button class="${p === sPeriod ? 'on' : ''}" onclick="BacMasterStats.subjPeriod(${p},'${esc(subject).replace(/'/g, '\\&#39;')}','${esc(from || '')}')">${l}</button>`).join('')}</div>
+        <section class="bs-card"><h2>⏱️ Où va ton temps en ${esc(subject)}</h2><p class="bs-sub">${sPeriod ? 'Sur ' + sPeriod + ' jours' : 'Depuis le début'} : <b>${fmtDuration(T.total)}</b>. Le temps passé à écrire ou modifier un cours n’est pas compté.</p><div class="sx-acts">${actRows}</div></section>
+        <section class="bs-card"><h2>Par jour</h2>${dayBars(keys, T.day, col)}</section>
+        <div class="bs-two">
+          <section class="bs-card"><h2>🎴 Flashcards</h2><div class="sx-big">${cards.mastered}<small>/${cards.total} maîtrisées</small></div><div class="bs-track" style="margin:6px 0 10px"><i class="d" style="width:${pct(cards.seen, cards.total)}%;background:${col}44"></i><i class="m" style="width:${pct(cards.mastered, cards.total)}%;background:${col}"></i></div>
+            <ul class="sx-list"><li><span>Découvertes</span><b>${cards.seen}/${cards.total}</b></li><li><span>Réponses enregistrées</span><b>${flash.length}</b></li><li><span>Taux de bonnes réponses</span><b>${flashOk !== null ? flashOk + ' %' : '—'}</b></li></ul></section>
+          <section class="bs-card"><h2>✏️ Exercices</h2><div class="sx-big">${exo.reussi}<small>/${nExo} réussis</small></div><div class="bs-track" style="margin:6px 0 10px"><i class="m" style="width:${pct(exo.reussi, nExo)}%;background:#22c55e"></i></div>
+            <ul class="sx-list"><li><span>🟢 Réussis</span><b>${exo.reussi}</b></li><li><span>🟡 Presque</span><b>${exo.presque}</b></li><li><span>🔴 À revoir</span><b>${exo.a_revoir}</b></li><li><span>⚪ Pas encore faits</span><b>${exo.nonfait}</b></li></ul></section>
+        </div>
+        <section class="bs-card"><h2>🧪 Évaluations</h2>${assess.length ? `<div class="sx-evwrap"><div class="sx-evbars">${evBars}</div><ul class="sx-list"><li><span>Évaluations passées</span><b>${assess.length}</b></li><li><span>Moyenne</span><b>${avgEval} %</b></li><li><span>Dernière</span><b>${Math.round(assess[assess.length - 1].score * 100)} %</b></li></ul></div>` : '<p class="bs-empty">Aucune évaluation pour le moment. Lance-en une depuis la matière pour mesurer ta maîtrise réelle.</p>'}</section>
+        <section class="bs-card"><h2>📚 Chapitres</h2><p class="bs-sub">Triés par temps passé. Touche un chapitre pour le détail.</p><div class="sx-rows">${rows}</div></section>
+      </div>`);
+    window.scrollTo(0, 0);
+  };
+  window.openCourseStats = function (subject, from) { window.openSubjectStats(subject, from); };
+  window.BacMasterStats.subjPeriod = function (p, subject, from) { sPeriod = p; const y = window.scrollY; window.openSubjectStats(subject, from || undefined); window.scrollTo(0, y); };
 })();

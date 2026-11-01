@@ -89,7 +89,8 @@
       : `Plus que <strong>${s.remainMin} min</strong> pour valider ta journée.`;
     const reviewLabel = s.due > 0 ? `🌅 Réviser · ${s.due} carte${s.due > 1 ? 's' : ''}` : '📚 Réviser maintenant';
     const mpct = gs.total ? Math.round(gs.mastered / gs.total * 100) : 0;
-    return `<div class="bh-top">
+    const mood = s.done ? 'party' : s.atRisk ? 'worry' : 'push';
+    return `<img class="bg-mascot" src="./mascot-${mood}.png" alt="" width="64" height="64" aria-hidden="true" loading="lazy"><div class="bh-top">
         <div class="bg-ring">${ring(s.pct, `Objectif du jour : ${s.doneMin} minutes sur ${s.g.minutes}`, s.done)}<div class="bg-ringtxt"><b>${s.doneMin}</b><span>/ ${s.g.minutes} min</span></div></div>
         <div class="bg-body">
           <div class="bg-title">${st > 0 ? '🔥' : '🎯'} ${st > 0 ? `Série de ${st} jour${st > 1 ? 's' : ''}` : 'Objectif du jour'}${s.done ? ' <span class="bg-ok">✓ validé</span>' : s.atRisk ? ' <span class="bg-risk">à sauver</span>' : ''}</div>
@@ -141,14 +142,15 @@
     else title = last ? pick(['⏰ Il est encore temps de réviser aujourd’hui', '🌙 Une petite session avant de dormir ?']) : pick(['📚 C’est l’heure de ta session', '🎯 Ton objectif du jour t’attend']);
     const body = s.sec > 60 ? `Tu as déjà fait ${s.doneMin} min : plus que ${s.remainMin} min pour valider ta journée !${dueTxt}`
       : `${s.g.minutes} min suffisent aujourd’hui. Ouvre BacMaster et lance-toi !${dueTxt}`;
-    return { title, body, tag: 'bm-goal' };
+    return { title, body, tag: 'bm-goal', mood: n > 0 && (last || s.atRisk) ? 'worry' : 'push' };
   }
   function bonusMessage(s) {
     const n = s.streak;
-    return { title: '🎉 Objectif atteint, bravo !', body: `${s.doneMin} min aujourd’hui${n > 0 ? ` et ${n} jour${n > 1 ? 's' : ''} de série` : ''}. Encore 10 minutes pour prendre de l’avance ?`, tag: 'bm-goal' };
+    return { title: '🎉 Objectif atteint, bravo !', body: `${s.doneMin} min aujourd’hui${n > 0 ? ` et ${n} jour${n > 1 ? 's' : ''} de série` : ''}. Encore 10 minutes pour prendre de l’avance ?`, tag: 'bm-goal', mood: 'party' };
   }
   async function notify(msg) {
-    const opts = { body: msg.body, icon: './icon-192.png', badge: './icon-192.png', tag: msg.tag || 'bm-goal', renotify: true, data: { url: './?revise=1' }, vibrate: [80, 40, 80], actions: [{ action: 'revise', title: '📚 Réviser' }, { action: 'later', title: 'Plus tard' }] };
+    const mood = ['push', 'worry', 'party'].includes(msg.mood) ? msg.mood : 'push';
+    const opts = { body: msg.body, icon: './mascot-' + mood + '.png', image: './banner-' + mood + '.png', badge: './badge.png', tag: msg.tag || 'bm-goal', renotify: true, data: { url: './?revise=1' }, vibrate: [80, 40, 80], actions: [{ action: 'revise', title: '📚 Réviser' }, { action: 'later', title: 'Plus tard' }] };
     try {
       const reg = 'serviceWorker' in navigator ? await navigator.serviceWorker.getRegistration() : null;
       if (reg && reg.showNotification) { await reg.showNotification(msg.title, opts); return true; }

@@ -207,7 +207,7 @@ function saveEvals(evals) { localStorage.setItem('bacmaster_evals', JSON.stringi
 function purgeOldEvals() {
     const today = dayKey(new Date());
     const before = getEvals();
-    const evals = before.filter(e => (new Date(e.date) - new Date(today)) / 86400000 >= -2);
+    const evals = before.filter(e => (new Date(e.date) - new Date(today)) / 86400000 >= -45);   // l'agenda garde 45 jours d'historique
     if(evals.length !== before.length) saveEvals(evals);
     return evals;
 }
@@ -323,10 +323,16 @@ function timeTrackTick() {
     timeTrackLastTick = now;
     // On ignore les gros écarts (téléphone verrouillé, onglet en veille, PC en veille...)
     // pour ne pas compter du temps où l'élève n'était pas vraiment devant l'écran.
-    if(elapsed > 0 && elapsed <= 20 && document.visibilityState === 'visible' && curTrackedPage) {
+    // On ne compte QUE de la vraie révision : pas pendant qu'on écrit ou modifie un cours (éditeur ouvert),
+    // et plus rien si on n'a ni touché ni défilé depuis 2 minutes (cours ouvert mais personne devant).
+    const editing = !!document.getElementById('editor') || curTab === 'edit' || curTab === 'add';
+    const idle = now - lastUserInteraction > 120000;
+    if(elapsed > 0 && elapsed <= 20 && document.visibilityState === 'visible' && curTrackedPage && !editing && !idle) {
         addTimeSeconds(curTrackedPage.subject, curTrackedPage.activity, elapsed);
     }
 }
+let lastUserInteraction = Date.now();
+['pointerdown', 'keydown', 'scroll', 'touchstart', 'wheel'].forEach(ev => window.addEventListener(ev, () => { lastUserInteraction = Date.now(); }, { passive: true, capture: true }));
 setInterval(timeTrackTick, 5000);
 document.addEventListener('visibilitychange', () => { timeTrackLastTick = Date.now(); });
 

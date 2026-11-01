@@ -138,7 +138,7 @@
   // La progression est stockée séparément des cours, dans une ligne user_data par compte.
   // On ne transfère que les résultats personnels, jamais le contenu des cours.
   // ── Statistiques & objectif : fusion intelligente entre appareils (au lieu d'écraser) ──
-  const LOCAL_KEYS=['bacmaster_evals','bacmaster_evals_at','bacmaster_activity','bacmaster_timelog','bacmaster_timelog_dev','bacmaster_goal'];
+  const LOCAL_KEYS=['bacmaster_evals','bacmaster_evals_at','bacmaster_activity','bacmaster_timelog','bacmaster_timelog_dev','bacmaster_goal','bacmaster_perf','bacmaster_errors','bacmaster_assess'];
   function mergeLocalMaps(a,b){
     a=a||{};b=b||{};const out={};
     for(const key of new Set([...Object.keys(a),...Object.keys(b)])){
@@ -148,6 +148,18 @@
       else if(key==='bacmaster_timelog'){ // pour chaque jour / matière / activité, on garde le plus grand temps connu
         const t={};for(const src of [x,y]){for(const [day,subs] of Object.entries(src||{})){for(const [sub,acts] of Object.entries(subs||{})){for(const [act,sec] of Object.entries(acts||{})){((t[day]=t[day]||{})[sub]=t[day][sub]||{})[act]=Math.max(Number(sec)||0,(t[day][sub][act])||0);}}}}
         out[key]=t;
+      }
+      else if(key==='bacmaster_perf'){ // journal des réponses : union, triée par date (4000 max)
+        const seen=new Map();for(const e of [...(Array.isArray(x)?x:[]),...(Array.isArray(y)?y:[])]){if(e&&e.t)seen.set(e.t+'|'+e.s+'|'+(e.c||'')+'|'+e.y+'|'+e.r,e);}
+        out[key]=[...seen.values()].sort((p,q)=>p.t-q.t).slice(-4000);
+      }
+      else if(key==='bacmaster_assess'){ // résultats d'évaluations : union par identifiant (200 max)
+        const seen=new Map();for(const e of [...(Array.isArray(x)?x:[]),...(Array.isArray(y)?y:[])]){if(e)seen.set(e.id||('t'+e.t),e);}
+        out[key]=[...seen.values()].sort((p,q)=>p.t-q.t).slice(-200);
+      }
+      else if(key==='bacmaster_errors'){ // carnet d'erreurs : pour chaque erreur, la version la plus récente gagne
+        const seen=new Map();for(const e of [...(Array.isArray(x)?x:[]),...(Array.isArray(y)?y:[])]){if(!e||!e.key)continue;const o=seen.get(e.key);if(!o||(e.tc||0)>=(o.tc||0))seen.set(e.key,e);}
+        out[key]=[...seen.values()].sort((p,q)=>(q.tc||0)-(p.tc||0)).slice(0,600);
       }
       else if(key==='bacmaster_timelog_dev'){ // temps mesuré par chaque appareil : on garde, pour chaque appareil, la plus grande valeur connue
         const t={};for(const src of [x,y]){for(const [dev,log] of Object.entries(src||{})){for(const [day,subs] of Object.entries(log||{})){for(const [sub,acts] of Object.entries(subs||{})){for(const [act,sec] of Object.entries(acts||{})){const d=(t[dev]=t[dev]||{});((d[day]=d[day]||{})[sub]=d[day][sub]||{})[act]=Math.max(Number(sec)||0,d[day][sub][act]||0);}}}}}
@@ -198,6 +210,7 @@
     for(const key of LOCAL_KEYS){
       const value=localStorage.getItem(key); if(value!==null){try{local[key]=JSON.parse(value)}catch{}}
     }
+    if(Array.isArray(local.bacmaster_perf)&&local.bacmaster_perf.length>2000)local.bacmaster_perf=local.bacmaster_perf.slice(-2000);
     return {bacmasterProgressVersion:1,origin:state.deviceId,updatedAt:new Date().toISOString(),chapters,local};
   }
   function mergeProgress(remote){
@@ -268,7 +281,7 @@
     out.local=mergeLocalMaps(a.local,b.local);
     return out;
   }
-  function scheduleProgressPublish(){if(!state.user||state.applyingRemote||state.applyingProgress)return;state.progressDirty=true;state.progressRevision++;clearTimeout(state.progressTimer);state.progressTimer=setTimeout(publishProgress,400);}
+  function scheduleProgressPublish(){if(!state.user||state.applyingRemote||state.applyingProgress)return;state.progressDirty=true;state.progressRevision++;clearTimeout(state.progressTimer);state.progressTimer=setTimeout(publishProgress,1500);}
   async function publish() {
     if(!state.client || !state.user || !['admin','editor'].includes(state.role) || state.applyingRemote)return;
     if(state.publishPromise)return state.publishPromise;
