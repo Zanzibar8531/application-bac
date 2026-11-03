@@ -254,7 +254,8 @@
         <p class="bg-hint">Tant que ton objectif n’est pas atteint, tu reçois un rappel à ces heures.</p>
         <div class="bg-row"><span>🎉 M’encourager à continuer quand c’est fait</span><label class="bg-switch"><input type="checkbox" id="bg-bonus" ${g.bonus ? 'checked' : ''}><i></i></label></div>` : ''}
         <hr>${iosHint}${permHtml}${pushHtml}
-        <button class="bg-btn full" id="bg-test">🧪 Envoyer une notification de test</button>`;
+        <button class="bg-btn full" id="bg-test">🧪 Envoyer une notification de test</button>
+        <button class="bg-btn soft full" id="bg-diag">🔧 Diagnostic des rappels</button><div id="bg-diag-out"></div>`;
       bind(m);
     });
   }
@@ -268,8 +269,38 @@
     const add = $('bg-addslot'); if (add) add.onclick = () => { const g = load(); const free = ['09:00', '12:30', '16:30', '19:00', '22:00'].find(t => !g.slots.includes(t)) || '17:00'; g.slots = [...g.slots, free].sort(); save(g); renderSettings(); };
     const al = $('bg-allow'); if (al) al.onclick = () => Notification.requestPermission().then(renderSettings);
     const t = $('bg-test'); if (t) t.onclick = testNotification;
+    const dg = $('bg-diag'); if (dg) dg.onclick = diagnostic;
     const on = $('bg-pushon'); if (on) on.onclick = pushEnable;
     const off = $('bg-pushoff'); if (off) off.onclick = pushDisable;
+  }
+  // Vérifie chaque maillon de la chaîne des rappels et dit exactement où ça bloque
+  async function diagnostic() {
+    const out = $('bg-diag-out'); if (!out) return;
+    out.innerHTML = '<div class="bg-note">Vérification en cours…</div>';
+    const rows = []; const add = (ok, label, hint) => rows.push({ ok, label, hint });
+    const a = api(), c = cfg(), perm = canNotify() ? Notification.permission : 'unsupported';
+    add(perm === 'granted', 'Notifications autorisées sur cet appareil', perm === 'denied' ? 'Bloquées : autorise-les dans les réglages du téléphone ou du navigateur pour BacMaster.' : 'Touche « Autoriser les notifications ».');
+    let reg = null; try { reg = await navigator.serviceWorker.getRegistration(); } catch (e) { /* ignore */ }
+    add(!!(reg && reg.active), 'Le service de l’application est actif', 'Recharge l’appli (ou réinstalle-la sur l’écran d’accueil).');
+    add(!!c.vapidPublicKey, 'Clé de notification (VAPID) présente dans le site', 'Colle la clé publique dans supabase-config.js (champ vapidPublicKey) puis mets le site à jour.');
+    add(!!(a && a.state.user), 'Connecté à ton compte', 'Connecte-toi : les rappels fermés sont liés à ton compte.');
+    let sub = null; try { sub = reg && await reg.pushManager.getSubscription(); } catch (e) { /* ignore */ }
+    add(!!sub, 'Cet appareil est inscrit aux rappels', 'Touche « Activer ici » plus haut.');
+    if (a && a.state.user && a.state.client) {
+      const cl = a.state.client, uid = a.state.user.id;
+      const r1 = await cl.from('bacmaster_reminders').select('updated_at,minutes,day').eq('user_id', uid).maybeSingle();
+      add(!r1.error && !!r1.data, 'Ton objectif est enregistré sur le serveur', r1.error ? 'Table introuvable : exécute supabase_notifications.sql dans Supabase.' : 'Active d’abord « Activer ici » puis change ton objectif d’une minute pour forcer l’envoi.');
+      const r2 = await cl.from('bacmaster_push_subs').select('endpoint', { count: 'exact', head: true }).eq('user_id', uid);
+      add(!r2.error && (r2.count || 0) > 0, 'Appareil(s) connu(s) du serveur : ' + (r2.count || 0), r2.error ? 'Table introuvable : exécute supabase_notifications.sql.' : 'Touche « Activer ici » sur cet appareil.');
+      let fn = { error: null, data: null };
+      try { fn = await cl.functions.invoke('send-reminders', { body: { action: 'test' } }); } catch (e) { fn = { error: e, data: null }; }
+      let d = fn.data, msg = '';
+      if (fn.error && !d) { try { d = await fn.error.context.json(); } catch (e) { /* ignore */ } }
+      if (d && d.message) msg = d.message;
+      const notFound = fn.error && !d && /404|not found|Failed to send/i.test(String(fn.error.message || fn.error));
+      add(!!(d && d.ok), 'Le serveur envoie une notification de test', notFound ? 'La fonction « send-reminders » est introuvable : déploie-la dans Supabase > Edge Functions (nom exact : send-reminders).' : (msg || 'Réponse inattendue du serveur : ouvre Supabase > Edge Functions > send-reminders > Logs.'));
+    }
+    out.innerHTML = '<ul class="bg-diag">' + rows.map(r => `<li class="${r.ok ? 'ok' : 'ko'}"><span>${r.ok ? '✅' : '❌'}</span><div><b>${esc(r.label)}</b>${r.ok ? '' : `<small>${esc(r.hint)}</small>`}</div></li>`).join('') + '</ul>';
   }
   function openSettings() {
     let m = $('bm-goal-modal');

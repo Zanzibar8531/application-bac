@@ -539,7 +539,14 @@
     if(gate)gate.hidden=true;if(chip)chip.hidden=false;
     {const last=localStorage.getItem('bacmaster_last_user');if(last&&last!==state.user.id)resetLocalProgress();localStorage.setItem('bacmaster_last_user',state.user.id);}
     let {data:profile,error}=await state.client.from('bacmaster_profiles').select('display_name,role').eq('user_id',state.user.id).maybeSingle();
-    if(error){if(gate)gate.hidden=false;if(chip)chip.hidden=true;status('Profil indisponible : '+error.message+'. Vérifie le script SQL.',true);return;}
+    if(error){
+      let cached=null;try{cached=JSON.parse(localStorage.getItem('bm_profile_'+state.user.id)||'null');}catch{}
+      state.profileRetry=(state.profileRetry||0)+1;
+      if(state.profileRetry<=5){const keep=state.user.id;setTimeout(()=>{if(state.user&&state.user.id===keep)connectSession(session);},8000);}
+      if(cached){profile=cached;error=null;status('Connexion lente : mode hors ligne, nouvelle tentative en cours…');}
+      else{status('Connexion lente (profil indisponible) : l’appli reste ouverte, nouvelle tentative en cours…',true);return;}
+    }
+    if(profile&&!error){state.profileRetry=0;try{localStorage.setItem('bm_profile_'+state.user.id,JSON.stringify(profile));}catch{}}
     if(!profile){if(gate)gate.hidden=false;if(chip)chip.hidden=true;status('Profil non créé. Vérifie que le script SQL complet a été exécuté.',true);return;}
     state.role=profile.role||'reader';state.displayName=profile.display_name||state.user.email||'Quelqu’un';const account=(profile.display_name||state.user.email)+' — '+state.role;
     if(chip){chip.textContent='☁️ '+(profile.display_name||state.user.email||'Mon compte')+' · '+state.role;chip.dataset.account=account;}
@@ -589,6 +596,16 @@
       flushStats(){if(state.statsDirty&&state.user){state.statsDirty=false;clearTimeout(state.statsTimer);state.statsTimer=null;scheduleProgressPublish();}},
       onLocalSave(){if(state.applyingRemote||state.applyingProgress)return;schedulePublish();schedulePrivatePublish();scheduleProgressPublish();}};
   }
-  async function init(){addPanel();addAdminPanel();if(!cfg.url||!cfg.publishableKey){status('Configuration Supabase manquante.',true);return;}if(!window.supabase?.createClient){status('Client Supabase indisponible : vérifie la connexion Internet.',true);return;}state.client=window.supabase.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});hookSave();const wake=()=>{if(!state.user||document.visibilityState==='hidden')return;(state.tableMode?pollChapters():refreshShared());refreshProgress();};document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&window.BacMasterSync)window.BacMasterSync.flushStats();else wake();});window.addEventListener('focus',wake);window.addEventListener('online',wake);const {data:{session},error}=await state.client.auth.getSession();if(error)status('Impossible de récupérer la session : '+error.message,true);await connectSession(session);state.client.auth.onAuthStateChange((_event,session)=>{setTimeout(()=>connectSession(session),0);});}
+  async function init(){addPanel();addAdminPanel();if(!cfg.url||!cfg.publishableKey){status('Configuration Supabase manquante.',true);return;}if(!window.supabase?.createClient){status('Client Supabase indisponible : vérifie la connexion Internet.',true);return;}state.client=window.supabase.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});hookSave();const wake=()=>{if(!state.user||document.visibilityState==='hidden')return;(state.tableMode?pollChapters():refreshShared());refreshProgress();};document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&window.BacMasterSync)window.BacMasterSync.flushStats();else wake();});window.addEventListener('focus',wake);window.addEventListener('online',wake);let {data:{session},error}=await state.client.auth.getSession();
+    const hasStored=()=>{try{return Object.keys(localStorage).some(k=>/^sb-.*-auth-token$/.test(k));}catch{return false;}};
+    for(let i=0;i<3&&!session&&hasStored();i++){await new Promise(r=>setTimeout(r,1200));({data:{session}}=await state.client.auth.getSession());}   // session enregistrée : on ne demande pas de se reconnecter trop vite
+    if(error&&!session)status('Impossible de récupérer la session : '+error.message,true);
+    try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();}catch{}   // demande au navigateur de ne pas effacer les données de l'appli
+    await connectSession(session);state.client.auth.onAuthStateChange((event,session)=>{
+      const same=!!(session&&state.user&&session.user&&session.user.id===state.user.id);
+      if(same&&(event==='TOKEN_REFRESHED'||event==='SIGNED_IN'||event==='USER_UPDATED'||event==='INITIAL_SESSION'))return; // même compte : rien à recharger
+      if(!session&&event!=='SIGNED_OUT'&&state.user)return;                                                              // événement transitoire : on reste connecté
+      setTimeout(()=>connectSession(session),0);
+    });}
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
 })();
