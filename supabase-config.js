@@ -3,5 +3,5 @@ window.BACMASTER_SUPABASE_CONFIG = {
   url: 'https://hdctgzziacsblieqhzdc.supabase.co',
   publishableKey: 'sb_publishable_dY1yFGioUwLz1VMG45WEGg_K4q-Kane',
   // Clé PUBLIQUE des notifications push (voir GUIDE_NOTIFICATIONS.md). Vide = rappels seulement quand l'appli est ouverte.
-  vapidPublicKey: ''
+  vapidPublicKey: 'BO7OOtP47SKQ9lJEfU7URqXS-mX8EaGRLFZV6ZOrmaS-nbl0-ylU3lOZZ34hXRX_XnettFgUYJDrQkDuXTec-rM'
 };
