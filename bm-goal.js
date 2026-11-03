@@ -178,11 +178,6 @@
     if (document.visibilityState === 'visible') { if (typeof showToast === 'function') showToast(`⏰ ${msg.title.replace(/^[^\wÀ-ÿ]+/, '')} — encore ${s.remainMin} min`); }
     else if (granted()) notify(msg);
   }
-  async function testNotification() {
-    if (!canNotify()) return toast('Les notifications ne sont pas disponibles sur ce navigateur.', 'warn');
-    if (Notification.permission !== 'granted') { const p = await Notification.requestPermission(); if (p !== 'granted') { renderSettings(); return; } }
-    const s = status(); await notify(s.done ? bonusMessage(s) : buildMessage(s, 0, 3)); toast('🔔 Notification de test envoyée.'); renderSettings();
-  }
   function toast(m, type) { if (typeof showToast === 'function') showToast(m, type); }
 
   // ───────────── Push serveur (téléphone fermé) — optionnel ─────────────
@@ -196,11 +191,14 @@
     let sub = null; if (supported) { try { const reg = await navigator.serviceWorker.getRegistration(); sub = reg && await reg.pushManager.getSubscription(); } catch (e) { /* ignore */ } }
     return { supported, configured: !!cfg().vapidPublicKey, subscribed: !!sub, signedIn: !!(api() && api().state.user) };
   }
-  async function pushEnable() {
+  // Un seul clic : autorisation du navigateur → abonnement de l'appareil → enregistrement sur Supabase
+  async function pushEnable(btn) {
     const a = api(); if (!a || !a.state.user) return toast('Connecte-toi d’abord à ton compte.', 'warn');
-    if (!cfg().vapidPublicKey) return toast('Les rappels « application fermée » ne sont pas encore configurés.', 'warn');
-    if (!granted()) { const p = await Notification.requestPermission(); if (p !== 'granted') return renderSettings(); }
+    if (!canNotify() || !('serviceWorker' in navigator) || !('PushManager' in window)) return toast('Ce navigateur ne gère pas les rappels.', 'warn');
+    if (!cfg().vapidPublicKey) return toast('Les rappels ne sont pas disponibles pour le moment.', 'warn');
+    if (btn) { btn.disabled = true; btn.textContent = '⏳ Activation…'; }
     try {
+      if (Notification.permission !== 'granted') { const p = await Notification.requestPermission(); if (p !== 'granted') { renderSettings(); return; } }
       const reg = await navigator.serviceWorker.ready;
       const sub = (await reg.pushManager.getSubscription()) || await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToU8(cfg().vapidPublicKey) });
       const j = sub.toJSON();
@@ -224,6 +222,22 @@
     try { await a.state.client.from('bacmaster_reminders').upsert({ user_id: a.state.user.id, tz: Intl.DateTimeFormat().resolvedOptions().timeZone, minutes: g.minutes, slots: g.slots, remind: g.remind, bonus: g.bonus, day: dayKey(), seconds: Math.round(s.sec), streak: s.streak, updated_at: new Date().toISOString() }, { onConflict: 'user_id' }); } catch (e) { /* ignore */ }
   }
 
+  // Mise à jour forcée : vide les caches du Service Worker, relance sa vérification, recharge la page.
+  // Le localStorage n'est JAMAIS touché : la session Supabase et la progression restent intactes.
+  async function forceUpdate(btn) {
+    if (btn) { btn.disabled = true; btn.textContent = '⏳ Mise à jour…'; }
+    try { if (window.BacMasterSync && BacMasterSync.flushStats) BacMasterSync.flushStats(); } catch (e) { /* ignore */ }
+    try { if ('caches' in window) { const keys = await caches.keys(); await Promise.all(keys.map(k => caches.delete(k))); } } catch (e) { /* ignore */ }
+    try {
+      if ('serviceWorker' in navigator) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(regs.map(r => r.update().catch(() => null)));
+        await new Promise(r => setTimeout(r, 1200));   // laisse le nouveau Service Worker s'installer
+      }
+    } catch (e) { /* ignore */ }
+    window.location.reload();
+  }
+
   // ───────────── Fenêtre de réglages ─────────────
   function renderSettings() {
     let m = $('bm-goal-modal'); if (!m) return;
@@ -233,16 +247,15 @@
       m = $('bm-goal-modal'); if (!m) return;
       const chips = [10, 15, 20, 30, 45, 60, 90].map(v => `<button class="bg-chip ${g.minutes === v ? 'on' : ''}" data-min="${v}">${v}<small>min</small></button>`).join('');
       const slots = g.slots.map((s, i) => `<div class="bg-slot"><input type="time" value="${s}" data-slot="${i}" aria-label="Heure du rappel ${i + 1}"><button class="bg-x" data-del="${i}" aria-label="Supprimer ce rappel">✕</button></div>`).join('');
-      const permHtml = perm === 'granted' ? `<div class="bg-note ok">✅ Notifications autorisées sur cet appareil</div>`
-        : perm === 'denied' ? `<div class="bg-note bad">🚫 Notifications bloquées. Autorise-les dans les réglages du navigateur (icône 🔒 à côté de l’adresse) puis reviens ici.</div>`
-        : perm === 'unsupported' ? `<div class="bg-note bad">Ce navigateur ne gère pas les notifications.</div>`
-        : `<button class="bg-btn pri full" id="bg-allow">🔔 Autoriser les notifications</button>`;
       const iosHint = iOS && !standalone() ? `<div class="bg-note warn">📱 Sur iPhone : ouvre le menu Partager de Safari puis « Sur l’écran d’accueil », et lance BacMaster depuis cette icône. Les notifications ne marchent que là.</div>` : '';
-      let pushHtml = '';
-      if (!ps.supported) pushHtml = '';
-      else if (!ps.configured) pushHtml = `<div class="bg-note">ℹ️ Les rappels <strong>application fermée</strong> demandent une petite installation côté serveur (guide fourni). En attendant, tu reçois les rappels quand BacMaster est ouvert ou en arrière-plan.</div>`;
-      else if (!ps.signedIn) pushHtml = `<div class="bg-note warn">Connecte-toi à ton compte pour recevoir les rappels application fermée.</div>`;
-      else pushHtml = ps.subscribed ? `<div class="bg-row"><span>📲 Rappels même application fermée</span><button class="bg-btn" id="bg-pushoff">Désactiver</button></div>` : `<div class="bg-row"><span>📲 Rappels même application fermée</span><button class="bg-btn pri" id="bg-pushon">Activer ici</button></div>`;
+      let notifHtml = '';
+      if (perm === 'unsupported') notifHtml = `<div class="bg-note bad">Ce navigateur ne gère pas les notifications.</div>`;
+      else if (perm === 'denied') notifHtml = `<div class="bg-note bad">🚫 Notifications bloquées. Autorise-les dans les réglages du navigateur (icône 🔒 à côté de l’adresse) puis reviens ici.</div>`;
+      else if (ps.supported && ps.configured && ps.signedIn) notifHtml = (perm === 'granted' && ps.subscribed)
+        ? `<div class="bg-row"><span>✅ Rappels activés, même application fermée</span><button class="bg-btn" id="bg-pushoff">Désactiver</button></div>`
+        : `<button class="bg-btn pri full" id="bg-pushon">🔔 Activer les rappels</button>`;
+      else notifHtml = (perm === 'granted' ? `<div class="bg-note ok">✅ Notifications autorisées sur cet appareil</div>` : `<button class="bg-btn pri full" id="bg-allow">🔔 Autoriser les notifications</button>`)
+        + (ps.supported && ps.configured && !ps.signedIn ? `<div class="bg-note warn">Connecte-toi à ton compte pour recevoir les rappels application fermée.</div>` : '');
       m.querySelector('.bg-sheet-body').innerHTML = `
         <h3>🎯 Combien de temps veux-tu réviser par jour ?</h3>
         <div class="bg-chips">${chips}</div>
@@ -253,9 +266,10 @@
         ${g.remind ? `<div class="bg-slots">${slots}${g.slots.length < 4 ? '<button class="bg-add" id="bg-addslot">＋ Ajouter une heure</button>' : ''}</div>
         <p class="bg-hint">Tant que ton objectif n’est pas atteint, tu reçois un rappel à ces heures.</p>
         <div class="bg-row"><span>🎉 M’encourager à continuer quand c’est fait</span><label class="bg-switch"><input type="checkbox" id="bg-bonus" ${g.bonus ? 'checked' : ''}><i></i></label></div>` : ''}
-        <hr>${iosHint}${permHtml}${pushHtml}
-        <button class="bg-btn full" id="bg-test">🧪 Envoyer une notification de test</button>
-        <button class="bg-btn soft full" id="bg-diag">🔧 Diagnostic des rappels</button><div id="bg-diag-out"></div>`;
+        <hr>${iosHint}${notifHtml}
+        <hr>
+        <div class="bg-row"><span>🔄 Version de l’application</span><button class="bg-btn" id="bg-update">Mettre à jour</button></div>
+        <p class="bg-hint">Recharge les derniers fichiers du site sans te déconnecter ni toucher à ta progression.</p>`;
       bind(m);
     });
   }
@@ -268,39 +282,9 @@
     m.querySelectorAll('[data-del]').forEach(b => b.onclick = () => { const g = load(); g.slots.splice(+b.dataset.del, 1); save(g); renderSettings(); });
     const add = $('bg-addslot'); if (add) add.onclick = () => { const g = load(); const free = ['09:00', '12:30', '16:30', '19:00', '22:00'].find(t => !g.slots.includes(t)) || '17:00'; g.slots = [...g.slots, free].sort(); save(g); renderSettings(); };
     const al = $('bg-allow'); if (al) al.onclick = () => Notification.requestPermission().then(renderSettings);
-    const t = $('bg-test'); if (t) t.onclick = testNotification;
-    const dg = $('bg-diag'); if (dg) dg.onclick = diagnostic;
-    const on = $('bg-pushon'); if (on) on.onclick = pushEnable;
+    const on = $('bg-pushon'); if (on) on.onclick = () => pushEnable(on);
+    const up = $('bg-update'); if (up) up.onclick = () => forceUpdate(up);
     const off = $('bg-pushoff'); if (off) off.onclick = pushDisable;
-  }
-  // Vérifie chaque maillon de la chaîne des rappels et dit exactement où ça bloque
-  async function diagnostic() {
-    const out = $('bg-diag-out'); if (!out) return;
-    out.innerHTML = '<div class="bg-note">Vérification en cours…</div>';
-    const rows = []; const add = (ok, label, hint) => rows.push({ ok, label, hint });
-    const a = api(), c = cfg(), perm = canNotify() ? Notification.permission : 'unsupported';
-    add(perm === 'granted', 'Notifications autorisées sur cet appareil', perm === 'denied' ? 'Bloquées : autorise-les dans les réglages du téléphone ou du navigateur pour BacMaster.' : 'Touche « Autoriser les notifications ».');
-    let reg = null; try { reg = await navigator.serviceWorker.getRegistration(); } catch (e) { /* ignore */ }
-    add(!!(reg && reg.active), 'Le service de l’application est actif', 'Recharge l’appli (ou réinstalle-la sur l’écran d’accueil).');
-    add(!!c.vapidPublicKey, 'Clé de notification (VAPID) présente dans le site', 'Colle la clé publique dans supabase-config.js (champ vapidPublicKey) puis mets le site à jour.');
-    add(!!(a && a.state.user), 'Connecté à ton compte', 'Connecte-toi : les rappels fermés sont liés à ton compte.');
-    let sub = null; try { sub = reg && await reg.pushManager.getSubscription(); } catch (e) { /* ignore */ }
-    add(!!sub, 'Cet appareil est inscrit aux rappels', 'Touche « Activer ici » plus haut.');
-    if (a && a.state.user && a.state.client) {
-      const cl = a.state.client, uid = a.state.user.id;
-      const r1 = await cl.from('bacmaster_reminders').select('updated_at,minutes,day').eq('user_id', uid).maybeSingle();
-      add(!r1.error && !!r1.data, 'Ton objectif est enregistré sur le serveur', r1.error ? 'Table introuvable : exécute supabase_notifications.sql dans Supabase.' : 'Active d’abord « Activer ici » puis change ton objectif d’une minute pour forcer l’envoi.');
-      const r2 = await cl.from('bacmaster_push_subs').select('endpoint', { count: 'exact', head: true }).eq('user_id', uid);
-      add(!r2.error && (r2.count || 0) > 0, 'Appareil(s) connu(s) du serveur : ' + (r2.count || 0), r2.error ? 'Table introuvable : exécute supabase_notifications.sql.' : 'Touche « Activer ici » sur cet appareil.');
-      let fn = { error: null, data: null };
-      try { fn = await cl.functions.invoke('send-reminders', { body: { action: 'test' } }); } catch (e) { fn = { error: e, data: null }; }
-      let d = fn.data, msg = '';
-      if (fn.error && !d) { try { d = await fn.error.context.json(); } catch (e) { /* ignore */ } }
-      if (d && d.message) msg = d.message;
-      const notFound = fn.error && !d && /404|not found|Failed to send/i.test(String(fn.error.message || fn.error));
-      add(!!(d && d.ok), 'Le serveur envoie une notification de test', notFound ? 'La fonction « send-reminders » est introuvable : déploie-la dans Supabase > Edge Functions (nom exact : send-reminders).' : (msg || 'Réponse inattendue du serveur : ouvre Supabase > Edge Functions > send-reminders > Logs.'));
-    }
-    out.innerHTML = '<ul class="bg-diag">' + rows.map(r => `<li class="${r.ok ? 'ok' : 'ko'}"><span>${r.ok ? '✅' : '❌'}</span><div><b>${esc(r.label)}</b>${r.ok ? '' : `<small>${esc(r.hint)}</small>`}</div></li>`).join('') + '</ul>';
   }
   function openSettings() {
     let m = $('bm-goal-modal');
@@ -328,6 +312,6 @@
     if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('message', e => { if (e.data && e.data.type === 'bm-revise') start(); });
     if (/[?&]revise=1/.test(location.search)) { history.replaceState(null, '', location.pathname); setTimeout(start, 600); }
   }
-  window.BacMasterGoal = { start, openSettings, onProgress, status, load, bestStreak, tick, buildMessage, bonusMessage, notify, metGoal, goalMinutesFor, pushState };
+  window.BacMasterGoal = { start, openSettings, onProgress, status, load, bestStreak, tick, buildMessage, bonusMessage, notify, metGoal, goalMinutesFor, pushState, forceUpdate };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();

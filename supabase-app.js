@@ -596,12 +596,35 @@
       flushStats(){if(state.statsDirty&&state.user){state.statsDirty=false;clearTimeout(state.statsTimer);state.statsTimer=null;scheduleProgressPublish();}},
       onLocalSave(){if(state.applyingRemote||state.applyingProgress)return;schedulePublish();schedulePrivatePublish();scheduleProgressPublish();}};
   }
-  async function init(){addPanel();addAdminPanel();if(!cfg.url||!cfg.publishableKey){status('Configuration Supabase manquante.',true);return;}if(!window.supabase?.createClient){status('Client Supabase indisponible : vérifie la connexion Internet.',true);return;}state.client=window.supabase.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});hookSave();const wake=()=>{if(!state.user||document.visibilityState==='hidden')return;(state.tableMode?pollChapters():refreshShared());refreshProgress();};document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&window.BacMasterSync)window.BacMasterSync.flushStats();else wake();});window.addEventListener('focus',wake);window.addEventListener('online',wake);let {data:{session},error}=await state.client.auth.getSession();
-    const hasStored=()=>{try{return Object.keys(localStorage).some(k=>/^sb-.*-auth-token$/.test(k));}catch{return false;}};
-    for(let i=0;i<3&&!session&&hasStored();i++){await new Promise(r=>setTimeout(r,1200));({data:{session}}=await state.client.auth.getSession());}   // session enregistrée : on ne demande pas de se reconnecter trop vite
-    if(error&&!session)status('Impossible de récupérer la session : '+error.message,true);
+    // ── Stockage de la session : localStorage + copie dans IndexedDB ──
+  // Si le navigateur vide le localStorage (mode économie, nettoyage), la session est restaurée depuis la copie.
+  const AUTH_RE=/^sb-.*-auth-token$/;
+  const idbOpen=()=>new Promise((res,rej)=>{try{const r=indexedDB.open('bm-auth',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);}catch(e){rej(e);}});
+  const idbDo=async(mode,fn)=>{const db=await idbOpen();return new Promise((res,rej)=>{const tx=db.transaction('kv',mode),st=tx.objectStore('kv'),rq=fn(st);tx.oncomplete=()=>{db.close();res(rq&&rq.result);};tx.onerror=()=>{db.close();rej(tx.error);};});};
+  const authStorage={
+    async getItem(k){let v=null;try{v=localStorage.getItem(k);}catch{}if(v==null&&AUTH_RE.test(k)){try{v=await idbDo('readonly',st=>st.get(k));}catch{}if(v!=null){try{localStorage.setItem(k,v);}catch{}}}return v==null?null:v;},
+    async setItem(k,v){try{localStorage.setItem(k,v);}catch{}if(AUTH_RE.test(k)){try{await idbDo('readwrite',st=>st.put(v,k));}catch{}}},
+    async removeItem(k){try{localStorage.removeItem(k);}catch{}if(AUTH_RE.test(k)){try{await idbDo('readwrite',st=>st.delete(k));}catch{}}}
+  };
+  const hasStoredAuth=async()=>{try{if(Object.keys(localStorage).some(k=>AUTH_RE.test(k)))return true;}catch{}try{const keys=await idbDo('readonly',st=>st.getAllKeys());return (keys||[]).some(k=>AUTH_RE.test(k));}catch{return false;}};
+  async function init(){addPanel();addAdminPanel();if(!cfg.url||!cfg.publishableKey){status('Configuration Supabase manquante.',true);return;}if(!window.supabase?.createClient){status('Client Supabase indisponible : vérifie la connexion Internet.',true);return;}state.client=window.supabase.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storage:authStorage}});hookSave();const wake=()=>{if(!state.user||document.visibilityState==='hidden')return;(state.tableMode?pollChapters():refreshShared());refreshProgress();};document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&window.BacMasterSync)window.BacMasterSync.flushStats();else wake();});window.addEventListener('focus',wake);window.addEventListener('online',wake);const getSess=async()=>{try{const r=await state.client.auth.getSession();return {session:r.data&&r.data.session||null,error:r.error||null};}catch(e){return {session:null,error:e};}};
+    let {session,error}=await getSess();
+    const stored=await hasStoredAuth();   // une session est enregistrée sur cet appareil ?
+    // Session enregistrée mais pas encore lue (réseau lent, micro-coupure) : on réessaie sans jamais demander de se reconnecter trop vite
+    for(let i=0;i<5&&!session&&stored;i++){await new Promise(r=>setTimeout(r,i<2?1200:2500));({session,error}=await getSess());}
     try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();}catch{}   // demande au navigateur de ne pas effacer les données de l'appli
-    await connectSession(session);state.client.auth.onAuthStateChange((event,session)=>{
+    state.awaitingSession=!session&&stored;
+    if(state.awaitingSession){
+      status('Connexion en cours… (réseau lent), nouvelle tentative automatique.');
+      let tries=0;const retry=async()=>{if(state.user||!state.awaitingSession)return;tries++;const r=await getSess();if(r.session){state.awaitingSession=false;await connectSession(r.session);return;}if(tries<30)setTimeout(retry,Math.min(15000,3000+tries*1500));else{state.awaitingSession=false;connectSession(null);}};
+      window.addEventListener('online',()=>{if(state.awaitingSession)retry();});setTimeout(retry,3000);
+    }else{
+      if(error&&!session)status('Impossible de récupérer la session : '+(error.message||error),true);
+      await connectSession(session);
+    }
+    state.client.auth.onAuthStateChange((event,session)=>{
+      if(!session&&!state.user&&event!=='SIGNED_OUT'&&state.awaitingSession)return;   // pas encore lue : on n'affiche pas l'écran de connexion
+      if(session&&state.awaitingSession)state.awaitingSession=false;   // la session est enfin lue : plus besoin des tentatives
       const same=!!(session&&state.user&&session.user&&session.user.id===state.user.id);
       if(same&&(event==='TOKEN_REFRESHED'||event==='SIGNED_IN'||event==='USER_UPDATED'||event==='INITIAL_SESSION'))return; // même compte : rien à recharger
       if(!session&&event!=='SIGNED_OUT'&&state.user)return;                                                              // événement transitoire : on reste connecté

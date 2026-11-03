@@ -4,8 +4,8 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-pwa-v41';
-const CACHE_STATIC = 'bacmaster-static-pwa-v41';
+const CACHE_NAME   = 'bacmaster-pwa-v42';
+const CACHE_STATIC = 'bacmaster-static-pwa-v42';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
@@ -69,7 +69,7 @@ self.addEventListener('install', event => {
         // addAll échoue si un seul fichier plante — on attrape les erreurs individuellement
         return Promise.allSettled(
           STATIC_ASSETS.map(url =>
-            cache.add(url).catch(err =>
+            cache.add(new Request(url, { cache: 'reload' })).catch(err =>
               console.warn('[SW] Impossible de cacher :', url, err)
             )
           )
@@ -144,7 +144,7 @@ async function cacheFirst(request) {
   const cached = await caches.match(request);
   if (cached) return cached;
   try {
-    const response = await fetch(request);
+    const response = await fetch(request, { cache: 'no-cache' });   // revalide auprès du serveur (pas de vieux fichier du cache HTTP)
     if (response.ok) {
       const cache = await caches.open(CACHE_STATIC);
       cache.put(request, response.clone());
