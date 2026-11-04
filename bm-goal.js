@@ -255,7 +255,13 @@
       const { data, error } = await a.state.client.functions.invoke('send-reminders', { body: { action: 'test' } });
       if (error) throw error;
       toast(data && data.ok ? '🧪 Notification envoyée : regarde ton appareil.' : ((data && data.message) || 'Le serveur n’a rien pu envoyer.'), data && data.ok ? undefined : 'warn');
-    } catch (e) { toast('Test impossible : ' + (e.message || e) + ' (vérifie que la fonction send-reminders est déployée).', 'warn'); }
+    } catch (e) {
+      // on lit la vraie réponse du serveur (supabase-js ne montre sinon qu'un message générique)
+      let msg = e && e.message ? e.message : String(e);
+      try { if (e && e.context && e.context.json) { const j = await e.context.clone().json(); msg = (j.message || j.error || JSON.stringify(j)) + (j.step ? ' [étape : ' + j.step + ']' : '') + (e.context.status ? ' (code ' + e.context.status + ')' : ''); } } catch (x) { /* ignore */ }
+      if (e && (e.name === 'FunctionsFetchError' || e.name === 'FunctionsRelayError')) msg = 'fonction injoignable ou introuvable (' + msg + ')';
+      toast('Test impossible : ' + msg, 'warn');
+    }
     renderSettings();
   }
   async function pushDisable() {
