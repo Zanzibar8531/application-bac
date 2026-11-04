@@ -6,7 +6,7 @@
 (function () {
   'use strict';
   const KEY = 'bacmaster_goal', SENT = 'bacmaster_notif_sent', BONUS = 'bacmaster_goal_done_day';
-  const DEFAULT = { minutes: 20, minutesWE: 0, remind: true, slots: ['18:00', '20:00', '21:30'], bonus: true, history: {}, jumps: { earned: [], used: [] }, updatedAt: 0 };
+  const DEFAULT = { minutes: 20, minutesWE: 0, remind: true, slots: ['18:00', '20:00', '21:30'], bonus: true, history: {}, jumps: { req: null, used: [] }, updatedAt: 0 };
   const $ = id => document.getElementById(id);
   const esc = t => String(t == null ? '' : t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const num = n => Number(n) || 0;
@@ -21,7 +21,7 @@
     out.history = out.history && typeof out.history === 'object' ? out.history : {};
     out.minutesWE = out.minutesWE ? Math.min(300, Math.max(5, num(out.minutesWE))) : 0;   // 0 = même objectif qu'en semaine
     const j = out.jumps && typeof out.jumps === 'object' ? out.jumps : {};
-    out.jumps = { earned: Array.isArray(j.earned) ? j.earned : [], used: Array.isArray(j.used) ? j.used.filter(u => u && u.from && (u.days === 1 || u.days === 2)) : [] };
+    out.jumps = { req: j.req && j.req.from && j.req.start ? { from: j.req.from, start: j.req.start, days: j.req.days === 2 ? 2 : 1 } : null, used: Array.isArray(j.used) ? j.used.filter(u => u && u.from && (u.days === 1 || u.days === 2)) : [] };
     return out;
   }
   function save(g) {
@@ -102,8 +102,8 @@
     const mpct = gs.total ? Math.round(gs.mastered / gs.total * 100) : 0;
     const ji = jumpInfo(s.g);
     const mood = s.covered ? 'sleep' : s.done ? 'party' : (s.atRisk && hoursLeft() < 3) ? 'angry' : (s.sec === 0 && (window.__bmMissDays || 0) >= 1 && !s.done) ? 'miss' : s.atRisk ? 'worry' : 'push';
-    const jumpTxt = ji.active ? 'actif' : ji.avail ? 'disponible !' : ji.cooldown ? 'prochain dans ' + ji.cooldown + ' j' : ji.chain + '/4 jours d’effort';
-    const jumpBar = `<button class="bg-jumpbar ${ji.avail ? 'ready' : ''}" onclick="BacMasterGoal.openSettings('jump')"><span>⏳ Saut Temporel</span><span class="bg-jdots">${[0, 1, 2, 3].map(k => `<i class="bg-jdot ${k < ji.chain ? 'on' : ''}"></i>`).join('')}</span><span>${jumpTxt}</span></button>`;
+    const jumpTxt = ji.active ? 'actif' : ji.req ? ji.chain + '/4 jours d’effort' : ji.planned ? 'prévu ' + new Date(ji.planned.from + 'T12:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : 'demander';
+    const jumpBar = `<button class="bg-jumpbar ${ji.req ? 'ready' : ''}" onclick="BacMasterGoal.openCalendar()"><span>📅 Série &amp; Saut Temporel</span>${ji.req ? `<span class="bg-jdots">${[0, 1, 2, 3].map(k => `<i class="bg-jdot ${k < ji.chain ? 'on' : ''}"></i>`).join('')}</span>` : ''}<span>${jumpTxt}</span></button>`;
     return `${window.BacMasterMascot ? BacMasterMascot.cardHTML(mood) : ''}<div class="bh-top">
         <div class="bg-ring">${ring(s.pct, `Objectif du jour : ${s.doneMin} minutes sur ${s.goalMin}`, s.done)}<div class="bg-ringtxt"><b>${s.doneMin}</b><span>/ ${s.goalMin} min</span></div></div>
         <div class="bg-body">
@@ -190,7 +190,7 @@
   }
   // Appelé toutes les 30 s et au retour sur l'appli : envoie le rappel le plus récent s'il est « dû ».
   function tick(force) {
-    celebrate(); checkJumpEarn(); hurry();
+    celebrate(); checkJumpEarn(); hurry(); healPush();
     const g = load(); if (!g.remind || !g.slots.length || jumpCovered(dayKey(), g)) return;
     const now = new Date(), dk = dayKey(now), sent = (sentMap()[dk] || []);
     const slots = [...g.slots].sort(), dueSlots = [];
@@ -216,6 +216,15 @@
     let sub = null; if (supported) { try { const reg = await navigator.serviceWorker.getRegistration(); sub = reg && await reg.pushManager.getSubscription(); } catch (e) { /* ignore */ } }
     return { supported, configured: !!cfg().vapidPublicKey, subscribed: !!sub, signedIn: !!(api() && api().state.user) };
   }
+  // Abonne cet appareil (si besoin) et l'enregistre côté serveur
+  async function registerDevice() {
+    const a = api(); const reg = await navigator.serviceWorker.ready;
+    const sub = (await reg.pushManager.getSubscription()) || await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToU8(cfg().vapidPublicKey) });
+    const j = sub.toJSON();
+    const { error } = await a.state.client.from('bacmaster_push_subs').upsert({ endpoint: j.endpoint, user_id: a.state.user.id, p256dh: j.keys.p256dh, auth: j.keys.auth, tz: Intl.DateTimeFormat().resolvedOptions().timeZone, ua: navigator.userAgent.slice(0, 160) }, { onConflict: 'endpoint' });
+    if (error) throw error;
+    localStorage.setItem('bacmaster_push_on', '1');
+  }
   // Inscription de l'appareil aux rappels serveur (l'autorisation des notifications est un réglage séparé)
   async function pushEnable(btn) {
     const a = api(); if (!a || !a.state.user) return toast('Connecte-toi d’abord à ton compte.', 'warn');
@@ -224,13 +233,29 @@
     if (btn) { btn.disabled = true; btn.textContent = '⏳ Activation…'; }
     try {
       if (Notification.permission !== 'granted') { toast('Autorise d’abord les notifications.', 'warn'); renderSettings(); return; }
-      const reg = await navigator.serviceWorker.ready;
-      const sub = (await reg.pushManager.getSubscription()) || await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToU8(cfg().vapidPublicKey) });
-      const j = sub.toJSON();
-      const { error } = await a.state.client.from('bacmaster_push_subs').upsert({ endpoint: j.endpoint, user_id: a.state.user.id, p256dh: j.keys.p256dh, auth: j.keys.auth, tz: Intl.DateTimeFormat().resolvedOptions().timeZone, ua: navigator.userAgent.slice(0, 160) }, { onConflict: 'endpoint' });
-      if (error) throw error;
-      localStorage.setItem('bacmaster_push_on', '1'); await syncServer(true); toast('🔔 Rappels activés, même application fermée.');
+      await registerDevice(); await syncServer(true); toast('🔔 Rappels activés, même application fermée.');
     } catch (e) { toast('Activation impossible : ' + (e.message || e), 'warn'); }
+    renderSettings();
+  }
+  // Répare en silence : si l'appareil a disparu du serveur (abonnement expiré ou supprimé), on le réenregistre
+  async function healPush() {
+    try {
+      const a = api(); if (!a || !a.state.user || !canNotify() || Notification.permission !== 'granted' || !('PushManager' in window) || !cfg().vapidPublicKey) return;
+      if (localStorage.getItem('bacmaster_push_on') !== '1') { const r = await navigator.serviceWorker.ready; if (!(await r.pushManager.getSubscription())) return; }
+      const last = +localStorage.getItem('bacmaster_push_heal') || 0; if (Date.now() - last < 6 * 3600e3) return;
+      await registerDevice(); localStorage.setItem('bacmaster_push_heal', String(Date.now()));
+    } catch (e) { /* on réessaiera plus tard */ }
+  }
+  // Test réel depuis le serveur : envoie une notification à tes appareils
+  async function testPush(btn) {
+    const a = api(); if (!a || !a.state.user) return toast('Connecte-toi d’abord.', 'warn');
+    if (btn) { btn.disabled = true; btn.textContent = '⏳ Envoi…'; }
+    try {
+      await registerDevice();
+      const { data, error } = await a.state.client.functions.invoke('send-reminders', { body: { action: 'test' } });
+      if (error) throw error;
+      toast(data && data.ok ? '🧪 Notification envoyée : regarde ton appareil.' : ((data && data.message) || 'Le serveur n’a rien pu envoyer.'), data && data.ok ? undefined : 'warn');
+    } catch (e) { toast('Test impossible : ' + (e.message || e) + ' (vérifie que la fonction send-reminders est déployée).', 'warn'); }
     renderSettings();
   }
   async function pushDisable() {
@@ -244,7 +269,7 @@
     const a = api(); if (!a || !a.state.user || !a.state.client || localStorage.getItem('bacmaster_push_on') !== '1') return;
     if (!force && Date.now() - lastSync < 15000) return; lastSync = Date.now();
     const s = status(), g = s.g, cl = a.state.client;
-    const row = { user_id: a.state.user.id, tz: Intl.DateTimeFormat().resolvedOptions().timeZone, minutes: s.goalMin, slots: g.slots, remind: g.remind, bonus: g.bonus, day: dayKey(), seconds: Math.round(s.sec), streak: s.streak, updated_at: new Date().toISOString() };
+    const row = { user_id: a.state.user.id, tz: Intl.DateTimeFormat().resolvedOptions().timeZone, minutes: s.goalMin, slots: g.slots, remind: g.remind, bonus: g.bonus, day: dayKey(), seconds: Math.round(s.sec), streak: s.streak };
     try {
       // colonnes facultatives (supabase_v43.sql) : objectif semaine / week-end et jours de Saut Temporel
       const r = await cl.from('bacmaster_reminders').upsert({ ...row, minutes_wd: g.minutes, minutes_we: g.minutesWE || null, jump_days: coveredDays(g) }, { onConflict: 'user_id' });
@@ -268,76 +293,146 @@
     window.location.reload();
   }
 
-  // ───────────── Saut Temporel ─────────────
-  // Défi : objectif + 5 % (minimum +5 min) pendant 4 jours d'affilée → 1 Saut Temporel (24 h ou 48 h),
-  // à activer à l'avance sur un jour où l'on ne pourra pas réviser. Un seul par semaine, non cumulable.
-  const JUMP_DAYS = 4, JUMP_VALID = 7;
+  // ───────────── Saut Temporel (demande depuis le calendrier) ─────────────
+  // Tu choisis un jour futur (au moins 4 jours devant toi) : le défi démarre aujourd'hui.
+  // Objectif du jour + 5 % (minimum +5 min) pendant 4 jours d'affilée avant ce jour-là → le Saut est validé
+  // (24 h ou 48 h). Un seul par semaine, une seule demande à la fois, non cumulable.
+  const JUMP_DAYS = 4, JUMP_MIN_AHEAD = 4, JUMP_MAX_AHEAD = 30;
   function addDays(day, n) { const d = new Date(day + 'T12:00:00'); d.setDate(d.getDate() + n); return dayKey(d); }
   function diffDays(a, b) { return Math.round((new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 86400000); }
   function effortTarget(day, g) { const m = goalMinutesFor(day, g); return m + Math.max(5, Math.ceil(m * 0.05)); }
   function effortMet(day, g) { return dayTimeTotal(day) >= effortTarget(day, g) * 60; }
   function jumpCovered(day, g) { g = g || load(); return (g.jumps.used || []).some(u => { const d = diffDays(u.from, day); return d >= 0 && d < u.days; }); }
   function coveredDays(g) { const out = []; (g.jumps.used || []).forEach(u => { for (let i = 0; i < u.days; i++) out.push(addDays(u.from, i)); }); return out; }
-  function effortChain(g) {
-    const last = (g.jumps.earned || []).slice().sort().pop();
-    let d = dayKey(), n = 0;
-    if (!effortMet(d, g)) d = addDays(d, -1);              // aujourd'hui peut encore être en cours
-    while (n < JUMP_DAYS && effortMet(d, g) && (!last || diffDays(last, d) > 0)) { n++; d = addDays(d, -1); }
-    return n;
+  // Progression de la demande en cours : jours d'effort consécutifs depuis le début du défi
+  function reqProgress(req, g) {
+    const today = dayKey(); let n = 0, failed = false;
+    for (let d = req.start; diffDays(d, today) >= 0 && n < JUMP_DAYS; d = addDays(d, 1)) {
+      if (effortMet(d, g)) n++; else if (d !== today) { failed = true; break; } else break;   // aujourd'hui peut encore être en cours
+    }
+    return { n, failed };
   }
   function jumpInfo(g) {
-    g = g || load(); const today = dayKey();
-    const earned = (g.jumps.earned || []).slice().sort(), last = earned[earned.length - 1];
-    const usedE = new Set((g.jumps.used || []).map(u => u.e));
-    const avail = earned.filter(e => !usedE.has(e) && diffDays(e, today) >= 0 && diffDays(e, today) < JUMP_VALID).pop() || null;
-    const cooldown = last && diffDays(last, today) < JUMP_VALID ? JUMP_VALID - diffDays(last, today) : 0;
-    const active = (g.jumps.used || []).find(u => { const d = diffDays(u.from, today); return d >= 0 && d < u.days; }) || null;
-    const planned = (g.jumps.used || []).filter(u => diffDays(today, u.from) > 0).sort((a, b) => a.from < b.from ? -1 : 1)[0] || null;
-    return { avail, cooldown, active, planned, chain: effortChain(g), target: effortTarget(today, g), extra: effortTarget(today, g) - goalMinutesFor(today, g) };
+    g = g || load(); const today = dayKey(), J = g.jumps;
+    const active = (J.used || []).find(u => { const d = diffDays(u.from, today); return d >= 0 && d < u.days; }) || null;
+    const planned = (J.used || []).filter(u => diffDays(today, u.from) > 0).sort((a, b) => a.from < b.from ? -1 : 1)[0] || null;
+    const req = J.req || null, p = req ? reqProgress(req, g) : { n: 0, failed: false };
+    return { active, planned, req, chain: p.n, target: effortTarget(today, g), extra: effortTarget(today, g) - goalMinutesFor(today, g) };
   }
-  function persist(g) {   // enregistre sans modifier l'objectif du jour (utilisé pour les sauts)
+  function persist(g) {   // enregistre sans modifier l'objectif du jour
     g.updatedAt = Date.now(); localStorage.setItem(KEY, JSON.stringify(g)); bmStatsChanged(); refreshCard(); scheduleServerSync(true);
   }
-  function checkJumpEarn() {
-    const g = load(), i = jumpInfo(g);
-    if (i.cooldown || i.chain < JUMP_DAYS) return;
-    g.jumps.earned.push(dayKey()); g.jumps.earned = g.jumps.earned.slice(-12); persist(g);
-    toast('⏳ Saut Temporel débloqué ! Active-le à l’avance depuis les Paramètres.');
-    if (window.BacMasterMascot) BacMasterMascot.say('party', 'Saut Temporel débloqué ! Tu peux protéger ta série un jour où tu ne pourras pas réviser.', { force: true, ms: 8000 });
-    if ($('bm-goal-modal') && !$('bm-goal-modal').hidden) renderSettings();
+  // Peut-on demander un Saut Temporel pour ce jour ?
+  function canRequest(day, g) {
+    g = g || load(); const today = dayKey(), ahead = diffDays(today, day);
+    if (g.jumps.req) return { ok: false, why: g.jumps.req.from === day ? 'pending' : 'Tu as déjà une demande en cours pour le ' + fmtDay(g.jumps.req.from) + '.' };
+    if (ahead < JUMP_MIN_AHEAD) return { ok: false, why: `Il faut ${JUMP_DAYS} jours d’effort avant le jour du saut : choisis à partir du ${fmtDay(addDays(today, JUMP_MIN_AHEAD))}.` };
+    if (ahead > JUMP_MAX_AHEAD) return { ok: false, why: 'Trop loin : choisis un jour dans les 30 prochains jours.' };
+    if ((g.jumps.used || []).some(u => Math.abs(diffDays(u.from, day)) < 7)) return { ok: false, why: 'Un seul Saut Temporel par semaine : il y en a déjà un autour de cette date.' };
+    return { ok: true };
   }
-  function activateJump(from, days) {
-    const g = load(), i = jumpInfo(g), today = dayKey();
-    if (!i.avail) return toast('Aucun Saut Temporel disponible pour le moment.', 'warn');
-    if (diffDays(today, from) < 0 || diffDays(today, from) > 6) return toast('Choisis un jour dans les 7 prochains jours.', 'warn');
-    days = days === 2 ? 2 : 1;
-    g.jumps.used = (g.jumps.used || []).concat([{ from, days, e: i.avail }]).slice(-12); persist(g);
-    toast(`⏳ Saut Temporel activé : ${days * 24} h à partir du ${fmtDay(from)}.`);
-    renderSettings();
+  function requestJump(day, days) {
+    const g = load(), c = canRequest(day, g); if (!c.ok) return toast(c.why, 'warn');
+    g.jumps.req = { from: day, days: days === 2 ? 2 : 1, start: dayKey() }; persist(g);
+    toast(`⏳ Défi lancé : ${JUMP_DAYS} jours d’effort pour valider ton Saut Temporel du ${fmtDay(day)}.`); checkJumpEarn(); renderCalendar();
+  }
+  function cancelRequest() { const g = load(); g.jumps.req = null; persist(g); toast('Demande annulée.'); renderCalendar(); }
+  function cancelPlanned(from) { const g = load(); g.jumps.used = (g.jumps.used || []).filter(u => !(u.from === from && diffDays(dayKey(), u.from) > 0)); persist(g); toast('Saut Temporel annulé.'); renderCalendar(); }
+  function checkJumpEarn() {
+    const g = load(), r = g.jumps.req; if (!r) return;
+    const p = reqProgress(r, g), today = dayKey();
+    if (p.n >= JUMP_DAYS && diffDays(today, r.from) > 0) {
+      g.jumps.used = (g.jumps.used || []).concat([{ from: r.from, days: r.days }]).slice(-12); g.jumps.req = null; persist(g);
+      toast(`⏳ Saut Temporel validé pour le ${fmtDay(r.from)} (${r.days * 24} h) !`);
+      if (window.BacMasterMascot) BacMasterMascot.say('party', 'Saut Temporel validé ! Ta série est protégée ce jour-là.', { force: true, ms: 8000 });
+    } else if (p.failed || diffDays(today, r.from) <= 0) {
+      g.jumps.req = null; persist(g); toast('Défi du Saut Temporel manqué : tu peux refaire une demande.', 'warn');
+      if (window.BacMasterMascot) BacMasterMascot.say('worry', 'On n’a pas réussi le défi cette fois… on retente ?', { force: true });
+    } else return;
+    if ($('bm-cal-modal') && !$('bm-cal-modal').hidden) renderCalendar();
   }
   const fmtDay = k => new Date(k + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
-  let jumpDraft = { from: null, days: 1 };
-  function jumpHTML(g) {
-    const i = jumpInfo(g), today = dayKey();
-    const dots = Array.from({ length: JUMP_DAYS }, (_, k) => `<i class="bg-jdot ${k < i.chain ? 'on' : ''}"></i>`).join('');
-    const rule = `<p class="bg-hint">Défi : atteins ton objectif <b>+ ${i.extra} min</b> (soit ${i.target} min aujourd’hui) pendant <b>${JUMP_DAYS} jours d’affilée</b>. Un Saut Temporel dure 24 h ou 48 h, un seul par semaine, non cumulable.</p>`;
-    let body;
-    if (i.active) body = `<div class="bg-note ok">😴 Saut Temporel actif depuis le ${esc(fmtDay(i.active.from))} (${i.active.days * 24} h) : ta série est protégée et les rappels sont coupés.</div>`;
-    else if (i.avail) {
-      if (!jumpDraft.from || diffDays(today, jumpDraft.from) < 0) jumpDraft.from = addDays(today, 1);
-      const chips = Array.from({ length: 7 }, (_, k) => { const d = addDays(today, k); const lab = k === 0 ? 'Aujourd’hui' : k === 1 ? 'Demain' : new Date(d + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric' }); return `<button class="bg-chip wide ${jumpDraft.from === d ? 'on' : ''}" data-jfrom="${d}">${esc(lab)}</button>`; }).join('');
-      body = `<div class="bg-note ok">✨ Saut Temporel disponible ! Il reste valable ${JUMP_VALID - diffDays(i.avail, today)} jour(s).</div>
-        <div class="bg-lbl">Jour où tu ne pourras pas réviser</div><div class="bg-chips">${chips}</div>
-        <div class="bg-lbl">Durée</div><div class="bg-chips"><button class="bg-chip wide ${jumpDraft.days === 1 ? 'on' : ''}" data-jdays="1">24 h</button><button class="bg-chip wide ${jumpDraft.days === 2 ? 'on' : ''}" data-jdays="2">48 h</button></div>
-        <button class="bg-btn pri full" id="bg-jgo">⏳ Activer le Saut Temporel</button>`;
-    } else {
-      const left = JUMP_DAYS - i.chain;
-      body = i.cooldown ? `<div class="bg-note">Un seul Saut Temporel par semaine : le prochain défi s’ouvre dans ${i.cooldown} jour${i.cooldown > 1 ? 's' : ''}.</div>`
-        : `<div class="bg-note">${left === JUMP_DAYS ? `Lance le défi : ${i.target} min aujourd’hui !` : `Plus que <b>${left} jour${left > 1 ? 's' : ''}</b> d’effort pour valider ton Saut Temporel !`}</div>`;
-    }
-    const planned = i.planned && !i.active ? `<div class="bg-note">⏳ Prévu : ${esc(fmtDay(i.planned.from))} (${i.planned.days * 24} h).</div>` : '';
-    return `<div class="bg-jgauge" aria-label="Progression du défi : ${i.chain} sur ${JUMP_DAYS}">${dots}<span>${i.chain}/${JUMP_DAYS}</span></div>${body}${planned}${rule}`;
+  function jumpSummary(g) {
+    const i = jumpInfo(g);
+    if (i.active) return `<div class="bg-note ok">😴 Saut Temporel actif (${i.active.days * 24} h) : ta série est protégée et les rappels sont coupés.</div>`;
+    if (i.req) return `<div class="bg-jgauge">${Array.from({ length: JUMP_DAYS }, (_, k) => `<i class="bg-jdot ${k < i.chain ? 'on' : ''}"></i>`).join('')}<span>${i.chain}/${JUMP_DAYS}</span></div><div class="bg-note">Défi en cours pour le <b>${esc(fmtDay(i.req.from))}</b> : plus que <b>${JUMP_DAYS - i.chain} jour${JUMP_DAYS - i.chain > 1 ? 's' : ''}</b> d’effort.</div>`;
+    if (i.planned) return `<div class="bg-note ok">⏳ Prévu : ${esc(fmtDay(i.planned.from))} (${i.planned.days * 24} h).</div>`;
+    return `<p class="bg-hint" style="margin-top:0">Ouvre le calendrier, touche un jour à venir et demande un Saut Temporel.</p>`;
   }
+
+  // ───────────── Calendrier « série » (comme Duolingo) ─────────────
+  let calMonth = null, calSel = null;
+  const MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+  function calCell(day, g, today) {
+    const diff = diffDays(today, day), met = metGoal(day, g), cov = jumpCovered(day, g);
+    const req = g.jumps.req && g.jumps.req.from === day;
+    let cls = 'cal-d', mark = '';
+    if (met) { cls += ' met'; mark = '🔥'; } else if (cov) { cls += ' jump'; mark = '⏳'; } else if (req) { cls += ' reqd'; mark = '⏳'; } else if (diff < 0 && dayTimeTotal(day) > 0) cls += ' part';
+    if (diff === 0) cls += ' now'; if (diff > 0) cls += ' fut'; if (calSel === day) cls += ' sel';
+    return `<button class="${cls}" data-cal="${day}" aria-label="${esc(fmtDay(day))}"><span class="cal-n">${+day.slice(8)}</span><span class="cal-m">${mark}</span></button>`;
+  }
+  function calDetail(g, today) {
+    const d = calSel; if (!d) return `<p class="bg-hint">Touche un jour pour voir le détail. Les jours à venir te permettent de demander un Saut Temporel.</p>`;
+    const diff = diffDays(today, d), goal = goalMinutesFor(d, g), mins = Math.floor(dayTimeTotal(d) / 60), title = `<b>${esc(fmtDay(d))}</b>`;
+    if (diff <= 0) return `<div class="cal-det">${title}<div class="bg-note ${metGoal(d, g) ? 'ok' : ''}">${jumpCovered(d, g) && !metGoal(d, g) ? '⏳ Jour protégé par un Saut Temporel.' : `${mins} min sur ${goal} min ${metGoal(d, g) ? '✅' : diff === 0 ? '— en cours' : ''}`}</div></div>`;
+    const used = (g.jumps.used || []).find(u => { const k = diffDays(u.from, d); return k >= 0 && k < u.days; });
+    if (used) return `<div class="cal-det">${title}<div class="bg-note ok">⏳ Saut Temporel prévu (${used.days * 24} h dès le ${esc(fmtDay(used.from))}).</div>${diffDays(today, used.from) > 0 ? `<button class="bg-btn danger" data-cancelplanned="${used.from}">Annuler ce saut</button>` : ''}</div>`;
+    const c = canRequest(d, g);
+    if (!c.ok && c.why === 'pending') {
+      const i = jumpInfo(g), left = JUMP_DAYS - i.chain;
+      return `<div class="cal-det">${title}<div class="bg-jgauge">${Array.from({ length: JUMP_DAYS }, (_, k) => `<i class="bg-jdot ${k < i.chain ? 'on' : ''}"></i>`).join('')}<span>${i.chain}/${JUMP_DAYS}</span></div><div class="bg-note">Plus que <b>${left} jour${left > 1 ? 's' : ''}</b> d’effort pour valider ton Saut Temporel ! Chaque jour : <b>${i.target} min</b> (objectif + ${i.extra} min).</div><button class="bg-btn danger" id="cal-cancelreq">Annuler la demande</button></div>`;
+    }
+    if (!c.ok) return `<div class="cal-det">${title}<p class="bg-hint">Objectif ce jour-là : ${goal} min.</p><div class="bg-note">${esc(c.why)}</div></div>`;
+    return `<div class="cal-det">${title}<p class="bg-hint">Objectif ce jour-là : ${goal} min.</p>
+      <div class="bg-lbl">Durée du Saut Temporel</div><div class="bg-chips"><button class="bg-chip wide ${calDays === 1 ? 'on' : ''}" data-cdays="1">24 h</button><button class="bg-chip wide ${calDays === 2 ? 'on' : ''}" data-cdays="2">48 h</button></div>
+      <button class="bg-btn pri full" id="cal-request">⏳ Demander un Saut Temporel</button>
+      <p class="bg-hint">Défi : ${JUMP_DAYS} jours d’affilée à ton objectif + ${Math.max(5, Math.ceil(goalMinutesFor(today, g) * 0.05))} min (soit ${effortTarget(today, g)} min aujourd’hui) avant ce jour-là. Un seul par semaine.</p></div>`;
+  }
+  let calDays = 1;
+  function renderCalendar() {
+    const m = $('bm-cal-modal'); if (!m) return;
+    const g = load(), today = dayKey(), st = status();
+    if (!calMonth) calMonth = today.slice(0, 7);
+    const [y, mo] = calMonth.split('-').map(Number), first = new Date(y, mo - 1, 1), nd = new Date(y, mo, 0).getDate(), lead = (first.getDay() + 6) % 7;
+    let cells = '<i></i>'.repeat(lead); for (let k = 1; k <= nd; k++) cells += calCell(`${y}-${String(mo).padStart(2, '0')}-${String(k).padStart(2, '0')}`, g, today);
+    const monthShift = (calMonth > addDays(today, -400).slice(0, 7)), ji = jumpInfo(g);
+    m.querySelector('.bg-sheet-body').innerHTML = `
+      <div class="cal-hero"><div class="cal-flame">🔥</div><div><b>${st.streak} jour${st.streak > 1 ? 's' : ''} de série</b><small>${st.done ? 'Objectif du jour atteint ✅' : `Aujourd’hui : ${st.doneMin}/${st.goalMin} min`}</small></div></div>
+      ${ji.req ? `<div class="cal-hero2">${jumpSummary(g)}</div>` : ''}
+      <div class="cal-nav"><button class="bg-x" id="cal-prev" aria-label="Mois précédent" ${monthShift ? '' : 'disabled'}>‹</button><b>${MONTHS[mo - 1]} ${y}</b><button class="bg-x" id="cal-next" aria-label="Mois suivant" ${calMonth < addDays(today, 60).slice(0, 7) ? '' : 'disabled'}>›</button></div>
+      <div class="cal-grid"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>${cells}</div>
+      <div class="cal-legend"><span>🔥 objectif atteint</span><span>⏳ Saut Temporel</span></div>
+      ${calDetail(g, today)}
+      <section class="bg-sec"><h3>🎯 Temps de révision par jour</h3>
+        <div class="bg-lbl">En semaine (lun → ven)</div><div class="bg-chips">${chipRow('data-min', g.minutes)}</div>
+        <div class="bg-lbl">Week-end (sam → dim)</div><div class="bg-chips">${chipRow('data-we', g.minutesWE || 0, true)}</div>
+        <div class="bg-row"><span><b>Me rappeler de réviser</b><small>Utilise ces objectifs</small></span>${sw('cal-remind', g.remind)}</div>
+        <button class="bg-btn full" id="cal-notif">🔔 Régler les heures et les notifications</button>
+      </section>`;
+    m.querySelectorAll('[data-cal]').forEach(b => b.onclick = () => { calSel = b.dataset.cal; renderCalendar(); });
+    m.querySelectorAll('[data-min]').forEach(b => b.onclick = () => { const x = load(); x.minutes = +b.dataset.min; save(x); renderCalendar(); });
+    m.querySelectorAll('[data-we]').forEach(b => b.onclick = () => { const x = load(); x.minutesWE = +b.dataset.we; save(x); renderCalendar(); });
+    m.querySelectorAll('[data-cdays]').forEach(b => b.onclick = () => { calDays = +b.dataset.cdays; renderCalendar(); });
+    m.querySelectorAll('[data-cancelplanned]').forEach(b => b.onclick = () => cancelPlanned(b.dataset.cancelplanned));
+    const rq = $('cal-request'); if (rq) rq.onclick = () => requestJump(calSel, calDays);
+    const cr = $('cal-cancelreq'); if (cr) cr.onclick = cancelRequest;
+    const rm = $('cal-remind'); if (rm) rm.onchange = () => { const x = load(); x.remind = rm.checked; save(x); };
+    const cn = $('cal-notif'); if (cn) cn.onclick = () => { closeCalendar(); openSettings('notif'); };
+    const shift = k => { const [yy, mm] = calMonth.split('-').map(Number), d = new Date(yy, mm - 1 + k, 1); calMonth = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); renderCalendar(); };
+    const pv = $('cal-prev'); if (pv) pv.onclick = () => shift(-1); const nx = $('cal-next'); if (nx) nx.onclick = () => shift(1);
+  }
+  function openCalendar(day) {
+    let m = $('bm-cal-modal');
+    if (!m) {
+      m = document.createElement('div'); m.id = 'bm-cal-modal'; m.className = 'bg-modal'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true'); m.setAttribute('aria-label', 'Ma série');
+      m.innerHTML = `<div class="bg-sheet"><div class="bg-sheet-head"><b>🔥 Ma série &amp; Saut Temporel</b><button class="bg-close" aria-label="Fermer">✕</button></div><div class="bg-sheet-body"></div></div>`;
+      m.addEventListener('click', e => { if (e.target === m || e.target.closest('.bg-close')) closeCalendar(); });
+      document.body.appendChild(m);
+    }
+    calMonth = (day || dayKey()).slice(0, 7); calSel = day || dayKey(); m.hidden = false; renderCalendar();
+    try { if (typeof closeSidebar === 'function') closeSidebar(); } catch (e) { /* ignore */ }
+  }
+  function closeCalendar() { const m = $('bm-cal-modal'); if (m) m.hidden = true; refreshCard(); }
 
   // ───────────── Paramètres ─────────────
   const CHIPS = [10, 15, 20, 30, 45, 60, 90];
@@ -359,7 +454,7 @@
       let pushCtl = '', pushHint = '';
       if (!ps.supported || !ps.configured) pushCtl = `<span class="bg-pill">Indisponible</span>`;
       else if (!ps.signedIn) { pushCtl = `<span class="bg-pill">Compte requis</span>`; pushHint = `<p class="bg-hint">Connecte-toi à ton compte pour recevoir les rappels application fermée.</p>`; }
-      else if (ps.subscribed && perm === 'granted') pushCtl = `<span class="bg-pill ok">✅ Activés</span><button class="bg-btn" id="bg-pushoff">Désactiver</button>`;
+      else if (ps.subscribed && perm === 'granted') pushCtl = `<span class="bg-pill ok">✅ Activés</span><button class="bg-btn" id="bg-pushtest">🧪 Tester</button><button class="bg-btn" id="bg-pushoff">Désactiver</button>`;
       else if (perm !== 'granted') { pushCtl = `<button class="bg-btn" disabled>Activer</button>`; pushHint = `<p class="bg-hint">Autorise d’abord les notifications ci-dessus.</p>`; }
       else pushCtl = `<button class="bg-btn pri" id="bg-pushon">Activer</button>`;
       const logged = ps.signedIn;
@@ -371,7 +466,7 @@
           <label class="bg-custom">Autre durée en semaine <input type="number" min="5" max="300" step="5" value="${g.minutes}" id="bg-custom"> min</label>
           <p class="bg-hint">Ta journée est validée (et ta série continue) quand tu atteins l’objectif du jour.</p>
         </section>
-        <section class="bg-sec" id="bg-sec-jump"><h3>⏳ Saut Temporel</h3>${jumpHTML(g)}</section>
+        <section class="bg-sec" id="bg-sec-jump"><h3>⏳ Saut Temporel</h3>${jumpSummary(g)}<button class="bg-btn pri full" id="bg-opencal">📅 Ouvrir mon calendrier</button></section>
         <section class="bg-sec" id="bg-sec-notif">
           <h3>🔔 Notifications</h3>
           ${iosHint}
@@ -400,12 +495,11 @@
     m.querySelectorAll('[data-min]').forEach(b => b.onclick = () => { const g = load(); g.minutes = +b.dataset.min; save(g); renderSettings(); });
     m.querySelectorAll('[data-we]').forEach(b => b.onclick = () => { const g = load(); g.minutesWE = +b.dataset.we; save(g); renderSettings(); });
     const c = $('bg-custom'); if (c) c.onchange = () => { const g = load(); g.minutes = Math.min(300, Math.max(5, +c.value || 20)); save(g); renderSettings(); };
-    m.querySelectorAll('[data-jfrom]').forEach(b => b.onclick = () => { jumpDraft.from = b.dataset.jfrom; renderSettings(); });
-    m.querySelectorAll('[data-jdays]').forEach(b => b.onclick = () => { jumpDraft.days = +b.dataset.jdays; renderSettings(); });
-    const jg = $('bg-jgo'); if (jg) jg.onclick = () => activateJump(jumpDraft.from, jumpDraft.days);
+    const oc = $('bg-opencal'); if (oc) oc.onclick = () => { closeSettings(); openCalendar(); };
     const al = $('bg-allow'); if (al) al.onclick = () => Notification.requestPermission().then(renderSettings);
     const on = $('bg-pushon'); if (on) on.onclick = () => pushEnable(on);
     const off = $('bg-pushoff'); if (off) off.onclick = pushDisable;
+    const pt = $('bg-pushtest'); if (pt) pt.onclick = () => testPush(pt);
     const r = $('bg-remind'); if (r) r.onchange = () => { const g = load(); g.remind = r.checked; save(g); renderSettings(); };
     const bo = $('bg-bonus'); if (bo) bo.onchange = () => { const g = load(); g.bonus = bo.checked; save(g); };
     m.querySelectorAll('[data-slot]').forEach(i => i.onchange = () => { const g = load(); if (/^\d\d:\d\d$/.test(i.value)) { g.slots[+i.dataset.slot] = i.value; g.slots = [...new Set(g.slots)].sort(); save(g); renderSettings(); } });
@@ -447,6 +541,6 @@
     if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('message', e => { if (e.data && e.data.type === 'bm-revise') start(); });
     if (/[?&]revise=1/.test(location.search)) { history.replaceState(null, '', location.pathname); setTimeout(start, 600); }
   }
-  window.BacMasterGoal = { start, openSettings, onProgress, status, load, bestStreak, tick, buildMessage, bonusMessage, notify, metGoal, goalMinutesFor, pushState, forceUpdate, jumpInfo, jumpCovered, activateJump, hoursLeft };
+  window.BacMasterGoal = { start, openSettings, onProgress, status, load, bestStreak, tick, buildMessage, bonusMessage, notify, metGoal, goalMinutesFor, pushState, forceUpdate, jumpInfo, jumpCovered, hoursLeft, openCalendar, requestJump };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();

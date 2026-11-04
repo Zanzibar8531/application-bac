@@ -169,7 +169,7 @@
         const newer=(Number(y&&y.updatedAt)||0)>=(Number(x&&x.updatedAt)||0)?y:x,older=newer===y?x:y;
         const ju=(o)=>(o&&o.jumps)||{},uniq=(a)=>[...new Set(a)];
          const used=[...(ju(older).used||[]),...(ju(newer).used||[])].filter((u,i,a)=>u&&a.findIndex(v=>v&&v.from===u.from)===i);
-         out[key]={...newer,history:{...((older&&older.history)||{}),...((newer&&newer.history)||{})},jumps:{earned:uniq([...(ju(older).earned||[]),...(ju(newer).earned||[])]).sort().slice(-12),used:used.slice(-12)}};
+         out[key]={...newer,history:{...((older&&older.history)||{}),...((newer&&newer.history)||{})},jumps:{req:(ju(newer).req)||null,used:(ju(newer).used||[]).slice(-12)}};
       }
       else out[key]=y;
     }

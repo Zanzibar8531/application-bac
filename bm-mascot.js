@@ -14,41 +14,42 @@
     document.documentElement.classList.toggle('no-mascot', !on);
   }
 
-  // ───────────── Dessin ─────────────
-  const stroke = (d, w, c) => `<path d="${d}" fill="none" stroke="${c || '#1f2937'}" stroke-width="${w || 4}" stroke-linecap="round" stroke-linejoin="round"/>`;
-  const eyeOpen = (r, pupil) => [78, 122].map(x => `<circle cx="${x}" cy="108" r="${r}" fill="#fff" stroke="#94a3b8" stroke-width="1.5"/><circle cx="${x}" cy="109" r="${pupil + 3.4}" fill="#38bdf8"/><circle cx="${x}" cy="109" r="${pupil}" fill="#0f172a"/><circle cx="${x + 2.6}" cy="105.6" r="2.1" fill="#fff"/>`).join('');
+  // ───────────── Dessin (style « mascotte d'appli » : formes simples, gros yeux, corps entier) ─────────────
+  const C = { main: '#7e90b8', dark: '#5a6b93', white: '#ffffff', shade: '#dbe4f3', pink: '#ff8fb1', ink: '#1e293b', iris: '#56c4ff' };
+  const brow = (d, w) => `<path d="${d}" fill="none" stroke="#334155" stroke-width="${w || 7}" stroke-linecap="round"/>`;
+  const arc = (d, w) => `<path d="${d}" fill="none" stroke="${C.ink}" stroke-width="${w || 6.5}" stroke-linecap="round" stroke-linejoin="round"/>`;
+  const EX_L = 74, EX_R = 126, EY = 106;
+  const eyeBig = (ry, look) => [EX_L, EX_R].map(x => `<ellipse cx="${x}" cy="${EY}" rx="17" ry="${ry}" fill="#fff" stroke="#c7d2e8" stroke-width="2"/><circle cx="${x + (look || 0)}" cy="${EY + 1}" r="12.5" fill="${C.iris}"/><circle cx="${x + (look || 0)}" cy="${EY + 1}" r="7.5" fill="#0b1226"/><circle cx="${x + (look || 0) + 4.5}" cy="${EY - 4.5}" r="4.2" fill="#fff"/><circle cx="${x + (look || 0) - 4}" cy="${EY + 5.5}" r="1.8" fill="#fff" opacity=".85"/>`).join('');
   const EYES = {
-    open: eyeOpen(11, 3.6),
-    small: eyeOpen(10, 2.6),
-    happy: stroke('M67 111 Q78 95 89 111', 4.5) + stroke('M111 111 Q122 95 133 111', 4.5),
-    closed: stroke('M67 105 Q78 115 89 105', 4.5) + stroke('M111 105 Q122 115 133 105', 4.5)
+    open: () => `<g class="eyes">${eyeBig(20)}</g>`,
+    small: () => `<g>${eyeBig(15, 0)}</g>`,
+    happy: () => arc(`M${EX_L - 14} ${EY + 6} Q${EX_L} ${EY - 16} ${EX_L + 14} ${EY + 6}`, 7) + arc(`M${EX_R - 14} ${EY + 6} Q${EX_R} ${EY - 16} ${EX_R + 14} ${EY + 6}`, 7),
+    closed: () => arc(`M${EX_L - 14} ${EY - 2} Q${EX_L} ${EY + 12} ${EX_L + 14} ${EY - 2}`, 6.5) + arc(`M${EX_R - 14} ${EY - 2} Q${EX_R} ${EY + 12} ${EX_R + 14} ${EY - 2}`, 6.5)
   };
   const BROWS = {
-    none: '', det: stroke('M66 92 L88 90', 4.5) + stroke('M134 92 L112 90', 4.5),
-    flat: stroke('M66 91 L88 91', 4.5) + stroke('M134 91 L112 91', 4.5),
-    worry: stroke('M65 99 L88 89', 4.5) + stroke('M135 99 L112 89', 4.5),
-    angry: stroke('M64 92 L90 103', 5.5) + stroke('M136 92 L110 103', 5.5)
+    none: '', det: brow('M56 82 L88 80') + brow('M144 82 L112 80'), flat: brow('M56 82 L90 82') + brow('M144 82 L110 82'),
+    worry: brow('M54 90 L90 76') + brow('M146 90 L110 76'), angry: brow('M52 76 L92 94', 8) + brow('M148 76 L108 94', 8)
   };
   const MOUTH = {
-    tongue: stroke('M86 144 Q100 158 114 144', 3.5) + '<ellipse cx="100" cy="155" rx="6.5" ry="6" fill="#fb7185"/>',
-    open: '<path d="M84 143 Q100 174 116 143 Z" fill="#7f1d1d" stroke="#1f2937" stroke-width="3" stroke-linejoin="round"/><ellipse cx="100" cy="160" rx="9" ry="6" fill="#fb7185"/>',
-    flat: stroke('M91 149 L109 149', 3.5),
-    frown: stroke('M88 153 Q100 142 112 153', 3.5),
-    sad: stroke('M90 152 Q100 145 110 152', 3.5),
-    grr: stroke('M86 151 Q100 140 114 151', 3.5) + '<path d="M92 147 L96 155 L99 146 Z M108 147 L104 155 L101 146 Z" fill="#fff" stroke="#1f2937" stroke-width="1.5" stroke-linejoin="round"/>',
-    sleep: stroke('M94 147 Q100 152 106 147', 3.5)
+    tongue: arc('M82 150 Q100 170 118 150', 4.5) + `<path d="M91 160 Q100 182 109 160 Z" fill="#ff7a9c"/>`,
+    open: `<path d="M78 148 Q100 192 122 148 Z" fill="#7f1d1d" stroke="${C.ink}" stroke-width="4" stroke-linejoin="round"/><ellipse cx="100" cy="171" rx="13" ry="8" fill="#ff7a9c"/>`,
+    flat: arc('M88 156 L112 156', 4.5),
+    frown: arc('M84 164 Q100 146 116 164', 4.5),
+    sad: arc('M88 162 Q100 150 112 162', 4.5),
+    grr: arc('M82 162 Q100 144 118 162', 4.5) + `<path d="M91 152 L96 163 L100 151 Z M109 152 L104 163 L100 151 Z" fill="#fff" stroke="${C.ink}" stroke-width="2" stroke-linejoin="round"/>`,
+    sleep: arc('M92 156 Q100 164 108 156', 4.5)
   };
   const EXTRA = {
     party: v => v % 2 === 0
-      ? '<path d="M82 60 L100 14 L118 60 Z" fill="#f59e0b"/><path d="M89 44 L111 44 M85 54 L115 54" stroke="#fff" stroke-width="4"/><circle cx="100" cy="13" r="6" fill="#ec4899"/>'
-      : '<g fill="#f97316"><rect x="28" y="40" width="9" height="9" rx="2" transform="rotate(20 32 44)"/><rect x="160" y="52" width="9" height="9" rx="2" transform="rotate(-25 164 56)"/></g><g fill="#22c55e"><rect x="150" y="22" width="8" height="8" rx="2" transform="rotate(35 154 26)"/><rect x="40" y="16" width="8" height="8" rx="2"/></g><circle cx="22" cy="86" r="5" fill="#3b82f6"/><circle cx="178" cy="92" r="5" fill="#ec4899"/>',
-    glasses: v => '<g fill="rgba(186,230,253,.25)" stroke="#111827" stroke-width="3.5"><circle cx="78" cy="108" r="16"/><circle cx="122" cy="108" r="16"/></g><path d="M94 108 L106 108 M62 106 L50 100 M138 106 L150 100" stroke="#111827" stroke-width="3.5" stroke-linecap="round"/>'
-      + (v % 2 === 0 ? '<rect x="56" y="170" width="88" height="22" rx="4" fill="#3b82f6"/><path d="M100 170 V192" stroke="#fff" stroke-width="2.5"/><path d="M64 178 H94 M64 184 H90 M106 178 H136 M106 184 H132" stroke="#bfdbfe" stroke-width="2.5" stroke-linecap="round"/>'
-        : '<g transform="rotate(-35 150 160)"><rect x="144" y="130" width="9" height="46" rx="2" fill="#fbbf24"/><path d="M144 176 L148.500 188 L153 176 Z" fill="#fde68a"/><rect x="144" y="130" width="9" height="8" rx="2" fill="#f472b6"/></g>'),
-    sweat: () => '<path d="M144 76 Q153 91 144 96 Q135 91 144 76 Z" fill="#7dd3fc" stroke="#38bdf8" stroke-width="1.5"/>',
-    tear: v => `<path d="M${v % 2 ? 114 : 84} 121 Q${v % 2 ? 121 : 91} 134 ${v % 2 ? 114 : 84} 139 Q${v % 2 ? 107 : 77} 134 ${v % 2 ? 114 : 84} 121 Z" fill="#7dd3fc" stroke="#38bdf8" stroke-width="1.5"/><g fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1.5"><circle cx="150" cy="74" r="3"/><circle cx="158" cy="62" r="5"/><ellipse cx="172" cy="42" rx="15" ry="11"/></g><path d="M165 42 Q172 36 179 42" stroke="#94a3b8" stroke-width="2" fill="none" stroke-linecap="round"/>`,
-    vein: () => '<g stroke="#ef4444" stroke-width="4.5" fill="none" stroke-linecap="round"><path d="M142 48 Q151 50 151 59"/><path d="M166 48 Q157 50 157 59"/><path d="M142 78 Q151 76 151 67"/><path d="M166 78 Q157 76 157 67"/></g>',
-    zzz: () => '<path d="M60 70 Q100 18 144 66 L138 74 Q100 50 66 78 Z" fill="#6366f1"/><circle cx="64" cy="76" r="6.5" fill="#fff"/><g fill="#94a3b8" font-family="Arial Black,Arial,sans-serif" font-weight="900"><text x="148" y="58" font-size="30">Z</text><text x="166" y="36" font-size="22">z</text><text x="178" y="18" font-size="15">z</text></g>'
+      ? '<path d="M82 46 L100 2 L118 46 Z" fill="#f59e0b"/><path d="M89 30 L111 30 M85 40 L115 40" stroke="#fff" stroke-width="4"/><circle cx="100" cy="3" r="6.5" fill="#ec4899"/>'
+      : '<g fill="#f97316"><rect x="26" y="40" width="10" height="10" rx="2" transform="rotate(20 31 45)"/><rect x="164" y="54" width="10" height="10" rx="2" transform="rotate(-25 169 59)"/></g><g fill="#22c55e"><rect x="150" y="18" width="9" height="9" rx="2" transform="rotate(35 154 22)"/><rect x="38" y="14" width="9" height="9" rx="2"/></g><circle cx="18" cy="92" r="5.5" fill="#3b82f6"/><circle cx="184" cy="96" r="5.5" fill="#ec4899"/>',
+    glasses: v => `<g fill="rgba(186,230,253,.22)" stroke="#111827" stroke-width="4.5"><circle cx="${EX_L}" cy="${EY}" r="23"/><circle cx="${EX_R}" cy="${EY}" r="23"/></g><path d="M97 ${EY} L103 ${EY} M51 ${EY - 3} L36 ${EY - 10} M149 ${EY - 3} L164 ${EY - 10}" stroke="#111827" stroke-width="4.5" stroke-linecap="round"/>`
+      + (v % 2 === 0 ? '<g class="fg"><rect x="58" y="178" width="84" height="26" rx="5" fill="#3b82f6"/><path d="M100 178 V204" stroke="#fff" stroke-width="3"/><path d="M66 187 H92 M66 195 H88 M108 187 H134 M108 195 H130" stroke="#bfdbfe" stroke-width="3" stroke-linecap="round"/></g>'
+        : '<g transform="rotate(-35 156 168)"><rect x="150" y="136" width="10" height="48" rx="2" fill="#fbbf24"/><path d="M150 184 L155 196 L160 184 Z" fill="#fde68a"/><rect x="150" y="136" width="10" height="9" rx="2" fill="#f472b6"/></g>'),
+    sweat: () => '<path d="M156 66 Q166 84 156 90 Q146 84 156 66 Z" fill="#7dd3fc" stroke="#38bdf8" stroke-width="2"/>',
+    tear: v => `<path d="M${v % 2 ? 126 : 70} 128 Q${v % 2 ? 134 : 78} 146 ${v % 2 ? 126 : 70} 152 Q${v % 2 ? 118 : 62} 146 ${v % 2 ? 126 : 70} 128 Z" fill="#7dd3fc" stroke="#38bdf8" stroke-width="2"/><g fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1.5"><circle cx="158" cy="62" r="3.5"/><circle cx="166" cy="48" r="5.5"/><ellipse cx="180" cy="26" rx="16" ry="12"/></g>`,
+    vein: () => '<g stroke="#ef4444" stroke-width="5" fill="none" stroke-linecap="round"><path d="M148 36 Q158 38 158 48"/><path d="M174 36 Q164 38 164 48"/><path d="M148 68 Q158 66 158 56"/><path d="M174 68 Q164 66 164 56"/></g>',
+    zzz: () => '<path d="M50 70 Q100 -8 152 66 L145 76 Q100 42 58 82 Z" fill="#6366f1"/><circle cx="54" cy="80" r="7.5" fill="#fff"/><g fill="#94a3b8" font-family="Arial Black,Arial,sans-serif" font-weight="900"><text x="152" y="52" font-size="32">Z</text><text x="172" y="28" font-size="23">z</text><text x="184" y="10" font-size="16">z</text></g>'
   };
   const EXPR = {
     push:  { eyes: 'open',   brows: 'det',   mouth: 'tongue' },
@@ -61,31 +62,32 @@
   };
   let uid = 0;
   function svg(state, variant, size, cls) {
-    const x = EXPR[state] || EXPR.push, v = Math.abs(variant | 0), id = 'bmh' + (++uid);
-    const tilt = [0, -5, 5][v % 3];
-    return `<svg class="${cls || 'bm-husky'}" data-state="${state}" viewBox="0 0 200 200" width="${size || 64}" height="${size || 64}" role="img" aria-label="Mascotte husky" xmlns="http://www.w3.org/2000/svg">
-<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7d8799"/><stop offset="1" stop-color="#586174"/></linearGradient></defs>
+    const x = EXPR[state] || EXPR.push, v = Math.abs(variant | 0), id = 'bmh' + (++uid), tilt = [0, -4, 4][v % 3];
+    return `<svg class="${cls || 'bm-husky'}" data-state="${state}" viewBox="0 0 200 220" width="${size || 64}" height="${Math.round((size || 64) * 1.1)}" role="img" aria-label="Mascotte husky" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a9bc2"/><stop offset="1" stop-color="${C.main}"/></linearGradient></defs>
+<g class="bob">
+<path class="tail" d="M144 184 C190 188 202 140 178 112 C182 146 164 166 138 168 Z" fill="${C.dark}"/><path d="M178 112 C190 124 192 140 188 152 C186 140 182 126 178 112 Z" fill="#fff" opacity=".9"/>
+<ellipse cx="100" cy="170" rx="50" ry="44" fill="${C.main}"/><ellipse cx="100" cy="180" rx="30" ry="32" fill="#fff"/>
+<ellipse cx="72" cy="208" rx="21" ry="11" fill="#fff" stroke="${C.shade}" stroke-width="3"/><ellipse cx="128" cy="208" rx="21" ry="11" fill="#fff" stroke="${C.shade}" stroke-width="3"/>
 <g transform="rotate(${tilt} 100 120)">
-<polygon points="40,82 50,20 94,56" fill="#4b5563"/><polygon points="52,68 57,38 80,57" fill="#f9a8d4"/>
-<polygon points="160,82 150,20 106,56" fill="#4b5563"/><polygon points="148,68 143,38 120,57" fill="#f9a8d4"/>
-<ellipse cx="100" cy="112" rx="68" ry="60" fill="url(#${id})"/>
-<path d="M100 60 C88 80 70 92 62 112 C60 142 80 170 100 170 C120 170 140 142 138 112 C130 92 112 80 100 60 Z" fill="#fff"/>
-<ellipse cx="66" cy="130" rx="8" ry="5.5" fill="#f9a8d4" opacity=".55"/><ellipse cx="134" cy="130" rx="8" ry="5.5" fill="#f9a8d4" opacity=".55"/>
-${EYES[x.eyes]}${BROWS[x.brows]}
-<ellipse cx="100" cy="134" rx="9.5" ry="7" fill="#1f2937"/><ellipse cx="97" cy="132" rx="3" ry="1.8" fill="#fff" opacity=".5"/>
-<path d="M100 141 V146" stroke="#1f2937" stroke-width="3" stroke-linecap="round"/>
+<polygon points="30,92 38,10 96,48" fill="${C.dark}"/><polygon points="46,76 50,32 82,52" fill="${C.pink}"/>
+<polygon points="170,92 162,10 104,48" fill="${C.dark}"/><polygon points="154,76 150,32 118,52" fill="${C.pink}"/>
+<ellipse cx="100" cy="100" rx="76" ry="64" fill="url(#${id})"/>
+<path d="M100 44 C88 68 60 78 50 104 C44 140 68 172 100 172 C132 172 156 140 150 104 C140 78 112 68 100 44 Z" fill="#fff"/>
+<ellipse cx="60" cy="140" rx="9" ry="6" fill="${C.pink}" opacity=".55"/><ellipse cx="140" cy="140" rx="9" ry="6" fill="${C.pink}" opacity=".55"/>
+${EYES[x.eyes]()}${BROWS[x.brows]}
+<ellipse cx="100" cy="137" rx="13" ry="9.5" fill="${C.ink}"/><ellipse cx="96" cy="134" rx="4.5" ry="2.6" fill="#fff" opacity=".45"/>
+<path d="M100 146 V152" stroke="${C.ink}" stroke-width="4" stroke-linecap="round"/>
 ${MOUTH[x.mouth]}
 ${x.extra ? EXTRA[x.extra](v) : ''}
-</g>
-<ellipse cx="70" cy="194" rx="17" ry="9" fill="#fff" stroke="#94a3b8" stroke-width="2"/><ellipse cx="130" cy="194" rx="17" ry="9" fill="#fff" stroke="#94a3b8" stroke-width="2"/>
-</svg>`;
+</g></g></svg>`;
   }
   // Mascotte de la carte d'accueil (variante qui change chaque jour)
   function cardHTML(state) {
     if (!enabled()) return '';
     let h = 0; const k = (typeof dayKey === 'function' ? dayKey() : '') + state;
     for (let i = 0; i < k.length; i++) h = (h * 31 + k.charCodeAt(i)) >>> 0;
-    return svg(state, h % 3, 76, 'bg-mascot bm-husky');
+    return svg(state, h % 3, 84, 'bg-mascot bm-husky');
   }
 
   // ───────────── Répliques ─────────────

@@ -6583,3 +6583,38 @@ html.no-mascot .bg-card .bg-mascot,html.no-mascot #bm-mascot-bubble{display:none
 @media print{#bm-mascot-bubble,#bm-goal-modal,#bm-export-modal{display:none!important}}
 .bg-chip.wide{white-space:nowrap;padding:9px 2px;font-size:.78rem}
 .scard h3 small{color:inherit;opacity:.8}.sti-grid .scard div{color:inherit!important;opacity:.9}
+/* ===== v44 — mascotte animée + calendrier de série ===== */
+.bm-husky .bob{animation:bmbob 3.4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+.bm-husky .tail{animation:bmwag 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:0% 100%}
+.bm-husky .eyes{animation:bmblink 5s infinite;transform-box:fill-box;transform-origin:50% 50%}
+@keyframes bmbob{50%{transform:translateY(-3px) scale(1.012,.99)}}
+@keyframes bmwag{50%{transform:rotate(9deg)}}
+@keyframes bmblink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.08)}}
+.bm-husky[data-state=party] .bob{animation:bmjump .75s ease-in-out infinite}
+.bm-husky[data-state=party] .tail{animation-duration:.5s}
+@keyframes bmjump{0%,100%{transform:translateY(0)}40%{transform:translateY(-9px)}}
+.bm-husky[data-state=sleep] .bob{animation:bmbreath 4.2s ease-in-out infinite}.bm-husky[data-state=sleep] .tail{animation:none}
+@keyframes bmbreath{50%{transform:scale(1.035)}}
+.bm-husky[data-state=angry] .bob{animation:bmshake .4s linear infinite}.bm-husky[data-state=angry] .tail{animation-duration:.4s}
+@keyframes bmshake{25%{transform:translateX(-2px)}75%{transform:translateX(2px)}}
+.bm-husky[data-state=miss] .bob,.bm-husky[data-state=worry] .bob{animation-duration:5s}
+@media(prefers-reduced-motion:reduce){.bm-husky .bob,.bm-husky .tail,.bm-husky .eyes{animation:none!important}}
+.cal-hero{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:linear-gradient(135deg,rgba(251,146,60,.2),rgba(236,72,153,.16));margin-bottom:10px}
+.cal-hero b{display:block;font-size:1.15rem}.cal-hero small{color:var(--muted)}.cal-flame{font-size:2rem}
+.cal-hero2{margin-bottom:8px}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin:10px 2px 6px;text-transform:capitalize}
+.cal-nav .bg-x[disabled]{opacity:.3}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center}
+.cal-grid>span{font-size:.7rem;font-weight:800;color:var(--muted);padding:2px 0}
+.cal-d{aspect-ratio:1;border-radius:50%;border:2px solid transparent;background:rgba(120,120,140,.12);color:inherit;font:inherit;font-weight:700;font-size:.85rem;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;cursor:pointer;padding:0;position:relative}
+.cal-d .cal-m{font-size:.62rem;height:.7rem}
+.cal-d.met{background:linear-gradient(135deg,#fb923c,#f43f5e);color:#fff}
+.cal-d.jump,.cal-d.reqd{background:linear-gradient(135deg,#818cf8,#38bdf8);color:#fff}
+.cal-d.reqd{opacity:.75;border-style:dashed;border-color:#fff}
+.cal-d.part{background:rgba(251,146,60,.25)}
+.cal-d.fut{background:transparent;border-color:rgba(120,120,140,.28)}
+.cal-d.now{border-color:#f59e0b}.cal-d.sel{box-shadow:0 0 0 3px rgba(99,102,241,.6)}
+.cal-legend{display:flex;gap:14px;justify-content:center;font-size:.72rem;color:var(--muted);margin:8px 0}
+.cal-det{margin:6px 0 4px;padding:12px;border-radius:14px;background:rgba(120,120,140,.12)}
+.cal-det .bg-note{margin:8px 0}
+.cal-d.reqd{color:#1e1b4b;background:rgba(129,140,248,.35)}

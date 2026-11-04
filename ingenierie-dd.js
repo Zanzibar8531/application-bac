@@ -249,6 +249,62 @@ flashcards:[
 {q:"Brevet du stylographe (ancêtre du Bic)",a:"N° 853.022, M. Biro (Hongrie), demandé le 29 octobre 1938, délivré le 18 novembre 1939, publié le 8 mars 1940."}
 ]},
 
+"Puissance & Énergie : unités, coûts et batteries": {
+cours:"<div class=\"attention-box\">Ce chapitre répond à une seule question : <strong>combien d'énergie faut-il, pendant combien de temps, pour quelle puissance, et combien ça coûte ?</strong> Presque tous les exercices se résolvent avec <mark>E = P × t</mark> et des changements d'unités. Quand tu bloques : écris les unités, elles te disent quoi faire.</div>\n\n<h3>1. Puissance et énergie : ne pas confondre</h3>\n<ul>\n<li>La <strong>puissance P</strong> (en <strong>W</strong>) dit « à quelle vitesse » l'énergie est consommée ou produite. Une PS5 qui « consomme 240 W » demande 240 W <em>tant qu'elle fonctionne</em>.</li>\n<li>L'<strong>énergie E</strong> est la quantité totale utilisée pendant une durée. Elle s'exprime en <strong>J</strong>, <strong>Wh</strong>, <strong>kWh</strong> ou <strong>kcal</strong>.</li>\n</ul>\n<div class=\"formula-box\">\n<strong>E = P × t</strong><br>\n$J = W \\times s$  &nbsp;|&nbsp; $Wh = W \\times h$  &nbsp;|&nbsp; $kWh = kW \\times h$<br>\n<em>On choisit le couple d'unités qui correspond à la question (W et h pour des Wh ou des kWh).</em>\n</div>\n\n<h3>2. Convertir les unités d'énergie (diagramme J – Wh – kWh – kcal)</h3>\n<table class=\"formula-table\">\n<tr><th>De</th><th>Vers</th><th>Opération</th></tr>\n<tr><td>Wh</td><td>J</td><td>× 3600 (1 h = 3600 s)</td></tr>\n<tr><td>J</td><td>Wh</td><td>÷ 3600</td></tr>\n<tr><td>kWh</td><td>Wh</td><td>× 1000</td></tr>\n<tr><td>Wh</td><td>kWh</td><td>÷ 1000</td></tr>\n<tr><td>kWh</td><td>J</td><td>× 3 600 000 (3,6 × 10<sup>6</sup>)</td></tr>\n<tr><td>kcal</td><td>J</td><td>× 4182</td></tr>\n<tr><td>J</td><td>kcal</td><td>÷ 4182</td></tr>\n<tr><td>kcal</td><td>Wh</td><td>× 4182 ÷ 3600 ≈ × 1,162</td></tr>\n<tr><td>Wh</td><td>kcal</td><td>× 3600 ÷ 4182 ≈ × 0,861</td></tr>\n<tr><td>kWh</td><td>kcal</td><td>× 860,8 environ</td></tr>\n</table>\n<div class=\"retenir-box\"><strong>Astuce :</strong> passe toujours par le <mark>joule</mark> quand tu hésites : Wh → J (× 3600), J → kcal (÷ 4182).</div>\n\n<h3>3. Calculer un coût</h3>\n<div class=\"formula-box\"><strong>Prix = E × tarif</strong> avec E en <strong>kWh</strong> et le tarif en <strong>€/kWh</strong>.<br>\nSi tu as des Wh, divise par 1000 d'abord.</div>\n<p><em>Durée totale :</em> on additionne chaque période (semaine scolaire + week-end + vacances…) <strong>avant</strong> de multiplier par la puissance.</p>\n\n<h3>4. Électricité : P = U × I, capacité et batteries</h3>\n<div class=\"formula-box\">\n<strong>P = U × I</strong> &nbsp; (W = V × A)<br>\n<strong>C = I × t</strong> &nbsp; (capacité en Ah ou mAh)<br>\n<strong>E = U × C</strong> &nbsp; (Wh = V × Ah)<br>\n<strong>t = E ÷ P</strong> &nbsp; (temps de charge ou d'autonomie)\n</div>\n<p>Une capacité en <strong>mAh</strong> se convertit en <strong>Ah</strong> (÷ 1000) avant de la multiplier par la tension : 18 000 mAh = 18 Ah.</p>\n<p>Quand le téléphone est utilisé pendant la charge, la puissance qui <strong>reste pour la batterie</strong> est <mark>P<sub>charge</sub> − P<sub>appareil</sub></mark>.</p>\n\n<h3>5. Part d'énergie et pourcentage</h3>\n<p>Pour savoir quelle part d'une énergie est transformée : <strong>pourcentage = (énergie utile ÷ énergie totale) × 100</strong>, avec les <u>deux énergies dans la même unité</u> (ici en Wh pour la chaleur humaine, puis un % du total pour le cerveau).</p>\n\n<div class=\"attention-box\"><strong>Erreurs fréquentes</strong><br>\n❌ Écrire « W » pour une énergie (une énergie est en Wh, J ou kWh).<br>\n❌ Oublier de convertir mAh → Ah ou Wh → kWh avant de calculer.<br>\n❌ Additionner des durées en heures et en jours sans tout ramener à la même unité (et ne pas compter toutes les semaines).<br>\n❌ Mélanger la puissance du chargeur et celle de l'appareil : ce qui charge la batterie, c'est la <em>différence</em>.<br>\n❌ Écrire seulement le résultat : écris la formule, les unités et l'application numérique.</div>",
+exercices:[
+{niveau:"Facile",
+ enonce:"<p><strong>Q1.</strong> Complète les relations : (a) E = P × t, avec les unités possibles ; (b) Prix = E × tarif ; (c) P = U × I ; (d) C = I × t. Puis donne les opérations du diagramme J – Wh – kWh – kcal.</p>",
+ aide:"Pense à « quelle unité de temps ? » : seconde → joule, heure → Wh ou kWh.",
+ correction:"<p><strong>(a)</strong> E = P × t : J = W × s ; Wh = W × h ; kWh = kW × h.</p><p><strong>(b)</strong> Prix (€) = E (kWh) × tarif (€/kWh).</p><p><strong>(c)</strong> P (W) = U (V) × I (A).</p><p><strong>(d)</strong> C (Ah ou mAh) = I (A ou mA) × t (h), puis E (Wh) = U (V) × C (Ah).</p><p><strong>Diagramme :</strong> J → Wh : ÷ 3600 ; Wh → J : × 3600 ; Wh → kWh : ÷ 1000 ; kWh → Wh : × 1000 ; kcal → J : × 4182 ; J → kcal : ÷ 4182 ; kWh → kcal : × 860,8 ; kcal → kWh : ÷ 860,8 ; Wh → kcal : × 0,861 ; kcal → Wh : × 1,162 ; kWh → J : × 3,6 × 10<sup>6</sup>.</p>"},
+{niveau:"Moyen",
+ enonce:"<p><strong>Q2.</strong> Une PS5 Pro consomme 240 W. L'électricité coûte 0,2001 €/kWh. Un élève joue en moyenne 2 h par jour en semaine et 6 h par jour le week-end. Pendant les vacances scolaires, il joue autant que pendant les week-ends. Calcule le coût d'utilisation de la console par an.</p>",
+ aide:"Une année = 52 semaines : 36 semaines scolaires + 16 semaines de vacances. Calcule d'abord le nombre d'heures.",
+ correction:"<p><strong>Heures par semaine scolaire :</strong> 2 h × 5 + 6 h × 2 = 10 + 12 = <strong>22 h</strong> → 36 × 22 = <strong>792 h</strong>.</p><p><strong>Vacances :</strong> 7 jours × 6 h = 42 h par semaine → 16 × 42 = <strong>672 h</strong>.</p><p><strong>Total :</strong> t = 792 + 672 = <strong>1464 h</strong>.</p><p><strong>Énergie :</strong> E = P × t = 0,240 kW × 1464 h = <strong>351,36 kWh</strong>.</p><p><strong>Prix :</strong> 351,36 × 0,2001 ≈ <strong>70,3 €</strong> par an.</p><p><em>Vérification de ta copie :</em> la méthode est la bonne, mais la somme des heures donne 1464 h et non 1422 h (d'où 68,3 € au lieu de 70,3 €). Refais l'addition 792 + 672.</p>"},
+{niveau:"Facile",
+ enonce:"<p><strong>Q3.</strong> Une batterie externe 5 V a une capacité de 18 000 mAh. Calcule son énergie en Wh puis en joules, puis le temps de charge complète avec un chargeur de 40 W.</p>",
+ aide:"Convertis d'abord 18 000 mAh en Ah.",
+ correction:"<p>C = 18 000 mAh = 18 Ah.</p><p><strong>E = U × C = 5 × 18 = 90 Wh.</strong></p><p>En joules : 90 × 3600 = <strong>324 000 J = 3,24 × 10<sup>5</sup> J</strong>.</p><p>Temps : t = E ÷ P = 90 ÷ 40 = <strong>2,25 h</strong> soit 2 h 15 min.</p>"},
+{niveau:"Facile",
+ enonce:"<p><strong>Q3b.</strong> Calcule la puissance utile minimale d'un panneau solaire pour recharger la batterie précédente (90 Wh) en moins de 6 h (rendements négligés).</p>",
+ aide:"P = E ÷ t.",
+ correction:"<p>P = E ÷ t = 90 ÷ 6 = <strong>15 W</strong> (attention : une puissance s'écrit en <strong>W</strong>, pas en « Wh »).</p>"},
+{niveau:"Moyen",
+ enonce:"<p><strong>Q4 — Chaleur humaine.</strong> Une personne émet en permanence 50 W de chaleur corporelle. On préconise un apport journalier de 2400 kcal pour un adolescent de 16 ans. Calcule le pourcentage d'énergie absorbée qui est transformée en chaleur.</p>",
+ aide:"Mets les deux énergies dans la même unité (Wh) sur 24 h.",
+ correction:"<p>Énergie absorbée : 2400 × 4182 = 10 036 800 J, puis ÷ 3600 = <strong>2788 Wh</strong> (une énergie, donc en Wh et non en W).</p><p>Chaleur émise : E = P × t = 50 × 24 = <strong>1200 Wh</strong>.</p><p>Pourcentage : 1200 ÷ 2788 × 100 ≈ <strong>43 %</strong>.</p>"},
+{niveau:"Moyen",
+ enonce:"<p><strong>Q5 — Puissance de calcul.</strong> Le cerveau consomme en moyenne 20 % de l'énergie chez les humains. En utilisant la question précédente, calcule la puissance absorbée par un cerveau humain.</p>",
+ aide:"Calcule l'énergie du cerveau sur la journée puis divise par 24 h.",
+ correction:"<p>Énergie du cerveau : 2788 × 0,20 = <strong>557,6 Wh</strong> par jour.</p><p>Puissance moyenne : P = E ÷ t = 557,6 ÷ 24 ≈ <strong>23,2 W</strong> (environ une ampoule LED).</p>"},
+{niveau:"Difficile",
+ enonce:"<p><strong>Q6a.</strong> Un smartphone à 10 % met 45 min pour passer de 10 % à 90 % (batterie de 4800 mAh, tension 5 V, téléphone non utilisé). Calcule la puissance du chargeur lors de la charge.</p>",
+ aide:"La charge de 10 % à 90 % représente 80 % de la capacité.",
+ correction:"<p>Capacité chargée : 4800 × 0,8 = 3840 mAh = 3,84 Ah.</p><p>Énergie : E = U × C = 5 × 3,84 = <strong>19,2 Wh</strong>.</p><p>Durée : 45 min = 0,75 h.</p><p><strong>P = E ÷ t = 19,2 ÷ 0,75 = 25,6 W.</strong></p>"},
+{niveau:"Difficile",
+ enonce:"<p><strong>Q6b.</strong> En utilisation, le smartphone absorbe 15 W. Calcule le temps nécessaire pour charger de 10 % à 90 % dans ces conditions.</p>",
+ aide:"Seule la différence entre la puissance du chargeur et celle de l'appareil charge la batterie.",
+ correction:"<p>Puissance disponible pour la batterie : 25,6 − 15 = <strong>10,6 W</strong>.</p><p>t = E ÷ P = 19,2 ÷ 10,6 ≈ <strong>1,81 h ≈ 1 h 49 min</strong>.</p>"},
+{niveau:"Difficile",
+ enonce:"<p><strong>Q6c.</strong> Le téléphone reste branché pendant 2 h de révision (même puissance que précédemment). Calcule le pourcentage de batterie obtenu (on suppose une charge constante).</p>",
+ aide:"Capacité totale : 5 V × 4,8 Ah = 24 Wh. Au départ : 10 % de 24 Wh.",
+ correction:"<p>Énergie de départ : 10 % × 24 = 2,4 Wh.</p><p>Énergie ajoutée en 2 h : 10,6 × 2 = 21,2 Wh.</p><p>Total : 2,4 + 21,2 = 23,6 Wh → 23,6 ÷ 24 ≈ <strong>98 %</strong>.</p><p><em>Remarque :</em> en vrai, la charge ralentit après 90 %, donc le résultat réel serait un peu plus bas. Vérifie auprès de ton professeur l'hypothèse attendue (branché ou non).</p>"}
+],
+flashcards:[
+{q:"Relation entre énergie, puissance et temps",a:"E = P × t (J = W × s ; Wh = W × h ; kWh = kW × h)."},
+{q:"Wh → J",a:"× 3600 (1 h = 3600 s). Donc 1 Wh = 3600 J."},
+{q:"kWh → Wh",a:"× 1000 (1 kWh = 1000 Wh = 3,6 × 10^6 J)."},
+{q:"kcal → J",a:"× 4182 (valeur utilisée en cours). Inverse : J → kcal = ÷ 4182."},
+{q:"Calculer un coût d'électricité",a:"Prix (€) = E (kWh) × tarif (€/kWh). Convertir les Wh en kWh avant."},
+{q:"Formule de la puissance électrique",a:"P = U × I (W = V × A)."},
+{q:"Capacité d'une batterie",a:"C = I × t en Ah (ou mAh). Convertir mAh → Ah (÷ 1000) avant de calculer."},
+{q:"Énergie d'une batterie",a:"E = U × C (Wh = V × Ah). Ex : 5 V × 18 Ah = 90 Wh."},
+{q:"Temps de charge",a:"t = E ÷ P (énergie à fournir en Wh ÷ puissance en W)."},
+{q:"Charger un téléphone qu'on utilise",a:"Puissance qui charge = P chargeur − P appareil."},
+{q:"W ou Wh ?",a:"W = puissance (instantané). Wh, kWh, J = énergie (quantité). Une énergie ne s'écrit jamais en W."},
+{q:"Pourcentage d'énergie transformée",a:"(énergie utile ÷ énergie totale) × 100, les deux dans la même unité."},
+{q:"Pourquoi passer par le joule ?",a:"C'est l'unité de base : Wh → J (× 3600), puis J → kcal (÷ 4182), ce qui évite les erreurs de conversion."}
+]},
+
 };
 
 // Corrections de cartes déjà présentes chez l'élève (sa progression de révision est conservée)
