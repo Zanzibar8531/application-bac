@@ -660,7 +660,7 @@ function updateTopbarContext() {
         const tip = t => active ? t : 'Ouvre un cours pour utiliser cette fonction';
         actions.innerHTML = `
           <button class="tb-course-action ${active?'':'disabled'}" ${active ? 'onclick="courseSelfTest(true)"' : 'disabled'} title="${tip('Me tester sur ce cours')}" aria-label="Me tester">🧠</button>
-          <button class="tb-course-action ${active?'':'disabled'}" ${active ? 'onclick="window.print()"' : 'disabled'} title="${tip('Imprimer le cours')}" aria-label="Imprimer le cours">🖨️</button>
+          <button class="tb-course-action ${active?'':'disabled'}" ${active ? 'onclick="exportFiche()"' : 'disabled'} title="${tip('Exporter la fiche (PDF / impression)')}" aria-label="Imprimer le cours">🖨️</button>
         `;
     }
 

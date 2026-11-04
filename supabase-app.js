@@ -167,7 +167,9 @@
       }
       else if(key==='bacmaster_goal'){ // le réglage modifié en dernier gagne ; l'historique des objectifs est fusionné
         const newer=(Number(y&&y.updatedAt)||0)>=(Number(x&&x.updatedAt)||0)?y:x,older=newer===y?x:y;
-        out[key]={...newer,history:{...((older&&older.history)||{}),...((newer&&newer.history)||{})}};
+        const ju=(o)=>(o&&o.jumps)||{},uniq=(a)=>[...new Set(a)];
+         const used=[...(ju(older).used||[]),...(ju(newer).used||[])].filter((u,i,a)=>u&&a.findIndex(v=>v&&v.from===u.from)===i);
+         out[key]={...newer,history:{...((older&&older.history)||{}),...((newer&&newer.history)||{})},jumps:{earned:uniq([...(ju(older).earned||[]),...(ju(newer).earned||[])]).sort().slice(-12),used:used.slice(-12)}};
       }
       else out[key]=y;
     }
@@ -588,6 +590,7 @@
   function hookSave(){
     // script.js calls this explicit hook from save(); no monkey-patching of global bindings.
     window.BacMasterSync={api:{state,status,stableStringify},
+      signOut(){return signOut();},
       onStatsChange(){
         if(!state.user||state.applyingProgress)return;
         state.statsDirty=true;

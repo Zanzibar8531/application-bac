@@ -1,0 +1,110 @@
+// @ts-nocheck
+// BacMaster v43 — Edge Function « send-reminders »
+// Appelée toutes les 10 minutes par pg_cron. Pour chaque élève qui a un objectif :
+// si une heure de rappel vient de passer ET que l'objectif du jour n'est pas atteint,
+// elle envoie une notification push (avec la mascotte) à ses appareils.
+// v43 : objectif semaine / week-end (minutes_wd, minutes_we) et aucun rappel pendant un Saut Temporel (jump_days).
+import { createClient } from 'npm:@supabase/supabase-js@2';
+import webpush from 'npm:web-push@3.6.7';
+
+function localParts(nowMs, tz) {
+  const f = new Intl.DateTimeFormat('en-CA', { timeZone: tz || 'Europe/Paris', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+  const p = {};
+  for (const x of f.formatToParts(new Date(nowMs))) p[x.type] = x.value;
+  return { day: `${p.year}-${p.month}-${p.day}`, minutes: parseInt(p.hour, 10) * 60 + parseInt(p.minute, 10) };
+}
+function daysBetween(a, b) { return Math.round((Date.parse(b + 'T12:00:00Z') - Date.parse(a + 'T12:00:00Z')) / 86400000); }
+function hash(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h; }
+
+function message(streak, doneMin, remainMin, goal, idx, total, day) {
+  const pick = (arr) => arr[hash(day + idx) % arr.length];
+  const pl = streak > 1 ? 's' : '', last = total > 1 && idx === total - 1;
+  const title = streak > 0
+    ? (last ? pick([`🚨 Dernière chance : ta série de ${streak} jour${pl}`, `⏳ Ta série de ${streak} jour${pl} est en jeu`]) : pick([`🔥 Ta série de ${streak} jour${pl} t’attend`, `🔥 ${streak} jour${pl} d’affilée… on continue ?`]))
+    : (last ? pick(['⏰ Il est encore temps de réviser aujourd’hui', '🌙 Une petite session avant de dormir ?']) : pick(['📚 C’est l’heure de ta session', '🎯 Ton objectif du jour t’attend']));
+  const body = doneMin >= 1 ? `Tu as déjà fait ${doneMin} min : plus que ${remainMin} min pour valider ta journée !` : `${goal} min suffisent aujourd’hui. Ouvre BacMaster et lance-toi !`;
+  return { title, body, tag: 'bm-goal', url: './?revise=1', mood: streak > 0 ? 'worry' : 'push' };
+}
+
+function planNotifications(rows, nowMs, windowMin = 12) {
+  const out = [];
+  for (const r of rows) {
+    if (!r.remind || !Array.isArray(r.slots) || !r.slots.length) continue;
+    const { day, minutes: nowMin } = localParts(nowMs, r.tz);
+    if (Array.isArray(r.jump_days) && r.jump_days.includes(day)) continue;   // Saut Temporel actif : aucun rappel
+    const sent = (r.last_sent && r.last_sent[day]) || [];
+    const wd = new Date(day + 'T12:00:00Z').getUTCDay();                      // objectif semaine / week-end
+    const goalMin = r.minutes_wd ? (((wd === 0 || wd === 6) && r.minutes_we) ? r.minutes_we : r.minutes_wd) : r.minutes;
+    const slots = [...r.slots].filter((s) => /^([01]\d|2[0-3]):[0-5]\d$/.test(s)).sort();
+    const seconds = r.day === day ? r.seconds : 0;
+    const gap = r.day ? daysBetween(r.day, day) : 99;
+    const streak = gap > 1 ? 0 : r.streak;
+    const goalSec = goalMin * 60, done = seconds >= goalSec;
+    const doneMin = Math.floor(seconds / 60), remainMin = Math.max(1, Math.ceil((goalSec - seconds) / 60));
+    const due = slots.map((s, i) => ({ s, i, d: nowMin - (parseInt(s.slice(0, 2), 10) * 60 + parseInt(s.slice(3), 10)) })).filter((x) => x.d >= 0 && x.d < windowMin && !sent.includes(x.s));
+    if (!due.length) continue;
+    const { s, i } = due[due.length - 1];
+    if (done) {
+      if (r.bonus && i === slots.length - 1) out.push({ user_id: r.user_id, day, slot: s, payload: { title: '🎉 Objectif atteint, bravo !', body: `${doneMin} min aujourd’hui${streak > 0 ? ` et ${streak} jour${streak > 1 ? 's' : ''} de série` : ''}. Encore 10 minutes pour prendre de l’avance ?`, tag: 'bm-goal', url: './?revise=1', mood: 'party' } });
+      continue;
+    }
+    out.push({ user_id: r.user_id, day, slot: s, payload: message(streak, doneMin, remainMin, goalMin, i, slots.length, day) });
+  }
+  return out;
+}
+
+const CORS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-cron-secret',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS'
+};
+const json = (o, status = 200) => new Response(JSON.stringify(o), { status, headers: { ...CORS, 'Content-Type': 'application/json' } });
+
+async function handler(req) {
+  if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS });
+  let body = {};
+  try { body = await req.json(); } catch (e) { /* corps vide (appel du cron) */ }
+  const db = createClient(Deno.env.get('SUPABASE_URL'), Deno.env.get('SUPABASE_SERVICE_ROLE_KEY'));
+  try {
+    webpush.setVapidDetails(Deno.env.get('VAPID_SUBJECT'), Deno.env.get('VAPID_PUBLIC_KEY'), Deno.env.get('VAPID_PRIVATE_KEY'));
+  } catch (e) {
+    return json({ ok: false, step: 'vapid', message: 'Les clés VAPID sont absentes ou invalides dans les secrets de la fonction.' }, 500);
+  }
+
+  if (body.action === 'test') {
+    const token = (req.headers.get('authorization') || '').replace(/^Bearer\s+/i, '');
+    const { data: u, error: ue } = await db.auth.getUser(token);
+    if (ue || !u || !u.user) return json({ ok: false, step: 'auth', message: 'Session invalide : reconnecte-toi puis réessaie.' }, 401);
+    const { data: subs } = await db.from('bacmaster_push_subs').select('endpoint,p256dh,auth').eq('user_id', u.user.id);
+    if (!subs || !subs.length) return json({ ok: false, step: 'subs', message: 'Aucun appareil enregistré pour ton compte.' });
+    const payload = JSON.stringify({ title: '🧪 Test réussi !', body: 'Le serveur de rappels fonctionne.', tag: 'bm-test', url: './', mood: 'party' });
+    let sent = 0; const failed = [];
+    for (const s of subs) {
+      try { await webpush.sendNotification({ endpoint: s.endpoint, keys: { p256dh: s.p256dh, auth: s.auth } }, payload, { TTL: 600 }); sent++; }
+      catch (e) {
+        failed.push(e && e.statusCode ? e.statusCode : String(e).slice(0, 80));
+        if (e && (e.statusCode === 404 || e.statusCode === 410)) await db.from('bacmaster_push_subs').delete().eq('endpoint', s.endpoint);
+      }
+    }
+    return json({ ok: sent > 0, sent, devices: subs.length, failed });
+  }
+
+  const secret = Deno.env.get('CRON_SECRET');
+  if (!secret || req.headers.get('x-cron-secret') !== secret) return json({ ok: false, message: 'forbidden' }, 403);
+  const { data: rows, error } = await db.from('bacmaster_reminders').select('*').eq('remind', true);
+  if (error) return json({ error: error.message }, 500);
+  const plans = planNotifications(rows || [], Date.now());
+  let sent = 0, removed = 0;
+  for (const p of plans) {
+    const { data: subs } = await db.from('bacmaster_push_subs').select('endpoint,p256dh,auth').eq('user_id', p.user_id);
+    for (const s of subs || []) {
+      try { await webpush.sendNotification({ endpoint: s.endpoint, keys: { p256dh: s.p256dh, auth: s.auth } }, JSON.stringify(p.payload), { TTL: 3600 }); sent++; }
+      catch (e) { if (e && (e.statusCode === 404 || e.statusCode === 410)) { await db.from('bacmaster_push_subs').delete().eq('endpoint', s.endpoint); removed++; } }
+    }
+    const row = rows.find((r) => r.user_id === p.user_id);
+    await db.from('bacmaster_reminders').update({ last_sent: { [p.day]: [...(((row.last_sent || {})[p.day]) || []), p.slot] } }).eq('user_id', p.user_id);
+  }
+  return json({ checked: rows ? rows.length : 0, planned: plans.length, sent, removed });
+}
+
+Deno.serve(handler);
