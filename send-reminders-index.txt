@@ -65,11 +65,28 @@ async function handler(req) {
   let body = {};
   try { body = await req.json(); } catch (e) { /* corps vide (appel du cron) */ }
   const db = createClient(Deno.env.get('SUPABASE_URL'), Deno.env.get('SUPABASE_SERVICE_ROLE_KEY'));
-  try {
-    webpush.setVapidDetails(Deno.env.get('VAPID_SUBJECT'), Deno.env.get('VAPID_PUBLIC_KEY'), Deno.env.get('VAPID_PRIVATE_KEY'));
-  } catch (e) {
-    return json({ ok: false, step: 'vapid', message: 'Les clés VAPID sont absentes ou invalides dans les secrets de la fonction.' }, 500);
+  // Nettoyage (espaces, retours à la ligne, guillemets collés par erreur) puis contrôle précis de chaque secret
+  const clean = (v) => (v || '').trim().replace(/^["']+|["']+$/g, '').trim();
+  const SUBJECT = clean(Deno.env.get('VAPID_SUBJECT')), PUB = clean(Deno.env.get('VAPID_PUBLIC_KEY')), PRIV = clean(Deno.env.get('VAPID_PRIVATE_KEY'));
+  const decode = (k) => { try { const b = atob(k.replace(/-/g, '+').replace(/_/g, '/') + '='.repeat((4 - (k.length % 4)) % 4)); return Uint8Array.from(b, (c) => c.charCodeAt(0)); } catch (e) { return null; } };
+  const problems = [];
+  if (!SUBJECT) problems.push('VAPID_SUBJECT est absent');
+  else if (!/^(mailto:[^\s@]+@[^\s@]+|https:\/\/\S+)$/.test(SUBJECT)) problems.push('VAPID_SUBJECT doit ressembler à mailto:ton@mail.fr (reçu : ' + SUBJECT.slice(0, 30) + ')');
+  const pb = PUB ? decode(PUB) : null, vb = PRIV ? decode(PRIV) : null;
+  if (!PUB) problems.push('VAPID_PUBLIC_KEY est absente'); else if (!pb || pb.length !== 65) problems.push('VAPID_PUBLIC_KEY invalide : ' + PUB.length + ' caractères, ' + (pb ? pb.length : '?') + ' octets (attendu 87 caractères / 65 octets) — il manque ou il y a un caractère en trop, ou une lettre recopiée de travers');
+  if (!PRIV) problems.push('VAPID_PRIVATE_KEY est absente'); else if (!vb || vb.length !== 32) problems.push('VAPID_PRIVATE_KEY invalide : ' + PRIV.length + ' caractères, ' + (vb ? vb.length : '?') + ' octets (attendu 43 caractères / 32 octets) — lettre recopiée de travers ?');
+  if (!problems.length) {
+    try {
+      const { createECDH } = await import('node:crypto');
+      const e = createECDH('prime256v1'); e.setPrivateKey(vb);
+      const derived = new Uint8Array(e.getPublicKey());
+      if (derived.length !== pb.length || derived.some((v, i) => v !== pb[i])) problems.push('La clé privée ne correspond pas à la clé publique : ce ne sont pas les deux clés de la même paire (refais « npx web-push generate-vapid-keys » et copie les deux d’un coup)');
+    } catch (e) { /* contrôle facultatif */ }
   }
+  if (problems.length) return json({ ok: false, step: 'vapid', message: problems.join(' ; ') }, 500);
+  try { webpush.setVapidDetails(SUBJECT, PUB, PRIV); }
+  catch (e) { return json({ ok: false, step: 'vapid', message: 'Clés refusées par web-push : ' + String(e && e.message || e).slice(0, 160) }, 500); }
+  if (body.vapidPublicKey && clean(body.vapidPublicKey) !== PUB) return json({ ok: false, step: 'keys', message: 'La clé publique du SITE (supabase-config.js, ' + clean(body.vapidPublicKey).slice(0, 8) + '…' + clean(body.vapidPublicKey).slice(-6) + ') est différente de celle du SERVEUR (secret VAPID_PUBLIC_KEY, ' + PUB.slice(0, 8) + '…' + PUB.slice(-6) + '). Mets la même dans les deux.' }, 400);
 
   if (body.action === 'test') {
     const token = (req.headers.get('authorization') || '').replace(/^Bearer\s+/i, '');

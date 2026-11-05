@@ -219,7 +219,13 @@
   // Abonne cet appareil (si besoin) et l'enregistre côté serveur
   async function registerDevice() {
     const a = api(); const reg = await navigator.serviceWorker.ready;
-    const sub = (await reg.pushManager.getSubscription()) || await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToU8(cfg().vapidPublicKey) });
+    const want = b64ToU8(cfg().vapidPublicKey);
+    let sub = await reg.pushManager.getSubscription();
+    if (sub && sub.options && sub.options.applicationServerKey) {   // la clé VAPID a changé : l'ancien abonnement ne marchera plus
+      const cur = new Uint8Array(sub.options.applicationServerKey);
+      if (cur.length !== want.length || cur.some((v, i) => v !== want[i])) { try { await sub.unsubscribe(); } catch (e) { /* ignore */ } sub = null; }
+    }
+    if (!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: want });
     const j = sub.toJSON();
     const { error } = await a.state.client.from('bacmaster_push_subs').upsert({ endpoint: j.endpoint, user_id: a.state.user.id, p256dh: j.keys.p256dh, auth: j.keys.auth, tz: Intl.DateTimeFormat().resolvedOptions().timeZone, ua: navigator.userAgent.slice(0, 160) }, { onConflict: 'endpoint' });
     if (error) throw error;
@@ -252,7 +258,7 @@
     if (btn) { btn.disabled = true; btn.textContent = '⏳ Envoi…'; }
     try {
       await registerDevice();
-      const { data, error } = await a.state.client.functions.invoke(cfg().reminderFunction || 'send-reminders', { body: { action: 'test' } });
+      const { data, error } = await a.state.client.functions.invoke(cfg().reminderFunction || 'send-reminders', { body: { action: 'test', vapidPublicKey: cfg().vapidPublicKey } });
       if (error) throw error;
       toast(data && data.ok ? '🧪 Notification envoyée : regarde ton appareil.' : ((data && data.message) || 'Le serveur n’a rien pu envoyer.'), data && data.ok ? undefined : 'warn');
     } catch (e) {
