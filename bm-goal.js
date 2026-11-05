@@ -252,7 +252,7 @@
     if (btn) { btn.disabled = true; btn.textContent = '⏳ Envoi…'; }
     try {
       await registerDevice();
-      const { data, error } = await a.state.client.functions.invoke('send-reminders', { body: { action: 'test' } });
+      const { data, error } = await a.state.client.functions.invoke(cfg().reminderFunction || 'send-reminders', { body: { action: 'test' } });
       if (error) throw error;
       toast(data && data.ok ? '🧪 Notification envoyée : regarde ton appareil.' : ((data && data.message) || 'Le serveur n’a rien pu envoyer.'), data && data.ok ? undefined : 'warn');
     } catch (e) {
