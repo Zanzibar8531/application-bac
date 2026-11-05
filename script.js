@@ -818,7 +818,6 @@ function goHome() {
             }).join('')}
         </div>` : ''}
         ${typeof bmGoalCardHTML==='function' ? bmGoalCardHTML() : ''}
-        <button class="bh-eval" onclick="openAgenda()">📅 Mes évaluations${urgentEvals.length>0?` (${urgentEvals.length})`:''}</button>
         <div class="subjects-grid">
             ${CFG.map(s=>{
                 const st = subStats(s.name);

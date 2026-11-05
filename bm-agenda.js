@@ -103,5 +103,13 @@
       saveEvals(evals); close(); openAgenda(); showToast('📅 Évaluation ajoutée !');
     };
   }
-  window.openAgenda = openAgenda;
+  // Un seul point d’entrée : le bouton Agenda et les jours de la semaine
+  // ouvrent exactement le même calendrier de révisions.
+  window.openAgenda = function () {
+    if (window.BacMasterGoal && typeof window.BacMasterGoal.openCalendar === 'function') {
+      window.BacMasterGoal.openCalendar(typeof dayKey === 'function' ? dayKey() : undefined);
+    } else {
+      openAgenda();
+    }
+  };
 })();

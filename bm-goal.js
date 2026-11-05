@@ -17,7 +17,7 @@
     try { g = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { g = {}; }
     const out = Object.assign({}, DEFAULT, g);
     out.minutes = Math.min(300, Math.max(5, num(out.minutes) || 20));
-    out.slots = (Array.isArray(out.slots) ? out.slots : DEFAULT.slots).filter(s => /^([01]\d|2[0-3]):[0-5]\d$/.test(s)).slice(0, 4);
+    out.slots = [...new Set((Array.isArray(out.slots) ? out.slots : DEFAULT.slots).filter(s => /^([01]\d|2[0-3]):[0-5]\d$/.test(s)))].sort().slice(0, 4);
     out.history = out.history && typeof out.history === 'object' ? out.history : {};
     out.minutesWE = out.minutesWE ? Math.min(300, Math.max(5, num(out.minutesWE))) : 0;   // 0 = même objectif qu'en semaine
     const j = out.jumps && typeof out.jumps === 'object' ? out.jumps : {};
@@ -88,8 +88,17 @@
       <circle cx="55" cy="55" r="${r}" fill="none" stroke="url(#bgg)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" transform="rotate(-90 55 55)"/></svg>`;
   }
   function weekHTML() {
-    const today = dayKey();
-    return `<div class="bh-week" role="list" aria-label="7 derniers jours">${window.last7DaysActivity().map(d => `<button class="bh-day ${d.active ? 'met' : d.jump ? 'jump' : d.partial ? 'part' : ''} ${d.key === today ? 'now' : ''}" role="listitem" onclick="openDayDetail('${d.key}')" title="${new Date(d.key + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}${d.active ? ' — objectif atteint' : ''}" aria-label="${d.label} ${d.active ? 'objectif atteint' : d.partial ? 'révision partielle' : 'rien'}"><span>${d.active ? '✓' : d.jump ? '⏳' : d.label}</span></button>`).join('')}</div>`;
+    const today = dayKey(), now = new Date(), monday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
+    const days = Array.from({ length: 7 }, (_, i) => {
+      const date = new Date(monday); date.setDate(monday.getDate() + i);
+      const key = dayKey(date), active = !!(window.BacMasterGoal && window.BacMasterGoal.metGoal(key));
+      const jump = !!(window.BacMasterGoal && window.BacMasterGoal.jumpCovered(key) && !active);
+      const partial = !active && !jump && dayTimeTotal(key) > 0;
+      const label = date.toLocaleDateString('fr-FR', { weekday: 'short' }).replace('.', '').slice(0, 2);
+      return { key, label, active, jump, partial, dateLabel: date.toLocaleDateString('fr-FR', { day: 'numeric' }) };
+    });
+    return `<div class="bh-week" role="list" aria-label="Les 7 jours de la semaine">${days.map(d => `<button class="bh-day ${d.active ? 'met' : d.jump ? 'jump' : d.partial ? 'part' : ''} ${d.key === today ? 'now' : ''} ${d.key > today ? 'future' : ''}" role="listitem" onclick="BacMasterGoal.openCalendar('${d.key}')" title="${new Date(d.key + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}${d.active ? ' — objectif atteint' : ''}" aria-label="${d.label} ${d.dateLabel} ${d.active ? 'objectif atteint' : d.partial ? 'révision partielle' : d.key > today ? 'à venir' : 'aucune révision'}"><span>${d.active ? '✓' : d.jump ? '⏳' : d.label}</span></button>`).join('')}</div>`;
   }
   function cardInner() {
     const s = status(), st = s.streak;
@@ -100,17 +109,13 @@
       : `Plus que <strong>${s.remainMin} min</strong> pour valider ta journée.`;
     const reviewLabel = s.due > 0 ? `🌅 Réviser · ${s.due} carte${s.due > 1 ? 's' : ''}` : '📚 Réviser maintenant';
     const mpct = gs.total ? Math.round(gs.mastered / gs.total * 100) : 0;
-    const ji = jumpInfo(s.g);
     const mood = s.covered ? 'sleep' : s.done ? 'party' : (s.atRisk && hoursLeft() < 3) ? 'angry' : (s.sec === 0 && (window.__bmMissDays || 0) >= 1 && !s.done) ? 'miss' : s.atRisk ? 'worry' : 'push';
-    const jumpTxt = ji.active ? 'actif' : ji.req ? ji.chain + '/4 jours d’effort' : ji.planned ? 'prévu ' + new Date(ji.planned.from + 'T12:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : 'demander';
-    const jumpBar = `<button class="bg-jumpbar ${ji.req ? 'ready' : ''}" onclick="BacMasterGoal.openCalendar()"><span>📅 Série &amp; Saut Temporel</span>${ji.req ? `<span class="bg-jdots">${[0, 1, 2, 3].map(k => `<i class="bg-jdot ${k < ji.chain ? 'on' : ''}"></i>`).join('')}</span>` : ''}<span>${jumpTxt}</span></button>`;
     return `${window.BacMasterMascot ? BacMasterMascot.cardHTML(mood) : ''}<div class="bh-top">
         <div class="bg-ring">${ring(s.pct, `Objectif du jour : ${s.doneMin} minutes sur ${s.goalMin}`, s.done)}<div class="bg-ringtxt"><b>${s.doneMin}</b><span>/ ${s.goalMin} min</span></div></div>
         <div class="bg-body">
           <div class="bg-title">${st > 0 ? '🔥' : '🎯'} ${st > 0 ? `Série de ${st} jour${st > 1 ? 's' : ''}` : 'Objectif du jour'}${s.done ? ' <span class="bg-ok">✓ validé</span>' : s.atRisk ? ' <span class="bg-risk">à sauver</span>' : ''}</div>
           <div class="bg-sub">${msg}</div>
           ${weekHTML()}
-          ${jumpBar}
         </div>
       </div>
       <div class="bh-kpis">
@@ -121,7 +126,7 @@
       <div class="bg-actions">
         <button class="bg-btn pri" onclick="BacMasterGoal.start()">${reviewLabel}</button>
         <button class="bg-btn stats" onclick="openStats()">📊 Mes statistiques</button>
-        <button class="bg-btn soft" onclick="BacMasterGoal.openSettings()">⚙️ Paramètres</button>
+        <button class="bg-btn eval" onclick="openAgenda()">📅 Agenda</button>
       </div>`;
   }
   window.bmGoalCardHTML = function () { recordToday(); return `<div class="bg-card ${status().done ? 'done' : ''}" id="bm-goal-card">${cardInner()}</div>`; };
@@ -384,21 +389,54 @@
     return `<button class="${cls}" data-cal="${day}" aria-label="${esc(fmtDay(day))}"><span class="cal-n">${+day.slice(8)}</span><span class="cal-m">${mark}</span></button>`;
   }
   function calDetail(g, today) {
-    const d = calSel; if (!d) return `<p class="bg-hint">Touche un jour pour voir le détail. Les jours à venir te permettent de demander un Saut Temporel.</p>`;
-    const diff = diffDays(today, d), goal = goalMinutesFor(d, g), mins = Math.floor(dayTimeTotal(d) / 60), title = `<b>${esc(fmtDay(d))}</b>`;
-    if (diff <= 0) return `<div class="cal-det">${title}<div class="bg-note ${metGoal(d, g) ? 'ok' : ''}">${jumpCovered(d, g) && !metGoal(d, g) ? '⏳ Jour protégé par un Saut Temporel.' : `${mins} min sur ${goal} min ${metGoal(d, g) ? '✅' : diff === 0 ? '— en cours' : ''}`}</div></div>`;
-    const used = (g.jumps.used || []).find(u => { const k = diffDays(u.from, d); return k >= 0 && k < u.days; });
-    if (used) return `<div class="cal-det">${title}<div class="bg-note ok">⏳ Saut Temporel prévu (${used.days * 24} h dès le ${esc(fmtDay(used.from))}).</div>${diffDays(today, used.from) > 0 ? `<button class="bg-btn danger" data-cancelplanned="${used.from}">Annuler ce saut</button>` : ''}</div>`;
-    const c = canRequest(d, g);
-    if (!c.ok && c.why === 'pending') {
-      const i = jumpInfo(g), left = JUMP_DAYS - i.chain;
-      return `<div class="cal-det">${title}<div class="bg-jgauge">${Array.from({ length: JUMP_DAYS }, (_, k) => `<i class="bg-jdot ${k < i.chain ? 'on' : ''}"></i>`).join('')}<span>${i.chain}/${JUMP_DAYS}</span></div><div class="bg-note">Plus que <b>${left} jour${left > 1 ? 's' : ''}</b> d’effort pour valider ton Saut Temporel ! Chaque jour : <b>${i.target} min</b> (objectif + ${i.extra} min).</div><button class="bg-btn danger" id="cal-cancelreq">Annuler la demande</button></div>`;
+    const d = calSel;
+    if (!d) return { evalPanel: `<aside class="cal-eval-panel"><h3>📝 Évaluations</h3><p class="bg-hint">Choisis un jour dans le calendrier.</p></aside>`, detailPanel: `<section class="cal-day-panel cal-day-empty"><span class="cal-day-kicker">JOURNÉE SÉLECTIONNÉE</span><p class="bg-hint">Choisis un jour dans le calendrier pour voir son programme et les options disponibles.</p></section>` };
+    const diff = diffDays(today, d), goal = goalMinutesFor(d, g), mins = Math.floor(dayTimeTotal(d) / 60);
+    const title = esc(fmtDay(d));
+    const isFuture = diff > 0;
+    const protectedDay = jumpCovered(d, g) && !metGoal(d, g);
+    const done = metGoal(d, g);
+    const used = isFuture ? (g.jumps.used || []).find(u => { const k = diffDays(u.from, d); return k >= 0 && k < u.days; }) : null;
+    const statusText = used ? `⏳ Saut Temporel prévu (${used.days * 24} h)`
+      : protectedDay ? '⏳ Journée protégée par un Saut Temporel'
+      : done ? '✓ Objectif atteint'
+      : isFuture ? 'Journée à venir' : diff === 0 ? 'Journée en cours' : 'Journée terminée';
+    const progressText = isFuture ? `Objectif prévu : ${goal} min` : `${mins} min révisées sur ${goal} min`;
+    let jumpContent = '';
+
+    if (used) {
+      jumpContent = `<div class="cal-jump-status ok">${statusText}</div>${diffDays(today, used.from) > 0 ? `<button class="bg-btn danger full" data-cancelplanned="${used.from}">Annuler ce saut</button>` : ''}`;
+    } else if (!isFuture) {
+      const why = 'Un Saut Temporel peut uniquement être demandé pour une journée à venir.';
+      jumpContent = `<div class="bg-lbl">Durée du Saut Temporel</div><div class="bg-chips"><button class="bg-chip wide ${calDays === 1 ? 'on' : ''}" data-cdays="1">24 h</button><button class="bg-chip wide ${calDays === 2 ? 'on' : ''}" data-cdays="2">48 h</button></div><button class="bg-btn pri full" id="cal-request" disabled aria-disabled="true">⏳ Demander un Saut Temporel</button><p class="bg-hint">${why}</p>`;
+    } else {
+      const c = canRequest(d, g);
+      const pendingSame = !c.ok && c.why === 'pending';
+      const pendingOther = !c.ok && !!g.jumps.req && !pendingSame;
+      const requestLabel = pendingSame ? '⏳ Demande déjà en cours' : pendingOther ? '⏳ Une autre demande est en cours' : '⏳ Demander un Saut Temporel';
+      const pendingMarkup = pendingSame ? (() => { const i = jumpInfo(g), left = JUMP_DAYS - i.chain; return `<div class="bg-jgauge">${Array.from({ length: JUMP_DAYS }, (_, k) => `<i class="bg-jdot ${k < i.chain ? 'on' : ''}"></i>`).join('')}<span>${i.chain}/${JUMP_DAYS}</span></div><div class="bg-note">Plus que <b>${left} jour${left > 1 ? 's' : ''}</b> d’effort pour valider ton Saut Temporel. Chaque jour : <b>${i.target} min</b>.</div><button class="bg-btn danger full" id="cal-cancelreq">Annuler la demande</button>`; })() : '';
+      jumpContent = `${pendingMarkup}<div class="bg-lbl">Durée du Saut Temporel</div><div class="bg-chips"><button class="bg-chip wide ${calDays === 1 ? 'on' : ''}" data-cdays="1">24 h</button><button class="bg-chip wide ${calDays === 2 ? 'on' : ''}" data-cdays="2">48 h</button></div><button class="bg-btn pri full" id="cal-request" ${!c.ok ? 'disabled aria-disabled="true"' : ''}>${requestLabel}</button>${!c.ok ? `<div class="bg-note">${esc(c.why === 'pending' ? 'Tu as déjà une demande en cours.' : c.why)}</div>` : `<p class="bg-hint">Pour valider ce saut : ${JUMP_DAYS} jours d’affilée à ton objectif + ${Math.max(5, Math.ceil(goalMinutesFor(today, g) * 0.05))} min (soit ${effortTarget(today, g)} min aujourd’hui).</p>`}`;
     }
-    if (!c.ok) return `<div class="cal-det">${title}<p class="bg-hint">Objectif ce jour-là : ${goal} min.</p><div class="bg-note">${esc(c.why)}</div></div>`;
-    return `<div class="cal-det">${title}<p class="bg-hint">Objectif ce jour-là : ${goal} min.</p>
-      <div class="bg-lbl">Durée du Saut Temporel</div><div class="bg-chips"><button class="bg-chip wide ${calDays === 1 ? 'on' : ''}" data-cdays="1">24 h</button><button class="bg-chip wide ${calDays === 2 ? 'on' : ''}" data-cdays="2">48 h</button></div>
-      <button class="bg-btn pri full" id="cal-request">⏳ Demander un Saut Temporel</button>
-      <p class="bg-hint">Défi : ${JUMP_DAYS} jours d’affilée à ton objectif + ${Math.max(5, Math.ceil(goalMinutesFor(today, g) * 0.05))} min (soit ${effortTarget(today, g)} min aujourd’hui) avant ce jour-là. Un seul par semaine.</p></div>`;
+
+    const dayEvals = typeof purgeOldEvals === 'function' ? purgeOldEvals().filter(e => e.date === d) : [];
+    const evalKinds = [['ds', '📝 DS'], ['oral', '🎤 Oral'], ['devoir', '📚 Devoir'], ['exam', '🎓 Examen']];
+    const evalMarkup = dayEvals.length ? dayEvals.map(e => {
+      const cfg = typeof CFG !== 'undefined' ? CFG.find(x => x.name === e.subject) : null;
+      const color = typeof subjectColor === 'function' ? subjectColor(e.subject) : '#6366f1';
+      const kind = evalKinds.find(x => x[0] === e.kind) || evalKinds[0];
+      return `<div class="ag2-item" style="--c:${color}"><div class="ag2-ico">${cfg ? cfg.icon : '📚'}</div><div class="ag2-info"><b>${esc(e.subject)}</b><span>${kind[1]}${e.note ? ' · ' + esc(e.note) : ''}</span></div><button class="ag2-del" data-cal-eval-del="${esc(e.id)}" aria-label="Supprimer l’évaluation">🗑️</button></div>`;
+    }).join('') : '<p class="ag2-empty">Aucune évaluation prévue ce jour-là.</p>' ;
+    const evalSubjects = typeof CFG !== 'undefined' ? CFG.map(x => `<option value="${esc(x.name)}">${x.icon} ${esc(x.name)}</option>`).join('') : '';
+    const evalPanel = `<div class="cal-eval-panel"><h3>📝 Évaluations</h3>${evalMarkup}<details class="cal-eval-add"><summary>＋ Ajouter une évaluation</summary><div class="cal-eval-form"><label>Type<select id="cal-eval-kind">${evalKinds.map(k => `<option value="${k[0]}">${k[1]}</option>`).join('')}</select></label><label>Matière<select id="cal-eval-subject">${evalSubjects}</select></label><input type="text" id="cal-eval-note" class="ag2-note" placeholder="Sujet ou chapitre (facultatif)" maxlength="80"><button class="bg-btn pri full" id="cal-eval-save">Ajouter à cette journée</button></div></details></div>`;
+
+    return {
+      evalPanel: `<aside class="cal-eval-panel"><div class="cal-eval-heading"><div><span class="cal-day-kicker">ÉVALUATIONS DU</span><h3>${title}</h3></div><span class="cal-eval-count">${dayEvals.length}</span></div>${evalMarkup}<details class="cal-eval-add"><summary>＋ Ajouter une évaluation</summary><div class="cal-eval-form"><label>Type<select id="cal-eval-kind">${evalKinds.map(k => `<option value="${k[0]}">${k[1]}</option>`).join('')}</select></label><label>Matière<select id="cal-eval-subject">${evalSubjects}</select></label><input type="text" id="cal-eval-note" class="ag2-note" placeholder="Sujet ou chapitre (facultatif)" maxlength="80"><button class="bg-btn pri full" id="cal-eval-save">Ajouter à cette journée</button></div></details></aside>`,
+      detailPanel: `<section class="cal-day-panel">
+        <div class="cal-day-head"><div><span class="cal-day-kicker">JOURNÉE SÉLECTIONNÉE</span><b>${title}</b></div><span class="cal-day-status ${done ? 'done' : used || protectedDay ? 'protected' : ''}">${statusText}</span></div>
+        <div class="cal-day-progress"><span>🎯 ${progressText}</span>${!isFuture ? `<span class="cal-day-progressbar"><i style="width:${Math.min(100, Math.round(mins / Math.max(1, goal) * 100))}%"></i></span>` : ''}</div>
+        <div class="cal-jump-panel"><h3>⏳ Saut Temporel</h3>${jumpContent}</div>
+      </section>`
+    };
   }
   let calDays = 1;
   function renderCalendar() {
@@ -408,20 +446,38 @@
     const [y, mo] = calMonth.split('-').map(Number), first = new Date(y, mo - 1, 1), nd = new Date(y, mo, 0).getDate(), lead = (first.getDay() + 6) % 7;
     let cells = '<i></i>'.repeat(lead); for (let k = 1; k <= nd; k++) cells += calCell(`${y}-${String(mo).padStart(2, '0')}-${String(k).padStart(2, '0')}`, g, today);
     const monthShift = (calMonth > addDays(today, -400).slice(0, 7)), ji = jumpInfo(g);
+    const dayPanels = calDetail(g, today);
     m.querySelector('.bg-sheet-body').innerHTML = `
       <div class="cal-hero"><div class="cal-flame">🔥</div><div><b>${st.streak} jour${st.streak > 1 ? 's' : ''} de série</b><small>${st.done ? 'Objectif du jour atteint ✅' : `Aujourd’hui : ${st.doneMin}/${st.goalMin} min`}</small></div></div>
       ${ji.req ? `<div class="cal-hero2">${jumpSummary(g)}</div>` : ''}
-      <div class="cal-nav"><button class="bg-x" id="cal-prev" aria-label="Mois précédent" ${monthShift ? '' : 'disabled'}>‹</button><b>${MONTHS[mo - 1]} ${y}</b><button class="bg-x" id="cal-next" aria-label="Mois suivant" ${calMonth < addDays(today, 60).slice(0, 7) ? '' : 'disabled'}>›</button></div>
-      <div class="cal-grid"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>${cells}</div>
-      <div class="cal-legend"><span>🔥 objectif atteint</span><span>⏳ Saut Temporel</span></div>
-      ${calDetail(g, today)}
+      <div class="cal-main-layout">
+        <section class="cal-calendar-column">
+          <div class="cal-nav"><button class="bg-x" id="cal-prev" aria-label="Mois précédent" ${monthShift ? '' : 'disabled'}>‹</button><b>${MONTHS[mo - 1]} ${y}</b><button class="bg-x" id="cal-next" aria-label="Mois suivant" ${calMonth < addDays(today, 60).slice(0, 7) ? '' : 'disabled'}>›</button></div>
+          <div class="cal-grid"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>${cells}</div>
+          <div class="cal-legend"><span>🔥 objectif atteint</span><span>⏳ Saut Temporel</span></div>
+        </section>
+        ${dayPanels.evalPanel}
+      </div>
+      ${dayPanels.detailPanel}
       <section class="bg-sec"><h3>🎯 Temps de révision par jour</h3>
         <div class="bg-lbl">En semaine (lun → ven)</div><div class="bg-chips">${chipRow('data-min', g.minutes)}</div>
         <div class="bg-lbl">Week-end (sam → dim)</div><div class="bg-chips">${chipRow('data-we', g.minutesWE || 0, true)}</div>
         <div class="bg-row"><span><b>Me rappeler de réviser</b><small>Utilise ces objectifs</small></span>${sw('cal-remind', g.remind)}</div>
         <button class="bg-btn full" id="cal-notif">🔔 Régler les heures et les notifications</button>
       </section>`;
-    m.querySelectorAll('[data-cal]').forEach(b => b.onclick = () => { calSel = b.dataset.cal; renderCalendar(); });
+    m.querySelectorAll('[data-cal]').forEach(b => b.onclick = () => { calSel = b.dataset.cal; renderCalendar(); const detail = m.querySelector('.cal-day-panel'); if (detail) detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); });
+    m.querySelectorAll('[data-cal-eval-del]').forEach(b => b.onclick = () => {
+      if (typeof saveEvals !== 'function' || typeof purgeOldEvals !== 'function') return;
+      saveEvals(purgeOldEvals().filter(e => e.id !== b.dataset.calEvalDel)); renderCalendar(); toast('Évaluation supprimée.');
+    });
+    const addEval = $('cal-eval-save'); if (addEval) addEval.onclick = () => {
+      if (typeof saveEvals !== 'function' || typeof purgeOldEvals !== 'function') return;
+      const subject = $('cal-eval-subject') && $('cal-eval-subject').value;
+      if (!subject) { toast('Choisis une matière.', 'warn'); return; }
+      const evals = purgeOldEvals();
+      evals.push({ id: 'e' + Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-3), subject, date: calSel, kind: ($('cal-eval-kind') || {}).value || 'ds', note: (($('cal-eval-note') || {}).value || '').trim() });
+      saveEvals(evals); renderCalendar(); toast('Évaluation ajoutée à ton agenda !');
+    };
     m.querySelectorAll('[data-min]').forEach(b => b.onclick = () => { const x = load(); x.minutes = +b.dataset.min; save(x); renderCalendar(); });
     m.querySelectorAll('[data-we]').forEach(b => b.onclick = () => { const x = load(); x.minutesWE = +b.dataset.we; save(x); renderCalendar(); });
     m.querySelectorAll('[data-cdays]').forEach(b => b.onclick = () => { calDays = +b.dataset.cdays; renderCalendar(); });
@@ -429,22 +485,24 @@
     const rq = $('cal-request'); if (rq) rq.onclick = () => requestJump(calSel, calDays);
     const cr = $('cal-cancelreq'); if (cr) cr.onclick = cancelRequest;
     const rm = $('cal-remind'); if (rm) rm.onchange = () => { const x = load(); x.remind = rm.checked; save(x); };
-    const cn = $('cal-notif'); if (cn) cn.onclick = () => { closeCalendar(); openSettings('notif'); };
+    const cn = $('cal-notif'); if (cn) cn.onclick = () => openSettings('notif');
     const shift = k => { const [yy, mm] = calMonth.split('-').map(Number), d = new Date(yy, mm - 1 + k, 1); calMonth = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); renderCalendar(); };
     const pv = $('cal-prev'); if (pv) pv.onclick = () => shift(-1); const nx = $('cal-next'); if (nx) nx.onclick = () => shift(1);
   }
   function openCalendar(day) {
-    let m = $('bm-cal-modal');
-    if (!m) {
-      m = document.createElement('div'); m.id = 'bm-cal-modal'; m.className = 'bg-modal'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true'); m.setAttribute('aria-label', 'Ma série');
-      m.innerHTML = `<div class="bg-sheet"><div class="bg-sheet-head"><b>🔥 Ma série &amp; Saut Temporel</b><button class="bg-close" aria-label="Fermer">✕</button></div><div class="bg-sheet-body"></div></div>`;
-      m.addEventListener('click', e => { if (e.target === m || e.target.closest('.bg-close')) closeCalendar(); });
-      document.body.appendChild(m);
+    calMonth = (day || dayKey()).slice(0, 7);
+    calSel = day || dayKey();
+    if (typeof render === 'function') {
+      render(`<div id="bm-cal-modal" class="bm-fullpage" aria-label="Agenda et révisions">
+        <header class="bm-fullpage-head"><button class="bm-page-back" onclick="goHome()">← Accueil</button><div><span class="bm-page-kicker">ORGANISATION</span><h1>📅 Agenda &amp; révisions</h1><p>Ton calendrier, tes évaluations et tes objectifs au même endroit.</p></div></header>
+        <div class="bg-sheet-body bm-fullpage-body"></div>
+      </div>`);
     }
-    calMonth = (day || dayKey()).slice(0, 7); calSel = day || dayKey(); m.hidden = false; renderCalendar();
+    renderCalendar();
     try { if (typeof closeSidebar === 'function') closeSidebar(); } catch (e) { /* ignore */ }
   }
-  function closeCalendar() { const m = $('bm-cal-modal'); if (m) m.hidden = true; refreshCard(); }
+  function closeCalendar() { if ($('bm-cal-modal')) goHome(); }
+
 
   // ───────────── Paramètres ─────────────
   const CHIPS = [10, 15, 20, 30, 45, 60, 90];
@@ -457,7 +515,12 @@
     const perm = !canNotify() ? 'unsupported' : Notification.permission;
     return pushState().then(ps => {
       m = $('bm-goal-modal'); if (!m) return;
-      const slots = g.slots.map((s, i) => `<div class="bg-slot"><input type="time" value="${s}" data-slot="${i}" aria-label="Heure du rappel ${i + 1}"><button class="bg-x" data-del="${i}" aria-label="Supprimer ce rappel">✕</button></div>`).join('');
+      const slots = g.slots.map((s, i) => {
+        const parts = s.split(':');
+        const hours = Array.from({ length: 24 }, (_, h) => `<option value="${String(h).padStart(2, '0')}" ${parts[0] === String(h).padStart(2, '0') ? 'selected' : ''}>${String(h).padStart(2, '0')} h</option>`).join('');
+        const minutes = Array.from({ length: 60 }, (_, minute) => `<option value="${String(minute).padStart(2, '0')}" ${parts[1] === String(minute).padStart(2, '0') ? 'selected' : ''}>${String(minute).padStart(2, '0')}</option>`).join('');
+        return `<div class="bg-slot bg-slot-v2"><div class="bg-slot-time"><span class="bg-slot-index">Rappel ${i + 1}</span><div class="bg-time-selects"><label><span>Heure</span><select data-slot-hour="${i}" aria-label="Heure du rappel ${i + 1}">${hours}</select></label><b>:</b><label><span>Minutes</span><select data-slot-minute="${i}" aria-label="Minutes du rappel ${i + 1}">${minutes}</select></label></div></div><button class="bg-x" data-del="${i}" aria-label="Supprimer ce rappel">✕</button></div>`;
+      }).join('');
       const iosHint = iOS && !standalone() ? `<div class="bg-note warn">📱 Sur iPhone : ouvre le menu Partager de Safari puis « Sur l’écran d’accueil », et lance BacMaster depuis cette icône. Les notifications ne marchent que là.</div>` : '';
       // 1) autorisation globale
       const permCtl = perm === 'granted' ? `<span class="bg-pill ok">✅ Autorisées</span>` : perm === 'denied' ? `<span class="bg-pill bad">🚫 Bloquées</span>` : perm === 'unsupported' ? `<span class="bg-pill bad">Non géré</span>` : `<button class="bg-btn pri" id="bg-allow">Autoriser</button>`;
@@ -507,14 +570,25 @@
     m.querySelectorAll('[data-min]').forEach(b => b.onclick = () => { const g = load(); g.minutes = +b.dataset.min; save(g); renderSettings(); });
     m.querySelectorAll('[data-we]').forEach(b => b.onclick = () => { const g = load(); g.minutesWE = +b.dataset.we; save(g); renderSettings(); });
     const c = $('bg-custom'); if (c) c.onchange = () => { const g = load(); g.minutes = Math.min(300, Math.max(5, +c.value || 20)); save(g); renderSettings(); };
-    const oc = $('bg-opencal'); if (oc) oc.onclick = () => { closeSettings(); openCalendar(); };
+    const oc = $('bg-opencal'); if (oc) oc.onclick = () => openCalendar();
     const al = $('bg-allow'); if (al) al.onclick = () => Notification.requestPermission().then(renderSettings);
     const on = $('bg-pushon'); if (on) on.onclick = () => pushEnable(on);
     const off = $('bg-pushoff'); if (off) off.onclick = pushDisable;
     const pt = $('bg-pushtest'); if (pt) pt.onclick = () => testPush(pt);
     const r = $('bg-remind'); if (r) r.onchange = () => { const g = load(); g.remind = r.checked; save(g); renderSettings(); };
     const bo = $('bg-bonus'); if (bo) bo.onchange = () => { const g = load(); g.bonus = bo.checked; save(g); };
-    m.querySelectorAll('[data-slot]').forEach(i => i.onchange = () => { const g = load(); if (/^\d\d:\d\d$/.test(i.value)) { g.slots[+i.dataset.slot] = i.value; g.slots = [...new Set(g.slots)].sort(); save(g); renderSettings(); } });
+    const updateSlot = index => {
+      const g = load();
+      const h = m.querySelector(`[data-slot-hour="${index}"]`);
+      const minute = m.querySelector(`[data-slot-minute="${index}"]`);
+      if (!h || !minute) return;
+      const value = `${h.value}:${minute.value}`;
+      if (g.slots[index] === value) return;
+      if (g.slots.some((slot, i) => i !== index && slot === value)) { toast('Cette heure de rappel existe déjà.', 'warn'); renderSettings(); return; }
+      g.slots[index] = value; g.slots = [...new Set(g.slots)].sort(); save(g); renderSettings();
+    };
+    m.querySelectorAll('[data-slot-hour]').forEach(i => i.onchange = () => updateSlot(+i.dataset.slotHour));
+    m.querySelectorAll('[data-slot-minute]').forEach(i => i.onchange = () => updateSlot(+i.dataset.slotMinute));
     m.querySelectorAll('[data-del]').forEach(b => b.onclick = () => { const g = load(); g.slots.splice(+b.dataset.del, 1); save(g); renderSettings(); });
     const add = $('bg-addslot'); if (add) add.onclick = () => { const g = load(); const free = ['09:00', '12:30', '16:30', '19:00', '22:00'].find(t => !g.slots.includes(t)) || '17:00'; g.slots = [...g.slots, free].sort(); save(g); renderSettings(); };
     const mc = $('bg-mascot'); if (mc) mc.onchange = () => { if (window.BacMasterMascot) { BacMasterMascot.setEnabled(mc.checked); if (mc.checked) BacMasterMascot.say('push', 'Me revoilà ! On révise ?', { force: true }); } refreshCard(); };
@@ -525,19 +599,18 @@
     };
   }
   function openSettings(section) {
-    let m = $('bm-goal-modal');
-    if (!m) {
-      m = document.createElement('div'); m.id = 'bm-goal-modal'; m.className = 'bg-modal'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true'); m.setAttribute('aria-label', 'Paramètres');
-      m.innerHTML = `<div class="bg-sheet"><div class="bg-sheet-head"><b>⚙️ Paramètres</b><button class="bg-close" aria-label="Fermer">✕</button></div><div class="bg-sheet-body"></div></div>`;
-      m.addEventListener('click', e => { if (e.target === m || e.target.closest('.bg-close')) closeSettings(); });
-      document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSettings(); });
-      document.body.appendChild(m);
-    }
     pendingScroll = typeof section === 'string' ? section : null;
-    m.hidden = false; renderSettings();
+    if (typeof render === 'function') {
+      render(`<div id="bm-goal-modal" class="bm-fullpage" aria-label="Paramètres">
+        <header class="bm-fullpage-head"><button class="bm-page-back" onclick="goHome()">← Accueil</button><div><span class="bm-page-kicker">PERSONNALISATION</span><h1>⚙️ Paramètres</h1><p>Personnalise tes objectifs, tes rappels et ton expérience Bac Master.</p></div></header>
+        <div class="bg-sheet-body bm-fullpage-body"><div class="bm-settings-loading">Chargement des paramètres…</div></div>
+      </div>`);
+    }
+    renderSettings();
     try { if (typeof closeSidebar === 'function') closeSidebar(); } catch (e) { /* ignore */ }
   }
-  function closeSettings() { const m = $('bm-goal-modal'); if (m) m.hidden = true; refreshCard(); }
+  function closeSettings() { if ($('bm-goal-modal')) goHome(); }
+
   window.askNotifPermission = openSettings;
   window.openSettings = openSettings;
 
