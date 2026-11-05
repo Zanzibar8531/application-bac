@@ -17,7 +17,7 @@
     try { g = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { g = {}; }
     const out = Object.assign({}, DEFAULT, g);
     out.minutes = Math.min(300, Math.max(5, num(out.minutes) || 20));
-    out.slots = [...new Set((Array.isArray(out.slots) ? out.slots : DEFAULT.slots).filter(s => /^([01]\d|2[0-3]):[0-5]\d$/.test(s)))].sort().slice(0, 4);
+    out.slots = [...new Set((Array.isArray(out.slots) ? out.slots : DEFAULT.slots).filter(s => /^([01]\d|2[0-3]):[0-5]\d$/.test(s)))].sort();
     out.history = out.history && typeof out.history === 'object' ? out.history : {};
     out.minutesWE = out.minutesWE ? Math.min(300, Math.max(5, num(out.minutesWE))) : 0;   // 0 = même objectif qu'en semaine
     const j = out.jumps && typeof out.jumps === 'object' ? out.jumps : {};
@@ -515,12 +515,13 @@
     const perm = !canNotify() ? 'unsupported' : Notification.permission;
     return pushState().then(ps => {
       m = $('bm-goal-modal'); if (!m) return;
-      const slots = g.slots.map((s, i) => {
-        const parts = s.split(':');
-        const hours = Array.from({ length: 24 }, (_, h) => `<option value="${String(h).padStart(2, '0')}" ${parts[0] === String(h).padStart(2, '0') ? 'selected' : ''}>${String(h).padStart(2, '0')} h</option>`).join('');
-        const minutes = Array.from({ length: 60 }, (_, minute) => `<option value="${String(minute).padStart(2, '0')}" ${parts[1] === String(minute).padStart(2, '0') ? 'selected' : ''}>${String(minute).padStart(2, '0')}</option>`).join('');
-        return `<div class="bg-slot bg-slot-v2"><div class="bg-slot-time"><span class="bg-slot-index">Rappel ${i + 1}</span><div class="bg-time-selects"><label><span>Heure</span><select data-slot-hour="${i}" aria-label="Heure du rappel ${i + 1}">${hours}</select></label><b>:</b><label><span>Minutes</span><select data-slot-minute="${i}" aria-label="Minutes du rappel ${i + 1}">${minutes}</select></label></div></div><button class="bg-x" data-del="${i}" aria-label="Supprimer ce rappel">✕</button></div>`;
-      }).join('');
+      const slots = g.slots.map((s, i) => `
+        <div class="bg-slot bg-slot-v2 bg-slot-compact">
+          <label class="bg-slot-editor"><span class="bg-slot-index">Rappel ${i + 1}</span>
+            <input type="time" value="${s}" data-slot-time="${i}" aria-label="Heure du rappel ${i + 1}" />
+          </label>
+          <button class="bg-x" data-del="${i}" aria-label="Supprimer le rappel ${i + 1}" title="Supprimer ce rappel">✕</button>
+        </div>`).join('');
       const iosHint = iOS && !standalone() ? `<div class="bg-note warn">📱 Sur iPhone : ouvre le menu Partager de Safari puis « Sur l’écran d’accueil », et lance BacMaster depuis cette icône. Les notifications ne marchent que là.</div>` : '';
       // 1) autorisation globale
       const permCtl = perm === 'granted' ? `<span class="bg-pill ok">✅ Autorisées</span>` : perm === 'denied' ? `<span class="bg-pill bad">🚫 Bloquées</span>` : perm === 'unsupported' ? `<span class="bg-pill bad">Non géré</span>` : `<button class="bg-btn pri" id="bg-allow">Autoriser</button>`;
@@ -548,7 +549,7 @@
           <div class="bg-row"><span><b>Autorisation</b><small>Sur cet appareil</small></span><span class="bg-ctl">${permCtl}</span></div>${permHint}
           <div class="bg-row"><span><b>Rappels application fermée</b><small>Envoyés par le serveur</small></span><span class="bg-ctl">${pushCtl}</span></div>${pushHint}
           <div class="bg-row"><span><b>Me rappeler de réviser</b><small>Préférence de rappel</small></span>${sw('bg-remind', g.remind)}</div>
-          ${g.remind ? `<div class="bg-slots">${slots}${g.slots.length < 4 ? '<button class="bg-add" id="bg-addslot">＋ Ajouter une heure</button>' : ''}</div>
+          ${g.remind ? `<div class="bg-slots-head"><span class="bg-hint">${g.slots.length} horaire${g.slots.length > 1 ? 's' : ''} configuré${g.slots.length > 1 ? 's' : ''}</span><button class="bg-add" id="bg-addslot">＋ Ajouter une heure</button></div><div class="bg-slots">${slots}</div>
           <p class="bg-hint">Tant que ton objectif n’est pas atteint, tu reçois un rappel à ces heures.</p>
           <div class="bg-row"><span><b>M’encourager quand c’est fait</b><small>Message bonus du soir</small></span>${sw('bg-bonus', g.bonus)}</div>` : ''}
         </section>
@@ -579,18 +580,16 @@
     const bo = $('bg-bonus'); if (bo) bo.onchange = () => { const g = load(); g.bonus = bo.checked; save(g); };
     const updateSlot = index => {
       const g = load();
-      const h = m.querySelector(`[data-slot-hour="${index}"]`);
-      const minute = m.querySelector(`[data-slot-minute="${index}"]`);
-      if (!h || !minute) return;
-      const value = `${h.value}:${minute.value}`;
+      const field = m.querySelector(`[data-slot-time="${index}"]`);
+      if (!field || !/^([01]\d|2[0-3]):[0-5]\d$/.test(field.value)) return;
+      const value = field.value;
       if (g.slots[index] === value) return;
       if (g.slots.some((slot, i) => i !== index && slot === value)) { toast('Cette heure de rappel existe déjà.', 'warn'); renderSettings(); return; }
       g.slots[index] = value; g.slots = [...new Set(g.slots)].sort(); save(g); renderSettings();
     };
-    m.querySelectorAll('[data-slot-hour]').forEach(i => i.onchange = () => updateSlot(+i.dataset.slotHour));
-    m.querySelectorAll('[data-slot-minute]').forEach(i => i.onchange = () => updateSlot(+i.dataset.slotMinute));
+    m.querySelectorAll('[data-slot-time]').forEach(i => i.onchange = () => updateSlot(+i.dataset.slotTime));
     m.querySelectorAll('[data-del]').forEach(b => b.onclick = () => { const g = load(); g.slots.splice(+b.dataset.del, 1); save(g); renderSettings(); });
-    const add = $('bg-addslot'); if (add) add.onclick = () => { const g = load(); const free = ['09:00', '12:30', '16:30', '19:00', '22:00'].find(t => !g.slots.includes(t)) || '17:00'; g.slots = [...g.slots, free].sort(); save(g); renderSettings(); };
+    const add = $('bg-addslot'); if (add) add.onclick = () => { const g = load(); let free = null; for (let minute = 7 * 60; minute < 24 * 60; minute += 30) { const candidate = `${String(Math.floor(minute / 60)).padStart(2, '0')}:${String(minute % 60).padStart(2, '0')}`; if (!g.slots.includes(candidate)) { free = candidate; break; } } if (!free) { toast('Toutes les heures possibles sont déjà utilisées.', 'warn'); return; } g.slots = [...g.slots, free].sort(); save(g); renderSettings(); };
     const mc = $('bg-mascot'); if (mc) mc.onchange = () => { if (window.BacMasterMascot) { BacMasterMascot.setEnabled(mc.checked); if (mc.checked) BacMasterMascot.say('push', 'Me revoilà ! On révise ?', { force: true }); } refreshCard(); };
     const up = $('bg-update'); if (up) up.onclick = () => forceUpdate(up);
     const lo = $('bg-logout'); if (lo) lo.onclick = () => {
