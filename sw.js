@@ -5,7 +5,7 @@
    ============================================================ */
 
 const CACHE_NAME   = 'bacmaster-pwa-v48-v1';
-const CACHE_STATIC = 'bacmaster-static-pwa-v47-v4';
+const CACHE_STATIC = 'bacmaster-static-pwa-v49-nettoyage';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
@@ -34,11 +34,6 @@ const STATIC_ASSETS = [
   './vocal.js',
   './navigation.js',
   './manifest.json',
-  './icons/icon-192.png',
-  './icons/icon-512.png',
-  './icons/apple-touch-icon.png',
-  './icons/favicon-48.png',
-  './icons/favicon-32.png',
   './data-init.js',
   './francais.js',
   './maths.js',

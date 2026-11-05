@@ -1266,16 +1266,8 @@ function deleteChapter(ch, mode) {
     });
 }
 
-function switchEditTab(btn, name) {
-    document.querySelectorAll('.edt-tab').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.edt-panel').forEach(p => {
-        p.style.display = p.dataset.panel === name ? '' : 'none';
-    });
-}
 
 function fmt(cmd,val=null){ restoreEditorSelection(); document.execCommand(cmd,false,val); }
-function applyHL(){ restoreEditorSelection(); document.execCommand('hiliteColor',false,$('hlc').value); }
 
 // ── CONFIRMATION STYLÉE (remplace le confirm() natif moche du navigateur) ──
 function customConfirm(opts) {
@@ -1439,10 +1431,6 @@ function insertTermTooltip() {
     });
 }
 
-function scrollEditorTo(pos) {
-    if(pos==='top') window.scrollTo({top:0, behavior:'smooth'});
-    else window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'});
-}
 
 // ── BARRE LATÉRALE DE DÉFILEMENT (façon Google Docs) ──────────
 // Une piste verticale avec un curseur qui reflète la position de lecture,
@@ -1476,43 +1464,7 @@ function scrollToRatio(clientY) {
     window.scrollTo({top: ratio * docScrollableHeight()});
 }
 
-function initScrollSidebar() {
-    updateScrollThumb();
-    if(scrollSidebarBound) return;
-    scrollSidebarBound = true;
-    window.addEventListener('scroll', () => { if(!esnDragging) updateScrollThumb(); }, {passive:true});
-    window.addEventListener('resize', updateScrollThumb);
-    document.addEventListener('pointerdown', e => {
-        const track = $('esn-track'); if(!track) return;
-        const thumb = $('esn-thumb');
-        if(e.target === thumb || e.target === track){
-            esnDragging = true;
-            scrollToRatio(e.clientY);
-            e.preventDefault();
-        }
-    });
-    document.addEventListener('pointermove', e => {
-        if(esnDragging){ scrollToRatio(e.clientY); updateScrollThumb(); }
-    });
-    document.addEventListener('pointerup', () => { esnDragging = false; });
-}
 
-function insertTable() {
-    const ed = $('editor'); if(!ed) return;
-    let rows = parseInt(prompt('Nombre de lignes ?', '3'), 10);
-    let cols = parseInt(prompt('Nombre de colonnes ?', '3'), 10);
-    if(!rows || rows<1) rows=3; if(!cols || cols<1) cols=3;
-    if(rows>20) rows=20; if(cols>10) cols=10;
-    let html = '<table class="user-table"><tbody>';
-    for(let r=0;r<rows;r++){
-        html += '<tr>';
-        for(let c=0;c<cols;c++) html += '<td>&nbsp;</td>';
-        html += '</tr>';
-    }
-    html += '</tbody></table><p><br></p>';
-    restoreEditorSelection();
-    document.execCommand('insertHTML', false, html);
-}
 
 // ── TRACEUR DE GRAPHIQUES ───────────────────────────────────────
 function openGraphTool() {
@@ -2713,21 +2665,6 @@ function updateThemeBtn() {
 // ── RAPPELS (notification si absence de 2+ jours) ───────────────
 // Limite honnête : sans serveur de push, on ne peut pas notifier quelqu'un
 // qui n'a jamais rouvert l'app. Ceci vérifie l'écart depuis la dernière
-// visite à CHAQUE ouverture, et déclenche une notification locale si besoin.
-function checkReminderGap() {
-    const last = localStorage.getItem('bm_last_visit');
-    const today = dayKey(new Date());
-    if(last && last !== today) {
-        const gapDays = Math.round((new Date(today) - new Date(last)) / 86400000);
-        if(gapDays >= 2 && Notification && Notification.permission === 'granted') {
-            new Notification('BacMaster 📚', {
-                body: `Ça fait ${gapDays} jours — reviens réviser pour ne pas perdre ta série !`,
-                icon: 'icons/icon-192.png'
-            });
-        }
-    }
-    localStorage.setItem('bm_last_visit', today);
-}
 function askNotifPermission() {
     if(!('Notification' in window)) { showToast('Les notifications ne sont pas supportées sur ce navigateur', 'warn'); return; }
     Notification.requestPermission().then(perm => {

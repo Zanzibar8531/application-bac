@@ -127,7 +127,6 @@ function vcPickVoice(tag) {
     return best;
 }
 if ('speechSynthesis' in window) { try { speechSynthesis.onvoiceschanged = () => { /* recharge la liste */ }; speechSynthesis.getVoices(); } catch (e) { /* ignore */ } }
-function vcHasVoice(tag) { return !!vcPickVoice(tag); }
 
 const vcClean = t => vcPlain(t).replace(/\$[^$]*\$/g, ' ').replace(/[→↔⇒]/g, ',').trim();
 
