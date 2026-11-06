@@ -6346,3 +6346,6 @@ html.no-mascot .bg-card .bg-mascot,html.no-mascot #bm-mascot-bubble{display:none
 .bg-frz{font-size:.68rem;font-weight:700;padding:2px 9px;border-radius:99px;background:rgba(56,189,248,.18);color:#0284c7;white-space:nowrap}
 .cal-hero small.cal-frz{display:block;margin-top:2px}
 [data-theme="dark"] .bh-day.frozen,[data-theme="dark"] .bg-frz{color:#7dd3fc}
+
+/* ── Lecture seule : boutons d'édition grisés ── */
+.tab-btn:disabled,.bc-btn:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(1);pointer-events:none}

@@ -182,7 +182,7 @@
           sel.disabled = false;
           if (error) { sel.value = prev; return say('Modification refusée : ' + error.message, true); }
           p.role = next; say('Rôle de ' + (p.display_name || p.email) + ' : ' + ROLES[next]);
-          if (p.user_id === S().user.id) { S().role = next; if (next !== 'admin') $('bm-adm').hidden = true; refreshSidebar(); }
+          if (p.user_id === S().user.id) { S().role = next; if (typeof window.bmRoleChanged === 'function') window.bmRoleChanged(); if (next !== 'admin') $('bm-adm').hidden = true; refreshSidebar(); }
           renderUsers();
         });
         list.appendChild(h('div', { class: 'row' }, [

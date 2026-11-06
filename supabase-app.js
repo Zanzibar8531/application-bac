@@ -550,12 +550,12 @@
     }
     if(profile&&!error){state.profileRetry=0;try{localStorage.setItem('bm_profile_'+state.user.id,JSON.stringify(profile));}catch{}}
     if(!profile){if(gate)gate.hidden=false;if(chip)chip.hidden=true;status('Profil non créé. Vérifie que le script SQL complet a été exécuté.',true);return;}
-    state.role=profile.role||'reader';state.displayName=profile.display_name||state.user.email||'Quelqu’un';const account=(profile.display_name||state.user.email)+' — '+state.role;
+    {const before=state.role;state.role=profile.role||'reader';if(before!==state.role&&typeof window.bmRoleChanged==='function')setTimeout(window.bmRoleChanged,0);}state.displayName=profile.display_name||state.user.email||'Quelqu’un';const account=(profile.display_name||state.user.email)+' — '+state.role;
     if(chip){chip.textContent='☁️ '+(profile.display_name||state.user.email||'Mon compte')+' · '+state.role;chip.dataset.account=account;}
     addAdminPanel();
     if(state.channel) await state.client.removeChannel(state.channel);
     if(state.profileChannel) await state.client.removeChannel(state.profileChannel);
-    state.profileChannel=state.client.channel('bacmaster-profile-'+state.user.id).on('postgres_changes',{event:'UPDATE',schema:'public',table:'bacmaster_profiles',filter:'user_id=eq.'+state.user.id},async()=>{const {data:p}=await state.client.from('bacmaster_profiles').select('display_name,role').eq('user_id',state.user.id).maybeSingle();if(p){state.role=p.role||'reader';if(chip){chip.textContent='☁️ '+(p.display_name||state.user.email||'Mon compte')+' · '+state.role;chip.dataset.account=(p.display_name||state.user.email)+' — '+state.role;}if(state.role!=='admin' && $('bm-supabase-admin'))$('bm-supabase-admin').hidden=true;}}).subscribe((st)=>{if(st==='CHANNEL_ERROR'||st==='TIMED_OUT')status('Connexion temps réel au profil interrompue : '+st,true);});
+    state.profileChannel=state.client.channel('bacmaster-profile-'+state.user.id).on('postgres_changes',{event:'UPDATE',schema:'public',table:'bacmaster_profiles',filter:'user_id=eq.'+state.user.id},async()=>{const {data:p}=await state.client.from('bacmaster_profiles').select('display_name,role').eq('user_id',state.user.id).maybeSingle();if(p){const before=state.role;state.role=p.role||'reader';if(before!==state.role&&typeof window.bmRoleChanged==='function')window.bmRoleChanged();if(chip){chip.textContent='☁️ '+(p.display_name||state.user.email||'Mon compte')+' · '+state.role;chip.dataset.account=(p.display_name||state.user.email)+' — '+state.role;}if(state.role!=='admin' && $('bm-supabase-admin'))$('bm-supabase-admin').hidden=true;}}).subscribe((st)=>{if(st==='CHANNEL_ERROR'||st==='TIMED_OUT')status('Connexion temps réel au profil interrompue : '+st,true);});
     if(await detectTableMode()) state.channel=chaptersChannel(); else
     state.channel=state.client.channel('bacmaster-shared-live').on('postgres_changes',{event:'*',schema:'public',table:'bacmaster_shared_content',filter:'id=eq.main'},payload=>{if(payload.new?.content && !state.courseDirty && !state.publishPromise && stableStringify(payload.new.content)!==stableStringify(serialiseCourses())) { mergeCourses(payload.new.content); state.lastPublishedCourses=stableStringify(serialiseCourses()); status('Cours actualisés en temps réel.'); }}).subscribe((st)=>{if(st==='CHANNEL_ERROR'||st==='TIMED_OUT')status('Temps réel des cours indisponible : '+st+' (la vérification périodique reste active).',true);});
     if(state.progressChannel) await state.client.removeChannel(state.progressChannel);
@@ -580,6 +580,7 @@
   function hookSave(){
     // script.js calls this explicit hook from save(); no monkey-patching of global bindings.
     window.BacMasterSync={api:{state,status,stableStringify},
+      canEdit(){return CAN_EDIT();},
       signOut(){return signOut();},
       onStatsChange(){
         if(!state.user||state.applyingProgress)return;

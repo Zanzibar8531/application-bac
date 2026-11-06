@@ -3,13 +3,32 @@
    Fusion à trois voies (base / mes modifs / modifs d'un autre) d'un chapitre.
    - cours : fusion par blocs (titres, paragraphes, éléments de liste…)
    - cartes et exercices : fusion par clé (question / énoncé)
-   Rien n'est jamais perdu : si deux personnes réécrivent EXACTEMENT le même
-   passage, les deux versions sont gardées (la 2e dans un encadré à vérifier).
+   Fusion « façon Word » : deux personnes peuvent écrire dans le même paragraphe,
+   les modifications sont fusionnées mot par mot, sans message d'avertissement.
+   Rien n'est jamais perdu : si deux personnes réécrivent EXACTEMENT le même mot,
+   les deux versions sont gardées (toujours dans le même ordre sur tous les appareils,
+   pour que la fusion donne le même résultat partout et ne boucle jamais).
    ============================================================ */
 (function (root) {
   'use strict';
   const BLOCK = /(?=\n)|(?=<(?:h[1-6]|p|ul|ol|li|div|table|thead|tbody|tr|blockquote|hr|section|figure|pre)[\s>\/])/i;
-  const CONFLICT_HTML = '<p class="bm-conflit" contenteditable="true">⚠️ Un autre éditeur a modifié ce passage en même temps que toi. Sa version est ci-dessous : garde la meilleure, puis supprime ce message.</p>';
+  // Anciens encadrés « ⚠️ Un autre éditeur… » laissés par l'ancienne version : on les retire.
+  const OLD_WARNING = /<p class="bm-conflit"[^>]*>[\s\S]*?<\/p>/g;
+  const TOKEN = /<[^>]+>|\s+|[^\s<]+/g;
+  const VOID = /^(br|img|hr|input|meta|link|col|source|wbr|area|base|embed|param|track)$/i;
+  function tokens(str) { return String(str).match(TOKEN) || []; }
+  function order(x, y) { return x.join('') <= y.join('') ? [x, y] : [y, x]; }   // ordre identique sur tous les appareils
+  // Bilan des balises ouvertes/fermées (pour vérifier qu'une fusion mot à mot ne casse pas le HTML).
+  function tagSig(str) {
+    const sig = {}, re = /<(\/?)([a-zA-Z][\w-]*)[^>]*?(\/?)>/g; let m;
+    while ((m = re.exec(str))) { const n = m[2].toLowerCase(); if (VOID.test(n) || m[3]) continue; sig[n] = (sig[n] || 0) + (m[1] ? -1 : 1); }
+    return sig;
+  }
+  function sigOk(merged, b, o, t) {
+    const M = tagSig(merged), B = tagSig(b), O = tagSig(o), T = tagSig(t), keys = new Set([].concat(Object.keys(M), Object.keys(B), Object.keys(O), Object.keys(T)));
+    for (const k of keys) if ((M[k] || 0) !== (O[k] || 0) + (T[k] || 0) - (B[k] || 0)) return false;
+    return true;
+  }
 
   function splitBlocks(html) { return String(html == null ? '' : html).split(BLOCK).filter(function (x) { return x !== ''; }); }
 
@@ -62,7 +81,7 @@
   }
 
   // Fusion à trois voies : les modifications qui ne se chevauchent pas sont toutes appliquées (même voisines).
-  function diff3(base, ours, theirs) {
+  function diff3(base, ours, theirs, resolve) {
     const HO = hunks(base, ours), HT = hunks(base, theirs), out = [];
     let i = 0, j = 0, pos = 0, conflicts = 0;
     while (i < HO.length || j < HT.length) {
@@ -78,11 +97,11 @@
         out.push.apply(out, base.slice(pos, start));
         const O = applyHunks(base, ca, start, end), T = applyHunks(base, cb, start, end);
         if (same(O, T)) out.push.apply(out, O);
-        else if (start === end) out.push.apply(out, O.concat(T));                    // deux ajouts au même endroit : on garde les deux
-        else { conflicts++; out.push.apply(out, O.concat([CONFLICT_HTML], T)); }     // même passage réécrit : on garde les deux
+        else if (start === end) { const ot = order(O, T); out.push.apply(out, ot[0].concat(ot[1])); }   // deux ajouts au même endroit : on garde les deux, dans un ordre fixe
+        else { conflicts++; out.push.apply(out, resolve(base.slice(start, end), O, T)); }                 // même passage réécrit
         pos = end;
       } else {
-        const h = (!b || (a && a.bStart <= b.bStart)) ? HO[i++] : HT[j++];
+        const h = (!b || (a && (a.bStart < b.bStart || (a.bStart === b.bStart && a.bEnd === a.bStart)))) ? HO[i++] : HT[j++];   // à égalité, l'ajout passe avant (même résultat des deux côtés)
         out.push.apply(out, base.slice(pos, h.bStart)); out.push.apply(out, h.repl); pos = h.bEnd;
       }
     }
@@ -90,13 +109,45 @@
     return { blocks: out, conflicts: conflicts };
   }
 
+  // Même mot réécrit des deux côtés : si l'un l'a supprimé on garde l'autre ; sinon on garde les deux (ordre fixe).
+  function resolveWords(b, O, T) {
+    if (O.join('').trim() === '') return T;
+    if (T.join('').trim() === '') return O;
+    const ot = order(O, T); return ot[0].concat([' '], ot[1]);
+  }
+  // Même paragraphe modifié des deux côtés : fusion mot par mot (et balise par balise).
+  function resolveBlocks(bBlocks, O, T) {
+    const b = bBlocks.join(''), o = O.join(''), t = T.join('');
+    if (o === t) return O;
+    const r = diff3(tokens(b), tokens(o), tokens(t), resolveWords), merged = r.blocks.join('');
+    if (sigOk(merged, b, o, t)) return [merged];
+    const ot = order(O, T); return ot[0].concat(ot[1]);               // HTML trop différent : on garde les deux paragraphes, sans rien perdre
+  }
+
   function mergeText(base, ours, theirs) {
-    ours = String(ours == null ? '' : ours); theirs = String(theirs == null ? '' : theirs); base = String(base == null ? '' : base);
+    const clean = function (x) { return String(x == null ? '' : x).replace(OLD_WARNING, ''); };
+    ours = clean(ours); theirs = clean(theirs); base = clean(base);
     if (ours === theirs) return { text: ours, conflicts: 0 };
     if (base === ours) return { text: theirs, conflicts: 0 };
     if (base === theirs) return { text: ours, conflicts: 0 };
-    const r = diff3(splitBlocks(base), splitBlocks(ours), splitBlocks(theirs));
-    return { text: r.blocks.join(''), conflicts: r.conflicts };
+    const r = diff3(splitBlocks(base), splitBlocks(ours), splitBlocks(theirs), resolveBlocks);
+    return { text: r.blocks.join(''), conflicts: 0 };
+  }
+
+  // Où se retrouve le curseur (position dans le texte brut) quand le texte passe de a à b ?
+  function mapOffset(a, b, off) {
+    a = String(a); b = String(b); off = Math.max(0, Math.min(off, a.length));
+    if (a === b) return off;
+    function toks(str) { const re = /\s+|\S+/g, t = [], st = []; let m; while ((m = re.exec(str))) { t.push(m[0]); st.push(m.index); } return { t: t, st: st }; }
+    const A = toks(a), B = toks(b), map = lcs(A.t, B.t);
+    let i = 0; while (i < A.t.length && A.st[i] + A.t[i].length <= off) i++;     // jeton qui contient le curseur
+    if (i < A.t.length && map[i] >= 0) return Math.min(b.length, B.st[map[i]] + (off - A.st[i]));
+    let p = i - 1; while (p >= 0 && map[p] < 0) p--;                              // dernier jeton inchangé avant le curseur
+    if (p < 0) return Math.min(off, b.length);
+    const at = B.st[map[p]] + B.t[map[p]].length + (off - (A.st[p] + A.t[p].length));
+    let q = i; while (q < A.t.length && map[q] < 0) q++;                          // prochain jeton inchangé après
+    const limit = q < A.t.length ? B.st[map[q]] : b.length;
+    return Math.max(0, Math.min(at, limit, b.length));
   }
 
   function stable(v) {
@@ -144,7 +195,7 @@
     };
   }
 
-  const api = { mergeChapter: mergeChapter, mergeText: mergeText, splitBlocks: splitBlocks, diff3: diff3 };
+  const api = { mergeChapter: mergeChapter, mergeText: mergeText, splitBlocks: splitBlocks, diff3: diff3, mapOffset: mapOffset };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.BacMasterMerge = api;
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -624,7 +624,7 @@ function updateTopbarContext() {
     if (curChapter) {
         navHtml += `<button onclick="goModeChapters(curTab==='voc'||curTab==='add'?'voc':'cours')" title="Retour aux chapitres">← Chapitres</button>`;
         navHtml += `<span class="tb-chapter-title" title="${esc(curChapter)}">${esc(curChapter)}</span>`;
-        navHtml += `<button class="tb-rename" onclick="renameChapter('${esc(curChapter)}', renderChapter)" title="Renommer le chapitre">✏️</button>`;
+        if (bmCanEdit()) navHtml += `<button class="tb-rename" onclick="renameChapter('${esc(curChapter)}', renderChapter)" title="Renommer le chapitre">✏️</button>`;
     } else if (curSubject) {
         const modeLabels = {cours:'📖 Cours', voc:'📚 Vocabulaire', edit:'✏️ Éditer', add:'➕ Ajouter'};
         if (modeLabels[curTab]) navHtml += `<span class="tb-mode-title">${modeLabels[curTab]}</span>`;
@@ -912,6 +912,7 @@ function mostRecentlyReadChapter(subj) {
 
 let curListMode = '';
 function goModeChapters(mode) {
+    if ((mode === 'edit' || mode === 'add') && !bmCanEdit()) { bmDenyEdit(); mode = 'cours'; }
     curListMode = mode;
     curTrackedPage = null;
     curChapter = '';
@@ -932,10 +933,10 @@ function goModeChapters(mode) {
                 else if(!lastRead) badge = `<span class="chcard-badge badge-new">🆕 Nouveau</span>`;
                 else badge = `<span class="chcard-badge badge-read">✅ Lu ${fmtShortDate(lastRead)}</span>`;
                 return `<div class="chcard" onclick="curChapter='${esc(ch)}';curTab='${mode}';chapFrom='list';renderChapter()">
-                    <div class="chcard-icons">
+                    ${bmCanEdit() ? `<div class="chcard-icons">
                         <button class="chcard-icon-btn" onclick="event.stopPropagation();renameChapter('${esc(ch)}')" title="Renommer">✏️</button>
                         <button class="chcard-icon-btn chcard-icon-del" onclick="event.stopPropagation();deleteChapter('${esc(ch)}','${mode}')" title="Supprimer">🗑️</button>
-                    </div>
+                    </div>` : ''}
                     <div class="chcard-name">${ch}</div>
                     <div class="chcard-meta">
                         <span>📋 ${cards.length} ${['Anglais','Espagnol'].includes(curSubject)?'mot'+(cards.length>1?'s':''):'carte'+(cards.length>1?'s':'')}</span>
@@ -984,8 +985,8 @@ function renderChapterMenu() {
             </button>`).join('')}
         </div>
         <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="bc-btn" onclick="curTab='edit';renderChapter()">✏️ Éditer le cours</button>
-            <button class="bc-btn" onclick="curTab='add';renderChapter()">➕ Ajouter un mot</button>
+            <button class="bc-btn" ${bmCanEdit() ? `onclick="curTab='edit';renderChapter()"` : 'disabled aria-disabled="true" title="Lecture seule : ton rôle ne permet pas de modifier"'}>${bmCanEdit() ? '' : '🔒 '}✏️ Éditer le cours</button>
+            <button class="bc-btn" ${bmCanEdit() ? `onclick="curTab='add';renderChapter()"` : 'disabled aria-disabled="true" title="Lecture seule : ton rôle ne permet pas de modifier"'}>${bmCanEdit() ? '' : '🔒 '}➕ Ajouter un mot</button>
         </div>
     `);
 }
@@ -1004,7 +1005,25 @@ function chapBack() {
     else goModeChapters(curTab === 'edit' || curTab === 'add' ? curTab : (curTab || 'cours'));
 }
 
+// ── Correcteur orthographique : soulignement rouge des fautes, dans la langue de la matière ──
+function bmSpellLang() { return /anglais/i.test(curSubject || '') ? 'en' : /espagnol/i.test(curSubject || '') ? 'es' : 'fr'; }
+function bmSpellAttrs(lang) { return `spellcheck="true" lang="${lang || bmSpellLang()}" autocorrect="on" autocapitalize="sentences"`; }
+
+// ── Rôle : un lecteur ne peut pas modifier les cours ──────────
+function bmCanEdit() { try { return !(window.BacMasterSync && BacMasterSync.canEdit) || !!BacMasterSync.canEdit(); } catch(e) { return true; } }
+function bmDenyEdit() { showToast('🔒 Lecture seule : ton rôle ne permet pas de modifier les cours.', 'info'); return false; }
+// appelé quand le rôle change (chargement du profil, changement par un admin)
+window.bmRoleChanged = function () {
+    try {
+        if (!bmCanEdit()) { if (curTab === 'edit' || curTab === 'add') curTab = 'cours'; if (curListMode === 'edit' || curListMode === 'add') curListMode = 'cours'; }
+        if (curChapter && document.querySelector('.tab-bar')) renderChapter();
+        else if (curChapter && document.querySelector('.menu-tile-flash')) renderChapterMenu();
+        else if (!curChapter && document.querySelector('.chcard')) goModeChapters(curListMode);
+    } catch (e) {}
+};
+
 function renderChapter() {
+    if (!bmCanEdit() && (curTab === 'edit' || curTab === 'add')) curTab = 'cours';
     const data = db[curSubject][curChapter];
     const tabs = [
         {id:'cours',  label:'📖 Cours'},
@@ -1016,7 +1035,7 @@ function renderChapter() {
         <div class="breadcrumb"><button class="bc-btn" onclick="chapBack()">← ${chapFrom === 'menu' ? curChapter : 'Chapitres'}</button></div>
         <div class="ws-header">
             <div class="tab-bar">
-                ${tabs.map(t=>`<button class="tab-btn ${curTab===t.id?'active':''}" onclick="switchTab('${t.id}')">${t.label}</button>`).join('')}
+                ${tabs.map(t=>{ const lock = (t.id==='edit'||t.id==='add') && !bmCanEdit(); return `<button class="tab-btn ${curTab===t.id?'active':''}" ${lock ? 'disabled aria-disabled="true" title="Lecture seule : ton rôle ne permet pas de modifier"' : `onclick="switchTab('${t.id}')"`}>${lock ? '🔒 ' : ''}${t.label}</button>`; }).join('')}
             </div>
         </div>
         <div class="ws-box" id="ws-box"></div>
@@ -1026,7 +1045,7 @@ function renderChapter() {
     renderTabContent();
 }
 
-function switchTab(t) { curTab=t; vocEditingIndex=null; renderChapter(); }
+function switchTab(t) { if ((t==='edit'||t==='add') && !bmCanEdit()) return bmDenyEdit(); curTab=t; vocEditingIndex=null; renderChapter(); }
 
 
 function setupCourseReader(box) {
@@ -1102,7 +1121,7 @@ function renderSelfTestModal(){
         <div class="selftest-kicker">🧠 Rappel actif · ${selfTestState.index+1}/${total}</div>
         <h2>À toi de répondre</h2>
         <p class="selftest-question">${esc(item.q)}</p>
-        <textarea id="selftest-answer" class="selftest-answer" placeholder="Écris ta réponse ici avant de regarder la correction…"></textarea>
+        <textarea id="selftest-answer" ${bmSpellAttrs('fr')} class="selftest-answer" placeholder="Écris ta réponse ici avant de regarder la correction…"></textarea>
         ${selfTestState.revealed ? `<div class="selftest-answer-box"><strong>Réponse / correction</strong><div>${esc(item.a || 'Aucune correction enregistrée pour cette question.')}</div></div>` : `<p class="selftest-help">Réponds d'abord avec tes propres mots. Il n'y a pas besoin d'être parfait : l'objectif est de faire travailler ta mémoire et ton raisonnement.</p>`}
         <div class="selftest-actions">
           <button class="bc-btn" onclick="returnToCourseFromSelfTest()">← Retour au cours</button>
@@ -1123,6 +1142,7 @@ function selfTestNext(){
 }
 
 function renderTabContent() {
+    if ((curTab === 'edit' || curTab === 'add') && !bmCanEdit()) curTab = 'cours';
     const box = $('ws-box');
     if(!box) return;
     const data = db[curSubject][curChapter];
@@ -1160,7 +1180,7 @@ function renderTabContent() {
     else if(curTab==='edit') {
         box.innerHTML = `
             ${typeof bmRibbonHTML==='function' ? bmRibbonHTML() : ''}
-            <div id="editor" contenteditable="true" class="editor-area cours-body">${data.cours||''}</div>
+            <div id="editor" contenteditable="true" ${bmSpellAttrs('fr')} class="editor-area cours-body">${data.cours||''}</div>
                         <div class="editor-scroll-nav" aria-label="Position dans l’éditeur">
                 <div class="esn-track" id="esn-track"><div class="esn-thumb" id="esn-thumb"></div></div>
             </div>
@@ -1183,8 +1203,8 @@ function renderTabContent() {
             : `<p class="voc-count">${cards.length} ${(['Anglais','Espagnol'].includes(curSubject)?'mot':'carte')}${cards.length>1?'s':''}</p>
                <div>${cards.map((c,i)=> i===vocEditingIndex ? `
                 <div class="voc-row voc-row-editing">
-                    <input type="text" id="voc-edit-q" class="field" value="${esc(c.q)}" placeholder="Mot ou question">
-                    <textarea id="voc-edit-a" class="field voc-edit-textarea" placeholder="Définition ou réponse">${esc(c.a)}</textarea>
+                    <input type="text" id="voc-edit-q" ${bmSpellAttrs()} class="field" value="${esc(c.q)}" placeholder="Mot ou question">
+                    <textarea id="voc-edit-a" ${bmSpellAttrs('fr')} class="field voc-edit-textarea" placeholder="Définition ou réponse">${esc(c.a)}</textarea>
                     <div class="voc-edit-actions">
                         <button class="btn-save" onclick="saveVocEdit(${i})">💾 Enregistrer</button>
                         <button class="bc-btn" onclick="vocEditingIndex=null;renderTabContent()">✕ Annuler</button>
@@ -1193,15 +1213,15 @@ function renderTabContent() {
                 <div class="voc-row">
                     <span class="voc-q">${c.q}${typeof vcSpeakBtn==='function' ? vcSpeakBtn(c,'q',curSubject) : ''}</span>
                     <span class="voc-a">${c.a}${typeof vcSpeakBtn==='function' ? vcSpeakBtn(c,'a',curSubject) : ''}</span>
-                    <button class="voc-edit-sq" onclick="vocEditingIndex=${i};renderTabContent()" title="Modifier">✏️</button>
-                    <button class="voc-del-sq" onclick="delVoc(${i})" title="Supprimer">🗑</button>
+                    ${bmCanEdit() ? `<button class="voc-edit-sq" onclick="vocEditingIndex=${i};renderTabContent()" title="Modifier">✏️</button>
+                    <button class="voc-del-sq" onclick="delVoc(${i})" title="Supprimer">🗑</button>` : ''}
                 </div>`).join('')}</div>`;
     }
     else if(curTab==='add') {
         box.innerHTML = `
             <p style="font-weight:700;margin-bottom:12px;">Nouveau mot / flashcard :</p>
-            <input type="text" id="vq" class="field" placeholder="Mot ou question">
-            <input type="text" id="va" class="field" placeholder="Définition ou réponse" onkeydown="if(event.key==='Enter')addVoc()">
+            <input type="text" id="vq" ${bmSpellAttrs()} class="field" placeholder="Mot ou question">
+            <input type="text" id="va" ${bmSpellAttrs('fr')} class="field" placeholder="Définition ou réponse" onkeydown="if(event.key==='Enter')addVoc()">
             <button class="btn-save" onclick="addVoc()">➕ Ajouter</button>
             <div id="vfb"></div>
         `;
@@ -1214,6 +1234,7 @@ function renderTabContent() {
 
 // ── ACTIONS ───────────────────────────────────────────────────
 function addChapter() {
+    if (!bmCanEdit()) return bmDenyEdit();
     let n='Nouveau chapitre', i=1;
     while(db[curSubject][n]){i++;n='Nouveau chapitre '+i;}
     db[curSubject][n]={cours:'',flashcards:[]};
@@ -1221,6 +1242,7 @@ function addChapter() {
 }
 
 function renameChapter(oldName, stayFn) {
+    if (!bmCanEdit()) return bmDenyEdit();
     customPrompt({
         icon:'✏️', title:'Renommer le chapitre', value:oldName,
         placeholder:'Nom du chapitre', confirmLabel:'Renommer',
@@ -1240,6 +1262,7 @@ function renameChapter(oldName, stayFn) {
 }
 
 function deleteChapter(ch, mode) {
+    if (!bmCanEdit()) return bmDenyEdit();
     const n = (db[curSubject][ch].flashcards||[]).length;
     customConfirm({
         icon:'🗑️', title:'Supprimer ce chapitre ?',
@@ -1575,7 +1598,9 @@ function reloadEditorFromDb(){
     if(ed.innerHTML===next) return;
     let offset=-1; const sel=window.getSelection();
     if(sel&&sel.rangeCount&&ed.contains(sel.anchorNode)){ const r=document.createRange(); r.selectNodeContents(ed); r.setEnd(sel.anchorNode,sel.anchorOffset); offset=r.toString().length; }
-    const top=ed.scrollTop; ed.innerHTML=next; ed.scrollTop=top;
+    const top=ed.scrollTop, oldText=ed.textContent; ed.innerHTML=next; ed.scrollTop=top;
+    // le curseur suit le texte même si l'autre éditeur a écrit avant lui
+    if(offset>=0 && window.BacMasterMerge && BacMasterMerge.mapOffset) offset=BacMasterMerge.mapOffset(oldText, ed.textContent, offset);
     if(offset>=0){
         const w=document.createTreeWalker(ed,NodeFilter.SHOW_TEXT); let n,left=offset;
         while((n=w.nextNode())){ if(left<=n.length){ const r=document.createRange(); r.setStart(n,left); r.collapse(true); sel.removeAllRanges(); sel.addRange(r); break; } left-=n.length; }
@@ -1621,6 +1646,7 @@ window.addEventListener('beforeunload', (e) => {
 });
 
 function delVoc(i){
+    if (!bmCanEdit()) return bmDenyEdit();
     customConfirm({
         icon:'🗑️', title:'Supprimer ce mot ?', message:'Cette action est irréversible.',
         confirmLabel:'Supprimer', cancelLabel:'Annuler', danger:true,
@@ -1631,6 +1657,7 @@ function delVoc(i){
 let vocEditingIndex = null;
 
 function saveVocEdit(i){
+    if (!bmCanEdit()) return bmDenyEdit();
     const q = ($('voc-edit-q')||{value:''}).value.trim();
     const a = ($('voc-edit-a')||{value:''}).value.trim();
     if(!q || !a){ showToast('Le mot et la définition ne peuvent pas être vides', 'warn'); return; }
@@ -1642,6 +1669,7 @@ function saveVocEdit(i){
 }
 
 function addVoc(){
+    if (!bmCanEdit()) return bmDenyEdit();
     const q=($('vq')||{value:''}).value.trim();
     const a=($('va')||{value:''}).value.trim();
     if(!q||!a)return;
@@ -2282,7 +2310,7 @@ function renderExo() {
             `:`
                 <div class="exo-attempt">
                     <div class="exo-label">✏️ Ta réponse / ton raisonnement</div>
-                    <textarea id="exo-attempt-area" class="exo-attempt-area" placeholder="Cherche vraiment avant de regarder la correction — c'est ce qui fait progresser (pas sauvegardé, juste pour toi)."></textarea>
+                    <textarea id="exo-attempt-area" ${bmSpellAttrs('fr')} class="exo-attempt-area" placeholder="Cherche vraiment avant de regarder la correction — c'est ce qui fait progresser (pas sauvegardé, juste pour toi)."></textarea>
                 </div>
                 <button class="btn-main exo-voir-btn" onclick="exoShowCorrection=true;renderExo()">
                     👁️ Voir la correction

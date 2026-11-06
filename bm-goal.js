@@ -45,29 +45,32 @@
     return !getTimeLog()[day] && getActivityDates().includes(day);
   }
   // ───────────── Gels de série ❄️ ─────────────
-  // 1 gel gagné tous les 5 jours d'objectif validés (2 gels en réserve au maximum).
+  // 1 gel gagné tous les 5 jours d'objectif validés, 2 gels en réserve au maximum.
+  // Réserve pleine : le compteur est en pause ; il repart de zéro dès qu'un gel est utilisé.
   // Un jour manqué consomme automatiquement un gel : la série tient, sans compter le jour.
   // Tout est recalculé depuis l'historique à partir du FREEZE_START : rien à synchroniser.
-  const FREEZE_START = '2026-11-07', FREEZE_EVERY = 5, FREEZE_MAX = 2, FZSEEN = 'bacmaster_freeze_seen';
+  const FREEZE_START = '2026-11-06', FREEZE_EVERY = 5, FREEZE_MAX = 2, FZSEEN = 'bacmaster_freeze_seen';
   function freezeSim(g) {
     g = g || load(); const today = dayKey();
-    const out = { on: today >= FREEZE_START, streak: 0, stock: 0, next: FREEZE_EVERY, frozen: [], earned: [], wasted: [] };
+    const out = { on: today >= FREEZE_START, streak: 0, stock: 0, count: 0, next: FREEZE_EVERY, frozen: [], earned: [] };
     if (!out.on) return out;
     let n = 0, d = addDays(FREEZE_START, -1);                  // série déjà acquise avant l'arrivée des gels
     for (let i = 0; i < 2500; i++) { if (metGoal(d, g)) n++; else if (jumpCovered(d, g)) { /* jour protégé */ } else break; d = addDays(d, -1); }
+    let c = n % FREEZE_EVERY;                                    // jours déjà validés vers le prochain gel
     for (let day = FREEZE_START; day <= today; day = addDays(day, 1)) {
       if (metGoal(day, g)) {
         n++;
-        if (n % FREEZE_EVERY === 0) { if (out.stock < FREEZE_MAX) { out.stock++; out.earned.push(day); } else out.wasted.push(day); }
+        if (out.stock < FREEZE_MAX) { c++; if (c >= FREEZE_EVERY) { out.stock++; out.earned.push(day); c = 0; } }   // réserve pleine : compteur en pause
       } else if (jumpCovered(day, g) || day === today) { /* protégé par un Saut Temporel, ou journée encore en cours */ }
-      else if (out.stock > 0) { out.stock--; out.frozen.push(day); }
-      else n = 0;
+      else if (out.stock > 0) { out.stock--; out.frozen.push(day); c = 0; }                                         // gel utilisé : le compteur repart de zéro
+      else { n = 0; c = 0; }
     }
-    out.streak = n; out.next = FREEZE_EVERY - (n % FREEZE_EVERY);
+    if (out.stock >= FREEZE_MAX) c = 0;
+    out.streak = n; out.count = c; out.next = FREEZE_EVERY - c;
     return out;
   }
   function freezeNote(fz) {
-    return `❄️ ${fz.stock}/${FREEZE_MAX} gel${fz.stock > 1 ? 's' : ''} de série · ${fz.stock >= FREEZE_MAX ? 'réserve pleine' : `prochain après ${fz.next} jour${fz.next > 1 ? 's' : ''} validé${fz.next > 1 ? 's' : ''}`}`;
+    return `❄️ ${fz.stock}/${FREEZE_MAX} gel${fz.stock > 1 ? 's' : ''} de série · ${fz.stock >= FREEZE_MAX ? 'réserve pleine (compteur en pause)' : `prochain après ${fz.next} jour${fz.next > 1 ? 's' : ''} validé${fz.next > 1 ? 's' : ''}`}`;
   }
   function checkFreezeEvents() {
     const f = freezeSim(); if (!f.on) return;
