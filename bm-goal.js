@@ -44,8 +44,47 @@
     // anciens jours sans mesure de temps : on garde la règle d'avant (une activité suffit)
     return !getTimeLog()[day] && getActivityDates().includes(day);
   }
+  // ───────────── Gels de série ❄️ ─────────────
+  // 1 gel gagné tous les 5 jours d'objectif validés (2 gels en réserve au maximum).
+  // Un jour manqué consomme automatiquement un gel : la série tient, sans compter le jour.
+  // Tout est recalculé depuis l'historique à partir du FREEZE_START : rien à synchroniser.
+  const FREEZE_START = '2026-11-07', FREEZE_EVERY = 5, FREEZE_MAX = 2, FZSEEN = 'bacmaster_freeze_seen';
+  function freezeSim(g) {
+    g = g || load(); const today = dayKey();
+    const out = { on: today >= FREEZE_START, streak: 0, stock: 0, next: FREEZE_EVERY, frozen: [], earned: [], wasted: [] };
+    if (!out.on) return out;
+    let n = 0, d = addDays(FREEZE_START, -1);                  // série déjà acquise avant l'arrivée des gels
+    for (let i = 0; i < 2500; i++) { if (metGoal(d, g)) n++; else if (jumpCovered(d, g)) { /* jour protégé */ } else break; d = addDays(d, -1); }
+    for (let day = FREEZE_START; day <= today; day = addDays(day, 1)) {
+      if (metGoal(day, g)) {
+        n++;
+        if (n % FREEZE_EVERY === 0) { if (out.stock < FREEZE_MAX) { out.stock++; out.earned.push(day); } else out.wasted.push(day); }
+      } else if (jumpCovered(day, g) || day === today) { /* protégé par un Saut Temporel, ou journée encore en cours */ }
+      else if (out.stock > 0) { out.stock--; out.frozen.push(day); }
+      else n = 0;
+    }
+    out.streak = n; out.next = FREEZE_EVERY - (n % FREEZE_EVERY);
+    return out;
+  }
+  function freezeNote(fz) {
+    return `❄️ ${fz.stock}/${FREEZE_MAX} gel${fz.stock > 1 ? 's' : ''} de série · ${fz.stock >= FREEZE_MAX ? 'réserve pleine' : `prochain après ${fz.next} jour${fz.next > 1 ? 's' : ''} validé${fz.next > 1 ? 's' : ''}`}`;
+  }
+  function checkFreezeEvents() {
+    const f = freezeSim(); if (!f.on) return;
+    let seen = null; try { seen = JSON.parse(localStorage.getItem(FZSEEN) || 'null'); } catch (e) { seen = null; }
+    const cur = { e: f.earned.length, u: f.frozen.length };
+    localStorage.setItem(FZSEEN, JSON.stringify(cur));
+    if (!seen) return;
+    if (cur.e > seen.e) {
+      toast(`❄️ Gel de série gagné ! Il sauvera automatiquement un jour manqué (${f.stock}/${FREEZE_MAX}).`);
+      if (window.BacMasterMascot) BacMasterMascot.say('party', 'Un gel de série en plus ! Il protégera ta série si tu rates un jour.', { force: true, ms: 7000 });
+    }
+    if (cur.u > seen.u) toast(`❄️ Un gel a sauvé ta série (${fmtDay(f.frozen[f.frozen.length - 1])}). Il t’en reste ${f.stock}.`, 'warn');
+  }
+
   window.computeStreak = function () {
-    const g = load(); let d = dayKey(), n = 0, first = true;
+    const g = load(), fz = freezeSim(g); if (fz.on) return fz.streak;
+    let d = dayKey(), n = 0, first = true;
     for (let i = 0; i < 2500; i++) {
       if (metGoal(d, g)) n++;
       else if (jumpCovered(d, g)) { /* jour protégé par un Saut Temporel : la série tient, sans compter */ }
@@ -63,10 +102,10 @@
     return out;
   };
   function bestStreak() {
-    const g = load(), days = new Set([...Object.keys(getTimeLog()), ...getActivityDates(), ...coveredDays(g)]);
+    const g = load(), fz = freezeSim(g), fzSet = new Set(fz.frozen), days = new Set([...Object.keys(getTimeLog()), ...getActivityDates(), ...coveredDays(g), ...fz.frozen]);
     const sorted = [...days].sort(); let best = 0, cur = 0, prev = null;
     for (const k of sorted) {
-      if (!metGoal(k, g)) { if (jumpCovered(k, g)) { prev = k; continue; } cur = 0; prev = null; continue; }
+      if (!metGoal(k, g)) { if (jumpCovered(k, g) || fzSet.has(k)) { prev = k; continue; } cur = 0; prev = null; continue; }
       const gap = prev ? Math.round((new Date(k) - new Date(prev)) / 86400000) : 1;
       cur = gap === 1 ? cur + 1 : 1; prev = k; best = Math.max(best, cur);
     }
@@ -75,9 +114,9 @@
   const hoursLeft = () => { const n = new Date(); return 24 - (n.getHours() + n.getMinutes() / 60); };
   function status() {
     const g = load(), today = dayKey(), goalMin = goalMinutesFor(today, g), sec = todaySec(), goalSec = goalMin * 60;
-    const streak = window.computeStreak(), done = sec >= goalSec, covered = jumpCovered(today, g);
+    const fz = freezeSim(g), streak = fz.on ? fz.streak : window.computeStreak(), done = sec >= goalSec, covered = jumpCovered(today, g);
     let due = 0; try { due = globalStats().due; } catch (e) { /* ignore */ }
-    return { g, goalMin, sec, goalSec, pct: Math.min(100, Math.round(sec / goalSec * 100)), done, remainMin: Math.max(1, Math.ceil((goalSec - sec) / 60)), doneMin: Math.floor(sec / 60), streak, due, covered, atRisk: !done && streak > 0 && !covered };
+    return { g, goalMin, sec, goalSec, pct: Math.min(100, Math.round(sec / goalSec * 100)), done, remainMin: Math.max(1, Math.ceil((goalSec - sec) / 60)), doneMin: Math.floor(sec / 60), streak, due, covered, freezes: fz.stock, fz, atRisk: !done && streak > 0 && !covered };
   }
 
   // ───────────── Carte « objectif du jour » (accueil) ─────────────
@@ -88,24 +127,25 @@
       <circle cx="55" cy="55" r="${r}" fill="none" stroke="url(#bgg)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" transform="rotate(-90 55 55)"/></svg>`;
   }
   function weekHTML() {
-    const today = dayKey(), now = new Date(), monday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const today = dayKey(), now = new Date(), monday = new Date(now.getFullYear(), now.getMonth(), now.getDate()), fzDays = new Set(freezeSim().frozen);
     monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
     const days = Array.from({ length: 7 }, (_, i) => {
       const date = new Date(monday); date.setDate(monday.getDate() + i);
       const key = dayKey(date), active = !!(window.BacMasterGoal && window.BacMasterGoal.metGoal(key));
       const jump = !!(window.BacMasterGoal && window.BacMasterGoal.jumpCovered(key) && !active);
-      const partial = !active && !jump && dayTimeTotal(key) > 0;
+      const frozen = !active && !jump && fzDays.has(key);
+      const partial = !active && !jump && !frozen && dayTimeTotal(key) > 0;
       const label = date.toLocaleDateString('fr-FR', { weekday: 'short' }).replace('.', '').slice(0, 2);
-      return { key, label, active, jump, partial, dateLabel: date.toLocaleDateString('fr-FR', { day: 'numeric' }) };
+      return { key, label, active, jump, frozen, partial, dateLabel: date.toLocaleDateString('fr-FR', { day: 'numeric' }) };
     });
-    return `<div class="bh-week" role="list" aria-label="Les 7 jours de la semaine">${days.map(d => `<button class="bh-day ${d.active ? 'met' : d.jump ? 'jump' : d.partial ? 'part' : ''} ${d.key === today ? 'now' : ''} ${d.key > today ? 'future' : ''}" role="listitem" onclick="BacMasterGoal.openCalendar('${d.key}')" title="${new Date(d.key + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}${d.active ? ' — objectif atteint' : ''}" aria-label="${d.label} ${d.dateLabel} ${d.active ? 'objectif atteint' : d.partial ? 'révision partielle' : d.key > today ? 'à venir' : 'aucune révision'}"><span>${d.active ? '✓' : d.jump ? '⏳' : d.label}</span></button>`).join('')}</div>`;
+    return `<div class="bh-week" role="list" aria-label="Les 7 jours de la semaine">${days.map(d => `<button class="bh-day ${d.active ? 'met' : d.jump ? 'jump' : d.frozen ? 'frozen' : d.partial ? 'part' : ''} ${d.key === today ? 'now' : ''} ${d.key > today ? 'future' : ''}" role="listitem" onclick="BacMasterGoal.openCalendar('${d.key}')" title="${new Date(d.key + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}${d.active ? ' — objectif atteint' : ''}" aria-label="${d.label} ${d.dateLabel} ${d.active ? 'objectif atteint' : d.frozen ? 'sauvé par un gel de série' : d.partial ? 'révision partielle' : d.key > today ? 'à venir' : 'aucune révision'}"><span>${d.active ? '✓' : d.jump ? '⏳' : d.frozen ? '❄️' : d.label}</span></button>`).join('')}</div>`;
   }
   function cardInner() {
     const s = status(), st = s.streak;
     let gs = { mastered: 0, total: 0, due: 0 }; try { gs = globalStats(); } catch (e) { /* ignore */ }
     const msg = s.done ? `Objectif atteint, bravo ! Tu peux continuer pour prendre de l’avance.`
       : s.covered ? `⏳ Saut Temporel actif : ta série est protégée aujourd’hui. Repose-toi !`
-      : s.sec === 0 ? `${s.goalMin} min aujourd’hui pour ${st > 0 ? 'garder ta série' : 'lancer ta série'}.`
+      : s.sec === 0 ? `${s.goalMin} min aujourd’hui pour ${st > 0 ? 'garder ta série' : 'lancer ta série'}.${st > 0 && s.freezes ? ' ❄️ Un gel te protège si tu rates un jour.' : ''}`
       : `Plus que <strong>${s.remainMin} min</strong> pour valider ta journée.`;
     const reviewLabel = s.due > 0 ? `🌅 Réviser · ${s.due} carte${s.due > 1 ? 's' : ''}` : '📚 Réviser maintenant';
     const mpct = gs.total ? Math.round(gs.mastered / gs.total * 100) : 0;
@@ -113,7 +153,7 @@
     return `${window.BacMasterMascot ? BacMasterMascot.cardHTML(mood) : ''}<div class="bh-top">
         <div class="bg-ring">${ring(s.pct, `Objectif du jour : ${s.doneMin} minutes sur ${s.goalMin}`, s.done)}<div class="bg-ringtxt"><b>${s.doneMin}</b><span>/ ${s.goalMin} min</span></div></div>
         <div class="bg-body">
-          <div class="bg-title">${st > 0 ? '🔥' : '🎯'} ${st > 0 ? `Série de ${st} jour${st > 1 ? 's' : ''}` : 'Objectif du jour'}${s.done ? ' <span class="bg-ok">✓ validé</span>' : s.atRisk ? ' <span class="bg-risk">à sauver</span>' : ''}</div>
+          <div class="bg-title">${st > 0 ? '🔥' : '🎯'} ${st > 0 ? `Série de ${st} jour${st > 1 ? 's' : ''}` : 'Objectif du jour'}${s.done ? ' <span class="bg-ok">✓ validé</span>' : s.atRisk ? ' <span class="bg-risk">à sauver</span>' : ''}${s.freezes ? ` <span class="bg-frz" title="Gel de série : sauve automatiquement un jour manqué">❄️ ${s.freezes}/${FREEZE_MAX}</span>` : ''}</div>
           <div class="bg-sub">${msg}</div>
           ${weekHTML()}
         </div>
@@ -195,7 +235,7 @@
   }
   // Appelé toutes les 30 s et au retour sur l'appli : envoie le rappel le plus récent s'il est « dû ».
   function tick(force) {
-    celebrate(); checkJumpEarn(); hurry(); healPush();
+    celebrate(); checkJumpEarn(); checkFreezeEvents(); hurry(); healPush();
     const g = load(); if (!g.remind || !g.slots.length || jumpCovered(dayKey(), g)) return;
     const now = new Date(), dk = dayKey(now), sent = (sentMap()[dk] || []);
     const slots = [...g.slots].sort(), dueSlots = [];
@@ -378,13 +418,13 @@
   }
 
   // ───────────── Calendrier « série » (comme Duolingo) ─────────────
-  let calMonth = null, calSel = null;
+  let calMonth = null, calSel = null, calFz = { frozen: [] };
   const MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
   function calCell(day, g, today) {
     const diff = diffDays(today, day), met = metGoal(day, g), cov = jumpCovered(day, g);
     const req = g.jumps.req && g.jumps.req.from === day;
     let cls = 'cal-d', mark = '';
-    if (met) { cls += ' met'; mark = '🔥'; } else if (cov) { cls += ' jump'; mark = '⏳'; } else if (req) { cls += ' reqd'; mark = '⏳'; } else if (diff < 0 && dayTimeTotal(day) > 0) cls += ' part';
+    if (met) { cls += ' met'; mark = '🔥'; } else if (cov) { cls += ' jump'; mark = '⏳'; } else if (calFz.frozen.includes(day)) { cls += ' frozen'; mark = '❄️'; } else if (req) { cls += ' reqd'; mark = '⏳'; } else if (diff < 0 && dayTimeTotal(day) > 0) cls += ' part';
     if (diff === 0) cls += ' now'; if (diff > 0) cls += ' fut'; if (calSel === day) cls += ' sel';
     return `<button class="${cls}" data-cal="${day}" aria-label="${esc(fmtDay(day))}"><span class="cal-n">${+day.slice(8)}</span><span class="cal-m">${mark}</span></button>`;
   }
@@ -395,10 +435,12 @@
     const title = esc(fmtDay(d));
     const isFuture = diff > 0;
     const protectedDay = jumpCovered(d, g) && !metGoal(d, g);
+    const frz = !metGoal(d, g) && calFz.frozen.includes(d);
     const done = metGoal(d, g);
     const used = isFuture ? (g.jumps.used || []).find(u => { const k = diffDays(u.from, d); return k >= 0 && k < u.days; }) : null;
     const statusText = used ? `⏳ Saut Temporel prévu (${used.days * 24} h)`
       : protectedDay ? '⏳ Journée protégée par un Saut Temporel'
+      : frz ? '❄️ Journée sauvée par un gel de série'
       : done ? '✓ Objectif atteint'
       : isFuture ? 'Journée à venir' : diff === 0 ? 'Journée en cours' : 'Journée terminée';
     const progressText = isFuture ? `Objectif prévu : ${goal} min` : `${mins} min révisées sur ${goal} min`;
@@ -432,7 +474,7 @@
     return {
       evalPanel: `<aside class="cal-eval-panel"><div class="cal-eval-heading"><div><span class="cal-day-kicker">ÉVALUATIONS DU</span><h3>${title}</h3></div><span class="cal-eval-count">${dayEvals.length}</span></div>${evalMarkup}<details class="cal-eval-add"><summary>＋ Ajouter une évaluation</summary><div class="cal-eval-form"><label>Type<select id="cal-eval-kind">${evalKinds.map(k => `<option value="${k[0]}">${k[1]}</option>`).join('')}</select></label><label>Matière<select id="cal-eval-subject">${evalSubjects}</select></label><input type="text" id="cal-eval-note" class="ag2-note" placeholder="Sujet ou chapitre (facultatif)" maxlength="80"><button class="bg-btn pri full" id="cal-eval-save">Ajouter à cette journée</button></div></details></aside>`,
       detailPanel: `<section class="cal-day-panel">
-        <div class="cal-day-head"><div><span class="cal-day-kicker">JOURNÉE SÉLECTIONNÉE</span><b>${title}</b></div><span class="cal-day-status ${done ? 'done' : used || protectedDay ? 'protected' : ''}">${statusText}</span></div>
+        <div class="cal-day-head"><div><span class="cal-day-kicker">JOURNÉE SÉLECTIONNÉE</span><b>${title}</b></div><span class="cal-day-status ${done ? 'done' : used || protectedDay || frz ? 'protected' : ''}">${statusText}</span></div>
         <div class="cal-day-progress"><span>🎯 ${progressText}</span>${!isFuture ? `<span class="cal-day-progressbar"><i style="width:${Math.min(100, Math.round(mins / Math.max(1, goal) * 100))}%"></i></span>` : ''}</div>
         <div class="cal-jump-panel"><h3>⏳ Saut Temporel</h3>${jumpContent}</div>
       </section>`
@@ -442,19 +484,20 @@
   function renderCalendar() {
     const m = $('bm-cal-modal'); if (!m) return;
     const g = load(), today = dayKey(), st = status();
+    calFz = st.fz;
     if (!calMonth) calMonth = today.slice(0, 7);
     const [y, mo] = calMonth.split('-').map(Number), first = new Date(y, mo - 1, 1), nd = new Date(y, mo, 0).getDate(), lead = (first.getDay() + 6) % 7;
     let cells = '<i></i>'.repeat(lead); for (let k = 1; k <= nd; k++) cells += calCell(`${y}-${String(mo).padStart(2, '0')}-${String(k).padStart(2, '0')}`, g, today);
     const monthShift = (calMonth > addDays(today, -400).slice(0, 7)), ji = jumpInfo(g);
     const dayPanels = calDetail(g, today);
     m.querySelector('.bg-sheet-body').innerHTML = `
-      <div class="cal-hero"><div class="cal-flame">🔥</div><div><b>${st.streak} jour${st.streak > 1 ? 's' : ''} de série</b><small>${st.done ? 'Objectif du jour atteint ✅' : `Aujourd’hui : ${st.doneMin}/${st.goalMin} min`}</small></div></div>
+      <div class="cal-hero"><div class="cal-flame">🔥</div><div><b>${st.streak} jour${st.streak > 1 ? 's' : ''} de série</b><small>${st.done ? 'Objectif du jour atteint ✅' : `Aujourd’hui : ${st.doneMin}/${st.goalMin} min`}</small>${st.fz.on ? `<small class="cal-frz">${freezeNote(st.fz)}</small>` : ''}</div></div>
       ${ji.req ? `<div class="cal-hero2">${jumpSummary(g)}</div>` : ''}
       <div class="cal-main-layout">
         <section class="cal-calendar-column">
           <div class="cal-nav"><button class="bg-x" id="cal-prev" aria-label="Mois précédent" ${monthShift ? '' : 'disabled'}>‹</button><b>${MONTHS[mo - 1]} ${y}</b><button class="bg-x" id="cal-next" aria-label="Mois suivant" ${calMonth < addDays(today, 60).slice(0, 7) ? '' : 'disabled'}>›</button></div>
           <div class="cal-grid"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>${cells}</div>
-          <div class="cal-legend"><span>🔥 objectif atteint</span><span>⏳ Saut Temporel</span></div>
+          <div class="cal-legend"><span>🔥 objectif atteint</span><span>⏳ Saut Temporel</span><span>❄️ gel de série</span></div>
         </section>
         ${dayPanels.evalPanel}
       </div>
@@ -501,7 +544,6 @@
     renderCalendar();
     try { if (typeof closeSidebar === 'function') closeSidebar(); } catch (e) { /* ignore */ }
   }
-  function closeCalendar() { if ($('bm-cal-modal')) goHome(); }
 
 
   // ───────────── Paramètres ─────────────
@@ -615,7 +657,7 @@
 
   // ───────────── Démarrage ─────────────
   let progTimer = null;
-  function onProgress() { clearTimeout(progTimer); progTimer = setTimeout(() => { refreshCard(); celebrate(); checkJumpEarn(); scheduleServerSync(false); }, 1500); }
+  function onProgress() { clearTimeout(progTimer); progTimer = setTimeout(() => { refreshCard(); celebrate(); checkJumpEarn(); checkFreezeEvents(); scheduleServerSync(false); }, 1500); }
   function boot() {
     recordToday();
     setInterval(() => { tick(); refreshCard(); }, 30000);
@@ -625,6 +667,6 @@
     if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('message', e => { if (e.data && e.data.type === 'bm-revise') start(); });
     if (/[?&]revise=1/.test(location.search)) { history.replaceState(null, '', location.pathname); setTimeout(start, 600); }
   }
-  window.BacMasterGoal = { start, openSettings, onProgress, status, load, bestStreak, tick, buildMessage, bonusMessage, notify, metGoal, goalMinutesFor, pushState, forceUpdate, jumpInfo, jumpCovered, hoursLeft, openCalendar, requestJump };
+  window.BacMasterGoal = { start, openSettings, onProgress, status, load, bestStreak, tick, buildMessage, bonusMessage, notify, metGoal, goalMinutesFor, pushState, forceUpdate, jumpInfo, jumpCovered, hoursLeft, openCalendar, requestJump, freezeSim };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();

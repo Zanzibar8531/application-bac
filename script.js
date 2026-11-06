@@ -254,17 +254,6 @@ function computeStreak() {
     }
     return streak;
 }
-function last7DaysActivity() {
-    const dates = new Set(getActivityDates());
-    const days = [];
-    for(let i = 6; i >= 0; i--) {
-        const d = new Date();
-        d.setDate(d.getDate() - i);
-        const key = dayKey(d);
-        days.push({ key, label: d.toLocaleDateString('fr-FR', {weekday:'short'}).slice(0,1).toUpperCase(), active: dates.has(key) });
-    }
-    return days;
-}
 
 // ── SUIVI DU TEMPS PASSÉ (par jour → matière → activité) ────────
 // Stocké séparément de `db` et de l'activité booléenne, pour ne jamais
@@ -1442,27 +1431,7 @@ function docScrollableHeight() {
     return Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
 }
 
-function updateScrollThumb() {
-    const track = $('esn-track'), thumb = $('esn-thumb');
-    if(!track || !thumb) return;
-    const trackH = track.clientHeight;
-    const viewportRatio = Math.min(1, window.innerHeight / document.documentElement.scrollHeight);
-    const thumbH = Math.max(24, trackH * viewportRatio);
-    const ratio = window.scrollY / docScrollableHeight();
-    const maxTop = trackH - thumbH;
-    thumb.style.height = thumbH + 'px';
-    thumb.style.top = Math.min(maxTop, Math.max(0, ratio * maxTop)) + 'px';
-}
 
-function scrollToRatio(clientY) {
-    const track = $('esn-track'), thumb = $('esn-thumb');
-    if(!track || !thumb) return;
-    const rect = track.getBoundingClientRect();
-    const thumbH = thumb.clientHeight;
-    const y = clientY - rect.top - thumbH/2;
-    const ratio = Math.min(1, Math.max(0, y / (track.clientHeight - thumbH)));
-    window.scrollTo({top: ratio * docScrollableHeight()});
-}
 
 
 
@@ -1615,15 +1584,6 @@ function reloadEditorFromDb(){
 }
 window.BacMasterReloadEditor=reloadEditorFromDb;
 
-function saveCours(){
-    const ed=$('editor'); if(!ed)return;
-    clearTimeout(autosaveTimer);
-    db[curSubject][curChapter].cours=ed.innerHTML;
-    db[curSubject][curChapter].userEdited=true; // empêche l'écrasement par PREBUILT au prochain chargement
-    save();
-    hasUnsavedEdits=false;
-    const b=$('sbtn'); if(b){b.textContent='✅ Enregistré automatiquement'; b.classList.add('saved');}
-}
 
 // ── AUTOSAVE de l'éditeur de cours ────────────────────────────
 // Se déclenche 1,5s après la dernière frappe (débounce), pour ne jamais perdre
@@ -2664,15 +2624,6 @@ function updateThemeBtn() {
 // Afficher la page d'accueil dès que le DOM est prêt
 // ── RAPPELS (notification si absence de 2+ jours) ───────────────
 // Limite honnête : sans serveur de push, on ne peut pas notifier quelqu'un
-// qui n'a jamais rouvert l'app. Ceci vérifie l'écart depuis la dernière
-function askNotifPermission() {
-    if(!('Notification' in window)) { showToast('Les notifications ne sont pas supportées sur ce navigateur', 'warn'); return; }
-    Notification.requestPermission().then(perm => {
-        if(perm === 'granted') showToast('🔔 Rappels activés !');
-        else showToast('Rappels non activés', 'warn');
-        updateNotifBtn();
-    });
-}
 function updateNotifBtn() {
     const btn = $('notif-btn'); if(!btn) return;
     if(!('Notification' in window)) { btn.style.display='none'; return; }

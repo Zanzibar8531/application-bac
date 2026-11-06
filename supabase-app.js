@@ -577,16 +577,6 @@
   async function signIn(){const email=$('bm-supabase-email').value.trim(),password=$('bm-supabase-password').value;if(!email||!password){status('Renseigne ton e-mail et ton mot de passe.',true);return;} status('Connexion…');const {data,error}=await state.client.auth.signInWithPassword({email,password});if(error){status(error.message,true);return;}await connectSession(data.session);}
   async function signUp(){const email=$('bm-supabase-email').value.trim(),password=$('bm-supabase-password').value,name=$('bm-supabase-name').value.trim();if(!email||!password){status('Renseigne ton e-mail et un mot de passe.',true);return;}if(password.length<8){status('Choisis un mot de passe de 8 caractères minimum.',true);return;}status('Création du compte…');const {data,error}=await state.client.auth.signUp({email,password,options:{data:{display_name:name}}});if(error){status(error.message,true);return;}if(data.session)await connectSession(data.session);else status('Compte créé. Vérifie tes e-mails pour confirmer l’inscription, puis connecte-toi.');}
   async function signOut(){try{window.BacMasterUI&&window.BacMasterUI.onDisconnect();}catch{}if(state.pollTimer){clearInterval(state.pollTimer);state.pollTimer=null;}if(state.channel)await state.client.removeChannel(state.channel);if(state.profileChannel)await state.client.removeChannel(state.profileChannel);if(state.progressChannel)await state.client.removeChannel(state.progressChannel);if($('bm-supabase-admin'))$('bm-supabase-admin').hidden=true;await state.client.auth.signOut();state.user=null;state.role='reader';const info=$('bm-supabase-account-info'),settings=$('bm-supabase-settings-open'),out=$('bm-supabase-signout'),admin=$('bm-supabase-admin-open'),close=$('bm-supabase-close-account');if(info)info.remove();if(settings)settings.remove();if(out)out.remove();if(admin)admin.remove();if(close)close.remove();const sync=$('bm-supabase-sync-now');if(sync)sync.remove();if($('bm-supabase-panel'))$('bm-supabase-panel').hidden=false;if($('bm-supabase-account-chip'))$('bm-supabase-account-chip').hidden=true;$('bm-supabase-landing').hidden=false;$('bm-supabase-form').hidden=true;status('Tu es déconnecté.');}
-  async function manualSync(){
-    if(!state.user){status('Connecte-toi d’abord.',true);return;}
-    status('Synchronisation en cours…');
-    clearTimeout(state.timer); clearTimeout(state.progressTimer);
-    if(state.tableMode){if(CAN_EDIT())await publishChapters();await loadChapters();}
-    else if(['admin','editor'].includes(state.role)){state.courseDirty=true;state.courseRevision++;await publish();}
-    else await refreshShared();
-    state.progressDirty=true;state.progressRevision++;await publishProgress();
-    if(!state.courseDirty && !state.progressDirty) status('Synchronisation terminée.');
-  }
   function hookSave(){
     // script.js calls this explicit hook from save(); no monkey-patching of global bindings.
     window.BacMasterSync={api:{state,status,stableStringify},
