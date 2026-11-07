@@ -6362,10 +6362,10 @@ html.no-mascot .bg-card .bg-mascot,html.no-mascot #bm-mascot-bubble{display:none
 .bm-rc{position:fixed;width:0;border-left:2px solid;transition:left .1s linear,top .1s linear}
 .bm-rc-n{position:absolute;left:-2px;bottom:100%;font:700 10px/1 system-ui,sans-serif;padding:3px 6px;border-radius:6px 6px 6px 0;color:#fff;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.25)}
 .bm-rs{position:fixed;opacity:.22;border-radius:2px}
-.bm-collab{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;margin-left:8px;vertical-align:middle}
+.bm-collab{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:6px 10px 2px;font-size:.72rem}
 .bm-collab[hidden]{display:none}
 .bm-collab-ico{font-size:.85rem}
-.bm-chip{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:99px;background:#fff;color:var(--c);border:1.5px solid var(--c);white-space:nowrap}
+.bm-chip{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:99px;background:#fff;color:var(--c);border:1.5px solid var(--c);white-space:nowrap;max-width:46vw;overflow:hidden;text-overflow:ellipsis}
 .bm-chip i{width:7px;height:7px;border-radius:50%;background:var(--c);display:inline-block}
 
 /* Pendant l'édition, les onglets ne restent pas collés : sinon ils recouvrent la barre d'outils collante de l'éditeur */
@@ -6373,3 +6373,23 @@ body.course-page.editing-course .ws-header,
 body.course-page.editing-course .ws-header .tab-bar {
   position: static;
 }
+
+/* Clavier ouvert sur téléphone : si le navigateur ne rétrécit pas la page, on suit la partie visible de l'écran */
+html.bm-vv-shift body.editing-course #bm-ribbon,
+html.bm-vv-shift body.editing-course .topbar { transform: translateY(var(--bm-vv-top, 0px)); }
+
+/* Compte « Professeur » : lecture des cours seulement, sans la partie entraînement de l'élève */
+body.role-teacher #bm-goal-card { display: none !important; }
+
+/* ── Professeur : passages modifiés par le prof + tampon « vérifié » ── */
+.cours-body [data-prof], #editor [data-prof] { position: relative; border-left: 3px solid #7c3aed; background: rgba(124,58,237,.08); padding-left: 10px; border-radius: 0 6px 6px 0; }
+.cours-body [data-prof]::after, #editor [data-prof]::after { content: '✔ Modifié par ' attr(data-prof); display: block; margin-top: 3px; font: 700 .68rem/1.2 system-ui, sans-serif; color: #6d28d9; letter-spacing: .2px; }
+[data-theme="dark"] .cours-body [data-prof]::after, [data-theme="dark"] #editor [data-prof]::after { color: #c4b5fd; }
+.bm-verified { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin: 6px 2px 0; padding: 6px 10px; border-radius: 10px; font-size: .78rem; background: rgba(16,185,129,.14); color: #047857; border: 1px solid rgba(16,185,129,.4); }
+.bm-verified.stale { background: rgba(245,158,11,.14); color: #b45309; border-color: rgba(245,158,11,.45); }
+.bm-verified[hidden] { display: none; }
+[data-theme="dark"] .bm-verified { color: #6ee7b7; } [data-theme="dark"] .bm-verified.stale { color: #fcd34d; }
+.bm-verify-btn { border: 0; border-radius: 99px; padding: 5px 12px; font-weight: 700; font-size: .76rem; color: #fff; background: linear-gradient(135deg,#7c3aed,#6366f1); cursor: pointer; }
+.chcard-verified { font-size: .68rem; font-weight: 700; color: #047857; margin: 2px 0 4px; line-height: 1.25; }
+.chcard-verified.stale { color: #b45309; }
+[data-theme="dark"] .chcard-verified { color: #6ee7b7; } [data-theme="dark"] .chcard-verified.stale { color: #fcd34d; }

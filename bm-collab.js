@@ -108,9 +108,9 @@
   function schedule() { if (!raf) raf = requestAnimationFrame(render); }
 
   function ensureBar() {
-    const sb = $('sbtn'); if (!sb) return null;
+    const top = document.querySelector('#bm-ribbon .rb-top') || $('sbtn'); if (!top) return null;
     let bar = $('bm-collab');
-    if (!bar || !bar.isConnected) { bar = document.createElement('span'); bar.id = 'bm-collab'; bar.className = 'bm-collab'; sb.insertAdjacentElement('afterend', bar); }
+    if (!bar || !bar.isConnected) { bar = document.createElement('div'); bar.id = 'bm-collab'; bar.className = 'bm-collab'; bar.hidden = true; top.insertAdjacentElement('afterend', bar); }   // sa propre ligne sous les onglets : jamais coupée
     return bar;
   }
   function renderBar() {

@@ -98,7 +98,8 @@
   function withMeta(content,meta){return {...content,_meta:meta};}
   function stripMeta(c){if(!c||typeof c!=='object')return c||{};const {_meta,...rest}=c;return rest;}
   function serialiseChapter(data){
-    return {cours:typeof data.cours==='string'?data.cours:'', userEdited:!!data.userEdited,
+    const ver=data.verified&&data.verified.at?{verified:{by:String(data.verified.by||''),name:String(data.verified.name||''),at:String(data.verified.at)}}:{};
+    return {...ver,cours:typeof data.cours==='string'?data.cours:'', userEdited:!!data.userEdited,
       flashcards:(data.flashcards||[]).map(c=>({q:String(c.q??''),a:String(c.a??'')})),
       exercices:(data.exercices||[]).map(e=>{const x={...e}; delete x.status; delete x.lastAttempt; return x;})};
   }
@@ -289,7 +290,7 @@
   }
   function scheduleProgressPublish(){if(!state.user||state.applyingRemote||state.applyingProgress)return;state.progressDirty=true;state.progressRevision++;clearTimeout(state.progressTimer);state.progressTimer=setTimeout(publishProgress,1500);}
   async function publish() {
-    if(!state.client || !state.user || !['admin','editor'].includes(state.role) || state.applyingRemote)return;
+    if(!state.client || !state.user || !CAN_EDIT() || state.applyingRemote)return;
     if(state.publishPromise)return state.publishPromise;
     const revision=state.courseRevision;
     const content=serialiseCourses();
@@ -306,7 +307,7 @@
     return state.publishPromise;
   }
   function schedulePublish(){
-    if(!state.user || !['admin','editor'].includes(state.role) || state.applyingRemote)return;
+    if(!state.user || !CAN_EDIT() || state.applyingRemote)return;
     if(!state.tableMode) state.courseDirty=true;
     state.courseRevision++;
     clearTimeout(state.timer);state.timer=setTimeout(state.tableMode?publishChapters:publish,state.tableMode?250:700);
@@ -329,13 +330,13 @@
           state.lastPublishedCourses=mergedString;
           // On first load, keep local-only chapters on an editor/admin device and publish
           // the merged result once. On later polls, the server is authoritative for deletes.
-          if(!wasInitialized && ['admin','editor'].includes(state.role) && mergedString!==remoteString){
+          if(!wasInitialized && CAN_EDIT() && mergedString!==remoteString){
             state.courseDirty=true; state.courseRevision++;
             await publish();
           } else status('Cours partagés actualisés.');
         }
         state.sharedInitialized=true;
-      } else if(['admin','editor'].includes(state.role)) {
+      } else if(CAN_EDIT()) {
         state.sharedInitialized=true;
         state.courseDirty=true;
         await publish();
@@ -350,15 +351,28 @@
   //   les deux versions sont FUSIONNÉES (bm-merge.js) au lieu d'écraser l'autre.
   // • Si l'éditeur est ouvert, le texte fusionné y est rechargé en direct.
   const T='bacmaster_chapters';
-  const CAN_EDIT=()=>['admin','editor'].includes(state.role);
+  const CAN_EDIT=()=>['admin','editor','teacher'].includes(state.role);   // le professeur modifie aussi (ses passages sont signalés) ; « reader » : lecture seule
+  const ROLE_FR={reader:'lecteur',teacher:'professeur',editor:'éditeur',admin:'administrateur'};
   const DELETED='\u0000deleted';
   const chapKey=(subject,chapter)=>subject+'::'+chapter;
   const parseStr=str=>{try{return str&&str!==DELETED?JSON.parse(str):null;}catch{return null;}};
   function builtInChapter(subject,chapter){return typeof PREBUILT!=='undefined'&&PREBUILT[subject]&&Object.prototype.hasOwnProperty.call(PREBUILT[subject],chapter);}
   function builtInQuestions(subject,chapter){try{return new Set((PREBUILT[subject][chapter].flashcards||[]).map(c=>String(c.q)));}catch{return new Set();}}
   function localChapterStr(subject,chapter){const d=db?.[subject]?.[chapter];return d&&typeof d==='object'?stableStringify(serialiseChapter(d)):null;}
+  // Pendant qu'un clavier de téléphone « compose » un mot, on ne touche ni au texte ni à l'envoi : les changements des autres
+  // sont mis en attente puis appliqués juste après (sinon le texte tapé et le texte reçu se mélangent et se dupliquent).
+  const composingOn=(subject,chapter)=>{try{return !!(typeof window.bmIsComposing==='function'&&window.bmIsComposing())&&editorOpenOn(subject,chapter);}catch{return false;}};
+  function flushDeferred(){
+    const rows=[...(state.deferred||new Map()).values()].sort((a,b)=>Date.parse(a.updated_at||0)-Date.parse(b.updated_at||0));
+    if(state.deferred)state.deferred.clear();
+    let changed=false;
+    for(const row of rows){try{if(ingestRow(row))changed=true;}catch(e){console.warn('[BacMaster] Mise à jour différée :',e);}}
+    if(changed){status('Cours actualisés en temps réel.');scheduleRefreshView();}
+    if(state.user&&CAN_EDIT())setTimeout(publishChapters,60);
+  }
+  window.BacMasterFlushDeferred=function(){setTimeout(flushDeferred,40);};
   function editorOpenOn(subject,chapter){try{return !!$('editor')&&curSubject===subject&&curChapter===chapter;}catch{return false;}}
-  function flushEditor(){try{if($('editor')&&curSubject&&curChapter&&db[curSubject]&&db[curSubject][curChapter])db[curSubject][curChapter].cours=$('editor').innerHTML;}catch{}}
+  function flushEditor(){try{if($('editor')&&curSubject&&curChapter&&db[curSubject]&&db[curSubject][curChapter]){if(typeof window.bmStampEditor==='function')window.bmStampEditor();db[curSubject][curChapter].cours=$('editor').innerHTML;}}catch{}}
   function scheduleRefreshView(){
     clearTimeout(state.refreshViewTimer);
     state.refreshViewTimer=setTimeout(()=>{
@@ -383,6 +397,7 @@
         if(!db[subject][chapter]) db[subject][chapter]={cours:'',flashcards:[],exercices:[]};
         const local=db[subject][chapter],inc=content||{};
         local.cours=String(inc.cours??local.cours??'');local.userEdited=!!inc.userEdited;
+        if(inc.verified&&inc.verified.at)local.verified={by:inc.verified.by||'',name:inc.verified.name||'',at:inc.verified.at};else delete local.verified;
         const oldCards=local.flashcards||[];const byQ=new Map(oldCards.map(c=>[String(c.q),c]));
         const next=(inc.flashcards||[]).map(c=>{const q=String(c.q??''),a=String(c.a??'');const old=byQ.get(q);if(old){old.a=a;return old;}return {q,a,score:0,interval:0,ease:2.5,due:null};});
         // Une carte supprimée par un éditeur disparaît ici aussi, sauf les cartes d'origine de l'appli.
@@ -397,7 +412,14 @@
     } finally {state.applyingRemote=false;}
   }
   // Renvoie true si la ligne a modifié les cours locaux.
+  // Chapitre déplacé ou renommé dans l'appli (PREBUILT_RENAMES) : l'ancienne ligne du serveur est ignorée (sinon il réapparaît)
+  // et, côté éditeur, elle est marquée supprimée par la publication habituelle.
+  const renamedAway=(subject,chapter)=>{try{return typeof PREBUILT_RENAMES!=='undefined'&&PREBUILT_RENAMES.some(r=>r.s===subject&&r.old===chapter&&((r.to||r.s)!==subject||r.new!==chapter));}catch{return false;}};
   function ingestRow(row,initial=false){
+    if(renamedAway(row.subject,row.chapter)){
+      state.published.set(row.id,row.deleted?{str:DELETED,remoteStr:DELETED,ver:row.updated_at||null,subject:row.subject,chapter:row.chapter}:{str:'\u0000moved',remoteStr:'\u0000moved',ver:row.updated_at||null,subject:row.subject,chapter:row.chapter});
+      return false;
+    }
     if(!row||!row.id||!row.subject||!row.chapter) return false;
     if(isPrivateChapter(row.chapter,{titre:row.chapter})) return false;
     const {subject,chapter}=row;
@@ -407,6 +429,7 @@
     // Écho en retard d'une de NOS anciennes écritures (arrivé après une plus récente) : l'appliquer ferait revenir le texte en arrière
     if(known&&!row.deleted){const rt=Date.parse(row.updated_at||''),kv=Date.parse(known.ver||'');if(rt&&kv&&rt<kv)return false;}
     const open=editorOpenOn(subject,chapter);
+    if(open&&!initial&&composingOn(subject,chapter)){(state.deferred=state.deferred||new Map()).set(row.id,row);return false;}   // clavier en cours de composition : on attend
     let content=stripMeta(row.content),didMerge=false;
     if(!initial&&CAN_EDIT()&&known){
       if(open) flushEditor();
@@ -422,6 +445,7 @@
     }
     if(row.deleted&&open) return false;                    // on ne supprime pas un cours en cours d'édition
     applyContentToDb(subject,chapter,content,!!row.deleted);
+    if(!row.deleted&&db?.[subject]?.[chapter])db[subject][chapter].serverBy=row.updated_by||null;   // dernier auteur, certifié par le serveur
     if(!row.deleted&&row.content&&row.content._meta&&db?.[subject]?.[chapter]){const m=row.content._meta;db[subject][chapter].lastEdit={by:m.by||null,name:m.name||'',at:m.at||row.updated_at||''};}
     const stillThere=!!db?.[subject]?.[chapter];
     state.published.set(row.id,{str:(row.deleted&&!stillThere)?DELETED:(didMerge?stableStringify(serialiseChapter(stripMeta(row.content))):localChapterStr(subject,chapter)),remoteStr:rowStr,ver:row.updated_at||null,subject,chapter});
@@ -435,6 +459,7 @@
   // Écrit un chapitre existant sans écraser le travail d'un autre : en cas de conflit, on fusionne puis on réessaie.
   async function casWrite(r){
     for(let attempt=0;attempt<5;attempt++){
+      if(composingOn(r.subject,r.chapter))return false;   // on n'envoie rien pendant la composition d'un mot : ce sera repris juste après
       const known=state.published.get(r.id);
       const d=db?.[r.subject]?.[r.chapter];if(!d)return true;
       const content=serialiseChapter(d),str=stableStringify(content);
@@ -443,9 +468,9 @@
       const meta=metaNow();
       if(known?.ver)({data,error}=await state.client.from(T).update({content:withMeta(content,meta),deleted:false}).eq('id',r.id).eq('updated_at',known.ver).select('id,updated_at'));
       if(error){status('Erreur de synchronisation des cours : '+error.message,true);return false;}
-      if(data&&data.length){state.published.set(r.id,{str,remoteStr:str,ver:data[0].updated_at,subject:r.subject,chapter:r.chapter});d.lastEdit={by:meta.by,name:meta.name,at:meta.at};return true;}
+      if(data&&data.length){state.published.set(r.id,{str,remoteStr:str,ver:data[0].updated_at,subject:r.subject,chapter:r.chapter});d.lastEdit={by:meta.by,name:meta.name,at:meta.at};d.serverBy=meta.by;return true;}
       // Quelqu'un est passé avant nous : on relit sa version et on fusionne.
-      const {data:rem,error:e2}=await state.client.from(T).select('id,subject,chapter,content,deleted,updated_at').eq('id',r.id).maybeSingle();
+      const {data:rem,error:e2}=await state.client.from(T).select('id,subject,chapter,content,deleted,updated_at,updated_by').eq('id',r.id).maybeSingle();
       if(e2){status('Erreur de synchronisation des cours : '+e2.message,true);return false;}
       if(!rem){ // la ligne n'existe plus : on la recrée
         const {data:ins,error:e3}=await state.client.from(T).upsert([{id:r.id,subject:r.subject,chapter:r.chapter,content:withMeta(content,meta),deleted:false}],{onConflict:'id'}).select('id,updated_at');
@@ -453,7 +478,7 @@
         state.published.set(r.id,{str,remoteStr:str,ver:verOf(ins,r.id),subject:r.subject,chapter:r.chapter});return true;
       }
       noteSeen(rem);
-      if(!ingestRow(rem)&&known){known.ver=rem.updated_at;}   // fusion locale ; met à jour la base de comparaison
+      if(!ingestRow(rem)&&known){if(state.deferred&&state.deferred.has(r.id))return false;known.ver=rem.updated_at;}   // fusion locale ; met à jour la base de comparaison
       scheduleRefreshView();
     }
     status('Conflit de synchronisation persistant sur un cours : réessai au prochain enregistrement.',true);return false;
@@ -485,7 +510,7 @@
         for(const b of batches){
           const {data,error}=await state.client.from(T).upsert(b.map(({id,subject,chapter,content})=>({id,subject,chapter,content:withMeta(content,metaNow()),deleted:false})),{onConflict:'id'}).select('id,updated_at');
           if(error){status('Erreur de synchronisation des cours : '+error.message,true);return;}
-          for(const r of b)state.published.set(r.id,{str:r.str,remoteStr:r.str,ver:verOf(data,r.id),subject:r.subject,chapter:r.chapter});
+          for(const r of b){state.published.set(r.id,{str:r.str,remoteStr:r.str,ver:verOf(data,r.id),subject:r.subject,chapter:r.chapter});if(db?.[r.subject]?.[r.chapter]&&state.user)db[r.subject][r.chapter].serverBy=state.user.id;}
         }
         // 2) chapitres modifiés : écriture protégée + fusion
         for(const r of existing) if(!(await casWrite(r)))return;
@@ -501,7 +526,7 @@
     return state.chapPublishPromise;
   }
   async function loadChapters(){
-    const {data,error}=await state.client.from(T).select('id,subject,chapter,content,deleted,updated_at').order('updated_at',{ascending:true});
+    const {data,error}=await state.client.from(T).select('id,subject,chapter,content,deleted,updated_at,updated_by').order('updated_at',{ascending:true});
     if(error){status('Lecture des cours impossible : '+error.message,true);return;}
     if(!data.length){
       // Première utilisation : on repart de l'ancien document partagé, puis un éditeur publie chapitre par chapitre.
@@ -521,7 +546,7 @@
     state.chapPollBusy=true;
     try{
       let changed=false;
-      let q=state.client.from(T).select('id,subject,chapter,content,deleted,updated_at');
+      let q=state.client.from(T).select('id,subject,chapter,content,deleted,updated_at,updated_by');
       if(state.lastChapSeen)q=q.gt('updated_at',new Date(state.lastChapSeen-3000).toISOString());
       const {data,error}=await q.order('updated_at',{ascending:true});
       if(!error&&data)for(const row of data){noteSeen(row);if(ingestRow(row))changed=true;}
@@ -559,11 +584,11 @@
     if(profile&&!error){state.profileRetry=0;try{localStorage.setItem('bm_profile_'+state.user.id,JSON.stringify(profile));}catch{}}
     if(!profile){if(gate)gate.hidden=false;if(chip)chip.hidden=true;status('Profil non créé. Vérifie que le script SQL complet a été exécuté.',true);return;}
     {const before=state.role;state.role=profile.role||'reader';if(before!==state.role&&typeof window.bmRoleChanged==='function')setTimeout(window.bmRoleChanged,0);}state.displayName=profile.display_name||state.user.email||'Quelqu’un';const account=(profile.display_name||state.user.email)+' — '+state.role;
-    if(chip){chip.textContent='☁️ '+(profile.display_name||state.user.email||'Mon compte')+' · '+state.role;chip.dataset.account=account;}
+    if(chip){chip.textContent='☁️ '+(profile.display_name||state.user.email||'Mon compte')+' · '+(ROLE_FR[state.role]||state.role);chip.dataset.account=account;}
     addAdminPanel();
     if(state.channel) await state.client.removeChannel(state.channel);
     if(state.profileChannel) await state.client.removeChannel(state.profileChannel);
-    state.profileChannel=state.client.channel('bacmaster-profile-'+state.user.id).on('postgres_changes',{event:'UPDATE',schema:'public',table:'bacmaster_profiles',filter:'user_id=eq.'+state.user.id},async()=>{const {data:p}=await state.client.from('bacmaster_profiles').select('display_name,role').eq('user_id',state.user.id).maybeSingle();if(p){const before=state.role;state.role=p.role||'reader';if(before!==state.role&&typeof window.bmRoleChanged==='function')window.bmRoleChanged();if(chip){chip.textContent='☁️ '+(p.display_name||state.user.email||'Mon compte')+' · '+state.role;chip.dataset.account=(p.display_name||state.user.email)+' — '+state.role;}if(state.role!=='admin' && $('bm-supabase-admin'))$('bm-supabase-admin').hidden=true;}}).subscribe((st)=>{if(st==='CHANNEL_ERROR'||st==='TIMED_OUT')status('Connexion temps réel au profil interrompue : '+st,true);});
+    state.profileChannel=state.client.channel('bacmaster-profile-'+state.user.id).on('postgres_changes',{event:'UPDATE',schema:'public',table:'bacmaster_profiles',filter:'user_id=eq.'+state.user.id},async()=>{const {data:p}=await state.client.from('bacmaster_profiles').select('display_name,role').eq('user_id',state.user.id).maybeSingle();if(p){const before=state.role;state.role=p.role||'reader';if(before!==state.role&&typeof window.bmRoleChanged==='function')window.bmRoleChanged();if(chip){chip.textContent='☁️ '+(p.display_name||state.user.email||'Mon compte')+' · '+(ROLE_FR[state.role]||state.role);chip.dataset.account=(p.display_name||state.user.email)+' — '+state.role;}if(state.role!=='admin' && $('bm-supabase-admin'))$('bm-supabase-admin').hidden=true;}}).subscribe((st)=>{if(st==='CHANNEL_ERROR'||st==='TIMED_OUT')status('Connexion temps réel au profil interrompue : '+st,true);});
     if(await detectTableMode()) state.channel=chaptersChannel(); else
     state.channel=state.client.channel('bacmaster-shared-live').on('postgres_changes',{event:'*',schema:'public',table:'bacmaster_shared_content',filter:'id=eq.main'},payload=>{if(payload.new?.content && !state.courseDirty && !state.publishPromise && stableStringify(payload.new.content)!==stableStringify(serialiseCourses())) { mergeCourses(payload.new.content); state.lastPublishedCourses=stableStringify(serialiseCourses()); status('Cours actualisés en temps réel.'); }}).subscribe((st)=>{if(st==='CHANNEL_ERROR'||st==='TIMED_OUT')status('Temps réel des cours indisponible : '+st+' (la vérification périodique reste active).',true);});
     if(state.progressChannel) await state.client.removeChannel(state.progressChannel);
@@ -580,7 +605,7 @@
       await refreshProgress();
     },4000);
     try{window.BacMasterUI&&window.BacMasterUI.onConnect();}catch(e){console.warn(e);}
-    if(!['admin','editor'].includes(state.role)) status('Connecté en lecture seule. Les cours partagés sont accessibles en consultation.');
+    if(!CAN_EDIT()) status('Connecté en lecture seule. Les cours partagés sont accessibles en consultation.');
   }
   async function signIn(){const email=$('bm-supabase-email').value.trim(),password=$('bm-supabase-password').value;if(!email||!password){status('Renseigne ton e-mail et ton mot de passe.',true);return;} status('Connexion…');const {data,error}=await state.client.auth.signInWithPassword({email,password});if(error){status(error.message,true);return;}await connectSession(data.session);}
   async function signUp(){const email=$('bm-supabase-email').value.trim(),password=$('bm-supabase-password').value,name=$('bm-supabase-name').value.trim();if(!email||!password){status('Renseigne ton e-mail et un mot de passe.',true);return;}if(password.length<8){status('Choisis un mot de passe de 8 caractères minimum.',true);return;}status('Création du compte…');const {data,error}=await state.client.auth.signUp({email,password,options:{data:{display_name:name}}});if(error){status(error.message,true);return;}if(data.session)await connectSession(data.session);else status('Compte créé. Vérifie tes e-mails pour confirmer l’inscription, puis connecte-toi.');}

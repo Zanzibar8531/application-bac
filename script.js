@@ -19,9 +19,13 @@ if (db['Anglais'] && db['Anglais']['Genetically Modified Babies — Designer Bab
 
 // Renommages de chapitres (PREBUILT_RENAMES) : la progression de l'élève suit le nouveau nom.
 PREBUILT_RENAMES.forEach(r => {
-    if (db[r.s] && db[r.s][r.old] && !db[r.s][r.new]) {
-        db[r.s][r.new] = db[r.s][r.old];
+    const to = r.to || r.s;                                   // « to » : autre matière (déplacement)
+    if (db[r.s] && db[r.s][r.old] && !(db[to] && db[to][r.new])) {
+        if (!db[to]) db[to] = {};
+        db[to][r.new] = db[r.s][r.old];
         delete db[r.s][r.old];
+    } else if (db[r.s] && db[r.s][r.old] && (to !== r.s || r.new !== r.old)) {
+        delete db[r.s][r.old];                                // déjà présent au nouvel endroit : on retire l'ancien doublon
     }
 });
 
@@ -939,6 +943,7 @@ function goModeChapters(mode) {
                     </div>` : ''}
                     <div class="chcard-name">${ch}</div>
                     ${bmLastEditText(curSubject,ch) ? `<div class="chcard-lastedit">${bmLastEditText(curSubject,ch)}</div>` : ''}
+                    ${bmVerifiedText(curSubject,ch) ? `<div class="chcard-verified ${bmVerified(curSubject,ch).fresh ? '' : 'stale'}">${bmVerifiedText(curSubject,ch)}</div>` : ''}
                     <div class="chcard-meta">
                         <span>📋 ${cards.length} ${['Anglais','Espagnol'].includes(curSubject)?'mot'+(cards.length>1?'s':''):'carte'+(cards.length>1?'s':'')}</span>
                         ${due > 0 ? `<span style="color:#4f46e5">⏰ ${due} à réviser</span>` : (toDiscover > 0 ? '<span style="color:#d97706">🆕 À découvrir</span>' : '<span style="color:#059669">✓ À jour</span>')}
@@ -1027,7 +1032,75 @@ function bmLastEditText(subject,chapter){
     return '✏️ Dernière modification par <b>'+(me?'toi':bmEscHtml(le.name||'un éditeur'))+'</b> · '+bmAgo(le.at);
 }
 function bmLastEditBar(){ const t=bmLastEditText(curSubject,curChapter); return '<div class="bm-lastedit" id="bm-lastedit"'+(t?'':' hidden')+'>'+t+'</div>'; }
-window.bmRefreshLastEdit=function(){ const el=document.getElementById('bm-lastedit'); if(!el) return; const t=bmLastEditText(curSubject,curChapter); el.innerHTML=t; el.hidden=!t; };
+// ── Professeur : passages modifiés signalés + tampon « vérifié » ──────────────
+function bmSyncState(){ return window.BacMasterSync && BacMasterSync.api && BacMasterSync.api.state; }
+function bmIsTeacher(){ const st=bmSyncState(); return !!st && st.role==='teacher'; }
+function bmMyName(){ const st=bmSyncState(); return (st && (st.displayName || (st.user && st.user.email))) || 'Professeur'; }
+// Les blocs (paragraphes, titres, listes…) que le professeur vient de modifier reçoivent data-prof="son nom" ;
+// si quelqu'un d'autre modifie ensuite un de ces blocs, le signalement disparaît (le texte n'est plus celui du prof).
+function bmStampEditor(){
+    try{
+        const ed=$('editor'); if(!ed||!curSubject||!curChapter||!db[curSubject]||!db[curSubject][curChapter]) return;
+        const norm=n=>n.nodeType===1?n.outerHTML.replace(/ data-prof="[^"]*"/g,''):'#'+n.textContent;
+        const tpl=document.createElement('div'); tpl.innerHTML=db[curSubject][curChapter].cours||'';
+        const before=new Map(); [...tpl.childNodes].forEach(n=>{ const k=norm(n); before.set(k,(before.get(k)||0)+1); });
+        const teacher=bmIsTeacher(), me=bmMyName();
+        [...ed.childNodes].forEach(n=>{
+            if(n.nodeType!==1) return;
+            const k=norm(n), c=before.get(k)||0;
+            if(c>0){ before.set(k,c-1); return; }                      // bloc inchangé
+            if(teacher){ if(n.getAttribute('data-prof')!==me) n.setAttribute('data-prof',me); }
+            else if(n.hasAttribute('data-prof')) n.removeAttribute('data-prof');
+        });
+    }catch(e){}
+}
+window.bmStampEditor=bmStampEditor;
+function bmVerified(subject,chapter){
+    const d=db&&db[subject]&&db[subject][chapter], v=d&&d.verified; if(!v||!v.at) return null;
+    const st=bmSyncState();
+    // le serveur certifie qui a écrit en dernier : si ce n'est plus le professeur, le cours a été modifié depuis sa vérification
+    const fresh=!st || !d.serverBy || !v.by || d.serverBy===v.by;
+    return { fresh, name:v.name||'le professeur', at:v.at };
+}
+function bmVerifiedText(subject,chapter){
+    const v=bmVerified(subject,chapter); if(!v) return '';
+    return v.fresh ? '✅ Vérifié par <b>'+bmEscHtml(v.name)+'</b> · '+bmAgo(v.at)
+                   : '⚠️ Vérifié par <b>'+bmEscHtml(v.name)+'</b> '+bmAgo(v.at)+' — modifié depuis';
+}
+function bmVerifyBar(){
+    const t=bmVerifiedText(curSubject,curChapter), v=bmVerified(curSubject,curChapter);
+    const btn=bmIsTeacher() ? `<button type="button" class="bm-verify-btn" onclick="bmVerifyChapter()">${v&&v.fresh?'🔁 Vérifier à nouveau':'✅ Marquer comme vérifié'}</button>` : '';
+    return '<div class="bm-verified'+(v&&!v.fresh?' stale':'')+'" id="bm-verified"'+((t||btn)?'':' hidden')+'><span>'+t+'</span>'+btn+'</div>';
+}
+function bmVerifyChapter(){
+    if(!bmIsTeacher()||!curSubject||!curChapter||!db[curSubject]||!db[curSubject][curChapter]) return;
+    if($('editor')) autosaveCoursNow();                                   // on enregistre d'abord ce qui est à l'écran
+    const st=bmSyncState();
+    db[curSubject][curChapter].verified={ by:(st&&st.user&&st.user.id)||'', name:bmMyName(), at:new Date().toISOString() };
+    if(st&&st.user) db[curSubject][curChapter].serverBy=st.user.id;
+    save(); window.bmRefreshLastEdit(); showToast('✅ Cours marqué comme vérifié','success');
+}
+window.bmVerifyChapter=bmVerifyChapter;
+window.bmRefreshLastEdit=function(){
+    const el=document.getElementById('bm-lastedit'); if(el){ const t=bmLastEditText(curSubject,curChapter); el.innerHTML=t; el.hidden=!t; }
+    const vb=document.getElementById('bm-verified');
+    if(vb){ const t=bmVerifiedText(curSubject,curChapter), v=bmVerified(curSubject,curChapter), want=bmVerifyBar(); const tmp=document.createElement('div'); tmp.innerHTML=want; const nv=tmp.firstChild;
+        if(nv && (vb.innerHTML!==nv.innerHTML || vb.className!==nv.className)){ vb.className=nv.className; vb.innerHTML=nv.innerHTML; } vb.hidden=nv?nv.hidden:true; }
+};
+
+// ── Clavier ouvert (téléphone) : la barre du haut et la barre d'outils doivent rester visibles ──
+// Chrome récent rétrécit la page grâce à « interactive-widget=resizes-content » (voir index.html).
+// Sur les navigateurs qui ne le font pas, la zone visible glisse dans la page : on suit ce décalage.
+(function () {
+    const vv = window.visualViewport; if (!vv) return;
+    const root = document.documentElement;
+    const upd = () => {
+        const off = Math.max(0, Math.round(vv.offsetTop));
+        root.style.setProperty('--bm-vv-top', off + 'px');
+        root.classList.toggle('bm-vv-shift', off > 1);
+    };
+    vv.addEventListener('scroll', upd); vv.addEventListener('resize', upd); upd();
+})();
 
 // ── Rôle : un lecteur ne peut pas modifier les cours ──────────
 function bmCanEdit() { try { return !(window.BacMasterSync && BacMasterSync.canEdit) || !!BacMasterSync.canEdit(); } catch(e) { return true; } }
@@ -1035,6 +1108,8 @@ function bmDenyEdit() { showToast('🔒 Lecture seule : ton rôle ne permet pas 
 // appelé quand le rôle change (chargement du profil, changement par un admin)
 window.bmRoleChanged = function () {
     try {
+        const st = window.BacMasterSync && BacMasterSync.api && BacMasterSync.api.state;
+        document.body.classList.toggle('role-teacher', !!st && st.role === 'teacher');
         if (!bmCanEdit()) { if (curTab === 'edit' || curTab === 'add') curTab = 'cours'; if (curListMode === 'edit' || curListMode === 'add') curListMode = 'cours'; }
         if (curChapter && document.querySelector('.tab-bar')) renderChapter();
         else if (curChapter && document.querySelector('.menu-tile-flash')) renderChapterMenu();
@@ -1058,6 +1133,7 @@ function renderChapter() {
                 ${tabs.map(t=>{ const lock = (t.id==='edit'||t.id==='add') && !bmCanEdit(); return `<button class="tab-btn ${curTab===t.id?'active':''}" ${lock ? 'disabled aria-disabled="true" title="Lecture seule : ton rôle ne permet pas de modifier"' : `onclick="switchTab('${t.id}')"`}>${lock ? '🔒 ' : ''}${t.label}</button>`; }).join('')}
             </div>
             ${bmLastEditBar()}
+            ${bmVerifyBar()}
         </div>
         <div class="ws-box" id="ws-box"></div>
     `);
@@ -1627,10 +1703,11 @@ function insertGraph() {
 // Recharge l'éditeur avec le contenu fusionné (modif d'un autre éditeur), en gardant la position du curseur.
 let bmComposing = false, bmReloadPending = false;
 document.addEventListener('compositionstart', e => { if (e.target && e.target.id === 'editor') bmComposing = true; }, true);
-document.addEventListener('compositionend', e => { if (e.target && e.target.id === 'editor') { bmComposing = false; if (bmReloadPending) { bmReloadPending = false; setTimeout(reloadEditorFromDb, 0); } } }, true);
+document.addEventListener('compositionend', e => { if (e.target && e.target.id === 'editor') { bmComposing = false; bmReloadPending = false; if (window.BacMasterFlushDeferred) window.BacMasterFlushDeferred(); } }, true);
+window.bmIsComposing = () => bmComposing;
 function reloadEditorFromDb(){
     const ed=$('editor'); if(!ed||!curSubject||!curChapter||!db[curSubject]||!db[curSubject][curChapter]) return;
-    if (bmComposing) { bmReloadPending = true; return; }   // le clavier est en train de composer un mot : on attend la fin
+    if (bmComposing) return;   // le clavier est en train de composer un mot : les changements des autres attendent (voir supabase-app.js) la fin
     const next=db[curSubject][curChapter].cours||'';
     const tpl=document.createElement('div'); tpl.innerHTML=next;
     const A=[...ed.childNodes], B=[...tpl.childNodes];
@@ -1677,6 +1754,7 @@ function scheduleAutosaveCours(){
 
 function autosaveCoursNow(){
     clearTimeout(autosaveTimer); autosaveTimer = null;
+    bmStampEditor();
     const ed=$('editor'); if(!ed || !curSubject || !curChapter) return;
     db[curSubject][curChapter].cours = ed.innerHTML;
     db[curSubject][curChapter].userEdited = true;
@@ -2233,6 +2311,7 @@ function openExercices() {
                 return `<div class="chcard" onclick="openExoChapter('${esc(ch)}')">
                     <div class="chcard-name">${ch}</div>
                     ${bmLastEditText(curSubject,ch) ? `<div class="chcard-lastedit">${bmLastEditText(curSubject,ch)}</div>` : ''}
+                    ${bmVerifiedText(curSubject,ch) ? `<div class="chcard-verified ${bmVerified(curSubject,ch).fresh ? '' : 'stale'}">${bmVerifiedText(curSubject,ch)}</div>` : ''}
                     <div class="chcard-meta">
                         <span>✏️ ${exos.length} exercice${exos.length>1?'s':''}</span>
                         ${nF?`<span>🟢${nF}</span>`:''}

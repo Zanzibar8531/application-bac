@@ -17,4 +17,8 @@ const PREBUILT_FIXES = [];
 
 // Renommages de chapitres : { s: matière, old: ancien nom, new: nouveau nom }.
 // Les données de l'élève (progression, cartes perso) sont déplacées sous le nouveau nom.
-const PREBUILT_RENAMES = [];
+// Pour déplacer un chapitre vers une AUTRE matière, ajouter « to: nom de la nouvelle matière ».
+const PREBUILT_RENAMES = [
+    // « Cours 1 — Approche design » était rangé en I2D alors qu'il fait partie d'Innovation Technologique (IT)
+    { s: 'Ingénierie & Dév. Durable', old: 'Cours 1 — Approche design : conception, démarche & brevet', new: 'Cours 1 — Approche design : conception, démarche & brevet', to: 'Innovation Techno.' }
+];

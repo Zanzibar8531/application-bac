@@ -10,7 +10,7 @@
   const S = () => core() && core().state;
   const sb = () => S() && S().client;
   const $ = id => document.getElementById(id);
-  const ROLES = { reader: 'Lecteur', editor: 'Éditeur', admin: 'Administrateur' };
+  const ROLES = { reader: 'Lecteur', teacher: 'Professeur', editor: 'Éditeur', admin: 'Administrateur' };   // Professeur : modifie comme un éditeur, mais ses passages sont signalés et il peut « vérifier » un cours
   const fmt = d => (d && isFinite(new Date(d))) ? new Date(d).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }) : '—';
   function ago(d) {
     const m = Math.round((Date.now() - new Date(d)) / 60000); if (!isFinite(m)) return '';
@@ -107,7 +107,7 @@
     #bm-adm .row:hover{background:#faf8ff}
     #bm-adm .av{color:#fff;font-size:14px;box-shadow:0 3px 10px rgba(0,0,0,.2)}
     #bm-adm .pill{padding:3px 11px;font-size:11.5px;letter-spacing:.2px}
-    #bm-adm .pill.reader{background:#dbeafe;color:#1d4ed8}#bm-adm .pill.editor{background:#d1fae5;color:#047857}#bm-adm .pill.admin{background:linear-gradient(135deg,#fcd34d,#f97316);color:#7c2d12}
+    #bm-adm .pill.reader{background:#dbeafe;color:#1d4ed8}#bm-adm .pill.teacher{background:#ede9fe;color:#6d28d9}#bm-adm .pill.editor{background:#d1fae5;color:#047857}#bm-adm .pill.admin{background:linear-gradient(135deg,#fcd34d,#f97316);color:#7c2d12}
     #bm-adm select{border:2px solid #ddd6fe;border-radius:10px;font-weight:600;color:#3730a3;background:#faf8ff}
     #bm-adm select:focus,#bm-adm input[type=search]:focus{outline:none;border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.18)}
     #bm-adm input[type=search]{border:2px solid #ddd6fe;border-radius:12px}
@@ -162,7 +162,7 @@
     try { await loadProfiles(); } catch (e) { return fail(body, e, 'Impossible de charger les comptes.'); }
     const online = onlineList();
     const count = r => profiles.filter(p => p.role === r).length;
-    const stats = h('div', { class: 'stats' }, [['Comptes', profiles.length], ['Administrateurs', count('admin')], ['Éditeurs', count('editor')], ['Lecteurs', count('reader')], ['En ligne', online.length + 1]].map(([t, n], i) => h('div', { class: 'stat s' + (i + 1) }, [h('b', { text: String(n) }), h('span', { text: t })])));
+    const stats = h('div', { class: 'stats' }, [['Comptes', profiles.length], ['Administrateurs', count('admin')], ['Éditeurs', count('editor')], ['Lecteurs', count('reader') + count('teacher')], ['En ligne', online.length + 1]].map(([t, n], i) => h('div', { class: 'stat s' + (i + 1) }, [h('b', { text: String(n) }), h('span', { text: t })])));
     const search = h('input', { type: 'search', placeholder: 'Rechercher un nom ou une adresse e-mail…', 'aria-label': 'Rechercher un compte' });
     const list = h('div', { class: 'card' });
     function draw() {
@@ -296,7 +296,8 @@
   function renderPresence() {
     let el = $('bm-presence'); if (!el) { addStyles(); el = h('div', { id: 'bm-presence', hidden: '', role: 'status' }); document.body.appendChild(el); }
     const l = loc(), same = l.chapter ? others().filter(o => o.subject === l.subject && o.chapter === l.chapter) : [];
-    if (!same.length) { el.hidden = true; return; }
+    const cb = document.getElementById('bm-collab');
+    if (!same.length || (cb && !cb.hidden && l.editing)) { el.hidden = true; return; }   // en édition, les pastilles de l'éditeur suffisent
     const ed = same.filter(o => o.editing).map(o => o.name), rd = same.filter(o => !o.editing).map(o => o.name);
     const parts = []; if (ed.length) parts.push('✏️ ' + ed.join(', ') + (ed.length > 1 ? ' modifient' : ' modifie') + ' ce chapitre');
     if (rd.length) parts.push('👀 ' + rd.join(', ') + (rd.length > 1 ? ' le lisent' : ' le lit'));

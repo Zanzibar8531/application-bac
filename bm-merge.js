@@ -190,7 +190,10 @@
       function (x, y) { return stable(x) === stable(y); },
       function (b, o, t) { return b && stable(b) === stable(o) ? t : o; });
     return {
-      content: { cours: text.text, userEdited: !!(ours.userEdited || theirs.userEdited), flashcards: cards, exercices: exos },
+      content: Object.assign(
+        { cours: text.text, userEdited: !!(ours.userEdited || theirs.userEdited), flashcards: cards, exercices: exos },
+        (function () { const a = ours.verified, b = theirs.verified, v = a && b ? (String(a.at) >= String(b.at) ? a : b) : (a || b); return v ? { verified: v } : {}; })()   // la vérification la plus récente est gardée
+      ),
       conflicts: text.conflicts
     };
   }
