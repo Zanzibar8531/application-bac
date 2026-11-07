@@ -4891,9 +4891,12 @@ body.home-page .page-head p {
    générales) et 80 % (lecture de cours), en jouant sur les largeurs de
    colonnes et les espacements — jamais sur la taille des caractères.
    ============================================================ */
-html,
-body {
+html {
   overflow-x: hidden;
+}
+/* « clip » et non « hidden » : hidden transforme le body en zone de défilement et casse la barre d'outils collante de l'éditeur */
+body {
+  overflow-x: clip;
 }
 
 /* Barre principale persistante dans l'application installée. */
@@ -6349,3 +6352,24 @@ html.no-mascot .bg-card .bg-mascot,html.no-mascot #bm-mascot-bubble{display:none
 
 /* ── Lecture seule : boutons d'édition grisés ── */
 .tab-btn:disabled,.bc-btn:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(1);pointer-events:none}
+
+/* ── Dernière modification d'un cours ── */
+.bm-lastedit{font-size:.74rem;color:var(--muted,#6b7280);margin:6px 2px 0;line-height:1.3}
+.chcard-lastedit{font-size:.68rem;color:var(--muted,#6b7280);margin:2px 0 4px;line-height:1.25}
+
+/* ── Édition à plusieurs : curseurs des autres + pastilles de présence ── */
+.bm-rcl{position:fixed;inset:0;pointer-events:none;z-index:70;overflow:hidden}
+.bm-rc{position:fixed;width:0;border-left:2px solid;transition:left .1s linear,top .1s linear}
+.bm-rc-n{position:absolute;left:-2px;bottom:100%;font:700 10px/1 system-ui,sans-serif;padding:3px 6px;border-radius:6px 6px 6px 0;color:#fff;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.bm-rs{position:fixed;opacity:.22;border-radius:2px}
+.bm-collab{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;margin-left:8px;vertical-align:middle}
+.bm-collab[hidden]{display:none}
+.bm-collab-ico{font-size:.85rem}
+.bm-chip{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:99px;background:#fff;color:var(--c);border:1.5px solid var(--c);white-space:nowrap}
+.bm-chip i{width:7px;height:7px;border-radius:50%;background:var(--c);display:inline-block}
+
+/* Pendant l'édition, les onglets ne restent pas collés : sinon ils recouvrent la barre d'outils collante de l'éditeur */
+body.course-page.editing-course .ws-header,
+body.course-page.editing-course .ws-header .tab-bar {
+  position: static;
+}

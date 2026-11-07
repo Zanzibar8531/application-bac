@@ -938,6 +938,7 @@ function goModeChapters(mode) {
                         <button class="chcard-icon-btn chcard-icon-del" onclick="event.stopPropagation();deleteChapter('${esc(ch)}','${mode}')" title="Supprimer">🗑️</button>
                     </div>` : ''}
                     <div class="chcard-name">${ch}</div>
+                    ${bmLastEditText(curSubject,ch) ? `<div class="chcard-lastedit">${bmLastEditText(curSubject,ch)}</div>` : ''}
                     <div class="chcard-meta">
                         <span>📋 ${cards.length} ${['Anglais','Espagnol'].includes(curSubject)?'mot'+(cards.length>1?'s':''):'carte'+(cards.length>1?'s':'')}</span>
                         ${due > 0 ? `<span style="color:#4f46e5">⏰ ${due} à réviser</span>` : (toDiscover > 0 ? '<span style="color:#d97706">🆕 À découvrir</span>' : '<span style="color:#059669">✓ À jour</span>')}
@@ -1009,6 +1010,25 @@ function chapBack() {
 function bmSpellLang() { return /anglais/i.test(curSubject || '') ? 'en' : /espagnol/i.test(curSubject || '') ? 'es' : 'fr'; }
 function bmSpellAttrs(lang) { return `spellcheck="true" lang="${lang || bmSpellLang()}" autocorrect="on" autocapitalize="sentences"`; }
 
+// ── Dernière modification d'un cours (qui ? quand ?) ─────────
+function bmAgo(iso){
+    const t=Date.parse(iso||''); if(!t) return '';
+    const s=Math.max(0,Math.round((Date.now()-t)/1000));
+    if(s<45) return 'à l’instant';
+    if(s<3600) return 'il y a '+Math.max(1,Math.round(s/60))+' min';
+    if(s<86400) return 'il y a '+Math.round(s/3600)+' h';
+    const d=new Date(t); return 'le '+d.toLocaleDateString('fr-FR',{day:'numeric',month:'short'})+' à '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+}
+function bmEscHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function bmLastEditText(subject,chapter){
+    const le=db&&db[subject]&&db[subject][chapter]&&db[subject][chapter].lastEdit; if(!le||!le.at) return '';
+    const st=window.BacMasterSync&&BacMasterSync.api&&BacMasterSync.api.state;
+    const me=st&&st.user&&le.by&&le.by===st.user.id;
+    return '✏️ Dernière modification par <b>'+(me?'toi':bmEscHtml(le.name||'un éditeur'))+'</b> · '+bmAgo(le.at);
+}
+function bmLastEditBar(){ const t=bmLastEditText(curSubject,curChapter); return '<div class="bm-lastedit" id="bm-lastedit"'+(t?'':' hidden')+'>'+t+'</div>'; }
+window.bmRefreshLastEdit=function(){ const el=document.getElementById('bm-lastedit'); if(!el) return; const t=bmLastEditText(curSubject,curChapter); el.innerHTML=t; el.hidden=!t; };
+
 // ── Rôle : un lecteur ne peut pas modifier les cours ──────────
 function bmCanEdit() { try { return !(window.BacMasterSync && BacMasterSync.canEdit) || !!BacMasterSync.canEdit(); } catch(e) { return true; } }
 function bmDenyEdit() { showToast('🔒 Lecture seule : ton rôle ne permet pas de modifier les cours.', 'info'); return false; }
@@ -1037,6 +1057,7 @@ function renderChapter() {
             <div class="tab-bar">
                 ${tabs.map(t=>{ const lock = (t.id==='edit'||t.id==='add') && !bmCanEdit(); return `<button class="tab-btn ${curTab===t.id?'active':''}" ${lock ? 'disabled aria-disabled="true" title="Lecture seule : ton rôle ne permet pas de modifier"' : `onclick="switchTab('${t.id}')"`}>${lock ? '🔒 ' : ''}${t.label}</button>`; }).join('')}
             </div>
+            ${bmLastEditBar()}
         </div>
         <div class="ws-box" id="ws-box"></div>
     `);
@@ -1348,11 +1369,23 @@ function trackEditorSelection(){
     ed.addEventListener('mouseup', save);
     ed.addEventListener('touchend', save);
     ed.addEventListener('input', save);
+    // sur téléphone, déplacer le curseur ou les poignées de sélection ne déclenche ni mouseup ni touchend :
+    // on suit donc directement les changements de sélection (une seule fois pour toute l'appli)
+    if (!window.__bmSelTracked) {
+        window.__bmSelTracked = true;
+        document.addEventListener('selectionchange', () => {
+            const e = $('editor'); if (!e) return;
+            const sel = window.getSelection();
+            if (sel && sel.rangeCount > 0 && e.contains(sel.anchorNode) && e.contains(sel.focusNode)) savedEditorRange = sel.getRangeAt(0).cloneRange();
+        });
+    }
     save();
 }
 function restoreEditorSelection(){
     const ed = $('editor'); if(!ed) return;
     ed.focus();
+    // une sélection mémorisée dans un ancien contenu (l'éditeur a été rechargé) ne sert plus : on la laisse tomber
+    if(savedEditorRange && !(ed.contains(savedEditorRange.startContainer) && ed.contains(savedEditorRange.endContainer))) savedEditorRange = null;
     if(savedEditorRange){
         try{
             const sel = window.getSelection();
@@ -1592,20 +1625,39 @@ function insertGraph() {
 }
 
 // Recharge l'éditeur avec le contenu fusionné (modif d'un autre éditeur), en gardant la position du curseur.
+let bmComposing = false, bmReloadPending = false;
+document.addEventListener('compositionstart', e => { if (e.target && e.target.id === 'editor') bmComposing = true; }, true);
+document.addEventListener('compositionend', e => { if (e.target && e.target.id === 'editor') { bmComposing = false; if (bmReloadPending) { bmReloadPending = false; setTimeout(reloadEditorFromDb, 0); } } }, true);
 function reloadEditorFromDb(){
     const ed=$('editor'); if(!ed||!curSubject||!curChapter||!db[curSubject]||!db[curSubject][curChapter]) return;
+    if (bmComposing) { bmReloadPending = true; return; }   // le clavier est en train de composer un mot : on attend la fin
     const next=db[curSubject][curChapter].cours||'';
-    if(ed.innerHTML===next) return;
-    let offset=-1; const sel=window.getSelection();
-    if(sel&&sel.rangeCount&&ed.contains(sel.anchorNode)){ const r=document.createRange(); r.selectNodeContents(ed); r.setEnd(sel.anchorNode,sel.anchorOffset); offset=r.toString().length; }
-    const top=ed.scrollTop, oldText=ed.textContent; ed.innerHTML=next; ed.scrollTop=top;
-    // le curseur suit le texte même si l'autre éditeur a écrit avant lui
-    if(offset>=0 && window.BacMasterMerge && BacMasterMerge.mapOffset) offset=BacMasterMerge.mapOffset(oldText, ed.textContent, offset);
-    if(offset>=0){
-        const w=document.createTreeWalker(ed,NodeFilter.SHOW_TEXT); let n,left=offset;
-        while((n=w.nextNode())){ if(left<=n.length){ const r=document.createRange(); r.setStart(n,left); r.collapse(true); sel.removeAllRanges(); sel.addRange(r); break; } left-=n.length; }
+    const tpl=document.createElement('div'); tpl.innerHTML=next;
+    const A=[...ed.childNodes], B=[...tpl.childNodes];
+    const key=n=>n.nodeType===1?n.outerHTML:'#'+n.textContent;
+    let i=0; while(i<A.length&&i<B.length&&key(A[i])===key(B[i])) i++;
+    let ja=A.length, jb=B.length; while(ja>i&&jb>i&&key(A[ja-1])===key(B[jb-1])){ ja--; jb--; }
+    if(i===ja && i===jb){ hasUnsavedEdits=false; return; }          // rien n'a changé
+    // position du curseur / de la sélection (en caractères) avant la mise à jour
+    const sel=window.getSelection(); let anchor=-1, focus=-1;
+    const offOf=(node,o)=>{ const r=document.createRange(); r.selectNodeContents(ed); r.setEnd(node,o); return r.toString().length; };
+    if(sel&&sel.rangeCount&&ed.contains(sel.anchorNode)&&ed.contains(sel.focusNode)){ anchor=offOf(sel.anchorNode,sel.anchorOffset); focus=offOf(sel.focusNode,sel.focusOffset); }
+    const oldText=ed.textContent;
+    // on ne remplace que les blocs qui ont changé : le reste du cours (et le défilement) ne bouge pas
+    const ref=A[ja]||null;
+    const caretHit=anchor>=0 && A.slice(i,ja).some(n=>n.contains(sel.anchorNode)||n.contains(sel.focusNode));   // le curseur était dans un bloc remplacé
+    for(let k=i;k<ja;k++) A[k].remove();
+    for(let k=i;k<jb;k++) ed.insertBefore(B[k],ref);
+    if(caretHit){
+        const map=o=>(window.BacMasterMerge&&BacMasterMerge.mapOffset)?BacMasterMerge.mapOffset(oldText,ed.textContent,o):o;
+        const place=o=>{ const w=document.createTreeWalker(ed,NodeFilter.SHOW_TEXT); let n,left=o,last=null; while((n=w.nextNode())){ last=n; if(left<=n.length) return [n,left]; left-=n.length; } return last?[last,last.length]:[ed,0]; };
+        const pa=place(map(anchor)), pf=place(map(focus));
+        try{ sel.setBaseAndExtent(pa[0],pa[1],pf[0],pf[1]); }catch(e){}
     }
+    // la sélection mémorisée pour la barre d'outils doit suivre le nouveau contenu
+    savedEditorRange=(sel&&sel.rangeCount&&ed.contains(sel.anchorNode))?sel.getRangeAt(0).cloneRange():null;
     hasUnsavedEdits=false;
+    window.dispatchEvent(new Event('bm-editor-reloaded'));
 }
 window.BacMasterReloadEditor=reloadEditorFromDb;
 
@@ -1619,11 +1671,12 @@ let hasUnsavedEdits = false;
 function scheduleAutosaveCours(){
     hasUnsavedEdits = true;
     const b=$('sbtn'); if(b){ b.textContent='✏️ Modification en cours…'; b.classList.remove('saved'); }
-    clearTimeout(autosaveTimer);
-    autosaveTimer = setTimeout(autosaveCoursNow, 1500);
+    // pendant la frappe on enregistre toutes les 0,7 s (et non après 1,5 s de silence) : les autres voient le texte au fil de l'eau
+    if (!autosaveTimer) autosaveTimer = setTimeout(autosaveCoursNow, 700);
 }
 
 function autosaveCoursNow(){
+    clearTimeout(autosaveTimer); autosaveTimer = null;
     const ed=$('editor'); if(!ed || !curSubject || !curChapter) return;
     db[curSubject][curChapter].cours = ed.innerHTML;
     db[curSubject][curChapter].userEdited = true;
@@ -2179,6 +2232,7 @@ function openExercices() {
                 const nD = exos.filter(e=>e.niveau==='Difficile').length;
                 return `<div class="chcard" onclick="openExoChapter('${esc(ch)}')">
                     <div class="chcard-name">${ch}</div>
+                    ${bmLastEditText(curSubject,ch) ? `<div class="chcard-lastedit">${bmLastEditText(curSubject,ch)}</div>` : ''}
                     <div class="chcard-meta">
                         <span>✏️ ${exos.length} exercice${exos.length>1?'s':''}</span>
                         ${nF?`<span>🟢${nF}</span>`:''}

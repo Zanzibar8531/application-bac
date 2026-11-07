@@ -93,6 +93,10 @@
   }
   async function publishPrivateChapter(){if(!state.client||!state.user||state.role!=='admin'||state.applyingRemote)return;const found=findPrivateChapter();if(!found)return;const {error}=await state.client.from('bacmaster_private_content').upsert({user_id:state.user.id,content:{subject:found.subject,chapter:found.chapter,data:found.data},updated_at:new Date().toISOString()});if(error)status('Erreur de synchronisation du chapitre privé : '+error.message,true);}
   function schedulePrivatePublish(){if(state.role!=='admin'||state.applyingRemote)return;clearTimeout(state.privateTimer);state.privateTimer=setTimeout(publishPrivateChapter,1000);}
+  // Qui a modifié le cours en dernier : stocké avec le contenu (champ _meta), sans toucher à la base de données.
+  function metaNow(){return {by:state.user?state.user.id:null,name:state.displayName||(state.user&&state.user.email)||'Quelqu’un',at:new Date().toISOString()};}
+  function withMeta(content,meta){return {...content,_meta:meta};}
+  function stripMeta(c){if(!c||typeof c!=='object')return c||{};const {_meta,...rest}=c;return rest;}
   function serialiseChapter(data){
     return {cours:typeof data.cours==='string'?data.cours:'', userEdited:!!data.userEdited,
       flashcards:(data.flashcards||[]).map(c=>({q:String(c.q??''),a:String(c.a??'')})),
@@ -397,18 +401,20 @@
     if(!row||!row.id||!row.subject||!row.chapter) return false;
     if(isPrivateChapter(row.chapter,{titre:row.chapter})) return false;
     const {subject,chapter}=row;
-    const rowStr=row.deleted?DELETED:stableStringify(row.content||{});
+    const rowStr=row.deleted?DELETED:stableStringify(stripMeta(row.content));
     const known=state.published.get(row.id);
     if(known&&known.remoteStr===rowStr){known.ver=row.updated_at||known.ver;return false;} // écho de notre propre écriture
+    // Écho en retard d'une de NOS anciennes écritures (arrivé après une plus récente) : l'appliquer ferait revenir le texte en arrière
+    if(known&&!row.deleted){const rt=Date.parse(row.updated_at||''),kv=Date.parse(known.ver||'');if(rt&&kv&&rt<kv)return false;}
     const open=editorOpenOn(subject,chapter);
-    let content=row.content||{},didMerge=false;
+    let content=stripMeta(row.content),didMerge=false;
     if(!initial&&CAN_EDIT()&&known){
       if(open) flushEditor();
       const cur=localChapterStr(subject,chapter);
       const dirty=cur!==null&&cur!==known.str;           // j'ai des modifs pas encore envoyées
       if(dirty&&row.deleted){known.remoteStr=DELETED;known.ver=row.updated_at||null;return false;} // supprimé ailleurs mais je l'ai modifié : je le garde
       if(dirty){
-        const r=window.BacMasterMerge.mergeChapter(parseStr(known.remoteStr),serialiseChapter(db[subject][chapter]),row.content||{});
+        const r=window.BacMasterMerge.mergeChapter(parseStr(known.remoteStr),serialiseChapter(db[subject][chapter]),stripMeta(row.content));
         content=r.content;didMerge=true;
         if(r.conflicts) status('Modification simultanée : les deux versions ont été gardées. Vérifie le passage signalé dans le cours.');
         else status('Modifications d’un autre éditeur fusionnées avec les tiennes.');
@@ -416,8 +422,9 @@
     }
     if(row.deleted&&open) return false;                    // on ne supprime pas un cours en cours d'édition
     applyContentToDb(subject,chapter,content,!!row.deleted);
+    if(!row.deleted&&row.content&&row.content._meta&&db?.[subject]?.[chapter]){const m=row.content._meta;db[subject][chapter].lastEdit={by:m.by||null,name:m.name||'',at:m.at||row.updated_at||''};}
     const stillThere=!!db?.[subject]?.[chapter];
-    state.published.set(row.id,{str:(row.deleted&&!stillThere)?DELETED:(didMerge?stableStringify(serialiseChapter(row.content||{})):localChapterStr(subject,chapter)),remoteStr:rowStr,ver:row.updated_at||null,subject,chapter});
+    state.published.set(row.id,{str:(row.deleted&&!stillThere)?DELETED:(didMerge?stableStringify(serialiseChapter(stripMeta(row.content))):localChapterStr(subject,chapter)),remoteStr:rowStr,ver:row.updated_at||null,subject,chapter});
     const k=state.published.get(row.id);
     if(didMerge) setTimeout(publishChapters,120);   // résultat fusionné à renvoyer
     if(open){try{if(typeof window.BacMasterReloadEditor==='function')window.BacMasterReloadEditor();}catch{}}
@@ -433,14 +440,15 @@
       const content=serialiseChapter(d),str=stableStringify(content);
       if(known&&known.remoteStr===str){state.published.set(r.id,{...known,str});return true;}
       let data=[],error=null;
-      if(known?.ver)({data,error}=await state.client.from(T).update({content,deleted:false}).eq('id',r.id).eq('updated_at',known.ver).select('id,updated_at'));
+      const meta=metaNow();
+      if(known?.ver)({data,error}=await state.client.from(T).update({content:withMeta(content,meta),deleted:false}).eq('id',r.id).eq('updated_at',known.ver).select('id,updated_at'));
       if(error){status('Erreur de synchronisation des cours : '+error.message,true);return false;}
-      if(data&&data.length){state.published.set(r.id,{str,remoteStr:str,ver:data[0].updated_at,subject:r.subject,chapter:r.chapter});return true;}
+      if(data&&data.length){state.published.set(r.id,{str,remoteStr:str,ver:data[0].updated_at,subject:r.subject,chapter:r.chapter});d.lastEdit={by:meta.by,name:meta.name,at:meta.at};return true;}
       // Quelqu'un est passé avant nous : on relit sa version et on fusionne.
       const {data:rem,error:e2}=await state.client.from(T).select('id,subject,chapter,content,deleted,updated_at').eq('id',r.id).maybeSingle();
       if(e2){status('Erreur de synchronisation des cours : '+e2.message,true);return false;}
       if(!rem){ // la ligne n'existe plus : on la recrée
-        const {data:ins,error:e3}=await state.client.from(T).upsert([{id:r.id,subject:r.subject,chapter:r.chapter,content,deleted:false}],{onConflict:'id'}).select('id,updated_at');
+        const {data:ins,error:e3}=await state.client.from(T).upsert([{id:r.id,subject:r.subject,chapter:r.chapter,content:withMeta(content,meta),deleted:false}],{onConflict:'id'}).select('id,updated_at');
         if(e3){status('Erreur de synchronisation des cours : '+e3.message,true);return false;}
         state.published.set(r.id,{str,remoteStr:str,ver:verOf(ins,r.id),subject:r.subject,chapter:r.chapter});return true;
       }
@@ -475,7 +483,7 @@
         for(const r of fresh){const n=r.str.length;if(cur.length&&size+n>600000){batches.push(cur);cur=[];size=0;}cur.push(r);size+=n;}
         if(cur.length)batches.push(cur);
         for(const b of batches){
-          const {data,error}=await state.client.from(T).upsert(b.map(({id,subject,chapter,content})=>({id,subject,chapter,content,deleted:false})),{onConflict:'id'}).select('id,updated_at');
+          const {data,error}=await state.client.from(T).upsert(b.map(({id,subject,chapter,content})=>({id,subject,chapter,content:withMeta(content,metaNow()),deleted:false})),{onConflict:'id'}).select('id,updated_at');
           if(error){status('Erreur de synchronisation des cours : '+error.message,true);return;}
           for(const r of b)state.published.set(r.id,{str:r.str,remoteStr:r.str,ver:verOf(data,r.id),subject:r.subject,chapter:r.chapter});
         }
