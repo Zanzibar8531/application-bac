@@ -1011,3 +1011,86 @@ PREBUILT_FIXES.push(...([
   "q": "Lettre XII — comment la lettre est-elle qualifiée ?"
  }
 ]));
+
+// Ajouté le 07/11/2026 à partir des notes de Martin (séance du 06/11/2026)
+PREBUILT["Français"]["Montaigne — « Des coches » (Essais, III, 6)"] = {
+ "cours": "<div class=\"attention-box\">Fiche mise au propre à partir de tes notes du vendredi 6 novembre 2026. <strong>Le fond n'a pas été modifié</strong> : seules l'orthographe et la présentation ont été corrigées. Tes notes couvrent <strong>cette séance</strong>, pas encore toute la séquence : la suite viendra avec les prochains cours. Les passages à confirmer avec ta prof sont signalés par <mark>[à compléter]</mark>.</div>\n\n<h3>📖 L'extrait</h3>\n<ul>\n<li><strong>Texte</strong> : extrait du chapitre 6 du livre III des <em>Essais</em>, intitulé « <strong>Des coches</strong> ».</li>\n<li><strong>Auteur</strong> : Michel de Montaigne (1533-1592). Les <em>Essais</em> ont été écrits entre 1580 et 1592.</li>\n<li><strong>Parcours</strong> : « Un nouvel univers s'est offert à mes yeux ».</li>\n</ul>\n\n<h3>📚 Vocabulaire</h3>\n<ul>\n<li><strong>Arquebuse</strong> : ancienne arme à feu.</li>\n<li><strong>Stupeur</strong> : surprise, peur qui paralyse.</li>\n<li><strong>Légitime</strong> : accordé justement, reconnu.</li>\n</ul>\n\n<h3>🎯 La thèse de Montaigne</h3>\n<div class=\"formula-box\"><strong>Défense des peuples colonisés</strong> : ils n'ont pas été préparés à l'arrivée des Européens. Cette arrivée a été <mark>violente, brutale, troublante</mark>.</div>\n\n<h3>🗣️ L'énonciation</h3>\n<p>Montaigne n'emploie <strong>ni « je » ni « nous »</strong> pour parler des Européens (ces mots sont barrés dans tes notes). Il les désigne par <strong>« ils »</strong>, <strong>« eux »</strong>, <strong>« ceux qui »</strong>, <strong>« des gens »</strong>.</p>\n<p>Effet produit par ce choix : <mark>[à compléter avec ta prof]</mark></p>\n\n<h3>🧩 Les idées de l'extrait</h3>\n<ol>\n<li>Montaigne <strong>dénonce les manipulations</strong> des Européens.</li>\n<li>La <strong>surprise</strong> vient des <strong>différences extérieures et culturelles</strong> :\n<ul>\n<li>les Européens sont <strong>à cheval</strong> ;</li>\n<li>ce sont des hommes <strong>lourdement armés</strong> : armures, canons, fusils ;</li>\n<li>ce n'est pas la même chose pour les peuples colonisés : pour se battre, ils n'ont que des <strong>armes primitives</strong> (arcs, bâtons, lances, pierres).</li>\n</ul></li>\n<li>Les <strong>raisons de la colonisation</strong> : le <strong>commerce</strong>.</li>\n</ol>\n<div class=\"retenir-box\"><strong>À retenir :</strong> Montaigne prend la défense des peuples colonisés. Face à des Européens à cheval et lourdement armés, ils n'avaient que des armes primitives : la victoire n'a donc pas été « loyale ». La colonisation a une raison : le commerce.</div>\n\n<h3>✍️ Partie évaluée : la contraction de texte</h3>\n<p>Voici <strong>ton brouillon, corrigé</strong> (orthographe, accords, ponctuation ; les idées sont les tiennes) :</p>\n<blockquote>Dans cet extrait, Montaigne prend la défense des peuples amérindiens en expliquant que les Européens ne les ont pas battus à la loyale. Il l'explique par la différence de modernité des armées : les Européens étaient les plus développés et ont utilisé des ruses pour écraser encore davantage les Amérindiens.<br>La différence technologique s'explique par le fait que les Européens étaient à cheval, alors que les Amérindiens ne savaient même pas ce qu'était un cheval. Les Européens avaient des armures, des canons, des fusils : ils étaient lourdement armés face à un peuple qui ne connaissait pas ces outils, car il se battait avec des bâtons, des lances, des pierres, des arcs, c'est-à-dire des armes beaucoup moins efficaces et moins mortelles, contre des adversaires qui, en plus, étaient équipés d'armures pour se défendre.<br>C'est en prenant en compte tous ces arguments que Montaigne défend les Amérindiens et considère leur défaite comme totalement logique.</blockquote>\n\n<h3>💡 Pistes pour l'améliorer</h3>\n<p><em>Conseils généraux de méthode, qui ne viennent pas des notes de ta prof : vérifie-les avec ses consignes.</em></p>\n<ul>\n<li>Respecte la <strong>longueur demandée</strong> (nombre de mots) : <mark>[à compléter avec la consigne de ta prof]</mark>.</li>\n<li><strong>Reformule avec tes mots</strong> et garde l'<strong>ordre</strong> des idées du texte, sans recopier ses phrases.</li>\n<li>Rapporte la position de <strong>l'auteur</strong>, pas ton avis : vérifie que « leur défaite totalement logique » est bien ce que pense Montaigne.</li>\n<li>Garde l'essentiel (arguments) et supprime les détails qui n'apportent rien.</li>\n</ul>\n",
+ "exercices": [
+  {
+   "niveau": "Facile",
+   "enonce": "<p>Donne la définition de « arquebuse », « stupeur » et « légitime » d'après ton cours.</p>",
+   "aide": "Relis la partie vocabulaire de la fiche.",
+   "correction": "<p><strong>Arquebuse</strong> : ancienne arme à feu. <strong>Stupeur</strong> : surprise, peur qui paralyse. <strong>Légitime</strong> : accordé justement, reconnu.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p>Explique pourquoi, selon l'extrait, la rencontre entre les Européens et les peuples colonisés est inégale. Appuie-toi sur trois éléments des notes.</p>",
+   "aide": "Pense à ce que les Européens ont (cheval, armes) et à ce dont les peuples colonisés disposent pour se battre.",
+   "correction": "<p>La rencontre est inégale parce que les Européens sont <strong>à cheval</strong>, qu'ils sont <strong>lourdement armés</strong> (armures, canons, fusils) alors que les peuples colonisés n'ont que des <strong>armes primitives</strong> (arcs, bâtons, lances, pierres). L'arrivée des Européens est donc brutale et les prend par surprise. (D'après tes notes.)</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p>Résume en trois phrases la thèse de Montaigne, en parlant des Européens avec « ils » ou « eux » (comme lui) et sans employer « nous ».</p>",
+   "aide": "Thèse : défense des peuples colonisés. Arguments : surprise, inégalité des armes. Raison de la colonisation : le commerce.",
+   "correction": "<p>Montaigne défend les peuples colonisés, qui n'étaient pas préparés à l'arrivée brutale des Européens. Ceux-ci, à cheval et lourdement armés, affrontaient des hommes qui n'avaient que des armes primitives. Il rappelle aussi que la raison de cette colonisation est le commerce.</p>"
+  }
+ ],
+ "flashcards": [
+  {
+   "q": "De quel texte s'agit-il ?",
+   "a": "Un extrait du chapitre 6 du livre III des Essais, « Des coches », de Michel de Montaigne."
+  },
+  {
+   "q": "Quelles sont les dates de Montaigne et des Essais ?",
+   "a": "Montaigne : 1533-1592. Essais : écrits entre 1580 et 1592."
+  },
+  {
+   "q": "Quel est le parcours associé à ce texte ?",
+   "a": "« Un nouvel univers s'est offert à mes yeux »."
+  },
+  {
+   "q": "Qu'est-ce qu'une arquebuse ?",
+   "a": "Une ancienne arme à feu."
+  },
+  {
+   "q": "Que veut dire « stupeur » ?",
+   "a": "Une surprise, une peur qui paralyse."
+  },
+  {
+   "q": "Que veut dire « légitime » ?",
+   "a": "Accordé justement, reconnu."
+  },
+  {
+   "q": "Quelle est la thèse de Montaigne dans cet extrait ?",
+   "a": "La défense des peuples colonisés : ils n'ont pas été préparés à l'arrivée des Européens."
+  },
+  {
+   "q": "Comment l'arrivée des Européens est-elle présentée ?",
+   "a": "Comme violente, brutale et troublante."
+  },
+  {
+   "q": "Comment Montaigne désigne-t-il les Européens (énonciation) ?",
+   "a": "Sans « je » ni « nous » : par « ils », « eux », « ceux qui », « des gens »."
+  },
+  {
+   "q": "Pourquoi les peuples colonisés sont-ils surpris ?",
+   "a": "À cause des différences extérieures et culturelles avec les Européens."
+  },
+  {
+   "q": "Quels avantages ont les Européens dans le combat ?",
+   "a": "Ils sont à cheval et lourdement armés : armures, canons, fusils."
+  },
+  {
+   "q": "De quelles armes disposent les peuples colonisés ?",
+   "a": "D'armes primitives : arcs, bâtons, lances, pierres."
+  },
+  {
+   "q": "Quelle est la raison de la colonisation évoquée ?",
+   "a": "Le commerce."
+  },
+  {
+   "q": "Quelle est la partie évaluée liée à ce texte ?",
+   "a": "La contraction de texte."
+  }
+ ]
+};

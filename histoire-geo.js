@@ -618,3 +618,64 @@ PREBUILT_FIXES.push(...[
   "a": "Acronyme regroupant de grands pays émergents (à l'origine : Brésil, Russie, Inde, Chine, Afrique du Sud), à forte croissance économique et intégration croissante aux échanges mondiaux. Le groupe s'est élargi à de nouveaux membres depuis 2024."
  }
 ]);
+
+// Ajouté le 07/11/2026 à partir des notes de Martin (séance du 06/11/2026)
+PREBUILT["Histoire-Géo"]["Chapitre 2 — Transformations politiques et sociales en France (1848-1870)"] = {
+ "cours": "<div class=\"attention-box\">Fiche mise au propre à partir de tes notes du vendredi 6 novembre 2026. <strong>Le fond n'a pas été modifié</strong> : seules l'orthographe et la présentation ont été corrigées. Tes notes ne couvrent que le <strong>début du chapitre</strong> (titre, plan, première question) : le reste viendra avec les prochains cours. Les passages marqués <mark>Complément</mark> <strong>ne viennent pas de ta prof</strong> : ce sont des repères de manuel pour répondre à la question. Compare-les avec ce qu'elle dira en classe.</div>\n\n<h3>📘 Chapitre 2 : Les transformations politiques et sociales en France de 1848 à 1870</h3>\n\n<h3>🕰️ Frise de 1848 à 1870</h3>\n<p>Ta prof a fait une frise en classe : tu dois <strong>reprendre la même</strong>. <mark>[à recopier ici : la frise faite en cours]</mark></p>\n<p>En attendant, voici des repères <mark>Complément</mark> :</p>\n<ul>\n<li><strong>24 février 1848</strong> : chute de Louis-Philippe, proclamation de la IIe République.</li>\n<li><strong>27 avril 1848</strong> : abolition de l'esclavage dans les colonies françaises.</li>\n<li><strong>23-26 juin 1848</strong> : journées de Juin (insurrection ouvrière écrasée).</li>\n<li><strong>10 décembre 1848</strong> : Louis-Napoléon Bonaparte est élu président de la République.</li>\n<li><strong>2 décembre 1851</strong> : coup d'État de Louis-Napoléon Bonaparte.</li>\n<li><strong>2 décembre 1852</strong> : proclamation du Second Empire (Napoléon III).</li>\n<li><strong>Années 1860</strong> : l'Empire se libéralise peu à peu.</li>\n<li><strong>2 septembre 1870</strong> : défaite de Sedan, Napoléon III est fait prisonnier. <strong>4 septembre 1870</strong> : proclamation de la IIIe République.</li>\n</ul>\n\n<h3><u><font color=\"#dc2626\">1 / L'échec de l'expérience démocratique</font></u></h3>\n<h3><u><font color=\"#16a34a\">1. La IIe République (1848-1851)</font></u></h3>\n<div class=\"formula-box\"><font color=\"#16a34a\"><strong>Question du cours :</strong> comment la IIe République est-elle née et quelle est son œuvre ?</font></div>\n<p>Réponse de ta prof : <mark>[à compléter avec le cours]</mark></p>\n\n<h3>🏛️ Comment la IIe République est-elle née ? <mark>Complément</mark></h3>\n<ul>\n<li>Depuis 1830, la France est une monarchie, la <strong>monarchie de Juillet</strong> (roi Louis-Philippe), où seuls les plus riches votent (environ 250 000 électeurs).</li>\n<li>En 1846-1847, la crise économique et le mécontentement grandissent. L'opposition organise des <strong>banquets</strong> pour réclamer une réforme électorale.</li>\n<li>Le banquet prévu le 22 février 1848 à Paris est interdit : émeutes et barricades. Le <strong>24 février 1848</strong>, Louis-Philippe abdique et la <strong>République est proclamée</strong> (gouvernement provisoire).</li>\n</ul>\n\n<h3>⚙️ Quelle est son œuvre ? <mark>Complément</mark></h3>\n<ul>\n<li><strong>Suffrage universel masculin</strong> (mars 1848) : on passe d'environ 250 000 à environ 9 millions d'électeurs. Les femmes ne votent pas encore.</li>\n<li><strong>Abolition de l'esclavage</strong> dans les colonies françaises (27 avril 1848, avec Victor Schœlcher).</li>\n<li>Abolition de la peine de mort en matière politique ; libertés de la presse et de réunion.</li>\n<li>Mesures sociales : <strong>ateliers nationaux</strong> (droit au travail) et limitation de la journée de travail (10 h à Paris, 11 h en province, remplacées par 12 h en septembre 1848).</li>\n</ul>\n\n<h3>⚠️ Pourquoi parler d'« échec » ? <mark>Complément</mark></h3>\n<ul>\n<li><strong>Juin 1848</strong> : fermeture des ateliers nationaux, puis insurrection ouvrière (23-26 juin), écrasée par l'armée du général Cavaignac.</li>\n<li><strong>10 décembre 1848</strong> : Louis-Napoléon Bonaparte, neveu de Napoléon Ier, est élu président de la République.</li>\n<li><strong>31 mai 1850</strong> : une loi restreint le suffrage universel (environ 3 millions d'électeurs exclus).</li>\n<li><strong>2 décembre 1851</strong> : coup d'État de Louis-Napoléon Bonaparte. La République prend fin ; il devient empereur sous le nom de <strong>Napoléon III</strong> (Second Empire, 1852).</li>\n</ul>\n<div class=\"retenir-box\"><strong>À retenir (complément) :</strong> la IIe République (1848-1851) naît de la révolution de février 1848 et instaure le suffrage universel masculin et l'abolition de l'esclavage. Mais elle se termine par le coup d'État de Louis-Napoléon Bonaparte : c'est « l'échec de l'expérience démocratique ».</div>\n",
+ "exercices": [
+  {
+   "niveau": "Facile",
+   "enonce": "<p>Associe chaque date à l'événement : 24 février 1848 ; 27 avril 1848 ; 10 décembre 1848 ; 2 décembre 1851.</p>",
+   "aide": "Naissance de la République, abolition de l'esclavage, élection présidentielle, coup d'État.",
+   "correction": "<p><strong>24 février 1848</strong> : chute de Louis-Philippe et proclamation de la IIe République. <strong>27 avril 1848</strong> : abolition de l'esclavage dans les colonies françaises. <strong>10 décembre 1848</strong> : élection de Louis-Napoléon Bonaparte à la présidence. <strong>2 décembre 1851</strong> : son coup d'État. (Repères de manuel, à comparer avec le cours.)</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p>Explique en quelques lignes en quoi la IIe République est une expérience démocratique, puis pourquoi on parle d'échec.</p>",
+   "aide": "Pense au droit de vote, aux libertés, puis à ce qui se passe en juin 1848, en 1850 et en 1851.",
+   "correction": "<p><strong>Expérience démocratique</strong> : suffrage universel masculin (environ 9 millions d'électeurs), abolition de l'esclavage, libertés de presse et de réunion. <strong>Échec</strong> : insurrection de juin 1848 écrasée, loi de 1850 qui restreint le suffrage, puis coup d'État du 2 décembre 1851 qui met fin à la République et prépare le Second Empire. (Repères de manuel, à comparer avec le cours.)</p>"
+  }
+ ],
+ "flashcards": [
+  {
+   "q": "Quand et comment naît la IIe République ?",
+   "a": "Le 24 février 1848 : après des émeutes à Paris, le roi Louis-Philippe abdique et la République est proclamée."
+  },
+  {
+   "q": "Qu'est-ce que le suffrage universel masculin instauré en 1848 ?",
+   "a": "Le droit de vote pour tous les hommes : on passe d'environ 250 000 à environ 9 millions d'électeurs."
+  },
+  {
+   "q": "Quand l'esclavage est-il aboli dans les colonies françaises ?",
+   "a": "Le 27 avril 1848, sous la IIe République (Victor Schœlcher)."
+  },
+  {
+   "q": "Que sont les ateliers nationaux ?",
+   "a": "Des chantiers publics créés en 1848 pour donner du travail aux chômeurs (droit au travail) ; leur fermeture provoque l'insurrection de juin 1848."
+  },
+  {
+   "q": "Que se passe-t-il en juin 1848 ?",
+   "a": "Une insurrection ouvrière (23-26 juin), écrasée par l'armée du général Cavaignac."
+  },
+  {
+   "q": "Qui est élu président de la République le 10 décembre 1848 ?",
+   "a": "Louis-Napoléon Bonaparte, neveu de Napoléon Ier."
+  },
+  {
+   "q": "Quand a lieu le coup d'État de Louis-Napoléon Bonaparte ?",
+   "a": "Le 2 décembre 1851."
+  },
+  {
+   "q": "Quand le Second Empire est-il proclamé ?",
+   "a": "Le 2 décembre 1852 : Louis-Napoléon Bonaparte devient l'empereur Napoléon III."
+  },
+  {
+   "q": "Comment s'achève le Second Empire ?",
+   "a": "Défaite de Sedan le 2 septembre 1870, puis proclamation de la IIIe République le 4 septembre 1870."
+  },
+  {
+   "q": "Question posée au début du chapitre 2 (partie 1.1) ?",
+   "a": "Comment la IIe République est-elle née et quelle est son œuvre ?"
+  }
+ ]
+};
