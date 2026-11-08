@@ -5,7 +5,7 @@
    ============================================================ */
 
 const CACHE_NAME   = 'bacmaster-pwa-v48-v1';
-const CACHE_STATIC = 'bacmaster-static-pwa-v58-cours-0611';
+const CACHE_STATIC = 'bacmaster-static-pwa-v59-pro-notifs-icones';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
@@ -19,10 +19,13 @@ const STATIC_ASSETS = [
   './supabase-app.js',
   './bm-merge.js',
   './bm-collab.js',
+  './bm-icons.js',
+  './bm-bubble.js',
   './bm-admin.js',
   './bm-mascot.js',
   './bm-goal.js',
   './bm-export.js',
+  './bm-download.js',
   './bm-stats.js',
   './bm-editor.js',
   './bm-agenda.js',
@@ -122,7 +125,7 @@ self.addEventListener('fetch', event => {
 
 // ── HELPERS : Détection du type de requête ───────────────────
 function isStaticAsset(url) {
-  const localFiles = ['/index.html', '/style.css', '/script.js', '/supabase-app.js', '/bm-merge.js', '/bm-collab.js', '/bm-admin.js', '/bm-goal.js', '/bm-mascot.js', '/bm-export.js', '/bm-stats.js', '/bm-editor.js', '/bm-agenda.js', '/supabase-config.js', '/navigation.js', '/manifest.json', '/'];
+  const localFiles = ['/index.html', '/style.css', '/script.js', '/supabase-app.js', '/bm-merge.js', '/bm-collab.js', '/bm-icons.js', '/bm-download.js', '/bm-bubble.js', '/bm-admin.js', '/bm-goal.js', '/bm-mascot.js', '/bm-export.js', '/bm-stats.js', '/bm-editor.js', '/bm-agenda.js', '/supabase-config.js', '/navigation.js', '/manifest.json', '/'];
   return url.origin === self.location.origin &&
     (localFiles.some(f => url.pathname.endsWith(f)) ||
      url.pathname.startsWith('/icons/') ||
@@ -200,23 +203,36 @@ self.addEventListener('message', event => {
 });
 
 
+// Dessin de l'image des notifications (la mascotte dit le message dans une bulle)
+try { importScripts('./bm-bubble.js'); } catch (e) { /* sans lui, on garde la bannière classique */ }
+
 // ── NOTIFICATIONS (rappels d'objectif quotidien) ───────────────
 // « push » : message envoyé par le serveur même application fermée.
 self.addEventListener('push', event => {
   let data = {};
   try { data = event.data ? event.data.json() : {}; } catch (e) { data = { body: event.data ? event.data.text() : '' }; }
   const mood = ['push', 'worry', 'party'].includes(data.mood) ? data.mood : 'push';
-  event.waitUntil(self.registration.showNotification(data.title || 'BacMaster 📚', {
-    body: data.body || 'Ton objectif du jour t’attend.',
-    icon: './mascot-' + mood + '.png',        // la mascotte, en grand à droite
-    image: './banner-' + mood + '.png',       // grande image colorée sous le texte
-    badge: './badge.png',                     // petit « B » blanc dans la barre d'état (doit être monochrome)
-    tag: data.tag || 'bm-goal',
-    renotify: true,
-    vibrate: [80, 40, 80],
-    data: { url: data.url || './?revise=1' },
-    actions: [{ action: 'revise', title: '📚 Réviser' }, { action: 'later', title: 'Plus tard' }]
-  }));
+  const title = data.title || 'BacMaster 📚', body = data.body || 'Ton objectif du jour t’attend.';
+  event.waitUntil((async () => {
+    // image : la mascotte « dit » le message dans une bulle (repli : bannière classique si le dessin échoue ou traîne)
+    let image = './banner-' + mood + '.png';
+    try {
+      if (self.BMBubble) image = await Promise.race([self.BMBubble.make(mood, title, body), new Promise((_, no) => setTimeout(() => no(new Error('délai')), 2500))]);
+    } catch (e) { /* bannière classique */ }
+    await self.registration.showNotification(title, {
+      body: body,
+      icon: './mascot-' + mood + '.png',        // la mascotte, en petit
+      image: image,                             // grande image sous le texte : la bulle de la mascotte
+      badge: './badge.png',                     // petit « B » blanc dans la barre d'état (doit être monochrome)
+      tag: data.tag || 'bm-goal',
+      renotify: true,
+      silent: false,                            // son + vibration : Android s'en sert pour afficher la notification en haut de l'écran
+      vibrate: [200, 100, 200, 100, 400],
+      timestamp: Date.now(),
+      data: { url: data.url || './?revise=1' },
+      actions: [{ action: 'revise', title: '📚 Réviser' }, { action: 'later', title: 'Plus tard' }]
+    });
+  })());
 });
 
 // Clic : on ramène l'appli au premier plan (ou on l'ouvre) et on lance la révision.

@@ -125,7 +125,7 @@ ${x.extra ? EXTRA[x.extra](v) : ''}
       b.addEventListener('click', hide); document.body.appendChild(b);
     }
     const msg = String(text || line(state)).replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]));
-    b.innerHTML = `<div class="bm-mb-img">${svg(state, Math.floor(Math.random() * 3), 56, 'bm-husky')}</div><div class="bm-mb-txt">${msg}</div>`;
+    b.innerHTML = `<div class="bm-mb-img">${svg(state, Math.floor(Math.random() * 3), 56, 'bm-husky')}</div><div class="bm-mb-txt"><b class="bm-mb-name">${(window.BMBubble && BMBubble.name) || ''}</b>${msg}</div>`;
     requestAnimationFrame(() => b.classList.add('show'));
     clearTimeout(hideTimer); hideTimer = setTimeout(hide, opts.ms || 6500);
     return true;

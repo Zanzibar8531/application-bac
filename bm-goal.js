@@ -44,6 +44,8 @@
     // anciens jours sans mesure de temps : on garde la règle d'avant (une activité suffit)
     return !getTimeLog()[day] && getActivityDates().includes(day);
   }
+  // Vraies icônes (bm-icons.js) ; repli sur les emojis si le fichier n'est pas chargé
+  const IC = (n, s, c) => (window.BMIcons && BMIcons[n]) ? BMIcons[n](s, c) : ({ flame: '🔥', ice: '❄️', jump: '⏳' }[n] || '');
   // ───────────── Gels de série ❄️ ─────────────
   // 1 gel gagné tous les 5 jours d'objectif validés, 2 gels en réserve au maximum.
   // Réserve pleine : le compteur est en pause ; il repart de zéro dès qu'un gel est utilisé.
@@ -70,7 +72,7 @@
     return out;
   }
   function freezeNote(fz) {
-    return `❄️ ${fz.stock}/${FREEZE_MAX} gel${fz.stock > 1 ? 's' : ''} de série · ${fz.stock >= FREEZE_MAX ? 'réserve pleine (compteur en pause)' : `prochain après ${fz.next} jour${fz.next > 1 ? 's' : ''} validé${fz.next > 1 ? 's' : ''}`}`;
+    return `${IC('ice', 15)} ${fz.stock}/${FREEZE_MAX} gel${fz.stock > 1 ? 's' : ''} de série · ${fz.stock >= FREEZE_MAX ? 'réserve pleine (compteur en pause)' : `prochain après ${fz.next} jour${fz.next > 1 ? 's' : ''} validé${fz.next > 1 ? 's' : ''}`}`;
   }
   function checkFreezeEvents() {
     const f = freezeSim(); if (!f.on) return;
@@ -141,14 +143,14 @@
       const label = date.toLocaleDateString('fr-FR', { weekday: 'short' }).replace('.', '').slice(0, 2);
       return { key, label, active, jump, frozen, partial, dateLabel: date.toLocaleDateString('fr-FR', { day: 'numeric' }) };
     });
-    return `<div class="bh-week" role="list" aria-label="Les 7 jours de la semaine">${days.map(d => `<button class="bh-day ${d.active ? 'met' : d.jump ? 'jump' : d.frozen ? 'frozen' : d.partial ? 'part' : ''} ${d.key === today ? 'now' : ''} ${d.key > today ? 'future' : ''}" role="listitem" onclick="BacMasterGoal.openCalendar('${d.key}')" title="${new Date(d.key + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}${d.active ? ' — objectif atteint' : ''}" aria-label="${d.label} ${d.dateLabel} ${d.active ? 'objectif atteint' : d.frozen ? 'sauvé par un gel de série' : d.partial ? 'révision partielle' : d.key > today ? 'à venir' : 'aucune révision'}"><span>${d.active ? '✓' : d.jump ? '⏳' : d.frozen ? '❄️' : d.label}</span></button>`).join('')}</div>`;
+    return `<div class="bh-week" role="list" aria-label="Les 7 jours de la semaine">${days.map(d => `<button class="bh-day ${d.active ? 'met' : d.jump ? 'jump' : d.frozen ? 'frozen' : d.partial ? 'part' : ''} ${d.key === today ? 'now' : ''} ${d.key > today ? 'future' : ''}" role="listitem" onclick="BacMasterGoal.openCalendar('${d.key}')" title="${new Date(d.key + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}${d.active ? ' — objectif atteint' : ''}" aria-label="${d.label} ${d.dateLabel} ${d.active ? 'objectif atteint' : d.frozen ? 'sauvé par un gel de série' : d.partial ? 'révision partielle' : d.key > today ? 'à venir' : 'aucune révision'}"><span>${d.active ? '✓' : d.jump ? IC('jump', 17) : d.frozen ? IC('ice', 17) : d.label}</span></button>`).join('')}</div>`;
   }
   function cardInner() {
     const s = status(), st = s.streak;
     let gs = { mastered: 0, total: 0, due: 0 }; try { gs = globalStats(); } catch (e) { /* ignore */ }
     const msg = s.done ? `Objectif atteint, bravo ! Tu peux continuer pour prendre de l’avance.`
-      : s.covered ? `⏳ Saut Temporel actif : ta série est protégée aujourd’hui. Repose-toi !`
-      : s.sec === 0 ? `${s.goalMin} min aujourd’hui pour ${st > 0 ? 'garder ta série' : 'lancer ta série'}.${st > 0 && s.freezes ? ' ❄️ Un gel te protège si tu rates un jour.' : ''}`
+      : s.covered ? `${IC('jump', 17)} Saut Temporel actif : ta série est protégée aujourd’hui. Repose-toi !`
+      : s.sec === 0 ? `${s.goalMin} min aujourd’hui pour ${st > 0 ? 'garder ta série' : 'lancer ta série'}.${st > 0 && s.freezes ? ` ${IC('ice', 15)} Un gel te protège si tu rates un jour.` : ''}`
       : `Plus que <strong>${s.remainMin} min</strong> pour valider ta journée.`;
     const reviewLabel = s.due > 0 ? `🌅 Réviser · ${s.due} carte${s.due > 1 ? 's' : ''}` : '📚 Réviser maintenant';
     const mpct = gs.total ? Math.round(gs.mastered / gs.total * 100) : 0;
@@ -156,7 +158,7 @@
     return `${window.BacMasterMascot ? BacMasterMascot.cardHTML(mood) : ''}<div class="bh-top">
         <div class="bg-ring">${ring(s.pct, `Objectif du jour : ${s.doneMin} minutes sur ${s.goalMin}`, s.done)}<div class="bg-ringtxt"><b>${s.doneMin}</b><span>/ ${s.goalMin} min</span></div></div>
         <div class="bg-body">
-          <div class="bg-title">${st > 0 ? '🔥' : '🎯'} ${st > 0 ? `Série de ${st} jour${st > 1 ? 's' : ''}` : 'Objectif du jour'}${s.done ? ' <span class="bg-ok">✓ validé</span>' : s.atRisk ? ' <span class="bg-risk">à sauver</span>' : ''}${s.freezes ? ` <span class="bg-frz" title="Gel de série : sauve automatiquement un jour manqué">❄️ ${s.freezes}/${FREEZE_MAX}</span>` : ''}</div>
+          <div class="bg-title">${st > 0 ? IC('flame', 24) : '🎯'} ${st > 0 ? `Série de ${st} jour${st > 1 ? 's' : ''}` : 'Objectif du jour'}${s.done ? ' <span class="bg-ok">✓ validé</span>' : s.atRisk ? ' <span class="bg-risk">à sauver</span>' : ''}${s.freezes ? ` <span class="bg-frz" title="Gel de série : sauve automatiquement un jour manqué">${IC('ice', 15)} ${s.freezes}/${FREEZE_MAX}</span>` : ''}</div>
           <div class="bg-sub">${msg}</div>
           ${weekHTML()}
         </div>
@@ -223,7 +225,9 @@
   }
   async function notify(msg) {
     const mood = ['push', 'worry', 'party'].includes(msg.mood) ? msg.mood : 'push';
-    const opts = { body: msg.body, icon: './mascot-' + mood + '.png', image: './banner-' + mood + '.png', badge: './badge.png', tag: msg.tag || 'bm-goal', renotify: true, data: { url: './?revise=1' }, vibrate: [80, 40, 80], actions: [{ action: 'revise', title: '📚 Réviser' }, { action: 'later', title: 'Plus tard' }] };
+    let image = './banner-' + mood + '.png';
+    try { if (window.BMBubble) image = await BMBubble.make(mood, msg.title, msg.body); } catch (e) { /* bannière classique */ }
+    const opts = { body: msg.body, icon: './mascot-' + mood + '.png', image: image, badge: './badge.png', tag: msg.tag || 'bm-goal', renotify: true, silent: false, timestamp: Date.now(), data: { url: './?revise=1' }, vibrate: [200, 100, 200, 100, 400], actions: [{ action: 'revise', title: '📚 Réviser' }, { action: 'later', title: 'Plus tard' }] };
     try {
       const reg = 'serviceWorker' in navigator ? await navigator.serviceWorker.getRegistration() : null;
       if (reg && reg.showNotification) { await reg.showNotification(msg.title, opts); return true; }
@@ -416,7 +420,7 @@
     const i = jumpInfo(g);
     if (i.active) return `<div class="bg-note ok">😴 Saut Temporel actif (${i.active.days * 24} h) : ta série est protégée et les rappels sont coupés.</div>`;
     if (i.req) return `<div class="bg-jgauge">${Array.from({ length: JUMP_DAYS }, (_, k) => `<i class="bg-jdot ${k < i.chain ? 'on' : ''}"></i>`).join('')}<span>${i.chain}/${JUMP_DAYS}</span></div><div class="bg-note">Défi en cours pour le <b>${esc(fmtDay(i.req.from))}</b> : plus que <b>${JUMP_DAYS - i.chain} jour${JUMP_DAYS - i.chain > 1 ? 's' : ''}</b> d’effort.</div>`;
-    if (i.planned) return `<div class="bg-note ok">⏳ Prévu : ${esc(fmtDay(i.planned.from))} (${i.planned.days * 24} h).</div>`;
+    if (i.planned) return `<div class="bg-note ok">${IC('jump', 16)} Prévu : ${esc(fmtDay(i.planned.from))} (${i.planned.days * 24} h).</div>`;
     return `<p class="bg-hint" style="margin-top:0">Ouvre le calendrier, touche un jour à venir et demande un Saut Temporel.</p>`;
   }
 
@@ -427,7 +431,7 @@
     const diff = diffDays(today, day), met = metGoal(day, g), cov = jumpCovered(day, g);
     const req = g.jumps.req && g.jumps.req.from === day;
     let cls = 'cal-d', mark = '';
-    if (met) { cls += ' met'; mark = '🔥'; } else if (cov) { cls += ' jump'; mark = '⏳'; } else if (calFz.frozen.includes(day)) { cls += ' frozen'; mark = '❄️'; } else if (req) { cls += ' reqd'; mark = '⏳'; } else if (diff < 0 && dayTimeTotal(day) > 0) cls += ' part';
+    if (met) { cls += ' met'; mark = IC('flame', 16); } else if (cov) { cls += ' jump'; mark = IC('jump', 16); } else if (calFz.frozen.includes(day)) { cls += ' frozen'; mark = IC('ice', 16); } else if (req) { cls += ' reqd'; mark = IC('jump', 16); } else if (diff < 0 && dayTimeTotal(day) > 0) cls += ' part';
     if (diff === 0) cls += ' now'; if (diff > 0) cls += ' fut'; if (calSel === day) cls += ' sel';
     return `<button class="${cls}" data-cal="${day}" aria-label="${esc(fmtDay(day))}"><span class="cal-n">${+day.slice(8)}</span><span class="cal-m">${mark}</span></button>`;
   }
@@ -441,9 +445,9 @@
     const frz = !metGoal(d, g) && calFz.frozen.includes(d);
     const done = metGoal(d, g);
     const used = isFuture ? (g.jumps.used || []).find(u => { const k = diffDays(u.from, d); return k >= 0 && k < u.days; }) : null;
-    const statusText = used ? `⏳ Saut Temporel prévu (${used.days * 24} h)`
-      : protectedDay ? '⏳ Journée protégée par un Saut Temporel'
-      : frz ? '❄️ Journée sauvée par un gel de série'
+    const statusText = used ? `${IC('jump', 17)} Saut Temporel prévu (${used.days * 24} h)`
+      : protectedDay ? `${IC('jump', 17)} Journée protégée par un Saut Temporel`
+      : frz ? `${IC('ice', 17)} Journée sauvée par un gel de série`
       : done ? '✓ Objectif atteint'
       : isFuture ? 'Journée à venir' : diff === 0 ? 'Journée en cours' : 'Journée terminée';
     const progressText = isFuture ? `Objectif prévu : ${goal} min` : `${mins} min révisées sur ${goal} min`;
@@ -458,7 +462,7 @@
       const c = canRequest(d, g);
       const pendingSame = !c.ok && c.why === 'pending';
       const pendingOther = !c.ok && !!g.jumps.req && !pendingSame;
-      const requestLabel = pendingSame ? '⏳ Demande déjà en cours' : pendingOther ? '⏳ Une autre demande est en cours' : '⏳ Demander un Saut Temporel';
+      const requestLabel = pendingSame ? `${IC('jump', 16)} Demande déjà en cours` : pendingOther ? `${IC('jump', 16)} Une autre demande est en cours` : `${IC('jump', 16)} Demander un Saut Temporel`;
       const pendingMarkup = pendingSame ? (() => { const i = jumpInfo(g), left = JUMP_DAYS - i.chain; return `<div class="bg-jgauge">${Array.from({ length: JUMP_DAYS }, (_, k) => `<i class="bg-jdot ${k < i.chain ? 'on' : ''}"></i>`).join('')}<span>${i.chain}/${JUMP_DAYS}</span></div><div class="bg-note">Plus que <b>${left} jour${left > 1 ? 's' : ''}</b> d’effort pour valider ton Saut Temporel. Chaque jour : <b>${i.target} min</b>.</div><button class="bg-btn danger full" id="cal-cancelreq">Annuler la demande</button>`; })() : '';
       jumpContent = `${pendingMarkup}<div class="bg-lbl">Durée du Saut Temporel</div><div class="bg-chips"><button class="bg-chip wide ${calDays === 1 ? 'on' : ''}" data-cdays="1">24 h</button><button class="bg-chip wide ${calDays === 2 ? 'on' : ''}" data-cdays="2">48 h</button></div><button class="bg-btn pri full" id="cal-request" ${!c.ok ? 'disabled aria-disabled="true"' : ''}>${requestLabel}</button>${!c.ok ? `<div class="bg-note">${esc(c.why === 'pending' ? 'Tu as déjà une demande en cours.' : c.why)}</div>` : `<p class="bg-hint">Pour valider ce saut : ${JUMP_DAYS} jours d’affilée à ton objectif + ${Math.max(5, Math.ceil(goalMinutesFor(today, g) * 0.05))} min (soit ${effortTarget(today, g)} min aujourd’hui).</p>`}`;
     }
@@ -479,7 +483,7 @@
       detailPanel: `<section class="cal-day-panel">
         <div class="cal-day-head"><div><span class="cal-day-kicker">JOURNÉE SÉLECTIONNÉE</span><b>${title}</b></div><span class="cal-day-status ${done ? 'done' : used || protectedDay || frz ? 'protected' : ''}">${statusText}</span></div>
         <div class="cal-day-progress"><span>🎯 ${progressText}</span>${!isFuture ? `<span class="cal-day-progressbar"><i style="width:${Math.min(100, Math.round(mins / Math.max(1, goal) * 100))}%"></i></span>` : ''}</div>
-        <div class="cal-jump-panel"><h3>⏳ Saut Temporel</h3>${jumpContent}</div>
+        <div class="cal-jump-panel"><h3>${IC('jump', 22)} Saut Temporel</h3>${jumpContent}</div>
       </section>`
     };
   }
@@ -494,13 +498,13 @@
     const monthShift = (calMonth > addDays(today, -400).slice(0, 7)), ji = jumpInfo(g);
     const dayPanels = calDetail(g, today);
     m.querySelector('.bg-sheet-body').innerHTML = `
-      <div class="cal-hero"><div class="cal-flame">🔥</div><div><b>${st.streak} jour${st.streak > 1 ? 's' : ''} de série</b><small>${st.done ? 'Objectif du jour atteint ✅' : `Aujourd’hui : ${st.doneMin}/${st.goalMin} min`}</small>${st.fz.on ? `<small class="cal-frz">${freezeNote(st.fz)}</small>` : ''}</div></div>
+      <div class="cal-hero"><div class="cal-flame">${IC('flame', 46)}</div><div><b>${st.streak} jour${st.streak > 1 ? 's' : ''} de série</b><small>${st.done ? 'Objectif du jour atteint ✅' : `Aujourd’hui : ${st.doneMin}/${st.goalMin} min`}</small>${st.fz.on ? `<small class="cal-frz">${freezeNote(st.fz)}</small>` : ''}</div></div>
       ${ji.req ? `<div class="cal-hero2">${jumpSummary(g)}</div>` : ''}
       <div class="cal-main-layout">
         <section class="cal-calendar-column">
           <div class="cal-nav"><button class="bg-x" id="cal-prev" aria-label="Mois précédent" ${monthShift ? '' : 'disabled'}>‹</button><b>${MONTHS[mo - 1]} ${y}</b><button class="bg-x" id="cal-next" aria-label="Mois suivant" ${calMonth < addDays(today, 60).slice(0, 7) ? '' : 'disabled'}>›</button></div>
           <div class="cal-grid"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>${cells}</div>
-          <div class="cal-legend"><span>🔥 objectif atteint</span><span>⏳ Saut Temporel</span><span>❄️ gel de série</span></div>
+          <div class="cal-legend"><span>${IC('flame', 15)} objectif atteint</span><span>${IC('jump', 15)} Saut Temporel</span><span>${IC('ice', 15)} gel de série</span></div>
         </section>
         ${dayPanels.evalPanel}
       </div>
@@ -587,12 +591,21 @@
           <label class="bg-custom">Autre durée en semaine <input type="number" min="5" max="300" step="5" value="${g.minutes}" id="bg-custom"> min</label>
           <p class="bg-hint">Ta journée est validée (et ta série continue) quand tu atteins l’objectif du jour.</p>
         </section>
-        <section class="bg-sec" id="bg-sec-jump"><h3>⏳ Saut Temporel</h3>${jumpSummary(g)}<button class="bg-btn pri full" id="bg-opencal">📅 Ouvrir mon calendrier</button></section>
+        <section class="bg-sec" id="bg-sec-jump"><h3>${IC('jump', 22)} Saut Temporel</h3>${jumpSummary(g)}<button class="bg-btn pri full" id="bg-opencal">📅 Ouvrir mon calendrier</button></section>
         <section class="bg-sec" id="bg-sec-notif">
           <h3>🔔 Notifications</h3>
           ${iosHint}
           <div class="bg-row"><span><b>Autorisation</b><small>Sur cet appareil</small></span><span class="bg-ctl">${permCtl}</span></div>${permHint}
           <div class="bg-row"><span><b>Rappels application fermée</b><small>Envoyés par le serveur</small></span><span class="bg-ctl">${pushCtl}</span></div>${pushHint}
+          <div class="bg-row"><span><b>Affichage en haut de l’écran</b><small>Notification flottante</small></span><span class="bg-ctl"><button class="bg-btn" id="bg-floattest">🔔 Tester</button></span></div>
+          <details class="bg-help"><summary>📱 La notification n’apparaît pas en haut de l’écran ?</summary>
+            <p>C’est Android qui décide, pas l’appli. Pour qu’elle s’affiche en haut avant de se ranger :</p>
+            <ol>
+              <li>Fais un <b>appui long</b> sur une notification BacMaster, puis touche <b>Paramètres</b> (ou : Paramètres du téléphone → Applications → BacMaster → Notifications).</li>
+              <li>Mets l’importance sur <b>« Urgent »</b> / <b>« Afficher en haut de l’écran »</b>. Sur Xiaomi (HyperOS / MIUI) : active <b>« Notifications flottantes »</b>.</li>
+              <li>Vérifie que le mode <b>Ne pas déranger</b> est désactivé, puis touche « Tester » ci-dessus.</li>
+            </ol>
+          </details>
           <div class="bg-row"><span><b>Me rappeler de réviser</b><small>Préférence de rappel</small></span>${sw('bg-remind', g.remind)}</div>
           ${g.remind ? `<div class="bg-slots-head"><span class="bg-hint">${g.slots.length} horaire${g.slots.length > 1 ? 's' : ''} configuré${g.slots.length > 1 ? 's' : ''}</span><button class="bg-add" id="bg-addslot">＋ Ajouter une heure</button></div><div class="bg-slots">${slots}</div>
           <p class="bg-hint">Tant que ton objectif n’est pas atteint, tu reçois un rappel à ces heures.</p>
@@ -617,6 +630,7 @@
     m.querySelectorAll('[data-we]').forEach(b => b.onclick = () => { const g = load(); g.minutesWE = +b.dataset.we; save(g); renderSettings(); });
     const c = $('bg-custom'); if (c) c.onchange = () => { const g = load(); g.minutes = Math.min(300, Math.max(5, +c.value || 20)); save(g); renderSettings(); };
     const oc = $('bg-opencal'); if (oc) oc.onclick = () => openCalendar();
+    const ft = $('bg-floattest'); if (ft) ft.onclick = async () => { if (!granted()) { toast('Autorise d’abord les notifications.', 'warn'); return; } await notify({ title: '🐾 Test de ' + ((window.BMBubble && BMBubble.name) || 'ta mascotte'), body: 'Si tu me vois en haut de l’écran, tout est parfait !', tag: 'bm-test', mood: 'party' }); toast('Notification envoyée : regarde en haut de l’écran.'); };
     const al = $('bg-allow'); if (al) al.onclick = () => Notification.requestPermission().then(renderSettings);
     const on = $('bg-pushon'); if (on) on.onclick = () => pushEnable(on);
     const off = $('bg-pushoff'); if (off) off.onclick = pushDisable;

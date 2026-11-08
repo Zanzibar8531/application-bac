@@ -35,22 +35,37 @@
   .exo{border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:10px 0;break-inside:avoid}.exo .lvl{font-size:12px;color:var(--gold);font-weight:700;text-transform:uppercase}
   .exo .corr{margin-top:8px;padding-top:8px;border-top:1px dashed #cbd5e1;color:#374151}
   footer{margin-top:34px;padding-top:12px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;text-align:center}
+  .toc{margin:8px 0 18px;padding-left:22px}.toc a{color:var(--accent);font-weight:600;text-decoration:none}.chap{margin-top:34px;padding-top:6px;border-top:2px solid var(--line)}.chap+.chap{break-before:page}
   @page{size:A4;margin:14mm 12mm}
   @media print{body{background:#fff}.sheet{max-width:none;padding:0}}
   @media (max-width:640px){.sheet{padding:20px 16px}h1{font-size:23px}}`;
 
-  function buildDoc(subject, chapter, opts) {
+  function bodyOf(subject, chapter, opts) {
     const d = db[subject] && db[subject][chapter]; if (!d) return '';
-    const today = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
     let body = '';
     if (opts.cours) body += `<h2>📖 Cours</h2><div class="cours">${d.cours || '<p><em>Aucun cours pour ce chapitre.</em></p>'}</div>`;
     if (opts.cards && (d.flashcards || []).length) body += `<h2>🎴 Flashcards</h2>${d.flashcards.map(c => `<div class="qa"><div class="q">${E(plain(c.q))}</div><div class="a">${c.a == null ? '' : plain(c.a) ? E(plain(c.a)) : ''}</div></div>`).join('')}`;
     if (opts.exos && (d.exercices || []).length) body += `<h2>🧩 Exercices</h2>${d.exercices.map((x, i) => `<div class="exo"><div class="lvl">Exercice ${i + 1}${x.niveau ? ' · ' + E(x.niveau) : ''}</div><div>${x.enonce || ''}</div>${opts.corr && x.correction ? `<div class="corr"><b>Correction.</b> ${x.correction}</div>` : ''}</div>`).join('')}`;
-    return `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${E(chapter)} — ${E(subject)} · BacMaster</title><style>${CSS}</style>
+    return body;
+  }
+  function wrapDoc(title, bodyHtml) {
+    const today = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+    return `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${E(title)} · BacMaster</title><style>${CSS}</style>
 <script>window.MathJax={tex:{inlineMath:[['$','$'],['\\\\(','\\\\)']],displayMath:[['$$','$$'],['\\\\[','\\\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre']}};<\/script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"><\/script></head><body><div class="sheet">
 <div class="brand"><div class="pill">BM</div><div><b>BacMaster</b><small>Fiche de révision</small></div><div class="date">${today}</div></div>
-<p class="eyebrow">${E(subject)}</p><h1>${E(chapter)}</h1>${body}<footer>Fiche générée avec BacMaster · ${E(subject)} — ${E(chapter)}</footer></div></body></html>`;
+${bodyHtml}</div></body></html>`;
+  }
+  function buildDoc(subject, chapter, opts) {
+    if (!(db[subject] && db[subject][chapter])) return '';
+    return wrapDoc(chapter + ' — ' + subject, `<p class="eyebrow">${E(subject)}</p><h1>${E(chapter)}</h1>${bodyOf(subject, chapter, opts)}<footer>Fiche générée avec BacMaster · ${E(subject)} — ${E(chapter)}</footer>`);
+  }
+  // Plusieurs cours dans un seul document (sommaire + un cours par page)
+  function buildMulti(items, opts) {
+    if (items.length === 1) return buildDoc(items[0][0], items[0][1], opts);
+    const toc = items.map((it, i) => `<li><a href="#c${i}">${E(it[1])}</a> <span style="color:var(--muted)">· ${E(it[0])}</span></li>`).join('');
+    const secs = items.map((it, i) => `<section class="chap" id="c${i}"><p class="eyebrow">${E(it[0])}</p><h1>${E(it[1])}</h1>${bodyOf(it[0], it[1], opts)}</section>`).join('');
+    return wrapDoc('Recueil de ' + items.length + ' cours', `<p class="eyebrow">Recueil</p><h1>${items.length} cours BacMaster</h1><ol class="toc">${toc}</ol>${secs}<footer>Fiches générées avec BacMaster</footer>`);
   }
   function printHtml(html) {
     const f = document.createElement('iframe'); f.setAttribute('aria-hidden', 'true');
@@ -85,5 +100,37 @@
     m.querySelector('#ex-dl').onclick = () => { const o = opts(); if (ok(o)) { download(buildDoc(subject, chapter, o), (subject + ' - ' + chapter).replace(/[\\/:*?"<>|]+/g, ' ').trim() + '.html'); m.remove(); } };
   }
   window.exportFiche = openExport;
-  window.BacMasterExport = { buildDoc, openExport };
+  // ── Archive .zip (écrite à la main : aucune bibliothèque, aucun réseau) ──
+  const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+  function crc32(u8) { let c = 0xFFFFFFFF; for (let i = 0; i < u8.length; i++) c = CRC[(c ^ u8[i]) & 0xFF] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+  async function deflateRaw(u8) {
+    if (typeof CompressionStream === 'undefined') return null;
+    const cs = new CompressionStream('deflate-raw'), w = cs.writable.getWriter(); w.write(u8); w.close();
+    return new Uint8Array(await new Response(cs.readable).arrayBuffer());
+  }
+  const safeName = (n, max) => String(n || 'sans-titre').replace(/[\\/:*?"<>|\u0000-\u001f]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max || 100) || 'sans-titre';
+  // files : [{ name: 'dossier/fichier.ext', data: texte | Uint8Array }]  → Blob .zip (compressé quand le navigateur le permet)
+  async function makeZip(files, onProgress) {
+    const enc = new TextEncoder(), parts = [], central = [], u16 = n => [n & 255, (n >> 8) & 255], u32 = n => [n & 255, (n >>> 8) & 255, (n >>> 16) & 255, (n >>> 24) & 255];
+    const d = new Date(), time = (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1), date = ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate();
+    let offset = 0;
+    for (let i = 0; i < files.length; i++) {
+      const f = files[i], nameB = enc.encode(f.name), raw = typeof f.data === 'string' ? enc.encode(f.data) : f.data, crc = crc32(raw);
+      let payload = raw, method = 0;
+      try { const z = await deflateRaw(raw); if (z && z.length < raw.length) { payload = z; method = 8; } } catch (e) { /* stocké sans compression */ }
+      const head = new Uint8Array([0x50, 0x4b, 0x03, 0x04, ...u16(20), ...u16(0x0800), ...u16(method), ...u16(time), ...u16(date), ...u32(crc), ...u32(payload.length), ...u32(raw.length), ...u16(nameB.length), ...u16(0)]);
+      parts.push(head, nameB, payload);
+      central.push(new Uint8Array([0x50, 0x4b, 0x01, 0x02, ...u16(20), ...u16(20), ...u16(0x0800), ...u16(method), ...u16(time), ...u16(date), ...u32(crc), ...u32(payload.length), ...u32(raw.length), ...u16(nameB.length), ...u16(0), ...u16(0), ...u16(0), ...u16(0), ...u32(0), ...u32(offset)]), nameB);
+      offset += head.length + nameB.length + payload.length;
+      if (onProgress && (i % 8 === 0 || i === files.length - 1)) { onProgress(i + 1, files.length); await new Promise(r => setTimeout(r, 0)); }
+    }
+    let csize = 0; central.forEach(c => { csize += c.length; });
+    const end = new Uint8Array([0x50, 0x4b, 0x05, 0x06, 0, 0, 0, 0, ...u16(files.length), ...u16(files.length), ...u32(csize), ...u32(offset), 0, 0]);
+    return new Blob([...parts, ...central, end], { type: 'application/zip' });
+  }
+  function downloadBlob(blob, name) {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+  }
+  window.BacMasterExport = { buildDoc, buildMulti, printHtml, download, makeZip, downloadBlob, safeName, openExport };
 })();

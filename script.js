@@ -831,7 +831,7 @@ function goHome() {
                 </div>`;
             }).join('')}
         </div>
-        <button class="update-check-btn" style="opacity:.75" onclick="openSync()">💾 Exporter / importer mes données</button>
+        <button class="update-check-btn" style="opacity:.75" onclick="openSync()">📥 Télécharger mes cours</button>
         </div>
     `);
     document.body.classList.add('home-page');
@@ -1111,7 +1111,8 @@ window.bmRoleChanged = function () {
         const st = window.BacMasterSync && BacMasterSync.api && BacMasterSync.api.state;
         document.body.classList.toggle('role-teacher', !!st && st.role === 'teacher');
         if (!bmCanEdit()) { if (curTab === 'edit' || curTab === 'add') curTab = 'cours'; if (curListMode === 'edit' || curListMode === 'add') curListMode = 'cours'; }
-        if (curChapter && document.querySelector('.tab-bar')) renderChapter();
+        if (document.getElementById('dl-root') && window.bmDownloadRefresh) window.bmDownloadRefresh();
+        else if (curChapter && document.querySelector('.tab-bar')) renderChapter();
         else if (curChapter && document.querySelector('.menu-tile-flash')) renderChapterMenu();
         else if (!curChapter && document.querySelector('.chcard')) goModeChapters(curListMode);
     } catch (e) {}
@@ -2478,41 +2479,6 @@ function openExoResults() {
 // Repo : Zanzibar8531/application_bac
 // ══════════════════════════════════════════════════════════════
 
-function openSync() {
-    render(`
-        <div class="breadcrumb">
-            <button class="bc-btn" onclick="goHome()">🏠 Accueil</button>
-            <span class="bc-sep">›</span>
-            <span class="bc-cur">💾 Exporter / importer</span>
-        </div>
-        <div class="ws-box sync-panel">
-            <div class="sync-header">
-                <div class="sync-icon">💾</div>
-                <h2 style="margin:0 0 4px">Sauvegarde sur fichier</h2>
-                <p style="color:var(--muted);font-size:.85rem;margin:0">
-                    Tes cours et ta progression se synchronisent tout seuls avec ton compte. Ici, tu peux en plus en garder une copie dans un fichier.
-                </p>
-            </div>
-
-            <div class="sync-export-box">
-                <label class="sync-label">📤 Exporter</label>
-                <p style="font-size:.78rem;color:var(--muted);margin:2px 0 8px">
-                    Choisis exactement quelles matières/chapitres inclure dans le fichier .json.
-                </p>
-                <button class="bc-btn" style="width:100%;text-align:center" onclick="openExportPicker()">🎯 Choisir & exporter</button>
-            </div>
-
-            <div class="sync-export-box">
-                <label class="sync-label">📥 Importer un fichier .json</label>
-                <p style="font-size:.78rem;color:var(--muted);margin:2px 0 8px">
-                    Remets dans l'app un fichier exporté ou mis au propre. Les fiches déjà connues sont mises à jour.
-                </p>
-                <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="handleImportFile(this)">
-                <button class="bc-btn" style="width:100%;text-align:center" onclick="document.getElementById('import-file-input').click()">📥 Choisir un fichier .json</button>
-            </div>
-        </div>
-    `);
-}
 
 // ── EXPORT SIMPLE (JSON local, sans compte) ─────────────────────
 function exportData(customData) {
@@ -2533,48 +2499,6 @@ function exportData(customData) {
     }
 }
 
-// ── SÉLECTEUR D'EXPORT (choisir précisément quoi télécharger) ──
-function openExportPicker() {
-    let listHtml = '';
-    CFG.forEach(s => {
-        if(!db[s.name]) return;
-        const chapters = Object.keys(db[s.name]);
-        if(!chapters.length) return;
-        listHtml += `
-            <div class="exp-subj">
-                <label class="exp-subj-label">
-                    <input type="checkbox" class="exp-subj-cb" data-subject="${esc(s.name)}" checked onchange="toggleSubjectChapters(this)">
-                    <span>${s.icon} ${esc(s.name)}</span>
-                </label>
-                <div class="exp-chap-list">
-                    ${chapters.map(ch => `
-                        <label class="exp-chap-label">
-                            <input type="checkbox" class="exp-chap-cb" data-subject="${esc(s.name)}" data-chapter="${esc(ch)}" checked>
-                            <span>${esc(ch)}</span>
-                        </label>`).join('')}
-                </div>
-            </div>`;
-    });
-    render(`
-        <div class="breadcrumb">
-            <button class="bc-btn" onclick="openSync()">← Synchronisation</button>
-            <span class="bc-sep">›</span>
-            <span class="bc-cur">🎯 Choisir l'export</span>
-        </div>
-        <div class="ws-box">
-            <h2 style="margin-top:0">Choisir ce que tu exportes</h2>
-            <p style="color:var(--muted);font-size:.85rem;margin-bottom:14px">
-                Décoche ce que tu ne veux pas inclure. Pratique pour ne donner à Claude qu'un ou deux chapitres précis à retravailler.
-            </p>
-            <div style="display:flex;gap:8px;margin-bottom:14px">
-                <button class="bc-btn" onclick="toggleAllExport(true)">✅ Tout cocher</button>
-                <button class="bc-btn" onclick="toggleAllExport(false)">⬜ Tout décocher</button>
-            </div>
-            <div id="export-picker-list">${listHtml || '<p style="color:var(--muted)">Aucun contenu à exporter pour l\'instant.</p>'}</div>
-            <button class="btn-main" style="width:100%;margin-top:16px" onclick="downloadSelectedExport()">📤 Télécharger la sélection (.json)</button>
-        </div>
-    `);
-}
 // ── IMPORT D'UN FICHIER .JSON (remet en place un export nettoyé) ──
 function handleImportFile(input) {
     const file = input.files && input.files[0];
@@ -2669,22 +2593,6 @@ function mergeImportedData(parsed) {
     openSync();
 }
 
-function toggleAllExport(state) {
-    document.querySelectorAll('.exp-subj-cb, .exp-chap-cb').forEach(cb => cb.checked = state);
-}
-function toggleSubjectChapters(cb) {
-    const subject = cb.dataset.subject;
-    document.querySelectorAll('.exp-chap-cb').forEach(c => { if(c.dataset.subject===subject) c.checked = cb.checked; });
-}
-function downloadSelectedExport() {
-    const filtered = {};
-    document.querySelectorAll('.exp-chap-cb:checked').forEach(cb => {
-        const subj = cb.dataset.subject, ch = cb.dataset.chapter;
-        if(!filtered[subj]) filtered[subj] = {};
-        filtered[subj][ch] = db[subj][ch];
-    });
-    exportData(filtered);
-}
 
 // ── TOAST HELPER ─────────────────────────────────────────────
 function showToast(msg, type='info') {
