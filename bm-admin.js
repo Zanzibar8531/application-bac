@@ -180,7 +180,11 @@
           sel.disabled = true;
           const { error } = await sb().from('bacmaster_profiles').update({ role: next }).eq('user_id', p.user_id);
           sel.disabled = false;
-          if (error) { sel.value = prev; return say('Modification refusée : ' + error.message, true); }
+          if (error) {
+            sel.value = prev; const m = String(error.message || '');
+            const hint = next === 'teacher' && /check constraint|invalid input value|enum|violates|not present|rôle|role/i.test(m) ? ' → La base ne connaît pas encore le rôle Professeur : ouvre Supabase › SQL Editor, colle le fichier supabase_role_prof.sql et clique Run.' : '';
+            return say('Modification refusée : ' + m + hint, true);
+          }
           p.role = next; say('Rôle de ' + (p.display_name || p.email) + ' : ' + ROLES[next]);
           if (p.user_id === S().user.id) { S().role = next; if (typeof window.bmRoleChanged === 'function') window.bmRoleChanged(); if (next !== 'admin') $('bm-adm').hidden = true; refreshSidebar(); }
           renderUsers();
@@ -193,7 +197,7 @@
       });
     }
     search.addEventListener('input', draw); draw();
-    body.replaceChildren(stats, search, list, h('p', { class: 'muted', text: 'Lecteur : consulte les cours · Éditeur : modifie les cours · Administrateur : gère aussi les comptes et l’historique. Le changement est appliqué tout de suite.' }));
+    body.replaceChildren(stats, search, list, h('p', { class: 'muted', text: 'Lecteur : consulte les cours · Professeur : modifie et vérifie (ses passages sont signalés) · Éditeur : modifie les cours · Administrateur : gère aussi les comptes et l’historique. Le changement est appliqué tout de suite.' }));
   }
 
   // ── Activité ──

@@ -5,7 +5,7 @@
    ============================================================ */
 
 const CACHE_NAME   = 'bacmaster-pwa-v48-v1';
-const CACHE_STATIC = 'bacmaster-static-pwa-v59-pro-notifs-icones';
+const CACHE_STATIC = 'bacmaster-static-pwa-v60-prof-sql';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
