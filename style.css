@@ -6517,8 +6517,7 @@ body.home-page .sb-nav>.sb-link:first-child{display:none}
 
 /* ===== Retouche visuelle n°3 (11/11/2026) ===== */
 /* 7 jours glissants, aujourd'hui au centre : le passé est estompé, l'avenir est en pointillés, avec le numéro du jour */
-.bh-week .bh-day{width:36px!important;height:48px!important;border-radius:14px!important;flex-direction:column;gap:1px;padding:0;line-height:1.1}
-.bh-day .bh-dn{font-size:.7rem;font-weight:800;opacity:.85}
+.bh-week .bh-day{width:28px!important;height:28px!important;border-radius:50%!important;padding:0;line-height:1}
 .bh-day.future{background:transparent!important;border-style:dashed!important;border-color:rgba(99,102,241,.5)!important;color:var(--text)!important}
 .bh-day.past:not(.met):not(.part):not(.jump):not(.frozen){background:rgba(120,120,140,.16);opacity:.6}
 .bh-day.now{transform:scale(1.1)}
@@ -6529,3 +6528,9 @@ body.home-page .sb-nav>.sb-link:first-child{display:none}
 .bh-kpi.k1 b{color:color-mix(in srgb,#ea580c 85%,var(--text))}
 .bh-kpi.k2 b{color:color-mix(in srgb,#7c3aed 85%,var(--text))}
 .bh-kpi.k3 b{color:color-mix(in srgb,#0284c7 85%,var(--text))}
+
+/* Retouche n°4 : jours bien ronds (juste le numéro) ; compteurs sans liseré, remplacé par un fin contour coloré */
+.bh-kpi:before{display:none!important}
+.bh-kpi.k1{border:1.5px solid color-mix(in srgb,#f97316 45%,transparent)!important}
+.bh-kpi.k2{border:1.5px solid color-mix(in srgb,#8b5cf6 45%,transparent)!important}
+.bh-kpi.k3{border:1.5px solid color-mix(in srgb,#0ea5e9 45%,transparent)!important}

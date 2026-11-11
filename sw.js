@@ -5,7 +5,7 @@
    ============================================================ */
 
 const CACHE_NAME   = 'bacmaster-pwa-v48-v1';
-const CACHE_STATIC = 'bacmaster-static-pwa-v64-week-kpi-spell';
+const CACHE_STATIC = 'bacmaster-static-pwa-v65-round-days';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
