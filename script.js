@@ -1334,10 +1334,20 @@ function renderTabContent() {
 // ── ACTIONS ───────────────────────────────────────────────────
 function addChapter() {
     if (!bmCanEdit()) return bmDenyEdit();
-    let n='Nouveau chapitre', i=1;
-    while(db[curSubject][n]){i++;n='Nouveau chapitre '+i;}
-    db[curSubject][n]={cours:'',flashcards:[]};
-    save(); goChapter(n);
+    // On donne d'abord un nom, puis on arrive directement dans l'éditeur du cours (comme quand on écrit un nouveau cours).
+    customPrompt({
+        icon:'📖', title:'Nouveau chapitre', value:'',
+        placeholder:'Nom du chapitre', confirmLabel:'Créer et écrire',
+        onConfirm:(name)=>{
+            const n = (name||'').trim();
+            if(!n) return;
+            if(db[curSubject][n]){ showToast('Ce nom existe déjà !','warn'); return; }
+            db[curSubject][n] = {cours:'', flashcards:[]};
+            save();
+            curChapter = n; curTab = 'edit'; chapFrom = 'list';
+            renderChapter();
+        }
+    });
 }
 
 function renameChapter(oldName, stayFn) {
@@ -2712,3 +2722,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+
+
+// Windows n'affiche pas les drapeaux emoji (on y voit « ES ») : on remplace 🇪🇸 par un drapeau dessiné en CSS.
+(function bmFlags(){
+    if(!/Windows/i.test(navigator.userAgent)) return;
+    const FLAG='\u{1F1EA}\u{1F1F8}';
+    function fix(root){
+        if(!root || root.nodeType!==1 && root.nodeType!==3) return;
+        const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.nodeValue.includes(FLAG)&&!/^(OPTION|TEXTAREA|SCRIPT|STYLE|TITLE)$/.test(n.parentNode.nodeName)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT});
+        const hits=[]; while(w.nextNode()) hits.push(w.currentNode);
+        hits.forEach(n=>{ const parts=n.nodeValue.split(FLAG), f=document.createDocumentFragment();
+            parts.forEach((p,i)=>{ if(i){ const sp=document.createElement('span'); sp.className='bm-flag-es'; sp.setAttribute('role','img'); sp.setAttribute('aria-label','Espagne'); f.appendChild(sp); } if(p) f.appendChild(document.createTextNode(p)); });
+            n.parentNode.replaceChild(f,n); });
+    }
+    new MutationObserver(m=>m.forEach(r=>r.addedNodes.forEach(fix))).observe(document.body,{childList:true,subtree:true});
+    fix(document.body);
+})();

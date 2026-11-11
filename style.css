@@ -6489,8 +6489,28 @@ body.role-teacher #bm-goal-card { display: none !important; }
   .bh-kpi span:not(.bh-flame){font-size:.68rem!important;line-height:1.2}
   .bh-kpi b{white-space:nowrap}
 }
-/* un seul bouton coloré (l'action principale), les deux autres restent discrets */
-.bg-btn.stats,.bg-btn.eval{background:var(--card)!important;color:var(--text)!important;border:1.5px solid var(--border)!important;box-shadow:none!important}
-.bg-btn.stats:hover,.bg-btn.eval:hover{border-color:var(--accent)!important}
 .bg-btn:focus-visible,.bh-day:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 @media(prefers-reduced-motion:reduce){.bh-flame{transition:none}}
+
+/* ===== Retouche visuelle n°2 (11/11/2026) ===== */
+/* Cartes de chapitre : plus de liseré foncé qui s'arrête net, un vrai dégradé à la place */
+html .chapters-grid .chcard:before{display:none!important}
+html:not([data-theme="dark"]) .chapters-grid .chcard{background:linear-gradient(105deg,color-mix(in srgb,var(--c) 34%,#fff) 0%,color-mix(in srgb,var(--c) 14%,#fff) 55%,#fff 100%)!important}
+html[data-theme="dark"] .chapters-grid .chcard{border-left-width:1px!important}
+/* Choix des chapitres (évaluations, flashcards…) : on utilise toute la largeur, en colonnes */
+.setup-wrap:has(.cb-list){max-width:none}
+.setup-wrap:has(.cb-list) .cb-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px;max-height:min(58vh,560px)}
+.setup-wrap:has(.cb-list) .info-box{max-width:none}
+.setup-wrap:has(.cb-list) .btn-row{flex-wrap:wrap}
+/* Statistiques : les 6 tuiles tiennent sur une seule ligne */
+.bs-tiles{grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:10px!important}
+.bs-tiles>*{min-width:0}
+@media(max-width:760px){.bs-tiles{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+/* Menu : pas de bouton Accueil quand on est déjà sur l'accueil */
+body.home-page .sb-nav>.sb-link:first-child{display:none}
+/* Drapeau d'Espagne dessiné (Windows n'affiche pas les drapeaux emoji : il montre « ES ») */
+.bm-flag-es{display:inline-block;width:1.3em;height:.9em;vertical-align:-.1em;border-radius:3px;background:linear-gradient(#c60b1e 0 25%,#ffc400 25% 75%,#c60b1e 75% 100%);box-shadow:0 0 0 1px rgba(0,0,0,.18)}
+/* Agenda : devoirs cochables */
+.ag2-done{border:1.5px solid var(--border);background:var(--card);border-radius:8px;width:34px;height:34px;font-size:1.05rem;cursor:pointer;color:var(--text)}
+.ag2-done.on{background:#16a34a;border-color:#16a34a;color:#fff}
+.ag2-item.is-done .ag2-info{opacity:.55;text-decoration:line-through}

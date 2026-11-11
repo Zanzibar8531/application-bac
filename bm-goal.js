@@ -473,13 +473,13 @@
       const cfg = typeof CFG !== 'undefined' ? CFG.find(x => x.name === e.subject) : null;
       const color = typeof subjectColor === 'function' ? subjectColor(e.subject) : '#6366f1';
       const kind = evalKinds.find(x => x[0] === e.kind) || evalKinds[0];
-      return `<div class="ag2-item" style="--c:${color}"><div class="ag2-ico">${cfg ? cfg.icon : '📚'}</div><div class="ag2-info"><b>${esc(e.subject)}</b><span>${kind[1]}${e.note ? ' · ' + esc(e.note) : ''}</span></div><button class="ag2-del" data-cal-eval-del="${esc(e.id)}" aria-label="Supprimer l’évaluation">🗑️</button></div>`;
-    }).join('') : '<p class="ag2-empty">Aucune évaluation prévue ce jour-là.</p>' ;
+      return `<div class="ag2-item${e.done ? ' is-done' : ''}" style="--c:${color}"><div class="ag2-ico">${cfg ? cfg.icon : '📚'}</div><div class="ag2-info"><b>${esc(e.subject)}</b><span>${kind[1]}${e.note ? ' · ' + esc(e.note) : ''}</span></div>${e.kind === 'devoir' ? `<button class="ag2-done ${e.done ? 'on' : ''}" data-cal-eval-done="${esc(e.id)}" aria-pressed="${!!e.done}" aria-label="Marquer comme fait">${e.done ? '✓' : '☐'}</button>` : ''}<button class="ag2-del" data-cal-eval-del="${esc(e.id)}" aria-label="Supprimer">🗑️</button></div>`;
+    }).join('') : '<p class="ag2-empty">Rien de prévu ce jour-là.</p>' ;
     const evalSubjects = typeof CFG !== 'undefined' ? CFG.map(x => `<option value="${esc(x.name)}">${x.icon} ${esc(x.name)}</option>`).join('') : '';
-    const evalPanel = `<div class="cal-eval-panel"><h3>📝 Évaluations</h3>${evalMarkup}<details class="cal-eval-add"><summary>＋ Ajouter une évaluation</summary><div class="cal-eval-form"><label>Type<select id="cal-eval-kind">${evalKinds.map(k => `<option value="${k[0]}">${k[1]}</option>`).join('')}</select></label><label>Matière<select id="cal-eval-subject">${evalSubjects}</select></label><input type="text" id="cal-eval-note" class="ag2-note" placeholder="Sujet ou chapitre (facultatif)" maxlength="80"><button class="bg-btn pri full" id="cal-eval-save">Ajouter à cette journée</button></div></details></div>`;
+    const evalPanel = `<div class="cal-eval-panel"><h3>📝 Évaluations</h3>${evalMarkup}<details class="cal-eval-add"><summary>＋ Ajouter une évaluation ou un devoir</summary><div class="cal-eval-form"><label>Type<select id="cal-eval-kind">${evalKinds.map(k => `<option value="${k[0]}">${k[1]}</option>`).join('')}</select></label><label>Matière<select id="cal-eval-subject">${evalSubjects}</select></label><input type="text" id="cal-eval-note" class="ag2-note" placeholder="Sujet ou chapitre (facultatif)" maxlength="80"><button class="bg-btn pri full" id="cal-eval-save">Ajouter à cette journée</button></div></details></div>`;
 
     return {
-      evalPanel: `<aside class="cal-eval-panel"><div class="cal-eval-heading"><div><span class="cal-day-kicker">ÉVALUATIONS DU</span><h3>${title}</h3></div><span class="cal-eval-count">${dayEvals.length}</span></div>${evalMarkup}<details class="cal-eval-add"><summary>＋ Ajouter une évaluation</summary><div class="cal-eval-form"><label>Type<select id="cal-eval-kind">${evalKinds.map(k => `<option value="${k[0]}">${k[1]}</option>`).join('')}</select></label><label>Matière<select id="cal-eval-subject">${evalSubjects}</select></label><input type="text" id="cal-eval-note" class="ag2-note" placeholder="Sujet ou chapitre (facultatif)" maxlength="80"><button class="bg-btn pri full" id="cal-eval-save">Ajouter à cette journée</button></div></details></aside>`,
+      evalPanel: `<aside class="cal-eval-panel"><div class="cal-eval-heading"><div><span class="cal-day-kicker">ÉVALUATIONS &amp; DEVOIRS DU</span><h3>${title}</h3></div><span class="cal-eval-count">${dayEvals.length}</span></div>${evalMarkup}<details class="cal-eval-add"><summary>＋ Ajouter une évaluation ou un devoir</summary><div class="cal-eval-form"><label>Type<select id="cal-eval-kind">${evalKinds.map(k => `<option value="${k[0]}">${k[1]}</option>`).join('')}</select></label><label>Matière<select id="cal-eval-subject">${evalSubjects}</select></label><input type="text" id="cal-eval-note" class="ag2-note" placeholder="Sujet ou chapitre (facultatif)" maxlength="80"><button class="bg-btn pri full" id="cal-eval-save">Ajouter à cette journée</button></div></details></aside>`,
       detailPanel: `<section class="cal-day-panel">
         <div class="cal-day-head"><div><span class="cal-day-kicker">JOURNÉE SÉLECTIONNÉE</span><b>${title}</b></div><span class="cal-day-status ${done ? 'done' : used || protectedDay || frz ? 'protected' : ''}">${statusText}</span></div>
         <div class="cal-day-progress"><span>🎯 ${progressText}</span>${!isFuture ? `<span class="cal-day-progressbar"><i style="width:${Math.min(100, Math.round(mins / Math.max(1, goal) * 100))}%"></i></span>` : ''}</div>
@@ -518,7 +518,11 @@
     m.querySelectorAll('[data-cal]').forEach(b => b.onclick = () => { calSel = b.dataset.cal; renderCalendar(); const detail = m.querySelector('.cal-day-panel'); if (detail) detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); });
     m.querySelectorAll('[data-cal-eval-del]').forEach(b => b.onclick = () => {
       if (typeof saveEvals !== 'function' || typeof purgeOldEvals !== 'function') return;
-      saveEvals(purgeOldEvals().filter(e => e.id !== b.dataset.calEvalDel)); renderCalendar(); toast('Évaluation supprimée.');
+      saveEvals(purgeOldEvals().filter(e => e.id !== b.dataset.calEvalDel)); renderCalendar(); toast('Supprimé de ton agenda.');
+    });
+    m.querySelectorAll('[data-cal-eval-done]').forEach(b => b.onclick = () => {
+      if (typeof saveEvals !== 'function' || typeof purgeOldEvals !== 'function') return;
+      saveEvals(purgeOldEvals().map(e => e.id === b.dataset.calEvalDone ? Object.assign({}, e, { done: !e.done }) : e)); renderCalendar();
     });
     const addEval = $('cal-eval-save'); if (addEval) addEval.onclick = () => {
       if (typeof saveEvals !== 'function' || typeof purgeOldEvals !== 'function') return;
@@ -526,7 +530,7 @@
       if (!subject) { toast('Choisis une matière.', 'warn'); return; }
       const evals = purgeOldEvals();
       evals.push({ id: 'e' + Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-3), subject, date: calSel, kind: ($('cal-eval-kind') || {}).value || 'ds', note: (($('cal-eval-note') || {}).value || '').trim() });
-      saveEvals(evals); renderCalendar(); toast('Évaluation ajoutée à ton agenda !');
+      saveEvals(evals); renderCalendar(); toast('Ajouté à ton agenda !');
     };
     m.querySelectorAll('[data-min]').forEach(b => b.onclick = () => { const x = load(); x.minutes = +b.dataset.min; save(x); renderCalendar(); });
     m.querySelectorAll('[data-we]').forEach(b => b.onclick = () => { const x = load(); x.minutesWE = +b.dataset.we; save(x); renderCalendar(); });
