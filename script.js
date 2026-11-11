@@ -142,6 +142,7 @@ const CFG = [
 const $ = id => document.getElementById(id);
 const M  = () => $('main');
 function esc(s) { return String(s).replace(/\\/g,'\\\\').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,"\\'"); }
+function escT(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); } // texte / valeur de champ (sans antislash)
 function isDue(c) { return !c.due || Date.now() >= c.due; }
 
 // Un chapitre est « découvert » dès que son cours a été ouvert au moins une fois,
@@ -434,7 +435,7 @@ function openDayDetail(dateKey) {
             const cfg = CFG.find(c => c.name === subj);
             return `<div class="ws-box day-subj-card">
                 <div class="day-subj-header">
-                    <span class="day-subj-name">${cfg ? cfg.icon : '📚'} ${esc(subj)}</span>
+                    <span class="day-subj-name">${cfg ? cfg.icon : '📚'} ${escT(subj)}</span>
                     <span class="day-subj-time">${fmtDuration(subjTotal)}</span>
                 </div>
                 <div class="day-activities">
@@ -442,7 +443,7 @@ function openDayDetail(dateKey) {
                         const pct = subjTotal > 0 ? Math.round(sec/subjTotal*100) : 0;
                         return `<div class="day-activity-row">
                             <div class="day-activity-top">
-                                <span>${esc(activity)}</span>
+                                <span>${escT(activity)}</span>
                                 <span class="day-activity-time">${fmtDuration(sec)}</span>
                             </div>
                             <div class="day-activity-bar"><div class="day-activity-fill" style="width:${pct}%"></div></div>
@@ -498,7 +499,7 @@ function openStats() {
             </div>
         </div>
 
-        ${bestSubj ? `<p style="color:var(--muted);font-size:.85rem;margin:4px 0 16px">Cette semaine, ta matière la plus travaillée : <strong style="color:var(--text)">${esc(bestSubj[0])}</strong> (${fmtDuration(bestSubj[1])}).</p>` : ''}
+        ${bestSubj ? `<p style="color:var(--muted);font-size:.85rem;margin:4px 0 16px">Cette semaine, ta matière la plus travaillée : <strong style="color:var(--text)">${escT(bestSubj[0])}</strong> (${fmtDuration(bestSubj[1])}).</p>` : ''}
 
         ${typeof psPrioritiesHTML==='function' ? psPrioritiesHTML() : ''}
         ${typeof skillsOverviewHTML==='function' ? skillsOverviewHTML() : ''}
@@ -511,7 +512,7 @@ function openStats() {
                 const pct = weekTotal > 0 ? Math.round(sec/weekTotal*100) : 0;
                 return `<div class="day-activity-row" style="margin-bottom:12px">
                     <div class="day-activity-top">
-                        <span>${cfg ? cfg.icon : '📚'} ${esc(subj)}</span>
+                        <span>${cfg ? cfg.icon : '📚'} ${escT(subj)}</span>
                         <span class="day-activity-time">${fmtDuration(sec)}</span>
                     </div>
                     <div class="day-activity-bar"><div class="day-activity-fill" style="width:${pct}%"></div></div>
@@ -570,8 +571,8 @@ function openAgenda() {
                     return `<div class="agenda-item ${urgentCls}">
                         <div class="ag-icon">${cfg ? cfg.icon : '📚'}</div>
                         <div class="ag-info">
-                            <div class="ag-subject">${esc(e.subject)}</div>
-                            ${e.note ? `<div class="ag-note">${esc(e.note)}</div>` : ''}
+                            <div class="ag-subject">${escT(e.subject)}</div>
+                            ${e.note ? `<div class="ag-note">${escT(e.note)}</div>` : ''}
                         </div>
                         <div class="ag-date">
                             <div class="ag-date-val">${new Date(e.date).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}</div>
@@ -677,7 +678,7 @@ function updateMobileCourseToc() {
     const links = headings.map((h,i)=>{
         const id='bm-course-mobile-section-'+i;
         h.id = h.id || ('bm-course-section-'+i);
-        return `<button class="sb-link course-mobile-toc-link" onclick="document.getElementById('${h.id}')?.scrollIntoView({behavior:'smooth',block:'start'});closeSidebar();">${i+1}. ${esc(h.textContent)}</button>`;
+        return `<button class="sb-link course-mobile-toc-link" onclick="document.getElementById('${h.id}')?.scrollIntoView({behavior:'smooth',block:'start'});closeSidebar();">${i+1}. ${escT(h.textContent)}</button>`;
     }).join('');
     toc.innerHTML = links || `<div class="course-mobile-empty">Ce cours est présenté en une seule partie.</div>`;
     const subtitle=document.getElementById('course-mobile-subtitle');
@@ -807,7 +808,7 @@ function goHome() {
                 const diff = Math.round((new Date(e.date)-new Date(dayKey(new Date())))/86400000);
                 const cfg = CFG.find(c=>c.name===e.subject);
                 const diffLabel = diff===0?"aujourd'hui":diff===1?'demain':`dans ${diff} jours`;
-                return `<span class="eval-chip">${cfg?cfg.icon:'📚'} ${esc(e.subject)} — ${diffLabel}</span>`;
+                return `<span class="eval-chip">${cfg?cfg.icon:'📚'} ${escT(e.subject)} — ${diffLabel}</span>`;
             }).join('')}
         </div>` : ''}
         ${typeof bmGoalCardHTML==='function' ? bmGoalCardHTML() : ''}
@@ -1218,9 +1219,9 @@ function renderSelfTestModal(){
       <div class="selftest-modal selftest-modal-v2" onclick="event.stopPropagation()">
         <div class="selftest-kicker">🧠 Rappel actif · ${selfTestState.index+1}/${total}</div>
         <h2>À toi de répondre</h2>
-        <p class="selftest-question">${esc(item.q)}</p>
+        <p class="selftest-question">${escT(item.q)}</p>
         <textarea id="selftest-answer" ${bmSpellAttrs('fr')} class="selftest-answer" placeholder="Écris ta réponse ici avant de regarder la correction…"></textarea>
-        ${selfTestState.revealed ? `<div class="selftest-answer-box"><strong>Réponse / correction</strong><div>${esc(item.a || 'Aucune correction enregistrée pour cette question.')}</div></div>` : `<p class="selftest-help">Réponds d'abord avec tes propres mots. Il n'y a pas besoin d'être parfait : l'objectif est de faire travailler ta mémoire et ton raisonnement.</p>`}
+        ${selfTestState.revealed ? `<div class="selftest-answer-box"><strong>Réponse / correction</strong><div>${escT(item.a || 'Aucune correction enregistrée pour cette question.')}</div></div>` : `<p class="selftest-help">Réponds d'abord avec tes propres mots. Il n'y a pas besoin d'être parfait : l'objectif est de faire travailler ta mémoire et ton raisonnement.</p>`}
         <div class="selftest-actions">
           <button class="bc-btn" onclick="returnToCourseFromSelfTest()">← Retour au cours</button>
           ${selfTestState.revealed ? `<button class="bc-btn" onclick="selfTestNext()">Question suivante →</button>` : `<button class="bc-btn" onclick="selfTestReveal()">👁️ Afficher la réponse</button>`}
@@ -1302,7 +1303,7 @@ function renderTabContent() {
                <div>${cards.map((c,i)=> i===vocEditingIndex ? `
                 <div class="voc-row voc-row-editing">
                     <input type="text" id="voc-edit-q" ${bmSpellAttrs()} class="field" value="${esc(c.q)}" placeholder="Mot ou question">
-                    <textarea id="voc-edit-a" ${bmSpellAttrs('fr')} class="field voc-edit-textarea" placeholder="Définition ou réponse">${esc(c.a)}</textarea>
+                    <textarea id="voc-edit-a" ${bmSpellAttrs('fr')} class="field voc-edit-textarea" placeholder="Définition ou réponse">${escT(c.a)}</textarea>
                     <div class="voc-edit-actions">
                         <button class="btn-save" onclick="saveVocEdit(${i})">💾 Enregistrer</button>
                         <button class="bc-btn" onclick="vocEditingIndex=null;renderTabContent()">✕ Annuler</button>
@@ -1364,7 +1365,7 @@ function deleteChapter(ch, mode) {
     const n = (db[curSubject][ch].flashcards||[]).length;
     customConfirm({
         icon:'🗑️', title:'Supprimer ce chapitre ?',
-        message:`"${esc(ch)}" et ses ${n} ${(['Anglais','Espagnol'].includes(curSubject)?'mot':'carte')}${n>1?'s':''} seront supprimés définitivement. Cette action est irréversible.`,
+        message:`"${escT(ch)}" et ses ${n} ${(['Anglais','Espagnol'].includes(curSubject)?'mot':'carte')}${n>1?'s':''} seront supprimés définitivement. Cette action est irréversible.`,
         confirmLabel:'Supprimer', cancelLabel:'Annuler', danger:true,
         onConfirm:()=>{
             delete db[curSubject][ch]; save();
@@ -2339,10 +2340,10 @@ function openExoChapter(ch) {
             <span class="bc-sep">›</span>
             <button class="bc-btn" onclick="openExercices()">Exercices</button>
             <span class="bc-sep">›</span>
-            <span class="bc-cur">${esc(ch)}</span>
+            <span class="bc-cur">${escT(ch)}</span>
         </div>
         <div class="page-head">
-            <h1>✏️ ${esc(ch)}</h1>
+            <h1>✏️ ${escT(ch)}</h1>
             <p style="color:var(--muted);font-size:.85rem">Choisis le niveau que tu veux travailler</p>
         </div>
         <div class="niveau-picker">
@@ -2411,7 +2412,7 @@ function renderExo() {
             <span class="bc-sep">›</span>
             <button class="bc-btn" onclick="openExercices()">Exercices</button>
             <span class="bc-sep">›</span>
-            <span class="bc-cur">${esc(titre)}</span>
+            <span class="bc-cur">${escT(titre)}</span>
         </div>
         <div class="exo-progress-bar"><div class="exo-progress-fill" style="width:${pct}%"></div></div>
         <div style="text-align:right;font-size:.78rem;color:var(--muted);margin-bottom:12px">

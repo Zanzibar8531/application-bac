@@ -6475,3 +6475,22 @@ body.role-teacher #bm-goal-card { display: none !important; }
 .dl-bar { flex-direction: column; align-items: stretch; gap: 8px; }
 .dl-bar .dl-count-all { text-align: center; }
 .dl-acts { display: flex; gap: 8px; } .dl-acts .dl-btn { flex: 1; text-align: center; white-space: nowrap; } .dl-acts .dl-btn.pri { flex: 2; }
+
+
+/* ===== Retouche visuelle (9–10/11/2026) : carte « Objectif du jour » plus lisible, flamme de série à 3 états ===== */
+.bh-flame{display:inline-flex;vertical-align:-3px;margin-right:5px;transition:filter .25s,opacity .25s,transform .25s}
+.bh-kpi.flame-off .bh-flame{filter:grayscale(1);opacity:.4}                 /* aucune série : flamme éteinte, sans reproche */
+.bh-kpi.flame-on .bh-flame{filter:drop-shadow(0 1px 3px rgba(234,88,12,.45))} /* série en cours */
+.bh-kpi.flame-done .bh-flame{filter:drop-shadow(0 0 5px rgba(250,163,38,.8));transform:scale(1.12)} /* journée validée */
+@media(max-width:640px){
+  .bg-card .bh-top .bg-body{padding-right:58px}              /* Flocon ne recouvre plus le texte */
+  .bh-kpis{display:grid!important;grid-template-columns:repeat(3,1fr);gap:8px!important}
+  .bh-kpi{flex-direction:column!important;align-items:center!important;text-align:center;gap:2px!important;padding:8px 6px!important}
+  .bh-kpi span:not(.bh-flame){font-size:.68rem!important;line-height:1.2}
+  .bh-kpi b{white-space:nowrap}
+}
+/* un seul bouton coloré (l'action principale), les deux autres restent discrets */
+.bg-btn.stats,.bg-btn.eval{background:var(--card)!important;color:var(--text)!important;border:1.5px solid var(--border)!important;box-shadow:none!important}
+.bg-btn.stats:hover,.bg-btn.eval:hover{border-color:var(--accent)!important}
+.bg-btn:focus-visible,.bh-day:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.bh-flame{transition:none}}

@@ -164,7 +164,7 @@
         </div>
       </div>
       <div class="bh-kpis">
-        <div class="bh-kpi k1"><b>${st}</b><span>jour${st > 1 ? 's' : ''} d’affilée</span></div>
+        <div class="bh-kpi k1 ${st > 0 ? (s.done ? 'flame-done' : 'flame-on') : 'flame-off'}"><b><span class="bh-flame">${IC('flame', 18)}</span>${st}</b><span>jour${st > 1 ? 's' : ''} d’affilée</span></div>
         <div class="bh-kpi k2"><b>${gs.mastered}<small>/${gs.total}</small></b><span>cartes maîtrisées</span><i style="width:${mpct}%"></i></div>
         <div class="bh-kpi k3"><b>${gs.due}</b><span>à revoir aujourd’hui</span></div>
       </div>

@@ -182,7 +182,7 @@
           sel.disabled = false;
           if (error) {
             sel.value = prev; const m = String(error.message || '');
-            const hint = next === 'teacher' && /check constraint|invalid input value|enum|violates|not present|rôle|role/i.test(m) ? ' → La base ne connaît pas encore le rôle Professeur : ouvre Supabase › SQL Editor, colle le fichier supabase_role_prof.sql et clique Run.' : '';
+            const hint = next === 'teacher' && /check constraint|invalid input value|enum|not present/i.test(m) ? ' → La base ne connaît pas encore le rôle Professeur : ouvre Supabase › SQL Editor, colle le fichier supabase_role_prof.sql et clique Run.' : (/row-level security|violates/i.test(m) ? ' → Une règle de sécurité de la base refuse ce changement (règle « Admins update BacMaster profiles » de la table bacmaster_profiles).' : '');
             return say('Modification refusée : ' + m + hint, true);
           }
           p.role = next; say('Rôle de ' + (p.display_name || p.email) + ' : ' + ROLES[next]);
