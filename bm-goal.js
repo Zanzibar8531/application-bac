@@ -133,7 +133,7 @@
   }
   function weekHTML() {
     const today = dayKey(), now = new Date(), monday = new Date(now.getFullYear(), now.getMonth(), now.getDate()), fzDays = new Set(freezeSim().frozen);
-    monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
+    monday.setDate(monday.getDate() - 3);   // 7 jours glissants : aujourd’hui toujours au centre
     const days = Array.from({ length: 7 }, (_, i) => {
       const date = new Date(monday); date.setDate(monday.getDate() + i);
       const key = dayKey(date), active = !!(window.BacMasterGoal && window.BacMasterGoal.metGoal(key));
@@ -143,7 +143,7 @@
       const label = date.toLocaleDateString('fr-FR', { weekday: 'short' }).replace('.', '').slice(0, 2);
       return { key, label, active, jump, frozen, partial, dateLabel: date.toLocaleDateString('fr-FR', { day: 'numeric' }) };
     });
-    return `<div class="bh-week" role="list" aria-label="Les 7 jours de la semaine">${days.map(d => `<button class="bh-day ${d.active ? 'met' : d.jump ? 'jump' : d.frozen ? 'frozen' : d.partial ? 'part' : ''} ${d.key === today ? 'now' : ''} ${d.key > today ? 'future' : ''}" role="listitem" onclick="BacMasterGoal.openCalendar('${d.key}')" title="${new Date(d.key + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}${d.active ? ' — objectif atteint' : ''}" aria-label="${d.label} ${d.dateLabel} ${d.active ? 'objectif atteint' : d.frozen ? 'sauvé par un gel de série' : d.partial ? 'révision partielle' : d.key > today ? 'à venir' : 'aucune révision'}"><span>${d.active ? '✓' : d.jump ? IC('jump', 17) : d.frozen ? IC('ice', 17) : d.label}</span></button>`).join('')}</div>`;
+    return `<div class="bh-week" role="list" aria-label="Les 7 jours autour d’aujourd’hui">${days.map(d => `<button class="bh-day ${d.active ? 'met' : d.jump ? 'jump' : d.frozen ? 'frozen' : d.partial ? 'part' : ''} ${d.key === today ? 'now' : ''} ${d.key > today ? 'future' : ''} ${d.key < today ? 'past' : ''}" role="listitem" onclick="BacMasterGoal.openCalendar('${d.key}')" title="${new Date(d.key + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}${d.active ? ' — objectif atteint' : ''}" aria-label="${d.label} ${d.dateLabel} ${d.active ? 'objectif atteint' : d.frozen ? 'sauvé par un gel de série' : d.partial ? 'révision partielle' : d.key > today ? 'à venir' : 'aucune révision'}"><span>${d.active ? '✓' : d.jump ? IC('jump', 17) : d.frozen ? IC('ice', 17) : d.label}</span><small class="bh-dn">${d.dateLabel}</small></button>`).join('')}</div>`;
   }
   function cardInner() {
     const s = status(), st = s.streak;

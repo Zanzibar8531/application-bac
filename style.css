@@ -6514,3 +6514,18 @@ body.home-page .sb-nav>.sb-link:first-child{display:none}
 .ag2-done{border:1.5px solid var(--border);background:var(--card);border-radius:8px;width:34px;height:34px;font-size:1.05rem;cursor:pointer;color:var(--text)}
 .ag2-done.on{background:#16a34a;border-color:#16a34a;color:#fff}
 .ag2-item.is-done .ag2-info{opacity:.55;text-decoration:line-through}
+
+/* ===== Retouche visuelle n°3 (11/11/2026) ===== */
+/* 7 jours glissants, aujourd'hui au centre : le passé est estompé, l'avenir est en pointillés, avec le numéro du jour */
+.bh-week .bh-day{width:36px!important;height:48px!important;border-radius:14px!important;flex-direction:column;gap:1px;padding:0;line-height:1.1}
+.bh-day .bh-dn{font-size:.7rem;font-weight:800;opacity:.85}
+.bh-day.future{background:transparent!important;border-style:dashed!important;border-color:rgba(99,102,241,.5)!important;color:var(--text)!important}
+.bh-day.past:not(.met):not(.part):not(.jump):not(.frozen){background:rgba(120,120,140,.16);opacity:.6}
+.bh-day.now{transform:scale(1.1)}
+/* Les 3 compteurs de la carte Objectif sont vraiment colorés (comme leur liseré) */
+.bh-kpi.k1{background:linear-gradient(100deg,color-mix(in srgb,#f97316 24%,var(--card)),var(--card) 80%)!important}
+.bh-kpi.k2{background:linear-gradient(100deg,color-mix(in srgb,#8b5cf6 24%,var(--card)),var(--card) 80%)!important}
+.bh-kpi.k3{background:linear-gradient(100deg,color-mix(in srgb,#0ea5e9 24%,var(--card)),var(--card) 80%)!important}
+.bh-kpi.k1 b{color:color-mix(in srgb,#ea580c 85%,var(--text))}
+.bh-kpi.k2 b{color:color-mix(in srgb,#7c3aed 85%,var(--text))}
+.bh-kpi.k3 b{color:color-mix(in srgb,#0284c7 85%,var(--text))}

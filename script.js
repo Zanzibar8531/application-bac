@@ -1220,7 +1220,7 @@ function renderSelfTestModal(){
         <div class="selftest-kicker">🧠 Rappel actif · ${selfTestState.index+1}/${total}</div>
         <h2>À toi de répondre</h2>
         <p class="selftest-question">${escT(item.q)}</p>
-        <textarea id="selftest-answer" ${bmSpellAttrs('fr')} class="selftest-answer" placeholder="Écris ta réponse ici avant de regarder la correction…"></textarea>
+        <textarea id="selftest-answer" ${bmSpellAttrs()} class="selftest-answer" placeholder="Écris ta réponse ici avant de regarder la correction…"></textarea>
         ${selfTestState.revealed ? `<div class="selftest-answer-box"><strong>Réponse / correction</strong><div>${escT(item.a || 'Aucune correction enregistrée pour cette question.')}</div></div>` : `<p class="selftest-help">Réponds d'abord avec tes propres mots. Il n'y a pas besoin d'être parfait : l'objectif est de faire travailler ta mémoire et ton raisonnement.</p>`}
         <div class="selftest-actions">
           <button class="bc-btn" onclick="returnToCourseFromSelfTest()">← Retour au cours</button>
@@ -1279,7 +1279,7 @@ function renderTabContent() {
     else if(curTab==='edit') {
         box.innerHTML = `
             ${typeof bmRibbonHTML==='function' ? bmRibbonHTML() : ''}
-            <div id="editor" contenteditable="true" ${bmSpellAttrs('fr')} class="editor-area cours-body">${data.cours||''}</div>
+            <div id="editor" contenteditable="true" ${bmSpellAttrs()} class="editor-area cours-body">${data.cours||''}</div>
                         <div class="editor-scroll-nav" aria-label="Position dans l’éditeur">
                 <div class="esn-track" id="esn-track"><div class="esn-thumb" id="esn-thumb"></div></div>
             </div>
@@ -2455,7 +2455,7 @@ function renderExo() {
             `:`
                 <div class="exo-attempt">
                     <div class="exo-label">✏️ Ta réponse / ton raisonnement</div>
-                    <textarea id="exo-attempt-area" ${bmSpellAttrs('fr')} class="exo-attempt-area" placeholder="Cherche vraiment avant de regarder la correction — c'est ce qui fait progresser (pas sauvegardé, juste pour toi)."></textarea>
+                    <textarea id="exo-attempt-area" ${bmSpellAttrs()} class="exo-attempt-area" placeholder="Cherche vraiment avant de regarder la correction — c'est ce qui fait progresser (pas sauvegardé, juste pour toi)."></textarea>
                 </div>
                 <button class="btn-main exo-voir-btn" onclick="exoShowCorrection=true;renderExo()">
                     👁️ Voir la correction
