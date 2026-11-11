@@ -679,3 +679,20 @@ PREBUILT["Histoire-Géo"]["Chapitre 2 — Transformations politiques et sociales
   }
  ]
 };
+
+
+PREBUILT["Histoire-Géo"]["Chapitre 2 — Transformations politiques et sociales en France (1848-1870)"]["cours"] += `
+<h3>📝 Notes complémentaires de la séance</h3>
+<div class="attention-box">Cette partie reprend les notes de la fiche de sauvegarde du 11 novembre. Elle complète le cours déjà mis au propre, sans remplacer les explications précédentes.</div>
+<h3>🏛️ La IIe République : autres éléments notés en classe</h3>
+<ul>
+<li>Nouvelle devise : <strong>« Liberté, Égalité, Fraternité »</strong>.</li>
+<li>Liberté de la presse et liberté de réunion.</li>
+<li>Louis-Napoléon Bonaparte est élu président avec environ <strong>75 % des voix</strong> (chiffre noté dans le cours).</li>
+<li>Il souhaite se représenter pour un second mandat de quatre ans, mais la Constitution ne le lui permet pas.</li>
+<li>Cette situation conduit au <strong>coup d'État du 2 décembre 1851</strong> : arrestation d'opposants et dissolution de l'Assemblée.</li>
+</ul>
+<h3>👑 2. Le Second Empire</h3>
+<p>Les notes de la séance ouvrent cette deuxième partie, mais ne contiennent pas encore son développement. À compléter avec le cours suivant.</p>
+<div class="retenir-box"><strong>À retenir :</strong> la IIe République (1848-1851) met en place de nouvelles libertés et le suffrage universel masculin, mais prend fin avec le coup d'État de Louis-Napoléon Bonaparte. Le Second Empire lui succède en 1852.</div>
+`;

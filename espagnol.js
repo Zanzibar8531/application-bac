@@ -888,3 +888,91 @@ PREBUILT_RENAMES.push(...[
   "new": "Gramática"
  }
 ]);
+
+
+// Ajouté à partir des notes de cours du 10 novembre 2026 — Eje 2
+PREBUILT["Espagnol"]["Eje 2 — El espacio andino y el cóndor"] = {
+ "cours": `<h3>🌎 Eje 2 — El espacio andino, la columna vertebral de América del Sur</h3>
+<div class="attention-box">Fiche mise au propre à partir des notes de cours du 10 novembre 2026. Les idées et les exemples du cours sont conservés. Les mots ou passages dont la transcription semble incertaine sont signalés.</div>
+
+<h3>❓ Pregunta del eje</h3>
+<div class="formula-box"><strong>¿Por qué es tan importante el cóndor en la cultura de los Andes?</strong><br>Pourquoi le condor est-il si important dans la culture des Andes ?</div>
+
+<h3>🦅 1. Vocabulario — El cóndor</h3>
+<table>
+<tr><th>Español</th><th>Français</th></tr>
+<tr><td><strong>el cóndor</strong></td><td>le condor, un grand oiseau</td></tr>
+<tr><td><strong>el pájaro</strong></td><td>l'oiseau</td></tr>
+<tr><td><strong>el ave</strong></td><td>l'oiseau (terme général)</td></tr>
+<tr><td><strong>la carroña</strong></td><td>la charogne</td></tr>
+<tr><td><strong>el plumaje</strong></td><td>le plumage</td></tr>
+<tr><td><strong>el cuello</strong></td><td>le cou</td></tr>
+<tr><td><strong>las alas</strong></td><td>les ailes</td></tr>
+<tr><td><strong>la higiene</strong></td><td>l'hygiène</td></tr>
+<tr><td><strong>el buitre</strong></td><td>le vautour</td></tr>
+<tr><td><strong>la envergadura</strong></td><td>l'envergure</td></tr>
+<tr><td><strong>los hombros</strong></td><td>les épaules</td></tr>
+<tr><td><strong>pesar</strong></td><td>peser</td></tr>
+<tr><td><strong>medir</strong></td><td>mesurer</td></tr>
+</table>
+
+<h3>📚 2. El verbo « medir » — présent de l'indicatif</h3>
+<table>
+<tr><th>Persona</th><th>Conjugación</th></tr>
+<tr><td>yo</td><td><strong>mido</strong></td></tr>
+<tr><td>tú</td><td><strong>mides</strong></td></tr>
+<tr><td>él / ella / usted</td><td><strong>mide</strong></td></tr>
+<tr><td>nosotros / nosotras</td><td><strong>medimos</strong></td></tr>
+<tr><td>vosotros / vosotras</td><td><strong>medís</strong></td></tr>
+<tr><td>ellos / ellas / ustedes</td><td><strong>miden</strong></td></tr>
+</table>
+<div class="retenir-box"><strong>Attention :</strong> « medir » est un verbe à alternance : e devient i à certaines personnes (mido, mides, mide, miden), mais pas à nosotros et vosotros (medimos, medís).</div>
+
+<h3>✨ 3. Lo que simboliza el cóndor</h3>
+<p>Dans les notes, le condor symbolise plusieurs valeurs :</p>
+<div class="formula-box"><strong>el poder</strong> — le pouvoir<br><strong>la libertad</strong> — la liberté<br><strong>la fuerza</strong> — la force<br><strong>la soberanía</strong> — la souveraineté<br><strong>la nobleza</strong> — la noblesse<br><strong>la realeza</strong> — la royauté <em>(mot à vérifier avec la fiche de classe)</em></div>
+
+<h3>🖼️ 4. Describir y analizar los documentos</h3>
+<h4>Documento 1 — El inca y el cóndor</h4>
+<p>Selon les notes, la première image représente un guerrier inca associé à la fondation de Cusco, au Pérou. Un condor est posé sur ses épaules : il le guide et le protège. L'oiseau représente notamment la liberté, la force et le pouvoir.</p>
+<h4>Documento 2 — Los billetes de Argentina y Perú</h4>
+<p>La deuxième image présente des billets d'Argentine et du Pérou sur lesquels apparaît un condor. Les notes indiquent qu'il s'agit d'un animal sacré et emblématique, et que sa représentation rappelle qu'il faut le protéger.</p>
+
+<h3>🗣️ 5. Phrases utiles pour l'oral</h3>
+<ul>
+<li><strong>El cóndor simboliza la libertad y la fuerza.</strong> — Le condor symbolise la liberté et la force.</li>
+<li><strong>En la primera imagen, vemos a un guerrero inca.</strong> — Sur la première image, nous voyons un guerrier inca.</li>
+<li><strong>El cóndor está posado sobre sus hombros.</strong> — Le condor est posé sur ses épaules.</li>
+<li><strong>En los billetes de Argentina y Perú aparece un cóndor.</strong> — Un condor apparaît sur les billets d'Argentine et du Pérou.</li>
+<li><strong>Es importante proteger esta especie.</strong> — Il est important de protéger cette espèce.</li>
+</ul>
+<div class="attention-box"><strong>À vérifier dans le cahier :</strong> la transcription d'origine comporte quelques mots difficiles à lire (« realdad », notamment). Ils ont été remplacés ici par les termes espagnols les plus cohérents avec le sens des notes ; vérifie « realeza » avec le document de classe.</div>`,
+ "exercices": [
+  {
+   "niveau": "Facile",
+   "enonce": "<p>Traduis en français : <em>el plumaje</em>, <em>el cuello</em>, <em>las alas</em> et <em>los hombros</em>.</p>",
+   "aide": "Retrouve les mots dans le tableau de vocabulaire.",
+   "correction": "<p>Le plumage, le cou, les ailes et les épaules.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p>Conjugue le verbe <em>medir</em> au présent de l'indicatif avec : yo, tú, él, nosotros, vosotros et ellos.</p>",
+   "aide": "Attention au changement de e en i pour certaines personnes.",
+   "correction": "<p>Yo <strong>mido</strong>, tú <strong>mides</strong>, él <strong>mide</strong>, nosotros <strong>medimos</strong>, vosotros <strong>medís</strong>, ellos <strong>miden</strong>.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p>Cite trois valeurs symbolisées par le condor dans la culture andine, d'après le cours.</p>",
+   "aide": "Pense au pouvoir, à la liberté et à la force.",
+   "correction": "<p>Le pouvoir (<em>el poder</em>), la liberté (<em>la libertad</em>) et la force (<em>la fuerza</em>). On peut aussi citer la souveraineté et la noblesse.</p>"
+  }
+ ],
+ "flashcards": [
+  {"q":"Que signifie « el cóndor » ?","a":"Le condor, un grand oiseau."},
+  {"q":"Que signifie « la carroña » ?","a":"La charogne."},
+  {"q":"Que signifie « la envergadura » ?","a":"L'envergure."},
+  {"q":"Comment dit-on « les épaules » en espagnol ?","a":"Los hombros."},
+  {"q":"Comment conjugue-t-on « medir » avec « nosotros » ?","a":"Medimos."},
+  {"q":"Quelles valeurs le condor symbolise-t-il ?","a":"Le pouvoir, la liberté, la force, la souveraineté et la noblesse."}
+ ]
+};
