@@ -113,73 +113,408 @@ flashcards:[
 ]},
 
 "Dérivation": {
-cours:"<div class=\"attention-box\">La dérivation, c'est <strong>la vitesse à laquelle une fonction change</strong>. C'est l'outil qui permet de trouver où une fonction monte, où elle descend, et où elle atteint son maximum ou son minimum — donc de résoudre des problèmes d'optimisation (coût minimal, aire maximale…). Il n'y a pas de magie : une fois les règles connues, c'est surtout de la méthode.</div>\n\n<h3>1. L'idée : du taux de variation au nombre dérivé</h3>\n<p>Le <strong>taux de variation</strong> de $f$ entre $a$ et $a+h$ est la pente de la sécante : $\\dfrac{f(a+h) - f(a)}{h}$. Quand $h$ devient <em>très petit</em>, la sécante se rapproche de la <strong>tangente</strong> et ce taux se rapproche d'un nombre : le <mark>nombre dérivé</mark> $f'(a)$.</p>\n<div class=\"formula-box\">$f'(a) = $ pente de la tangente à la courbe au point d'abscisse $a$ = taux de variation « instantané » en $a$.</div>\n<p><strong>Exemple.</strong> $f(x) = x^2$ et $a = 3$ : $\\dfrac{(3+h)^2 - 9}{h} = \\dfrac{6h + h^2}{h} = 6 + h$. Quand $h \\to 0$, on trouve $6$. Donc $f'(3) = 6$ — et on retrouvera bien $f'(x) = 2x$, soit $2\\times 3 = 6$ ✓.</p>\n\n<h3>2. Équation de la tangente</h3>\n<div class=\"formula-box\">Tangente en $a$ : $y = f'(a)\\,(x - a) + f(a)$</div>\n<p><strong>Exemple.</strong> $f(x) = x^2 - 3x + 1$ en $a = 2$ : $f(2) = 4 - 6 + 1 = -1$, $f'(x) = 2x - 3$ donc $f'(2) = 1$. Tangente : $y = 1\\times(x-2) + (-1) = x - 3$.</p>\n<div class=\"retenir-box\">Les 3 étapes : <strong>(1)</strong> calculer $f(a)$ ; <strong>(2)</strong> calculer $f'(x)$ puis $f'(a)$ ; <strong>(3)</strong> remplacer dans la formule. Si la tangente est <mark>horizontale</mark>, alors $f'(a) = 0$.</div>\n\n<h3>3. Dérivées usuelles</h3>\n<table class=\"formula-table\">\n<tr><th>$f(x)$</th><th>$f'(x)$</th><th>Remarque</th></tr>\n<tr><td>$k$ (constante)</td><td>$0$</td><td></td></tr>\n<tr><td>$x$</td><td>$1$</td><td></td></tr>\n<tr><td>$x^2$</td><td>$2x$</td><td></td></tr>\n<tr><td>$x^3$</td><td>$3x^2$</td><td></td></tr>\n<tr><td>$x^n$</td><td>$n\\,x^{n-1}$</td><td>$n$ entier</td></tr>\n<tr><td>$\\dfrac{1}{x}$</td><td>$-\\dfrac{1}{x^2}$</td><td>sur $\\mathbb{R}^*$</td></tr>\n<tr><td>$\\sqrt{x}$</td><td>$\\dfrac{1}{2\\sqrt{x}}$</td><td>sur $]0\\,;+\\infty[$</td></tr>\n<tr><td>$\\sin x$</td><td>$\\cos x$</td><td></td></tr>\n<tr><td>$\\cos x$</td><td>$-\\sin x$</td><td></td></tr>\n<tr><td>$e^x$</td><td>$e^x$</td><td></td></tr>\n<tr><td>$\\ln x$</td><td>$\\dfrac{1}{x}$</td><td>sur $]0\\,;+\\infty[$</td></tr>\n</table>\n\n<h3>4. Règles de calcul</h3>\n<div class=\"formula-box latex-block\">$(u+v)' = u' + v'$ &nbsp;&nbsp; $(k\\,u)' = k\\,u'$<br>\n$(u\\,v)' = u'v + u\\,v'$ &nbsp;&nbsp; $\\left(\\dfrac{u}{v}\\right)' = \\dfrac{u'v - u\\,v'}{v^2}$<br>\n$\\big(g(ax+b)\\big)' = a\\,g'(ax+b)$ &nbsp;&nbsp; $(u^n)' = n\\,u'\\,u^{n-1}$</div>\n<div class=\"attention-box\">Attention : $(u\\,v)' \\neq u'\\,v'$ ! La dérivée d'un produit n'est <strong>pas</strong> le produit des dérivées (ni pour le quotient). Teste : $(x\\times x)' = (x^2)' = 2x$, alors que $x' \\times x' = 1$.</div>\n<p><strong>Méthode pour un produit ou un quotient :</strong> écris d'abord un petit tableau $u,\\ u',\\ v,\\ v'$, <em>puis</em> applique la formule. Tu évites 90 % des erreurs.</p>\n<p><strong>Produit.</strong> $f(x) = x^2(3x - 1)$ : $u = x^2$, $u' = 2x$, $v = 3x-1$, $v' = 3$. $$\\begin{aligned} f'(x) &= 2x(3x-1) + x^2\\times 3 \\\\ &= 6x^2 - 2x + 3x^2 = 9x^2 - 2x \\,. \\end{aligned}$$ <em>Vérification : $f(x) = 3x^3 - x^2$, donc $f'(x) = 9x^2 - 2x$ ✓.</em></p>\n<p><strong>Quotient.</strong> $f(x) = \\dfrac{2x+1}{x+3}$ : $u = 2x+1$, $u' = 2$, $v = x+3$, $v' = 1$. $$\\begin{aligned} f'(x) &= \\dfrac{2(x+3) - (2x+1)\\times 1}{(x+3)^2} \\\\ &= \\dfrac{5}{(x+3)^2} \\,. \\end{aligned}$$ Le numérateur est positif et le carré aussi : $f$ est croissante sur chaque intervalle où elle est définie.</p>\n<p><strong>Puissance de $ax+b$.</strong> $f(x) = (3x+2)^4$ : $f'(x) = 4\\times 3\\times(3x+2)^3 = 12(3x+2)^3$.</p>\n\n<h3>5. Dérivée et variations : la méthode en 4 étapes</h3>\n<ol>\n<li>Donner l'<strong>ensemble de définition</strong>.</li>\n<li>Calculer $f'(x)$ et, si possible, la <strong>factoriser</strong>.</li>\n<li>Étudier le <strong>signe de $f'(x)$</strong> (tableau de signes, souvent avec un trinôme du second degré !).</li>\n<li>Conclure dans un <strong>tableau de variations</strong> : $f' > 0 \\Rightarrow f$ croissante ; $f' < 0 \\Rightarrow f$ décroissante.</li>\n</ol>\n<p><strong>Exemple complet.</strong> $f(x) = 2x^3 - 3x^2 - 12x + 1$ sur $\\mathbb{R}$. $$\\begin{aligned} f'(x) &= 6x^2 - 6x - 12 = 6(x^2 - x - 2) \\\\ &= 6(x-2)(x+1) \\end{aligned}$$ (racines $-1$ et $2$ ; $a = 6 > 0$). Donc $f'(x) > 0$ sur $]-\\infty\\,;-1[$ et sur $]2\\,;+\\infty[$, et $f'(x) < 0$ sur $]-1\\,;2[$.</p>\n<table class=\"formula-table\">\n<tr><th>$x$</th><th>$-\\infty$</th><th></th><th>$-1$</th><th></th><th>$2$</th><th></th><th>$+\\infty$</th></tr>\n<tr><td>$f'(x)$</td><td></td><td>+</td><td>0</td><td>−</td><td>0</td><td>+</td><td></td></tr>\n<tr><td>$f(x)$</td><td></td><td>↗</td><td>$8$</td><td>↘</td><td>$-19$</td><td>↗</td><td></td></tr>\n</table>\n<p>$f(-1) = -2 - 3 + 12 + 1 = 8$ (maximum local) et $f(2) = 16 - 12 - 24 + 1 = -19$ (minimum local).</p>\n<div class=\"retenir-box\">Un <mark>extremum</mark> en $a$ demande que $f'(a) = 0$ <strong>ET</strong> que $f'$ <strong>change de signe</strong> en $a$. Contre-exemple : $f(x) = x^3$ a $f'(0) = 0$ mais $f'(x) = 3x^2 \\geq 0$ ne change pas de signe : pas d'extremum en $0$.</div>\n\n<h3>6. Erreurs à éviter</h3>\n<div class=\"attention-box\">\n❌ Dériver un produit terme à terme : $(uv)' \\neq u'v'$.<br>\n❌ Oublier que la dérivée d'une constante est $0$ (et que $(5x)' = 5$, pas $0$).<br>\n❌ Dans un quotient, inverser l'ordre au numérateur : c'est $u'v - uv'$ (et non $uv' - u'v$).<br>\n❌ Écrire « $f'(a) = 0$ donc extremum » sans vérifier le changement de signe.<br>\n❌ Confondre $f(a)$ (une ordonnée) et $f'(a)$ (une pente).\n</div>",
-exercices:[
-{niveau:"Facile",
- enonce:"<p>Calcule la dérivée de $f(x) = 3x^2 - 5x + 7$.</p>",
- aide:"Dérive chaque terme séparément : (u+v)' = u'+v', et rappelle-toi que la dérivée d'une constante est 0.",
- correction:"<p>$f'(x) = 3 \\times 2x - 5 + 0 = 6x - 5$</p><p>On dérive terme à terme : $(3x^2)' = 6x$, $(-5x)' = -5$, $(7)' = 0$.</p>"},
-{niveau:"Moyen",
- enonce:"<p>Soit $f(x) = (2x+1)(x-3)$. Calcule $f'(x)$ en utilisant la formule du produit, puis vérifie en développant d'abord $f(x)$.</p>",
- aide:"Formule du produit : (uv)' = u'v + uv'. Ici u = 2x+1 (donc u'=2) et v = x-3 (donc v'=1).",
- correction:"<p><strong>Méthode 1 (produit)</strong> : $$\\begin{aligned} f'(x) &= 2(x-3) + (2x+1)(1) \\\\ &= 2x - 6 + 2x + 1 = 4x - 5 \\end{aligned}$$</p><p><strong>Méthode 2 (développer d'abord)</strong> : $f(x) = 2x^2 - 6x + x - 3 = 2x^2 - 5x - 3$, donc $f'(x) = 4x - 5$. Les deux méthodes donnent bien le même résultat ✓</p>"},
-{niveau:"Difficile",
- enonce:"<p>Soit $f(x) = \\dfrac{x^2+1}{x-1}$ définie sur $]1;+\\infty[$. Calcule $f'(x)$ et détermine le signe de $f'(x)$ sur cet intervalle.</p>",
- aide:"Formule du quotient : (u/v)' = (u'v-uv')/v². Une fois f'(x) calculée, factorise le numérateur pour étudier son signe (le dénominateur (x-1)² est toujours positif).",
- correction:"<p>$u = x^2+1$ donc $u'=2x$ ; $v = x-1$ donc $v'=1$.</p><p>$$\\begin{aligned} f'(x) &= \\dfrac{2x(x-1) - (x^2+1)(1)}{(x-1)^2} \\\\ &= \\dfrac{2x^2-2x-x^2-1}{(x-1)^2} \\\\ &= \\dfrac{x^2-2x-1}{(x-1)^2} \\end{aligned}$$</p><p>Le dénominateur $(x-1)^2$ est toujours positif. Le signe de $f'(x)$ dépend donc du numérateur $x^2-2x-1$ (discriminant Δ=8, racines $1-\\sqrt2$ et $1+\\sqrt2$). Sur $]1;+\\infty[$, seule la racine $1+\\sqrt2 \\approx 2,41$ est dans l'intervalle : $f'(x) < 0$ sur $]1;1+\\sqrt2[$ et $f'(x) > 0$ sur $]1+\\sqrt2;+\\infty[$.</p>"},
-{niveau:"Facile",
- enonce:"<p>Soit $f(x) = x^4 - 2x^3 + 5x - 7$. Calcule $f'(x)$, puis $f'(1)$.</p>",
- aide:"Dérive terme à terme avec (xⁿ)' = n·xⁿ⁻¹. La dérivée de 5x est 5 et celle de −7 est 0.",
- correction:"<p>$f'(x) = 4x^3 - 2\\times 3x^2 + 5 - 0 = 4x^3 - 6x^2 + 5$.</p><p>$f'(1) = 4 - 6 + 5 = 3$.</p>"},
-{niveau:"Facile",
- enonce:"<p>Soit $f(x) = x^2 + x$. Détermine l'équation de la tangente à la courbe de $f$ au point d'abscisse $a = 1$.</p>",
- aide:"Calcule f(1), f'(x) puis f'(1), puis utilise y = f'(a)(x − a) + f(a).",
- correction:"<p>$f(1) = 1 + 1 = 2$. $f'(x) = 2x + 1$ donc $f'(1) = 3$.</p><p>Tangente : $y = 3(x - 1) + 2 = 3x - 1$.</p>"},
-{niveau:"Moyen",
- enonce:"<p>Étudie les variations de $g(x) = x^3 - 6x^2 + 9x + 2$ sur $\\mathbb{R}$ : calcule $g'(x)$, factorise-la, donne son signe puis dresse le tableau de variations avec les valeurs aux extremums.</p>",
- aide:"g'(x) est un trinôme du second degré : factorise par 3, puis cherche les racines. Rappel : à l'extérieur des racines, du signe de a.",
- correction:"<p>$g'(x) = 3x^2 - 12x + 9 = 3(x^2 - 4x + 3)$. Pour $x^2 - 4x + 3$ : $\\Delta = 16 - 12 = 4$, racines $\\dfrac{4 \\mp 2}{2}$ : $1$ et $3$. Donc $g'(x) = 3(x-1)(x-3)$.</p><p>Comme $a = 3 > 0$ : $g'(x) > 0$ sur $]-\\infty\\,;1[$ et $]3\\,;+\\infty[$, et $g'(x) < 0$ sur $]1\\,;3[$.</p><p>$g(1) = 1 - 6 + 9 + 2 = 6$ et $g(3) = 27 - 54 + 27 + 2 = 2$.</p><p>$g$ est croissante sur $]-\\infty\\,;1]$, décroissante sur $[1\\,;3]$, croissante sur $[3\\,;+\\infty[$ : maximum local $6$ en $x = 1$, minimum local $2$ en $x = 3$.</p>"},
-{niveau:"Moyen",
- enonce:"<p>Soit $f(x) = ax^2 + bx$ où $a$ et $b$ sont deux réels. On sait que la courbe de $f$ passe par le point $A(1\\,;\\,3)$ et que la tangente en $A$ a pour pente $4$. Détermine $a$ et $b$.</p>",
- aide:"Traduis chaque information en équation : « passe par A(1 ; 3) » donne f(1) = 3 ; « pente 4 » donne f'(1) = 4. Tu obtiens un système.",
- correction:"<p>$f(1) = a + b = 3$. Et $f'(x) = 2ax + b$, donc $f'(1) = 2a + b = 4$.</p><p>En soustrayant les deux équations : $(2a + b) - (a + b) = 4 - 3$, donc $a = 1$, puis $b = 2$.</p><p>Donc $f(x) = x^2 + 2x$. Vérification : $f(1) = 3$ ✓ et $f'(1) = 2 + 2 = 4$ ✓.</p>"},
-{niveau:"Difficile",
- enonce:"<p>On veut clôturer un enclos rectangulaire d'aire $16\\ \\text{m}^2$. Un côté mesure $x$ mètres ($x > 0$).</p><p>1) Exprime l'autre côté, puis le périmètre $P(x)$ en fonction de $x$.<br>2) Étudie les variations de $P$ sur $]0\\,;+\\infty[$.<br>3) Quelles dimensions donnent le plus petit périmètre ? Que remarque-t-on ?</p>",
- aide:"Aire = x × y = 16 donc y = 16/x. Dérive P(x) = 2x + 32/x avec (1/x)' = −1/x², puis mets sur le même dénominateur pour étudier le signe.",
- correction:"<p>1) L'autre côté vaut $\\dfrac{16}{x}$ et $P(x) = 2\\left(x + \\dfrac{16}{x}\\right) = 2x + \\dfrac{32}{x}$.</p><p>2) $$\\begin{aligned} P'(x) &= 2 - \\dfrac{32}{x^2} = \\dfrac{2x^2 - 32}{x^2} \\\\ &= \\dfrac{2(x-4)(x+4)}{x^2} \\,. \\end{aligned}$$ Pour $x > 0$, $x + 4 > 0$ et $x^2 > 0$ : le signe de $P'$ est celui de $(x - 4)$. Donc $P$ décroît sur $]0\\,;4]$ et croît sur $[4\\,;+\\infty[$.</p><p>3) Le minimum est atteint en $x = 4$ : $P(4) = 8 + 8 = 16$ m. L'autre côté vaut $\\dfrac{16}{4} = 4$ : c'est un <strong>carré de 4 m de côté</strong>. À aire donnée, c'est le carré qui a le plus petit périmètre.</p>"},
-{niveau:"Difficile",
- enonce:"<p>Soit $f(x) = x^2$. Existe-t-il des tangentes à la courbe de $f$ qui passent par le point $A(1\\,;\\,-3)$ ? Si oui, donne leurs équations.</p>",
- aide:"Écris la tangente en un point d'abscisse a quelconque : y = 2a(x − a) + a². Impose ensuite qu'elle passe par A : tu obtiens une équation du second degré en a.",
- correction:"<p>Tangente en $a$ : $f(a) = a^2$, $f'(a) = 2a$, donc $y = 2a(x - a) + a^2 = 2ax - a^2$.</p><p>Elle passe par $A(1\\,;-3)$ si $-3 = 2a - a^2$, c'est-à-dire $a^2 - 2a - 3 = 0$. $\\Delta = 4 + 12 = 16$, donc $a = \\dfrac{2 \\mp 4}{2}$ : $a = 3$ ou $a = -1$.</p><p>Il y a donc <strong>deux tangentes</strong> : pour $a = 3$, $y = 6x - 9$ ; pour $a = -1$, $y = -2x - 1$.</p><p>Vérification en $A$ : $6\\times 1 - 9 = -3$ ✓ et $-2\\times 1 - 1 = -3$ ✓.</p>"}
-],
-flashcards:[
-{q:"Dérivée de xⁿ",a:"n·xⁿ⁻¹"},
-{q:"Dérivée de √x",a:"1/(2√x), définie sur ]0 ; +∞["},
-{q:"Dérivée de 1/x",a:"−1/x²"},
-{q:"Dérivée de sin x",a:"cos x"},
-{q:"Dérivée de cos x",a:"−sin x"},
-{q:"Dérivée de eˣ",a:"eˣ (l'exponentielle est sa propre dérivée)"},
-{q:"Dérivée de ln x",a:"1/x (pour x > 0)"},
-{q:"Règle du produit (uv)'",a:"u'v + uv'"},
-{q:"Règle du quotient (u/v)'",a:"(u'v − uv') / v²"},
-{q:"Dérivée d'une composée (u∘v)'",a:"v' · u'(v). Ex : (e^(2x))' = 2e^(2x)   |   (sin(3x))' = 3cos(3x)"},
-{q:"Si f'(x) > 0 sur I",a:"f est strictement CROISSANTE sur I."},
-{q:"Si f'(x) < 0 sur I",a:"f est strictement DÉCROISSANTE sur I."},
-{q:"Équation de la tangente en x = a",a:"y = f'(a)(x − a) + f(a)"},
-{q:"Dérivée de uⁿ (composée)",a:"n·u'·uⁿ⁻¹. Ex : (sin²x)' = 2sinx·cosx"},
-{q:"Nombre dérivé f'(a) : définition",a:"Limite du taux de variation (f(a+h) − f(a))/h quand h tend vers 0. C'est la pente de la tangente en a."},
-{q:"Dérivée de x²",a:"2x"},
-{q:"Dérivée de x³",a:"3x²"},
-{q:"Dérivée d'une fonction affine ax + b",a:"a (la pente)."},
-{q:"Dérivée de (ax + b)ⁿ",a:"n·a·(ax + b)ⁿ⁻¹. Ex : ((3x + 2)⁴)' = 12(3x + 2)³"},
-{q:"Tangente horizontale en x = a : condition",a:"f'(a) = 0."},
-{q:"f'(a) = 0 suffit-il pour avoir un extremum en a ?",a:"Non. Il faut aussi que f' change de signe en a. Contre-exemple : x³ en 0."},
-{q:"Méthode pour étudier les variations de f",a:"1. Ensemble de définition. 2. Calculer et factoriser f'. 3. Signe de f'. 4. Tableau de variations."},
-{q:"(uv)' est-il égal à u'v' ?",a:"Non ! (uv)' = u'v + uv'. Test : (x·x)' = 2x alors que x'·x' = 1."},
-{q:"Dérivée de k·u (k constante)",a:"k·u'"},
-{q:"Dérivée d'une fonction de degré 3 : quelle nature ?",a:"Un trinôme du second degré. On étudie donc son signe avec Δ et les racines."},
-{q:"Taux de variation vs nombre dérivé",a:"Taux de variation : entre deux points distincts a et b (pente de la sécante). Nombre dérivé : limite quand b tend vers a (pente de la tangente)."}
-]},
+ "cours": "<div class=\"attention-box\"><strong>Ce qui tombera à l'évaluation (Dérivation, 1ʳᵉ partie) :</strong> (1) calculer un <em>taux de variation</em> ; (2) calculer un <em>nombre dérivé</em> avec $\\frac{f(a+h)-f(a)}{h}$ puis $h\\to0$ ; (3) <em>lire</em> $f(a)$ et $f'(a)$ sur un graphique avec ses tangentes ; (4) trouver l'<em>équation d'une tangente</em> ; (5) <em>interpréter</em> un nombre dérivé (vitesse, évolution). Les parties 5 à 7 te donnent les méthodes et les pièges.</div>\n\n<h3>0. Comprendre avant de calculer : 3 images</h3>\n<p><strong>Image n°1 — vitesse moyenne ou vitesse instantanée ?</strong> Un trajet de 200 km en 2 h, c'est une vitesse <em>moyenne</em> de 100 km/h : c'est un <strong>taux de variation</strong>. Mais à un instant précis, le compteur de ta voiture affiche une autre valeur : la vitesse <em>instantanée</em>. C'est le <strong>nombre dérivé</strong>. On l'obtient en prenant des durées de plus en plus courtes autour de cet instant.</p>\n<p><strong>Image n°2 — de la sécante à la tangente.</strong> Sur la courbe, on fixe $A$ et on prend un point $M$ de plus en plus proche. La droite $(AM)$ (une <em>sécante</em>) tourne et se rapproche d'une droite limite : la <strong>tangente</strong>. Les pentes des sécantes se rapprochent de la pente de la tangente, qui est le nombre dérivé.</p>\n<svg viewBox=\"0 0 540 235\" role=\"img\" aria-label=\"Des sécantes vers la tangente\" style=\"width:100%;max-width:560px;display:block;margin:12px auto\"><line x1=\"20\" y1=\"215\" x2=\"520\" y2=\"215\" stroke=\"currentColor\" stroke-opacity=\".35\"/><polyline points=\"30.0,215.0 38.5,214.9 47.0,214.7 55.5,214.3 64.0,213.7 72.5,213.0 81.0,212.1 89.5,211.1 98.0,209.9 106.5,208.5 115.0,207.0 123.5,205.3 132.0,203.5 140.5,201.5 149.0,199.3 157.5,197.0 166.0,194.5 174.5,191.9 183.0,189.1 191.5,186.1 200.0,183.0 208.5,179.7 217.0,176.3 225.5,172.7 234.0,168.9 242.5,165.0 251.0,160.9 259.5,156.7 268.0,152.3 276.5,147.7 285.0,143.0 293.5,138.1 302.0,133.1 310.5,127.9 319.0,122.5 327.5,117.0 336.0,111.3 344.5,105.5 353.0,99.5 361.5,93.3 370.0,87.0 378.5,80.5 387.0,73.9 395.5,67.1 404.0,60.1 412.5,53.0 421.0,45.7 429.5,38.3 438.0,30.7 446.5,22.9 455.0,15.0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\"/><line x1=\"149.0\" y1=\"211.8\" x2=\"429.5\" y2=\"53.4\" stroke=\"#94a3b8\" stroke-width=\"1.6\"/><circle cx=\"370.0\" cy=\"87.0\" r=\"4\" fill=\"#94a3b8\"/><line x1=\"149.0\" y1=\"207.0\" x2=\"429.5\" y2=\"75.0\" stroke=\"#94a3b8\" stroke-width=\"1.6\"/><circle cx=\"285.0\" cy=\"143.0\" r=\"4\" fill=\"#94a3b8\"/><line x1=\"149.0\" y1=\"204.6\" x2=\"429.5\" y2=\"85.8\" stroke=\"#94a3b8\" stroke-width=\"1.6\"/><circle cx=\"242.5\" cy=\"165.0\" r=\"4\" fill=\"#94a3b8\"/><line x1=\"123.5\" y1=\"211.8\" x2=\"429.5\" y2=\"96.6\" stroke=\"#ec4899\" stroke-width=\"2.8\"/><circle cx=\"200\" cy=\"183\" r=\"5.5\" fill=\"#6366f1\"/><text x=\"192\" y=\"203\" text-anchor=\"middle\" font-size=\"14\" font-weight=\"600\" fill=\"currentColor\">A</text><text x=\"376\" y=\"79\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"500\" fill=\"currentColor\">h = 2</text><text x=\"291\" y=\"133.0\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"500\" fill=\"currentColor\">h = 1</text><text x=\"246.5\" y=\"153.0\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"500\" fill=\"currentColor\">h = 0,5</text><text x=\"445\" y=\"66\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"500\" fill=\"currentColor\">pente 1,5</text><text x=\"445\" y=\"98\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"500\" fill=\"currentColor\">pente 1,25</text><text x=\"448\" y=\"127\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"500\" fill=\"currentColor\">pente 1,125</text><text x=\"450\" y=\"153\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"600\" fill=\"#ec4899\">tangente</text><text x=\"450\" y=\"168\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"600\" fill=\"#ec4899\">pente f′(a) = 1</text></svg>\n<p><strong>Image n°3 — le zoom.</strong> Regarde une courbe lisse avec un énorme zoom autour de $A$ : elle ressemble à une droite. Cette droite, c'est la tangente : la meilleure approximation de la courbe par une droite, tout près de $A$.</p>\n\n<h3>1. Taux de variation entre $a$ et $b$</h3>\n<div class=\"formula-box\">$a\\neq b$ dans $I$ : $\\dfrac{\\Delta y}{\\Delta x}=\\dfrac{f(b)-f(a)}{b-a}$</div>\n<p><strong>Exemple 1.</strong> $f(t)=5t^2$ entre 4 et 5 : $\\dfrac{f(5)-f(4)}{5-4}=\\dfrac{125-80}{1}=45$.<br>\n<strong>Interprétation.</strong> Si $f$ est une distance en fonction du temps, le taux de variation est une <strong>vitesse moyenne</strong> (ici 45 m/s entre 4 s et 5 s).<br>\n<strong>Graphiquement.</strong> C'est le <strong>coefficient directeur de la droite $(AB)$</strong> qui coupe la courbe en $A(a;f(a))$ et $B(b;f(b))$.</p>\n\n<h3>2. Nombre dérivé de $f$ en $a$</h3>\n<p>On note $h=b-a$, donc $b=a+h$. Le taux d'accroissement entre $a$ et $a+h$ est $\\dfrac{f(a+h)-f(a)}{h}$.</p>\n<p><strong>Exemple 2.</strong> $f(t)=5t^2$ entre 4 et $4+h$ :<br>\n$\\dfrac{f(4+h)-f(4)}{h}=\\dfrac{5(4+h)^2-5\\times4^2}{h}=\\dfrac{5(16+8h+h^2)-80}{h}=\\dfrac{40h+5h^2}{h}=40+5h$.<br>\nQuand $h$ se rapproche de 0, $40+5h$ se rapproche de <strong>40</strong>. Le nombre dérivé est $f'(4)=40$ (vitesse instantanée : 40 m/s à $t=4$).</p>\n<table><tr><th>$h$</th><th>0,5</th><th>0,2</th><th>0,1</th><th>0,01</th><th>0,001</th><th>→ 0</th></tr>\n<tr><td>vitesse moyenne entre 4 et $4+h$</td><td>42,5</td><td>41</td><td>40,5</td><td>40,05</td><td>40,005</td><td><strong>40</strong></td></tr></table>\n<div class=\"formula-box\"><strong>Définition.</strong> $f$ est <strong>dérivable en $a$</strong> si, quand $h\\to0$, $\\dfrac{f(a+h)-f(a)}{h}$ se rapproche d'un réel $\\ell$. Ce réel est le <strong>nombre dérivé</strong> noté $f'(a)$ :<br>$\\dfrac{f(a+h)-f(a)}{h}\\xrightarrow[h\\to0]{}f'(a)$. (« tend vers $f'(a)$ lorsque $h$ tend vers 0 »)</div>\n<div class=\"retenir-box\"><strong>Méthode — calculer $f'(a)$ en 3 étapes.</strong><br>① Écrire $\\dfrac{f(a+h)-f(a)}{h}$ avec la vraie fonction.<br>② <strong>Développer et simplifier</strong> jusqu'à ce que le $h$ du dénominateur disparaisse (on met $h$ en facteur au numérateur).<br>③ Faire tendre $h$ vers 0 dans le résultat simplifié (les termes qui contiennent encore $h$ disparaissent).<br><em>Exemple 3 :</em> $f(x)=x^2$, $a=1$ : $\\dfrac{(1+h)^2-1}{h}=\\dfrac{1+2h+h^2-1}{h}=\\dfrac{2h+h^2}{h}=2+h\\to2$. Donc $f'(1)=2$.<br><em>On ne remplace jamais $h$ par 0 avant de simplifier</em> : on obtiendrait $\\frac00$.</div>\n<p><strong>Ce que la méthode donne pour $x^2$ :</strong> en 1 → 2 ; en 2 → $\\frac{(2+h)^2-4}{h}=4+h\\to4$ ; en 3 → $\\frac{(3+h)^2-9}{h}=6+h\\to6$. On devine $f'(a)=2a$. Pour $f(t)=5t^2$, le TP donne $f'(t)=10t$.</p>\n<p><strong>Remarque sur le développement.</strong> $(a+h)^2=a^2+2ah+h^2$ (n'oublie pas le terme du milieu !). Et $(a+h)^3=a^3+3a^2h+3ah^2+h^3$.</p>\n\n<h3>3. La tangente à la courbe en un point</h3>\n<div class=\"formula-box\"><strong>Définition.</strong> $f$ dérivable en $a$. La <strong>tangente</strong> à $\\mathcal{C}_f$ au point $A(a;f(a))$ est la droite qui passe par $A$ et dont le <strong>coefficient directeur est $f'(a)$</strong>.</div>\n<div class=\"retenir-box\"><strong>Méthode — lire $f'(a)$ sur un graphique.</strong> ① Repère le point de la courbe d'abscisse $a$ et sa tangente. ② Prends deux points de la tangente et lis $\\Delta x$ (vers la droite) et $\\Delta y$ (en haut : +, en bas : −). ③ $f'(a)=\\dfrac{\\Delta y}{\\Delta x}$.<br><strong>Cas à reconnaître :</strong> tangente qui monte → $f'(a)>0$ ; qui descend → $f'(a)<0$ ; <strong>horizontale</strong> → $f'(a)=0$.<br><strong>Exemple (courbe ci-dessous).</strong> En $A$ la tangente descend de 2 pour 1 carreau : $f'(0)=-2$ et $f(0)=0$. En $B$ elle est horizontale : $f'(2)=0$, $f(2)=-2$. En $C$ elle monte de 2 pour 1 : $f'(4)=2$, $f(4)=0$.</div>\n<svg viewBox=\"0 0 360 200\" role=\"img\" aria-label=\"Courbe avec trois tangentes\" style=\"width:100%;max-width:420px;display:block;margin:12px auto\"><line x1=\"28\" y1=\"10\" x2=\"28\" y2=\"185\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"185\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"132\" y1=\"10\" x2=\"132\" y2=\"185\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"184\" y1=\"10\" x2=\"184\" y2=\"185\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"236\" y1=\"10\" x2=\"236\" y2=\"185\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"288\" y1=\"10\" x2=\"288\" y2=\"185\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"340\" y1=\"10\" x2=\"340\" y2=\"185\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"20\" y1=\"209\" x2=\"345\" y2=\"209\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"20\" y1=\"171\" x2=\"345\" y2=\"171\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"20\" y1=\"133\" x2=\"345\" y2=\"133\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"20\" y1=\"95\" x2=\"345\" y2=\"95\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"20\" y1=\"57\" x2=\"345\" y2=\"57\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"20\" y1=\"19\" x2=\"345\" y2=\"19\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"20\" y1=\"95\" x2=\"345\" y2=\"95\" stroke=\"currentColor\" stroke-opacity=\".6\"/><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"185\" stroke=\"currentColor\" stroke-opacity=\".6\"/><text x=\"132\" y=\"108\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"500\" fill=\"currentColor\">1</text><text x=\"72\" y=\"61\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"500\" fill=\"currentColor\">1</text><polyline points=\"48.8,42.6 51.4,47.5 54.0,52.2 56.6,57.0 59.2,61.6 61.8,66.1 64.4,70.5 67.0,74.8 69.6,79.0 72.2,83.2 74.8,87.2 77.4,91.2 80.0,95.0 82.6,98.8 85.2,102.4 87.8,106.0 90.4,109.4 93.0,112.8 95.6,116.1 98.2,119.3 100.8,122.4 103.4,125.4 106.0,128.2 108.6,131.1 111.2,133.8 113.8,136.4 116.4,138.9 119.0,141.3 121.6,143.6 124.2,145.9 126.8,148.0 129.4,150.1 132.0,152.0 134.6,153.9 137.2,155.6 139.8,157.3 142.4,158.8 145.0,160.3 147.6,161.7 150.2,163.0 152.8,164.2 155.4,165.3 158.0,166.2 160.6,167.2 163.2,168.0 165.8,168.7 168.4,169.3 171.0,169.8 173.6,170.2 176.2,170.6 178.8,170.8 181.4,171.0 184.0,171.0 186.6,171.0 189.2,170.8 191.8,170.6 194.4,170.2 197.0,169.8 199.6,169.3 202.2,168.7 204.8,168.0 207.4,167.2 210.0,166.2 212.6,165.3 215.2,164.2 217.8,163.0 220.4,161.7 223.0,160.3 225.6,158.8 228.2,157.3 230.8,155.6 233.4,153.9 236.0,152.0 238.6,150.1 241.2,148.0 243.8,145.9 246.4,143.6 249.0,141.3 251.6,138.9 254.2,136.4 256.8,133.8 259.4,131.1 262.0,128.2 264.6,125.4 267.2,122.4 269.8,119.3 272.4,116.1 275.0,112.8 277.6,109.4 280.2,106.0 282.8,102.4 285.4,98.8 288.0,95.0 290.6,91.2 293.2,87.2 295.8,83.2 298.4,79.0 301.0,74.8 303.6,70.5 306.2,66.1 308.8,61.6 311.4,57.0 314.0,52.2 316.6,47.5 319.2,42.6 321.8,37.6 324.4,32.5 327.0,27.3 329.6,22.0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\"/><line x1=\"33.2\" y1=\"26.6\" x2=\"126.8\" y2=\"163.4\" stroke=\"#ec4899\" stroke-width=\"1.8\"/><circle cx=\"80\" cy=\"95.0\" r=\"4.5\" fill=\"#6366f1\"/><text x=\"90\" y=\"87.0\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"600\" fill=\"currentColor\">A</text><line x1=\"137.2\" y1=\"171.0\" x2=\"230.8\" y2=\"171.0\" stroke=\"#ec4899\" stroke-width=\"1.8\"/><circle cx=\"184\" cy=\"171.0\" r=\"4.5\" fill=\"#6366f1\"/><text x=\"194\" y=\"191.0\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"600\" fill=\"currentColor\">B</text><line x1=\"241.2\" y1=\"163.4\" x2=\"334.8\" y2=\"26.6\" stroke=\"#ec4899\" stroke-width=\"1.8\"/><circle cx=\"288\" cy=\"95.0\" r=\"4.5\" fill=\"#6366f1\"/><text x=\"286\" y=\"87.0\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"600\" fill=\"currentColor\">C</text></svg>\n<h3>4. Équation réduite de la tangente</h3>\n<div class=\"formula-box\">La tangente à $\\mathcal{C}_f$ au point d'abscisse $a$ a pour équation : $\\;y=f'(a)\\,(x-a)+f(a)$.</div>\n<div class=\"retenir-box\"><strong>Méthode en 4 étapes.</strong> ① Noter $a$. ② Calculer $f(a)$. ③ Calculer (ou lire) $f'(a)$. ④ Remplacer dans la formule puis développer pour obtenir $y=mx+p$.<br>\n<strong>Exemple 6.</strong> $f(x)=x^2$. <br>• Au point d'abscisse $a=-2$ : $f(-2)=4$, $f'(-2)=-4$. $y=-4(x+2)+4=-4x-8+4=-4x-4$.<br>• Au point $B(1;1)$ : $f(1)=1$, $f'(1)=2$. $y=2(x-1)+1=2x-2+1=2x-1$.<br><strong>Vérification rapide :</strong> la tangente doit passer par $(a;f(a))$ : $-4(-2)-4=4$ ✓ ; $2\\times1-1=1$ ✓.</div>\n\n<h3>5. À quoi ça sert ? Interpréter un nombre dérivé</h3>\n<ul>\n<li><strong>Vitesse :</strong> $f(t)$ = distance en m, $t$ en s → $f'(t)$ en <strong>m/s</strong> (vitesse instantanée). Tour Eiffel : $f(t)=5t^2$, $f'(t)=10t$, à l'impact ($t\\approx7{,}47$ s) : $f'(7{,}47)=74{,}7$ m/s ≈ 269 km/h.</li>\n<li><strong>Évolution :</strong> $f'(2)=56$ dans l'épidémie → au bout de 2 mois, le nombre de malades augmente d'environ 56 000 par mois.</li>\n<li><strong>Signe :</strong> $f'(a)>0$ : $f$ monte ; $f'(a)<0$ : $f$ descend ; $f'(a)=0$ : tangente horizontale (souvent un maximum ou un minimum).</li>\n</ul>\n\n<h3>6. Quelle méthode pour quelle question ?</h3>\n<table><tr><th>La question…</th><th>Tu fais…</th></tr>\n<tr><td>« taux de variation entre $a$ et $b$ »</td><td>$\\frac{f(b)-f(a)}{b-a}$</td></tr>\n<tr><td>« calculer $f'(a)$ » (avec la formule de $f$)</td><td>$\\frac{f(a+h)-f(a)}{h}$, simplifier, $h\\to0$</td></tr>\n<tr><td>on te <strong>donne</strong> $\\frac{f(a+h)-f(a)}{h}=\\ldots$</td><td>$h\\to0$ dans l'expression donnée</td></tr>\n<tr><td>« lire $f'(a)$ » sur le graphique</td><td>pente de la tangente : $\\Delta y/\\Delta x$</td></tr>\n<tr><td>« équation de la tangente en $a$ »</td><td>$y=f'(a)(x-a)+f(a)$</td></tr>\n<tr><td>« tangente <strong>parallèle</strong> à une droite $y=mx+p$ »</td><td>résoudre $f'(a)=m$</td></tr>\n<tr><td>« tangente horizontale »</td><td>résoudre $f'(a)=0$</td></tr></table>\n\n<h3>7. Les erreurs qui coûtent des points</h3>\n<div class=\"attention-box\">\n① Oublier de <strong>diviser par $h$</strong> ou de simplifier le $h$ avant de faire tendre $h$ vers 0.<br>\n② Mettre $h=0$ tout de suite dans la fraction (résultat $\\frac00$, impossible).<br>\n③ Confondre $f(a)$ (une <em>hauteur</em> sur la courbe) et $f'(a)$ (une <em>pente</em>).<br>\n④ Se tromper dans $(a+h)^2$ : oublier $2ah$.<br>\n⑤ Oublier $(x-a)$ dans l'équation de la tangente, ou mal développer $-4(x+2)$ (attention aux signes).<br>\n⑥ Lire une pente à l'œil : compte les carreaux, avec le signe ($\\Delta y$ négatif si la tangente descend).<br>\n⑦ Écrire « le nombre dérivé est le taux de variation » : c'est la <em>limite</em> des taux quand $h\\to0$.\n</div>\n\n<h3>8. À retenir</h3>\n<div class=\"retenir-box\">Taux de variation : $\\frac{f(b)-f(a)}{b-a}$ · Nombre dérivé : $f'(a)=\\lim_{h\\to0}\\frac{f(a+h)-f(a)}{h}$ · $f'(a)$ = pente de la tangente · Tangente : $y=f'(a)(x-a)+f(a)$ · Pour $x^2$ : $f'(a)=2a$ ; pour $5t^2$ : $f'(t)=10t$.</div>\n<div class=\"attention-box\"><strong>Pour la suite (2ᵉ partie du chapitre).</strong> Tu apprendras à dériver <em>sans passer par $h$</em>, avec des règles. Elles sont déjà résumées ci-dessous pour ceux qui veulent prendre de l'avance.</div>\n<h3>Suite du chapitre — Dérivées usuelles</h3>\n<table class=\"formula-table\">\n<tr><th>$f(x)$</th><th>$f'(x)$</th><th>Remarque</th></tr>\n<tr><td>$k$ (constante)</td><td>$0$</td><td></td></tr>\n<tr><td>$x$</td><td>$1$</td><td></td></tr>\n<tr><td>$x^2$</td><td>$2x$</td><td></td></tr>\n<tr><td>$x^3$</td><td>$3x^2$</td><td></td></tr>\n<tr><td>$x^n$</td><td>$n\\,x^{n-1}$</td><td>$n$ entier</td></tr>\n<tr><td>$\\dfrac{1}{x}$</td><td>$-\\dfrac{1}{x^2}$</td><td>sur $\\mathbb{R}^*$</td></tr>\n<tr><td>$\\sqrt{x}$</td><td>$\\dfrac{1}{2\\sqrt{x}}$</td><td>sur $]0\\,;+\\infty[$</td></tr>\n<tr><td>$\\sin x$</td><td>$\\cos x$</td><td></td></tr>\n<tr><td>$\\cos x$</td><td>$-\\sin x$</td><td></td></tr>\n<tr><td>$e^x$</td><td>$e^x$</td><td></td></tr>\n<tr><td>$\\ln x$</td><td>$\\dfrac{1}{x}$</td><td>sur $]0\\,;+\\infty[$</td></tr>\n</table>\n\n<h3>Suite du chapitre — Règles de calcul</h3>\n<div class=\"formula-box latex-block\">$(u+v)' = u' + v'$ &nbsp;&nbsp; $(k\\,u)' = k\\,u'$<br>\n$(u\\,v)' = u'v + u\\,v'$ &nbsp;&nbsp; $\\left(\\dfrac{u}{v}\\right)' = \\dfrac{u'v - u\\,v'}{v^2}$<br>\n$\\big(g(ax+b)\\big)' = a\\,g'(ax+b)$ &nbsp;&nbsp; $(u^n)' = n\\,u'\\,u^{n-1}$</div>\n<div class=\"attention-box\">Attention : $(u\\,v)' \\neq u'\\,v'$ ! La dérivée d'un produit n'est <strong>pas</strong> le produit des dérivées (ni pour le quotient). Teste : $(x\\times x)' = (x^2)' = 2x$, alors que $x' \\times x' = 1$.</div>\n<p><strong>Méthode pour un produit ou un quotient :</strong> écris d'abord un petit tableau $u,\\ u',\\ v,\\ v'$, <em>puis</em> applique la formule. Tu évites 90 % des erreurs.</p>\n<p><strong>Produit.</strong> $f(x) = x^2(3x - 1)$ : $u = x^2$, $u' = 2x$, $v = 3x-1$, $v' = 3$. $$\\begin{aligned} f'(x) &= 2x(3x-1) + x^2\\times 3 \\\\ &= 6x^2 - 2x + 3x^2 = 9x^2 - 2x \\,. \\end{aligned}$$ <em>Vérification : $f(x) = 3x^3 - x^2$, donc $f'(x) = 9x^2 - 2x$ ✓.</em></p>\n<p><strong>Quotient.</strong> $f(x) = \\dfrac{2x+1}{x+3}$ : $u = 2x+1$, $u' = 2$, $v = x+3$, $v' = 1$. $$\\begin{aligned} f'(x) &= \\dfrac{2(x+3) - (2x+1)\\times 1}{(x+3)^2} \\\\ &= \\dfrac{5}{(x+3)^2} \\,. \\end{aligned}$$ Le numérateur est positif et le carré aussi : $f$ est croissante sur chaque intervalle où elle est définie.</p>\n<p><strong>Puissance de $ax+b$.</strong> $f(x) = (3x+2)^4$ : $f'(x) = 4\\times 3\\times(3x+2)^3 = 12(3x+2)^3$.</p>\n\n<h3>Suite du chapitre — Dérivée et variations : la méthode en 4 étapes</h3>\n<ol>\n<li>Donner l'<strong>ensemble de définition</strong>.</li>\n<li>Calculer $f'(x)$ et, si possible, la <strong>factoriser</strong>.</li>\n<li>Étudier le <strong>signe de $f'(x)$</strong> (tableau de signes, souvent avec un trinôme du second degré !).</li>\n<li>Conclure dans un <strong>tableau de variations</strong> : $f' > 0 \\Rightarrow f$ croissante ; $f' < 0 \\Rightarrow f$ décroissante.</li>\n</ol>\n<p><strong>Exemple complet.</strong> $f(x) = 2x^3 - 3x^2 - 12x + 1$ sur $\\mathbb{R}$. $$\\begin{aligned} f'(x) &= 6x^2 - 6x - 12 = 6(x^2 - x - 2) \\\\ &= 6(x-2)(x+1) \\end{aligned}$$ (racines $-1$ et $2$ ; $a = 6 > 0$). Donc $f'(x) > 0$ sur $]-\\infty\\,;-1[$ et sur $]2\\,;+\\infty[$, et $f'(x) < 0$ sur $]-1\\,;2[$.</p>\n<table class=\"formula-table\">\n<tr><th>$x$</th><th>$-\\infty$</th><th></th><th>$-1$</th><th></th><th>$2$</th><th></th><th>$+\\infty$</th></tr>\n<tr><td>$f'(x)$</td><td></td><td>+</td><td>0</td><td>−</td><td>0</td><td>+</td><td></td></tr>\n<tr><td>$f(x)$</td><td></td><td>↗</td><td>$8$</td><td>↘</td><td>$-19$</td><td>↗</td><td></td></tr>\n</table>\n<p>$f(-1) = -2 - 3 + 12 + 1 = 8$ (maximum local) et $f(2) = 16 - 12 - 24 + 1 = -19$ (minimum local).</p>\n<div class=\"retenir-box\">Un <mark>extremum</mark> en $a$ demande que $f'(a) = 0$ <strong>ET</strong> que $f'$ <strong>change de signe</strong> en $a$. Contre-exemple : $f(x) = x^3$ a $f'(0) = 0$ mais $f'(x) = 3x^2 \\geq 0$ ne change pas de signe : pas d'extremum en $0$.</div>\n\n<h3>Suite du chapitre — Erreurs à éviter</h3>\n<div class=\"attention-box\">\n❌ Dériver un produit terme à terme : $(uv)' \\neq u'v'$.<br>\n❌ Oublier que la dérivée d'une constante est $0$ (et que $(5x)' = 5$, pas $0$).<br>\n❌ Dans un quotient, inverser l'ordre au numérateur : c'est $u'v - uv'$ (et non $uv' - u'v$).<br>\n❌ Écrire « $f'(a) = 0$ donc extremum » sans vérifier le changement de signe.<br>\n❌ Confondre $f(a)$ (une ordonnée) et $f'(a)$ (une pente).\n</div>",
+ "exercices": [
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><strong>TP « Du haut de la Tour Eiffel ».</strong> Une pièce est lâchée du haut de la tour (279 m). Distance parcourue (m) en fonction du temps (s) : $f(t)=5t^2$.<br>1) a. Temps mis pour arriver au sol (arrondi à $10^{-2}$). b. Vitesse moyenne de la chute en m/s puis km/h. Est-ce une bonne estimation de la vitesse à l'impact ?<br>2) a. Montrer que la vitesse moyenne entre $t_1=4$ et $t_2=4{,}5$ est 42,5 m/s. b. Compléter : vitesse moyenne entre 4 et $4+h$ pour $h=0{,}2$ ; $0{,}01$ ; $0{,}001$ ; $0{,}0001$. Vers quelle valeur tend-elle ?<br>3) Déterminer $f'(2)$, $f'(5)$, $f'(6)$, $f'(7)$ puis conjecturer $f'(t_0)$.<br>4) Montrer que $\\frac{f(t_0+h)-f(t_0)}{h}=10t_0+5h$, en déduire $f'(t_0)$ puis la vitesse à l'impact (m/s et km/h).</p>",
+   "aide": "Vitesse moyenne = (distance parcourue)/(durée). Pour le taux entre 4 et 4+h, c'est $\\frac{f(4+h)-f(4)}{h}$.",
+   "correction": "<p>1) a. $5t^2=279$ → $t^2=55{,}8$ → $t=\\sqrt{55{,}8}\\approx7{,}47$ s.<br>b. $v_{moy}=\\frac{279}{7{,}47}\\approx37{,}35$ m/s $\\approx134{,}5$ km/h ($\\times3{,}6$). <strong>Pas une bonne estimation</strong> de la vitesse à l'impact : la pièce accélère, donc elle va plus vite à la fin qu'en moyenne.<br>2) a. $\\frac{f(4{,}5)-f(4)}{0{,}5}=\\frac{101{,}25-80}{0{,}5}=42{,}5$ ✓.<br>b. $h=0{,}2$ : $\\frac{88{,}2-80}{0{,}2}=41$ ; $h=0{,}01$ : $40{,}05$ ; $h=0{,}001$ : $40{,}005$ ; $h=0{,}0001$ : $40{,}0005$. Valeur limite : <strong>40</strong>, donc $f'(4)=40$ m/s.<br>3) $f'(2)=20$, $f'(5)=50$, $f'(6)=60$, $f'(7)=70$ → conjecture $f'(t_0)=10t_0$.<br>4) $\\frac{5(t_0+h)^2-5t_0^2}{h}=\\frac{5t_0^2+10t_0h+5h^2-5t_0^2}{h}=\\frac{10t_0h+5h^2}{h}=10t_0+5h\\to10t_0$. Donc $f'(t)=10t$. À l'impact : $f'(7{,}47)=74{,}7$ m/s $\\approx268{,}9$ km/h (≈ 269). <em>Remarque : la vitesse moyenne (37,35) vaut exactement la moitié de la vitesse finale (74,7), typique d'une accélération constante.</em></p>"
+  },
+  {
+   "niveau": "Facile",
+   "enonce": "<p><strong>Ex 1.</strong> 1) $f$ est définie sur $\\mathbb{R}$ et $\\frac{f(1+h)-f(1)}{h}=h^2+2h+2$. Donner $f'(1)$.<br>2) $g$ est la fonction carré. a. Montrer que $\\frac{g(2+h)-g(2)}{h}=h+4$. Que peut-on en déduire quand $h$ tend vers 0 ? b. Déterminer de la même façon $g'(3)$.</p>",
+   "aide": "Quand on te donne le taux d'accroissement, il suffit de faire $h\\to0$. Sinon : développer, simplifier, $h\\to0$.",
+   "correction": "<p>1) Quand $h\\to0$, $h^2+2h+2\\to2$ donc $f'(1)=2$.<br>2) a. $\\frac{(2+h)^2-2^2}{h}=\\frac{4+4h+h^2-4}{h}=\\frac{4h+h^2}{h}=4+h$ ✓. Quand $h\\to0$ : $4+h\\to4$, donc $g'(2)=4$.<br>b. $\\frac{(3+h)^2-3^2}{h}=\\frac{9+6h+h^2-9}{h}=\\frac{6h+h^2}{h}=6+h\\to6$ donc $g'(3)=6$.</p>"
+  },
+  {
+   "niveau": "Facile",
+   "enonce": "<p><strong>Ex 2 bis — Lecture graphique.</strong> La courbe de $f$ est tracée avec ses tangentes aux points $A$, $B$, $C$ d'abscisses $0$, $2$, $4$ (1 carreau = 1 unité).</p><svg viewBox=\"0 0 360 200\" role=\"img\" aria-label=\"Courbe avec trois tangentes\" style=\"width:100%;max-width:420px;display:block;margin:12px auto\"><line x1=\"28\" y1=\"10\" x2=\"28\" y2=\"185\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"185\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"132\" y1=\"10\" x2=\"132\" y2=\"185\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"184\" y1=\"10\" x2=\"184\" y2=\"185\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"236\" y1=\"10\" x2=\"236\" y2=\"185\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"288\" y1=\"10\" x2=\"288\" y2=\"185\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"340\" y1=\"10\" x2=\"340\" y2=\"185\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"20\" y1=\"209\" x2=\"345\" y2=\"209\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"20\" y1=\"171\" x2=\"345\" y2=\"171\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"20\" y1=\"133\" x2=\"345\" y2=\"133\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"20\" y1=\"95\" x2=\"345\" y2=\"95\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"20\" y1=\"57\" x2=\"345\" y2=\"57\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"20\" y1=\"19\" x2=\"345\" y2=\"19\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"20\" y1=\"95\" x2=\"345\" y2=\"95\" stroke=\"currentColor\" stroke-opacity=\".6\"/><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"185\" stroke=\"currentColor\" stroke-opacity=\".6\"/><text x=\"132\" y=\"108\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"500\" fill=\"currentColor\">1</text><text x=\"72\" y=\"61\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"500\" fill=\"currentColor\">1</text><polyline points=\"48.8,42.6 51.4,47.5 54.0,52.2 56.6,57.0 59.2,61.6 61.8,66.1 64.4,70.5 67.0,74.8 69.6,79.0 72.2,83.2 74.8,87.2 77.4,91.2 80.0,95.0 82.6,98.8 85.2,102.4 87.8,106.0 90.4,109.4 93.0,112.8 95.6,116.1 98.2,119.3 100.8,122.4 103.4,125.4 106.0,128.2 108.6,131.1 111.2,133.8 113.8,136.4 116.4,138.9 119.0,141.3 121.6,143.6 124.2,145.9 126.8,148.0 129.4,150.1 132.0,152.0 134.6,153.9 137.2,155.6 139.8,157.3 142.4,158.8 145.0,160.3 147.6,161.7 150.2,163.0 152.8,164.2 155.4,165.3 158.0,166.2 160.6,167.2 163.2,168.0 165.8,168.7 168.4,169.3 171.0,169.8 173.6,170.2 176.2,170.6 178.8,170.8 181.4,171.0 184.0,171.0 186.6,171.0 189.2,170.8 191.8,170.6 194.4,170.2 197.0,169.8 199.6,169.3 202.2,168.7 204.8,168.0 207.4,167.2 210.0,166.2 212.6,165.3 215.2,164.2 217.8,163.0 220.4,161.7 223.0,160.3 225.6,158.8 228.2,157.3 230.8,155.6 233.4,153.9 236.0,152.0 238.6,150.1 241.2,148.0 243.8,145.9 246.4,143.6 249.0,141.3 251.6,138.9 254.2,136.4 256.8,133.8 259.4,131.1 262.0,128.2 264.6,125.4 267.2,122.4 269.8,119.3 272.4,116.1 275.0,112.8 277.6,109.4 280.2,106.0 282.8,102.4 285.4,98.8 288.0,95.0 290.6,91.2 293.2,87.2 295.8,83.2 298.4,79.0 301.0,74.8 303.6,70.5 306.2,66.1 308.8,61.6 311.4,57.0 314.0,52.2 316.6,47.5 319.2,42.6 321.8,37.6 324.4,32.5 327.0,27.3 329.6,22.0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\"/><line x1=\"33.2\" y1=\"26.6\" x2=\"126.8\" y2=\"163.4\" stroke=\"#ec4899\" stroke-width=\"1.8\"/><circle cx=\"80\" cy=\"95.0\" r=\"4.5\" fill=\"#6366f1\"/><text x=\"90\" y=\"87.0\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"600\" fill=\"currentColor\">A</text><line x1=\"137.2\" y1=\"171.0\" x2=\"230.8\" y2=\"171.0\" stroke=\"#ec4899\" stroke-width=\"1.8\"/><circle cx=\"184\" cy=\"171.0\" r=\"4.5\" fill=\"#6366f1\"/><text x=\"194\" y=\"191.0\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"600\" fill=\"currentColor\">B</text><line x1=\"241.2\" y1=\"163.4\" x2=\"334.8\" y2=\"26.6\" stroke=\"#ec4899\" stroke-width=\"1.8\"/><circle cx=\"288\" cy=\"95.0\" r=\"4.5\" fill=\"#6366f1\"/><text x=\"286\" y=\"87.0\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"600\" fill=\"currentColor\">C</text></svg><p>1) Donner $f(a)$ et $f'(a)$ pour $a=0$, $a=2$, $a=4$. 2) Donner l'équation réduite de la tangente en $A$.</p>",
+   "aide": "Sur la tangente, compte $\\Delta y$ pour $\\Delta x=1$ carreau vers la droite.",
+   "correction": "<p>$A$ : $f(0)=0$ ; la tangente descend de 2 pour 1 carreau → $f'(0)=-2$.<br>$B$ : $f(2)=-2$ ; tangente horizontale → $f'(2)=0$.<br>$C$ : $f(4)=0$ ; la tangente monte de 2 pour 1 → $f'(4)=2$.<br>2) $y=f'(0)(x-0)+f(0)=-2x$.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><strong>Ex 2 et 3 (ta feuille) — méthode.</strong> Pour chaque point $A$, $B$, $C$, $D$ des courbes avec tangentes : donner $f(a)$ et $f'(a)$.</p>",
+   "aide": "Fais toujours deux choses : lire la hauteur du point (pour $f(a)$), puis la pente de sa tangente (pour $f'(a)$).",
+   "correction": "<p><strong>Méthode.</strong> ① $f(a)$ : le point est sur la courbe, on lit son ordonnée. ② $f'(a)$ : sur la tangente, lis $\\Delta y$ pour un $\\Delta x$ de plusieurs carreaux vers la droite, puis divise. ③ Tangente horizontale → $f'(a)=0$ (sommet de la courbe). ④ Vérifie le signe : courbe qui monte → positif, qui descend → négatif.<br>Exemple de rédaction : « Au point $C$, la tangente est horizontale donc $f'(\\frac52)=0$, et $C$ a pour ordonnée 4 donc $f(\\frac52)=4$. » Refais chaque point de ta feuille avec cette méthode ; si tu m'envoies une photo plus nette des figures, je te donne les valeurs.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><strong>Ex 4.</strong> À partir du tableau, donner une allure possible de la courbe de $g$ sur $[-4;4]$.</p><table><tr><th>$x$</th><th>−4</th><th>−2</th><th>0</th><th>2</th><th>3</th></tr><tr><td>$g(x)$</td><td>2</td><td>2</td><td>−1</td><td>0</td><td>2,5</td></tr><tr><td>$g'(x)$</td><td>0,5</td><td>−1</td><td>0</td><td>2</td><td>1</td></tr></table>",
+   "aide": "Place d'abord les 5 points, puis à chaque point dessine un petit segment de tangente avec la bonne pente.",
+   "correction": "<p><strong>Méthode :</strong> ① place les points $(-4;2)$, $(-2;2)$, $(0;-1)$, $(2;0)$, $(3;2{,}5)$ ; ② à chacun, trace un petit trait de pente $0{,}5$ ; $-1$ ; $0$ ; $2$ ; $1$ ; ③ relie par une courbe lisse qui épouse ces tangentes.<br>Lecture : en $-4$ la courbe monte doucement, puis elle redescend (en $-2$ la pente est $-1$) ; elle descend jusqu'à un <strong>minimum en $x=0$</strong> (tangente horizontale, $g(0)=-1$) ; puis elle remonte de plus en plus vite ($g'(2)=2$) et continue de monter en $x=3$.</p><svg viewBox=\"0 0 400 190\" role=\"img\" aria-label=\"Allure possible de la courbe de g\" style=\"width:100%;max-width:440px;display:block;margin:12px auto\"><line x1=\"40\" y1=\"10\" x2=\"40\" y2=\"170\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"170\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"120\" y1=\"10\" x2=\"120\" y2=\"170\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"160\" y1=\"10\" x2=\"160\" y2=\"170\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"200\" y1=\"10\" x2=\"200\" y2=\"170\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"240\" y1=\"10\" x2=\"240\" y2=\"170\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"280\" y1=\"10\" x2=\"280\" y2=\"170\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"320\" y1=\"10\" x2=\"320\" y2=\"170\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"360\" y1=\"10\" x2=\"360\" y2=\"170\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"30\" y1=\"148\" x2=\"375\" y2=\"148\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"30\" y1=\"118\" x2=\"375\" y2=\"118\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"30\" y1=\"88\" x2=\"375\" y2=\"88\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"30\" y1=\"58\" x2=\"375\" y2=\"58\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"30\" y1=\"28\" x2=\"375\" y2=\"28\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"30\" y1=\"-2\" x2=\"375\" y2=\"-2\" stroke=\"currentColor\" stroke-opacity=\".12\"/><line x1=\"30\" y1=\"118\" x2=\"375\" y2=\"118\" stroke=\"currentColor\" stroke-opacity=\".6\"/><line x1=\"200\" y1=\"10\" x2=\"200\" y2=\"170\" stroke=\"currentColor\" stroke-opacity=\".6\"/><polyline points=\"40.0,58.0 44.0,56.5 48.0,55.0 52.0,53.6 56.0,52.2 60.0,51.0 64.0,49.8 68.0,48.8 72.0,47.9 76.0,47.2 80.0,46.8 84.0,46.5 88.0,46.5 92.0,46.7 96.0,47.3 100.0,48.2 104.0,49.4 108.0,50.9 112.0,52.9 116.0,55.2 120.0,58.0 120.0,58.0 124.0,61.4 128.0,65.4 132.0,70.0 136.0,75.0 140.0,80.5 144.0,86.3 148.0,92.2 152.0,98.3 156.0,104.4 160.0,110.5 164.0,116.4 168.0,122.1 172.0,127.4 176.0,132.3 180.0,136.8 184.0,140.6 188.0,143.7 192.0,146.0 196.0,147.5 200.0,148.0 200.0,148.0 204.0,148.1 208.0,148.2 212.0,148.5 216.0,148.7 220.0,148.9 224.0,149.1 228.0,149.1 232.0,149.0 236.0,148.6 240.0,148.0 244.0,147.1 248.0,145.8 252.0,144.2 256.0,142.1 260.0,139.6 264.0,136.5 268.0,132.8 272.0,128.6 276.0,123.6 280.0,118.0 280.0,118.0 282.0,114.8 284.0,111.3 286.0,107.5 288.0,103.5 290.0,99.2 292.0,94.9 294.0,90.4 296.0,85.8 298.0,81.3 300.0,76.8 302.0,72.3 304.0,68.0 306.0,63.8 308.0,59.8 310.0,56.1 312.0,52.7 314.0,49.7 316.0,47.0 318.0,44.8 320.0,43.0 360.0,13.0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\"/><line x1=\"16.0\" y1=\"67.0\" x2=\"64.0\" y2=\"49.0\" stroke=\"#ec4899\" stroke-width=\"1.8\"/><circle cx=\"40\" cy=\"58\" r=\"4\" fill=\"#6366f1\"/><line x1=\"96.0\" y1=\"40.0\" x2=\"144.0\" y2=\"76.0\" stroke=\"#ec4899\" stroke-width=\"1.8\"/><circle cx=\"120\" cy=\"58\" r=\"4\" fill=\"#6366f1\"/><line x1=\"176.0\" y1=\"148.0\" x2=\"224.0\" y2=\"148.0\" stroke=\"#ec4899\" stroke-width=\"1.8\"/><circle cx=\"200\" cy=\"148\" r=\"4\" fill=\"#6366f1\"/><line x1=\"256.0\" y1=\"154.0\" x2=\"304.0\" y2=\"82.0\" stroke=\"#ec4899\" stroke-width=\"1.8\"/><circle cx=\"280\" cy=\"118\" r=\"4\" fill=\"#6366f1\"/><line x1=\"296.0\" y1=\"61.0\" x2=\"344.0\" y2=\"25.0\" stroke=\"#ec4899\" stroke-width=\"1.8\"/><circle cx=\"320\" cy=\"43.0\" r=\"4\" fill=\"#6366f1\"/></svg><p><em>Une seule allure possible parmi d'autres : toute courbe lisse qui respecte les points et les pentes convient.</em></p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><strong>Ex 5 — partie 3.</strong> On donne $\\frac{f(0+h)-f(0)}{h}=h^2+h-2$. En déduire $f'(0)$ puis expliquer comment tracer la tangente correspondante.</p>",
+   "aide": "Fais tendre $h$ vers 0 dans l'expression donnée.",
+   "correction": "<p>Quand $h\\to0$ : $h^2+h-2\\to-2$ donc $f'(0)=-2$.<br><strong>Tracé :</strong> la tangente passe par le point de la courbe d'abscisse 0, de coordonnées $(0;f(0))$ (à lire sur le graphique), et son coefficient directeur est $-2$ : à partir de ce point, on descend de 2 carreaux quand on avance de 1 carreau vers la droite.<br>Équation : $y=-2x+f(0)$.<br><em>Parties 1 et 2 de l'exercice :</em> lis $f(a)$ et $f'(a)$ aux points d'abscisses $1$, $-1$, $-2$ avec la méthode de l'exercice 2 ; pour une équation de tangente lue graphiquement, lis la pente $m$ puis l'ordonnée à l'origine $p$ : $y=mx+p$.</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p><strong>Ex 6.</strong> $f$ est définie sur $]0;+\\infty[$. La droite $T_A$ est tangente à $\\mathcal{C}_f$ au point $A(1;20)$ et passe par $B(3;10)$.<br>1) Donner $f(1)$ et déterminer $f'(1)$. 2) Équation réduite de $T_A$. 3) $a>0$, $h\\neq0$ et $\\frac{f(a+h)-f(a)}{h}=4-\\frac{9}{a(a+h)}$ : déterminer $f'(a)$. 4) Existe-t-il une tangente à la courbe parallèle à la droite $d$ : $y=3x-2$ ?</p>",
+   "aide": "1) $f'(1)$ = pente de $T_A$ = pente de $(AB)$. 4) Deux droites parallèles ont le même coefficient directeur.",
+   "correction": "<p>1) $f(1)=20$ (ordonnée de $A$). $f'(1)$ = coefficient directeur de $T_A=(AB)$ : $\\frac{10-20}{3-1}=-5$.<br>2) $y=f'(1)(x-1)+f(1)=-5(x-1)+20=-5x+25$. <em>Contrôle :</em> en $x=3$, $-15+25=10$ ✓ ($B$ est sur la droite).<br>3) Quand $h\\to0$ : $\\frac{9}{a(a+h)}\\to\\frac{9}{a^2}$ donc $f'(a)=4-\\frac{9}{a^2}$. <em>Contrôle :</em> $f'(1)=4-9=-5$ ✓.<br>4) Une tangente est parallèle à $d$ si $f'(a)=3$ : $4-\\frac{9}{a^2}=3$ ⟺ $\\frac{9}{a^2}=1$ ⟺ $a^2=9$ ⟺ $a=3$ ou $a=-3$. Comme $a>0$ : $a=3$. <strong>Oui</strong>, la tangente au point d'abscisse 3 est parallèle à $d$.</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p><strong>Ex 7 (questions 1 à 5).</strong> Une épidémie est modélisée par $f$ sur $[0;8]$ ($t$ en mois, $f(t)$ en milliers de malades). La droite $(AB)$ avec $A(2;96)$ et $B(4;208)$ est tangente à la courbe en $A$. On admet que $f'(t)$ est la vitesse de propagation.<br>1) Alerte quand il y a plus de 40 000 malades : quelle est sa durée ? 2) Variations de $f$ sur $[0;8]$. 3) Quand le nombre de malades est-il maximal ? Combien ? 4) Déterminer $f'(2)$ et interpréter. 5) Résoudre graphiquement $f'(t)=0$.</p>",
+   "aide": "4) $f'(2)$ est la pente de la tangente $(AB)$.",
+   "correction": "<p>1) On lit sur le graphique où la courbe est au-dessus de 40 : environ de $t\\approx1$ à $t\\approx7{,}7$ (avec la formule $f(t)=-2t^3+12t^2+32t$ : $f(t)=40$ en $t\\approx0{,}96$ et $t\\approx7{,}73$). Durée de l'alerte ≈ <strong>6,8 mois</strong>.<br>2) $f$ est <strong>croissante sur $[0;5]$ puis décroissante sur $[5;8]$</strong> (maximum vers $t=5$).<br>3) Maximum au bout d'environ 5 mois (≈ 21 semaines) : environ <strong>210 milliers</strong>, soit 210 000 malades (exactement $t\\approx5{,}06$ et $f\\approx210{,}1$).<br>4) $f'(2)=\\frac{208-96}{4-2}=56$ : au bout de 2 mois, le nombre de malades augmente d'environ <strong>56 000 par mois</strong>.<br>5) $f'(t)=0$ quand la tangente est horizontale : $t\\approx5$ (le sommet de la courbe) — exactement $t=2+\\frac{2\\sqrt{21}}{3}\\approx5{,}06$.</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p><strong>Ex 7 (questions 6 et 7).</strong> On admet que $f(t)=-2t^3+12t^2+32t$ sur $[0;8]$.<br>6) Taux de variation de $f$ : a. entre 2 et 4 mois ; b. entre 6 et 7 mois. Interpréter.<br>7) a. On donne $\\frac{f(2+h)-f(2)}{h}=56-2h^2$ : quel résultat retrouve-t-on ? b. Pour tout $a\\in]0;8[$ : $\\frac{f(a+h)-f(a)}{h}=-6a^2-6ah-2h^2+24a+12h+32$. i. En déduire $f'(a)$ puis $f'(7)$. ii. Tracer la tangente en $t=7$. iii. Comment retrouver les réponses de la question 6 ?</p>",
+   "aide": "7 b. i : fais tendre $h$ vers 0 dans l'expression donnée.",
+   "correction": "<p>6) $f(2)=96$, $f(4)=192$, $f(6)=192$, $f(7)=126$.<br>a. $\\frac{192-96}{2}=48$ : entre 2 et 4 mois, <strong>+48 000 malades par mois en moyenne</strong>.<br>b. $\\frac{126-192}{1}=-66$ : entre 6 et 7 mois, <strong>−66 000 par mois</strong> (l'épidémie recule).<br>7) a. Quand $h\\to0$ : $56-2h^2\\to56$ : on retrouve $f'(2)=56$ (question 4).<br>b. i. $h\\to0$ : $f'(a)=-6a^2+24a+32$. Donc $f'(7)=-294+168+32=-94$.<br>ii. Tangente en 7 : $f(7)=126$, $y=-94(x-7)+126=-94x+784$ (pente très négative : $f$ décroît vite).<br>iii. On reprend l'expression avec $h$ non nul : pour 2 → 4, $a=2$ et $h=2$ : $-24-24-8+48+24+32=48$ ✓ ; pour 6 → 7, $a=6$ et $h=1$ : $-216-36-2+144+12+32=-66$ ✓.</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p><strong>ÉVAL BLANCHE — Exercice A (5 pts)</strong> <em>(45 min pour tout l'éval blanche)</em> $f(x)=3x^2$. 1) Taux de variation entre 1 et 3. (1 pt) 2) Calculer $f'(2)$ avec $\\frac{f(2+h)-f(2)}{h}$ puis $h\\to0$. (2 pts) 3) Équation réduite de la tangente au point d'abscisse 2. (2 pts)</p>",
+   "aide": "Les 3 étapes du calcul : écrire, simplifier, $h\\to0$.",
+   "correction": "<p>1) $\\frac{f(3)-f(1)}{3-1}=\\frac{27-3}{2}=12$. (1)<br>2) $\\frac{3(2+h)^2-12}{h}=\\frac{12+12h+3h^2-12}{h}=\\frac{12h+3h^2}{h}=12+3h\\to12$ donc $f'(2)=12$. (2)<br>3) $f(2)=12$ : $y=12(x-2)+12=12x-24+12=12x-12$. (2)</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p><strong>ÉVAL BLANCHE — Exercice B (5 pts)</strong> La tangente à $\\mathcal{C}_f$ au point $A(1;4)$ passe par $B(3;-2)$. 1) Donner $f(1)$ et $f'(1)$. (2 pts) 2) Équation réduite de cette tangente. (2 pts) 3) En $C(3;-1)$ de la courbe, la tangente est horizontale. Donner $f'(3)$ et l'équation de cette tangente. (1 pt)</p>",
+   "aide": "$f'(1)$ est la pente de la droite $(AB)$.",
+   "correction": "<p>1) $f(1)=4$ ; $f'(1)=\\frac{-2-4}{3-1}=-3$. (2)<br>2) $y=-3(x-1)+4=-3x+7$ (contrôle : $x=3$ donne $-2$ ✓). (2)<br>3) Tangente horizontale : $f'(3)=0$ ; équation $y=f'(3)(x-3)+f(3)=-1$. (1)</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p><strong>ÉVAL BLANCHE — Exercice C (6 pts)</strong> Un mobile glisse sur un rail : sa distance parcourue (m) est $d(t)=2t^2+3t$ ($t$ en s). 1) Vitesse moyenne entre $t=2$ et $t=5$. (1,5 pt) 2) Calculer $\\frac{d(2+h)-d(2)}{h}$ et simplifier. (2 pts) 3) En déduire la vitesse instantanée à $t=2$ et l'interpréter. (1,5 pt) 4) Équation de la tangente à la courbe de $d$ en $t=2$. (1 pt)</p>",
+   "aide": "$d(2)=14$.",
+   "correction": "<p>1) $d(2)=14$, $d(5)=65$ : $\\frac{65-14}{3}=17$ m/s. (1,5)<br>2) $\\frac{2(2+h)^2+3(2+h)-14}{h}=\\frac{8+8h+2h^2+6+3h-14}{h}=\\frac{11h+2h^2}{h}=11+2h$. (2)<br>3) $h\\to0$ : $d'(2)=11$ : à $t=2$ s, la vitesse instantanée est de <strong>11 m/s</strong>. (1,5)<br>4) $y=11(t-2)+14=11t-8$. (1)</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><strong>ÉVAL BLANCHE — Exercice D (4 pts)</strong> Vrai ou faux ? Justifier. (a) Si $f'(a)=0$, la tangente en $a$ est horizontale. (b) Si $f'(a)<0$, la fonction $f$ est croissante près de $a$. (c) Le nombre dérivé $f'(a)$ est égal au taux de variation de $f$ entre $a$ et $a+h$. (d) Deux tangentes parallèles ont le même nombre dérivé.</p>",
+   "aide": "Reviens aux définitions.",
+   "correction": "<p>(a) <strong>Vrai</strong> : le coefficient directeur est 0. (1)<br>(b) <strong>Faux</strong> : pente négative, la courbe <em>descend</em> : $f$ décroît. (1)<br>(c) <strong>Faux</strong> : $f'(a)$ est la <em>limite</em> du taux quand $h\\to0$, pas le taux pour un $h$ donné. (1)<br>(d) <strong>Vrai</strong> : droites parallèles ⟺ même coefficient directeur. (1)<br><strong>Barème total : 20 points</strong> (A 5 + B 5 + C 6 + D 4).</p>"
+  },
+  {
+   "niveau": "Facile",
+   "enonce": "<p><em>(2ᵉ partie — dérivées par les règles)</em></p><p>Calcule la dérivée de $f(x) = 3x^2 - 5x + 7$.</p>",
+   "aide": "Dérive chaque terme séparément : (u+v)' = u'+v', et rappelle-toi que la dérivée d'une constante est 0.",
+   "correction": "<p>$f'(x) = 3 \\times 2x - 5 + 0 = 6x - 5$</p><p>On dérive terme à terme : $(3x^2)' = 6x$, $(-5x)' = -5$, $(7)' = 0$.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><em>(2ᵉ partie — dérivées par les règles)</em></p><p>Soit $f(x) = (2x+1)(x-3)$. Calcule $f'(x)$ en utilisant la formule du produit, puis vérifie en développant d'abord $f(x)$.</p>",
+   "aide": "Formule du produit : (uv)' = u'v + uv'. Ici u = 2x+1 (donc u'=2) et v = x-3 (donc v'=1).",
+   "correction": "<p><strong>Méthode 1 (produit)</strong> : $$\\begin{aligned} f'(x) &= 2(x-3) + (2x+1)(1) \\\\ &= 2x - 6 + 2x + 1 = 4x - 5 \\end{aligned}$$</p><p><strong>Méthode 2 (développer d'abord)</strong> : $f(x) = 2x^2 - 6x + x - 3 = 2x^2 - 5x - 3$, donc $f'(x) = 4x - 5$. Les deux méthodes donnent bien le même résultat ✓</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p><em>(2ᵉ partie — dérivées par les règles)</em></p><p>Soit $f(x) = \\dfrac{x^2+1}{x-1}$ définie sur $]1;+\\infty[$. Calcule $f'(x)$ et détermine le signe de $f'(x)$ sur cet intervalle.</p>",
+   "aide": "Formule du quotient : (u/v)' = (u'v-uv')/v². Une fois f'(x) calculée, factorise le numérateur pour étudier son signe (le dénominateur (x-1)² est toujours positif).",
+   "correction": "<p>$u = x^2+1$ donc $u'=2x$ ; $v = x-1$ donc $v'=1$.</p><p>$$\\begin{aligned} f'(x) &= \\dfrac{2x(x-1) - (x^2+1)(1)}{(x-1)^2} \\\\ &= \\dfrac{2x^2-2x-x^2-1}{(x-1)^2} \\\\ &= \\dfrac{x^2-2x-1}{(x-1)^2} \\end{aligned}$$</p><p>Le dénominateur $(x-1)^2$ est toujours positif. Le signe de $f'(x)$ dépend donc du numérateur $x^2-2x-1$ (discriminant Δ=8, racines $1-\\sqrt2$ et $1+\\sqrt2$). Sur $]1;+\\infty[$, seule la racine $1+\\sqrt2 \\approx 2,41$ est dans l'intervalle : $f'(x) < 0$ sur $]1;1+\\sqrt2[$ et $f'(x) > 0$ sur $]1+\\sqrt2;+\\infty[$.</p>"
+  },
+  {
+   "niveau": "Facile",
+   "enonce": "<p><em>(2ᵉ partie — dérivées par les règles)</em></p><p>Soit $f(x) = x^4 - 2x^3 + 5x - 7$. Calcule $f'(x)$, puis $f'(1)$.</p>",
+   "aide": "Dérive terme à terme avec (xⁿ)' = n·xⁿ⁻¹. La dérivée de 5x est 5 et celle de −7 est 0.",
+   "correction": "<p>$f'(x) = 4x^3 - 2\\times 3x^2 + 5 - 0 = 4x^3 - 6x^2 + 5$.</p><p>$f'(1) = 4 - 6 + 5 = 3$.</p>"
+  },
+  {
+   "niveau": "Facile",
+   "enonce": "<p><em>(2ᵉ partie — dérivées par les règles)</em></p><p>Soit $f(x) = x^2 + x$. Détermine l'équation de la tangente à la courbe de $f$ au point d'abscisse $a = 1$.</p>",
+   "aide": "Calcule f(1), f'(x) puis f'(1), puis utilise y = f'(a)(x − a) + f(a).",
+   "correction": "<p>$f(1) = 1 + 1 = 2$. $f'(x) = 2x + 1$ donc $f'(1) = 3$.</p><p>Tangente : $y = 3(x - 1) + 2 = 3x - 1$.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><em>(2ᵉ partie — dérivées par les règles)</em></p><p>Étudie les variations de $g(x) = x^3 - 6x^2 + 9x + 2$ sur $\\mathbb{R}$ : calcule $g'(x)$, factorise-la, donne son signe puis dresse le tableau de variations avec les valeurs aux extremums.</p>",
+   "aide": "g'(x) est un trinôme du second degré : factorise par 3, puis cherche les racines. Rappel : à l'extérieur des racines, du signe de a.",
+   "correction": "<p>$g'(x) = 3x^2 - 12x + 9 = 3(x^2 - 4x + 3)$. Pour $x^2 - 4x + 3$ : $\\Delta = 16 - 12 = 4$, racines $\\dfrac{4 \\mp 2}{2}$ : $1$ et $3$. Donc $g'(x) = 3(x-1)(x-3)$.</p><p>Comme $a = 3 > 0$ : $g'(x) > 0$ sur $]-\\infty\\,;1[$ et $]3\\,;+\\infty[$, et $g'(x) < 0$ sur $]1\\,;3[$.</p><p>$g(1) = 1 - 6 + 9 + 2 = 6$ et $g(3) = 27 - 54 + 27 + 2 = 2$.</p><p>$g$ est croissante sur $]-\\infty\\,;1]$, décroissante sur $[1\\,;3]$, croissante sur $[3\\,;+\\infty[$ : maximum local $6$ en $x = 1$, minimum local $2$ en $x = 3$.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><em>(2ᵉ partie — dérivées par les règles)</em></p><p>Soit $f(x) = ax^2 + bx$ où $a$ et $b$ sont deux réels. On sait que la courbe de $f$ passe par le point $A(1\\,;\\,3)$ et que la tangente en $A$ a pour pente $4$. Détermine $a$ et $b$.</p>",
+   "aide": "Traduis chaque information en équation : « passe par A(1 ; 3) » donne f(1) = 3 ; « pente 4 » donne f'(1) = 4. Tu obtiens un système.",
+   "correction": "<p>$f(1) = a + b = 3$. Et $f'(x) = 2ax + b$, donc $f'(1) = 2a + b = 4$.</p><p>En soustrayant les deux équations : $(2a + b) - (a + b) = 4 - 3$, donc $a = 1$, puis $b = 2$.</p><p>Donc $f(x) = x^2 + 2x$. Vérification : $f(1) = 3$ ✓ et $f'(1) = 2 + 2 = 4$ ✓.</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p><em>(2ᵉ partie — dérivées par les règles)</em></p><p>On veut clôturer un enclos rectangulaire d'aire $16\\ \\text{m}^2$. Un côté mesure $x$ mètres ($x > 0$).</p><p>1) Exprime l'autre côté, puis le périmètre $P(x)$ en fonction de $x$.<br>2) Étudie les variations de $P$ sur $]0\\,;+\\infty[$.<br>3) Quelles dimensions donnent le plus petit périmètre ? Que remarque-t-on ?</p>",
+   "aide": "Aire = x × y = 16 donc y = 16/x. Dérive P(x) = 2x + 32/x avec (1/x)' = −1/x², puis mets sur le même dénominateur pour étudier le signe.",
+   "correction": "<p>1) L'autre côté vaut $\\dfrac{16}{x}$ et $P(x) = 2\\left(x + \\dfrac{16}{x}\\right) = 2x + \\dfrac{32}{x}$.</p><p>2) $$\\begin{aligned} P'(x) &= 2 - \\dfrac{32}{x^2} = \\dfrac{2x^2 - 32}{x^2} \\\\ &= \\dfrac{2(x-4)(x+4)}{x^2} \\,. \\end{aligned}$$ Pour $x > 0$, $x + 4 > 0$ et $x^2 > 0$ : le signe de $P'$ est celui de $(x - 4)$. Donc $P$ décroît sur $]0\\,;4]$ et croît sur $[4\\,;+\\infty[$.</p><p>3) Le minimum est atteint en $x = 4$ : $P(4) = 8 + 8 = 16$ m. L'autre côté vaut $\\dfrac{16}{4} = 4$ : c'est un <strong>carré de 4 m de côté</strong>. À aire donnée, c'est le carré qui a le plus petit périmètre.</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p><em>(2ᵉ partie — dérivées par les règles)</em></p><p>Soit $f(x) = x^2$. Existe-t-il des tangentes à la courbe de $f$ qui passent par le point $A(1\\,;\\,-3)$ ? Si oui, donne leurs équations.</p>",
+   "aide": "Écris la tangente en un point d'abscisse a quelconque : y = 2a(x − a) + a². Impose ensuite qu'elle passe par A : tu obtiens une équation du second degré en a.",
+   "correction": "<p>Tangente en $a$ : $f(a) = a^2$, $f'(a) = 2a$, donc $y = 2a(x - a) + a^2 = 2ax - a^2$.</p><p>Elle passe par $A(1\\,;-3)$ si $-3 = 2a - a^2$, c'est-à-dire $a^2 - 2a - 3 = 0$. $\\Delta = 4 + 12 = 16$, donc $a = \\dfrac{2 \\mp 4}{2}$ : $a = 3$ ou $a = -1$.</p><p>Il y a donc <strong>deux tangentes</strong> : pour $a = 3$, $y = 6x - 9$ ; pour $a = -1$, $y = -2x - 1$.</p><p>Vérification en $A$ : $6\\times 1 - 9 = -3$ ✓ et $-2\\times 1 - 1 = -3$ ✓.</p>"
+  }
+ ],
+ "flashcards": [
+  {
+   "q": "Taux de variation de f entre a et b",
+   "a": "(f(b) − f(a)) / (b − a) = Δy / Δx, avec a ≠ b."
+  },
+  {
+   "q": "Taux de variation d'une distance en fonction du temps : que représente-t-il ?",
+   "a": "Une vitesse moyenne."
+  },
+  {
+   "q": "Graphiquement, le taux de variation entre a et b est…",
+   "a": "Le coefficient directeur de la droite (AB) (la sécante) avec A(a ; f(a)) et B(b ; f(b))."
+  },
+  {
+   "q": "Que représente h dans (f(a+h) − f(a)) / h ?",
+   "a": "L'écart entre a et b : h = b − a, donc b = a + h."
+  },
+  {
+   "q": "Taux d'accroissement de f entre a et a + h",
+   "a": "(f(a + h) − f(a)) / h"
+  },
+  {
+   "q": "Définition du nombre dérivé f′(a)",
+   "a": "La valeur vers laquelle se rapproche (f(a+h) − f(a)) / h quand h se rapproche de 0."
+  },
+  {
+   "q": "Que signifie « f est dérivable en a » ?",
+   "a": "Que (f(a+h) − f(a)) / h se rapproche d'un réel ℓ quand h tend vers 0. Ce réel est f′(a)."
+  },
+  {
+   "q": "Comment se lit « →(h→0) » ?",
+   "a": "« tend vers … lorsque h tend vers 0 »."
+  },
+  {
+   "q": "Nombre dérivé et vitesse",
+   "a": "Si f est une distance en fonction du temps, f′(a) est la vitesse instantanée à l'instant a."
+  },
+  {
+   "q": "Vitesse moyenne ou instantanée : laquelle correspond au taux de variation ? au nombre dérivé ?",
+   "a": "Taux de variation = vitesse moyenne. Nombre dérivé = vitesse instantanée (le « compteur »)."
+  },
+  {
+   "q": "Définition de la tangente à C_f au point A(a ; f(a))",
+   "a": "La droite qui passe par A et dont le coefficient directeur est f′(a)."
+  },
+  {
+   "q": "Que vaut le coefficient directeur de la tangente en a ?",
+   "a": "f′(a)."
+  },
+  {
+   "q": "f′(a) > 0 : que fait la courbe près de a ?",
+   "a": "Elle monte (la tangente monte)."
+  },
+  {
+   "q": "f′(a) < 0 : que fait la courbe près de a ?",
+   "a": "Elle descend (la tangente descend)."
+  },
+  {
+   "q": "f′(a) = 0 : que voit-on ?",
+   "a": "Une tangente horizontale (souvent un maximum ou un minimum)."
+  },
+  {
+   "q": "Comment lire f′(a) sur un graphique ?",
+   "a": "Sur la tangente : f′(a) = Δy / Δx (compter les carreaux, avec le signe)."
+  },
+  {
+   "q": "Équation réduite de la tangente en a",
+   "a": "y = f′(a)(x − a) + f(a)"
+  },
+  {
+   "q": "Méthode pour trouver l'équation d'une tangente (4 étapes)",
+   "a": "① noter a ② calculer f(a) ③ calculer f′(a) ④ remplacer dans y = f′(a)(x − a) + f(a) et développer."
+  },
+  {
+   "q": "Équation de la tangente à x² au point d'abscisse −2",
+   "a": "f(−2) = 4, f′(−2) = −4 : y = −4(x + 2) + 4 = −4x − 4."
+  },
+  {
+   "q": "Équation de la tangente à x² au point B(1 ; 1)",
+   "a": "f′(1) = 2 : y = 2(x − 1) + 1 = 2x − 1."
+  },
+  {
+   "q": "Comment vérifier une équation de tangente ?",
+   "a": "Elle doit passer par le point (a ; f(a)) : remplacer x par a doit donner f(a)."
+  },
+  {
+   "q": "Méthode pour calculer f′(a) à la main (3 étapes)",
+   "a": "① écrire (f(a+h) − f(a))/h ② développer et simplifier le h ③ faire tendre h vers 0."
+  },
+  {
+   "q": "Développer (a + h)²",
+   "a": "a² + 2ah + h² (ne pas oublier le terme 2ah)."
+  },
+  {
+   "q": "Développer (a + h)³",
+   "a": "a³ + 3a²h + 3ah² + h³"
+  },
+  {
+   "q": "Erreur à éviter : remplacer h par 0 tout de suite",
+   "a": "On obtient 0/0 : il faut d'abord simplifier le h, puis faire tendre h vers 0."
+  },
+  {
+   "q": "Calculer f′(1) pour f(x) = x²",
+   "a": "((1+h)² − 1)/h = (2h + h²)/h = 2 + h → 2. Donc f′(1) = 2."
+  },
+  {
+   "q": "Calculer g′(3) pour g(x) = x²",
+   "a": "((3+h)² − 9)/h = 6 + h → 6. Donc g′(3) = 6."
+  },
+  {
+   "q": "Conjecture pour f(x) = x² : f′(a) = ?",
+   "a": "2a (f′(1) = 2, f′(2) = 4, f′(3) = 6)."
+  },
+  {
+   "q": "Tour Eiffel : f(t) = 5t². Que vaut f′(t) ?",
+   "a": "10t (vitesse instantanée). Ex. f′(4) = 40 m/s."
+  },
+  {
+   "q": "Taux d'accroissement de 5t² entre 4 et 4 + h",
+   "a": "40 + 5h, qui tend vers 40 quand h → 0 : f′(4) = 40."
+  },
+  {
+   "q": "Si on te donne (f(a+h) − f(a))/h = h² + h − 2, que vaut f′(0) ?",
+   "a": "On fait h → 0 : f′(0) = −2."
+  },
+  {
+   "q": "Comment trouver une tangente parallèle à la droite y = 3x − 2 ?",
+   "a": "Résoudre f′(a) = 3 (même coefficient directeur)."
+  },
+  {
+   "q": "Comment trouver où la tangente est horizontale ?",
+   "a": "Résoudre f′(a) = 0."
+  },
+  {
+   "q": "Pente de la droite passant par A(x_A ; y_A) et B(x_B ; y_B)",
+   "a": "(y_B − y_A) / (x_B − x_A)"
+  },
+  {
+   "q": "La tangente en A passe par B : comment trouver f′(a) ?",
+   "a": "f′(a) = pente de la droite (AB) = (y_B − y_A) / (x_B − x_A)."
+  },
+  {
+   "q": "Unité de f′(a) si f est en mètres et t en secondes",
+   "a": "Mètres par seconde (m/s)."
+  },
+  {
+   "q": "Convertir des m/s en km/h",
+   "a": "Multiplier par 3,6. Ex. 74,7 m/s ≈ 268,9 km/h."
+  },
+  {
+   "q": "Le nombre dérivé est-il le taux de variation ?",
+   "a": "Non : c'est la limite des taux de variation quand h tend vers 0."
+  },
+  {
+   "q": "f′(a) = 56 pour un nombre de malades en milliers par mois : interprétation ?",
+   "a": "Au bout de a mois, le nombre de malades augmente d'environ 56 000 par mois."
+  },
+  {
+   "q": "f(a) et f′(a) : quelle différence ?",
+   "a": "f(a) est une hauteur (ordonnée du point de la courbe). f′(a) est une pente (coefficient directeur de la tangente)."
+  },
+  {
+   "q": "Dérivée de xⁿ",
+   "a": "n·xⁿ⁻¹"
+  },
+  {
+   "q": "Dérivée de √x",
+   "a": "1/(2√x), définie sur ]0 ; +∞["
+  },
+  {
+   "q": "Dérivée de 1/x",
+   "a": "−1/x²"
+  },
+  {
+   "q": "Dérivée de sin x",
+   "a": "cos x"
+  },
+  {
+   "q": "Dérivée de cos x",
+   "a": "−sin x"
+  },
+  {
+   "q": "Dérivée de eˣ",
+   "a": "eˣ (l'exponentielle est sa propre dérivée)"
+  },
+  {
+   "q": "Dérivée de ln x",
+   "a": "1/x (pour x > 0)"
+  },
+  {
+   "q": "Règle du produit (uv)'",
+   "a": "u'v + uv'"
+  },
+  {
+   "q": "Règle du quotient (u/v)'",
+   "a": "(u'v − uv') / v²"
+  },
+  {
+   "q": "Dérivée d'une composée (u∘v)'",
+   "a": "v' · u'(v). Ex : (e^(2x))' = 2e^(2x)   |   (sin(3x))' = 3cos(3x)"
+  },
+  {
+   "q": "Si f'(x) > 0 sur I",
+   "a": "f est strictement CROISSANTE sur I."
+  },
+  {
+   "q": "Si f'(x) < 0 sur I",
+   "a": "f est strictement DÉCROISSANTE sur I."
+  },
+  {
+   "q": "Équation de la tangente en x = a",
+   "a": "y = f'(a)(x − a) + f(a)"
+  },
+  {
+   "q": "Dérivée de uⁿ (composée)",
+   "a": "n·u'·uⁿ⁻¹. Ex : (sin²x)' = 2sinx·cosx"
+  },
+  {
+   "q": "Nombre dérivé f'(a) : définition",
+   "a": "Limite du taux de variation (f(a+h) − f(a))/h quand h tend vers 0. C'est la pente de la tangente en a."
+  },
+  {
+   "q": "Dérivée de x²",
+   "a": "2x"
+  },
+  {
+   "q": "Dérivée de x³",
+   "a": "3x²"
+  },
+  {
+   "q": "Dérivée d'une fonction affine ax + b",
+   "a": "a (la pente)."
+  },
+  {
+   "q": "Dérivée de (ax + b)ⁿ",
+   "a": "n·a·(ax + b)ⁿ⁻¹. Ex : ((3x + 2)⁴)' = 12(3x + 2)³"
+  },
+  {
+   "q": "Tangente horizontale en x = a : condition",
+   "a": "f'(a) = 0."
+  },
+  {
+   "q": "f'(a) = 0 suffit-il pour avoir un extremum en a ?",
+   "a": "Non. Il faut aussi que f' change de signe en a. Contre-exemple : x³ en 0."
+  },
+  {
+   "q": "Méthode pour étudier les variations de f",
+   "a": "1. Ensemble de définition. 2. Calculer et factoriser f'. 3. Signe de f'. 4. Tableau de variations."
+  },
+  {
+   "q": "(uv)' est-il égal à u'v' ?",
+   "a": "Non ! (uv)' = u'v + uv'. Test : (x·x)' = 2x alors que x'·x' = 1."
+  },
+  {
+   "q": "Dérivée de k·u (k constante)",
+   "a": "k·u'"
+  },
+  {
+   "q": "Dérivée d'une fonction de degré 3 : quelle nature ?",
+   "a": "Un trinôme du second degré. On étudie donc son signe avec Δ et les racines."
+  },
+  {
+   "q": "Taux de variation vs nombre dérivé",
+   "a": "Taux de variation : entre deux points distincts a et b (pente de la sécante). Nombre dérivé : limite quand b tend vers a (pente de la tangente)."
+  }
+ ]
+},
 
 "Trigonométrie": {
 cours:"<h3>Trigonométrie & Cercle trigonométrique</h3>\n<h3>Le radian : d'où vient cette unité ?</h3>\n<div class=\"formula-box\">Un <strong>radian</strong> (noté rad) est la mesure d'un angle qui intercepte, sur un cercle, un arc dont la longueur est <mark>égale au rayon</mark> de ce cercle. C'est l'unité d'angle du Système International.</div>\n<div class=\"formula-box\">Longueur d'un arc de cercle : $L = R \\times \\theta$ &nbsp;(avec $\\theta$ l'angle exprimé en <strong>radians</strong>, et R le rayon)</div>\n\n<div class=\"retenir-box\">Un tour complet de cercle correspond à un arc de longueur $2\\pi R$ (le périmètre du cercle) — et un tour complet vaut aussi $2\\pi$ radians. C'est cohérent : $L = R \\times 2\\pi = 2\\pi R$. ✓</div>\n<div class=\"formula-box\">Conversion : 180° = π rad<br>° → rad : multiplier par π/180<br>rad → ° : multiplier par 180/π</div>\n<h3>Valeurs remarquables</h3>\n<table class=\"formula-table\">\n<tr><th>x</th><th>0</th><th>π/6</th><th>π/4</th><th>π/3</th><th>π/2</th></tr>\n<tr><td>sin x</td><td>0</td><td>1/2</td><td>√2/2</td><td>√3/2</td><td>1</td></tr>\n<tr><td>cos x</td><td>1</td><td>√3/2</td><td>√2/2</td><td>1/2</td><td>0</td></tr>\n<tr><td>tan x</td><td>0</td><td>√3/3</td><td>1</td><td>√3</td><td>—</td></tr>\n</table>\n<div class=\"retenir-box\">Moyen mnémotechnique : sin(0),sin(π/6),sin(π/4),sin(π/3),sin(π/2) = √0/2, √1/2, √2/2, √3/2, √4/2 (simplifiés). Et cos = sin lu à l'envers (de droite à gauche) !</div>\n<h3>Identités fondamentales</h3>\n<div class=\"formula-box\">cos²x + sin²x = 1 &nbsp;[Pythagore]<br>tan x = sin x / cos x<br>cos(−x) = cos x &nbsp;[<mark>PAIRE</mark>]<br>sin(−x) = −sin x &nbsp;[<mark>IMPAIRE</mark>]<br>cos(π−x) = −cos x<br>sin(π−x) = sin x<br>cos(π+x) = −cos x<br>sin(π+x) = −sin x</div>\n<h3>Formules de duplication</h3>\n<div class=\"formula-box\">cos(2x) = cos²x − sin²x = 2cos²x − 1 = 1 − 2sin²x<br>sin(2x) = 2 sin x cos x</div>",
@@ -500,59 +835,357 @@ flashcards:[
 ]},
 
 "Produit scalaire & loi d'Al-Kashi": {
-cours:"<div class=\"attention-box\">Ce chapitre est du programme de <mark>Première</mark>, souvent mal aimé — pas parce qu'il est difficile, mais parce qu'il y a <strong>3 formules différentes</strong> pour la même chose et qu'on ne sait plus laquelle utiliser. Ce cours te donne, pour chaque situation, la formule à choisir en premier réflexe.</div>\n\n<h3>1. Qu'est-ce que le produit scalaire ?</h3>\n<p>Le produit scalaire de deux vecteurs $\\vec{u}$ et $\\vec{v}$, noté $\\vec{u}\\cdot\\vec{v}$, est un <strong>nombre</strong> (pas un vecteur !). Il mesure à quel point deux vecteurs \"pointent dans la même direction\".</p>\n<div class=\"formula-box\">\nSi $\\vec{u}\\cdot\\vec{v} > 0$ : les vecteurs pointent globalement dans la même direction.<br>\nSi $\\vec{u}\\cdot\\vec{v} = 0$ : les vecteurs sont <strong>orthogonaux</strong> (perpendiculaires).<br>\nSi $\\vec{u}\\cdot\\vec{v} < 0$ : les vecteurs pointent globalement dans des directions opposées.\n</div>\n\n<h3>2. Les 3 formules — laquelle choisir ?</h3>\n<div class=\"retenir-box\">\n<strong>A) Avec des coordonnées</strong> → $\\vec{u}\\cdot\\vec{v} = xx' + yy'$ si $\\vec{u}(x;y)$ et $\\vec{v}(x';y')$.<br>\n<strong>B) Avec des normes et un angle</strong> → $\\vec{u}\\cdot\\vec{v} = \\|\\vec{u}\\| \\times \\|\\vec{v}\\| \\times \\cos(\\vec{u},\\vec{v})$<br>\n<strong>C) Avec 3 longueurs de triangle</strong> → $\\vec{AB}\\cdot\\vec{AC} = \\dfrac{AB^2 + AC^2 - BC^2}{2}$\n</div>\n<p>Réflexe à avoir : <strong>on te donne des coordonnées → formule A.</strong> <strong>On te donne des longueurs et un angle → formule B.</strong> <strong>On te donne 3 longueurs de triangle sans angle → formule C.</strong></p>\n\n<h3>Exemple — formule A (coordonnées)</h3>\n<p>$\\vec{u}(3;-2)$ et $\\vec{v}(1;4)$. $\\vec{u}\\cdot\\vec{v} = 3\\times 1 + (-2)\\times 4 = 3 - 8 = -5$.</p>\n\n<h3>Exemple — formule B (normes + angle)</h3>\n<p>$\\|\\vec{u}\\| = 4$, $\\|\\vec{v}\\| = 5$, angle entre eux $= 60°$. $\\vec{u}\\cdot\\vec{v} = 4 \\times 5 \\times \\cos(60°) = 20 \\times 0{,}5 = 10$.</p>\n\n<h3>Exemple — formule C (3 longueurs)</h3>\n<p>Triangle $ABC$ avec $AB=6$, $AC=8$, $BC=5$. $$\\begin{aligned} \\vec{AB}\\cdot\\vec{AC} &= \\dfrac{6^2+8^2-5^2}{2} = \\dfrac{36+64-25}{2} \\\\ &= \\dfrac{75}{2} = 37{,}5 \\,. \\end{aligned}$$</p>\n<div class=\"attention-box\">Erreur n°1 la plus fréquente dans la formule C : mettre $BC^2$ (le côté OPPOSÉ au sommet A, entre les 2 autres points B et C) au lieu de $AB^2$ ou $AC^2$. Le côté qui se soustrait est toujours celui qui relie les <mark>deux extrémités</mark> des vecteurs (ici B et C), jamais celui qui part de l'origine commune A.</div>\n\n<h3>3. Test d'orthogonalité</h3>\n<p>Deux vecteurs sont perpendiculaires <strong>si et seulement si</strong> leur produit scalaire vaut 0. C'est l'usage le plus fréquent de la formule A.</p>\n<p><strong>Exemple :</strong> $\\vec{u}(2;3)$ et $\\vec{v}(-6;4)$. $\\vec{u}\\cdot\\vec{v} = 2\\times(-6) + 3\\times 4 = -12+12 = 0$ → les vecteurs sont <strong>orthogonaux</strong>.</p>\n\n<h3>4. La loi d'Al-Kashi (théorème de Pythagore généralisé)</h3>\n<p>Dans un triangle quelconque $ABC$ (pas forcément rectangle), avec $a=BC$, $b=AC$, $c=AB$ (chaque côté minuscule est <mark>en face</mark> du sommet majuscule correspondant) :</p>\n<div class=\"formula-box\">\n$a^2 = b^2 + c^2 - 2bc\\cos(\\hat{A})$\n</div>\n<div class=\"attention-box\">Repère bien : le côté $a$ (celui qu'on isole à gauche) est <strong>en face</strong> de l'angle $\\hat{A}$ utilisé dans le cosinus, à droite. Si tu cherches le côté en face de $\\hat{B}$, c'est $b^2 = a^2+c^2-2ac\\cos(\\hat{B})$ — la lettre isolée à gauche doit toujours correspondre à l'angle du cosinus à droite.</div>\n<div class=\"retenir-box\">Si $\\hat{A}=90°$ : $\\cos(90°)=0$, donc $a^2=b^2+c^2$ : on retombe sur le <mark>théorème de Pythagore</mark>. Al-Kashi est donc une généralisation de Pythagore à n'importe quel triangle, pas seulement les triangles rectangles.</div>\n\n<h3>Utilisation n°1 — trouver un côté (on connaît 2 côtés + l'angle entre eux)</h3>\n<p><strong>Exemple :</strong> $b=7$, $c=5$, $\\hat{A}=60°$. Cherche $a$.</p>\n<p>$$\\begin{aligned} a^2 &= 7^2+5^2-2\\times 7\\times 5\\times\\cos(60°) \\\\ &= 49+25-70\\times 0{,}5 = 74-35 = 39 \\end{aligned}$$</p>\n<p>$a=\\sqrt{39}\\approx 6{,}24$</p>\n\n<h3>Utilisation n°2 — trouver un angle (on connaît les 3 côtés)</h3>\n<p>On isole $\\cos(\\hat{A})$ dans la formule : $\\cos(\\hat{A}) = \\dfrac{b^2+c^2-a^2}{2bc}$</p>\n<p><strong>Exemple :</strong> $a=8$, $b=6$, $c=5$. Cherche $\\hat{A}$ (en face du côté $a$).</p>\n<p>$$\\begin{aligned} \\cos(\\hat{A}) &= \\dfrac{6^2+5^2-8^2}{2\\times 6\\times 5} \\\\ &= \\dfrac{36+25-64}{60} = \\dfrac{-3}{60} = -0{,}05 \\end{aligned}$$</p>\n<p>$\\hat{A} = \\cos^{-1}(-0{,}05) \\approx 92{,}9°$</p>\n<div class=\"attention-box\">Un résultat de cosinus <mark>négatif</mark> donne un angle <strong>obtus</strong> (entre 90° et 180°) — ce n'est pas une erreur, c'est normal pour certains triangles ! Vérifie juste que ta calculatrice est bien en mode <strong>degrés</strong> (ou radians, selon ce qu'on te demande) avant d'utiliser $\\cos^{-1}$ (parfois noté $\\arccos$).</div>\n\n<h3>5. Aire d'un triangle avec un angle</h3>\n<div class=\"formula-box\">\n$\\text{Aire} = \\dfrac{1}{2} \\times b \\times c \\times \\sin(\\hat{A})$\n</div>\n<p>où $\\hat{A}$ est l'angle <strong>entre</strong> les côtés $b$ et $c$ dont tu connais les longueurs (contrairement à Al-Kashi qui utilise $\\cos$, l'aire utilise $\\sin$).</p>\n<p><strong>Exemple :</strong> $b=7$, $c=5$, $\\hat{A}=60°$. $$\\begin{aligned} \\text{Aire} &= \\dfrac{1}{2}\\times 7\\times 5\\times\\sin(60°) \\\\ &= 17{,}5\\times 0{,}866 \\approx 15{,}2 \\end{aligned}$$ unités d'aire.</p>\n\n<h3>📋 Méthode : quelle formule choisir face à un exercice ?</h3>\n<div class=\"retenir-box\">\n<strong>On te donne des coordonnées</strong> → produit scalaire formule A ($xx'+yy'$), souvent pour un test d'orthogonalité.<br>\n<strong>On te donne 2 côtés + l'angle entre eux, et on cherche le 3e côté</strong> → Al-Kashi, formule directe ($a^2=b^2+c^2-2bc\\cos A$).<br>\n<strong>On te donne les 3 côtés, et on cherche un angle</strong> → Al-Kashi, formule inversée ($\\cos A = \\frac{b^2+c^2-a^2}{2bc}$).<br>\n<strong>On te donne 2 côtés + l'angle entre eux, et on cherche une aire</strong> → $\\frac{1}{2}bc\\sin A$.\n</div>",
-exercices:[
-{niveau:"Facile",
- enonce:"<p>Calcule $\\vec{u}\\cdot\\vec{v}$ avec $\\vec{u}(5;-1)$ et $\\vec{v}(2;3)$.</p>",
- aide:"Utilise la formule A : xx' + yy'.",
- correction:"<p>$\\vec{u}\\cdot\\vec{v} = 5\\times 2 + (-1)\\times 3 = 10-3 = 7$.</p>"},
-{niveau:"Facile",
- enonce:"<p>$\\|\\vec{u}\\|=3$, $\\|\\vec{v}\\|=6$, l'angle entre eux vaut $90°$. Calcule $\\vec{u}\\cdot\\vec{v}$ sans poser de calcul détaillé : justifie ta réponse en une phrase.</p>",
- aide:"Que vaut cos(90°) ?",
- correction:"<p>$\\cos(90°)=0$, donc $\\vec{u}\\cdot\\vec{v} = 3\\times 6\\times 0 = 0$ quelles que soient les normes. C'est cohérent : un angle de 90° signifie que les vecteurs sont orthogonaux, et le produit scalaire de deux vecteurs orthogonaux vaut toujours 0.</p>"},
-{niveau:"Facile",
- enonce:"<p>Les vecteurs $\\vec{u}(4;6)$ et $\\vec{v}(3;-2)$ sont-ils orthogonaux ?</p>",
- aide:"Calcule le produit scalaire avec la formule A et regarde s'il vaut 0.",
- correction:"<p>$\\vec{u}\\cdot\\vec{v} = 4\\times 3 + 6\\times(-2) = 12-12=0$. Le produit scalaire vaut 0, donc <strong>oui, les vecteurs sont orthogonaux</strong>.</p>"},
-{niveau:"Moyen",
- enonce:"<p>Dans un triangle $ABC$, $AB=9$, $AC=7$, $BC=6$. Calcule $\\vec{AB}\\cdot\\vec{AC}$.</p>",
- aide:"Utilise la formule C, en faisant bien attention à quel côté se soustrait (celui qui relie les extrémités des deux vecteurs, donc BC).",
- correction:"<p>$$\\begin{aligned} \\vec{AB}\\cdot\\vec{AC} &= \\dfrac{AB^2+AC^2-BC^2}{2} \\\\ &= \\dfrac{81+49-36}{2} = \\dfrac{94}{2} = 47 \\,. \\end{aligned}$$</p>"},
-{niveau:"Moyen",
- enonce:"<p>Dans un triangle $ABC$, $AB=10$, $AC=8$ et l'angle $\\hat{A}=45°$. Calcule $BC$ (valeur exacte puis arrondie au dixième).</p>",
- aide:"On connaît 2 côtés et l'angle entre eux (en A) : c'est Al-Kashi, utilisation n°1. Attention : ici a = BC est en face de l'angle A.",
- correction:"<p>$$\\begin{aligned} BC^2 &= AB^2+AC^2-2\\times AB\\times AC\\times\\cos(\\hat{A}) \\\\ &= 100+64-2\\times 10\\times 8\\times\\cos(45°) \\end{aligned}$$</p><p>$BC^2 = 164 - 160\\times\\dfrac{\\sqrt{2}}{2} = 164-80\\sqrt{2}$</p><p>$BC = \\sqrt{164-80\\sqrt{2}} \\approx 6{,}0$</p>"},
-{niveau:"Moyen",
- enonce:"<p>Dans un triangle $ABC$, $AB=6$, $AC=9$ et l'angle $\\hat{A}=50°$. Calcule l'aire du triangle (arrondie au dixième).</p>",
- aide:"On connaît 2 côtés et l'angle entre eux : formule de l'aire avec sinus.",
- correction:"<p>$$\\begin{aligned} \\text{Aire} &= \\dfrac{1}{2}\\times AB\\times AC\\times\\sin(\\hat{A}) \\\\ &= \\dfrac{1}{2}\\times 6\\times 9\\times\\sin(50°) \\approx 27\\times 0{,}766 \\\\ &\\approx 20{,}7 \\end{aligned}$$ unités d'aire.</p>"},
-{niveau:"Difficile",
- enonce:"<p>Dans un triangle $ABC$, $a=BC=11$, $b=AC=7$, $c=AB=8$. Calcule l'angle $\\hat{A}$ (arrondi au degré), puis dis si le triangle est obtusangle (a un angle obtus) en $A$.</p>",
- aide:"On connaît les 3 côtés : Al-Kashi formule inversée pour trouver cos(A). Un angle est obtus si son cosinus est négatif.",
- correction:"<p>$$\\begin{aligned} \\cos(\\hat{A}) &= \\dfrac{b^2+c^2-a^2}{2bc} \\\\ &= \\dfrac{49+64-121}{2\\times 7\\times 8} = \\dfrac{-8}{112} \\\\ &\\approx -0{,}071 \\end{aligned}$$</p><p>$\\hat{A} = \\cos^{-1}(-0{,}071) \\approx 94{,}1°$</p><p>Le cosinus est négatif et l'angle dépasse 90°, donc <strong>oui, le triangle est obtusangle en A</strong>.</p>"},
-{niveau:"Difficile",
- enonce:"<p>Démontre, à partir de la formule $\\vec{AB}\\cdot\\vec{AC} = \\|\\vec{AB}\\|\\times\\|\\vec{AC}\\|\\times\\cos(\\hat{A})$ et de la formule $\\vec{AB}\\cdot\\vec{AC}=\\dfrac{AB^2+AC^2-BC^2}{2}$, que l'on retrouve bien la loi d'Al-Kashi $BC^2=AB^2+AC^2-2\\times AB\\times AC\\times\\cos(\\hat{A})$.</p>",
- aide:"Les deux expressions du produit scalaire sont égales : pose l'égalité, puis isole BC².",
- correction:"<p>Les deux formules calculent la même chose, donc :</p><p>$AB\\times AC\\times\\cos(\\hat{A}) = \\dfrac{AB^2+AC^2-BC^2}{2}$</p><p>On multiplie les deux membres par 2 :</p><p>$2\\times AB\\times AC\\times\\cos(\\hat{A}) = AB^2+AC^2-BC^2$</p><p>On isole $BC^2$ :</p><p>$BC^2 = AB^2+AC^2-2\\times AB\\times AC\\times\\cos(\\hat{A})$ ✓ — c'est exactement la loi d'Al-Kashi. Elle n'est donc pas une formule à part : c'est une conséquence directe des deux façons de calculer le produit scalaire.</p>"},
-{niveau:"Difficile",
- enonce:"<p>Un triangle $ABC$ vérifie $AB=13$, $AC=14$, $BC=15$. Calcule l'aire du triangle en passant d'abord par l'angle $\\hat{A}$ (Al-Kashi puis formule de l'aire).</p>",
- aide:"Étape 1 : trouve cos(A) avec Al-Kashi (3 côtés connus). Étape 2 : trouve sin(A) avec cos²+sin²=1 (A est forcément entre 0 et 180°, donc sin(A) > 0). Étape 3 : applique la formule de l'aire.",
- correction:"<p><strong>Étape 1 :</strong> $$\\begin{aligned} \\cos(\\hat{A}) &= \\dfrac{AB^2+AC^2-BC^2}{2\\times AB\\times AC} \\\\ &= \\dfrac{169+196-225}{2\\times 13\\times 14} = \\dfrac{140}{364} \\\\ &\\approx 0{,}3846 \\end{aligned}$$</p><p><strong>Étape 2 :</strong> $\\sin^2(\\hat{A}) = 1-0{,}3846^2 \\approx 0{,}8521$, donc $\\sin(\\hat{A})\\approx 0{,}923$ (positif car un angle de triangle est toujours entre 0° et 180°).</p><p><strong>Étape 3 :</strong> $$\\begin{aligned} \\text{Aire} &= \\dfrac{1}{2}\\times AB\\times AC\\times\\sin(\\hat{A}) \\\\ &= \\dfrac{1}{2}\\times 13\\times 14\\times 0{,}923 \\approx 84 \\end{aligned}$$ unités d'aire.</p>"}
-],
-flashcards:[
-{q:"Le produit scalaire, c'est un vecteur ou un nombre ?",a:"Un nombre (un scalaire) — jamais un vecteur, malgré le nom \"produit\"."},
-{q:"Formule du produit scalaire avec des coordonnées",a:"u⃗(x;y) et v⃗(x';y') : u⃗·v⃗ = xx' + yy'"},
-{q:"Formule du produit scalaire avec normes et angle",a:"u⃗·v⃗ = ‖u⃗‖ × ‖v⃗‖ × cos(u⃗,v⃗)"},
-{q:"Formule du produit scalaire avec 3 longueurs de triangle (AB⃗·AC⃗)",a:"AB⃗·AC⃗ = (AB² + AC² − BC²) / 2 — le côté qui se soustrait relie toujours les extrémités des deux vecteurs (ici B et C), jamais l'origine A."},
-{q:"Test d'orthogonalité de deux vecteurs",a:"Deux vecteurs sont orthogonaux si et seulement si leur produit scalaire vaut 0."},
-{q:"Loi d'Al-Kashi",a:"a² = b² + c² − 2bc·cos(Â), où a est le côté en face de l'angle Â."},
-{q:"Al-Kashi et Pythagore : le lien",a:"Si Â = 90°, cos(Â) = 0, donc a² = b² + c² : on retrouve Pythagore. Al-Kashi généralise Pythagore à tout triangle."},
-{q:"Al-Kashi pour trouver un angle à partir des 3 côtés",a:"cos(Â) = (b² + c² − a²) / (2bc)"},
-{q:"Que signifie un cos(Â) négatif trouvé avec Al-Kashi ?",a:"L'angle  est obtus (entre 90° et 180°) — ce n'est pas une erreur, c'est un résultat possible et normal."},
-{q:"Aire d'un triangle avec un angle entre deux côtés connus",a:"Aire = (1/2) × b × c × sin(Â), où  est l'angle entre les côtés b et c."},
-{q:"Al-Kashi utilise cos ou sin ?",a:"cos. L'aire du triangle, elle, utilise sin. Ne pas confondre les deux formules."},
-{q:"Quand utiliser la formule Al-Kashi \"directe\" (trouver un côté)",a:"Quand on connaît 2 côtés et l'angle entre eux, et qu'on cherche le 3e côté."},
-{q:"Quand utiliser la formule Al-Kashi \"inversée\" (trouver un angle)",a:"Quand on connaît les 3 côtés du triangle et qu'on cherche un angle."}
-]},
+ "cours": "<div class=\"attention-box\"><strong>Objectif du jour de l'évaluation :</strong> savoir (1) calculer un produit scalaire avec <em>normes + angle</em>, avec des <em>coordonnées</em> ou avec un <em>projeté orthogonal</em> ; (2) montrer que deux vecteurs sont <em>orthogonaux</em> ; (3) <em>trouver un angle</em> ; (4) utiliser <em>Al-Kashi</em>. Plus bas : un tableau « quelle formule pour quelle situation », des méthodes pas à pas et les erreurs qui coûtent des points.</div>\n\n<h3>0. Comprendre avant de calculer : 3 façons de voir le produit scalaire</h3>\n<p><strong>Image n°1 — un « détecteur d'alignement ».</strong> Le produit scalaire $\\vec{u}\\cdot\\vec{v}$ est un <strong>nombre</strong> (jamais un vecteur). Son signe te dit si les deux vecteurs vont globalement dans le même sens, sont perpendiculaires, ou vont à peu près en sens contraires.</p>\n<svg viewBox=\"0 0 540 150\" role=\"img\" aria-label=\"Signe du produit scalaire selon l'angle\" style=\"width:100%;max-width:560px;display:block;margin:12px auto\"><defs><marker id=\"ah\" markerWidth=\"9\" markerHeight=\"9\" refX=\"7\" refY=\"4\" orient=\"auto\"><path d=\"M0,0 L8,4 L0,8 z\" fill=\"#6366f1\"/></marker></defs><line x1=\"40\" y1=\"100\" x2=\"135\" y2=\"100\" stroke=\"#6366f1\" stroke-width=\"2.4\" marker-end=\"url(#ah)\"/><line x1=\"40\" y1=\"100\" x2=\"112.8\" y2=\"38.9\" stroke=\"#ec4899\" stroke-width=\"2.4\" marker-end=\"url(#ah)\"/><text x=\"143\" y=\"116\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"600\" fill=\"currentColor\">u</text><text x=\"123.5\" y=\"33.8\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"600\" fill=\"currentColor\">v</text><text x=\"100\" y=\"140\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"500\" fill=\"currentColor\">angle aigu : u·v &gt; 0</text><line x1=\"220\" y1=\"100\" x2=\"315\" y2=\"100\" stroke=\"#6366f1\" stroke-width=\"2.4\" marker-end=\"url(#ah)\"/><line x1=\"220\" y1=\"100\" x2=\"220.0\" y2=\"5.0\" stroke=\"#ec4899\" stroke-width=\"2.4\" marker-end=\"url(#ah)\"/><text x=\"323\" y=\"116\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"600\" fill=\"currentColor\">u</text><text x=\"220.0\" y=\"-3.0\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"600\" fill=\"currentColor\">v</text><text x=\"280\" y=\"140\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"500\" fill=\"currentColor\">angle droit : u·v = 0</text><line x1=\"400\" y1=\"100\" x2=\"495\" y2=\"100\" stroke=\"#6366f1\" stroke-width=\"2.4\" marker-end=\"url(#ah)\"/><line x1=\"400\" y1=\"100\" x2=\"332.8\" y2=\"32.8\" stroke=\"#ec4899\" stroke-width=\"2.4\" marker-end=\"url(#ah)\"/><text x=\"503\" y=\"116\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"600\" fill=\"currentColor\">u</text><text x=\"322.9\" y=\"27.2\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"600\" fill=\"currentColor\">v</text><text x=\"460\" y=\"140\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"500\" fill=\"currentColor\">angle obtus : u·v &lt; 0</text></svg>\n<p><strong>Image n°2 — le travail d'une force (Physique).</strong> Tu pousses un wagon de $A$ vers $B$ avec une force $\\vec{F}$. Seule la partie de la force <em>dans le sens du déplacement</em> compte : $W=\\overrightarrow{AB}\\cdot\\vec{F}$. Force dans le sens du mouvement : travail positif (elle aide). Force perpendiculaire (le poids d'un sac que tu portes en marchant) : travail nul. Force opposée (les frottements) : travail négatif. C'est <em>exactement</em> l'exercice 18.</p>\n<p><strong>Image n°3 — l'ombre.</strong> $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}$ = (longueur $AB$) × (longueur de l'« ombre » de $\\overrightarrow{AC}$ sur la droite $(AB)$), avec un signe. L'ombre, c'est le projeté orthogonal $H$ de $C$ sur $(AB)$ : on <em>laisse tomber</em> $C$ à angle droit sur la droite $(AB)$.</p>\n<svg viewBox=\"0 0 540 175\" role=\"img\" aria-label=\"Projeté orthogonal : deux cas\" style=\"width:100%;max-width:560px;display:block;margin:12px auto\"><defs><marker id=\"ah\" markerWidth=\"9\" markerHeight=\"9\" refX=\"7\" refY=\"4\" orient=\"auto\"><path d=\"M0,0 L8,4 L0,8 z\" fill=\"#6366f1\"/></marker></defs><line x1=\"30\" y1=\"120\" x2=\"215\" y2=\"120\" stroke=\"#6366f1\" stroke-width=\"2.4\" marker-end=\"url(#ah)\"/><line x1=\"30\" y1=\"120\" x2=\"150\" y2=\"35\" stroke=\"#ec4899\" stroke-width=\"2.4\" marker-end=\"url(#ah)\"/><line x1=\"150\" y1=\"35\" x2=\"150\" y2=\"120\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-dasharray=\"5 4\"/><path d=\"M150,108 h10 v12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/><text x=\"24\" y=\"138\" text-anchor=\"middle\" font-size=\"14\" font-weight=\"600\" fill=\"currentColor\">A</text><text x=\"222\" y=\"138\" text-anchor=\"middle\" font-size=\"14\" font-weight=\"600\" fill=\"currentColor\">B</text><text x=\"150\" y=\"28\" text-anchor=\"middle\" font-size=\"14\" font-weight=\"600\" fill=\"currentColor\">C</text><text x=\"150\" y=\"138\" text-anchor=\"middle\" font-size=\"14\" font-weight=\"600\" fill=\"currentColor\">H</text><text x=\"120\" y=\"163\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"500\" fill=\"currentColor\">H du même côté que B : AB·AC = + AB × AH</text><line x1=\"380\" y1=\"120\" x2=\"525\" y2=\"120\" stroke=\"#6366f1\" stroke-width=\"2.4\" marker-end=\"url(#ah)\"/><line x1=\"380\" y1=\"120\" x2=\"320\" y2=\"38\" stroke=\"#ec4899\" stroke-width=\"2.4\" marker-end=\"url(#ah)\"/><line x1=\"320\" y1=\"38\" x2=\"320\" y2=\"120\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-dasharray=\"5 4\"/><path d=\"M320,108 h10 v12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/><text x=\"386\" y=\"138\" text-anchor=\"middle\" font-size=\"14\" font-weight=\"600\" fill=\"currentColor\">A</text><text x=\"530\" y=\"138\" text-anchor=\"middle\" font-size=\"14\" font-weight=\"600\" fill=\"currentColor\">B</text><text x=\"320\" y=\"30\" text-anchor=\"middle\" font-size=\"14\" font-weight=\"600\" fill=\"currentColor\">C</text><text x=\"312\" y=\"138\" text-anchor=\"middle\" font-size=\"14\" font-weight=\"600\" fill=\"currentColor\">H</text><text x=\"420\" y=\"163\" text-anchor=\"middle\" font-size=\"12\" font-weight=\"500\" fill=\"currentColor\">H du côté opposé : AB·AC = − AB × AH</text></svg>\n<h3>1. Définitions de ton cours</h3>\n<h3>1.1 Norme d'un vecteur</h3>\n<p>Si $\\vec{u}=\\overrightarrow{AB}$, la <strong>norme</strong> $\\|\\vec{u}\\|$ est la longueur $AB$.</p>\n<div class=\"retenir-box\"><strong>Exemple 1</strong> (carreaux) : $\\|\\vec{u}\\|=4$ ; pour $\\vec{v}$, on fait un triangle rectangle de côtés 4 et 2 : $\\|\\vec{v}\\|=\\sqrt{4^2+2^2}=\\sqrt{20}=2\\sqrt{5}$.</div>\n\n<h3>1.2 Produit scalaire avec un angle</h3>\n<div class=\"formula-box\">$\\vec{u}\\cdot\\vec{v}=\\|\\vec{u}\\|\\times\\|\\vec{v}\\|\\times\\cos(\\vec{u},\\vec{v})$ si $\\vec{u}\\neq\\vec{0}$ et $\\vec{v}\\neq\\vec{0}$ ; et $\\vec{u}\\cdot\\vec{v}=0$ si l'un des deux est nul.<br>Cas particulier : $\\vec{u}\\cdot\\vec{u}=\\|\\vec{u}\\|^2$ (carré scalaire), car l'angle est 0 et $\\cos 0=1$.</div>\n<p><strong>À connaître par cœur — les cosinus.</strong> Astuce : $\\cos(-\\theta)=\\cos\\theta$, donc un angle orienté négatif donne le même cosinus.</p>\n<table class=\"tbl-trig\"><tr><th>Angle (rad)</th><th>0</th><th>π/6</th><th>π/4</th><th>π/3</th><th>π/2</th><th>2π/3</th><th>3π/4</th><th>5π/6</th><th>π</th></tr>\n<tr><td>Degrés</td><td>0°</td><td>30°</td><td>45°</td><td>60°</td><td>90°</td><td>120°</td><td>135°</td><td>150°</td><td>180°</td></tr>\n<tr><td>cos</td><td>1</td><td>√3/2</td><td>√2/2</td><td>1/2</td><td>0</td><td>−1/2</td><td>−√2/2</td><td>−√3/2</td><td>−1</td></tr></table>\n<p><strong>Exemple 2.</strong> $\\|\\vec{u}\\|=2$, $\\|\\vec{v}\\|=3$, $(\\vec{u},\\vec{v})=\\frac{\\pi}{4}$ : $\\vec{u}\\cdot\\vec{v}=2\\times3\\times\\frac{\\sqrt2}{2}=3\\sqrt2$.<br>\n<strong>Exemple 3.</strong> $\\|\\vec{u}\\|=5$, $\\|\\vec{v}\\|=2$, angle $\\frac{5\\pi}{6}$ : $10\\times\\left(-\\frac{\\sqrt3}{2}\\right)=-5\\sqrt3$.<br>\n<strong>Exemple 4 (on cherche l'angle).</strong> $\\|\\vec{u}\\|=0{,}5$, $\\|\\vec{v}\\|=6$, $\\vec{u}\\cdot\\vec{v}=-3$ : $-3=0{,}5\\times6\\times\\cos(\\vec{u},\\vec{v})=3\\cos(\\vec{u},\\vec{v})$, donc $\\cos(\\vec{u},\\vec{v})=-1$ et l'angle vaut $\\pi$ : les vecteurs sont <em>opposés en direction</em>.</p>\n\n<h3>1.3 Propriétés algébriques (comme pour des nombres… presque)</h3>\n<div class=\"formula-box\"><strong>P1 (symétrie)</strong> : $\\vec{u}\\cdot\\vec{v}=\\vec{v}\\cdot\\vec{u}$.<br><strong>P2 (bilinéarité)</strong> : $\\vec{u}\\cdot(\\vec{v}+\\vec{w})=\\vec{u}\\cdot\\vec{v}+\\vec{u}\\cdot\\vec{w}$ et $\\vec{u}\\cdot(k\\vec{v})=k(\\vec{u}\\cdot\\vec{v})$.</div>\n<p><strong>Exemple 5.</strong> $3\\vec{u}\\cdot(2\\vec{v}+5\\vec{w})=3\\vec{u}\\cdot2\\vec{v}+3\\vec{u}\\cdot5\\vec{w}=6\\,\\vec{u}\\cdot\\vec{v}+15\\,\\vec{u}\\cdot\\vec{w}$. On distribue, puis on sort les nombres.</p>\n\n<h3>1.4 Vecteurs orthogonaux</h3>\n<div class=\"formula-box\">$\\vec{u}$ et $\\vec{v}$ sont orthogonaux $\\iff \\vec{u}\\cdot\\vec{v}=0$.</div>\n<p><em>Pourquoi ?</em> Si $\\vec{u}$ ou $\\vec{v}$ est nul, c'est immédiat. Sinon $\\vec{u}\\cdot\\vec{v}=0 \\iff \\cos(\\vec{u},\\vec{v})=0 \\iff (\\vec{u},\\vec{v})=\\frac{\\pi}{2}+k\\pi$, c'est-à-dire des directions perpendiculaires.</p>\n\n<h3>1.5 Produit scalaire et angle géométrique</h3>\n<div class=\"formula-box\">Pour trois points : $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}=AB\\times AC\\times\\cos(\\widehat{BAC})$.</div>\n<div class=\"attention-box\"><strong>Piège n°1 : les vecteurs doivent partir du même point.</strong> $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}$ utilise l'angle $\\widehat{BAC}$. Mais $\\overrightarrow{AB}\\cdot\\overrightarrow{BC}$ n'utilise <em>pas</em> l'angle $\\widehat{ABC}$ : il faut « ramener » les vecteurs à la même origine, par exemple $\\overrightarrow{AB}\\cdot\\overrightarrow{BC}=-\\overrightarrow{BA}\\cdot\\overrightarrow{BC}=-BA\\times BC\\times\\cos(\\widehat{ABC})$.</div>\n<p><strong>Exemple 6</strong> : $ABC$ équilatéral de côté 6, $I$ milieu de $[BC]$ (angles de 60°, $BI=IC=3$).</p>\n<ul>\n<li>$\\overrightarrow{AB}\\cdot\\overrightarrow{AC}=6\\times6\\times\\cos60°=18$.</li>\n<li>$\\overrightarrow{IB}\\cdot\\overrightarrow{IC}$ : même droite, sens <em>contraires</em> → $3\\times3\\times\\cos180°=-9$.</li>\n<li>$\\overrightarrow{CI}\\cdot\\overrightarrow{BC}$ : $\\overrightarrow{CI}$ va de $C$ vers $B$, $\\overrightarrow{BC}$ va de $B$ vers $C$ → sens contraires : $3\\times6\\times(-1)=-18$.</li>\n<li>$\\overrightarrow{CI}\\cdot\\overrightarrow{IA}=0$ car $(AI)\\perp(BC)$ dans un triangle équilatéral.</li>\n</ul>\n\n<h3>2. Expression analytique (avec des coordonnées)</h3>\n<p>On se place dans un repère orthonormé $(O;\\vec{i},\\vec{j})$ : $\\vec{i}\\cdot\\vec{i}=1$, $\\vec{j}\\cdot\\vec{j}=1$, $\\vec{i}\\cdot\\vec{j}=0$.</p>\n<div class=\"formula-box\"><strong>Théorème</strong> : $\\vec{u}(x;y)$ et $\\vec{v}(x';y')$ ⟹ $\\vec{u}\\cdot\\vec{v}=xx'+yy'$.<br><strong>Norme</strong> : $\\|\\vec{u}\\|=\\sqrt{x^2+y^2}$.<br><strong>Orthogonalité</strong> : $\\vec{u}\\perp\\vec{v}\\iff xx'+yy'=0$.</div>\n<p><em>Démonstration expliquée.</em> $\\vec{u}\\cdot\\vec{v}=(x\\vec{i}+y\\vec{j})\\cdot(x'\\vec{i}+y'\\vec{j})$. On distribue (P2) : $xx'\\,\\vec{i}\\cdot\\vec{i}+xy'\\,\\vec{i}\\cdot\\vec{j}+yx'\\,\\vec{j}\\cdot\\vec{i}+yy'\\,\\vec{j}\\cdot\\vec{j}$. Avec $\\vec{i}\\cdot\\vec{i}=\\vec{j}\\cdot\\vec{j}=1$ et $\\vec{i}\\cdot\\vec{j}=0$, il reste $xx'+yy'$. ∎</p>\n<p><strong>Exemple 7.</strong> $\\vec{u}(3;-1)$ et $\\vec{v}(-2;3)$ : $3\\times(-2)+(-1)\\times3=-9$. Avec $A(1;-1)$, $B(3;1)$, $C(-1;3)$ : $\\overrightarrow{AB}(2;2)$, $\\overrightarrow{AC}(-2;4)$, donc $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}=-4+8=4$.<br>\n<strong>Exemple 8.</strong> $\\vec{u}(3;-1)$ : $\\|\\vec{u}\\|=\\sqrt{9+1}=\\sqrt{10}$ ; $\\vec{v}(-2;3)$ : $\\|\\vec{v}\\|=\\sqrt{4+9}=\\sqrt{13}$.<br>\n<strong>Exemple 9.</strong> $\\vec{u}(-1;3)$ et $\\vec{v}(1{,}5;0{,}5)$ : $-1{,}5+1{,}5=0$ → orthogonaux.</p>\n<div class=\"retenir-box\"><strong>Méthode — mesurer un angle (exemple 10).</strong> On calcule $\\vec{u}\\cdot\\vec{v}$ <em>de deux façons</em> et on égalise.<br>\n$\\vec{u}(2;-2)$ et $\\vec{v}(2;1)$. (1) Coordonnées : $\\vec{u}\\cdot\\vec{v}=4-2=2$. (2) Cosinus : $\\|\\vec{u}\\|\\|\\vec{v}\\|\\cos\\theta=\\sqrt8\\times\\sqrt5\\times\\cos\\theta$. Donc $\\cos\\theta=\\frac{2}{\\sqrt{40}}\\approx0{,}316$ et $\\theta=\\cos^{-1}(0{,}316)\\approx72°$ (calculatrice en <strong>degrés</strong>).</div>\n\n<h3>3. Produit scalaire et projeté orthogonal</h3>\n<div class=\"formula-box\"><strong>Théorème.</strong> $A,B,C$ non alignés, $H$ projeté orthogonal de $C$ sur $(AB)$.<br>• $\\overrightarrow{AB}$ et $\\overrightarrow{AH}$ de même sens : $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}=AB\\times AH$.<br>• sens contraires : $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}=-AB\\times AH$.<br><strong>Propriété</strong> : $\\cos(\\widehat{HAC})=\\dfrac{AH}{AC}$, donc $AH=AC\\times\\cos(\\widehat{HAC})$.</div>\n<p><em>Pourquoi ça marche.</em> Chasles : $\\overrightarrow{AC}=\\overrightarrow{AH}+\\overrightarrow{HC}$. Donc $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}=\\overrightarrow{AB}\\cdot\\overrightarrow{AH}+\\overrightarrow{AB}\\cdot\\overrightarrow{HC}$. Le second terme vaut 0 car $(HC)\\perp(AB)$. Reste $\\overrightarrow{AB}\\cdot\\overrightarrow{AH}$ : ces deux vecteurs sont sur la même droite, donc l'angle est 0° (+) ou 180° (−). Si $\\overrightarrow{AB}\\perp\\overrightarrow{AC}$, alors $H=A$, $AH=0$ et le produit est nul.</p>\n<p><strong>Exemple 11 (figure à carreaux).</strong> Pour $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}$ : le projeté de $C$ sur $(AB)$ est $E$, avec $AB=4$ et $AE=1$ dans le même sens : $4\\times1=4$. Pour un produit dont le projeté est <em>à l'envers</em> (ex. $-DB\\times DE=-2\\times1$) : $-2$. <strong>Réflexe sur un quadrillage : projeter, compter les carreaux, choisir le signe.</strong></p>\n\n<h3>4. Al-Kashi (loi des cosinus)</h3>\n<p>Triangle $ABC$, $a=BC$, $b=AC$, $c=AB$.</p>\n<div class=\"formula-box\">$a^2=b^2+c^2-2bc\\cos\\widehat{A}$ ; $\\;b^2=a^2+c^2-2ac\\cos\\widehat{B}$ ; $\\;c^2=a^2+b^2-2ab\\cos\\widehat{C}$.<br>Pour un <strong>angle</strong> : $\\cos\\widehat{A}=\\dfrac{b^2+c^2-a^2}{2bc}$.</div>\n<p><em>Démonstration (celle qui était vide sur ta feuille).</em> Chasles : $\\overrightarrow{BC}=\\overrightarrow{BA}+\\overrightarrow{AC}$. Donc $a^2=BC^2=(\\overrightarrow{BA}+\\overrightarrow{AC})^2=BA^2+2\\,\\overrightarrow{BA}\\cdot\\overrightarrow{AC}+AC^2=c^2+b^2+2\\,\\overrightarrow{BA}\\cdot\\overrightarrow{AC}$. Or $\\overrightarrow{BA}\\cdot\\overrightarrow{AC}=-\\overrightarrow{AB}\\cdot\\overrightarrow{AC}=-bc\\cos\\widehat{A}$. D'où $a^2=b^2+c^2-2bc\\cos\\widehat{A}$. ∎<br>\n<strong>Remarque.</strong> Si $\\widehat{A}=90°$, $\\cos\\widehat{A}=0$ : on retrouve Pythagore $a^2=b^2+c^2$.</p>\n<p><strong>Exemple 12.</strong> $AB=3$, $AC=8$, $\\widehat{BAC}=60°$. (1) $BC^2=9+64-2\\times3\\times8\\times\\frac12=49$ donc $BC=7$. (2) $\\cos\\widehat{ACB}=\\dfrac{AC^2+BC^2-AB^2}{2\\times AC\\times BC}=\\dfrac{64+49-9}{112}=\\dfrac{13}{14}$ donc $\\widehat{ACB}\\approx22°$.<br>\n<em>Attention :</em> sur ta feuille l'énoncé dit « triangle rectangle », mais avec ces données il ne l'est pas (s'il l'était en $B$, on aurait $\\cos\\widehat{A}=3/8$, pas $1/2$). On le traite comme un triangle quelconque.</p>\n\n<h3>5. Quelle formule pour quelle situation ?</h3>\n<table><tr><th>On te donne…</th><th>Tu utilises…</th></tr>\n<tr><td>des <strong>coordonnées</strong> (points ou vecteurs)</td><td>$xx'+yy'$ ; normes avec $\\sqrt{x^2+y^2}$</td></tr>\n<tr><td>des <strong>normes</strong> et un <strong>angle</strong></td><td>$\\|\\vec{u}\\|\\|\\vec{v}\\|\\cos(\\vec{u},\\vec{v})$</td></tr>\n<tr><td>une <strong>figure à carreaux</strong> ou un carré / rectangle / hexagone</td><td>projeté orthogonal ($\\pm AB\\times AH$) ou un repère</td></tr>\n<tr><td><strong>3 côtés</strong> d'un triangle, on cherche un angle</td><td>Al-Kashi : $\\cos\\widehat{A}=\\frac{b^2+c^2-a^2}{2bc}$</td></tr>\n<tr><td><strong>2 côtés + l'angle entre eux</strong>, on cherche le 3ᵉ côté</td><td>Al-Kashi : $a^2=b^2+c^2-2bc\\cos\\widehat{A}$</td></tr>\n<tr><td>« montrer que… sont <strong>perpendiculaires</strong> / trouver $x$ »</td><td>produit scalaire $=0$</td></tr></table>\n\n<h3>6. Méthodes pas à pas</h3>\n<div class=\"retenir-box\"><strong>M1 — Trouver un angle.</strong> ① Calculer $\\vec{u}\\cdot\\vec{v}$ avec les coordonnées. ② Calculer les deux normes. ③ $\\cos\\theta=\\frac{\\vec{u}\\cdot\\vec{v}}{\\|\\vec{u}\\|\\|\\vec{v}\\|}$. ④ $\\theta=\\cos^{-1}(\\ldots)$ en degrés, puis arrondir comme demandé.<br>\n<strong>M2 — Trouver $x$ pour deux vecteurs orthogonaux.</strong> ① Écrire $xx'+yy'=0$. ② Développer. ③ Résoudre (si un produit est nul : facteur nul ; si $x^2=20$ : $x=\\pm2\\sqrt5$).<br>\n<strong>M3 — Triangle isocèle / rectangle en $A$ avec des points.</strong> Rectangle en $A$ : $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}=0$. Isocèle en $A$ : $AB=AC$ (calculer les deux normes).<br>\n<strong>M4 — Figure (carré, losange, hexagone).</strong> Soit on place un repère (le plus sûr), soit on repère les angles (60° dans l'hexagone régulier, 45° dans un carré avec la diagonale).<br>\n<strong>M5 — « Calculer $AH$ » avec un produit scalaire.</strong> ① Calculer $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}$ avec les 3 côtés (Al-Kashi). ② L'égaler à $AB\\times AH$. ③ Pythagore dans $AHC$ pour $CH$.</div>\n\n<h3>7. Les erreurs qui coûtent des points</h3>\n<div class=\"attention-box\">\n① Confondre <strong>vecteur</strong> ($\\overrightarrow{AB}$) et <strong>longueur</strong> ($AB$) : $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}$ est un nombre, pas un vecteur.<br>\n② Oublier la règle d'origine commune (piège de $\\overrightarrow{AB}\\cdot\\overrightarrow{BC}$).<br>\n③ Calculatrice en <strong>radians</strong> quand l'énoncé est en degrés (ou l'inverse).<br>\n④ Dire « $\\vec{u}\\cdot\\vec{v}=0$ donc $\\vec{u}=\\vec{0}$ ou $\\vec{v}=\\vec{0}$ » : <strong>faux</strong> (ils peuvent être orthogonaux).<br>\n⑤ Oublier le signe (–) quand les sens sont contraires.<br>\n⑥ Écrire « = 0 » sans justifier : montre le calcul $xx'+yy'$.<br>\n⑦ Arrondir trop tôt : garde les valeurs exactes ($\\sqrt{2}$, fractions) jusqu'au résultat final.\n</div>\n\n<h3>8. À retenir</h3>\n<div class=\"retenir-box\">$\\vec{u}\\cdot\\vec{v}=\\|\\vec{u}\\|\\|\\vec{v}\\|\\cos(\\vec{u},\\vec{v})=xx'+yy'$ · $\\vec{u}\\cdot\\vec{u}=\\|\\vec{u}\\|^2$ · orthogonaux $\\iff \\vec{u}\\cdot\\vec{v}=0$ · $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}=\\pm AB\\times AH$ · $a^2=b^2+c^2-2bc\\cos\\widehat{A}$.</div>",
+ "exercices": [
+  {
+   "niveau": "Facile",
+   "enonce": "<p><strong>Ex 1.</strong> Dans chaque cas, calculer $\\vec{u}\\cdot\\vec{v}$.</p><ol><li>$\\|\\vec{u}\\|=2$, $\\|\\vec{v}\\|=5$, $(\\vec{u};\\vec{v})=\\frac{\\pi}{6}$</li><li>$\\|\\vec{u}\\|=3$, $\\|\\vec{v}\\|=1$, angle $\\frac{\\pi}{3}$</li><li>$\\|\\vec{u}\\|=\\frac54$, $\\|\\vec{v}\\|=\\frac15$, angle $\\frac{-2\\pi}{3}$</li><li>$\\|\\vec{u}\\|=7$, $\\|\\vec{v}\\|=\\frac12$, angle $\\frac{3\\pi}{4}$</li><li>$\\|\\vec{u}\\|=\\sqrt2$, $\\|\\vec{v}\\|=6$, angle $\\frac{-\\pi}{4}$</li><li>$\\|\\vec{u}\\|=2$, $\\|\\vec{v}\\|=5$, angle $\\frac{\\pi}{2}$</li></ol>",
+   "aide": "Formule : norme × norme × cos(angle). Utilise le tableau des cosinus, et cos(−θ)=cos θ.",
+   "correction": "<ol><li>$2\\times5\\times\\frac{\\sqrt3}{2}=5\\sqrt3$</li><li>$3\\times1\\times\\frac12=\\frac32$</li><li>$\\frac54\\times\\frac15\\times\\cos\\frac{2\\pi}{3}=\\frac14\\times\\left(-\\frac12\\right)=-\\frac18$</li><li>$7\\times\\frac12\\times\\left(-\\frac{\\sqrt2}{2}\\right)=-\\frac{7\\sqrt2}{4}$</li><li>$\\sqrt2\\times6\\times\\frac{\\sqrt2}{2}=6$ (car $\\sqrt2\\times\\sqrt2=2$)</li><li>$\\cos\\frac{\\pi}{2}=0$ donc $0$ (vecteurs orthogonaux)</li></ol>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><strong>Ex 2.</strong> 1) Calculer $\\cos(\\vec{u};\\vec{v})$ : a. $\\|\\vec{u}\\|=2$, $\\|\\vec{v}\\|=3$, $\\vec{u}\\cdot\\vec{v}=-3$ ; b. $\\|\\vec{u}\\|=5$, $\\|\\vec{v}\\|=6$, $\\vec{u}\\cdot\\vec{v}=15\\sqrt2$ ; c. $\\|\\vec{u}\\|=\\frac23$, $\\|\\vec{v}\\|=6$, $\\vec{u}\\cdot\\vec{v}=-2\\sqrt3$.<br>2) Calculer $\\|\\vec{u}\\|$ : a. $\\|\\vec{v}\\|=3$, $\\vec{u}\\cdot\\vec{v}=3$, angle $\\frac{\\pi}{3}$ ; b. $\\|\\vec{v}\\|=2$, $\\vec{u}\\cdot\\vec{v}=-10$, angle $\\pi$ ; c. $\\|\\vec{v}\\|=1$, $\\vec{u}\\cdot\\vec{v}=\\frac{-1}{\\sqrt2}$, angle $\\frac{-3\\pi}{4}$.</p>",
+   "aide": "On isole l'inconnue dans $\\vec{u}\\cdot\\vec{v}=\\|\\vec{u}\\|\\|\\vec{v}\\|\\cos$. Attention aux signes.",
+   "correction": "<p><strong>1)</strong> $\\cos=\\frac{\\vec{u}\\cdot\\vec{v}}{\\|\\vec{u}\\|\\|\\vec{v}\\|}$ : a. $\\frac{-3}{6}=-\\frac12$ ; b. $\\frac{15\\sqrt2}{30}=\\frac{\\sqrt2}{2}$ ; c. $\\frac{-2\\sqrt3}{\\frac23\\times6}=\\frac{-2\\sqrt3}{4}=-\\frac{\\sqrt3}{2}$.<br><strong>2)</strong> $\\|\\vec{u}\\|=\\frac{\\vec{u}\\cdot\\vec{v}}{\\|\\vec{v}\\|\\cos\\theta}$ : a. $\\frac{3}{3\\times\\frac12}=2$ ; b. $\\frac{-10}{2\\times(-1)}=5$ ; c. $\\frac{-1/\\sqrt2}{1\\times(-\\sqrt2/2)}=\\frac{1/\\sqrt2}{\\sqrt2/2}=\\frac{1}{\\sqrt2}\\times\\frac{2}{\\sqrt2}=1$.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><strong>Ex 3.</strong> $ABC$ est un triangle. 1) Calculer $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}$ : a. $AB=5$, $AC=3$, $\\widehat{BAC}=30°$ ; b. $AB=1$, $AC=2$, $\\widehat{BAC}=120°$ ; c. $AB=\\frac14$, $AC=3$, $\\widehat{BAC}=45°$.<br>2) Calculer $\\widehat{BAC}$ : a. $AB=5$, $AC=4$, $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}=10$ ; b. $AB=3$, $AC=4$, $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}=-6\\sqrt3$ ; c. $AB=\\sqrt3$, $AC=\\sqrt6$, $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}=-3$.</p>",
+   "aide": "1) $AB\\times AC\\times\\cos$. 2) $\\cos\\widehat{BAC}=\\frac{\\overrightarrow{AB}\\cdot\\overrightarrow{AC}}{AB\\times AC}$ puis on reconnaît l'angle.",
+   "correction": "<p><strong>1)</strong> a. $15\\cos30°=\\frac{15\\sqrt3}{2}$ ; b. $2\\cos120°=-1$ ; c. $\\frac34\\cos45°=\\frac{3\\sqrt2}{8}$.<br><strong>2)</strong> a. $\\cos=\\frac{10}{20}=\\frac12$ → $60°$ ; b. $\\cos=\\frac{-6\\sqrt3}{12}=-\\frac{\\sqrt3}{2}$ → $150°$ ; c. $\\cos=\\frac{-3}{\\sqrt3\\sqrt6}=\\frac{-3}{3\\sqrt2}=-\\frac{\\sqrt2}{2}$ → $135°$.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><strong>Ex 4.</strong> $ABCDEF$ est un hexagone régulier de centre $O$ et de côté 1. Calculer : a. $\\overrightarrow{OC}\\cdot\\overrightarrow{OD}$ ; b. $\\overrightarrow{OC}\\cdot\\overrightarrow{OE}$ ; c. $\\overrightarrow{OC}\\cdot\\overrightarrow{DE}$ ; d. $\\overrightarrow{AB}\\cdot\\overrightarrow{BE}$ ; e. $\\overrightarrow{AB}\\cdot\\overrightarrow{CF}$ ; f. $\\overrightarrow{DA}\\cdot\\overrightarrow{EB}$.</p>",
+   "aide": "Les 6 triangles $OAB$, $OBC$… sont équilatéraux : $OA=OB=\\dots=1$ et les angles au centre valent 60°. Le plus sûr : placer un repère avec $O$ à l'origine.",
+   "correction": "<p>Repère : $A(1;0)$, $B(\\frac12;\\frac{\\sqrt3}{2})$, $C(-\\frac12;\\frac{\\sqrt3}{2})$, $D(-1;0)$, $E(-\\frac12;-\\frac{\\sqrt3}{2})$, $F(\\frac12;-\\frac{\\sqrt3}{2})$ (l'orientation du dessin ne change pas les produits scalaires).<br>a. angle 60° : $1\\times1\\times\\frac12=\\frac12$.<br>b. angle 120° : $-\\frac12$.<br>c. $\\overrightarrow{DE}(\\frac12;-\\frac{\\sqrt3}{2})$ : $-\\frac14-\\frac34=-1$.<br>d. $\\overrightarrow{AB}(-\\frac12;\\frac{\\sqrt3}{2})$, $\\overrightarrow{BE}(-1;-\\sqrt3)$ : $\\frac12-\\frac32=-1$.<br>e. $\\overrightarrow{CF}(1;-\\sqrt3)$ : $-\\frac12-\\frac32=-2$.<br>f. $\\overrightarrow{DA}(2;0)$, $\\overrightarrow{EB}(1;\\sqrt3)$ : $2$.</p>"
+  },
+  {
+   "niveau": "Facile",
+   "enonce": "<p><strong>Ex 5.</strong> $ABCD$ est un carré de côté 2. Calculer : a. $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}$ ; b. $\\overrightarrow{AC}\\cdot\\overrightarrow{BD}$ ; c. $\\overrightarrow{AB}\\cdot\\overrightarrow{AD}$ ; d. $\\overrightarrow{AB}\\cdot\\overrightarrow{CD}$.</p>",
+   "aide": "Repère : $A(0;0)$, $B(2;0)$, $C(2;2)$, $D(0;2)$.",
+   "correction": "<p>a. $\\overrightarrow{AB}(2;0)$, $\\overrightarrow{AC}(2;2)$ : $4$ (ou $AB\\times AB=4$ par projeté).<br>b. $\\overrightarrow{AC}(2;2)$, $\\overrightarrow{BD}(-2;2)$ : $-4+4=0$ (les diagonales d'un carré sont perpendiculaires).<br>c. $0$ (côtés perpendiculaires).<br>d. $\\overrightarrow{CD}(-2;0)$ : $-4$ (sens contraires : $2\\times2\\times\\cos180°$).</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><strong>Ex 6.</strong> Vrai ou faux ? Justifier. <br>A1 : si $DE=3$, $DF=5$, $\\widehat{EDF}=45°$ alors $\\overrightarrow{DE}\\cdot\\overrightarrow{DF}\\approx7{,}9$.<br>A2 : si $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}=7$ alors l'angle $(\\overrightarrow{AB};\\overrightarrow{AC})$ est aigu.<br>A3 : si $RS=7$, $RT=8$ et $\\overrightarrow{RS}\\cdot\\overrightarrow{RT}=-11$ alors $\\widehat{SRT}\\approx101°$.</p>",
+   "aide": "Toujours recalculer : ne fais pas confiance à l'affirmation.",
+   "correction": "<p><strong>A1 — Faux.</strong> $3\\times5\\times\\cos45°=\\frac{15\\sqrt2}{2}\\approx10{,}6$, pas $7{,}9$.<br><strong>A2 — Vrai.</strong> Produit scalaire positif et vecteurs non nuls ⟹ $\\cos>0$ ⟹ angle aigu.<br><strong>A3 — Vrai.</strong> $\\cos\\widehat{SRT}=\\frac{-11}{56}\\approx-0{,}196$ donc $\\widehat{SRT}\\approx101{,}3°\\approx101°$.</p>"
+  },
+  {
+   "niveau": "Facile",
+   "enonce": "<p><strong>Ex 7.</strong> Calculer $\\vec{u}\\cdot\\vec{v}$ : 1. $\\vec{u}(-2;3)$, $\\vec{v}(5;4)$ ; 2. $\\vec{u}(1;0)$, $\\vec{v}(-3;10)$ ; 3. $\\vec{u}(\\frac12;4)$, $\\vec{v}(10;7)$ ; 4. $\\vec{u}(\\frac23;5)$, $\\vec{v}(9;-3)$ ; 5. $\\vec{u}(2;1)$, $\\vec{v}(-5;-4)$ ; 6. $\\vec{u}(-\\sqrt2;1)$, $\\vec{v}(\\sqrt3;\\sqrt6)$.</p>",
+   "aide": "$xx'+yy'$, en gardant les racines exactes.",
+   "correction": "<p>1. $-10+12=2$ · 2. $-3+0=-3$ · 3. $5+28=33$ · 4. $6-15=-9$ · 5. $-10-4=-14$ · 6. $-\\sqrt2\\sqrt3+\\sqrt6=-\\sqrt6+\\sqrt6=0$ (vecteurs orthogonaux).</p>"
+  },
+  {
+   "niveau": "Facile",
+   "enonce": "<p><strong>Ex 8.</strong> $A(-1;2)$, $B(3;5)$, $C(7;-6)$. Calculer : a. $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}$ ; b. $\\overrightarrow{AB}\\cdot\\overrightarrow{BC}$ ; c. $\\overrightarrow{CB}\\cdot\\overrightarrow{CA}$.</p>",
+   "aide": "Commence par les coordonnées de chaque vecteur : arrivée − départ.",
+   "correction": "<p>$\\overrightarrow{AB}(4;3)$, $\\overrightarrow{AC}(8;-8)$, $\\overrightarrow{BC}(4;-11)$, $\\overrightarrow{CB}(-4;11)$, $\\overrightarrow{CA}(-8;8)$.<br>a. $32-24=8$ · b. $16-33=-17$ · c. $32+88=120$.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><strong>Ex 9.</strong> $A(0;2)$, $B(3;1)$, $C(-1;4)$. 1) Calculer $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}$. 2) Calculer $AB$ et $AC$. 3) En déduire $\\widehat{BAC}$ (arrondi à l'unité).</p>",
+   "aide": "Méthode M1 : produit scalaire par coordonnées, normes, puis cosinus.",
+   "correction": "<p>1) $\\overrightarrow{AB}(3;-1)$, $\\overrightarrow{AC}(-1;2)$ : $-3-2=-5$.<br>2) $AB=\\sqrt{10}$, $AC=\\sqrt5$.<br>3) $\\cos\\widehat{BAC}=\\frac{-5}{\\sqrt{10}\\sqrt5}=\\frac{-5}{5\\sqrt2}=-\\frac{\\sqrt2}{2}$ donc $\\widehat{BAC}=135°$.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><strong>Ex 10.</strong> $D(-2;2)$, $E(3;-1)$, $F(2;4)$. 1) Calculer $\\overrightarrow{DE}\\cdot\\overrightarrow{DF}$, $\\overrightarrow{ED}\\cdot\\overrightarrow{EF}$, $\\overrightarrow{FD}\\cdot\\overrightarrow{FE}$. 2) Calculer $DE$, $DF$, $EF$. 3) En déduire les angles du triangle $DEF$ (à l'unité).</p>",
+   "aide": "Chaque angle utilise les deux vecteurs qui partent du même sommet.",
+   "correction": "<p>$\\overrightarrow{DE}(5;-3)$, $\\overrightarrow{DF}(4;2)$, $\\overrightarrow{EF}(-1;5)$.<br>1) $\\overrightarrow{DE}\\cdot\\overrightarrow{DF}=20-6=14$ ; $\\overrightarrow{ED}\\cdot\\overrightarrow{EF}=(-5;3)\\cdot(-1;5)=20$ ; $\\overrightarrow{FD}\\cdot\\overrightarrow{FE}=(-4;-2)\\cdot(1;-5)=6$.<br>2) $DE=\\sqrt{34}$, $DF=\\sqrt{20}=2\\sqrt5$, $EF=\\sqrt{26}$.<br>3) $\\cos\\widehat{D}=\\frac{14}{\\sqrt{34}\\sqrt{20}}\\approx0{,}537$ → $\\widehat{D}\\approx58°$ ; $\\cos\\widehat{E}=\\frac{20}{\\sqrt{34}\\sqrt{26}}\\approx0{,}673$ → $\\widehat{E}\\approx48°$ ; $\\cos\\widehat{F}=\\frac{6}{\\sqrt{20}\\sqrt{26}}\\approx0{,}263$ → $\\widehat{F}\\approx75°$.<br><em>Contrôle :</em> $57{,}5+47{,}7+74{,}7=180°$ (avec les arrondis à l'unité on trouve 181°, c'est normal).</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><strong>Ex 11.</strong> 1) Dire si $\\vec{u}$ et $\\vec{v}$ sont orthogonaux : a. $(-3;2)$ et $(2;3)$ ; b. $(3;-4)$ et $(2;1{,}5)$ ; c. $(\\frac12;\\frac{-3}{4})$ et $(\\frac14;\\frac16)$ ; d. $(10^7;10^5)$ et $(10^{-4};-10^{-2})$ ; e. $(\\sqrt5;-\\sqrt{10})$ et $(2;\\sqrt2)$ ; f. $(\\sqrt3;2)$ et $(-2\\sqrt2;\\sqrt6)$.<br>2) Trouver $x$ pour que $\\vec{u}$ et $\\vec{v}$ soient orthogonaux : a. $(-5;6)$ et $(x;4)$ ; b. $(-x;3)$ et $(1;x+4)$ ; c. $(-2x;5)$ et $(x;8)$ ; d. $(7x;x+2)$ et $(x+2;x-1)$.</p>",
+   "aide": "Orthogonaux ⟺ $xx'+yy'=0$. Pour la partie 2, on obtient une équation en $x$.",
+   "correction": "<p><strong>1)</strong> a. $-6+6=0$ oui · b. $6-6=0$ oui · c. $\\frac18-\\frac{3}{24}=0$ oui · d. $10^{3}-10^{3}=0$ <strong>oui</strong> · e. $2\\sqrt5-\\sqrt{20}=2\\sqrt5-2\\sqrt5=0$ oui · f. $-2\\sqrt6+2\\sqrt6=0$ oui. <em>Les six paires sont orthogonales</em> (vérifie ton d : $10^7\\times10^{-4}=10^3$ et $10^5\\times(-10^{-2})=-10^3$).<br><strong>2)</strong> a. $-5x+24=0$ → $x=\\frac{24}{5}$ · b. $-x+3(x+4)=2x+12=0$ → $x=-6$ · c. $-2x^2+40=0$ → $x^2=20$ → $x=\\pm2\\sqrt5$ · d. $7x(x+2)+(x+2)(x-1)=(x+2)(8x-1)=0$ → $x=-2$ ou $x=\\frac18$.</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p><strong>Ex 12.</strong> 1) $A(-3;1)$, $B(-2;4)$ : démontrer que $OAB$ est isocèle et rectangle en $A$. 2) $C(-1;-3)$, $D(2;6)$, $E(-3;1)$, $F(x;-1)$ : trouver $x$ pour que $(CD)\\perp(EF)$.</p>",
+   "aide": "Rectangle en $A$ : $\\overrightarrow{AO}\\cdot\\overrightarrow{AB}=0$. Isocèle en $A$ : $AO=AB$. Deux droites sont perpendiculaires si leurs vecteurs directeurs sont orthogonaux.",
+   "correction": "<p>1) $\\overrightarrow{AO}(3;-1)$ et $\\overrightarrow{AB}(1;3)$ : $\\overrightarrow{AO}\\cdot\\overrightarrow{AB}=3-3=0$ donc rectangle en $A$. $AO=\\sqrt{9+1}=\\sqrt{10}$ et $AB=\\sqrt{1+9}=\\sqrt{10}$ donc isocèle en $A$. ∎<br>2) $\\overrightarrow{CD}(3;9)$, $\\overrightarrow{EF}(x+3;-2)$. $3(x+3)-18=0$ → $x+3=6$ → $x=3$.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><strong>Ex 13.</strong> (figure de ta feuille, quadrillage) Calculer $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}$, $\\overrightarrow{DE}\\cdot\\overrightarrow{DF}$, $\\overrightarrow{GH}\\cdot\\overrightarrow{GI}$ et $\\overrightarrow{KJ}\\cdot\\overrightarrow{KL}$.</p>",
+   "aide": "Sur un quadrillage : projeter orthogonalement le 3ᵉ point sur la droite du 1ᵉʳ vecteur, compter les carreaux, choisir le signe (même sens : +, sens contraires : −).",
+   "correction": "<p><strong>Méthode (projeté, partie 3 du cours).</strong> Pour chaque produit $\\overrightarrow{PQ}\\cdot\\overrightarrow{PR}$ : ① repérer le projeté $H$ de $R$ sur $(PQ)$ ; ② compter $PQ$ et $PH$ en carreaux ; ③ $+PQ\\times PH$ si $\\overrightarrow{PH}$ a le même sens que $\\overrightarrow{PQ}$, sinon $-PQ\\times PH$.<br><em>Exemple d'écriture :</em> $\\overrightarrow{KJ}\\cdot\\overrightarrow{KL}=-KJ\\times KH$ si $H$ est du côté opposé à $J$. Vérifie avec ta feuille : tu avais noté 4, −4, 6 et −3 ; refais chaque projeté et contrôle le signe.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><strong>Ex 14.</strong> 1) $ABCD$ est un carré de centre $O$ et de côté 4. Calculer $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}$, $\\overrightarrow{AB}\\cdot\\overrightarrow{AD}$, $\\overrightarrow{DB}\\cdot\\overrightarrow{BD}$, $\\overrightarrow{DO}\\cdot\\overrightarrow{DA}$.<br>2) $RSTU$ est un losange de centre $K$, $RT=7$, $SU=4$. Calculer $\\overrightarrow{RS}\\cdot\\overrightarrow{RT}$, $\\overrightarrow{RT}\\cdot\\overrightarrow{SU}$, $\\overrightarrow{TS}\\cdot\\overrightarrow{SU}$, $\\overrightarrow{TK}\\cdot\\overrightarrow{TS}$.</p>",
+   "aide": "Carré : repère $A(0;0)$, $B(4;0)$, $C(4;4)$, $D(0;4)$. Losange : les diagonales se coupent en $K$, au milieu de chacune, à angle droit.",
+   "correction": "<p><strong>1)</strong> $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}=(4;0)\\cdot(4;4)=16$ · $\\overrightarrow{AB}\\cdot\\overrightarrow{AD}=0$ · $\\overrightarrow{DB}\\cdot\\overrightarrow{BD}=-BD^2=-32$ (car $BD=4\\sqrt2$) · $O(2;2)$ : $\\overrightarrow{DO}(2;-2)\\cdot\\overrightarrow{DA}(0;-4)=8$.<br><strong>2)</strong> Repère centré en $K$ : $R(-3{,}5;0)$, $T(3{,}5;0)$, $S(0;2)$, $U(0;-2)$. $\\overrightarrow{RS}(3{,}5;2)\\cdot\\overrightarrow{RT}(7;0)=24{,}5$ · $\\overrightarrow{RT}\\cdot\\overrightarrow{SU}=0$ (diagonales perpendiculaires) · $\\overrightarrow{TS}(-3{,}5;2)\\cdot\\overrightarrow{SU}(0;-4)=-8$ · $\\overrightarrow{TK}(-3{,}5;0)\\cdot\\overrightarrow{TS}(-3{,}5;2)=12{,}25$.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><strong>Ex 15.</strong> $ABC$ est isocèle en $A$ avec $AB=6$ et $BC=4$. $H$ est le projeté orthogonal de $A$ sur $[BC]$. 1) Calculer $\\overrightarrow{BA}\\cdot\\overrightarrow{BC}$. 2) Avec une autre expression du produit scalaire, donner $\\widehat{ABC}$ à $0{,}1°$ près. 3) En déduire $\\widehat{BAC}$ au degré près.</p>",
+   "aide": "Dans un triangle isocèle en $A$, $H$ est le milieu de $[BC]$ : $BH=2$.",
+   "correction": "<p>1) $\\overrightarrow{BA}\\cdot\\overrightarrow{BC}=BH\\times BC=2\\times4=8$ (même sens).<br>2) $\\overrightarrow{BA}\\cdot\\overrightarrow{BC}=6\\times4\\times\\cos\\widehat{ABC}=24\\cos\\widehat{ABC}=8$ → $\\cos\\widehat{ABC}=\\frac13$ → $\\widehat{ABC}\\approx70{,}5°$.<br>3) Triangle isocèle : $\\widehat{ACB}=\\widehat{ABC}$ donc $\\widehat{BAC}=180-2\\times70{,}53\\approx39°$.</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p><strong>Ex 16.</strong> $AB=5$, $BC=8$, $AC=10$. 1) Déterminer $\\cos\\widehat{BAC}$. 2) $H$ est le projeté orthogonal de $C$ sur $(AB)$. En considérant $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}$, calculer $AH$, puis $CH$.</p>",
+   "aide": "1) Al-Kashi inversé. 2) Deux expressions de $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}$ : avec le cosinus et avec le projeté.",
+   "correction": "<p>1) $\\cos\\widehat{BAC}=\\frac{AB^2+AC^2-BC^2}{2\\,AB\\,AC}=\\frac{25+100-64}{100}=0{,}61$.<br>2) $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}=5\\times10\\times0{,}61=30{,}5$ (positif, donc $H$ du même côté que $B$). Or $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}=AB\\times AH=5\\,AH$ → $AH=6{,}1$.<br>Pythagore dans $AHC$ (rectangle en $H$) : $CH^2=AC^2-AH^2=100-37{,}21=62{,}79$ donc $CH\\approx7{,}92$.</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p><strong>Ex 17.</strong> $AB=6$, $BC=5$, $AC=7$. 1) Déterminer $\\cos\\widehat{ACB}$. 2) $K$ est le projeté orthogonal de $B$ sur $(AC)$. En considérant $\\overrightarrow{CA}\\cdot\\overrightarrow{CB}$, calculer $CK$, puis $BK$.</p>",
+   "aide": "Même démarche que l'exercice 16, mais depuis le sommet $C$.",
+   "correction": "<p>1) $\\cos\\widehat{ACB}=\\frac{CA^2+CB^2-AB^2}{2\\,CA\\,CB}=\\frac{49+25-36}{70}=\\frac{38}{70}=\\frac{19}{35}$.<br>2) $\\overrightarrow{CA}\\cdot\\overrightarrow{CB}=7\\times5\\times\\frac{19}{35}=19=CA\\times CK=7\\,CK$ → $CK=\\frac{19}{7}$.<br>Pythagore dans $BKC$ : $BK^2=25-\\frac{361}{49}=\\frac{864}{49}$ donc $BK=\\frac{12\\sqrt6}{7}\\approx4{,}20$.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><strong>Ex 18.</strong> Une force $\\vec{F}$ s'exerce sur un wagon qui se déplace de $A$ vers $B$. 1) Pour chaque force $\\vec{F_1}$ à $\\vec{F_6}$ du schéma, dire si elle favorise, s'oppose ou n'a pas d'effet sur le mouvement. 2) Le travail est $W_{AB}(\\vec{F})=\\overrightarrow{AB}\\cdot\\vec{F}$ : que remarque-t-on ?</p>",
+   "aide": "Regarde l'angle entre chaque force et $\\overrightarrow{AB}$ : aigu → favorise ; droit → aucun effet ; obtus → s'oppose.",
+   "correction": "<p>Angles avec $\\overrightarrow{AB}$ (d'après le schéma) : $F_1$ : 0° ; $F_2$ : 45° ; $F_3$ : 60° ; $F_4$ : 90° ; $F_5$ : 150° ; $F_6$ : 180°.<br>1) $F_1,F_2,F_3$ <strong>favorisent</strong> (cos &gt; 0) ; $F_4$ <strong>n'a pas d'effet</strong> (perpendiculaire) ; $F_5,F_6$ <strong>s'opposent</strong> (cos &lt; 0).<br>2) $W=AB\\times F\\times\\cos\\theta$ : <strong>positif</strong> pour $F_1,F_2,F_3$, <strong>nul</strong> pour $F_4$, <strong>négatif</strong> pour $F_5,F_6$. Le signe du travail est celui du produit scalaire, et c'est le travail le plus grand quand la force est alignée avec le déplacement ($F_1$). Pour les valeurs, lis la longueur de chaque flèche en carreaux (1 carreau = 1 N) et utilise $\\cos$ ou le projeté sur $(AB)$.</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p><strong>Ex 19.</strong> Un géomètre mesure un terrain $ABCD$ (voir schéma : $AB=350$ m, $AD=263{,}4$ m, diagonale $BD=500$ m, $BC=172{,}2$ m, angle droit en $C$). 1) Calculer $\\widehat{ABD}$ au degré près. 2) En déduire $AC$ au mètre près. 3) Aire du triangle $ABD$ : $\\frac12AB\\times DB\\times\\sin\\widehat{ABD}$. Calculer l'aire du terrain au m² près.</p>",
+   "aide": "1) Al-Kashi inversé dans $ABD$. 2) $\\widehat{ABC}=\\widehat{ABD}+\\widehat{DBC}$, avec $\\cos\\widehat{DBC}=\\frac{BC}{BD}$ dans le triangle rectangle $BCD$, puis Al-Kashi dans $ABC$. 3) Aire $ABD$ + aire $BCD$.",
+   "correction": "<p><em>(Lecture du schéma : 500 m est la diagonale $BD$ ; vérifie sur ta feuille.)</em><br>1) $\\cos\\widehat{ABD}=\\frac{AB^2+BD^2-AD^2}{2\\,AB\\,BD}=\\frac{122500+250000-69379{,}56}{350000}\\approx0{,}866$ donc $\\widehat{ABD}\\approx30°$.<br>2) Dans $BCD$ rectangle en $C$ : $\\cos\\widehat{DBC}=\\frac{172{,}2}{500}=0{,}3444$ donc $\\widehat{DBC}\\approx70°$ et $\\widehat{ABC}\\approx100°$. Al-Kashi : $AC^2=AB^2+BC^2-2\\,AB\\,BC\\cos\\widehat{ABC}\\approx 172\\,800$ donc $AC\\approx416$ m.<br>3) Aire $ABD=\\frac12\\times350\\times500\\times\\sin30°=43\\,750$ m². $CD=\\sqrt{500^2-172{,}2^2}\\approx469{,}4$ m donc aire $BCD=\\frac12\\times172{,}2\\times469{,}4\\approx40\\,416$ m². <strong>Aire du terrain ≈ 84 166 m²</strong> (environ 84 161 m² si on ne fait aucun arrondi intermédiaire : l'écart vient des arrondis).</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p><strong>Ex 20.</strong> $ABCDEF$ est un hexagone régulier de centre $O$ et de côté 2. 1) En utilisant $\\overrightarrow{BD}=\\overrightarrow{BC}+\\overrightarrow{CD}$, calculer $\\overrightarrow{BF}\\cdot\\overrightarrow{BD}$. 2) En utilisant $\\overrightarrow{FD}=\\overrightarrow{FO}+\\overrightarrow{OD}$ et $\\overrightarrow{CE}=\\overrightarrow{CO}+\\overrightarrow{OE}$, calculer $\\overrightarrow{FD}\\cdot\\overrightarrow{CE}$.</p>",
+   "aide": "On décompose avec Chasles puis on distribue (propriété P2). Dans l'hexagone, les angles au centre valent 60° et $OA=OB=\\dots=2$.",
+   "correction": "<p>1) $\\overrightarrow{BF}\\cdot\\overrightarrow{BD}=\\overrightarrow{BF}\\cdot\\overrightarrow{BC}+\\overrightarrow{BF}\\cdot\\overrightarrow{CD}$. Le triangle $BCF$ est rectangle en $B$ ($[CF]$ diamètre) donc $\\overrightarrow{BF}\\cdot\\overrightarrow{BC}=0$. Et $BF=2\\sqrt3$, $CD=2$, angle de $30°$ entre les deux : $2\\sqrt3\\times2\\times\\cos30°=6$. <strong>Résultat : 6.</strong><br>2) $\\overrightarrow{FD}\\cdot\\overrightarrow{CE}=\\overrightarrow{FO}\\cdot\\overrightarrow{CO}+\\overrightarrow{FO}\\cdot\\overrightarrow{OE}+\\overrightarrow{OD}\\cdot\\overrightarrow{CO}+\\overrightarrow{OD}\\cdot\\overrightarrow{OE}$ ; chaque terme vaut $2\\times2\\times\\cos(\\text{angle})$ avec des angles respectifs de 180°, 120°, 120° et 60°, on trouve $-4-2-2+2=-6$. <strong>Résultat : −6</strong> (vérifié aussi avec un repère).</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p><strong>ÉVAL BLANCHE — Exercice A (4 pts)</strong> <em>(chronomètre : 45 min pour tout l'éval blanche)</em><br>1) $\\|\\vec{u}\\|=4$, $\\|\\vec{v}\\|=3$, $(\\vec{u};\\vec{v})=\\frac{2\\pi}{3}$ : calculer $\\vec{u}\\cdot\\vec{v}$. (2 pts)<br>2) $\\|\\vec{u}\\|=4$, $\\|\\vec{v}\\|=3$ et $\\vec{u}\\cdot\\vec{v}=6\\sqrt2$ : calculer $\\cos(\\vec{u};\\vec{v})$ puis donner une mesure de l'angle. (2 pts)</p>",
+   "aide": "Pense au tableau des cosinus.",
+   "correction": "<p>1) $4\\times3\\times\\cos\\frac{2\\pi}{3}=12\\times\\left(-\\frac12\\right)=-6$. (2 pts)<br>2) $\\cos=\\frac{6\\sqrt2}{12}=\\frac{\\sqrt2}{2}$ donc l'angle vaut $\\frac{\\pi}{4}$ (45°) (à un signe près : $\\pm\\frac{\\pi}{4}$). (2 pts)</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p><strong>ÉVAL BLANCHE — Exercice B (5 pts)</strong> $A(-1;1)$, $B(3;2)$, $C(1;5)$. 1) Calculer $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}$. (1,5 pt) 2) Calculer $AB$ et $AC$. (1 pt) 3) En déduire $\\widehat{BAC}$ au degré près. (1,5 pt) 4) Trouver $x$ pour que $\\vec{u}(2x;-3)$ et $\\vec{v}(6;x+1)$ soient orthogonaux. (1 pt)</p>",
+   "aide": "Méthodes M1 et M2.",
+   "correction": "<p>1) $\\overrightarrow{AB}(4;1)$, $\\overrightarrow{AC}(2;4)$ : $8+4=12$. (1,5)<br>2) $AB=\\sqrt{17}$, $AC=\\sqrt{20}=2\\sqrt5$. (1)<br>3) $\\cos\\widehat{BAC}=\\frac{12}{\\sqrt{17}\\sqrt{20}}=\\frac{6}{\\sqrt{85}}\\approx0{,}651$ donc $\\widehat{BAC}\\approx49°$. (1,5)<br>4) $2x\\times6+(-3)(x+1)=9x-3=0$ donc $x=\\frac13$. (1)</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p><strong>ÉVAL BLANCHE — Exercice C (5 pts)</strong> Triangle $ABC$ avec $AB=4$, $AC=6$, $\\widehat{BAC}=60°$. 1) Calculer $\\overrightarrow{AB}\\cdot\\overrightarrow{AC}$. (1 pt) 2) Calculer $BC$ (valeur exacte). (2 pts) 3) Calculer $\\widehat{ABC}$ au degré près. (2 pts)</p>",
+   "aide": "Al-Kashi, puis Al-Kashi inversé (ou produit scalaire).",
+   "correction": "<p>1) $4\\times6\\times\\cos60°=12$. (1)<br>2) $BC^2=16+36-2\\times4\\times6\\times\\frac12=28$ donc $BC=2\\sqrt7\\approx5{,}29$. (2)<br>3) $\\cos\\widehat{ABC}=\\frac{AB^2+BC^2-AC^2}{2\\,AB\\,BC}=\\frac{16+28-36}{16\\sqrt7}=\\frac{1}{2\\sqrt7}\\approx0{,}189$ donc $\\widehat{ABC}\\approx79°$. (2)</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p><strong>ÉVAL BLANCHE — Exercice D (4 pts)</strong> $ABCD$ est un rectangle avec $AB=5$ et $AD=3$. Calculer $\\overrightarrow{AC}\\cdot\\overrightarrow{AB}$, $\\overrightarrow{AC}\\cdot\\overrightarrow{AD}$ et $\\overrightarrow{AC}\\cdot\\overrightarrow{BD}$. Expliquer la méthode choisie.</p>",
+   "aide": "Repère $A(0;0)$, $B(5;0)$, $D(0;3)$ ou projeté orthogonal.",
+   "correction": "<p>Repère : $\\overrightarrow{AC}(5;3)$, $\\overrightarrow{AB}(5;0)$, $\\overrightarrow{AD}(0;3)$, $\\overrightarrow{BD}(-5;3)$.<br>$\\overrightarrow{AC}\\cdot\\overrightarrow{AB}=25$ (projeté de $C$ sur $(AB)$ = $B$ : $5\\times5$) · $\\overrightarrow{AC}\\cdot\\overrightarrow{AD}=9$ ($3\\times3$) · $\\overrightarrow{AC}\\cdot\\overrightarrow{BD}=-25+9=-16$. (1 pt par résultat, 1 pt pour la méthode)</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p><strong>ÉVAL BLANCHE — Exercice E (2 pts)</strong> Vrai ou faux ? Justifier. (a) Si $\\vec{u}\\cdot\\vec{v}=0$ alors $\\vec{u}=\\vec{0}$ ou $\\vec{v}=\\vec{0}$. (b) Si $\\vec{u}\\cdot\\vec{v}<0$ (vecteurs non nuls), l'angle $(\\vec{u};\\vec{v})$ est obtus.</p>",
+   "aide": "Pense aux vecteurs orthogonaux.",
+   "correction": "<p>(a) <strong>Faux</strong> : deux vecteurs non nuls peuvent être orthogonaux, par exemple $\\vec{i}$ et $\\vec{j}$ ($\\vec{i}\\cdot\\vec{j}=0$). (1)<br>(b) <strong>Vrai</strong> : $\\|\\vec{u}\\|\\|\\vec{v}\\|>0$ donc le signe est celui de $\\cos$ ; $\\cos<0$ signifie angle obtus. (1)<br><strong>Barème total : 20 points</strong> (A 4 + B 5 + C 5 + D 4 + E 2).</p>"
+  }
+ ],
+ "flashcards": [
+  {
+   "q": "Le produit scalaire de deux vecteurs, c'est un vecteur ou un nombre ?",
+   "a": "Un nombre (réel). Jamais un vecteur, malgré le mot « produit »."
+  },
+  {
+   "q": "Définition du produit scalaire avec un angle",
+   "a": "u⃗·v⃗ = ‖u⃗‖ × ‖v⃗‖ × cos(u⃗, v⃗) si u⃗ ≠ 0⃗ et v⃗ ≠ 0⃗. Et u⃗·v⃗ = 0 si l'un des deux est nul."
+  },
+  {
+   "q": "Que vaut la norme ‖u⃗‖ si u⃗ = AB⃗ ?",
+   "a": "La longueur AB."
+  },
+  {
+   "q": "Que vaut u⃗·u⃗ ?",
+   "a": "‖u⃗‖² (carré scalaire), car l'angle est 0 et cos 0 = 1."
+  },
+  {
+   "q": "Signe de u⃗·v⃗ quand l'angle est aigu",
+   "a": "Positif (cos > 0)."
+  },
+  {
+   "q": "Signe de u⃗·v⃗ quand l'angle est obtus",
+   "a": "Négatif (cos < 0)."
+  },
+  {
+   "q": "Que signifie u⃗·v⃗ = 0 ?",
+   "a": "Les vecteurs sont orthogonaux (perpendiculaires) — ou l'un d'eux est nul."
+  },
+  {
+   "q": "Propriété de symétrie du produit scalaire",
+   "a": "u⃗·v⃗ = v⃗·u⃗"
+  },
+  {
+   "q": "Propriété de bilinéarité",
+   "a": "u⃗·(v⃗ + w⃗) = u⃗·v⃗ + u⃗·w⃗ et u⃗·(k v⃗) = k (u⃗·v⃗)"
+  },
+  {
+   "q": "Développer 3u⃗·(2v⃗ + 5w⃗)",
+   "a": "6 u⃗·v⃗ + 15 u⃗·w⃗ (on distribue, puis on sort les nombres)."
+  },
+  {
+   "q": "Formule du produit scalaire avec des coordonnées",
+   "a": "u⃗(x ; y) et v⃗(x' ; y') : u⃗·v⃗ = xx' + yy' (repère orthonormé)."
+  },
+  {
+   "q": "Norme d'un vecteur en coordonnées",
+   "a": "‖u⃗‖ = √(x² + y²) si u⃗(x ; y) (repère orthonormé)."
+  },
+  {
+   "q": "Condition d'orthogonalité avec des coordonnées",
+   "a": "xx' + yy' = 0"
+  },
+  {
+   "q": "Dans un repère orthonormé (O; i⃗, j⃗), que valent i⃗·i⃗, j⃗·j⃗ et i⃗·j⃗ ?",
+   "a": "i⃗·i⃗ = 1, j⃗·j⃗ = 1, i⃗·j⃗ = 0."
+  },
+  {
+   "q": "AB⃗·AC⃗ avec l'angle géométrique",
+   "a": "AB⃗·AC⃗ = AB × AC × cos(BAC)"
+  },
+  {
+   "q": "Piège : AB⃗·BC⃗ utilise-t-il l'angle ABC ?",
+   "a": "Non. Il faut ramener les vecteurs à la même origine : AB⃗·BC⃗ = −BA⃗·BC⃗ = −BA × BC × cos(ABC)."
+  },
+  {
+   "q": "Théorème du projeté orthogonal (même sens)",
+   "a": "H = projeté de C sur (AB). Si AB⃗ et AH⃗ ont le même sens : AB⃗·AC⃗ = AB × AH."
+  },
+  {
+   "q": "Théorème du projeté orthogonal (sens contraires)",
+   "a": "Si AB⃗ et AH⃗ sont de sens contraires : AB⃗·AC⃗ = −AB × AH."
+  },
+  {
+   "q": "Si AB⃗ et AC⃗ sont orthogonaux, où est H et que vaut AB⃗·AC⃗ ?",
+   "a": "H = A, donc AH = 0 et AB⃗·AC⃗ = 0."
+  },
+  {
+   "q": "Dans le triangle AHC rectangle en H, que vaut cos(HAC) ?",
+   "a": "cos(HAC) = AH / AC, donc AH = AC × cos(HAC)."
+  },
+  {
+   "q": "Théorème d'Al-Kashi",
+   "a": "a² = b² + c² − 2bc cos(A), avec a = BC, b = AC, c = AB (et de même en permutant)."
+  },
+  {
+   "q": "Al-Kashi quand l'angle vaut 90°",
+   "a": "cos 90° = 0 : on retrouve Pythagore, a² = b² + c²."
+  },
+  {
+   "q": "Quand utiliser Al-Kashi pour trouver un côté ?",
+   "a": "Quand on connaît 2 côtés et l'angle entre eux."
+  },
+  {
+   "q": "Formule d'Al-Kashi pour trouver un angle",
+   "a": "cos(A) = (b² + c² − a²) / (2bc) (on connaît les 3 côtés)."
+  },
+  {
+   "q": "Démonstration d'Al-Kashi : quelle relation utilise-t-on ?",
+   "a": "Chasles : BC⃗ = BA⃗ + AC⃗, puis on élève au carré : BC² = BA² + AC² + 2 BA⃗·AC⃗, avec BA⃗·AC⃗ = −bc cos(A)."
+  },
+  {
+   "q": "Comment mesurer un angle avec deux vecteurs ?",
+   "a": "On calcule u⃗·v⃗ de deux façons (coordonnées, et normes × cos) puis on égalise : cos θ = u⃗·v⃗ / (‖u⃗‖‖v⃗‖)."
+  },
+  {
+   "q": "cos(π/6) et cos(30°)",
+   "a": "√3 / 2"
+  },
+  {
+   "q": "cos(π/4) et cos(45°)",
+   "a": "√2 / 2"
+  },
+  {
+   "q": "cos(π/3) et cos(60°)",
+   "a": "1/2"
+  },
+  {
+   "q": "cos(π/2) et cos(90°)",
+   "a": "0"
+  },
+  {
+   "q": "cos(2π/3) et cos(120°)",
+   "a": "−1/2"
+  },
+  {
+   "q": "cos(3π/4) et cos(135°)",
+   "a": "−√2 / 2"
+  },
+  {
+   "q": "cos(5π/6) et cos(150°)",
+   "a": "−√3 / 2"
+  },
+  {
+   "q": "cos(π) et cos(180°)",
+   "a": "−1"
+  },
+  {
+   "q": "cos(−θ) = ?",
+   "a": "cos(θ). Un angle orienté négatif donne le même cosinus."
+  },
+  {
+   "q": "π radians en degrés ?",
+   "a": "180°. Donc π/6 = 30°, π/4 = 45°, π/3 = 60°, π/2 = 90°."
+  },
+  {
+   "q": "Réflexe : on te donne des coordonnées. Quelle formule ?",
+   "a": "xx' + yy' (et √(x² + y²) pour les normes)."
+  },
+  {
+   "q": "Réflexe : on te donne des normes et un angle. Quelle formule ?",
+   "a": "‖u⃗‖ × ‖v⃗‖ × cos(angle)."
+  },
+  {
+   "q": "Réflexe : figure à carreaux, carré ou hexagone. Quelle méthode ?",
+   "a": "Projeté orthogonal (± AB × AH) ou un repère avec des coordonnées."
+  },
+  {
+   "q": "Réflexe : on te donne 3 côtés et on cherche un angle. Quelle formule ?",
+   "a": "Al-Kashi inversé : cos(A) = (b² + c² − a²) / (2bc)."
+  },
+  {
+   "q": "Comment trouver x pour que deux vecteurs soient orthogonaux ?",
+   "a": "Écrire xx' + yy' = 0, développer, résoudre l'équation."
+  },
+  {
+   "q": "Comment prouver qu'un triangle OAB est rectangle en A ?",
+   "a": "Montrer que AO⃗·AB⃗ = 0 (calcul avec coordonnées)."
+  },
+  {
+   "q": "Comment prouver qu'il est isocèle en A ?",
+   "a": "Montrer que AO = AB (calculer les deux normes)."
+  },
+  {
+   "q": "Travail d'une force F⃗ pour un déplacement de A vers B",
+   "a": "W = AB⃗·F⃗ (en joules si AB en m et F en N)."
+  },
+  {
+   "q": "Une force perpendiculaire au déplacement : quel travail ?",
+   "a": "Nul (cos 90° = 0)."
+  },
+  {
+   "q": "u⃗·v⃗ = 0 implique-t-il u⃗ = 0⃗ ou v⃗ = 0⃗ ?",
+   "a": "Non ! Deux vecteurs non nuls peuvent être orthogonaux (i⃗·j⃗ = 0)."
+  },
+  {
+   "q": "Calculatrice : pour retrouver un angle en degrés, que faut-il vérifier ?",
+   "a": "Que la calculatrice est en mode DEGRÉS, puis utiliser cos⁻¹ (arccos)."
+  },
+  {
+   "q": "Aire d'un triangle avec un angle",
+   "a": "A = ½ × AB × AD × sin(angle entre AB et AD)."
+  },
+  {
+   "q": "Avant d'arrondir un résultat, que faut-il faire ?",
+   "a": "Garder les valeurs exactes (√, fractions) jusqu'à la fin, arrondir seulement le résultat final."
+  }
+ ]
+},
 
 };

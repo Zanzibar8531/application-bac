@@ -1156,7 +1156,7 @@ function setupCourseReader(box) {
         toc.innerHTML = `<div class="course-toc-title">Sommaire</div>` + headings.map((h,i)=>{
             const id = 'bm-course-section-' + i;
             h.id = id;
-            return `<button class="course-toc-link" data-target="${id}">${i+1}. ${esc(h.textContent)}</button>`;
+            return `<button class="course-toc-link" data-target="${id}">${i+1}. ${escT(h.textContent)}</button>`;
         }).join('');
         toc.querySelectorAll('.course-toc-link').forEach(btn=>btn.addEventListener('click',()=>{
             const target=$(btn.dataset.target);

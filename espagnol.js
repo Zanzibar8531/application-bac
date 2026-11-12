@@ -893,7 +893,7 @@ PREBUILT_RENAMES.push(...[
 // Ajouté à partir des notes de cours du 10 novembre 2026 — Eje 2
 PREBUILT["Espagnol"]["Eje 2 — El espacio andino y el cóndor"] = {
  "cours": `<h3>🌎 Eje 2 — El espacio andino, la columna vertebral de América del Sur</h3>
-<div class="attention-box">Fiche mise au propre à partir des notes de cours du 10 novembre 2026. Les idées et les exemples du cours sont conservés. Les mots ou passages dont la transcription semble incertaine sont signalés.</div>
+<div class="attention-box">Cours du 10 novembre 2026, mis au propre à partir de tes notes. Un mot est à vérifier avec ta prof : <mark>realeza</mark>.</div>
 
 <h3>❓ Pregunta del eje</h3>
 <div class="formula-box"><strong>¿Por qué es tan importante el cóndor en la cultura de los Andes?</strong><br>Pourquoi le condor est-il si important dans la culture des Andes ?</div>
@@ -901,15 +901,15 @@ PREBUILT["Espagnol"]["Eje 2 — El espacio andino y el cóndor"] = {
 <h3>🦅 1. Vocabulario — El cóndor</h3>
 <table>
 <tr><th>Español</th><th>Français</th></tr>
-<tr><td><strong>el cóndor</strong></td><td>le condor, un grand oiseau</td></tr>
-<tr><td><strong>el pájaro</strong></td><td>l'oiseau</td></tr>
-<tr><td><strong>el ave</strong></td><td>l'oiseau (terme général)</td></tr>
+<tr><td><strong>el cóndor</strong></td><td>le condor</td></tr>
+<tr><td><strong>el pájaro</strong></td><td>le petit oiseau</td></tr>
+<tr><td><strong>el ave</strong></td><td>le grand oiseau</td></tr>
 <tr><td><strong>la carroña</strong></td><td>la charogne</td></tr>
 <tr><td><strong>el plumaje</strong></td><td>le plumage</td></tr>
 <tr><td><strong>el cuello</strong></td><td>le cou</td></tr>
 <tr><td><strong>las alas</strong></td><td>les ailes</td></tr>
 <tr><td><strong>la higiene</strong></td><td>l'hygiène</td></tr>
-<tr><td><strong>el buitre</strong></td><td>le vautour</td></tr>
+<tr><td><strong>el buitre</strong></td><td>le vautour (un rapace)</td></tr>
 <tr><td><strong>la envergadura</strong></td><td>l'envergure</td></tr>
 <tr><td><strong>los hombros</strong></td><td>les épaules</td></tr>
 <tr><td><strong>pesar</strong></td><td>peser</td></tr>
@@ -946,7 +946,7 @@ PREBUILT["Espagnol"]["Eje 2 — El espacio andino y el cóndor"] = {
 <li><strong>En los billetes de Argentina y Perú aparece un cóndor.</strong> — Un condor apparaît sur les billets d'Argentine et du Pérou.</li>
 <li><strong>Es importante proteger esta especie.</strong> — Il est important de protéger cette espèce.</li>
 </ul>
-<div class="attention-box"><strong>À vérifier dans le cahier :</strong> la transcription d'origine comporte quelques mots difficiles à lire (« realdad », notamment). Ils ont été remplacés ici par les termes espagnols les plus cohérents avec le sens des notes ; vérifie « realeza » avec le document de classe.</div>`,
+<div class="retenir-box"><strong>À retenir :</strong> le cóndor, ave sagrada y emblemática de los Andes, simboliza <strong>el poder, la libertad y la fuerza</strong>. Aparece en los billetes de Argentina y Perú, y recuerda que hay que protegerlo.</div>`,
  "exercices": [
   {
    "niveau": "Facile",
