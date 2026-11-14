@@ -5,7 +5,7 @@
    ============================================================ */
 
 const CACHE_NAME   = 'bacmaster-pwa-v48-v1';
-const CACHE_STATIC = 'bacmaster-static-pwa-v68-derivation';
+const CACHE_STATIC = 'bacmaster-static-pwa-v70-dictee';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
@@ -27,7 +27,7 @@ const STATIC_ASSETS = [
   './bm-export.js',
   './bm-download.js',
   './bm-stats.js',
-  './bm-editor.js',
+  './bm-editor.js', './bm-editor-plus.js', './bm-dictee.js',
   './bm-agenda.js',
   './icon-192.png',
   './icon-512.png',
@@ -125,7 +125,7 @@ self.addEventListener('fetch', event => {
 
 // ── HELPERS : Détection du type de requête ───────────────────
 function isStaticAsset(url) {
-  const localFiles = ['/index.html', '/style.css', '/script.js', '/supabase-app.js', '/bm-merge.js', '/bm-collab.js', '/bm-icons.js', '/bm-download.js', '/bm-bubble.js', '/bm-admin.js', '/bm-goal.js', '/bm-mascot.js', '/bm-export.js', '/bm-stats.js', '/bm-editor.js', '/bm-agenda.js', '/supabase-config.js', '/navigation.js', '/manifest.json', '/'];
+  const localFiles = ['/index.html', '/style.css', '/script.js', '/supabase-app.js', '/bm-merge.js', '/bm-collab.js', '/bm-icons.js', '/bm-download.js', '/bm-bubble.js', '/bm-admin.js', '/bm-goal.js', '/bm-mascot.js', '/bm-export.js', '/bm-stats.js', '/bm-editor.js', '/bm-editor-plus.js', '/bm-dictee.js', '/bm-agenda.js', '/supabase-config.js', '/navigation.js', '/manifest.json', '/'];
   return url.origin === self.location.origin &&
     (localFiles.some(f => url.pathname.endsWith(f)) ||
      url.pathname.startsWith('/icons/') ||

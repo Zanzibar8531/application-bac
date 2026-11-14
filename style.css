@@ -6547,3 +6547,40 @@ body.home-page .sb-nav>.sb-link:first-child{display:none}
 .cours-body table.tbl-trig th,.cours-body table.tbl-trig td{text-align:center;padding:8px 4px;font-size:.82rem;text-transform:none;letter-spacing:0}
 .cours-body table.tbl-trig td:first-child,.cours-body table.tbl-trig th:first-child{width:auto;text-align:left;padding-left:10px}
 @media(max-width:640px){.cours-body table.tbl-trig{display:table;table-layout:fixed}.cours-body table.tbl-trig th,.cours-body table.tbl-trig td{font-size:.66rem;padding:6px 1px}.cours-body table.tbl-trig td:first-child,.cours-body table.tbl-trig th:first-child{width:15%;padding-left:4px}}
+
+/* ===== Éditeur : images, aperçu en direct, compteur de mots ===== */
+#bm-imgbar{position:fixed;z-index:9999;display:flex;gap:4px;padding:5px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+#bm-imgbar[hidden]{display:none}
+#bm-imgbar button{border:0;background:rgba(99,102,241,.12);color:var(--text);font:600 .78rem 'DM Sans',sans-serif;padding:7px 10px;border-radius:8px;cursor:pointer}
+#bm-imgbar button.del{background:rgba(220,38,38,.12);color:#b91c1c}
+#bm-imgbar button:hover{filter:brightness(.95)}
+.editor-area img{max-width:100%;height:auto;cursor:pointer;border-radius:10px}
+.editor-area .user-graph{text-align:center;margin:14px 0}
+.rb-prev{border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.14);color:#fff;font:700 .72rem 'DM Sans',sans-serif;padding:5px 10px;border-radius:999px;cursor:pointer;margin-left:auto}
+.rb-prev.is-on{background:#fff;color:#3730a3;border-radius:999px;width:auto;height:auto}
+.rb-prev{white-space:nowrap;flex:none}
+.bm-wc{font-size:.68rem;color:rgba(255,255,255,.8);margin:0 8px;white-space:nowrap}
+.bm-preview{background:var(--card);border-radius:14px;padding:18px 20px}
+.bm-preview[hidden]{display:none}
+/* petit écran : l'aperçu remplace l'éditeur */
+body.bm-prev-on #editor{display:none}
+/* grand écran : l'aperçu s'affiche à droite, à côté de l'éditeur */
+@media(min-width:1600px){
+  body.bm-prev-on #editor{display:block}
+  body.bm-prev-on .bm-preview{position:fixed;top:92px;right:18px;bottom:18px;width:420px;overflow:auto;z-index:40;box-shadow:0 10px 30px rgba(0,0,0,.18);border:1px solid var(--border)}
+}
+@media(max-width:640px){.bm-wc{display:none}}
+
+/* ===== Dictée vocale ===== */
+.rb-mic{border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.14);color:#fff;font:700 .72rem 'DM Sans',sans-serif;padding:5px 10px;border-radius:999px;cursor:pointer;white-space:nowrap;flex:none;margin-left:auto}
+.rb-mic+.rb-prev{margin-left:6px}
+.rb-mic.listening{background:#dc2626;border-color:#dc2626;animation:bmPulse 1.4s infinite}
+.bm-mic-mini{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;margin:6px 0 0 0;border-radius:50%;border:1.5px solid var(--border);background:var(--card);font-size:1.1rem;cursor:pointer}
+.bm-mic-mini.listening{background:#dc2626;border-color:#dc2626;animation:bmPulse 1.4s infinite}
+#bm-dict-pill{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:9999;display:flex;align-items:center;gap:10px;max-width:min(92vw,560px);padding:9px 12px;border-radius:999px;background:#1f2937;color:#fff;font:600 .82rem 'DM Sans',sans-serif;box-shadow:0 10px 28px rgba(0,0,0,.3)}
+#bm-dict-pill[hidden]{display:none}
+#bm-dict-pill .dot{width:10px;height:10px;border-radius:50%;background:#ef4444;flex:none;animation:bmPulse 1.2s infinite}
+#bm-dict-pill .txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+#bm-dict-pill button{border:0;border-radius:999px;padding:6px 12px;background:#fff;color:#111827;font:700 .75rem 'DM Sans',sans-serif;cursor:pointer;flex:none}
+@keyframes bmPulse{0%{box-shadow:0 0 0 0 rgba(239,68,68,.55)}70%{box-shadow:0 0 0 9px rgba(239,68,68,0)}100%{box-shadow:0 0 0 0 rgba(239,68,68,0)}}
+@media(prefers-reduced-motion:reduce){.rb-mic.listening,.bm-mic-mini.listening,#bm-dict-pill .dot{animation:none}}
