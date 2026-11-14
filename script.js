@@ -977,6 +977,8 @@ function renderChapterMenu() {
         { id:'eval',    icon:'🧪', label:'Évaluation',  sub:'Vérifier ce chapitre' },
         { id:'flash',   icon:'🎴', label:'Flashcards',  sub: discovered ? `${due} à réviser` : `🆕 ${cards.length} à découvrir` },
     ];
+    const nExo = (db[curSubject][curChapter].exercices || []).length;
+    if (nExo > 0) menuItems.splice(3, 0, { id:'exo', icon:'✏️', label:'Exercices', sub:`${nExo} exercice${nExo>1?'s':''}` });
     render(`
         <div class="breadcrumb"><button class="bc-btn" onclick="goSubject('${esc(curSubject)}')">← ${cfg ? cfg.icon : ''} ${curSubject}</button></div>
         <div class="page-head">
@@ -1000,7 +1002,8 @@ function renderChapterMenu() {
 
 function handleMenuTile(id) {
     if (id === 'eval')  { openEval(curSubject, curChapter); return; }
-    if (id === 'flash') { openSRS(); return; }
+    if (id === 'exo')   { openExoChapter(curChapter); return; }
+    if (id === 'flash') { openSRS(curChapter); return; }
     curTab = id === 'cours' ? 'cours' : 'voc';
     chapFrom = 'menu';
     renderChapter();
@@ -1266,7 +1269,12 @@ function renderTabContent() {
                         <div class="cours-body" id="printable-cours">${data.cours||'<p style="color:var(--muted)">Aucun cours. Clique sur ✏️ Éditer pour en ajouter un.</p>'}</div>
                         <div class="course-end-check" id="course-end-check">
                         <div class="course-end-icon">✓</div>
-                        <div><strong>Cours terminé ? Ne t'arrête pas à la lecture.</strong><p>Ferme le cours, essaie de reformuler l'idée principale avec tes propres mots, puis passe aux exercices ou aux flashcards.</p></div>
+                        <div><strong>Cours terminé ? Ne t'arrête pas à la lecture.</strong><p>Ferme le cours, essaie de reformuler l'idée principale avec tes propres mots, puis passe aux exercices ou aux flashcards.</p>
+                        <div class="course-next" style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0">
+                            <button class="bc-btn" onclick="handleMenuTile('flash')">🎴 Flashcards</button>
+                            ${(data.exercices||[]).length?`<button class="bc-btn" onclick="handleMenuTile('exo')">✏️ Exercices (${data.exercices.length})</button>`:''}
+                            <button class="bc-btn" onclick="handleMenuTile('eval')">🧪 Évaluation</button>
+                        </div></div>
                         </div>
                     </div>
                 </div>
@@ -1861,7 +1869,8 @@ function filterCbList(input, cbClass) {
     });
 }
 
-function openSRS() {
+function openSRS(only) {
+    if (typeof only !== 'string') only = '';
     clearInterval(qTimer);
     curTrackedPage = null;
     const chapters = Object.keys(db[curSubject]);
@@ -1881,7 +1890,7 @@ function openSRS() {
                     const due=(db[curSubject][ch].flashcards||[]).filter(c=>isDueIn(db[curSubject][ch],c)).length;
                     const tot=(db[curSubject][ch].flashcards||[]).length;
                     return `<label class="cb-item">
-                        <input type="checkbox" class="srs-cb" value="${ch}" ${due>0?'checked':''}>
+                        <input type="checkbox" class="srs-cb" value="${ch}" ${only ? (ch===only?'checked':'') : (due>0?'checked':'')}>
                         <span style="flex:1">${ch}</span>
                         <span class="cb-right ${due>0?'due':''}">${due>0?due+' à réviser':(known?tot+' cartes':'🆕 '+tot+' à découvrir')}</span>
                     </label>`;
@@ -2380,6 +2389,11 @@ function openExoChapter(ch) {
         <div class="page-head">
             <h1>✏️ ${escT(ch)}</h1>
             <p style="color:var(--muted);font-size:.85rem">Choisis le niveau que tu veux travailler</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+                <button class="bc-btn" onclick="goChapter('${esc(ch)}')">↩️ Retour au chapitre</button>
+                <button class="bc-btn" onclick="curChapter='${esc(ch)}';curTab='cours';chapFrom='menu';renderChapter()">📖 Revoir le cours</button>
+                <button class="bc-btn" onclick="curChapter='${esc(ch)}';openSRS('${esc(ch)}')">🎴 Flashcards</button>
+            </div>
         </div>
         <div class="niveau-picker">
             <button class="niveau-choice niveau-choice-tous" onclick="startExoSession('${esc(ch)}','tous')">
