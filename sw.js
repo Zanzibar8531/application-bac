@@ -5,7 +5,7 @@
    ============================================================ */
 
 const CACHE_NAME   = 'bacmaster-pwa-v48-v1';
-const CACHE_STATIC = 'bacmaster-static-pwa-v71-encadres-dictee';
+const CACHE_STATIC = 'bacmaster-static-pwa-v72-versions';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
@@ -27,7 +27,7 @@ const STATIC_ASSETS = [
   './bm-export.js',
   './bm-download.js',
   './bm-stats.js',
-  './bm-editor.js', './bm-editor-plus.js', './bm-dictee.js',
+  './bm-editor.js', './bm-editor-plus.js', './bm-dictee.js', './bm-versions.js',
   './bm-agenda.js',
   './icon-192.png',
   './icon-512.png',
