@@ -148,4 +148,52 @@
   }
   new MutationObserver(inject).observe(document.body, { childList: true, subtree: true });
   document.addEventListener('DOMContentLoaded', inject);
+
+  /* ---------- encadrés (Formule / À retenir / Attention) : on peut enfin les enlever ----------
+     • Retour arrière / Suppr dans un encadré vide → l'encadré disparaît
+     • Retour arrière au tout début d'un encadré → il redevient du texte normal
+     • re-cliquer sur le bouton de l'encadré (curseur dedans) → il redevient du texte normal */
+  const BOX_SEL = '.formula-box,.retenir-box,.attention-box';
+  const BLOCKS = /^(P|DIV|UL|OL|TABLE|H[1-6]|BLOCKQUOTE|PRE)$/;
+  function boxAt(node) {
+    const ed = $('editor'); if (!ed || !node) return null;
+    const el = node.nodeType === 3 ? node.parentElement : node;
+    const b = el && el.closest ? el.closest(BOX_SEL) : null;
+    return b && ed.contains(b) ? b : null;
+  }
+  function placeCaret(el, atStart) {
+    const r = document.createRange(), s = window.getSelection();
+    r.selectNodeContents(el); r.collapse(!!atStart); s.removeAllRanges(); s.addRange(r);
+  }
+  function changed() { const ed = $('editor'); if (ed) ed.dispatchEvent(new Event('input', { bubbles: true })); }
+  function unwrapBox(box) {
+    const hasBlock = [...box.children].some(c => BLOCKS.test(c.nodeName));
+    let first;
+    if (hasBlock) { first = box.firstElementChild; while (box.firstChild) box.parentNode.insertBefore(box.firstChild, box); box.remove(); }
+    else { const p = document.createElement('p'); p.innerHTML = box.innerHTML.trim() ? box.innerHTML : '<br>'; box.replaceWith(p); first = p; }
+    if (first) placeCaret(first, true); changed();
+  }
+  function removeBox(box) {
+    const p = document.createElement('p'); p.innerHTML = '<br>'; box.replaceWith(p); placeCaret(p, true); changed();
+  }
+  document.addEventListener('beforeinput', e => {
+    if (e.inputType !== 'deleteContentBackward' && e.inputType !== 'deleteContentForward') return;
+    const ed = $('editor'), sel = window.getSelection();
+    if (!ed || !sel.rangeCount || !sel.isCollapsed || !ed.contains(sel.anchorNode)) return;
+    const box = boxAt(sel.anchorNode); if (!box) return;
+    const empty = !box.textContent.replace(/[\u200b\u00a0\s]/g, '') && !box.querySelector('img,table,svg');
+    if (empty) { e.preventDefault(); return removeBox(box); }
+    if (e.inputType === 'deleteContentBackward') {
+      const r = sel.getRangeAt(0), pre = document.createRange(); pre.selectNodeContents(box); pre.setEnd(r.startContainer, r.startOffset);
+      if (!pre.toString().replace(/[\u200b\u00a0]/g, '') && !pre.cloneContents().querySelector('img,table,svg')) { e.preventDefault(); unwrapBox(box); }
+    }
+  }, true);
+  // re-clic sur le bouton d'encadré alors que le curseur est déjà dans un encadré = l'enlever
+  document.addEventListener('click', e => {
+    const b = e.target.closest && e.target.closest('[data-rb-box]'); if (!b) return;
+    const ed = $('editor'), sel = window.getSelection();
+    if (!ed || !sel.rangeCount) return;
+    const box = ed.contains(sel.anchorNode) ? boxAt(sel.anchorNode) : null;
+    if (box && box.classList.contains(b.dataset.rbBox)) { e.stopImmediatePropagation(); e.preventDefault(); unwrapBox(box); }
+  }, true);
 })();

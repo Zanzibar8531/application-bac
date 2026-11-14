@@ -1538,9 +1538,34 @@ function getSelectedHTML() {
 function insertColorBox(cls) {
     const ed = $('editor'); if(!ed) return;
     restoreEditorSelection();
-    const selected = getSelectedHTML();
-    const inner = selected.trim() ? selected : 'Ton texte ici…';
-    document.execCommand('insertHTML', false, `<div class="${cls}">${inner}</div><p><br></p>`);
+    const sel = window.getSelection(); if(!sel.rangeCount || !ed.contains(sel.anchorNode)) return;
+    const BOXES = '.formula-box,.retenir-box,.attention-box';
+    const el0 = sel.anchorNode.nodeType === 3 ? sel.anchorNode.parentElement : sel.anchorNode;
+    const inBox = el0 && el0.closest ? el0.closest(BOXES) : null;
+    if(inBox && ed.contains(inBox)){ inBox.className = cls; ed.dispatchEvent(new Event('input',{bubbles:true})); return; }   // déjà dans un encadré : on change juste sa couleur
+    try{
+        const r = sel.getRangeAt(0);
+        const box = document.createElement('div'); box.className = cls;
+        if(!r.collapsed) box.appendChild(r.extractContents());
+        if(!box.textContent.trim() && !box.querySelector('img,table,svg')) box.textContent = 'Ton texte ici…';
+        let blk = r.startContainer; while(blk && blk.parentNode !== ed) blk = blk.parentNode;
+        if(!blk){ ed.appendChild(box); }
+        else {
+            if(blk.nodeType === 1 && blk.lastChild){            // on coupe le paragraphe en deux : texte avant | encadré | texte après
+                const tail = document.createRange(); tail.setStart(r.endContainer, r.endOffset); tail.setEndAfter(blk.lastChild);
+                const frag = tail.extractContents();
+                if(frag.textContent.trim() || frag.querySelector('img,table,svg')){ const after = blk.cloneNode(false); after.appendChild(frag); blk.after(after); }
+            }
+            blk.after(box);
+            if(blk.nodeType === 1 && !blk.textContent.trim() && !blk.querySelector('img,table,svg')) blk.remove();
+        }
+        if(!box.nextSibling){ const p = document.createElement('p'); p.innerHTML = '<br>'; box.after(p); }
+        const nr = document.createRange(); nr.selectNodeContents(box); sel.removeAllRanges(); sel.addRange(nr);
+        ed.dispatchEvent(new Event('input',{bubbles:true}));
+    }catch(err){
+        const selected = getSelectedHTML();
+        document.execCommand('insertHTML', false, `<div class="${cls}">${selected.trim() ? selected : 'Ton texte ici…'}</div><p><br></p>`);
+    }
 }
 
 function insertTermTooltip() {

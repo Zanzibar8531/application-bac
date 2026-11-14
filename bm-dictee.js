@@ -13,7 +13,7 @@
   const BCP = { fr: 'fr-FR', es: 'es-ES', en: 'en-GB' };
   const toast = m => { try { showToast(m, 'warn'); } catch (e) { console.warn(m); } };
   const narrow = () => window.matchMedia('(max-width:640px)').matches;
-  let rec = null, active = false, target = null, savedRange = null, restarts = [], interim = '';
+  let gotAudio = false, rec = null, active = false, target = null, savedRange = null, restarts = [], interim = '';
 
   /* ---------- commandes vocales ---------- */
   const CMD = {
@@ -98,7 +98,7 @@
   function start(el) {
     if (!SR) return toast('Ton navigateur ne gère pas la dictée vocale. Utilise Chrome, Edge ou Safari.');
     if (active) { const same = el === target; stop(); if (same) return; }
-    target = el; restarts = []; interim = '';
+    target = el; restarts = []; interim = ''; gotAudio = false;
     const s = window.getSelection(); savedRange = !isField(el) && s.rangeCount && el.contains(s.anchorNode) ? s.getRangeAt(0).cloneRange() : null;
     rec = new SR(); rec.lang = BCP[lang()] || 'fr-FR'; rec.continuous = true; rec.interimResults = true; rec.maxAlternatives = 1;
     rec.onresult = e => {
@@ -110,17 +110,24 @@
       pill(true, interim || 'Je t’écoute…');
     };
     rec.onerror = e => {
-      if (e.error === 'not-allowed' || e.error === 'service-not-allowed') { toast('Autorise le micro pour BacMaster dans ton navigateur (cadenas à gauche de l’adresse).'); stop(); }
-      else if (e.error === 'audio-capture') { toast('Aucun micro détecté.'); stop(); }
-      else if (e.error === 'network') { toast('La dictée a besoin d’internet.'); stop(); }
+      const c = e.error;
+      if (c === 'not-allowed' || c === 'service-not-allowed') { toast('Micro refusé : autorise-le pour BacMaster (cadenas à gauche de l’adresse, ou Réglages Android > Applis > Chrome > Autorisations).'); stop(); }
+      else if (c === 'audio-capture') { toast('Aucun micro détecté (ou il est utilisé par une autre appli).'); stop(); }
+      else if (c === 'network') { toast('Le service vocal du navigateur est injoignable (internet, VPN ou navigateur non Google). Essaie Chrome ou Edge.'); stop(); }
+      else if (c === 'language-not-supported') { toast('Langue non gérée par ce navigateur (' + (rec && rec.lang) + ').'); stop(); }
+      else if (c === 'no-speech') { pill(true, 'Je n’entends rien… parle plus près du micro'); }
+      else if (c !== 'aborted') { toast('Dictée impossible (' + c + ').'); stop(); }
     };
+    rec.onaudiostart = () => { gotAudio = true; pill(true, 'Micro actif — parle (dis « virgule », « point », « à la ligne »)'); };
+    rec.onspeechstart = () => pill(true, 'Je t’entends…');
     rec.onend = () => { // le navigateur coupe après un silence : on relance tant que la dictée est active
       if (!active) return;
       const now = Date.now(); restarts = restarts.filter(t => now - t < 4000); restarts.push(now);
       if (restarts.length > 5) { toast('La dictée s’est arrêtée.'); return stop(); }
       try { rec.start(); } catch (e) { stop(); }
     };
-    try { rec.start(); active = true; pill(true, 'Je t’écoute… (dis « virgule », « point », « à la ligne »)'); syncButtons(); }
+    try { rec.start(); active = true; pill(true, 'Démarrage du micro…'); syncButtons();
+      const me = rec; setTimeout(() => { if (active && rec === me && !gotAudio) { toast('Le micro ne s’ouvre pas. Vérifie l’autorisation du micro et ta connexion, puis réessaie.'); stop(); } }, 6000); }
     catch (e) { toast('Impossible de démarrer le micro.'); active = false; }
   }
   function stop() {
@@ -129,7 +136,11 @@
   }
   document.addEventListener('visibilitychange', () => { if (document.hidden && active) stop(); });
   window.addEventListener('pagehide', stop);
-  setInterval(() => { if (active && target && !document.body.contains(target)) stop(); }, 800); // on a changé d'écran
+  setInterval(() => {
+    if (!active || !target || document.body.contains(target)) return;
+    const again = target.id && $(target.id);   // l'éditeur a été rechargé (synchro) : on le suit
+    if (again) { target = again; savedRange = null; syncButtons(); } else stop();   // sinon on a changé d'écran
+  }, 800);
 
   /* ---------- boutons ---------- */
   document.addEventListener('mousedown', e => { if (e.target.closest && e.target.closest('.rb-mic,.bm-mic-mini')) e.preventDefault(); });
