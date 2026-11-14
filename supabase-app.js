@@ -290,7 +290,7 @@
   }
   function scheduleProgressPublish(){if(!state.user||state.applyingRemote||state.applyingProgress)return;state.progressDirty=true;state.progressRevision++;clearTimeout(state.progressTimer);state.progressTimer=setTimeout(publishProgress,1500);}
   async function publish() {
-    if(!state.client || !state.user || !CAN_EDIT() || state.applyingRemote)return;
+    if(!state.client || !state.user || !CAN_EDIT() || state.role==='teacher' || state.applyingRemote)return;   // l'ancienne ligne « main » est réservée aux admin/éditeurs (règle RLS) ; le prof synchronise via les chapitres
     if(state.publishPromise)return state.publishPromise;
     const revision=state.courseRevision;
     const content=serialiseCourses();
