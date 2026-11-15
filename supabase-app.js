@@ -203,7 +203,7 @@
         const cards={};
         for(const card of (data.flashcards||[])){
           if(!card || !card.q) continue;
-          if(Number(card.score||0)!==0 || Number(card.interval||0)!==0 || Number(card.ease||2.5)!==2.5 || card.due) cards['q:'+String(card.q)]={score:card.score||0,interval:card.interval||0,ease:card.ease||2.5,due:card.due||null};
+          if(Number(card.score||0)!==0 || Number(card.interval||0)!==0 || Number(card.ease||2.5)!==2.5 || card.due) cards['q:'+String(card.q)]={score:card.score||0,interval:card.interval||0,ease:card.ease||2.5,due:card.due||null,t:Number(card.rt||0)};
         }
         const exercises={};
         for(const ex of (data.exercices||[])){
@@ -220,6 +220,10 @@
     if(Array.isArray(local.bacmaster_perf)&&local.bacmaster_perf.length>2000)local.bacmaster_perf=local.bacmaster_perf.slice(-2000);
     return {bacmasterProgressVersion:1,origin:state.deviceId,updatedAt:new Date().toISOString(),chapters,local};
   }
+  // Fusion de la progression : pour chaque carte / exercice, la version la plus RÉCENTE gagne
+  // (avant, la dernière sauvegarde écrasait tout et un appareil en retard faisait reculer l'autre).
+  function cardWins(a,b){const ta=Number(a?.t||0),tb=Number(b?.t||0);if(ta!==tb)return ta>tb;return Number(a?.interval||0)>Number(b?.interval||0);}
+  function exoWins(a,b){const ta=Date.parse(a?.lastAttempt||'')||0,tb=Date.parse(b?.lastAttempt||'')||0;if(ta!==tb)return ta>tb;return !!a?.status&&!b?.status;}
   function mergeProgress(remote){
     if(!remote || remote.bacmasterProgressVersion!==1 || !remote.chapters || state.applyingProgress) return;
     state.applyingProgress=true;
@@ -228,10 +232,10 @@
         if(!entry || !entry.subject || !entry.chapter) continue;
         const data=db?.[entry.subject]?.[entry.chapter]; if(!data) continue;
         const cards=data.flashcards||[];
-        for(const card of cards){const saved=entry.cards?.['q:'+String(card.q)];if(saved){card.score=saved.score??card.score??0;card.interval=saved.interval??card.interval??0;card.ease=saved.ease??card.ease??2.5;card.due=saved.due??card.due??null;}}
+        for(const card of cards){const saved=entry.cards?.['q:'+String(card.q)];if(saved&&cardWins(saved,{t:card.rt,interval:card.interval})){card.score=saved.score??card.score??0;card.interval=saved.interval??card.interval??0;card.ease=saved.ease??card.ease??2.5;card.due=saved.due??card.due??null;if(saved.t)card.rt=saved.t;}}
         const key=e=>String(e.enonce||'').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim();
         const savedExercises=entry.exercises||{};
-        for(const ex of (data.exercices||[])){const saved=savedExercises[key(ex)];if(saved){if(saved.status)ex.status=saved.status;if(saved.lastAttempt)ex.lastAttempt=saved.lastAttempt;}}
+        for(const ex of (data.exercices||[])){const saved=savedExercises[key(ex)];if(saved&&exoWins(saved,ex)){if(saved.status)ex.status=saved.status;if(saved.lastAttempt)ex.lastAttempt=saved.lastAttempt;}}
       }
       const mergedLocal=mergeLocalMaps(currentLocalMap(),remote.local||{});
       for(const [key,value] of Object.entries(mergedLocal)) if(LOCAL_KEYS.includes(key)) localStorage.setItem(key,JSON.stringify(value));
@@ -283,7 +287,9 @@
     for(const [k,v] of Object.entries(b.chapters||{})){
       const old=out.chapters[k];
       if(!old){out.chapters[k]=v;continue;}
-      out.chapters[k]={...old,...v,cards:{...(old.cards||{}),...(v.cards||{})},exercises:{...(old.exercises||{}),...(v.exercises||{})}};
+      const cards={...(old.cards||{})};for(const [ck,cv] of Object.entries(v.cards||{})){if(!cards[ck]||cardWins(cv,cards[ck]))cards[ck]=cv;}
+      const exercises={...(old.exercises||{})};for(const [ek,ev] of Object.entries(v.exercises||{})){if(!exercises[ek]||exoWins(ev,exercises[ek]))exercises[ek]=ev;}
+      out.chapters[k]={...old,...v,cards,exercises};
     }
     out.local=mergeLocalMaps(a.local,b.local);
     return out;

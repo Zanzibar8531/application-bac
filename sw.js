@@ -5,7 +5,7 @@
    ============================================================ */
 
 const CACHE_NAME   = 'bacmaster-pwa-v48-v1';
-const CACHE_STATIC = 'bacmaster-static-pwa-v74-prof-sync';
+const CACHE_STATIC = 'bacmaster-static-pwa-progression-sync';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [

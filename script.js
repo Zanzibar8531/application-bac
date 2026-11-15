@@ -2119,7 +2119,7 @@ function rateSRS(r){
     }
     const cards=db[srsCur.subj||curSubject][ch].flashcards;
     const idx=cards.findIndex(c=>c.q===card.q&&c.a===card.a);
-    if(idx!==-1){cards[idx].interval=newIv;cards[idx].ease=newEase;cards[idx].due=newDue;cards[idx].score=(cards[idx].score||0)+(r==='good'||r==='easy'?1:-1);}
+    if(idx!==-1){cards[idx].interval=newIv;cards[idx].ease=newEase;cards[idx].due=newDue;cards[idx].rt=Date.now();cards[idx].score=(cards[idx].score||0)+(r==='good'||r==='easy'?1:-1);}
     save(); renderSRSCard();
 }
 
