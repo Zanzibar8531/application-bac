@@ -693,14 +693,22 @@ function updateMobileCourseToc() {
     tools.style.display='block';
 }
 
+let bmRefreshing = false, bmLastHtml = '', bmLastTouch = 0, bmRefreshRetry = null;
+['pointerdown', 'touchstart', 'keydown', 'scroll'].forEach(ev => addEventListener(ev, () => { bmLastTouch = Date.now(); }, { passive: true, capture: true }));
+
 function render(html) {
     // Filet de sécurité : si on quitte l'éditeur de cours avec une modif pas
     // encore autosauvegardée (moins de 1,5s après la dernière frappe), on la
     // force à s'enregistrer immédiatement avant de changer de page.
     if(hasUnsavedEdits && $('editor')){ clearTimeout(autosaveTimer); autosaveCoursNow(); }
+    // Rafraîchissement venu de la synchro : si l'écran est identique on n'y touche pas (plus de clignotement,
+    // plus de clic qui tombe sur un bouton déplacé) ; sinon on remplace sans animation ni retour en haut.
+    if(bmRefreshing && html === bmLastHtml && M().innerHTML) return;
+    bmLastHtml = html;
     M().innerHTML = html;
     updateTopbarContext();
     document.body.classList.remove('course-page', 'home-page');
+    if(bmRefreshing){ setTimeout(()=>typesetMath(M()), 50); return; }
     M().classList.add('animate');
     setTimeout(()=>{ M().classList.remove('animate'); typesetMath(M()); }, 50);
     window.scrollTo(0,0);
@@ -711,6 +719,12 @@ function render(html) {
 // Ne touche jamais à l'éditeur, à un champ en cours de saisie, ni à une session de révision.
 function refreshCurrentView() {
     if (typeof hasUnsavedEdits !== 'undefined' && hasUnsavedEdits) return false;
+    // Tu es en train de toucher / faire défiler l'écran : on attend que tu aies fini avant de le redessiner.
+    if (Date.now() - bmLastTouch < 2000) { clearTimeout(bmRefreshRetry); bmRefreshRetry = setTimeout(refreshCurrentView, 1200); return false; }
+    bmRefreshing = true;
+    try { return refreshCurrentViewNow(); } finally { bmRefreshing = false; }
+}
+function refreshCurrentViewNow() {
     if ($('editor')) return false;
     const a = document.activeElement;
     if (a && (/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName) || a.isContentEditable)) return false;

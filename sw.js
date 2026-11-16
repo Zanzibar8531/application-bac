@@ -5,7 +5,7 @@
    ============================================================ */
 
 const CACHE_NAME   = 'bacmaster-pwa-v48-v1';
-const CACHE_STATIC = 'bacmaster-static-pwa-fiche-i2d';
+const CACHE_STATIC = 'bacmaster-static-pwa-demarrage-parametres';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
@@ -116,7 +116,7 @@ self.addEventListener('fetch', event => {
 
   // ── Stratégie : Network First (CDN externes : MathJax, polices) ──
   if (isCDNRequest(url)) {
-    event.respondWith(networkFirst(event.request));
+    event.respondWith(cdnFetch(event.request));
     return;
   }
 
@@ -126,7 +126,7 @@ self.addEventListener('fetch', event => {
 
 // ── HELPERS : Détection du type de requête ───────────────────
 function isStaticAsset(url) {
-  const localFiles = ['/index.html', '/style.css', '/script.js', '/supabase-app.js', '/bm-merge.js', '/bm-collab.js', '/bm-icons.js', '/bm-download.js', '/bm-bubble.js', '/bm-admin.js', '/bm-goal.js', '/bm-mascot.js', '/bm-export.js', '/bm-stats.js', '/bm-editor.js', '/bm-editor-plus.js', '/bm-dictee.js', '/bm-agenda.js', '/supabase-config.js', '/navigation.js', '/manifest.json', '/'];
+  const localFiles = ['/index.html', '/style.css', '/script.js', '/supabase-app.js', '/bm-merge.js', '/bm-collab.js', '/bm-icons.js', '/bm-download.js', '/bm-bubble.js', '/bm-admin.js', '/bm-goal.js', '/bm-mascot.js', '/bm-export.js', '/bm-stats.js', '/bm-editor.js', '/bm-editor-plus.js', '/bm-dictee.js', '/bm-versions.js', '/bm-agenda.js', '/supabase-config.js', '/navigation.js', '/manifest.json', '/'];
   return url.origin === self.location.origin &&
     (localFiles.some(f => url.pathname.endsWith(f)) ||
      url.pathname.startsWith('/icons/') ||
@@ -158,6 +158,17 @@ async function cacheFirst(request) {
 }
 
 // Network First : réseau en priorité, cache en fallback (hors ligne)
+// CDN (Supabase, MathJax, polices) : on sert la copie en cache tout de suite et on met à jour en arrière-plan.
+// Sans copie, on attend le réseau 6 s au maximum (avant : sans limite, ce qui bloquait le démarrage).
+async function cdnFetch(request) {
+  const cache = await caches.open(CACHE_NAME);
+  const cached = await cache.match(request);
+  const net = fetch(request).then(r => { if (r && (r.ok || r.type === 'opaque')) cache.put(request, r.clone()); return r; });
+  if (cached) { net.catch(() => {}); return cached; }
+  return Promise.race([net, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 6000))])
+    .catch(() => offlineFallback(request));
+}
+
 async function networkFirst(request) {
   try {
     const response = await fetch(request);

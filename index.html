@@ -78,11 +78,16 @@
             if (localStorage.getItem('bm_theme') === 'dark') {
                 document.documentElement.setAttribute('data-theme', 'dark');
             }
+            var fs = parseFloat(localStorage.getItem('bm_fs'));
+            if (fs >= 0.8 && fs <= 1.5) document.documentElement.style.setProperty('--bm-fs', fs);
         } catch(e){}
     })();
     </script>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+    <!-- Polices : chargées sans bloquer l'affichage (sinon l'appli attend Google Fonts sur réseau lent) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"></noscript>
     <!-- MathJax for LaTeX rendering -->
     <script>
     window.MathJax = {
@@ -183,12 +188,23 @@
 <script src="bm-versions.js"></script>
 <script src="bm-agenda.js"></script>
 <script src="navigation.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="bm-merge.js"></script>
 <script src="bm-admin.js"></script>
-<script src="supabase-config.js"></script>
-<script src="supabase-app.js"></script>
-<script src="bm-collab.js"></script>
+<script>
+/* La synchro (Supabase) se charge APRÈS l'affichage de l'appli : avant, ce script externe bloquait tout
+   le démarrage tant que le réseau ne l'avait pas livré (20-30 s sur un mauvais réseau mobile). */
+(function(){
+  var started=false;
+  function add(src){var s=document.createElement('script');s.src=src;s.async=false;document.body.appendChild(s);}
+  function startSync(){if(started)return;started=true;add('supabase-config.js');add('supabase-app.js');add('bm-collab.js');}
+  function loadLib(){
+    var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';s.async=true;
+    s.onload=startSync;s.onerror=startSync;document.body.appendChild(s);
+    setTimeout(startSync,15000);   // CDN trop lent : on démarre quand même
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(loadLib,0);});else setTimeout(loadLib,0);
+})();
+</script>
 <!-- ── MUSIC PLAYER (persistant) ── -->
 <div id="music-panel" class="music-panel" style="display:none">
     <div class="mp-header">
@@ -228,9 +244,20 @@
                     console.log('[SW] Enregistré :', reg.scope);
                     // Recharge automatiquement quand une nouvelle version prend le contrôle
                     if (navigator.serviceWorker.controller) {
-                        let reloaded = false;
+                        // Avant : la page se rechargeait toute seule dès qu'une mise à jour arrivait (≈ 15-30 s après
+                        // l'ouverture) et ramenait à l'accueil en plein usage. Maintenant : rechargement immédiat
+                        // seulement si tu n'as encore touché à rien, sinon au moment où tu quittes l'appli.
+                        let reloaded = false, pending = false, touched = false;
+                        const t0 = Date.now();
+                        ['pointerdown', 'keydown', 'touchstart'].forEach(ev => addEventListener(ev, () => { touched = true; }, { passive: true, once: true }));
+                        const unsaved = () => { try { return typeof hasUnsavedEdits !== 'undefined' && hasUnsavedEdits; } catch (e) { return false; } };
                         navigator.serviceWorker.addEventListener('controllerchange', () => {
-                            if (reloaded) return; reloaded = true; location.reload();
+                            if (reloaded) return;
+                            if (!touched && Date.now() - t0 < 6000) { reloaded = true; location.reload(); return; }
+                            pending = true;
+                        });
+                        document.addEventListener('visibilitychange', () => {
+                            if (document.visibilityState === 'hidden' && pending && !reloaded && !unsaved()) { reloaded = true; location.reload(); }
                         });
                     }
                     // Notifier si une mise à jour est disponible

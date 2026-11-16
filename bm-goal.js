@@ -587,17 +587,44 @@
       else if (perm !== 'granted') { pushCtl = `<button class="bg-btn" disabled>Activer</button>`; pushHint = `<p class="bg-hint">Autorise d’abord les notifications ci-dessus.</p>`; }
       else pushCtl = `<button class="bg-btn pri" id="bg-pushon">Activer</button>`;
       const logged = ps.signedIn;
+      const st = (window.BacMasterSync && BacMasterSync.api && BacMasterSync.api.state) || {};
+      const email = (st.user && st.user.email) || '';
+      const roleLbl = { admin: 'Administrateur', editor: 'Éditeur', teacher: 'Professeur', reader: 'Lecteur' }[st.role] || '';
+      const initial = email ? esc(email.trim().charAt(0).toUpperCase()) : '👤';
       m.querySelector('.bg-sheet-body').innerHTML = `
+        <section class="bg-sec bs-hero" id="bg-sec-account">
+          <div class="bs-avatar">${logged ? initial : '👤'}</div>
+          <div class="bs-who"><b>${logged ? esc(email || 'Compte BacMaster') : 'Non connecté'}</b><small>${logged ? (roleLbl ? roleLbl + ' · ' : '') + 'progression synchronisée' : 'Connecte-toi pour retrouver ta progression sur tous tes appareils'}</small></div>
+          ${logged ? `<button class="bg-btn danger" id="bg-logout">Déconnexion</button>` : ''}
+        </section>
+        <nav class="bs-tabs" aria-label="Catégories">
+          <button data-bs-go="look">🎨 Apparence</button><button data-bs-go="study">🎯 Étude</button><button data-bs-go="notif">🔔 Notifications</button><button data-bs-go="data">🔒 Données</button><button data-bs-go="app">📱 Application</button>
+        </nav>
+        <section class="bg-sec" id="bg-sec-look">
+          <h3><i class="bs-ico">🎨</i>Apparence</h3>
+          <div class="bg-lbl">Thème</div>
+          <div class="bg-chips"><button class="bg-chip ${themeNow() === 'light' ? 'on' : ''}" data-theme-set="light">☀️<small>clair</small></button><button class="bg-chip ${themeNow() === 'dark' ? 'on' : ''}" data-theme-set="dark">🌙<small>sombre</small></button></div>
+          <div class="bg-lbl">Taille du texte des cours</div>
+          <div class="bg-chips">${[[0.9, 'petit'], [1, 'normal'], [1.15, 'grand'], [1.3, 'très grand']].map(([v, l]) => `<button class="bg-chip ${fsNow() === v ? 'on' : ''}" data-fs="${v}">A<small>${l}</small></button>`).join('')}</div>
+          <div class="bg-row"><span><b>Afficher la mascotte</b><small>Bulles, expressions et carte d’accueil</small></span>${sw('bg-mascot', mascotOn())}</div>
+        </section>
+        <div id="bg-sec-study" class="bs-anchor"></div>
         <section class="bg-sec" id="bg-sec-goal">
-          <h3>🎯 Objectif quotidien</h3>
+          <h3><i class="bs-ico">🎯</i>Objectif quotidien</h3>
           <div class="bg-lbl">En semaine (lun → ven)</div><div class="bg-chips">${chipRow('data-min', g.minutes)}</div>
           <div class="bg-lbl">Week-end (sam → dim)</div><div class="bg-chips">${chipRow('data-we', g.minutesWE || 0, true)}</div>
           <label class="bg-custom">Autre durée en semaine <input type="number" min="5" max="300" step="5" value="${g.minutes}" id="bg-custom"> min</label>
           <p class="bg-hint">Ta journée est validée (et ta série continue) quand tu atteins l’objectif du jour.</p>
         </section>
-        <section class="bg-sec" id="bg-sec-jump"><h3>${IC('jump', 22)} Saut Temporel</h3>${jumpSummary(g)}<button class="bg-btn pri full" id="bg-opencal">📅 Ouvrir mon calendrier</button></section>
+        <section class="bg-sec" id="bg-sec-jump"><h3><i class="bs-ico">${IC('jump', 22)}</i>Saut Temporel</h3>${jumpSummary(g)}<button class="bg-btn pri full" id="bg-opencal">📅 Ouvrir mon calendrier</button></section>
+        <section class="bg-sec" id="bg-sec-voice">
+          <h3><i class="bs-ico">🎙️</i>Dictée vocale</h3>
+          <div class="bg-lbl">Langue</div>
+          <div class="bg-chips">${[['auto', 'auto'], ['fr', 'français'], ['en', 'english'], ['es', 'español']].map(([v, l]) => `<button class="bg-chip ${dictNow() === v ? 'on' : ''}" data-dict="${v}">${v === 'auto' ? '✨' : v.toUpperCase()}<small>${l}</small></button>`).join('')}</div>
+          <p class="bg-hint">« Auto » choisit la langue selon la matière (anglais, espagnol, sinon français).</p>
+        </section>
         <section class="bg-sec" id="bg-sec-notif">
-          <h3>🔔 Notifications</h3>
+          <h3><i class="bs-ico">🔔</i>Notifications</h3>
           ${iosHint}
           <div class="bg-row"><span><b>Autorisation</b><small>Sur cet appareil</small></span><span class="bg-ctl">${permCtl}</span></div>${permHint}
           <div class="bg-row"><span><b>Rappels application fermée</b><small>Envoyés par le serveur</small></span><span class="bg-ctl">${pushCtl}</span></div>${pushHint}
@@ -615,21 +642,31 @@
           <p class="bg-hint">Tant que ton objectif n’est pas atteint, tu reçois un rappel à ces heures.</p>
           <div class="bg-row"><span><b>M’encourager quand c’est fait</b><small>Message bonus du soir</small></span>${sw('bg-bonus', g.bonus)}</div>` : ''}
         </section>
-        <section class="bg-sec" id="bg-sec-mascot">
-          <h3>🐶 Mascotte</h3>
-          <div class="bg-row"><span><b>Afficher la mascotte</b><small>Bulles, expressions et carte d’accueil</small></span>${sw('bg-mascot', mascotOn())}</div>
+        <section class="bg-sec" id="bg-sec-data">
+          <h3><i class="bs-ico">🔒</i>Données &amp; confidentialité</h3>
+          <ul class="bs-list">
+            <li><b>Les cours</b> sont partagés avec les comptes de ta classe ; seuls les éditeurs et le professeur peuvent les modifier.</li>
+            <li><b>Ta progression</b> (flashcards, exercices, série) et tes contenus privés ne sont visibles que par toi.</li>
+            <li><b>Sur cet appareil</b>, tout est gardé localement et se synchronise quand tu es connecté.</li>
+          </ul>
         </section>
         <section class="bg-sec" id="bg-sec-app">
-          <h3>📱 Application</h3>
+          <h3><i class="bs-ico">📱</i>Application</h3>
           <div class="bg-row"><span><b>Mettre à jour</b><small>Récupère les derniers fichiers, sans te déconnecter</small></span><button class="bg-btn" id="bg-update">🔄 Mettre à jour</button></div>
-          ${logged ? `<div class="bg-row"><span><b>Compte</b><small>Se déconnecter de cet appareil</small></span><button class="bg-btn danger" id="bg-logout">🚪 Déconnexion</button></div>` : ''}
         </section>`;
       bind(m);
       if (pendingScroll) { const t = $('bg-sec-' + pendingScroll); pendingScroll = null; if (t) t.scrollIntoView({ block: 'start' }); }
     });
   }
+  const themeNow = () => document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  const fsNow = () => { const v = parseFloat(localStorage.getItem('bm_fs')); return v >= 0.8 && v <= 1.5 ? v : 1; };
+  const dictNow = () => { const v = localStorage.getItem('bm_dict_lang'); return v === 'fr' || v === 'en' || v === 'es' ? v : 'auto'; };
   function mascotOn() { return !window.BacMasterMascot || BacMasterMascot.enabled(); }
   function bind(m) {
+    m.querySelectorAll('[data-bs-go]').forEach(b => b.onclick = () => { const t = $('bg-sec-' + b.dataset.bsGo); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+    m.querySelectorAll('[data-theme-set]').forEach(b => b.onclick = () => { if (themeNow() !== b.dataset.themeSet && typeof toggleDarkMode === 'function') toggleDarkMode(); renderSettings(); });
+    m.querySelectorAll('[data-fs]').forEach(b => b.onclick = () => { const v = +b.dataset.fs; localStorage.setItem('bm_fs', v); document.documentElement.style.setProperty('--bm-fs', v); renderSettings(); });
+    m.querySelectorAll('[data-dict]').forEach(b => b.onclick = () => { if (b.dataset.dict === 'auto') localStorage.removeItem('bm_dict_lang'); else localStorage.setItem('bm_dict_lang', b.dataset.dict); renderSettings(); });
     m.querySelectorAll('[data-min]').forEach(b => b.onclick = () => { const g = load(); g.minutes = +b.dataset.min; save(g); renderSettings(); });
     m.querySelectorAll('[data-we]').forEach(b => b.onclick = () => { const g = load(); g.minutesWE = +b.dataset.we; save(g); renderSettings(); });
     const c = $('bg-custom'); if (c) c.onchange = () => { const g = load(); g.minutes = Math.min(300, Math.max(5, +c.value || 20)); save(g); renderSettings(); };

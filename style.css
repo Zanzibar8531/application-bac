@@ -6584,3 +6584,47 @@ body.bm-prev-on #editor{display:none}
 #bm-dict-pill button{border:0;border-radius:999px;padding:6px 12px;background:#fff;color:#111827;font:700 .75rem 'DM Sans',sans-serif;cursor:pointer;flex:none}
 @keyframes bmPulse{0%{box-shadow:0 0 0 0 rgba(239,68,68,.55)}70%{box-shadow:0 0 0 9px rgba(239,68,68,0)}100%{box-shadow:0 0 0 0 rgba(239,68,68,0)}}
 @media(prefers-reduced-motion:reduce){.rb-mic.listening,.bm-mic-mini.listening,#bm-dict-pill .dot{animation:none}}
+
+
+/* Réglage « taille du texte des cours » (Paramètres → Apparence) */
+html .course-main-column .cours-body, html .cours-body { font-size: calc(1rem * var(--bm-fs, 1)) !important; }
+
+/* ── Paramètres : mise en page par sections (compte, apparence, étude, notifications, données, application) ── */
+.bm-fullpage-body .bg-sheet-body, #bm-goal-modal .bg-sheet-body{ display:flex; flex-direction:column; gap:14px; }
+#bm-goal-modal .bg-sec{
+  border:1px solid var(--border, rgba(120,120,140,.25)); border-radius:20px; padding:16px 16px 10px;
+  background:var(--card, rgba(255,255,255,.85)); box-shadow:0 6px 22px rgba(30,41,59,.07); scroll-margin-top:72px;
+}
+#bm-goal-modal .bg-sec:first-child{ border-top:1px solid var(--border, rgba(120,120,140,.25)); padding-top:16px; }
+#bm-goal-modal .bg-sec h3{ display:flex; align-items:center; gap:10px; margin:0 0 6px; font-size:1.02rem; font-weight:800; letter-spacing:-.01em; }
+#bm-goal-modal .bs-ico{ display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:11px; font-style:normal; font-size:1.05rem; background:rgba(99,102,241,.13); flex:none; }
+#bm-goal-modal .bg-row{ margin:0; padding:12px 0; min-height:56px; border-top:1px solid var(--border, rgba(120,120,140,.2)); }
+#bm-goal-modal .bg-sec h3 + .bg-row, #bm-goal-modal .bg-sec h3 + .bg-note + .bg-row{ border-top:0; }
+#bm-goal-modal .bg-row b{ font-size:.92rem; }
+#bm-goal-modal .bg-lbl{ text-transform:uppercase; letter-spacing:.06em; font-size:.68rem; margin:14px 0 8px; }
+#bm-goal-modal .bg-chips{ margin-bottom:4px; }
+#bm-goal-modal .bg-chip{ border-width:1.5px; border-radius:12px; padding:9px 4px; font-size:1rem; }
+#bm-goal-modal .bg-hint{ line-height:1.45; margin:8px 0 10px; }
+#bm-goal-modal .bg-sec:last-child{ margin-bottom:8px; }
+
+/* carte compte */
+#bm-goal-modal .bs-hero{ display:flex; align-items:center; gap:14px; padding:16px; background:linear-gradient(135deg, rgba(99,102,241,.14), rgba(236,72,153,.10)), var(--card, #fff); }
+#bm-goal-modal .bs-avatar{ width:52px; height:52px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; font:800 1.35rem 'Sora',system-ui,sans-serif; color:#fff; background:linear-gradient(135deg,#6366f1,#ec4899); box-shadow:0 6px 16px rgba(99,102,241,.35); }
+#bm-goal-modal .bs-who{ display:flex; flex-direction:column; min-width:0; flex:1; }
+#bm-goal-modal .bs-who b{ font-size:.95rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+#bm-goal-modal .bs-who small{ color:var(--muted); font-size:.76rem; line-height:1.35; margin-top:2px; }
+
+/* barre de catégories */
+#bm-goal-modal .bs-tabs{ position:sticky; top:8px; z-index:5; display:flex; gap:8px; overflow-x:auto; padding:8px; border-radius:16px; scrollbar-width:none;
+  background:var(--card, rgba(255,255,255,.9)); border:1px solid var(--border, rgba(120,120,140,.25)); box-shadow:0 8px 24px rgba(30,41,59,.12); backdrop-filter:blur(10px); }
+#bm-goal-modal .bs-tabs::-webkit-scrollbar{ display:none; }
+#bm-goal-modal .bs-tabs button{ flex:none; border:0; border-radius:999px; padding:8px 13px; font:700 .78rem inherit; font-family:inherit; color:var(--text); background:rgba(120,120,140,.12); cursor:pointer; white-space:nowrap; }
+#bm-goal-modal .bs-tabs button:active{ transform:scale(.96); }
+#bm-goal-modal .bs-anchor{ height:0; scroll-margin-top:72px; }
+
+/* liste « données » */
+#bm-goal-modal .bs-list{ list-style:none; margin:4px 0 10px; padding:0; display:flex; flex-direction:column; gap:10px; }
+#bm-goal-modal .bs-list li{ font-size:.84rem; line-height:1.5; color:var(--muted); padding-left:14px; position:relative; }
+#bm-goal-modal .bs-list li::before{ content:''; position:absolute; left:0; top:.55em; width:6px; height:6px; border-radius:50%; background:#6366f1; }
+#bm-goal-modal .bs-list b{ color:var(--text); }
+#bm-goal-modal .bs-anchor{ margin-top:-14px; }
