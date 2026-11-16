@@ -37,8 +37,8 @@ flashcards:[
 {q:"Image et antécédent — différence",a:"Si y=f(x), y est l'image de x (une seule possible), x est un antécédent de y (il peut y en avoir plusieurs)."},
 {q:"Ensemble de définition — cas d'une fraction",a:"Le dénominateur ne doit jamais être égal à 0."},
 {q:"Ensemble de définition — cas d'une racine carrée",a:"L'expression sous la racine doit être positive ou nulle (≥ 0)."},
-{q:"Fonction croissante — définition",a:"Pour tous a et b de l'intervalle I, si a<b alors f(a)<f(b) : l'ordre est conservé."},
-{q:"Fonction décroissante — définition",a:"Pour tous a et b de l'intervalle I, si a<b alors f(a)>f(b) : l'ordre est inversé."},
+{q:"Fonction croissante — définition",a:"Pour tous a et b de l'intervalle I, si a &lt; b alors f(a) &lt; f(b) : l'ordre est conservé."},
+{q:"Fonction décroissante — définition",a:"Pour tous a et b de l'intervalle I, si a &lt; b alors f(a) &gt; f(b) : l'ordre est inversé."},
 {q:"Fonction affine — forme générale",a:"f(x) = ax + b. Représentation graphique : une droite. a = coefficient directeur, b = ordonnée à l'origine."},
 {q:"Fonction carré — variations",a:"Décroissante sur ]-∞;0], croissante sur [0;+∞[. Minimum en x=0 (f(0)=0). Courbe : une parabole."},
 {q:"Fonction inverse — ensemble de définition et variations",a:"Définie sur ℝ* (x≠0). Décroissante sur ]-∞;0[ et décroissante sur ]0;+∞[ séparément (pas globalement sur ℝ*)."},
@@ -1189,3 +1189,9 @@ flashcards:[
 },
 
 };
+
+// Corrections de cartes déjà présentes chez l'élève : le symbole < est écrit &lt; (sinon il était pris pour une balise HTML)
+PREBUILT_FIXES.push(...[
+ {"s":"Maths","ch":"Fonctions — généralités","oldQ":"Fonction croissante — définition","oldA":"Pour tous a et b de l'intervalle I, si a<b alors f(a)<f(b) : l'ordre est conservé.","a":"Pour tous a et b de l'intervalle I, si a &lt; b alors f(a) &lt; f(b) : l'ordre est conservé."},
+ {"s":"Maths","ch":"Fonctions — généralités","oldQ":"Fonction décroissante — définition","oldA":"Pour tous a et b de l'intervalle I, si a<b alors f(a)>f(b) : l'ordre est inversé.","a":"Pour tous a et b de l'intervalle I, si a &lt; b alors f(a) &gt; f(b) : l'ordre est inversé."}
+]);

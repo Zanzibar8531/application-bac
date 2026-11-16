@@ -296,11 +296,11 @@ Object.assign(PREBUILT["Informatique"], {
     "a": "HTML : structure/contenu. CSS : apparence. JavaScript : comportement/interactions."
    },
    {
-    "q": "À quoi sert <head> ?",
-    "a": "Contient les informations non affichées : titre de l'onglet (<title>), encodage, réglages mobile, liens vers les feuilles de style."
+    "q": "À quoi sert &lt;head&gt; ?",
+    "a": "Contient les informations non affichées : titre de l'onglet (&lt;title&gt;), encodage, réglages mobile, liens vers les feuilles de style."
    },
    {
-    "q": "Pourquoi l'attribut alt sur <img> ?",
+    "q": "Pourquoi l'attribut alt sur &lt;img&gt; ?",
     "a": "Pour l'accessibilité (lecteurs d'écran), l'affichage si l'image ne charge pas et le référencement."
    },
    {
@@ -316,7 +316,7 @@ Object.assign(PREBUILT["Informatique"], {
     "a": "<div> est neutre (aucun sens) ; <section> regroupe un thème avec son titre et a une valeur sémantique."
    },
    {
-    "q": "À quoi sert <label for=\"x\"> ?",
+    "q": "À quoi sert &lt;label for=\"x\"&gt; ?",
     "a": "À relier un texte au champ d'id x : cliquer sur le texte active le champ, et les lecteurs d'écran l'annoncent."
    },
    {
@@ -350,7 +350,7 @@ Object.assign(PREBUILT["Informatique"], {
   "flashcards": [
    {
     "q": "Comment relier un fichier CSS à une page ?",
-    "a": "<link rel=\"stylesheet\" href=\"style.css\"> dans le <head>."
+    "a": "&lt;link rel=\"stylesheet\" href=\"style.css\"&gt; dans le &lt;head&gt;."
    },
    {
     "q": "Sélecteur de classe vs d'identifiant ?",
@@ -574,3 +574,11 @@ Object.assign(PREBUILT["Informatique"], {
   ]
  }
 });
+
+// Cartes qui citent des balises HTML : on écrit &lt; / &gt; (sinon le navigateur les prenait pour de vraies balises et mangeait le texte)
+PREBUILT_FIXES.push(...[
+ {"s": "Informatique", "ch": "HTML — structure, sémantique & formulaires", "oldQ": "À quoi sert <head> ?", "oldA": "Contient les informations non affichées : titre de l'onglet (<title>), encodage, réglages mobile, liens vers les feuilles de style.", "q": "À quoi sert &lt;head&gt; ?", "a": "Contient les informations non affichées : titre de l'onglet (&lt;title&gt;), encodage, réglages mobile, liens vers les feuilles de style."},
+ {"s": "Informatique", "ch": "HTML — structure, sémantique & formulaires", "oldQ": "Pourquoi l'attribut alt sur <img> ?", "oldA": "Pour l'accessibilité (lecteurs d'écran), l'affichage si l'image ne charge pas et le référencement.", "q": "Pourquoi l'attribut alt sur &lt;img&gt; ?", "a": "Pour l'accessibilité (lecteurs d'écran), l'affichage si l'image ne charge pas et le référencement."},
+ {"s": "Informatique", "ch": "HTML — structure, sémantique & formulaires", "oldQ": "À quoi sert <label for=\"x\"> ?", "oldA": "À relier un texte au champ d'id x : cliquer sur le texte active le champ, et les lecteurs d'écran l'annoncent.", "q": "À quoi sert &lt;label for=\"x\"&gt; ?", "a": "À relier un texte au champ d'id x : cliquer sur le texte active le champ, et les lecteurs d'écran l'annoncent."},
+ {"s": "Informatique", "ch": "CSS 1 — sélecteurs, boîte, couleurs & texte", "oldQ": "Comment relier un fichier CSS à une page ?", "oldA": "<link rel=\"stylesheet\" href=\"style.css\"> dans le <head>.", "q": "Comment relier un fichier CSS à une page ?", "a": "&lt;link rel=\"stylesheet\" href=\"style.css\"&gt; dans le &lt;head&gt;."}
+]);

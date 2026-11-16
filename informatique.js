@@ -213,7 +213,7 @@ flashcards:[
 {q:"localStorage — utilité",a:"Stocke des données côté navigateur qui persistent même après fermeture — nécessite JSON.stringify() pour sauvegarder un objet/tableau, et JSON.parse() pour le relire."},
 {q:"Les 3 briques d'un bouton interactif",a:"Un élément HTML (le bouton), une variable JS qui garde l'état en mémoire, et une instruction JS qui met à jour l'affichage après le clic."},
 {q:"Feuille de route suggérée pour apprendre le front-end",a:"HTML/CSS de base → JavaScript de base (logique) → JavaScript du DOM (interactivité) → petits projets progressifs (compteur → todo-list → mini flashcards maison)."},
-{q:"Où placer la balise <script> dans une page ?",a:"En bas, avant </body> (ou avec l'attribut defer), pour que les éléments existent quand le script s'exécute."},
+{q:"Où placer la balise &lt;script&gt; dans une page ?",a:"En bas, avant &lt;/body&gt; (ou avec l'attribut defer), pour que les éléments existent quand le script s'exécute."},
 {q:"Que renvoie getElementById si l'élément n'existe pas (encore) ?",a:"null : ensuite, toute action sur cet élément provoque une erreur."},
 {q:"Les 4 couches du modèle de boîte CSS",a:"Contenu, padding (marge intérieure), border (bordure), margin (marge extérieure)."},
 {q:"box-sizing: border-box",a:"La largeur (width) inclut le padding et la bordure, ce qui simplifie le dimensionnement."},
@@ -343,7 +343,7 @@ exercices:[
  correction:"<pre><code>&lt;style&gt;\nbody { background: #ffffff; color: #222222; font-family: sans-serif; }\nbody.sombre { background: #1e1e1e; color: #eeeeee; }\n&lt;/style&gt;\n\n&lt;button id=\"theme\"&gt;Mode sombre&lt;/button&gt;\n&lt;p&gt;Texte de la page.&lt;/p&gt;\n\n&lt;script&gt;\nconst body = document.body;\n\nif (localStorage.getItem(\"theme\") === \"sombre\") {\n    body.classList.add(\"sombre\");\n}\n\ndocument.getElementById(\"theme\").addEventListener(\"click\", function() {\n    body.classList.toggle(\"sombre\");\n    const actif = body.classList.contains(\"sombre\");\n    localStorage.setItem(\"theme\", actif ? \"sombre\" : \"clair\");\n});\n&lt;/script&gt;</code></pre><p>Le CSS décrit les <em>deux apparences</em> ; le JavaScript ne fait que <strong>changer une classe</strong>. Au chargement, on relit la préférence sauvegardée et on réapplique la classe si besoin.</p>"}
 ],
 flashcards:[
-{q:"Où placer le code JavaScript dans un fichier HTML autonome",a:"Entre des balises <script>...</script>, généralement juste avant la balise fermante </body>."},
+{q:"Où placer le code JavaScript dans un fichier HTML autonome",a:"Entre des balises &lt;script&gt;...&lt;/script&gt;, généralement juste avant la balise fermante &lt;/body&gt;."},
 {q:"Créer un élément HTML dynamiquement en JS",a:"document.createElement(\"li\") crée l'élément, puis parent.appendChild(element) l'ajoute réellement à la page."},
 {q:"Supprimer un élément du DOM en JS",a:"element.remove() — à appeler sur l'élément lui-même (souvent récupéré via une variable créée avec createElement)."},
 {q:"Pourquoi vider un champ de texte après l'avoir lu (ex : todo-list)",a:"champ.value = \"\" remet le champ à vide, pour que l'utilisateur puisse taper la tâche suivante sans effacer manuellement."},
@@ -399,3 +399,9 @@ flashcards:[
 ]},
 
 };
+
+// Cartes qui citent des balises HTML : on écrit &lt; / &gt; (sinon le navigateur les prenait pour de vraies balises et mangeait le texte)
+PREBUILT_FIXES.push(...[
+ {"s": "Informatique", "ch": "Créer une interface web (HTML/CSS/JS) — objectif décembre", "oldQ": "Où placer la balise <script> dans une page ?", "oldA": "En bas, avant </body> (ou avec l'attribut defer), pour que les éléments existent quand le script s'exécute.", "q": "Où placer la balise &lt;script&gt; dans une page ?", "a": "En bas, avant &lt;/body&gt; (ou avec l'attribut defer), pour que les éléments existent quand le script s'exécute."},
+ {"s": "Informatique", "ch": "Mini-projets HTML/CSS/JS — construire une interface", "oldQ": "Où placer le code JavaScript dans un fichier HTML autonome", "oldA": "Entre des balises <script>...</script>, généralement juste avant la balise fermante </body>.", "q": "Où placer le code JavaScript dans un fichier HTML autonome", "a": "Entre des balises &lt;script&gt;...&lt;/script&gt;, généralement juste avant la balise fermante &lt;/body&gt;."}
+]);

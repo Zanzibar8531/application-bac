@@ -111,12 +111,13 @@
       }
     } return out;
   }
+  const bmClean=c=>(typeof window.bmCleanChapter==='function'?window.bmCleanChapter(c):c);
   function mergeCourses(remote, reconcileDeletes=true) {
     if(!remote || typeof remote!=='object' || typeof db==='undefined' || !db) return;
     state.applyingRemote=true;
     try {
       for(const [subject, chapters] of Object.entries(remote)) { if(!db[subject]) db[subject]={};
-        for(const [chapter, incoming] of Object.entries(chapters||{})) { if(isPrivateChapter(chapter,incoming)) continue; if(!db[subject][chapter]) db[subject][chapter]={cours:'',flashcards:[],exercices:[]};
+        for(const [chapter, incomingRaw] of Object.entries(chapters||{})) { const incoming=bmClean(incomingRaw); if(isPrivateChapter(chapter,incoming)) continue; if(!db[subject][chapter]) db[subject][chapter]={cours:'',flashcards:[],exercices:[]};
           const local=db[subject][chapter]; local.cours=String(incoming.cours??local.cours??''); local.userEdited=!!incoming.userEdited;
           const cards=local.flashcards||[]; const byQ=new Map(cards.map(c=>[String(c.q),c]));
           for(const c of incoming.flashcards||[]) { const old=byQ.get(String(c.q)); if(old) old.a=String(c.a??old.a); else cards.push({q:String(c.q??''),a:String(c.a??''),score:0,interval:0,ease:2.5,due:null}); }
@@ -401,7 +402,7 @@
       } else {
         if(!db[subject]) db[subject]={};
         if(!db[subject][chapter]) db[subject][chapter]={cours:'',flashcards:[],exercices:[]};
-        const local=db[subject][chapter],inc=content||{};
+        const local=db[subject][chapter],inc=bmClean(content||{});   // nettoyage : un contenu reçu ne peut pas exécuter de code
         local.cours=String(inc.cours??local.cours??'');local.userEdited=!!inc.userEdited;
         if(inc.verified&&inc.verified.at)local.verified={by:inc.verified.by||'',name:inc.verified.name||'',at:inc.verified.at};else delete local.verified;
         const oldCards=local.flashcards||[];const byQ=new Map(oldCards.map(c=>[String(c.q),c]));
