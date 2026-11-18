@@ -5,16 +5,26 @@
    ============================================================ */
 
 const CACHE_NAME   = 'bacmaster-pwa-v48-v1';
-const CACHE_STATIC = 'bacmaster-static-pwa-securite-html';
+const CACHE_STATIC = 'bacmaster-static-pwa-mode-cours';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
   './',
   './index.html',
-  './style.css',
+  './style-base.css',
+  './style-mobile.css',
+  './style-modules.css',
+  './style-barres.css',
+  './style-evolutions.css',
   './bg-light.jpg',
   './bg-dark.jpg',
-  './script.js',
+  './app-core.js',
+  './app-stats.js',
+  './app-pages.js',
+  './app-editor.js',
+  './app-srs.js',
+  './app-exercises.js',
+  './app-boot.js',
   './supabase-config.js',
   './supabase-app.js',
   './bm-merge.js',
@@ -126,7 +136,7 @@ self.addEventListener('fetch', event => {
 
 // ── HELPERS : Détection du type de requête ───────────────────
 function isStaticAsset(url) {
-  const localFiles = ['/index.html', '/style.css', '/script.js', '/supabase-app.js', '/bm-merge.js', '/bm-collab.js', '/bm-icons.js', '/bm-download.js', '/bm-bubble.js', '/bm-admin.js', '/bm-goal.js', '/bm-mascot.js', '/bm-export.js', '/bm-stats.js', '/bm-editor.js', '/bm-editor-plus.js', '/bm-dictee.js', '/bm-versions.js', '/bm-sanitize.js', '/bm-agenda.js', '/supabase-config.js', '/navigation.js', '/manifest.json', '/'];
+  const localFiles = ['/index.html', '/style-base.css', '/style-mobile.css', '/style-modules.css', '/style-barres.css', '/style-evolutions.css', '/app-core.js', '/app-stats.js', '/app-pages.js', '/app-editor.js', '/app-srs.js', '/app-exercises.js', '/app-boot.js', '/supabase-app.js', '/bm-merge.js', '/bm-collab.js', '/bm-icons.js', '/bm-download.js', '/bm-bubble.js', '/bm-admin.js', '/bm-goal.js', '/bm-mascot.js', '/bm-export.js', '/bm-stats.js', '/bm-editor.js', '/bm-editor-plus.js', '/bm-dictee.js', '/bm-versions.js', '/bm-sanitize.js', '/bm-agenda.js', '/supabase-config.js', '/navigation.js', '/manifest.json', '/'];
   return url.origin === self.location.origin &&
     (localFiles.some(f => url.pathname.endsWith(f)) ||
      url.pathname.startsWith('/icons/') ||
@@ -227,14 +237,16 @@ self.addEventListener('push', event => {
   const title = data.title || 'BacMaster 📚', body = data.body || 'Ton objectif du jour t’attend.';
   event.waitUntil((async () => {
     // image : la mascotte « dit » le message dans une bulle (repli : bannière classique si le dessin échoue ou traîne)
-    let image = './banner-' + mood + '.png';
+    let image = './banner-' + mood + '.png', drawn = false;
     try {
-      if (self.BMBubble) image = await Promise.race([self.BMBubble.make(mood, title, body), new Promise((_, no) => setTimeout(() => no(new Error('délai')), 2500))]);
-    } catch (e) { /* bannière classique */ }
-    await self.registration.showNotification(title, {
-      body: body,
-      icon: './mascot-' + mood + '.png',        // la mascotte, en petit
-      image: image,                             // grande image sous le texte : la bulle de la mascotte
+      if (self.BMBubble) { image = await Promise.race([self.BMBubble.make(mood, title, body), new Promise((_, no) => setTimeout(() => no(new Error('délai')), 2500))]); drawn = true; }
+    } catch (e) { /* bannière classique : on garde alors le texte */ }
+    // Image dessinée = Flocon « dit » déjà le message dans sa bulle : la notification n'affiche que cette image
+    // (ni titre, ni texte, ni petite icône, ni boutons). Si le dessin échoue, on garde le texte pour ne rien perdre.
+    await self.registration.showNotification(drawn ? '\u200b' : title, {
+      body: drawn ? undefined : body,
+      icon: drawn ? undefined : './mascot-' + mood + '.png',
+      image: image,                             // la bulle de la mascotte
       badge: './badge.png',                     // petit « B » blanc dans la barre d'état (doit être monochrome)
       tag: data.tag || 'bm-goal',
       renotify: true,
@@ -242,7 +254,7 @@ self.addEventListener('push', event => {
       vibrate: [200, 100, 200, 100, 400],
       timestamp: Date.now(),
       data: { url: data.url || './?revise=1' },
-      actions: [{ action: 'revise', title: '📚 Réviser' }, { action: 'later', title: 'Plus tard' }]
+      actions: drawn ? [] : [{ action: 'revise', title: '📚 Réviser' }, { action: 'later', title: 'Plus tard' }]
     });
   })());
 });

@@ -225,12 +225,13 @@
   }
   async function notify(msg) {
     const mood = ['push', 'worry', 'party'].includes(msg.mood) ? msg.mood : 'push';
-    let image = './banner-' + mood + '.png';
-    try { if (window.BMBubble) image = await BMBubble.make(mood, msg.title, msg.body); } catch (e) { /* bannière classique */ }
-    const opts = { body: msg.body, icon: './mascot-' + mood + '.png', image: image, badge: './badge.png', tag: msg.tag || 'bm-goal', renotify: true, silent: false, timestamp: Date.now(), data: { url: './?revise=1' }, vibrate: [200, 100, 200, 100, 400], actions: [{ action: 'revise', title: '📚 Réviser' }, { action: 'later', title: 'Plus tard' }] };
+    let image = './banner-' + mood + '.png', drawn = false;
+    try { if (window.BMBubble) { image = await BMBubble.make(mood, msg.title, msg.body); drawn = true; } } catch (e) { /* bannière classique */ }
+    // Image dessinée = le message est déjà dans la bulle de Flocon : on n'affiche que l'image (pas de texte en double)
+    const opts = { body: drawn ? undefined : msg.body, icon: drawn ? undefined : './mascot-' + mood + '.png', image: image, badge: './badge.png', tag: msg.tag || 'bm-goal', renotify: true, silent: false, timestamp: Date.now(), data: { url: './?revise=1' }, vibrate: [200, 100, 200, 100, 400], actions: [{ action: 'revise', title: '📚 Réviser' }, { action: 'later', title: 'Plus tard' }] };
     try {
       const reg = 'serviceWorker' in navigator ? await navigator.serviceWorker.getRegistration() : null;
-      if (reg && reg.showNotification) { await reg.showNotification(msg.title, opts); return true; }
+      if (reg && reg.showNotification) { await reg.showNotification(drawn ? '\u200b' : msg.title, opts); return true; }
       new Notification(msg.title, { body: msg.body, icon: opts.icon }); return true;
     } catch (e) { return false; }
   }
@@ -252,8 +253,8 @@
     const { slot, i } = dueSlots[dueSlots.length - 1], s = status();
     if (s.done) { if (g.bonus && i === slots.length - 1 && localStorage.getItem('bacmaster_bonus_sent') !== dk) { localStorage.setItem('bacmaster_bonus_sent', dk); if (granted() && document.visibilityState !== 'visible') notify(bonusMessage(s)); } return; }
     const msg = buildMessage(s, i, slots.length);
-    if (document.visibilityState === 'visible') { if (typeof showToast === 'function') showToast(`⏰ ${msg.title.replace(/^[^\wÀ-ÿ]+/, '')} — encore ${s.remainMin} min`); }
-    else if (granted()) notify(msg);
+    // Appli ouverte : plus de bandeau en bas (il cachait Flocon) ; le rappel n'est envoyé que si l'appli est fermée.
+    if (document.visibilityState !== 'visible' && granted()) notify(msg);
   }
   function toast(m, type) { if (typeof showToast === 'function') showToast(m, type); }
 
@@ -621,7 +622,7 @@
           <h3><i class="bs-ico">🎙️</i>Dictée vocale</h3>
           <div class="bg-lbl">Langue</div>
           <div class="bg-chips">${[['auto', 'auto'], ['fr', 'français'], ['en', 'english'], ['es', 'español']].map(([v, l]) => `<button class="bg-chip ${dictNow() === v ? 'on' : ''}" data-dict="${v}">${v === 'auto' ? '✨' : v.toUpperCase()}<small>${l}</small></button>`).join('')}</div>
-          <p class="bg-hint">« Auto » choisit la langue selon la matière (anglais, espagnol, sinon français).</p>
+          <p class="bg-hint">« Auto » choisit la langue selon la matière (anglais, espagnol, sinon français). Dans l'éditeur, le bouton <b>🎓 Mode cours</b> prend des notes en continu pendant un cours (sans commandes vocales, écran gardé allumé).</p>
         </section>
         <section class="bg-sec" id="bg-sec-notif">
           <h3><i class="bs-ico">🔔</i>Notifications</h3>
