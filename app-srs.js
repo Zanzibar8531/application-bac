@@ -234,8 +234,8 @@ function revealSRS(skip){
         fz.style.display='block';
         if(match==='skip')fz.innerHTML=`<div class="srs-fb fb-skip"><span class="fb-icon">⏭️</span><span>Passé — voici la réponse</span></div>`;
         else if(match==='exact')fz.innerHTML=`<div class="srs-fb fb-right"><span class="fb-icon">✅</span><span>Réponse quasi identique !</span></div>`;
-        else if(match==='partial')fz.innerHTML=`<div class="srs-fb fb-partial"><span class="fb-icon">🤔</span><div><div>Formulation différente, mais tu sembles avoir les bons éléments — <strong>compare et juge toi-même</strong> :</div><div style="margin-top:6px">Ta réponse : <b>${userAnsRaw||'—'}</b></div><div style="margin-top:3px">Réponse de référence : <b>${srsCur.card.a}</b></div></div></div>`;
-        else fz.innerHTML=`<div class="srs-fb fb-wrong"><span class="fb-icon">📖</span><div><div>Compare ta réponse à celle de référence, et <strong>juge toi-même</strong> si le fond y est :</div><div style="margin-top:6px">Ta réponse : <b>${userAnsRaw||'—'}</b></div><div style="margin-top:3px">Réponse de référence : <b>${srsCur.card.a}</b></div></div></div>`;
+        else if(match==='partial')fz.innerHTML=`<div class="srs-fb fb-partial"><span class="fb-icon">🤔</span><div><div>Formulation différente, mais tu sembles avoir les bons éléments — <strong>compare et juge toi-même</strong> :</div><div style="margin-top:6px">Ta réponse : <b>${escT(userAnsRaw||'—')}</b></div><div style="margin-top:3px">Réponse de référence : <b>${srsCur.card.a}</b></div></div></div>`;
+        else fz.innerHTML=`<div class="srs-fb fb-wrong"><span class="fb-icon">📖</span><div><div>Compare ta réponse à celle de référence, et <strong>juge toi-même</strong> si le fond y est :</div><div style="margin-top:6px">Ta réponse : <b>${escT(userAnsRaw||'—')}</b></div><div style="margin-top:3px">Réponse de référence : <b>${srsCur.card.a}</b></div></div></div>`;
         typesetMath(fz); // la réponse peut contenir du LaTeX ($...$) — sans ça, elle s'affichait en brut
     }
     const rr=$('rating-row');if(rr)rr.style.display='grid';

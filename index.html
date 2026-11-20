@@ -211,9 +211,26 @@
   function add(src){var s=document.createElement('script');s.src=src;s.async=false;document.body.appendChild(s);}
   function startSync(){if(started)return;started=true;add('supabase-config.js');add('supabase-app.js');add('bm-collab.js');}
   function loadLib(){
-    var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';s.async=true;
-    s.onload=startSync;s.onerror=startSync;document.body.appendChild(s);
-    setTimeout(startSync,15000);   // CDN trop lent : on démarre quand même
+    var s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+    s.async=true;
+    var timeoutId=setTimeout(function(){
+      // Ne pas initialiser supabase-app.js avant que la bibliothèque soit réellement chargée :
+      // sinon son init() s'arrête définitivement et la synchronisation ne redémarre jamais.
+      console.warn('[BacMaster] Le chargement de Supabase prend plus de 15 secondes.');
+      if(typeof showToast==='function') showToast('La synchronisation met du temps à démarrer. Tes cours restent accessibles.', 'warn');
+    },15000);
+    s.onload=function(){
+      clearTimeout(timeoutId);
+      if(window.supabase && typeof window.supabase.createClient==='function') startSync();
+      else console.error('[BacMaster] La bibliothèque Supabase est chargée mais createClient est indisponible.');
+    };
+    s.onerror=function(){
+      clearTimeout(timeoutId);
+      console.error('[BacMaster] Impossible de charger la bibliothèque Supabase. La synchronisation est indisponible pour le moment.');
+      if(typeof showToast==='function') showToast('Connexion au service de synchronisation impossible. Vérifie ta connexion Internet.', 'warn');
+    };
+    document.body.appendChild(s);
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(loadLib,0);});else setTimeout(loadLib,0);
 })();
