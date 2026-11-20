@@ -5,7 +5,7 @@
    ============================================================ */
 
 const CACHE_NAME   = 'bacmaster-pwa-v48-v1';
-const CACHE_STATIC = 'bacmaster-static-pwa-parcours-code';
+const CACHE_STATIC = 'bacmaster-static-pwa-mode-cours';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
@@ -60,10 +60,8 @@ const STATIC_ASSETS = [
   './innovation-techno.js',
   './informatique.js',
   './informatique-code.js',
-  './informatique-parcours.js',
   './cybersecurite.js',
   './cybersecurite-plus.js',
-  './cybersecurite-parcours.js',
   './investissement.js',
   './investissement-pratique.js',
   './entrepreneuriat.js',
@@ -143,7 +141,7 @@ function isStaticAsset(url) {
     (localFiles.some(f => url.pathname.endsWith(f)) ||
      url.pathname.startsWith('/icons/') ||
      /\/(bg-light|bg-dark|icon-192|icon-512)\.(jpg|png)$/.test(url.pathname) ||
-     url.pathname.match(/\/(francais|maths|histoire-geo|anglais|espagnol|physique-chimie|ingenierie-dd|innovation-techno|informatique|informatique-code|informatique-parcours|cybersecurite|cybersecurite-plus|cybersecurite-parcours|investissement|investissement-pratique|entrepreneuriat|apprentissage|juridique|data-init)\.js$/));
+     url.pathname.match(/\/(francais|maths|histoire-geo|anglais|espagnol|physique-chimie|ingenierie-dd|innovation-techno|informatique|informatique-code|cybersecurite|cybersecurite-plus|investissement|investissement-pratique|entrepreneuriat|apprentissage|juridique|data-init)\.js$/));
 }
 
 function isCDNRequest(url) {

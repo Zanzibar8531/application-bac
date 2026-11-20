@@ -1,0 +1,930 @@
+/* ============================================================
+   BacMaster — style-barres.css
+   Barre du haut, sommaire du cours, barres de défilement, styles du cours, boutons carrés
+   (ancien style.css découpé : à charger dans cet ordre, la cascade est la même)
+   ============================================================ */
+/* Barre du haut : trois zones (logo, contexte, actions) */
+.tb-contextnav {
+  grid-column: 2;
+}
+
+/* Le bloc gauche de la barre reste compact ; le contexte occupe réellement le centre. */
+.tb-contextnav button {
+  max-width: 190px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Colonne sommaire : assez large pour lire les intitulés, mais sans manger le cours. */
+.course-layout {
+  grid-template-columns: minmax(215px,230px) minmax(0,740px);
+  gap: 28px;
+  justify-content: center;
+}
+.course-side-column {
+  position: sticky;
+  top: 78px;
+  max-height: calc(100vh - 100px);
+}
+.course-toc {
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+/* Sur les écrans intermédiaires, on garde la colonne tant qu'elle tient réellement. */
+@media (max-width:1100px) and (min-width:801px) {
+  .course-layout {
+    grid-template-columns: 200px minmax(0,740px);
+    gap: 18px;
+  }
+  .course-toc-link {
+    font-size: .68rem;
+    padding: 7px 5px;
+  }
+}
+
+/* Sur mobile, le sommaire quitte complètement le cours et rejoint le menu gauche. */
+@media(max-width:800px) {
+  .course-side-column {
+    display: none;
+  }
+  .course-mobile-tools {
+    display: none;
+  }
+  .course-mobile-tools .course-mobile-learning {
+    padding: 10px 10px 7px;
+  }
+  .course-mobile-tools .course-mobile-learning strong {
+    display: block;
+    color: #fff;
+    font-size: .78rem;
+  }
+  .course-mobile-tools .course-mobile-learning span {
+    display: block;
+    color: rgba(255,255,255,.45);
+    font-size: .68rem;
+    margin-top: 2px;
+  }
+  .course-mobile-toc-link {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    font-size: .8rem;
+  }
+  .course-mobile-empty {
+    padding: 7px 12px 10px;
+    color: rgba(255,255,255,.4);
+    font-size: .72rem;
+  }
+  .tb-contextnav {
+    display: none !important;
+  }
+}
+
+/* Correctif de placement : une seule ligne flex, sans chevauchement entre zones. */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tb-contextnav {
+  order: 4;
+  position: static;
+  transform: none;
+  left: auto;
+  top: auto;
+  flex: 1 1 auto;
+  width: auto;
+  max-width: none;
+  min-width: 0;
+  overflow: hidden;
+  justify-content: center;
+}
+
+/* Barre du haut : boutons cohérents */
+.tb-contextnav button {
+  border: 1px solid color-mix(in srgb, var(--border) 80%, var(--accent));
+  background: var(--card);
+  color: var(--text);
+  box-shadow: 0 2px 8px rgba(14,21,37,.06);
+  transition: transform .15s ease, border-color .15s ease, background .15s ease, color .15s ease, box-shadow .15s ease;
+}
+.tb-contextnav button:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 9%, var(--card));
+  color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(14,21,37,.10);
+}
+.tb-contextnav .tb-chapter-title {
+  display: inline-flex;
+  align-items: center;
+  max-width: min(28vw,340px);
+  min-height: 34px;
+  padding: 0 11px;
+  border-left: 1px solid var(--border);
+  color: var(--text);
+  font-size: .75rem;
+  background: transparent;
+}
+.tb-contextnav .tb-rename {
+  min-width: 34px;
+  padding: 7px 9px;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+@media(max-width:800px) {
+  .tb-contextnav {
+    gap: 4px;
+  }
+}
+
+/* Me tester : fenêtre centrée dans l'écran */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0,0,0,.42);
+  overflow: auto;
+}
+.selftest-modal-v2 {
+  width: min(560px,100%);
+  max-height: min(760px,calc(100vh - 48px));
+  margin: auto;
+}
+@media(max-width:800px) {
+  .modal-backdrop {
+    padding: 12px;
+  }
+  .selftest-modal-v2 {
+    width: min(560px,100%);
+    max-height: calc(100vh - 24px);
+  }
+}
+
+/* Accueil : classe dédiée pour pouvoir le dézoomer sans rétrécir les cours. */
+body.home-page #main {
+  max-width: 1180px;
+}
+body.home-page .page-head {
+  margin-bottom: 16px;
+}
+body.home-page .page-head h1 {
+  font-size: 1.45rem;
+}
+body.home-page .page-head p {
+  font-size: .82rem;
+}
+@media (max-width:600px) {
+  body.home-page .page-head {
+    margin-bottom: 12px;
+  }
+  body.home-page .page-head h1 {
+    font-size: 1.15rem;
+  }
+  body.home-page .page-head p {
+    font-size: .76rem;
+  }
+  body.home-page .dash-banner {
+    gap: 12px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+  body.home-page .update-check-btn {
+    font-size: .78rem;
+    padding: 10px 12px;
+  }
+  body.home-page .scard {
+    padding: 14px 13px;
+  }
+  body.home-page .scard-name {
+    font-size: .9rem;
+  }
+  body.home-page .scard-icon {
+    font-size: 1.45rem;
+  }
+  body.home-page .scard-meta {
+    font-size: .68rem;
+  }
+}
+
+/* ============================================================
+   APPLICATION INSTALLÉE (PWA) — CALIBRAGE DU RENDU
+   Le rendu de l'app est calé sur celui du navigateur à 70 % (pages
+   générales) et 80 % (lecture de cours), en jouant sur les largeurs de
+   colonnes et les espacements — jamais sur la taille des caractères.
+   ============================================================ */
+html {
+  overflow-x: hidden;
+}
+/* « clip » et non « hidden » : hidden transforme le body en zone de défilement et casse la barre d'outils collante de l'éditeur */
+body {
+  overflow-x: clip;
+}
+
+/* Barre principale persistante dans l'application installée. */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+.shell {
+  padding-top: 60px;
+}
+body.course-page .ws-header {
+  position: sticky;
+  top: 60px;
+  z-index: 900;
+  background: var(--bg);
+  padding: 8px 0 6px;
+  margin-bottom: 0;
+  box-shadow: 0 5px 12px -10px rgba(0,0,0,.45);
+}
+body.course-page .ws-header .tab-bar {
+  position: static;
+}
+body.course-page .ws-box.course-host {
+  background: transparent !important;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  min-height: 0;
+}
+body.course-page .course-content-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  box-shadow: var(--sh);
+  padding: 20px;
+  min-width: 0;
+}
+
+/*
+     70 % de navigateur ≈ une zone de travail d'environ 800 px.
+     On reproduit cette densité par la largeur, pas par zoom().
+  */
+@media (min-width:1101px) {
+  body.home-page #main,
+  #main > .home-page {
+    max-width: 820px;
+  }
+  body:not(.course-page) #main {
+    max-width: 900px;
+  }
+  body.course-page .course-layout {
+    display: block;
+    margin: 0 auto;
+  }
+  body.course-page .course-side-column {
+    max-height: calc(100vh - 140px);
+  }
+  body.course-page .course-toc {
+    position: static;
+    width: 100%;
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  body.course-page .course-main-column {
+    min-width: 0;
+  }
+  body.course-page .course-content-card .cours-body {
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+    font-size: 1rem !important;
+    line-height: 1.9 !important;
+  }
+  body.course-page .course-content-card .cours-body p {
+    font-size: 1rem !important;
+    line-height: 1.9 !important;
+  }
+  body.course-page .course-toc-link {
+    padding: 7px 6px;
+    font-size: .68rem;
+    line-height: 1.25;
+  }
+  body.course-page .course-toc-title {
+    padding: 2px 5px 7px;
+    font-size: .64rem;
+  }
+}
+
+/* ---------- Écrans intermédiaires ---------- */
+@media (min-width:801px) and (max-width:1100px) {
+  body.course-page .course-layout {
+    display: block;
+    width: min(710px, calc(100vw - 36px));
+    max-width: none;
+    margin: 0 auto;
+    position: relative;
+  }
+  body.course-page .course-side-column {
+    position: fixed;
+    left: 6px;
+    top: 122px;
+    width: 170px;
+    max-height: calc(100vh - 140px);
+  }
+  body.course-page .course-main-column {
+    min-width: 0;
+    margin: 0;
+  }
+}
+
+/* ---------- Mobile : aucun changement de philosophie ---------- */
+@media(max-width:800px) {
+  body.course-page .course-content-card {
+    padding: 15px;
+  }
+  body.course-page .course-layout {
+    display: block;
+    width: 100%;
+  }
+  body.course-page #ws-box {
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+  }
+}
+
+/* Le pourcentage de lecture a été retiré de l'interface. */
+.course-studybar,
+.course-progress,
+.course-progress-label,
+#course-progress-label,
+#course-progress-fill,
+.mobile-course-progress,
+[data-course-progress],
+[class*="course-progress"] {
+  display: none !important;
+}
+
+/* ============================================================
+   COURS — SOMMAIRE À GAUCHE, COURS AU CENTRE
+   Le sommaire a son propre espace fixe. Le cours et les boutons
+   au-dessus restent centrés sur la largeur de l'écran.
+   ============================================================ */
+@media (min-width:1101px) {
+  body.course-page .course-layout {
+    margin-top: 0;
+  }
+  body.course-page .course-layout {
+    width: 100vw;
+    max-width: none;
+    margin-left: calc(50% - 50vw);
+    margin-right: 0;
+    padding: 0;
+    position: relative;
+    left: auto;
+    transform: none;
+    box-sizing: border-box;
+  }
+  body.course-page .ws-header {
+    position: sticky;
+    left: auto;
+    transform: none;
+  }
+  body.course-page .ws-header .tab-bar {
+    margin: 0 auto;
+  }
+  body.course-page .course-main-column {
+    margin: 0 auto;
+  }
+  body.course-page .course-content-card {
+    margin: 0;
+  }
+  body.course-page .course-side-column {
+    position: fixed;
+    left: 8px;
+    top: 122px;
+    width: 180px;
+    max-width: 180px;
+    transform: none;
+    z-index: 50;
+  }
+}
+
+/* Barre supérieure : compacte comme dans la référence navigateur. */
+@media (min-width:801px) {
+  .tb-contextnav {
+    gap: 5px;
+  }
+  .tb-contextnav button {
+    padding: 6px 10px !important;
+    min-height: 34px;
+    border-radius: 10px;
+    font-size: .72rem;
+  }
+  .tb-contextnav .tb-chapter-title {
+    min-height: 34px;
+    padding: 0 10px;
+    font-size: .72rem;
+  }
+  body.home-page .scard {
+    padding: 15px 13px 13px;
+  }
+  body.home-page .scard-icon {
+    font-size: 1.55rem;
+    margin-bottom: 7px;
+  }
+  body.home-page .scard h3 {
+    font-size: .86rem;
+    margin-bottom: 5px;
+  }
+  body.home-page .scard-meta,
+  body.home-page .scard > div[style*="font-size"] {
+    font-size: .67rem !important;
+  }
+  body.home-page .badge {
+    font-size: .63rem;
+    padding: 2px 6px;
+  }
+  body.home-page .bc-btn {
+    font-size: .76rem;
+    padding: 8px 11px;
+  }
+  body:not(.course-page) .menu-grid {
+    gap: 9px;
+  }
+  body:not(.course-page) .menu-tile {
+    padding: 16px 14px 14px;
+    border-radius: 13px;
+    gap: 5px;
+  }
+  body:not(.course-page) .menu-tile-icon {
+    font-size: 1.45rem;
+  }
+  body:not(.course-page) .menu-tile-label {
+    font-size: .86rem;
+  }
+  body:not(.course-page) .menu-tile-sub {
+    font-size: .67rem;
+  }
+  body:not(.course-page) .chapters-grid {
+    gap: 9px;
+    margin-bottom: 14px;
+  }
+  body:not(.course-page) .chcard {
+    padding: 12px 13px;
+    border-radius: 12px;
+  }
+  body:not(.course-page) .chcard-name {
+    font-size: .82rem;
+    margin-bottom: 5px;
+    padding-right: 48px;
+  }
+  body:not(.course-page) .chcard-meta {
+    font-size: .67rem;
+    gap: 6px;
+  }
+  body:not(.course-page) .chcard-badge {
+    font-size: .62rem;
+    padding: 3px 7px;
+    margin-top: 6px;
+  }
+  body:not(.course-page) .chcard-icon-btn {
+    width: 27px;
+    height: 27px;
+    font-size: .72rem;
+  }
+  body:not(.course-page) .chcard-icons {
+    top: 8px;
+    right: 8px;
+    gap: 4px;
+  }
+  body.course-page #editor.editor-area.cours-body,
+  body.course-page .voc-row,
+  body.course-page .voc-count,
+  body.course-page #ws-box > p,
+  body.course-page #ws-box > input,
+  body.course-page #ws-box > textarea,
+  body.course-page #ws-box > .btn-save {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  body.course-page .ws-header,
+  body.course-page .ws-header .tab-bar,
+  body.course-page #ws-box,
+  body.course-page .course-main-column,
+  body.course-page .course-content-card {
+    width: min(710px, calc(100vw - 36px));
+    max-width: 710px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+  }
+  body.course-page .course-content-card {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  body.course-page #ws-box:not(.course-host) {
+    padding: 20px;
+  }
+}
+
+/* ============================================================
+   COURS — CENTRAGE SUR LA FENÊTRE
+   La barre Cours/Éditer/Vocabulaire/Ajouter et la carte du cours sont
+   centrées sur la fenêtre, indépendamment du sommaire.
+   ============================================================ */
+
+/* ============================================================
+   INTERFACE COMPACTE + BARRES DE DÉFILEMENT
+   Le cours garde sa taille ; seuls les boutons et les cartes de
+   navigation sont compactés.
+   ============================================================ */
+
+/* Barres de défilement : plus épaisses et plus faciles à attraper. */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  width: 13px;
+  height: 13px;
+}
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+.course-toc::-webkit-scrollbar {
+  width: 12px;
+}
+.course-toc::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  border-radius: 999px;
+}
+
+/* Défilement natif : une seule barre, clavier et tactile. */
+html,
+body,
+#main {
+  touch-action: pan-y;
+  overscroll-behavior-y: auto;
+}
+body.course-page .ws-box,
+body.course-page .course-content-card,
+body.course-page .cours-body {
+  touch-action: pan-y;
+}
+body.course-page .editor-scroll-nav {
+  display: none;
+}
+
+/* ============================================================
+   COLONNE UNIQUE DE 710 px — Cours / Éditer / Vocabulaire / Ajouter
+   La barre d'onglets, le cours, l'éditeur, le vocabulaire et l'ajout
+   partagent exactement la même largeur.
+   ============================================================ */
+
+@media (max-width:600px) {
+  .cours-body h2 {
+    font-size: 1.2rem !important;
+  }
+  .cours-body h3 {
+    font-size: .95rem !important;
+  }
+  .cours-body li {
+    font-size: .93rem !important;
+  }
+}
+
+
+/* ── Styles du cours (auparavant injectés par script.js) ── */
+.cours-body {
+  max-width: 740px;
+  margin: 0 auto;
+  padding-bottom: 32px;
+}
+.cours-body h2 {
+  color: #4f46e5 !important;
+  -webkit-text-fill-color: #4f46e5 !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+}
+.cours-body h3 {
+  color: #1e1b4b !important;
+  -webkit-text-fill-color: #1e1b4b !important;
+  background: linear-gradient(90deg,#eef2ff,#f5f3ff 80%,transparent) !important;
+  border-bottom: none !important;
+}
+.cours-body p {
+  color: #334155 !important;
+}
+.cours-body strong,
+.cours-body b {
+  color: #4338ca !important;
+  -webkit-text-fill-color: #4338ca !important;
+}
+.cours-body em,
+.cours-body i {
+  color: #7c3aed !important;
+  -webkit-text-fill-color: #7c3aed !important;
+}
+.cours-body li {
+  color: #1e293b !important;
+  -webkit-text-fill-color: #1e293b !important;
+}
+.cours-body li:hover {
+  border-color: #6366f1;
+  background: #eef2ff;
+  transform: translateX(4px);
+}
+.cours-body ol {
+  counter-reset: ol-cours;
+}
+.cours-body ol > li {
+  counter-increment: ol-cours;
+}
+.cours-body ol > li::before {
+  content: counter(ol-cours);
+  position: absolute;
+  left: .55em;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.5em;
+  height: 1.5em;
+  background: #4f46e5;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  border-radius: 50%;
+  font-size: .72em;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cours-body blockquote,
+.cours-body .quote-box {
+  margin: 1.4em 0;
+  padding: 18px 20px 18px 26px;
+  background: linear-gradient(135deg,#f5f3ff,#ede9fe);
+  border-left: 6px solid #7c3aed;
+  border-radius: 0 18px 18px 0;
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #4c1d95 !important;
+  -webkit-text-fill-color: #4c1d95 !important;
+  box-shadow: 0 4px 20px rgba(124,58,237,.12);
+  position: relative;
+}
+.formula-box {
+  color: #1e3a5f;
+  -webkit-text-fill-color: #1e3a5f;
+}
+.formula-box strong,
+.formula-box b {
+  color: #1d4ed8 !important;
+  -webkit-text-fill-color: #1d4ed8 !important;
+}
+
+/* Figures de style — priorité maximale car ce bloc JS arrive après style.css */
+.cours-body .fig,
+.texte-annote .fig {
+  border-radius: 4px !important;
+  padding: 1px 5px !important;
+  cursor: pointer !important;
+  border-bottom-style: solid !important;
+  border-bottom-width: 3px !important;
+}
+.cours-body .fig-metaphore,
+.texte-annote .fig-metaphore {
+  background: #fef08a !important;
+  color: #713f12 !important;
+  -webkit-text-fill-color: #713f12 !important;
+  border-bottom-color: #ca8a04 !important;
+}
+.cours-body .fig-comparaison,
+.texte-annote .fig-comparaison {
+  background: #bfdbfe !important;
+  color: #1e3a8a !important;
+  -webkit-text-fill-color: #1e3a8a !important;
+  border-bottom-color: #2563eb !important;
+}
+.cours-body .fig-perso,
+.texte-annote .fig-perso {
+  background: #bbf7d0 !important;
+  color: #14532d !important;
+  -webkit-text-fill-color: #14532d !important;
+  border-bottom-color: #16a34a !important;
+}
+.cours-body .fig-anaphore,
+.texte-annote .fig-anaphore {
+  background: #ddd6fe !important;
+  color: #4c1d95 !important;
+  -webkit-text-fill-color: #4c1d95 !important;
+  border-bottom-color: #7c3aed !important;
+}
+.cours-body .fig-oxymore,
+.texte-annote .fig-oxymore {
+  background: #fecaca !important;
+  color: #7f1d1d !important;
+  -webkit-text-fill-color: #7f1d1d !important;
+  border-bottom-color: #dc2626 !important;
+}
+.cours-body .fig-ironie,
+.texte-annote .fig-ironie {
+  background: #fed7aa !important;
+  color: #7c2d12 !important;
+  -webkit-text-fill-color: #7c2d12 !important;
+  border-bottom-color: #ea580c !important;
+}
+.cours-body .fig-euphem,
+.texte-annote .fig-euphem {
+  background: #bae6fd !important;
+  color: #0c4a6e !important;
+  -webkit-text-fill-color: #0c4a6e !important;
+  border-bottom-color: #0284c7 !important;
+}
+.cours-body .fig-accumulation,
+.texte-annote .fig-accumulation {
+  background: #e9d5ff !important;
+  color: #581c87 !important;
+  -webkit-text-fill-color: #581c87 !important;
+  border-bottom-color: #9333ea !important;
+}
+.cours-body .fig-apostrophe,
+.texte-annote .fig-apostrophe {
+  background: #a7f3d0 !important;
+  color: #064e3b !important;
+  -webkit-text-fill-color: #064e3b !important;
+  border-bottom-color: #059669 !important;
+}
+.cours-body .fig-question,
+.texte-annote .fig-question {
+  background: #fde68a !important;
+  color: #78350f !important;
+  -webkit-text-fill-color: #78350f !important;
+  border-bottom-color: #d97706 !important;
+}
+.cours-body .fig-ellipse,
+.texte-annote .fig-ellipse {
+  background: #a7f3d0 !important;
+  color: #064e3b !important;
+  -webkit-text-fill-color: #064e3b !important;
+  border-bottom-color: #10b981 !important;
+}
+.cours-body .fig-antithese,
+.texte-annote .fig-antithese {
+  background: #fca5a5 !important;
+  color: #7f1d1d !important;
+  -webkit-text-fill-color: #7f1d1d !important;
+  border-bottom-color: #ef4444 !important;
+}
+.cours-body .fig-chute,
+.texte-annote .fig-chute {
+  background: #312e81 !important;
+  color: #e0e7ff !important;
+  -webkit-text-fill-color: #e0e7ff !important;
+  border-bottom-color: #818cf8 !important;
+}
+.cours-body .fig-hyperbole,
+.texte-annote .fig-hyperbole {
+  background: #fda4af !important;
+  color: #881337 !important;
+  -webkit-text-fill-color: #881337 !important;
+  border-bottom-color: #f43f5e !important;
+}
+.cours-body .fig-antiphrase,
+.texte-annote .fig-antiphrase {
+  background: #fed7aa !important;
+  color: #7c2d12 !important;
+  -webkit-text-fill-color: #7c2d12 !important;
+  border-bottom-color: #f97316 !important;
+}
+.cours-body .fig-pleonasme,
+.texte-annote .fig-pleonasme {
+  background: #bbf7d0 !important;
+  color: #14532d !important;
+  -webkit-text-fill-color: #14532d !important;
+  border-bottom-color: #22c55e !important;
+}
+.cours-body .fig-these,
+.texte-annote .fig-these {
+  background: #bae6fd !important;
+  color: #0c4a6e !important;
+  -webkit-text-fill-color: #0c4a6e !important;
+  border-bottom-color: #0ea5e9 !important;
+}
+.cours-body .fig-concession,
+.texte-annote .fig-concession {
+  background: #fbcfe8 !important;
+  color: #831843 !important;
+  -webkit-text-fill-color: #831843 !important;
+  border-bottom-color: #ec4899 !important;
+}
+.cours-body .fig-relativisme,
+.texte-annote .fig-relativisme {
+  background: #fef08a !important;
+  color: #713f12 !important;
+  -webkit-text-fill-color: #713f12 !important;
+  border-bottom-color: #ca8a04 !important;
+}
+.cours-body .fig-note,
+.texte-annote .fig-note {
+  background: #e2e8f0 !important;
+  color: #1e293b !important;
+  -webkit-text-fill-color: #1e293b !important;
+  border-bottom-color: #64748b !important;
+}
+.cours-body .fig-periphrase,
+.texte-annote .fig-periphrase {
+  background: #bae6fd !important;
+  color: #0c4a6e !important;
+  -webkit-text-fill-color: #0c4a6e !important;
+  border-bottom-color: #0284c7 !important;
+}
+.cours-body .fig-synesthesie,
+.texte-annote .fig-synesthesie {
+  background: #99f6e4 !important;
+  color: #134e4a !important;
+  -webkit-text-fill-color: #134e4a !important;
+  border-bottom-color: #14b8a6 !important;
+}
+
+/* ============================================================
+   BARRE DU HAUT — burger, logo, boutons d'action
+   ------------------------------------------------------------
+   Tous les boutons sont des carrés de --tb-btn, avec une icône
+   seule (le nom de l'action est dans l'infobulle / aria-label).
+   Sur téléphone, la taille s'adapte à la largeur de l'écran :
+   38 px au maximum, 32 px au minimum, pour que le logo et les
+   5 boutons (←, Me tester, Imprimer, musique, thème) tiennent.
+   ============================================================ */
+:root {
+  --tb-btn: 36px;
+}
+
+.burger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  flex: 0 0 auto;
+  width: 36px;
+  height: var(--tb-btn);
+  padding: 0 8px;
+  background: none;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .15s;
+}
+.burger:hover {
+  background: var(--bg);
+}
+.burger span {
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--text);
+}
+
+.tb-brand {
+  order: 2;
+  flex: 0 0 auto;
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: -.2px;
+  color: var(--text);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tb-mobile-nav {
+  display: none;
+  order: 3;
+}
+.tb-course-actions {
+  order: 5;
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 6px;
+}
+.tb-actions {
+  order: 6;
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 6px;
+}
