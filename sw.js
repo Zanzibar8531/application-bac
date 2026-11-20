@@ -18,6 +18,13 @@ const STATIC_ASSETS = [
   './style-evolutions.css',
   './bg-light.jpg',
   './bg-dark.jpg',
+  './badge.png',
+  './banner-party.png',
+  './banner-push.png',
+  './banner-worry.png',
+  './mascot-party.png',
+  './mascot-push.png',
+  './mascot-worry.png',
   './app-core.js',
   './app-stats.js',
   './app-pages.js',
@@ -143,7 +150,8 @@ function isStaticAsset(url) {
     (localFiles.some(f => url.pathname.endsWith(f)) ||
      url.pathname.startsWith('/icons/') ||
      /\/(bg-light|bg-dark|icon-192|icon-512)\.(jpg|png)$/.test(url.pathname) ||
-     url.pathname.match(/\/(francais|maths|histoire-geo|anglais|espagnol|physique-chimie|ingenierie-dd|innovation-techno|informatique|informatique-code|informatique-parcours|cybersecurite|cybersecurite-plus|cybersecurite-parcours|investissement|investissement-pratique|entrepreneuriat|apprentissage|juridique|data-init)\.js$/));
+     url.pathname.match(/\/(francais|maths|histoire-geo|anglais|espagnol|physique-chimie|ingenierie-dd|innovation-techno|informatique|informatique-code|informatique-parcours|cybersecurite|cybersecurite-plus|cybersecurite-parcours|investissement|investissement-pratique|entrepreneuriat|apprentissage|juridique|data-init)\.js$/) ||
+     url.pathname.match(/\/(badge|banner-party|banner-push|banner-worry|mascot-party|mascot-push|mascot-worry)\.png$/));
 }
 
 function isCDNRequest(url) {
