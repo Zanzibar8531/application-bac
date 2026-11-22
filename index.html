@@ -111,7 +111,6 @@
         <button class="sb-close" onclick="closeSidebar()">✕</button>
     </div>
     <div class="bm-sidebar-account-wrap"><button id="bm-supabase-account-chip" class="bm-sidebar-account" type="button" hidden>☁️ Mon compte</button></div>
-    <div class="bm-sidebar-update-wrap"><button id="sb-update" class="bm-sidebar-update" type="button" onclick="bmUpdateNow(this)">🔄 Mettre à jour l’appli</button></div>
     <div id="course-mobile-tools" class="course-mobile-tools" aria-label="Navigation du cours">
         <div class="course-mobile-learning" id="course-mobile-learning">
             <div><strong>📖 Navigation du cours</strong><span id="course-mobile-subtitle">Sections du chapitre</span></div>
@@ -138,7 +137,8 @@
         <button class="sb-link sb-sci"    onclick="goSubject('Science de l\'Apprentissage');closeSidebar()">🧠 Science de l'Apprentissage</button>
         <button class="sb-link sb-jur"    onclick="goSubject('Bases Juridiques & Admin');closeSidebar()">⚖️ Bases Juridiques &amp; Admin</button>
     </nav>
-    <div class="sb-footer">Première STI2D · 2025–2026</div>
+    <div class="bm-sidebar-update-wrap"><button id="sb-update" class="bm-sidebar-update" type="button" onclick="bmUpdateNow(this)">🔄 Mettre à jour l’appli</button></div>
+<div class="sb-footer">Première STI2D · 2025–2026</div>
 </aside>
 <div class="shell">
     <header class="topbar">
@@ -156,7 +156,7 @@
     </header>
     <main id="main"></main>
 </div>
-<script src="data-init.js"></script>
+<script defer src="data-init.js"></script>
 <script>
 /* Démarrage rapide : les cours (≈1,5 Mo) sont déjà enregistrés dans l'appareil après la 1re ouverture.
    Tant que leur version n'a pas changé, on ne les relit PAS au démarrage : on les charge en arrière-plan
@@ -173,40 +173,54 @@
   window.bmWhenContentReady=function(cb){ if(window.BM_PREBUILT_READY) cb(); else waiting.push(cb); };
   window.bmContentReady=function(){ window.BM_PREBUILT_READY=true; var l=waiting; waiting=[]; l.forEach(function(cb){ try{cb();}catch(e){console.error(e);} }); };
   if(!window.BM_FAST_START){
-    files.forEach(function(f){ document.write('<script src="'+f+'"><\/script>'); });
-    window.bmContentReady();
+    files.forEach(function(f){ document.write('<script defer src="'+f+'"><\/script>'); });
+    document.addEventListener('DOMContentLoaded', function(){ window.bmContentReady(); });   // scripts defer : prêts avant cet événement
   }
 })();
 </script>
-<script src="competences.js"></script>
-<script src="erreurs.js"></script>
-<script src="evaluation.js"></script>
-<script src="parcours.js"></script>
-<script src="vocal.js"></script>
-<script src="app-core.js"></script>
-<script src="app-stats.js"></script>
-<script src="app-pages.js"></script>
-<script src="app-editor.js"></script>
-<script src="app-srs.js"></script>
-<script src="app-exercises.js"></script>
-<script src="app-boot.js"></script>
-<script src="bm-mascot.js"></script>
-<script src="bm-bubble.js"></script>
-<script src="bm-icons.js"></script>
-<script src="bm-goal.js"></script>
-<script src="bm-export.js"></script>
-<script src="bm-download.js"></script>
-<script src="bm-stats.js"></script>
-<script src="bm-editor.js"></script>
-<script src="bm-editor-plus.js"></script>
-<script src="bm-dictee.js"></script>
-<script src="bm-versions.js"></script>
-<script src="bm-agenda.js"></script>
-<script src="navigation.js"></script>
-<script src="bm-sanitize.js"></script>
-<script src="bm-merge.js"></script>
-<script src="bm-admin.js"></script>
-<script src="bm-contenu.js"></script>
+<script defer src="competences.js"></script>
+<script defer src="erreurs.js"></script>
+<script defer src="evaluation.js"></script>
+<script defer src="parcours.js"></script>
+<script defer src="vocal.js"></script>
+<script>
+/* Mesure du démarrage (affichée dans Paramètres › Application) */
+(function(){
+  var S={fast:!!window.BM_FAST_START};
+  try{ new PerformanceObserver(function(l){ l.getEntries().forEach(function(e){ if(e.name==='first-contentful-paint') S.fcp=Math.round(e.startTime); }); }).observe({type:'paint',buffered:true}); }catch(e){}
+  function home(){ var m=document.getElementById('main'); if(m&&m.children.length>0){ S.home=Math.round(performance.now()); clearTimeout(tm); tm=setTimeout(save,300); } else requestAnimationFrame(home); }
+  var tm=null;
+  function save(){
+    try{ var a=JSON.parse(localStorage.getItem('bm_boot_stats')||'[]'); S.at=Date.now(); a.push(S); localStorage.setItem('bm_boot_stats',JSON.stringify(a.slice(-8))); }catch(e){}
+  }
+  var _r=window.bmContentReady; window.bmContentReady=function(){ S.content=Math.round(performance.now()); if(_r)_r.apply(this,arguments); };
+  document.addEventListener('DOMContentLoaded',function(){ S.dcl=Math.round(performance.now()); requestAnimationFrame(home); });
+})();
+</script>
+<script defer src="app-core.js"></script>
+<script defer src="app-stats.js"></script>
+<script defer src="app-pages.js"></script>
+<script defer src="app-editor.js"></script>
+<script defer src="app-srs.js"></script>
+<script defer src="app-exercises.js"></script>
+<script defer src="app-boot.js"></script>
+<script defer src="bm-mascot.js"></script>
+<script defer src="bm-bubble.js"></script>
+<script defer src="bm-icons.js"></script>
+<script defer src="bm-goal.js"></script>
+<script defer src="bm-export.js"></script>
+<script defer src="bm-download.js"></script>
+<script defer src="bm-stats.js"></script>
+<script defer src="bm-editor.js"></script>
+<script defer src="bm-editor-plus.js"></script>
+<script defer src="bm-dictee.js"></script>
+<script defer src="bm-versions.js"></script>
+<script defer src="bm-agenda.js"></script>
+<script defer src="navigation.js"></script>
+<script defer src="bm-sanitize.js"></script>
+<script defer src="bm-merge.js"></script>
+<script defer src="bm-admin.js"></script>
+<script defer src="bm-contenu.js"></script>
 <script>
 /* La synchro (Supabase) se charge APRÈS l'affichage de l'appli : avant, ce script externe bloquait tout
    le démarrage tant que le réseau ne l'avait pas livré (20-30 s sur un mauvais réseau mobile). */
@@ -276,14 +290,9 @@
         if (window.BacMasterGoal && BacMasterGoal.forceUpdate) return BacMasterGoal.forceUpdate(btn);
         location.reload();
     }
-    function bmShowUpdateBanner() {
+    function bmShowUpdateBanner() {   // discret : le bouton du menu (tout en bas) se colore + un petit message
         const b = document.getElementById('sb-update'); if (b) b.classList.add('has-update');
-        if (document.getElementById('bm-update-banner')) return;
-        const d = document.createElement('div'); d.id = 'bm-update-banner'; d.className = 'bm-update-banner';
-        d.innerHTML = '<button type="button" class="bm-update-go">🔄 <b>Mise à jour prête</b> · Installer</button><button type="button" class="bm-update-x" aria-label="Plus tard">✕</button>';
-        d.querySelector('.bm-update-go').onclick = function () { this.textContent = '⏳ Mise à jour…'; bmUpdateNow(this); };
-        d.querySelector('.bm-update-x').onclick = function () { d.remove(); };
-        document.body.appendChild(d);
+        if (typeof showToast === 'function') showToast('Mise à jour disponible — menu ☰, tout en bas.', 'info');
     }
     </script>
     <script>

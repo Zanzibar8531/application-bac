@@ -4,7 +4,7 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-pwa-notifs-maj';
+const CACHE_NAME   = 'bacmaster-pwa-reglages-demarrage';
 const CACHE_STATIC = 'bacmaster-static-pwa-parcours-code';
 
 // Fichiers à mettre en cache immédiatement à l'installation

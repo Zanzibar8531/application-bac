@@ -511,6 +511,8 @@
       <section class="bg-sec"><h3>🎯 Temps de révision par jour</h3>
         <div class="bg-lbl">En semaine (lun → ven)</div><div class="bg-chips">${chipRow('data-min', g.minutes)}</div>
         <div class="bg-lbl">Week-end (sam → dim)</div><div class="bg-chips">${chipRow('data-we', g.minutesWE || 0, true)}</div>
+        <label class="bg-custom">Autre durée en semaine <input type="number" min="5" max="300" step="5" value="${g.minutes}" id="cal-custom"> min</label>
+        <p class="bg-hint">Ta journée est validée (et ta série continue) quand tu atteins l’objectif du jour.</p>
         <div class="bg-row"><span><b>Me rappeler de réviser</b><small>Utilise ces objectifs</small></span>${sw('cal-remind', g.remind)}</div>
         <button class="bg-btn full" id="cal-notif">🔔 Régler les heures et les notifications</button>
       </section>`;
@@ -537,6 +539,7 @@
     m.querySelectorAll('[data-cancelplanned]').forEach(b => b.onclick = () => cancelPlanned(b.dataset.cancelplanned));
     const rq = $('cal-request'); if (rq) rq.onclick = () => requestJump(calSel, calDays);
     const cr = $('cal-cancelreq'); if (cr) cr.onclick = cancelRequest;
+    const cc = $('cal-custom'); if (cc) cc.onchange = () => { const x = load(); x.minutes = Math.min(300, Math.max(5, +cc.value || 20)); save(x); renderCalendar(); };
     const rm = $('cal-remind'); if (rm) rm.onchange = () => { const x = load(); x.remind = rm.checked; save(x); };
     const cn = $('cal-notif'); if (cn) cn.onclick = () => openSettings('notif');
     const shift = k => { const [yy, mm] = calMonth.split('-').map(Number), d = new Date(yy, mm - 1 + k, 1); calMonth = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); renderCalendar(); };
@@ -567,13 +570,9 @@
     const perm = !canNotify() ? 'unsupported' : Notification.permission;
     return pushState().then(ps => {
       m = $('bm-goal-modal'); if (!m) return;
-      const slots = g.slots.map((s, i) => `
-        <div class="bg-slot bg-slot-v2 bg-slot-compact">
-          <label class="bg-slot-editor"><span class="bg-slot-index">Rappel ${i + 1}</span>
-            <input type="time" value="${s}" data-slot-time="${i}" aria-label="Heure du rappel ${i + 1}" />
-          </label>
-          <button class="bg-x" data-del="${i}" aria-label="Supprimer le rappel ${i + 1}" title="Supprimer ce rappel">✕</button>
-        </div>`).join('');
+      const slots = g.slots.map((s, i) => `<div class="bn-slot"><input type="time" value="${s}" data-slot-time="${i}" aria-label="Heure du rappel ${i + 1}" /><button class="bn-x" data-del="${i}" aria-label="Supprimer le rappel de ${s}">✕</button></div>`).join('');
+      const PRESETS = [['07:30', '🌅 Matin'], ['12:30', '🍽️ Midi'], ['17:30', '🎒 Après les cours'], ['20:00', '🌙 Soir']];
+      const presets = PRESETS.filter(([tm]) => !g.slots.includes(tm)).map(([tm, lb]) => `<button class="bn-preset" data-addslot="${tm}">${lb} <b>${tm}</b></button>`).join('');
       const iosHint = iOS && !standalone() ? `<div class="bg-note warn">📱 Sur iPhone : ouvre le menu Partager de Safari puis « Sur l’écran d’accueil », et lance BacMaster depuis cette icône. Les notifications ne marchent que là.</div>` : '';
       // 1) autorisation globale
       const permCtl = perm === 'granted' ? `<span class="bg-pill ok">✅ Autorisées</span>` : perm === 'denied' ? `<span class="bg-pill bad">🚫 Bloquées</span>` : perm === 'unsupported' ? `<span class="bg-pill bad">Non géré</span>` : `<button class="bg-btn pri" id="bg-allow">Autoriser</button>`;
@@ -597,25 +596,14 @@
           ${logged ? `<button class="bg-btn danger" id="bg-logout">Déconnexion</button>` : ''}
         </section>
         <nav class="bs-tabs" aria-label="Catégories">
-          <button data-bs-go="look">🎨 Apparence</button><button data-bs-go="study">🎯 Étude</button><button data-bs-go="notif">🔔 Notifications</button><button data-bs-go="data">🔒 Données</button><button data-bs-go="app">📱 Application</button>
+          <button data-bs-go="look">🎨 Apparence</button><button data-bs-go="voice">🎙️ Dictée</button><button data-bs-go="notif">🔔 Notifications</button><button data-bs-go="data">🔒 Données</button><button data-bs-go="app">📱 Application</button>
         </nav>
         <section class="bg-sec" id="bg-sec-look">
           <h3><i class="bs-ico">🎨</i>Apparence</h3>
-          <div class="bg-lbl">Thème</div>
-          <div class="bg-chips"><button class="bg-chip ${themeNow() === 'light' ? 'on' : ''}" data-theme-set="light">☀️<small>clair</small></button><button class="bg-chip ${themeNow() === 'dark' ? 'on' : ''}" data-theme-set="dark">🌙<small>sombre</small></button></div>
           <div class="bg-lbl">Taille du texte des cours</div>
           <div class="bg-chips">${[[0.9, 'petit'], [1, 'normal'], [1.15, 'grand'], [1.3, 'très grand']].map(([v, l]) => `<button class="bg-chip ${fsNow() === v ? 'on' : ''}" data-fs="${v}">A<small>${l}</small></button>`).join('')}</div>
           <div class="bg-row"><span><b>Afficher la mascotte</b><small>Bulles, expressions et carte d’accueil</small></span>${sw('bg-mascot', mascotOn())}</div>
         </section>
-        <div id="bg-sec-study" class="bs-anchor"></div>
-        <section class="bg-sec" id="bg-sec-goal">
-          <h3><i class="bs-ico">🎯</i>Objectif quotidien</h3>
-          <div class="bg-lbl">En semaine (lun → ven)</div><div class="bg-chips">${chipRow('data-min', g.minutes)}</div>
-          <div class="bg-lbl">Week-end (sam → dim)</div><div class="bg-chips">${chipRow('data-we', g.minutesWE || 0, true)}</div>
-          <label class="bg-custom">Autre durée en semaine <input type="number" min="5" max="300" step="5" value="${g.minutes}" id="bg-custom"> min</label>
-          <p class="bg-hint">Ta journée est validée (et ta série continue) quand tu atteins l’objectif du jour.</p>
-        </section>
-        <section class="bg-sec" id="bg-sec-jump"><h3><i class="bs-ico">${IC('jump', 22)}</i>Saut Temporel</h3>${jumpSummary(g)}<button class="bg-btn pri full" id="bg-opencal">📅 Ouvrir mon calendrier</button></section>
         <section class="bg-sec" id="bg-sec-voice">
           <h3><i class="bs-ico">🎙️</i>Dictée vocale</h3>
           <div class="bg-lbl">Langue</div>
@@ -625,21 +613,27 @@
         <section class="bg-sec" id="bg-sec-notif">
           <h3><i class="bs-ico">🔔</i>Notifications</h3>
           ${iosHint}
-          <div class="bg-row"><span><b>Autorisation</b><small>Sur cet appareil</small></span><span class="bg-ctl">${permCtl}</span></div>${permHint}
-          <div class="bg-row"><span><b>Rappels application fermée</b><small>Envoyés par le serveur</small></span><span class="bg-ctl">${pushCtl}</span></div>${pushHint}
-          <div class="bg-row"><span><b>Affichage en haut de l’écran</b><small>Notification flottante</small></span><span class="bg-ctl"><button class="bg-btn" id="bg-floattest">🔔 Tester</button></span></div>
-          <details class="bg-help"><summary>📱 La notification n’apparaît pas en haut de l’écran ?</summary>
+          <div class="bn-card">
+            <div class="bn-line"><span><b>Sur cet appareil</b><small>Autorisation du téléphone</small></span><span class="bg-ctl">${permCtl}</span></div>${permHint}
+            <div class="bn-line"><span><b>Application fermée</b><small>Rappels envoyés par le serveur</small></span><span class="bg-ctl">${pushCtl}</span></div>${pushHint}
+          </div>
+          <div class="bn-card">
+            <div class="bn-line"><span><b>Me rappeler de réviser</b><small>Tant que ton objectif du jour n’est pas atteint</small></span>${sw('bg-remind', g.remind)}</div>
+            ${g.remind ? `
+            <div class="bn-title">Heures des rappels</div>
+            ${g.slots.length ? `<div class="bn-slots">${slots}</div>` : `<p class="bn-empty">Aucune heure choisie : tu ne recevras pas de rappel.</p>`}
+            <div class="bn-presets">${presets}<button class="bn-preset more" id="bg-addslot">＋ Autre heure</button></div>
+            <div class="bn-line"><span><b>M’encourager quand c’est fait</b><small>Message bonus du soir</small></span>${sw('bg-bonus', g.bonus)}</div>` : ''}
+          </div>
+          <details class="bg-help"><summary>🛠️ Tester / la notification n’apparaît pas en haut de l’écran ?</summary>
+            <div class="bn-line"><span><b>Tester l’affichage</b><small>Notification flottante en haut de l’écran</small></span><span class="bg-ctl"><button class="bg-btn" id="bg-floattest">🔔 Tester</button></span></div>
             <p>C’est Android qui décide, pas l’appli. Pour qu’elle s’affiche en haut avant de se ranger :</p>
             <ol>
               <li>Fais un <b>appui long</b> sur une notification BacMaster, puis touche <b>Paramètres</b> (ou : Paramètres du téléphone → Applications → BacMaster → Notifications).</li>
               <li>Mets l’importance sur <b>« Urgent »</b> / <b>« Afficher en haut de l’écran »</b>. Sur Xiaomi (HyperOS / MIUI) : active <b>« Notifications flottantes »</b>.</li>
-              <li>Vérifie que le mode <b>Ne pas déranger</b> est désactivé, puis touche « Tester » ci-dessus.</li>
+              <li>Vérifie que le mode <b>Ne pas déranger</b> est désactivé, puis touche « Tester ».</li>
             </ol>
           </details>
-          <div class="bg-row"><span><b>Me rappeler de réviser</b><small>Préférence de rappel</small></span>${sw('bg-remind', g.remind)}</div>
-          ${g.remind ? `<div class="bg-slots-head"><span class="bg-hint">${g.slots.length} horaire${g.slots.length > 1 ? 's' : ''} configuré${g.slots.length > 1 ? 's' : ''}</span><button class="bg-add" id="bg-addslot">＋ Ajouter une heure</button></div><div class="bg-slots">${slots}</div>
-          <p class="bg-hint">Tant que ton objectif n’est pas atteint, tu reçois un rappel à ces heures.</p>
-          <div class="bg-row"><span><b>M’encourager quand c’est fait</b><small>Message bonus du soir</small></span>${sw('bg-bonus', g.bonus)}</div>` : ''}
         </section>
         <section class="bg-sec" id="bg-sec-data">
           <h3><i class="bs-ico">🔒</i>Données &amp; confidentialité</h3>
@@ -652,10 +646,18 @@
         <section class="bg-sec" id="bg-sec-app">
           <h3><i class="bs-ico">📱</i>Application</h3>
           <div class="bg-row"><span><b>Mettre à jour</b><small>Récupère les derniers fichiers, sans te déconnecter</small></span><button class="bg-btn" id="bg-update">🔄 Mettre à jour</button></div>
+          ${bootStatsHTML()}
         </section>`;
       bind(m);
       if (pendingScroll) { const t = $('bg-sec-' + pendingScroll); pendingScroll = null; if (t) t.scrollIntoView({ block: 'start' }); }
     });
+  }
+  function bootStatsHTML() {
+    try {
+      const a = JSON.parse(localStorage.getItem('bm_boot_stats') || '[]').slice(-5); if (!a.length) return '';
+      const avg = k => { const v = a.map(x => x[k]).filter(Number.isFinite); return v.length ? (v.reduce((s, n) => s + n, 0) / v.length / 1000).toFixed(1).replace('.', ',') + ' s' : '—'; };
+      return `<p class="bg-hint">⏱️ Démarrage (moyenne des ${a.length} dernières ouvertures) : premier affichage ${avg('fcp')} · accueil prêt ${avg('home')}. Le temps d’ouverture du téléphone avant ça n’est pas compté.</p>`;
+    } catch (e) { return ''; }
   }
   const themeNow = () => document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
   const fsNow = () => { const v = parseFloat(localStorage.getItem('bm_fs')); return v >= 0.8 && v <= 1.5 ? v : 1; };
@@ -663,13 +665,10 @@
   function mascotOn() { return !window.BacMasterMascot || BacMasterMascot.enabled(); }
   function bind(m) {
     m.querySelectorAll('[data-bs-go]').forEach(b => b.onclick = () => { const t = $('bg-sec-' + b.dataset.bsGo); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-    m.querySelectorAll('[data-theme-set]').forEach(b => b.onclick = () => { if (themeNow() !== b.dataset.themeSet && typeof toggleDarkMode === 'function') toggleDarkMode(); renderSettings(); });
     m.querySelectorAll('[data-fs]').forEach(b => b.onclick = () => { const v = +b.dataset.fs; localStorage.setItem('bm_fs', v); document.documentElement.style.setProperty('--bm-fs', v); renderSettings(); });
     m.querySelectorAll('[data-dict]').forEach(b => b.onclick = () => { if (b.dataset.dict === 'auto') localStorage.removeItem('bm_dict_lang'); else localStorage.setItem('bm_dict_lang', b.dataset.dict); renderSettings(); });
     m.querySelectorAll('[data-min]').forEach(b => b.onclick = () => { const g = load(); g.minutes = +b.dataset.min; save(g); renderSettings(); });
     m.querySelectorAll('[data-we]').forEach(b => b.onclick = () => { const g = load(); g.minutesWE = +b.dataset.we; save(g); renderSettings(); });
-    const c = $('bg-custom'); if (c) c.onchange = () => { const g = load(); g.minutes = Math.min(300, Math.max(5, +c.value || 20)); save(g); renderSettings(); };
-    const oc = $('bg-opencal'); if (oc) oc.onclick = () => openCalendar();
     const ft = $('bg-floattest'); if (ft) ft.onclick = async () => { if (!granted()) { toast('Autorise d’abord les notifications.', 'warn'); return; } await notify({ title: '🐾 Test de ' + ((window.BMBubble && BMBubble.name) || 'ta mascotte'), body: 'Si tu me vois en haut de l’écran, tout est parfait !', tag: 'bm-test', mood: 'party' }); toast('Notification envoyée : regarde en haut de l’écran.'); };
     const al = $('bg-allow'); if (al) al.onclick = () => Notification.requestPermission().then(renderSettings);
     const on = $('bg-pushon'); if (on) on.onclick = () => pushEnable(on);
@@ -687,6 +686,7 @@
       g.slots[index] = value; g.slots = [...new Set(g.slots)].sort(); save(g); renderSettings();
     };
     m.querySelectorAll('[data-slot-time]').forEach(i => i.onchange = () => updateSlot(+i.dataset.slotTime));
+    m.querySelectorAll('[data-addslot]').forEach(b => b.onclick = () => { const x = load(); if (!x.slots.includes(b.dataset.addslot)) { x.slots = [...x.slots, b.dataset.addslot].sort(); save(x); } renderSettings(); });
     m.querySelectorAll('[data-del]').forEach(b => b.onclick = () => { const g = load(); g.slots.splice(+b.dataset.del, 1); save(g); renderSettings(); });
     const add = $('bg-addslot'); if (add) add.onclick = () => { const g = load(); let free = null; for (let minute = 7 * 60; minute < 24 * 60; minute += 30) { const candidate = `${String(Math.floor(minute / 60)).padStart(2, '0')}:${String(minute % 60).padStart(2, '0')}`; if (!g.slots.includes(candidate)) { free = candidate; break; } } if (!free) { toast('Toutes les heures possibles sont déjà utilisées.', 'warn'); return; } g.slots = [...g.slots, free].sort(); save(g); renderSettings(); };
     const mc = $('bg-mascot'); if (mc) mc.onchange = () => { if (window.BacMasterMascot) { BacMasterMascot.setEnabled(mc.checked); if (mc.checked) BacMasterMascot.say('push', 'Me revoilà ! On révise ?', { force: true }); } refreshCard(); };
@@ -700,7 +700,7 @@
     pendingScroll = typeof section === 'string' ? section : null;
     if (typeof render === 'function') {
       render(`<div id="bm-goal-modal" class="bm-fullpage" aria-label="Paramètres">
-        <header class="bm-fullpage-head"><button class="bm-page-back" onclick="goHome()">← Accueil</button><div><span class="bm-page-kicker">PERSONNALISATION</span><h1>⚙️ Paramètres</h1><p>Personnalise tes objectifs, tes rappels et ton expérience Bac Master.</p></div></header>
+        <header class="bm-fullpage-head"><button class="bm-page-back" onclick="goHome()">← Accueil</button><div><span class="bm-page-kicker">PERSONNALISATION</span><h1>⚙️ Paramètres</h1><p>Ton compte, l’apparence, les rappels et l’application.</p></div></header>
         <div class="bg-sheet-body bm-fullpage-body"><div class="bm-settings-loading">Chargement des paramètres…</div></div>
       </div>`);
     }

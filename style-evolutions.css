@@ -1031,22 +1031,33 @@ html .course-main-column .cours-body, html .cours-body { font-size: calc(1rem * 
 #bm-goal-modal .bs-list b{ color:var(--text); }
 #bm-goal-modal .bs-anchor{ margin-top:-14px; }
 
-/* ── Bouton « Mettre à jour » (menu) et bandeau de nouvelle version ── */
-.bm-sidebar-update-wrap { padding: 0 14px 10px; }
+/* ── Bouton « Mettre à jour » (bas du menu) ── */
+.bm-sidebar-update-wrap { padding: 14px 14px 4px; }
 .bm-sidebar-update {
-  width: 100%; padding: 11px 14px; font: inherit; font-weight: 700; font-size: .95rem; text-align: left;
-  color: var(--text); background: var(--card); border: 1.5px solid var(--border);
-  border-color: color-mix(in srgb, var(--border) 70%, var(--accent)); border-radius: 12px; cursor: pointer;
+  width: 100%; padding: 10px 14px; font: inherit; font-weight: 700; font-size: .92rem; text-align: left;
+  color: var(--text); background: var(--card); border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer;
 }
 .bm-sidebar-update:active { transform: scale(.98); }
-.bm-sidebar-update.has-update { color: #fff; background: #4f46e5; border-color: #4f46e5; animation: bmUpdPulse 1.6s ease-in-out infinite; }
-@keyframes bmUpdPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, .45); } 50% { box-shadow: 0 0 0 7px rgba(79, 70, 229, 0); } }
-.bm-update-banner {
-  position: fixed; left: 12px; right: 12px; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); z-index: 9999;
-  display: flex; align-items: stretch; gap: 6px; max-width: 460px; margin: 0 auto;
-}
-.bm-update-go {
-  flex: 1; padding: 13px 14px; font: inherit; font-size: .95rem; color: #fff; background: #4f46e5;
-  border: 0; border-radius: 14px; box-shadow: 0 6px 22px rgba(0, 0, 0, .35); cursor: pointer;
-}
-.bm-update-x { flex: 0 0 44px; font: inherit; color: #fff; background: rgba(30, 30, 40, .85); border: 0; border-radius: 14px; cursor: pointer; }
+.bm-sidebar-update.has-update { color: #fff; background: #4f46e5; border-color: #4f46e5; }
+
+/* ── Paramètres › Notifications (présentation) ── */
+#bm-goal-modal .bn-card { border: 1px solid var(--border); border-radius: 16px; padding: 4px 14px 12px; margin: 12px 0; background: color-mix(in srgb, var(--card) 88%, transparent); }
+#bm-goal-modal .bn-line { display: flex; align-items: center; justify-content: space-between; gap: 10px 14px; flex-wrap: wrap; padding: 11px 0; }
+#bm-goal-modal .bn-line + .bn-line { border-top: 1px solid var(--border); }
+#bm-goal-modal .bn-line > span:first-child { display: flex; flex-direction: column; min-width: 0; }
+#bm-goal-modal .bn-line small { color: var(--text-muted, #8b8fa3); font-size: .8rem; }
+#bm-goal-modal .bn-title { margin: 14px 0 8px; font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted, #8b8fa3); }
+#bm-goal-modal .bn-slots { display: flex; flex-wrap: wrap; gap: 9px; margin: 2px 0 10px; }
+#bm-goal-modal .bn-slot { display: flex; align-items: center; gap: 2px; padding: 3px 4px 3px 14px; border-radius: 999px; border: 1.5px solid rgba(99, 102, 241, .45); background: rgba(99, 102, 241, .1); }
+#bm-goal-modal .bn-slot input[type=time] { width: 104px; border: 0; background: transparent; color: var(--text); font: 800 1.2rem inherit; font-family: inherit; padding: 6px 0; min-height: 42px; }
+#bm-goal-modal .bn-slot input[type=time]:focus { outline: none; }
+#bm-goal-modal .bn-x { width: 34px; height: 34px; border-radius: 50%; border: 0; background: transparent; color: var(--text-muted, #8b8fa3); font-size: .95rem; cursor: pointer; }
+#bm-goal-modal .bn-x:hover, #bm-goal-modal .bn-x:active { background: rgba(239, 68, 68, .15); color: #ef4444; }
+#bm-goal-modal .bn-presets { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 12px; }
+#bm-goal-modal .bn-preset { padding: 8px 12px; border-radius: 999px; border: 1px dashed var(--border); background: transparent; color: var(--text); font: inherit; font-size: .85rem; cursor: pointer; }
+#bm-goal-modal .bn-preset b { font-weight: 800; margin-left: 3px; }
+#bm-goal-modal .bn-preset.more { border-style: solid; font-weight: 700; }
+#bm-goal-modal .bn-empty { margin: 4px 0 12px; font-size: .88rem; color: var(--text-muted, #8b8fa3); }
+#bm-goal-modal .bn-line:has(.bg-switch) { flex-wrap: nowrap; }
+#bm-goal-modal .bn-slot { flex: 1 1 138px; justify-content: space-between; padding-left: 12px; }
+#bm-goal-modal .bn-slot input[type=time] { width: auto; min-width: 84px; font-size: 1.1rem; }

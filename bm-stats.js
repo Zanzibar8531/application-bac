@@ -108,7 +108,7 @@
               <span class="bs-pill">🏆 Record : <b>${bestStreak}</b></span>
               <span class="bs-pill">🎯 Objectif : <b>${goalMin} min</b></span>
             </div>
-            <button class="bs-hero-btn" onclick="BacMasterGoal.openSettings()">⚙️ Changer mon objectif &amp; mes rappels</button>
+            <button class="bs-hero-btn" onclick="BacMasterGoal.openCalendar()">📅 Changer mon objectif (agenda)</button>
           </div>
         </section>
 
