@@ -39,6 +39,7 @@ PREBUILT_RENAMES.forEach(r => {
 // On préserve uniquement les flashcards de l'élève (scores SRS, ajouts perso).
 // Ainsi, quand on améliore un cours ou qu'on ajoute des annotations colorées,
 // l'élève voit automatiquement la nouvelle version au prochain chargement.
+function bmMergePrebuilt() {
 Object.entries(PREBUILT).forEach(([subj, chapters]) => {
     if (!db[subj]) db[subj] = {};
     Object.entries(chapters).forEach(([ch, data]) => {
@@ -104,7 +105,26 @@ Object.entries(PREBUILT).forEach(([subj, chapters]) => {
         }
     });
 });
-save();
+}
+
+// Empreinte légère des cours intégrés (sert à détecter un changement sans tout relire).
+function bmPrebuiltSig() {
+    let ch = 0, cards = 0, chars = 0;
+    Object.values(PREBUILT).forEach(chs => Object.values(chs).forEach(d => {
+        ch++; chars += (d.cours || '').length;
+        (d.flashcards || []).forEach(f => { cards++; chars += (f.q || '').length + (f.a || '').length; });
+        (d.exercices || []).forEach(e => { chars += String(e.enonce || '').length + String(e.correction || e.corrige || '').length; });
+    }));
+    return ch + ':' + cards + ':' + chars;
+}
+
+// Démarrage normal : fusion des cours intégrés. Démarrage rapide : déjà fait à l'ouverture précédente,
+// bm-contenu.js recharge les cours en arrière-plan et ne refusionne que s'ils ont changé.
+if (!window.BM_FAST_START) {
+    bmMergePrebuilt();
+    save();
+    try { localStorage.setItem('bm_content_ver', window.BM_CONTENT_VER || ''); localStorage.setItem('bm_content_sig', bmPrebuiltSig()); } catch (e) {}
+}
 
 function save() {
     localStorage.setItem('bacmaster_db', JSON.stringify(db));

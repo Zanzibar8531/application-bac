@@ -4,7 +4,7 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-pwa-v49-v1';
+const CACHE_NAME   = 'bacmaster-pwa-demarrage-rapide';
 const CACHE_STATIC = 'bacmaster-static-pwa-parcours-code';
 
 // Fichiers à mettre en cache immédiatement à l'installation
@@ -46,6 +46,7 @@ const STATIC_ASSETS = [
   './bm-stats.js',
   './bm-editor.js', './bm-editor-plus.js', './bm-dictee.js', './bm-versions.js', './bm-sanitize.js',
   './bm-agenda.js',
+  './bm-contenu.js',
   './icon-192.png',
   './icon-512.png',
   './icon-maskable-512.png',
@@ -145,7 +146,7 @@ self.addEventListener('fetch', event => {
 
 // ── HELPERS : Détection du type de requête ───────────────────
 function isStaticAsset(url) {
-  const localFiles = ['/index.html', '/style-base.css', '/style-mobile.css', '/style-modules.css', '/style-barres.css', '/style-evolutions.css', '/app-core.js', '/app-stats.js', '/app-pages.js', '/app-editor.js', '/app-srs.js', '/app-exercises.js', '/app-boot.js', '/supabase-app.js', '/bm-merge.js', '/bm-collab.js', '/bm-icons.js', '/bm-download.js', '/bm-bubble.js', '/bm-admin.js', '/bm-goal.js', '/bm-mascot.js', '/bm-export.js', '/bm-stats.js', '/bm-editor.js', '/bm-editor-plus.js', '/bm-dictee.js', '/bm-versions.js', '/bm-sanitize.js', '/bm-agenda.js', '/supabase-config.js', '/navigation.js', '/manifest.json', '/'];
+  const localFiles = ['/index.html', '/style-base.css', '/style-mobile.css', '/style-modules.css', '/style-barres.css', '/style-evolutions.css', '/app-core.js', '/app-stats.js', '/app-pages.js', '/app-editor.js', '/app-srs.js', '/app-exercises.js', '/app-boot.js', '/supabase-app.js', '/bm-merge.js', '/bm-collab.js', '/bm-icons.js', '/bm-download.js', '/bm-bubble.js', '/bm-admin.js', '/bm-goal.js', '/bm-mascot.js', '/bm-export.js', '/bm-stats.js', '/bm-editor.js', '/bm-editor-plus.js', '/bm-dictee.js', '/bm-versions.js', '/bm-sanitize.js', '/bm-agenda.js', '/bm-contenu.js', '/supabase-config.js', '/navigation.js', '/manifest.json', '/'];
   return url.origin === self.location.origin &&
     (localFiles.some(f => url.pathname.endsWith(f)) ||
      url.pathname.startsWith('/icons/') ||

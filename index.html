@@ -156,25 +156,27 @@
     <main id="main"></main>
 </div>
 <script src="data-init.js"></script>
-<script src="francais.js"></script>
-<script src="maths.js"></script>
-<script src="histoire-geo.js"></script>
-<script src="anglais.js"></script>
-<script src="espagnol.js"></script>
-<script src="physique-chimie.js"></script>
-<script src="ingenierie-dd.js"></script>
-<script src="innovation-techno.js"></script>
-<script src="informatique.js"></script>
-<script src="informatique-code.js"></script>
-<script src="informatique-parcours.js"></script>
-<script src="cybersecurite.js"></script>
-<script src="cybersecurite-plus.js"></script>
-<script src="cybersecurite-parcours.js"></script>
-<script src="investissement.js"></script>
-<script src="investissement-pratique.js"></script>
-<script src="entrepreneuriat.js"></script>
-<script src="apprentissage.js"></script>
-<script src="juridique.js"></script>
+<script>
+/* Démarrage rapide : les cours (≈1,5 Mo) sont déjà enregistrés dans l'appareil après la 1re ouverture.
+   Tant que leur version n'a pas changé, on ne les relit PAS au démarrage : on les charge en arrière-plan
+   une fois l'accueil affiché (bm-contenu.js). Si les cours ont changé, ils sont chargés comme avant. */
+(function(){
+  var V='660424ef42d4';
+  var files=['francais.js','maths.js','histoire-geo.js','anglais.js','espagnol.js','physique-chimie.js','ingenierie-dd.js','innovation-techno.js','informatique.js','informatique-code.js','informatique-parcours.js','cybersecurite.js','cybersecurite-plus.js','cybersecurite-parcours.js','investissement.js','investissement-pratique.js','entrepreneuriat.js','apprentissage.js','juridique.js'];
+  var stored=null, hasDb=false;
+  try{ stored=localStorage.getItem('bm_content_ver'); hasDb=(localStorage.getItem('bacmaster_db')||'').length>10; }catch(e){}
+  window.BM_CONTENT_VER=V; window.BM_SUBJECT_FILES=files;
+  window.BM_FAST_START=(stored===V && hasDb);
+  window.BM_PREBUILT_READY=false;
+  var waiting=[];
+  window.bmWhenContentReady=function(cb){ if(window.BM_PREBUILT_READY) cb(); else waiting.push(cb); };
+  window.bmContentReady=function(){ window.BM_PREBUILT_READY=true; var l=waiting; waiting=[]; l.forEach(function(cb){ try{cb();}catch(e){console.error(e);} }); };
+  if(!window.BM_FAST_START){
+    files.forEach(function(f){ document.write('<script src="'+f+'"><\/script>'); });
+    window.bmContentReady();
+  }
+})();
+</script>
 <script src="competences.js"></script>
 <script src="erreurs.js"></script>
 <script src="evaluation.js"></script>
@@ -203,13 +205,14 @@
 <script src="bm-sanitize.js"></script>
 <script src="bm-merge.js"></script>
 <script src="bm-admin.js"></script>
+<script src="bm-contenu.js"></script>
 <script>
 /* La synchro (Supabase) se charge APRÈS l'affichage de l'appli : avant, ce script externe bloquait tout
    le démarrage tant que le réseau ne l'avait pas livré (20-30 s sur un mauvais réseau mobile). */
 (function(){
   var started=false;
   function add(src){var s=document.createElement('script');s.src=src;s.async=false;document.body.appendChild(s);}
-  function startSync(){if(started)return;started=true;add('supabase-config.js');add('supabase-app.js');add('bm-collab.js');}
+  function startSync(){if(started)return;started=true;window.bmWhenContentReady(function(){add('supabase-config.js');add('supabase-app.js');add('bm-collab.js');});}
   function loadLib(){
     var s=document.createElement('script');
     s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
