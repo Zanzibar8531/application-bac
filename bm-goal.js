@@ -225,13 +225,11 @@
   }
   async function notify(msg) {
     const mood = ['push', 'worry', 'party'].includes(msg.mood) ? msg.mood : 'push';
-    let image = './banner-' + mood + '.png', drawn = false;
-    try { if (window.BMBubble) { image = await BMBubble.make(mood, msg.title, msg.body); drawn = true; } } catch (e) { /* bannière classique */ }
-    // Image dessinée = le message est déjà dans la bulle de Flocon : on n'affiche que l'image (pas de texte en double)
-    const opts = { body: drawn ? undefined : msg.body, icon: drawn ? undefined : './mascot-' + mood + '.png', image: image, badge: './badge.png', tag: msg.tag || 'bm-goal', renotify: true, silent: false, timestamp: Date.now(), data: { url: './?revise=1' }, vibrate: [200, 100, 200, 100, 400], actions: [{ action: 'revise', title: '📚 Réviser' }, { action: 'later', title: 'Plus tard' }] };
+    // Même présentation que les notifications du serveur : Flocon en grande icône + bannière colorée
+    const opts = { body: msg.body, icon: './mascot-' + mood + '.png', image: './banner-' + mood + '.png', badge: './badge.png', tag: msg.tag || 'bm-goal', renotify: true, silent: false, vibrate: [200, 100, 200, 100, 400], timestamp: Date.now(), data: { url: './?revise=1' }, actions: [{ action: 'revise', title: '📚 Réviser' }, { action: 'later', title: 'Plus tard' }] };
     try {
       const reg = 'serviceWorker' in navigator ? await navigator.serviceWorker.getRegistration() : null;
-      if (reg && reg.showNotification) { await reg.showNotification(drawn ? '\u200b' : msg.title, opts); return true; }
+      if (reg && reg.showNotification) { await reg.showNotification(msg.title, opts); return true; }
       new Notification(msg.title, { body: msg.body, icon: opts.icon }); return true;
     } catch (e) { return false; }
   }

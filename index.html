@@ -111,6 +111,7 @@
         <button class="sb-close" onclick="closeSidebar()">✕</button>
     </div>
     <div class="bm-sidebar-account-wrap"><button id="bm-supabase-account-chip" class="bm-sidebar-account" type="button" hidden>☁️ Mon compte</button></div>
+    <div class="bm-sidebar-update-wrap"><button id="sb-update" class="bm-sidebar-update" type="button" onclick="bmUpdateNow(this)">🔄 Mettre à jour l’appli</button></div>
     <div id="course-mobile-tools" class="course-mobile-tools" aria-label="Navigation du cours">
         <div class="course-mobile-learning" id="course-mobile-learning">
             <div><strong>📖 Navigation du cours</strong><span id="course-mobile-subtitle">Sections du chapitre</span></div>
@@ -270,6 +271,22 @@
 </div>
     <!-- Service Worker Registration -->
     <script>
+    /* Mise à jour de l'appli : bouton dans le menu + bandeau quand une nouvelle version est prête */
+    function bmUpdateNow(btn) {
+        if (window.BacMasterGoal && BacMasterGoal.forceUpdate) return BacMasterGoal.forceUpdate(btn);
+        location.reload();
+    }
+    function bmShowUpdateBanner() {
+        const b = document.getElementById('sb-update'); if (b) b.classList.add('has-update');
+        if (document.getElementById('bm-update-banner')) return;
+        const d = document.createElement('div'); d.id = 'bm-update-banner'; d.className = 'bm-update-banner';
+        d.innerHTML = '<button type="button" class="bm-update-go">🔄 <b>Mise à jour prête</b> · Installer</button><button type="button" class="bm-update-x" aria-label="Plus tard">✕</button>';
+        d.querySelector('.bm-update-go').onclick = function () { this.textContent = '⏳ Mise à jour…'; bmUpdateNow(this); };
+        d.querySelector('.bm-update-x').onclick = function () { d.remove(); };
+        document.body.appendChild(d);
+    }
+    </script>
+    <script>
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('./sw.js')
@@ -299,9 +316,7 @@
                         newSW.addEventListener('statechange', () => {
                             if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
                                 // Une nouvelle version est disponible
-                                if (typeof showToast === 'function') {
-                                    showToast('Mise à jour disponible — rechargez la page !', 'info');
-                                }
+                                bmShowUpdateBanner();
                             }
                         });
                     });

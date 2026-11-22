@@ -4,7 +4,7 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-pwa-demarrage-rapide';
+const CACHE_NAME   = 'bacmaster-pwa-notifs-maj';
 const CACHE_STATIC = 'bacmaster-static-pwa-parcours-code';
 
 // Fichiers à mettre en cache immédiatement à l'installation
@@ -37,7 +37,6 @@ const STATIC_ASSETS = [
   './bm-merge.js',
   './bm-collab.js',
   './bm-icons.js',
-  './bm-bubble.js',
   './bm-admin.js',
   './bm-mascot.js',
   './bm-goal.js',
@@ -46,6 +45,7 @@ const STATIC_ASSETS = [
   './bm-stats.js',
   './bm-editor.js', './bm-editor-plus.js', './bm-dictee.js', './bm-versions.js', './bm-sanitize.js',
   './bm-agenda.js',
+  './bm-bubble.js',
   './bm-contenu.js',
   './icon-192.png',
   './icon-512.png',
@@ -146,7 +146,7 @@ self.addEventListener('fetch', event => {
 
 // ── HELPERS : Détection du type de requête ───────────────────
 function isStaticAsset(url) {
-  const localFiles = ['/index.html', '/style-base.css', '/style-mobile.css', '/style-modules.css', '/style-barres.css', '/style-evolutions.css', '/app-core.js', '/app-stats.js', '/app-pages.js', '/app-editor.js', '/app-srs.js', '/app-exercises.js', '/app-boot.js', '/supabase-app.js', '/bm-merge.js', '/bm-collab.js', '/bm-icons.js', '/bm-download.js', '/bm-bubble.js', '/bm-admin.js', '/bm-goal.js', '/bm-mascot.js', '/bm-export.js', '/bm-stats.js', '/bm-editor.js', '/bm-editor-plus.js', '/bm-dictee.js', '/bm-versions.js', '/bm-sanitize.js', '/bm-agenda.js', '/bm-contenu.js', '/supabase-config.js', '/navigation.js', '/manifest.json', '/'];
+  const localFiles = ['/index.html', '/style-base.css', '/style-mobile.css', '/style-modules.css', '/style-barres.css', '/style-evolutions.css', '/app-core.js', '/app-stats.js', '/app-pages.js', '/app-editor.js', '/app-srs.js', '/app-exercises.js', '/app-boot.js', '/supabase-app.js', '/bm-merge.js', '/bm-collab.js', '/bm-icons.js', '/bm-download.js', '/bm-admin.js', '/bm-goal.js', '/bm-mascot.js', '/bm-export.js', '/bm-stats.js', '/bm-editor.js', '/bm-editor-plus.js', '/bm-dictee.js', '/bm-versions.js', '/bm-sanitize.js', '/bm-agenda.js', '/bm-bubble.js', '/bm-contenu.js', '/supabase-config.js', '/navigation.js', '/manifest.json', '/'];
   return url.origin === self.location.origin &&
     (localFiles.some(f => url.pathname.endsWith(f)) ||
      url.pathname.startsWith('/icons/') ||
@@ -236,9 +236,6 @@ self.addEventListener('message', event => {
 });
 
 
-// Dessin de l'image des notifications (la mascotte dit le message dans une bulle)
-try { importScripts('./bm-bubble.js'); } catch (e) { /* sans lui, on garde la bannière classique */ }
-
 // ── NOTIFICATIONS (rappels d'objectif quotidien) ───────────────
 // « push » : message envoyé par le serveur même application fermée.
 self.addEventListener('push', event => {
@@ -246,28 +243,21 @@ self.addEventListener('push', event => {
   try { data = event.data ? event.data.json() : {}; } catch (e) { data = { body: event.data ? event.data.text() : '' }; }
   const mood = ['push', 'worry', 'party'].includes(data.mood) ? data.mood : 'push';
   const title = data.title || 'BacMaster 📚', body = data.body || 'Ton objectif du jour t’attend.';
-  event.waitUntil((async () => {
-    // image : la mascotte « dit » le message dans une bulle (repli : bannière classique si le dessin échoue ou traîne)
-    let image = './banner-' + mood + '.png', drawn = false;
-    try {
-      if (self.BMBubble) { image = await Promise.race([self.BMBubble.make(mood, title, body), new Promise((_, no) => setTimeout(() => no(new Error('délai')), 2500))]); drawn = true; }
-    } catch (e) { /* bannière classique : on garde alors le texte */ }
-    // Image dessinée = Flocon « dit » déjà le message dans sa bulle : la notification n'affiche que cette image
-    // (ni titre, ni texte, ni petite icône, ni boutons). Si le dessin échoue, on garde le texte pour ne rien perdre.
-    await self.registration.showNotification(drawn ? '\u200b' : title, {
-      body: drawn ? undefined : body,
-      icon: drawn ? undefined : './mascot-' + mood + '.png',
-      image: image,                             // la bulle de la mascotte
-      badge: './badge.png',                     // petit « B » blanc dans la barre d'état (doit être monochrome)
-      tag: data.tag || 'bm-goal',
-      renotify: true,
-      silent: false,                            // son + vibration : Android s'en sert pour afficher la notification en haut de l'écran
-      vibrate: [200, 100, 200, 100, 400],
-      timestamp: Date.now(),
-      data: { url: data.url || './?revise=1' },
-      actions: drawn ? [] : [{ action: 'revise', title: '📚 Réviser' }, { action: 'later', title: 'Plus tard' }]
-    });
-  })());
+  // Notification « façon Duolingo » : titre + texte, Flocon en grande icône à droite (toujours),
+  // bannière colorée de Flocon quand on déplie, petit « B » blanc dans la barre d'état.
+  event.waitUntil(self.registration.showNotification(title, {
+    body: body,
+    icon: './mascot-' + mood + '.png',
+    image: './banner-' + mood + '.png',
+    badge: './badge.png',                     // petit « B » blanc dans la barre d'état (doit être monochrome)
+    tag: data.tag || 'bm-goal',
+    renotify: true,
+    silent: false,                            // son + vibration : Android s'en sert pour afficher la notification en haut de l'écran
+    vibrate: [200, 100, 200, 100, 400],
+    timestamp: Date.now(),
+    data: { url: data.url || './?revise=1' },
+    actions: [{ action: 'revise', title: '📚 Réviser' }, { action: 'later', title: 'Plus tard' }]
+  }));
 });
 
 // Clic : on ramène l'appli au premier plan (ou on l'ouvre) et on lance la révision.
