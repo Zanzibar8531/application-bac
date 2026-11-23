@@ -157,3 +157,96 @@ PREBUILT_FIXES.push(...[
   "a": "Délai à respecter avant de quitter le logement, 3 mois pour un logement vide (1 mois en zone tendue ou dans certains cas), 1 mois pour un meublé."
  }
 ]);
+
+/* ===== Ajout du 23/11/2026 : nouveaux chapitres ===== */
+Object.assign(PREBUILT["Bases Juridiques & Admin"], {
+ "RGPD & ton appli — données personnelles, mineurs & obligations": {
+ "cours": "<div class=\"attention-box\"><strong>Ce cours explique les grandes règles, ce n'est pas un conseil juridique.</strong> Pour un cas précis, regarde les fiches de la <strong>CNIL</strong> (cnil.fr) ou demande à un juriste.</div><h3>1. Le RGPD, en une phrase</h3><p>Le <strong>RGPD</strong> (règlement général sur la protection des données, appliqué depuis <mark>mai 2018</mark> dans toute l'Union européenne) fixe les règles pour <strong>toute personne ou organisation qui collecte et utilise des données sur des personnes</strong>. En France, c'est la <strong>CNIL</strong> qui contrôle et peut sanctionner.</p><h3>2. Qu'est-ce qu'une donnée personnelle ?</h3><p>Toute information qui permet d'<strong>identifier une personne</strong>, directement ou indirectement : nom, e-mail, pseudo, adresse IP, identifiant de compte… et aussi ce qui est <em>rattaché</em> à un compte : sa progression, l'heure de sa dernière connexion, son jeton de notification.</p><table class=\"formula-table\"><tr><th>Dans une appli d'étude</th><th>Donnée personnelle ?</th></tr><tr><td>e-mail, nom affiché</td><td><strong>oui</strong></td></tr><tr><td>progression, cartes maîtrisées, temps de révision d'un compte</td><td><strong>oui</strong> (rattachés à une personne identifiable)</td></tr><tr><td>date de dernière connexion, objectif atteint ou non</td><td><strong>oui</strong></td></tr><tr><td>jeton de notifications (push) d'un appareil</td><td><strong>oui</strong> (identifiant d'appareil lié au compte)</td></tr><tr><td>le texte d'un cours public, sans lien avec un compte</td><td>non</td></tr></table><p><mark>Exception :</mark> un usage <em>strictement personnel ou domestique</em> (ton carnet de notes pour toi seul) sort du RGPD. Dès que tu mets une appli en ligne pour <strong>d'autres personnes</strong> avec des comptes, considère que le RGPD s'applique.</p><h3>3. Les 6 principes à respecter</h3><table class=\"formula-table\"><tr><th>Principe</th><th>En clair</th><th>Exemple pour une appli</th></tr><tr><td>Licéité, loyauté, transparence</td><td>dire ce qu'on fait, de façon compréhensible</td><td>page « confidentialité » claire</td></tr><tr><td>Finalité</td><td>un but précis et annoncé</td><td>« mesurer si l'appli est utile »</td></tr><tr><td>Minimisation</td><td>ne collecter que le nécessaire</td><td>pas besoin de la date de naissance pour réviser</td></tr><tr><td>Exactitude</td><td>données à jour, corrigeables</td><td>le nom affiché est modifiable</td></tr><tr><td>Durée limitée</td><td>ne pas garder pour toujours</td><td>supprimer les comptes inactifs après un délai</td></tr><tr><td>Sécurité</td><td>protéger contre les fuites</td><td>HTTPS, règles RLS, aucun secret dans le code public</td></tr></table><h3>4. Pourquoi a-t-on le droit de traiter des données ? (base légale)</h3><p>Chaque traitement doit reposer sur une <strong>base légale</strong>. Les plus fréquentes : le <strong>consentement</strong> (libre, clair, retirable aussi facilement qu'il est donné), l'<strong>exécution du service</strong> demandé (le compte nécessaire pour synchroniser) et l'<strong>intérêt légitime</strong> (par exemple la sécurité), à condition qu'il ne passe pas avant les droits de la personne.</p><h3>5. Les droits des personnes</h3><ul><li><strong>Accès</strong> : savoir quelles données tu as sur elle.</li><li><strong>Rectification</strong> : corriger une erreur.</li><li><strong>Effacement</strong> (« droit à l'oubli ») : supprimer ses données.</li><li><strong>Opposition</strong> et <strong>limitation</strong> du traitement.</li><li><strong>Portabilité</strong> : récupérer ses données dans un format réutilisable (un export <code>.json</code> par exemple).</li></ul><p>Tu dois répondre en général <strong>sous un mois</strong>.</p><h3>6. Les mineurs</h3><p>En France, un mineur peut <mark>consentir seul à partir de 15 ans</mark> au traitement de ses données pour un service en ligne (loi Informatique et Libertés, article 45). <strong>Avant 15 ans</strong>, le consentement est donné <em>conjointement</em> par le mineur et un titulaire de l'autorité parentale. L'information doit être <strong>adaptée à l'âge</strong> : des phrases courtes et un vocabulaire simple. Attention : la CNIL précise que cet âge de 15 ans ne vaut pas « majorité numérique » pour tout (par exemple pour conclure un contrat).</p><h3>7. Si les données fuitent</h3><p>Une <strong>violation de données</strong> (fuite, accès non autorisé) doit être notifiée à la CNIL <mark>dans les 72 heures</mark> si elle présente un risque pour les personnes, et les personnes concernées doivent être prévenues si le risque est élevé.</p><h3>8. Les sanctions</h3><p>Le texte prévoit des amendes pouvant aller jusqu'à <strong>20 millions d'euros ou 4 % du chiffre d'affaires mondial</strong> pour les manquements les plus graves. En pratique, pour un petit projet, la CNIL commence par conseiller ou mettre en demeure, mais l'obligation de respecter les règles existe quand même — et surtout, ce sont des <strong>personnes réelles</strong> dont tu gères les informations.</p><h3>9. Check-list pour une petite appli</h3><table class=\"formula-table\"><tr><th>Question</th><th>Réponse attendue</th></tr><tr><td>Quelles données ? Pourquoi chacune ?</td><td>une liste courte, avec le but de chaque ligne</td></tr><tr><td>Les utilisateurs sont-ils informés ?</td><td>une page de confidentialité accessible depuis l'appli</td></tr><tr><td>Peuvent-ils supprimer leur compte et leurs données ?</td><td>un bouton ou une procédure simple</td></tr><tr><td>Qui peut lire ces données ?</td><td>seulement l'utilisateur et l'administrateur (règles RLS)</td></tr><tr><td>Combien de temps les gardes-tu ?</td><td>une durée fixée, pas « pour toujours »</td></tr><tr><td>Des mineurs sont-ils concernés ?</td><td>oui : langage simple, âge de 15 ans pris en compte</td></tr></table><div class=\"retenir-box\"><strong>Cas pratique :</strong> tu ajoutes une page d'administration qui montre, pour chaque compte, <em>la dernière connexion et si l'objectif du jour est atteint</em>. Ce sont des données personnelles. Il faut donc <mark>un but clair</mark> (savoir si l'appli est utile), <mark>de la transparence</mark> (le dire aux utilisateurs, même pour un test), <mark>de la minimisation</mark> (pas le contenu des cours, pas plus de détails que nécessaire), un <mark>accès limité</mark> (admin seulement) et <mark>une durée</mark> (on arrête et on efface quand le test est fini).</div>",
+ "exercices": [
+  {
+   "niveau": "Facile",
+   "enonce": "<p>Dis si chaque élément est une donnée personnelle : (a) e-mail d'un utilisateur, (b) nombre de cartes maîtrisées par le compte « lucas@… », (c) texte d'un chapitre de maths public.</p>",
+   "aide": "Peut-on relier l'information à une personne ?",
+   "correction": "<p>(a) <strong>oui</strong> ; (b) <strong>oui</strong> : rattaché à un compte identifiable ; (c) <strong>non</strong> : aucune personne n'est identifiée.</p>"
+  },
+  {
+   "niveau": "Facile",
+   "enonce": "<p>Une élève de 14 ans veut s'inscrire à ton appli. Que dit le droit français sur son consentement ?</p>",
+   "aide": "Seuil de 15 ans.",
+   "correction": "<p>Elle a moins de 15 ans : le consentement doit être donné <strong>conjointement</strong> par elle et par un titulaire de l'autorité parentale, et l'information doit être adaptée à son âge.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p>Tu collectes la date de naissance de tes utilisateurs « au cas où ». Quel principe du RGPD n'est pas respecté et que corriges-tu ?</p>",
+   "aide": "Collecter seulement ce qui sert au but annoncé.",
+   "correction": "<p>La <strong>minimisation</strong> (et la finalité : aucun but précis). On <strong>arrête de la collecter</strong> et on supprime celles déjà enregistrées, sauf si un vrai besoin est démontré et annoncé.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p>Un utilisateur écrit : « Supprime mon compte et toutes mes données. » Quel droit exerce-t-il, que dois-tu faire et dans quel délai ?</p>",
+   "aide": "Droit à l'oubli.",
+   "correction": "<p>Il exerce le <strong>droit à l'effacement</strong>. Tu supprimes son compte et ses données (y compris progression et jetons de notification) et tu lui confirmes, en principe <strong>sous un mois</strong>.</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p>Tu veux voir, dans une page admin, qui s'est connecté cette semaine et si son objectif est atteint. Rédige en 4 phrases ce que tu dois prévoir pour que ce soit conforme.</p>",
+   "aide": "But, information, minimisation, accès, durée.",
+   "correction": "<p>Exemple : « <strong>But</strong> : mesurer l'utilité de l'appli. <strong>Information</strong> : la page de confidentialité (ou un message dans l'appli) indique que la dernière connexion et l'atteinte de l'objectif sont enregistrées. <strong>Minimisation et accès</strong> : seules ces deux informations sont visibles, uniquement par l'administrateur, grâce aux règles RLS. <strong>Durée</strong> : le suivi s'arrête et les données de visite sont supprimées à la fin de la période de test. »</p>"
+  }
+ ],
+ "flashcards": [
+  {
+   "q": "Que signifie RGPD et depuis quand s'applique-t-il ?",
+   "a": "Règlement général sur la protection des données, appliqué depuis mai 2018 dans l'Union européenne."
+  },
+  {
+   "q": "Quelle autorité contrôle le RGPD en France ?",
+   "a": "La CNIL (Commission nationale de l'informatique et des libertés)."
+  },
+  {
+   "q": "Qu'est-ce qu'une donnée personnelle ?",
+   "a": "Toute information permettant d'identifier une personne, directement ou indirectement (e-mail, pseudo, IP, progression liée à un compte…)."
+  },
+  {
+   "q": "Une adresse IP est-elle une donnée personnelle ?",
+   "a": "Oui, elle peut permettre d'identifier une personne."
+  },
+  {
+   "q": "Quelle exception pour les usages purement privés ?",
+   "a": "L'usage strictement personnel ou domestique sort du RGPD ; dès qu'on propose un service à d'autres, il s'applique."
+  },
+  {
+   "q": "Que veut dire « minimisation » ?",
+   "a": "Ne collecter que les données nécessaires au but annoncé."
+  },
+  {
+   "q": "Que veut dire « finalité » ?",
+   "a": "Chaque donnée est collectée pour un but précis, déterminé et annoncé."
+  },
+  {
+   "q": "Cite 4 droits des personnes.",
+   "a": "Accès, rectification, effacement, opposition (et aussi limitation et portabilité)."
+  },
+  {
+   "q": "Délai de réponse habituel à une demande d'exercice de droits ?",
+   "a": "Un mois."
+  },
+  {
+   "q": "À partir de quel âge un mineur consent-il seul en France à un service en ligne ?",
+   "a": "15 ans (loi Informatique et Libertés, art. 45). Avant, consentement conjoint avec un titulaire de l'autorité parentale."
+  },
+  {
+   "q": "Délai de notification d'une violation de données à la CNIL ?",
+   "a": "72 heures (si risque pour les personnes)."
+  },
+  {
+   "q": "Montant maximal des sanctions prévues par le RGPD ?",
+   "a": "Jusqu'à 20 millions d'euros ou 4 % du chiffre d'affaires mondial."
+  },
+  {
+   "q": "Les 3 bases légales les plus courantes ?",
+   "a": "Consentement, exécution du service demandé (contrat), intérêt légitime."
+  }
+ ]
+}
+});

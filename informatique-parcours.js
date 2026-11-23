@@ -677,3 +677,274 @@ Object.assign(PREBUILT["Informatique"], {
  ]
 }
 });
+
+/* ===== Ajout du 23/11/2026 : nouveaux chapitres ===== */
+Object.assign(PREBUILT["Informatique"], {
+ "Linux & terminal — les commandes qui servent vraiment": {
+ "cours": "<div class=\"retenir-box\"><strong>Pourquoi apprendre le terminal ?</strong> Presque tous les serveurs, les outils de cybersécurité, les conteneurs et les services en ligne (dont ceux que ton appli utilise) tournent sous <mark>Linux</mark>. Dans un terminal, tu <em>écris</em> des ordres au lieu de cliquer : c'est plus rapide, répétable et automatisable.</div><h3>Sous Windows : deux façons d'y accéder</h3><ul><li><strong>WSL</strong> : dans PowerShell (en administrateur), tape <code>wsl --install</code>, redémarre, et tu as un vrai Linux (Ubuntu) dans Windows.</li><li><strong>Git Bash</strong> : installé avec Git, il comprend les commandes de base (<code>ls</code>, <code>cd</code>, <code>grep</code>…).</li></ul><h3>1. S'orienter dans les dossiers</h3><table class=\"formula-table\"><tr><th>Commande</th><th>Rôle</th></tr><tr><td><code>pwd</code></td><td>affiche le dossier où tu es</td></tr><tr><td><code>ls -la</code></td><td>liste les fichiers, <em>y compris cachés</em> (ceux qui commencent par un point, comme <code>.env</code>), avec les droits</td></tr><tr><td><code>cd dossier</code> / <code>cd ..</code> / <code>cd ~</code></td><td>entrer dans un dossier / remonter d'un cran / retourner chez soi</td></tr><tr><td><code>mkdir -p a/b</code></td><td>crée un dossier (et ses parents si besoin)</td></tr><tr><td><code>touch fichier</code></td><td>crée un fichier vide</td></tr><tr><td><code>cp</code> / <code>mv</code></td><td>copier / déplacer ou renommer</td></tr><tr><td><code>rm fichier</code></td><td>supprime — <strong>sans corbeille</strong></td></tr></table><p>Un chemin <strong>absolu</strong> part de la racine (<code>/home/martin/projet</code>), un chemin <strong>relatif</strong> part d'où tu es (<code>src/app.py</code>). Le point <code>.</code> désigne le dossier courant, <code>..</code> le dossier parent.</p><div class=\"attention-box\"><strong>Danger :</strong> <code>rm -rf dossier</code> supprime tout, récursivement, sans demander. Relis toujours la commande avant d'appuyer sur Entrée et ne copie jamais une commande <code>rm -rf</code> ou <code>sudo</code> que tu ne comprends pas.</div><h3>2. Lire et chercher</h3><pre><code>$ cat docs/notes.txt          # affiche tout le fichier\n$ head -n 3 fichier          # les 3 premières lignes\n$ tail -n 2 fichier          # les 2 dernières (tail -f suit un journal en direct)\n$ wc -l src/app.py           # compte les lignes\n$ find . -name \"*.py\"        # trouve des fichiers par nom\n./src/app.py\n$ grep -rn \"TODO\" .          # cherche un texte dans tous les fichiers (r = récursif, n = n° de ligne)\n./src/app.py:3:# TODO: ajouter un test\n./docs/notes.txt:2:TODO: relire</code></pre><h3>3. Enchaîner avec les tubes et les redirections</h3><p>Le <strong>tube</strong> <code>|</code> envoie la sortie d'une commande dans l'entrée de la suivante. C'est la force du terminal : de petits outils combinés.</p><pre><code>$ grep -rn \"TODO\" . | wc -l           # combien de TODO ?\n2\n$ printf 'b\\na\\nb\\nc\\nb\\n' | sort | uniq -c | sort -rn\n      3 b\n      1 c\n      1 a\n$ echo \"ligne 1\" &gt; t.txt              # &gt; écrase le fichier\n$ echo \"ligne 2\" &gt;&gt; t.txt             # &gt;&gt; ajoute à la fin</code></pre><p><code>sort</code> trie, <code>uniq -c</code> compte les lignes identiques consécutives (d'où le tri avant), <code>sort -rn</code> trie numériquement du plus grand au plus petit.</p><h3>4. Les droits : lire <code>rwx</code></h3><p>Chaque fichier a trois groupes de droits : <strong>propriétaire (u)</strong>, <strong>groupe (g)</strong>, <strong>autres (o)</strong>. Chaque groupe a <code>r</code> (lire = 4), <code>w</code> (écrire = 2), <code>x</code> (exécuter = 1).</p><table class=\"formula-table\"><tr><th>Notation numérique</th><th>Lettres</th><th>Usage typique</th></tr><tr><td><code>755</code></td><td><code>rwxr-xr-x</code></td><td>programme ou dossier public</td></tr><tr><td><code>644</code></td><td><code>rw-r--r--</code></td><td>fichier normal lisible par tous</td></tr><tr><td><code>600</code></td><td><code>rw-------</code></td><td>secret : clé privée, <code>.env</code></td></tr><tr><td><code>754</code></td><td><code>rwxr-xr--</code></td><td>7 = 4+2+1, 5 = 4+1, 4 = 4</td></tr></table><pre><code>$ chmod 640 docs/notes.txt     # rw-r----- (propriétaire écrit, groupe lit, autres rien)\n$ chmod u+x src/app.py        # ajoute le droit d'exécuter au propriétaire\n$ ls -l docs/notes.txt\n-rw-r----- 1 martin martin 32 Nov 23 07:08 docs/notes.txt</code></pre><h3>5. Processus, administrateur et paquets</h3><ul><li><code>ps aux</code> liste les processus, <code>top</code> les suit en direct, <code>kill PID</code> en arrête un.</li><li><code>sudo</code> exécute une commande avec les droits d'administrateur (<em>super user do</em>).</li><li><code>sudo apt update && sudo apt install nom</code> installe un logiciel (Debian/Ubuntu).</li><li><code>man commande</code> ou <code>commande --help</code> affiche l'aide : <mark>toujours le premier réflexe</mark>.</li></ul><h3>6. Un premier script</h3><pre><code>#!/bin/bash\nnom=\"$1\"\necho \"Salut ${nom:-toi} !\"</code></pre><p>Enregistre-le dans <code>hello.sh</code>, rends-le exécutable (<code>chmod +x hello.sh</code>) puis lance <code>./hello.sh Martin</code> → <code>Salut Martin !</code> ; sans argument → <code>Salut toi !</code>. <code>$1</code> est le premier argument et <code>${nom:-toi}</code> donne une valeur par défaut.</p><div class=\"retenir-box\"><strong>À retenir :</strong> <code>ls -la</code> et <code>pwd</code> pour te repérer · <code>grep -rn</code> pour chercher · <code>|</code> pour enchaîner · <code>chmod 600</code> pour un secret · <code>man</code> pour comprendre · <mark>jamais de <code>rm -rf</code> ou <code>sudo</code> copiés sans comprendre</mark>.</div>",
+ "exercices": [
+  {
+   "niveau": "Facile",
+   "enonce": "<p>Que fait exactement <code>grep -rn \"TODO\" . | wc -l</code> ?</p>",
+   "aide": "Deux commandes reliées par un tube.",
+   "correction": "<p><code>grep -rn \"TODO\" .</code> liste toutes les lignes contenant TODO dans le dossier courant et ses sous-dossiers ; le tube envoie cette liste à <code>wc -l</code> qui <strong>compte les lignes</strong>. Résultat : le nombre de TODO du projet (2 dans notre exemple).</p>"
+  },
+  {
+   "niveau": "Facile",
+   "enonce": "<p>Traduis <code>640</code> en lettres, puis dis qui peut quoi.</p>",
+   "aide": "6 = 4+2, 4 = 4, 0 = rien.",
+   "correction": "<p><code>rw-r-----</code>. Le propriétaire lit et écrit ; le groupe peut seulement lire ; les autres n'ont aucun droit.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p>Écris une commande qui liste <strong>seulement les fichiers Python</strong> contenant le texte <code>import os</code>.</p>",
+   "aide": "grep a une option pour n'afficher que les noms de fichiers et une autre pour filtrer par extension.",
+   "correction": "<p><code>grep -rl \"import os\" --include=\"*.py\" .</code> — <code>-r</code> récursif, <code>-l</code> n'affiche que les noms des fichiers, <code>--include</code> limite aux <code>.py</code>.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p>Ton client SSH refuse d'utiliser ta clé privée en disant que ses droits sont « trop ouverts » (<code>644</code>). Quelle commande corrige, et pourquoi est-ce une protection ?</p>",
+   "aide": "Une clé privée est un secret.",
+   "correction": "<p><code>chmod 600 ~/.ssh/ma_cle</code>. Avec <code>644</code>, tous les utilisateurs de la machine pourraient <strong>lire</strong> ta clé privée et se faire passer pour toi. SSH refuse donc de s'en servir tant que seul le propriétaire y a accès.</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p>Tu as un fichier <code>access.log</code> d'un serveur web dont chaque ligne commence par l'adresse IP du visiteur. Écris <strong>une seule</strong> commande qui affiche les 3 IP les plus fréquentes avec leur nombre de visites, et explique chaque étape.</p>",
+   "aide": "awk peut extraire la 1re colonne ; puis sort, uniq -c, sort -rn et head.",
+   "correction": "<p><code>awk '{print $1}' access.log | sort | uniq -c | sort -rn | head -n 3</code></p><ul><li><code>awk '{print $1}'</code> : garde la 1re colonne (l'IP).</li><li><code>sort</code> : regroupe les IP identiques côte à côte.</li><li><code>uniq -c</code> : compte chaque groupe.</li><li><code>sort -rn</code> : du plus grand nombre au plus petit.</li><li><code>head -n 3</code> : garde les 3 premières lignes.</li></ul>"
+  }
+ ],
+ "flashcards": [
+  {
+   "q": "Que fait <code>ls -la</code> de plus que <code>ls</code> ?",
+   "a": "Il affiche aussi les fichiers cachés (commençant par un point) et les détails : droits, propriétaire, taille, date."
+  },
+  {
+   "q": "Différence entre chemin absolu et relatif ?",
+   "a": "Absolu : part de la racine <code>/</code>. Relatif : part du dossier où l'on se trouve (<code>.</code> = ici, <code>..</code> = parent)."
+  },
+  {
+   "q": "Que signifie <code>chmod 754</code> ?",
+   "a": "<code>rwxr-xr--</code> : propriétaire tous les droits (7), groupe lire+exécuter (5), autres lire seulement (4)."
+  },
+  {
+   "q": "Valeur numérique de r, w, x ?",
+   "a": "r = 4, w = 2, x = 1 ; on additionne pour chaque groupe (u, g, o)."
+  },
+  {
+   "q": "Quelle commande cherche « TODO » dans tous les fichiers d'un dossier, avec les numéros de ligne ?",
+   "a": "<code>grep -rn \"TODO\" .</code>"
+  },
+  {
+   "q": "Rôle du tube <code>|</code> ?",
+   "a": "Envoie la sortie d'une commande en entrée de la suivante (ex. <code>grep … | wc -l</code>)."
+  },
+  {
+   "q": "Différence entre <code>&gt;</code> et <code>&gt;&gt;</code> ?",
+   "a": "<code>&gt;</code> écrase le fichier, <code>&gt;&gt;</code> ajoute à la fin."
+  },
+  {
+   "q": "Pourquoi faut-il trier (<code>sort</code>) avant <code>uniq -c</code> ?",
+   "a": "Parce que <code>uniq</code> ne compte que les lignes identiques <em>consécutives</em>."
+  },
+  {
+   "q": "Quels droits donner à une clé privée ou à un fichier <code>.env</code> ?",
+   "a": "<code>600</code> (<code>rw-------</code>) : lisible et modifiable par le propriétaire seulement."
+  },
+  {
+   "q": "Que fait <code>sudo</code> ?",
+   "a": "Exécute la commande avec les droits d'administrateur. À utiliser seulement quand on comprend la commande."
+  },
+  {
+   "q": "Pourquoi <code>rm -rf</code> est-il dangereux ?",
+   "a": "Il supprime récursivement et sans confirmation, et il n'y a pas de corbeille : l'erreur est irréversible."
+  },
+  {
+   "q": "Premier réflexe quand on ne connaît pas une commande ?",
+   "a": "<code>man commande</code> ou <code>commande --help</code>."
+  },
+  {
+   "q": "Comment installer Linux dans Windows ?",
+   "a": "<code>wsl --install</code> dans PowerShell (administrateur), puis redémarrer."
+  }
+ ]
+}
+});
+Object.assign(PREBUILT["Informatique"], {
+ "Algorithmique 2 — récursivité, tris & complexité": {
+ "cours": "<div class=\"retenir-box\"><strong>L'idée :</strong> un bon programme ne doit pas seulement être <em>juste</em>, il doit rester <mark>rapide quand les données grossissent</mark>. On mesure ça avec la <strong>complexité</strong>. Ce chapitre te donne trois outils : la récursivité, la recherche dichotomique et les tris.</div><h3>1. La récursivité : une fonction qui s'appelle elle-même</h3><p>Une fonction récursive a toujours <strong>deux parties</strong> : un <mark>cas de base</mark> (où elle s'arrête) et un <mark>appel sur un problème plus petit</mark>. Sans cas de base, elle ne s'arrête jamais.</p><pre><code>def factorielle(n):\n    if n == 0:            # cas de base\n        return 1\n    return n * factorielle(n - 1)   # problème plus petit\n\nprint(factorielle(5), factorielle(10))   # 120 3628800</code></pre><p>Chaque appel attend le résultat du suivant : Python empile les appels (la <strong>pile d'appels</strong>). Par défaut, il en autorise environ 1000 ; au-delà : <code>RecursionError: maximum recursion depth exceeded</code> (par exemple <code>factorielle(5000)</code>).</p><h3>2. Quand la récursivité devient très lente : Fibonacci</h3><pre><code>def fib(n):\n    if n &lt; 2:\n        return n\n    return fib(n - 1) + fib(n - 2)</code></pre><p>Cette version recalcule les mêmes valeurs encore et encore : <code>fib(10)</code> fait <strong>177 appels</strong>, <code>fib(20)</code> en fait <strong>21 891</strong>. Le travail est multiplié par ~120 quand n double : c'est une croissance <em>exponentielle</em>. Solution : la <strong>mémoïsation</strong> (mémoriser les résultats déjà trouvés).</p><pre><code>memo = {}\ndef fib_memo(n):\n    if n &lt; 2:\n        return n\n    if n not in memo:\n        memo[n] = fib_memo(n - 1) + fib_memo(n - 2)\n    return memo[n]\n\nprint(fib_memo(50))   # 12586269025, instantané</code></pre><h3>3. La recherche dichotomique</h3><p>Dans une liste <strong>déjà triée</strong>, on regarde la case du milieu : si la cible est plus grande, on garde la moitié droite, sinon la moitié gauche. À chaque étape on <mark>divise le travail par 2</mark>.</p><pre><code>def dichotomie(liste, cible):\n    bas, haut, etapes = 0, len(liste) - 1, 0\n    while bas &lt;= haut:\n        etapes += 1\n        milieu = (bas + haut) // 2\n        if liste[milieu] == cible:\n            return milieu, etapes\n        if liste[milieu] &lt; cible:\n            bas = milieu + 1\n        else:\n            haut = milieu - 1\n    return -1, etapes\n\ndata = [1, 3, 4, 7, 9, 12, 15, 18, 21, 25, 30]\nprint(dichotomie(data, 18))   # (7, 4)  trouvé en 4 étapes\nprint(dichotomie(data, 5))    # (-1, 3) absent\n# 1 000 000 d'éléments triés : 20 étapes au maximum</code></pre><h3>4. Trier : trois méthodes</h3><table class=\"formula-table\"><tr><th>Tri</th><th>Idée</th><th>Complexité</th></tr><tr><td>Sélection</td><td>cherche le plus petit, le met en premier, recommence</td><td>O(n²)</td></tr><tr><td>Insertion</td><td>insère chaque élément à sa place dans la partie déjà triée</td><td>O(n²) (rapide si presque trié)</td></tr><tr><td>Fusion</td><td>coupe en deux, trie chaque moitié (récursivité), fusionne</td><td>O(n log n)</td></tr></table><pre><code>def fusion(a, b):\n    r, i, j = [], 0, 0\n    while i &lt; len(a) and j &lt; len(b):\n        if a[i] &lt;= b[j]:\n            r.append(a[i]); i += 1\n        else:\n            r.append(b[j]); j += 1\n    return r + a[i:] + b[j:]\n\ndef tri_fusion(t):\n    if len(t) &lt;= 1:\n        return t                      # cas de base\n    m = len(t) // 2\n    return fusion(tri_fusion(t[:m]), tri_fusion(t[m:]))\n\nprint(tri_fusion([7, 3, 9, 1, 5]))   # [1, 3, 5, 7, 9]</code></pre><div class=\"attention-box\"><strong>En pratique :</strong> utilise <code>sorted(liste)</code> ou <code>liste.sort()</code>. Python emploie un tri très optimisé en O(n log n). Écrire soi-même un tri sert à <em>comprendre</em>, pas à le réutiliser.</div><h3>5. La complexité : compter les opérations, pas les secondes</h3><p>La notation <strong>O( )</strong> (« grand O ») décrit <mark>comment le nombre d'opérations grandit quand la taille n des données grandit</mark>. Mesure faite avec une double boucle (tri quadratique) :</p><table class=\"formula-table\"><tr><th>n</th><th>comparaisons</th><th>rapport</th></tr><tr><td>1 000</td><td>499 500</td><td>—</td></tr><tr><td>2 000</td><td>1 999 000</td><td>× 4</td></tr><tr><td>4 000</td><td>7 998 000</td><td>× 16 par rapport à 1 000</td></tr></table><p>Quand n double, le travail est multiplié par 4 : c'est bien du <strong>O(n²)</strong>. Comparaison des ordres de grandeur :</p><table class=\"formula-table\"><tr><th>n</th><th>log₂(n)</th><th>n·log₂(n)</th><th>n²</th></tr><tr><td>10</td><td>≈ 3,3</td><td>≈ 33</td><td>100</td></tr><tr><td>1 000</td><td>10</td><td>≈ 9 966</td><td>1 000 000</td></tr><tr><td>1 000 000</td><td>≈ 19,9</td><td>≈ 19 931 569</td><td>10¹² (mille milliards)</td></tr></table><div class=\"retenir-box\"><strong>À retenir :</strong> récursivité = <mark>cas de base + problème plus petit</mark> · dichotomie = liste triée, <strong>O(log n)</strong> · tri simple = O(n²), tri fusion = O(n log n) · la mémoïsation évite de recalculer · on compare les algorithmes par leur <em>croissance</em>, pas par une mesure en secondes.</div>",
+ "exercices": [
+  {
+   "niveau": "Facile",
+   "enonce": "<p>Écris une fonction récursive <code>somme_chiffres(n)</code> qui renvoie la somme des chiffres de n. Ex. : <code>somme_chiffres(4821)</code> = 15.</p>",
+   "aide": "Cas de base : n < 10. Sinon : dernier chiffre (<code>n % 10</code>) + le reste (<code>n // 10</code>).",
+   "correction": "<pre><code>def somme_chiffres(n):\n    if n &lt; 10:\n        return n\n    return n % 10 + somme_chiffres(n // 10)\n\nprint(somme_chiffres(4821))   # 15</code></pre><p>4821 → 1 + somme_chiffres(482) → 1 + 2 + somme_chiffres(48) → … = 15.</p>"
+  },
+  {
+   "niveau": "Facile",
+   "enonce": "<p>Combien d'étapes au maximum faut-il à une recherche dichotomique dans une liste triée de 1 000 éléments ?</p>",
+   "aide": "À chaque étape on divise par 2 : cherche la plus petite puissance de 2 supérieure ou égale à 1000.",
+   "correction": "<p>2<sup>10</sup> = 1 024 ≥ 1 000, donc <strong>10 étapes au maximum</strong>. (Une recherche simple en demanderait jusqu'à 1 000.)</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p>Écris une fonction récursive <code>palindrome(s)</code> qui renvoie <code>True</code> si le mot se lit pareil dans les deux sens (<code>\"radar\"</code> → True, <code>\"bonjour\"</code> → False).</p>",
+   "aide": "Cas de base : 0 ou 1 lettre. Sinon : compare la première et la dernière lettre, puis le milieu.",
+   "correction": "<pre><code>def palindrome(s):\n    if len(s) &lt; 2:\n        return True\n    return s[0] == s[-1] and palindrome(s[1:-1])</code></pre><p>Chaque appel enlève la première et la dernière lettre : le problème devient plus petit jusqu'au cas de base.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p>Un tri en O(n²) met 2 secondes pour 10 000 éléments. Combien de temps environ pour 40 000 éléments ? Et un tri en O(n log n) fait-il mieux ?</p>",
+   "aide": "n est multiplié par 4 : que devient n² ?",
+   "correction": "<p>n × 4 → n² × 16, donc environ <strong>32 secondes</strong>. Un tri en O(n log n) croît à peine plus vite que n : pour n × 4, le travail est multiplié d'environ 4,6 seulement. C'est pourquoi on évite les tris O(n²) sur de gros volumes.</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p>La fonction <code>puissance(x, n)</code> ci-dessous calcule x<sup>n</sup>. Explique pourquoi elle fait environ log₂(n) appels au lieu de n, et donne la valeur de <code>puissance(2, 10)</code>.</p><pre><code>def puissance(x, n):\n    if n == 0:\n        return 1\n    moitie = puissance(x, n // 2)\n    return moitie * moitie if n % 2 == 0 else moitie * moitie * x</code></pre>",
+   "aide": "À chaque appel, n est divisé par 2.",
+   "correction": "<p>À chaque appel, l'exposant est <strong>divisé par 2</strong> : 10 → 5 → 2 → 1 → 0, soit 5 appels au lieu de 10. Pour n = 1 000 000, il en faut environ 20 (comme la dichotomie : O(log n)). <code>puissance(2, 10)</code> vaut <strong>1024</strong> (et <code>puissance(3, 5)</code> vaut 243). C'est le principe « diviser pour régner ».</p>"
+  }
+ ],
+ "flashcards": [
+  {
+   "q": "Quelles sont les deux parties obligatoires d'une fonction récursive ?",
+   "a": "Un <strong>cas de base</strong> (arrêt) et un <strong>appel récursif sur un problème plus petit</strong>."
+  },
+  {
+   "q": "Que se passe-t-il si une fonction récursive n'a pas de cas de base ?",
+   "a": "Elle s'appelle sans fin jusqu'à dépasser la pile d'appels : <code>RecursionError</code>."
+  },
+  {
+   "q": "Pourquoi <code>fib(n)</code> naïf est-il très lent ?",
+   "a": "Il recalcule sans cesse les mêmes valeurs : le nombre d'appels croît de façon exponentielle (177 appels pour n = 10, 21 891 pour n = 20)."
+  },
+  {
+   "q": "Qu'est-ce que la mémoïsation ?",
+   "a": "Mémoriser les résultats déjà calculés (par ex. dans un dictionnaire) pour ne pas les recalculer."
+  },
+  {
+   "q": "Quelle condition pour utiliser la recherche dichotomique ?",
+   "a": "La liste doit être <strong>triée</strong>."
+  },
+  {
+   "q": "Complexité de la recherche dichotomique ?",
+   "a": "O(log n) : environ 20 étapes pour un million d'éléments."
+  },
+  {
+   "q": "Complexité des tris par sélection et par insertion ?",
+   "a": "O(n²) dans le cas général."
+  },
+  {
+   "q": "Complexité du tri fusion ?",
+   "a": "O(n log n)."
+  },
+  {
+   "q": "Si n est multiplié par 2, de combien le travail d'un algorithme O(n²) est-il multiplié ?",
+   "a": "Par 4 (et par 16 si n est multiplié par 4)."
+  },
+  {
+   "q": "Que mesure la notation O( ) ?",
+   "a": "La façon dont le nombre d'opérations grandit avec la taille n des données (pas un temps en secondes)."
+  },
+  {
+   "q": "Quelle fonction Python utiliser pour trier en pratique ?",
+   "a": "<code>sorted(liste)</code> ou <code>liste.sort()</code> (O(n log n), très optimisé)."
+  },
+  {
+   "q": "Combien d'appels maximum Python autorise-t-il par défaut en récursion ?",
+   "a": "Environ 1000 (au-delà : <code>RecursionError</code>)."
+  }
+ ]
+}
+});
+Object.assign(PREBUILT["Informatique"], {
+ "Réseaux 2 — IP, DNS & HTTP : ce qui se passe quand tu ouvres un site": {
+ "cours": "<div class=\"retenir-box\"><strong>Le trajet en bref :</strong> tu tapes une adresse → le <mark>DNS</mark> la traduit en adresse IP → ton appareil ouvre une connexion <mark>TCP</mark> → <mark>TLS</mark> chiffre la liaison (HTTPS) → ton navigateur envoie une <mark>requête HTTP</mark> → le serveur renvoie une <mark>réponse</mark>. Comprendre ça aide autant à coder (API, Supabase) qu'à se défendre.</div><h3>1. L'adresse IP</h3><p>Une adresse <strong>IPv4</strong> a 32 bits (4 nombres de 0 à 255) : 2<sup>32</sup> = 4 294 967 296 adresses, trop peu pour tous les appareils du monde. <strong>IPv6</strong> a 128 bits (3,4 × 10<sup>38</sup> adresses), écrite en hexadécimal : <code>2001:db8::1</code>.</p><table class=\"formula-table\"><tr><th>Plage</th><th>Nature</th><th>Exemple</th></tr><tr><td><code>10.0.0.0/8</code></td><td>privée (réseau local)</td><td>10.3.4.5</td></tr><tr><td><code>172.16.0.0/12</code> (172.16 → 172.31)</td><td>privée</td><td>172.20.1.1 (mais <code>172.32.0.1</code> est publique)</td></tr><tr><td><code>192.168.0.0/16</code></td><td>privée (box de la maison)</td><td>192.168.1.20</td></tr><tr><td><code>127.0.0.1</code></td><td>loopback : « moi-même »</td><td>localhost</td></tr><tr><td><code>169.254.0.0/16</code></td><td>adresse automatique quand le DHCP échoue</td><td>169.254.3.4</td></tr></table><h3>2. Masque et notation CIDR</h3><p><code>/24</code> signifie « les 24 premiers bits identifient le réseau, le reste identifie la machine ». Avec n bits pour les machines : 2<sup>n</sup> − 2 adresses utilisables (on retire l'adresse du réseau et l'adresse de diffusion).</p><table class=\"formula-table\"><tr><th>Notation</th><th>Masque</th><th>Réseau</th><th>Diffusion</th><th>Machines</th></tr><tr><td>192.168.1.0/24</td><td>255.255.255.0</td><td>192.168.1.0</td><td>192.168.1.255</td><td>254</td></tr><tr><td>192.168.1.130/26</td><td>255.255.255.192</td><td>192.168.1.128</td><td>192.168.1.191</td><td>62</td></tr><tr><td>192.168.0.10/30</td><td>255.255.255.252</td><td>192.168.0.8</td><td>192.168.0.11</td><td>2</td></tr></table><pre><code>import ipaddress\nn = ipaddress.ip_interface(\"192.168.1.130/26\").network\nprint(n.network_address, n.broadcast_address, n.num_addresses - 2)\n# 192.168.1.128 192.168.1.191 62</code></pre><h3>3. Les ports</h3><p>L'IP désigne une <em>machine</em>, le <strong>port</strong> désigne le <em>service</em> sur cette machine : <code>80</code> HTTP, <code>443</code> HTTPS, <code>22</code> SSH, <code>53</code> DNS. Une URL <code>https://exemple.fr</code> utilise implicitement le port 443.</p><h3>4. Le DNS : l'annuaire d'Internet</h3><p>Ton appareil demande à un <strong>résolveur</strong> (celui de ta box ou un autre) l'IP de <code>exemple.fr</code>. S'il ne la connaît pas, il interroge les serveurs racine, puis ceux du TLD (<code>.fr</code>), puis le serveur qui fait autorité sur le domaine. La réponse est gardée en cache pendant la durée <strong>TTL</strong>.</p><table class=\"formula-table\"><tr><th>Type</th><th>Rôle</th></tr><tr><td>A / AAAA</td><td>nom → adresse IPv4 / IPv6</td></tr><tr><td>CNAME</td><td>alias : un nom pointe vers un autre nom</td></tr><tr><td>MX</td><td>serveur de messagerie du domaine</td></tr><tr><td>TXT</td><td>texte libre (vérification de domaine, SPF…)</td></tr></table><h3>5. TCP puis TLS</h3><p><strong>TCP</strong> établit une connexion fiable par une « poignée de main » en 3 temps : SYN → SYN-ACK → ACK. Ensuite <strong>TLS</strong> vérifie le certificat du site et chiffre l'échange : c'est le cadenas de <strong>HTTPS</strong>. Sans lui, un tiers sur le réseau (Wi-Fi public) pourrait lire ou modifier le trafic.</p><h3>6. HTTP : la requête et la réponse</h3><pre><code>GET /api/cours?matiere=maths HTTP/1.1\nHost: exemple.fr\nAuthorization: Bearer eyJhbGci...\nAccept: application/json\n\nHTTP/1.1 200 OK\nContent-Type: application/json\n\n{\"msg\":\"salut\"}</code></pre><p>La <strong>requête</strong> = méthode + chemin + en-têtes (+ corps). La <strong>réponse</strong> = code de statut + en-têtes + corps.</p><table class=\"formula-table\"><tr><th>Code</th><th>Sens</th></tr><tr><td><strong>200</strong> / 201</td><td>OK / créé</td></tr><tr><td><strong>301</strong> / 302</td><td>redirection permanente / temporaire (en-tête <code>Location</code>)</td></tr><tr><td><strong>400</strong></td><td>requête mal formée</td></tr><tr><td><strong>401</strong></td><td><em>non authentifié</em> : tu n'as pas prouvé qui tu es</td></tr><tr><td><strong>403</strong></td><td><em>interdit</em> : on sait qui tu es, mais tu n'as pas le droit</td></tr><tr><td><strong>404</strong></td><td>introuvable</td></tr><tr><td><strong>429</strong></td><td>trop de requêtes (limitation de débit)</td></tr><tr><td><strong>500</strong> / 503</td><td>erreur du serveur / service indisponible</td></tr></table><p>Méthodes : <code>GET</code> lire, <code>POST</code> créer, <code>PUT</code>/<code>PATCH</code> modifier, <code>DELETE</code> supprimer. Un <strong>cookie</strong> (<code>Set-Cookie</code> puis <code>Cookie</code>) permet au serveur de reconnaître le navigateur.</p><h3>7. Les outils pour voir tout ça</h3><ul><li><code>ping exemple.fr</code> : la machine répond-elle ?</li><li><code>nslookup exemple.fr</code> (ou <code>dig</code>) : que dit le DNS ?</li><li><code>tracert</code> (Windows) / <code>traceroute</code> : par où passent les paquets ?</li><li><code>curl -i https://exemple.fr</code> : voir la réponse HTTP brute (<code>-i</code> montre les en-têtes).</li><li>Les <strong>outils de développement</strong> du navigateur (F12 → onglet Réseau) : chaque requête de ta page avec son code.</li></ul><div class=\"retenir-box\"><strong>Lien avec ton appli :</strong> quand BacMaster se synchronise, le navigateur envoie des requêtes HTTPS à l'API de Supabase avec un en-tête <code>Authorization</code>. Une réponse <strong>401</strong> veut dire « reconnecte-toi », une <strong>403</strong> « tes règles RLS refusent ». Lire le code de statut dans l'onglet Réseau te dit tout de suite où chercher.</div>",
+ "exercices": [
+  {
+   "niveau": "Facile",
+   "enonce": "<p>Quelle adresse est publique : <code>172.20.1.1</code> ou <code>172.32.0.1</code> ? Justifie.</p>",
+   "aide": "La plage privée 172.16.0.0/12 s'arrête à 172.31.255.255.",
+   "correction": "<p><code>172.32.0.1</code> est <strong>publique</strong> : la plage privée va de 172.16.0.0 à 172.31.255.255. <code>172.20.1.1</code> est privée.</p>"
+  },
+  {
+   "niveau": "Facile",
+   "enonce": "<p>Ton site renvoie « 401 » à un visiteur connecté qui essaie d'ouvrir une page réservée aux administrateurs. Le code est-il le bon ?</p>",
+   "aide": "Il est connecté : on connaît son identité.",
+   "correction": "<p>Non, il faudrait <strong>403</strong> (interdit). 401 signifie que l'identité n'est pas prouvée ; ici elle l'est, mais ses droits sont insuffisants.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p>Pour <code>192.168.1.130/26</code>, donne l'adresse du réseau, l'adresse de diffusion et le nombre de machines.</p>",
+   "aide": "/26 : 6 bits pour les machines, donc des blocs de 64 adresses (0, 64, 128, 192).",
+   "correction": "<p>Blocs de 64 : 130 est dans le bloc 128 → réseau <strong>192.168.1.128</strong>, diffusion <strong>192.168.1.191</strong>, 2⁶ − 2 = <strong>62 machines</strong>.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p>Remets dans l'ordre : requête HTTP, poignée de main TCP, résolution DNS, négociation TLS, affichage de la page.</p>",
+   "aide": "Il faut d'abord savoir à qui parler.",
+   "correction": "<p>1) <strong>DNS</strong> (trouver l'IP) → 2) <strong>TCP</strong> (connexion) → 3) <strong>TLS</strong> (chiffrement) → 4) <strong>requête HTTP</strong> (et réponse) → 5) <strong>affichage</strong> de la page.</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p>Tu veux que 30 appareils d'une salle soient sur le même réseau avec 10 appareils prévus en plus plus tard. Quel masque CIDR minimal choisis-tu pour un réseau <code>192.168.10.0</code> ? Justifie avec des puissances de 2.</p>",
+   "aide": "Il te faut au moins 40 adresses utilisables.",
+   "correction": "<p>Il faut au moins 40 machines : 2⁵ − 2 = 30 (trop juste), 2⁶ − 2 = <strong>62</strong> (suffisant). Donc 6 bits pour les machines, soit <code>/26</code> (32 − 6) : <code>192.168.10.0/26</code>, masque <code>255.255.255.192</code>.</p>"
+  }
+ ],
+ "flashcards": [
+  {
+   "q": "Combien d'adresses IPv4 existe-t-il, et pourquoi IPv6 ?",
+   "a": "2³² = 4 294 967 296 ; trop peu pour tous les appareils. IPv6 (128 bits) en offre environ 3,4 × 10³⁸."
+  },
+  {
+   "q": "Quelles sont les trois plages d'adresses IPv4 privées ?",
+   "a": "<code>10.0.0.0/8</code>, <code>172.16.0.0/12</code> (172.16 à 172.31), <code>192.168.0.0/16</code>."
+  },
+  {
+   "q": "Que désigne <code>127.0.0.1</code> ?",
+   "a": "L'adresse de loopback : la machine elle-même (<code>localhost</code>)."
+  },
+  {
+   "q": "Combien de machines dans un réseau /24 ?",
+   "a": "254 (256 adresses moins l'adresse du réseau et celle de diffusion)."
+  },
+  {
+   "q": "Quel est le rôle d'un port ?",
+   "a": "Désigner le service visé sur une machine : 80 HTTP, 443 HTTPS, 22 SSH, 53 DNS."
+  },
+  {
+   "q": "À quoi sert le DNS ?",
+   "a": "Traduire un nom de domaine en adresse IP."
+  },
+  {
+   "q": "Que fait un enregistrement CNAME ?",
+   "a": "Fait pointer un nom vers un autre nom (alias)."
+  },
+  {
+   "q": "Quelles sont les 3 étapes de la poignée de main TCP ?",
+   "a": "SYN, SYN-ACK, ACK."
+  },
+  {
+   "q": "Que garantit TLS (HTTPS) ?",
+   "a": "Que le serveur est authentique (certificat) et que l'échange est chiffré."
+  },
+  {
+   "q": "Différence entre 401 et 403 ?",
+   "a": "401 : pas authentifié (identité non prouvée). 403 : authentifié mais sans autorisation."
+  },
+  {
+   "q": "Que signifie un code 301 ?",
+   "a": "Redirection permanente vers l'adresse donnée dans l'en-tête <code>Location</code>."
+  },
+  {
+   "q": "Quelle méthode HTTP sert à lire une ressource ?",
+   "a": "<code>GET</code>."
+  },
+  {
+   "q": "Comment voir les requêtes et codes de statut d'une page ?",
+   "a": "F12 → onglet Réseau du navigateur (ou <code>curl -i</code> en terminal)."
+  }
+ ]
+}
+});

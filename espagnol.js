@@ -976,3 +976,100 @@ PREBUILT["Espagnol"]["Eje 2 — El espacio andino y el cóndor"] = {
   {"q":"Quelles valeurs le condor symbolise-t-il ?","a":"Le pouvoir, la liberté, la force, la souveraineté et la noblesse."}
  ]
 };
+
+/* ===== Ajout du 23/11/2026 : nouveaux chapitres ===== */
+Object.assign(PREBUILT["Espagnol"], {
+ "Mi proyecto — Fuerzas Armadas y diplomacia de España : conditions & parcours": {
+ "cours": "<div class=\"attention-box\"><strong>À lire d'abord :</strong> les règles d'accès changent selon les années et selon <mark>ta nationalité</mark>. Ce chapitre résume ce que disent les sources officielles (BOE, ministère de la Défense, ministère des Affaires étrangères espagnols) ; avant toute décision, vérifie la <strong>convocatoria</strong> de l'année sur <code>defensa.gob.es</code> et <code>exteriores.gob.es</code>.</div><h3>1. La question décisive : la nationalité</h3><p>Pour représenter ou défendre l'État espagnol, l'Espagne exige en général la <strong>nationalité espagnole</strong>. C'est la première chose à clarifier pour ton projet : as-tu la nationalité espagnole, peux-tu l'obtenir (ascendance, mariage, résidence), ou non ?</p><h3>2. La voie militaire (Fuerzas Armadas)</h3><p>Les forces armées comprennent l'<strong>Ejército de Tierra</strong>, l'<strong>Armada</strong> et l'<strong>Ejército del Aire y del Espacio</strong>. On y entre par plusieurs <em>escalas</em> (échelles) :</p><table class=\"formula-table\"><tr><th>Voie</th><th>Condition de nationalité</th></tr><tr><td><strong>Oficiales</strong> (officiers de carrière, via les académies militaires)</td><td><strong>nationalité espagnole</strong> (fiche officielle du ministère de la Défense, 2024)</td></tr><tr><td><strong>Suboficiales</strong></td><td>en principe nationalité espagnole</td></tr><tr><td><strong>Tropa y marinería</strong> (militaires du rang, contrats temporaires)</td><td>nationalité espagnole <strong>ou</strong> d'un des pays désignés par règlement (voir ci-dessous) + résidence légale en Espagne</td></tr></table><p>Pour <em>tropa y marinería</em>, la loi 8/2006 ouvre l'accès à des étrangers venant de pays « avec des liens historiques, culturels et linguistiques » avec l'Espagne. La liste publiée par le gouvernement compte <strong>18 pays</strong> : Argentine, Bolivie, Chili, Colombie, Costa Rica, Équateur, Salvador, Guinée équatoriale, Guatemala, Honduras, Mexique, Nicaragua, Panama, Paraguay, Pérou, République dominicaine, Uruguay et Venezuela. D'autres sources mentionnent aussi des pays comme Andorre ou les Philippines : <mark>vérifie la liste en vigueur</mark>. Conditions supplémentaires : être majeur, ne pas perdre sa nationalité d'origine en s'engageant et n'avoir ni antécédents pénaux ni interdiction de s'engager.</p><p>Les étrangers n'accèdent pas à toutes les spécialités ni à toutes les unités (par exemple celles qui exigent une habilitation de sécurité). Beaucoup de militaires nés à l'étranger demandent ensuite la nationalité espagnole.</p><h3>3. La voie diplomatique (Carrera Diplomática)</h3><p>Les diplomates espagnols sont des fonctionnaires recrutés par <strong>oposición</strong> (concours) par le ministère des Affaires étrangères. Conditions de la convocatoire publiée au BOE en décembre 2025 :</p><ul><li><strong>nationalité espagnole</strong> ;</li><li>être majeur, avoir un <strong>diplôme universitaire</strong> (grado, licenciatura, ingeniería…) ;</li><li>un très bon niveau de langues : <strong>anglais et français obligatoires</strong> ;</li><li>un programme d'environ <strong>200 thèmes</strong> (droit, relations internationales, Union européenne, économie, histoire…).</li></ul><p>L'épreuve comprend des exercices éliminatoires (test, langues, exposés oraux de thèmes tirés au sort), puis un <strong>cours sélectif à l'École diplomatique</strong>. Pour la convocatoire 2025, 36 places étaient ouvertes ; la préparation dure souvent plusieurs années.</p><h3>4. Et si je n'ai pas la nationalité espagnole ?</h3><p>Trois pistes réalistes, à explorer <em>avant</em> de t'engager :</p><ul><li><strong>Comprendre les voies d'accès à la nationalité</strong> (Code civil espagnol, articles 17 et suivants : option, résidence, mariage…). Les durées de résidence dépendent de ton pays d'origine et de ta situation : lis les règles officielles, ne te fie pas aux résumés de forums.</li><li><strong>Les emplois autour de la diplomatie</strong> qui ne sont pas la <em>Carrera</em> : une ambassade ou un consulat emploie aussi du personnel administratif ou local (la page « empleo » de chaque ambassade le précise) — <mark>piste à vérifier au cas par cas</mark>.</li><li><strong>Les institutions internationales</strong> (Union européenne, OTAN, ONU) où les compétences linguistiques et juridiques sont recherchées.</li></ul><h3>5. Plan d'actions réaliste</h3><table class=\"formula-table\"><tr><th>Quand</th><th>Action</th></tr><tr><td>Maintenant</td><td>clarifier ta situation de nationalité ; viser un niveau <strong>B2 puis C1</strong> en espagnol (diplômes <strong>DELE</strong> de l'Instituto Cervantes, niveaux A1 → C2)</td></tr><tr><td>Avant le bac</td><td>garder un très bon niveau en <strong>anglais</strong> (exigé partout) ; travailler les méthodes (dissertation, oral)</td></tr><tr><td>Après le bac</td><td>formation utile aux deux voies : <strong>droit, relations internationales, langues, ou ingénierie/cybersécurité</strong> (les armées recrutent des profils techniques)</td></tr><tr><td>Pendant les études</td><td>séjour en Espagne (Erasmus, stage), contact avec une <em>oficina de información</em> du ministère de la Défense</td></tr></table><div class=\"retenir-box\"><strong>À retenir :</strong> officiers et diplomates = <mark>nationalité espagnole obligatoire</mark> · tropa y marinería = Espagnols ou ressortissants de pays désignés + résidence légale · diplomate = oposición avec <strong>anglais et français</strong> · toujours vérifier la convocatoria de l'année.</div><h3>6. Vocabulaire à connaître</h3><table class=\"formula-table\"><tr><th>Español</th><th>Français</th></tr><tr><td>el ejército / las fuerzas armadas</td><td>l'armée / les forces armées</td></tr><tr><td>la tropa y marinería</td><td>les militaires du rang</td></tr><tr><td>el oficial / el suboficial</td><td>l'officier / le sous-officier</td></tr><tr><td>la oposición</td><td>le concours de la fonction publique</td></tr><tr><td>la convocatoria</td><td>l'appel à candidatures (avec ses règles et dates)</td></tr><tr><td>los requisitos</td><td>les conditions requises</td></tr><tr><td>la nacionalidad / la residencia legal</td><td>la nationalité / la résidence légale</td></tr><tr><td>los antecedentes penales</td><td>le casier judiciaire</td></tr><tr><td>la embajada / el consulado</td><td>l'ambassade / le consulat</td></tr><tr><td>el agregado de defensa</td><td>l'attaché de défense</td></tr><tr><td>el cuerpo diplomático</td><td>le corps diplomatique</td></tr><tr><td>presentarse a una oposición</td><td>passer un concours</td></tr></table>",
+ "exercices": [
+  {
+   "niveau": "Facile",
+   "enonce": "<p>Traduis en français : « Para presentarse a la oposición hay que tener nacionalidad española y un título universitario. »</p>",
+   "aide": "presentarse a = passer (un concours).",
+   "correction": "<p>« Pour passer le concours, il faut avoir la nationalité espagnole et un diplôme universitaire. »</p>"
+  },
+  {
+   "niveau": "Facile",
+   "enonce": "<p>Vrai ou faux : « Un diplomate espagnol est recruté sans concours, sur CV. » Corrige si faux.</p>",
+   "aide": "Pense à l'oposición.",
+   "correction": "<p><strong>Faux.</strong> Les diplomates de carrière sont recrutés par <em>oposición</em> (concours) puis suivent un cours sélectif à l'École diplomatique.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p>Samuel est colombien, a 21 ans, vit légalement en Espagne et n'a pas de casier. Peut-il s'engager comme militaire de tropa y marinería ? Peut-il devenir officier ?</p>",
+   "aide": "La Colombie est dans la liste des 18 pays.",
+   "correction": "<p><strong>Tropa y marinería : oui, en principe</strong> (pays de la liste, résidence légale, majeur, sans antécédents), sous réserve des conditions de la convocatoria. <strong>Officier : pas tant qu'il n'a pas la nationalité espagnole</strong>, puis il pourra se présenter aux voies d'officier.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p>Écris en espagnol (2 phrases simples) : « Je veux travailler dans une ambassade. Pour cela, j'étudie les langues et le droit. »</p>",
+   "aide": "querer + infinitif ; para eso ; estudiar.",
+   "correction": "<p>Exemple : « <em>Quiero trabajar en una embajada. Para eso estudio idiomas y derecho.</em> » (variante : <em>…Por eso estudio…</em>).</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p>Construis ton plan en 4 étapes (maintenant, avant le bac, après le bac, pendant les études) pour la voie diplomatique ou militaire en fonction de ta situation de nationalité. Quelle est l'étape qui conditionne toutes les autres ?</p>",
+   "aide": "Relis le tableau « Plan d'actions réaliste ».",
+   "correction": "<p>L'étape qui conditionne tout est la <strong>clarification de la nationalité</strong> : officier et diplomate exigent la nationalité espagnole, tropa y marinería dépend du pays d'origine. Le reste du plan est commun : DELE B2/C1, anglais très solide, puis études de droit, relations internationales, langues ou ingénierie/cyber, avec un séjour en Espagne.</p>"
+  }
+ ],
+ "flashcards": [
+  {
+   "q": "¿Qué nacionalidad se exige para ser oficial de las Fuerzas Armadas españolas?",
+   "a": "La nacionalidad española (Nationalité espagnole)."
+  },
+  {
+   "q": "Peut-on entrer comme officier en Espagne sans la nationalité espagnole ?",
+   "a": "En principe non : la nationalité espagnole est exigée pour les officiers (fiche officielle du ministère de la Défense)."
+  },
+  {
+   "q": "Qui peut s'engager comme « tropa y marinería » ?",
+   "a": "Les Espagnols et les ressortissants de pays désignés par règlement, avec résidence légale en Espagne, majeurs, sans antécédents pénaux."
+  },
+  {
+   "q": "Combien de pays figurent dans la liste publiée du gouvernement pour tropa y marinería ?",
+   "a": "18 pays (principalement d'Amérique latine, plus la Guinée équatoriale) ; liste à vérifier car elle peut évoluer."
+  },
+  {
+   "q": "La France figure-t-elle dans cette liste de 18 pays ?",
+   "a": "Non : elle n'y figure pas."
+  },
+  {
+   "q": "¿Cómo se accede a la Carrera Diplomática?",
+   "a": "Par oposición (concours) convoquée par le ministère des Affaires étrangères, puis un cours sélectif à l'École diplomatique."
+  },
+  {
+   "q": "Quelles langues sont obligatoires à l'oposición de la Carrera Diplomática ?",
+   "a": "L'anglais et le français."
+  },
+  {
+   "q": "Quel diplôme faut-il pour passer l'oposición diplomatique ?",
+   "a": "Un diplôme universitaire (grado, licenciatura, ingeniería, arquitectura)."
+  },
+  {
+   "q": "Quels sont les 3 ejércitos espagnols ?",
+   "a": "Ejército de Tierra, Armada, Ejército del Aire y del Espacio."
+  },
+  {
+   "q": "¿Qué es un DELE ?",
+   "a": "Un diplôme officiel de langue espagnole délivré au nom de l'Instituto Cervantes (niveaux A1 à C2)."
+  },
+  {
+   "q": "la oposición",
+   "a": "Le concours de la fonction publique."
+  },
+  {
+   "q": "los requisitos / la convocatoria",
+   "a": "Les conditions requises / l'appel à candidatures de l'année."
+  },
+  {
+   "q": "el agregado de defensa",
+   "a": "L'attaché de défense (officier chargé des relations de défense à l'ambassade)."
+  },
+  {
+   "q": "los antecedentes penales",
+   "a": "Le casier judiciaire."
+  }
+ ]
+}
+});

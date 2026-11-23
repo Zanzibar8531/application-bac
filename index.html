@@ -162,7 +162,7 @@
    Tant que leur version n'a pas changé, on ne les relit PAS au démarrage : on les charge en arrière-plan
    une fois l'accueil affiché (bm-contenu.js). Si les cours ont changé, ils sont chargés comme avant. */
 (function(){
-  var V='660424ef42d4';
+  var V='f7426f39e7c8';
   var files=['francais.js','maths.js','histoire-geo.js','anglais.js','espagnol.js','physique-chimie.js','ingenierie-dd.js','innovation-techno.js','informatique.js','informatique-code.js','informatique-parcours.js','cybersecurite.js','cybersecurite-plus.js','cybersecurite-parcours.js','investissement.js','investissement-pratique.js','entrepreneuriat.js','apprentissage.js','juridique.js'];
   var stored=null, hasDb=false;
   try{ stored=localStorage.getItem('bm_content_ver'); hasDb=(localStorage.getItem('bacmaster_db')||'').length>10; }catch(e){}

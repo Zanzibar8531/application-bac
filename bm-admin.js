@@ -94,6 +94,7 @@
     #bm-adm .tabs button{border-radius:10px 10px 0 0;transition:.15s}
     #bm-adm .tabs button:hover{background:#f1eeff}
     #bm-adm .tabs button[data-tab=users].on{color:#4338ca;border-bottom-color:#6366f1;background:#eef0ff}
+    #bm-adm .tabs button[data-tab=suivi].on{color:#be185d;border-bottom-color:#ec4899;background:#fdf0f7}
     #bm-adm .tabs button[data-tab=activity].on{color:#c2410c;border-bottom-color:#f97316;background:#fff2e8}
     #bm-adm .tabs button[data-tab=history].on{color:#0f766e;border-bottom-color:#14b8a6;background:#e6faf7}
     #bm-adm .body{background:linear-gradient(180deg,#f3f0ff 0%,#f7f9ff 40%,#f5f7fc 100%)}
@@ -130,9 +131,9 @@
     if (root) return root;
     root = h('div', { id: 'bm-adm', hidden: '', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Administration' });
     const sh = h('div', { class: 'adm-shell' });
-    sh.appendChild(h('div', { class: 'hd' }, [h('div', {}, [h('h2', { text: '⚙️ Administration' }), h('p', { text: 'Comptes, activité et historique des cours' })]), h('button', { class: 'x', 'aria-label': 'Fermer', text: '✕', onclick: () => { root.hidden = true; } })]));
+    sh.appendChild(h('div', { class: 'hd' }, [h('div', {}, [h('h2', { text: '⚙️ Administration' }), h('p', { text: 'Comptes, suivi, activité et historique des cours' })]), h('button', { class: 'x', 'aria-label': 'Fermer', text: '✕', onclick: () => { root.hidden = true; } })]));
     const nav = h('div', { class: 'tabs' });
-    [['users', '👥 Comptes'], ['activity', '🕘 Activité'], ['history', '🗂️ Historique des cours']].forEach(([k, t]) => nav.appendChild(h('button', { 'data-tab': k, text: t, onclick: () => go(k) })));
+    [['users', '👥 Comptes'], ['suivi', '📊 Suivi'], ['activity', '🕘 Activité'], ['history', '🗂️ Historique des cours']].forEach(([k, t]) => nav.appendChild(h('button', { 'data-tab': k, text: t, onclick: () => go(k) })));
     sh.appendChild(nav); sh.appendChild(h('div', { class: 'body', id: 'bm-adm-body' }));
     root.appendChild(sh); document.body.appendChild(root);
     root.addEventListener('keydown', e => { if (e.key === 'Escape') root.hidden = true; });
@@ -142,7 +143,7 @@
     tab = k;
     document.querySelectorAll('#bm-adm .tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === k));
     const body = $('bm-adm-body'); body.replaceChildren(h('div', { class: 'empty', text: 'Chargement…' }));
-    ({ users: renderUsers, activity: renderActivity, history: renderHistory })[k]();
+    ({ users: renderUsers, suivi: renderSuivi, activity: renderActivity, history: renderHistory })[k]();
   }
   function openAdmin() {
     if (!S() || S().role !== 'admin') { say('Accès réservé aux administrateurs.', true); return; }
@@ -198,6 +199,46 @@
     }
     search.addEventListener('input', draw); draw();
     body.replaceChildren(stats, search, list, h('p', { class: 'muted', text: 'Lecteur : consulte les cours · Professeur : modifie et vérifie (ses passages sont signalés) · Éditeur : modifie les cours · Administrateur : gère aussi les comptes et l’historique. Le changement est appliqué tout de suite.' }));
+  }
+
+  // ── Suivi : qui utilise l'appli, objectif du jour atteint ? ──
+  const dKey = d => { d = d || new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+  const dAdd = (k, n) => { const d = new Date(k + 'T12:00:00'); d.setDate(d.getDate() + n); return dKey(d); };
+  function daySec(tl, day) { let s = 0; Object.values((tl && tl[day]) || {}).forEach(acts => Object.values(acts || {}).forEach(v => { s += Number(v) || 0; })); return s; }
+  function goalFor(g, day) {
+    g = g || {}; const hist = g.history || {}; if (Number(hist[day]) > 0) return Number(hist[day]);
+    const wd = new Date(day + 'T12:00:00').getDay(), we = Number(g.minutesWE) || 0;
+    return (wd === 0 || wd === 6) && we ? we : (Number(g.minutes) || 20);
+  }
+  const metOn = (r, day) => daySec(r.timelog, day) >= goalFor(r.goal, day) * 60 || (!(r.timelog && r.timelog[day]) && Array.isArray(r.activity) && r.activity.includes(day));
+  async function renderSuivi() {
+    const body = $('bm-adm-body');
+    try { await loadProfiles(); } catch (e) { return fail(body, e, 'Impossible de charger les comptes.'); }
+    const { data, error } = await sb().rpc('bacmaster_admin_overview');
+    if (error) return body.replaceChildren(h('div', { class: 'note', text: 'Le suivi n’est pas encore activé. Ouvre Supabase › SQL Editor, colle le contenu du fichier supabase_suivi.sql, clique sur Run, puis reviens ici. Détail : ' + (error.message || error) }));
+    const by = {}; (data || []).forEach(r => { by[r.user_id] = r; });
+    const today = dKey(), days = Array.from({ length: 7 }, (_, i) => dAdd(today, i - 6));
+    const rows = profiles.map(p => {
+      const r = by[p.user_id] || {}, sec = daySec(r.timelog, today), goal = goalFor(r.goal, today);
+      let streak = 0, d = metOn(r, today) ? today : dAdd(today, -1); while (metOn(r, d) && streak < 400) { streak++; d = dAdd(d, -1); }
+      const seen = r.last_seen || r.synced_at || null;
+      return { p, r, sec, goal, met: metOn(r, today), streak, seen, week: days.map(x => metOn(r, x)), weekMin: Math.round(days.reduce((t, x) => t + daySec(r.timelog, x), 0) / 60) };
+    }).sort((x, y) => (new Date(y.seen || 0)) - (new Date(x.seen || 0)));
+    const seenToday = rows.filter(x => x.seen && dKey(new Date(x.seen)) === today).length;
+    const seen7 = rows.filter(x => x.seen && Date.now() - new Date(x.seen) < 7 * 864e5).length;
+    const stats = h('div', { class: 'stats' }, [['Comptes', rows.length], ['Venus aujourd’hui', seenToday], ['Venus cette semaine', seen7], ['Objectif atteint aujourd’hui', rows.filter(x => x.met).length]].map(([t, n], i) => h('div', { class: 'stat s' + (i + 1) }, [h('b', { text: String(n) }), h('span', { text: t })])));
+    const list = h('div', { class: 'card' });
+    rows.forEach(x => {
+      const status = x.met ? '✅ Objectif atteint (' + Math.floor(x.sec / 60) + '/' + x.goal + ' min)' : x.sec > 0 ? '⏳ ' + Math.floor(x.sec / 60) + '/' + x.goal + ' min aujourd’hui' : (x.seen && dKey(new Date(x.seen)) === today ? '👀 Passé sans réviser' : '💤 Pas venu aujourd’hui');
+      const dots = h('span', { style: 'display:inline-flex;gap:4px;vertical-align:middle', title: '7 derniers jours (le dernier = aujourd’hui)' }, x.week.map(ok => h('i', { style: 'width:11px;height:11px;border-radius:50%;display:inline-block;background:' + (ok ? '#22c55e' : '#d6dbea') })));
+      list.appendChild(h('div', { class: 'row' }, [
+        h('div', { class: 'av', style: 'background:' + avatarColor(x.p.user_id || x.p.email), text: initials(x.p.display_name || x.p.email) }),
+        h('div', { class: 'grow' }, [h('b', { text: x.p.display_name || x.p.email || 'Sans nom' }), h('div', { class: 'muted', text: (x.seen ? 'Vu ' + ago(x.seen) : 'Jamais vu depuis l’activation du suivi') + (x.r.visits ? ' · ' + x.r.visits + ' visite' + (x.r.visits > 1 ? 's' : '') : '') }), h('div', { class: 'muted', text: status })]),
+        h('div', { style: 'text-align:right' }, [dots, h('div', { class: 'muted', text: (x.streak ? '🔥 ' + x.streak + ' j · ' : '') + x.weekMin + ' min / 7 j' })])
+      ]));
+    });
+    if (!rows.length) list.appendChild(h('div', { class: 'empty', text: 'Aucun compte.' }));
+    body.replaceChildren(stats, list, h('p', { class: 'muted', text: 'La « visite » est enregistrée à chaque ouverture de l’appli avec un compte connecté (au plus toutes les 30 min). Le temps et l’objectif viennent de la progression synchronisée : ils apparaissent quand la personne a eu du réseau pendant sa session. La série est approximative (gels et sauts temporels ignorés).' }));
   }
 
   // ── Activité ──

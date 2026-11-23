@@ -387,3 +387,96 @@ Object.assign(PREBUILT["Cybersécurité"], {
  ]
 }
 });
+
+/* ===== Ajout du 23/11/2026 : nouveaux chapitres ===== */
+Object.assign(PREBUILT["Cybersécurité"], {
+ "Défense — lire des logs, repérer une intrusion & réagir (blue team)": {
+ "cours": "<div class=\"attention-box\"><strong>Cadre légal :</strong> tu analyses <mark>tes propres journaux</mark> ou ceux d'un système que tu administres. Les adresses IP de ce cours sont des adresses d'exemple (réservées à la documentation).</div><p>En cybersécurité, il y a l'<strong>équipe rouge</strong> (qui attaque pour tester) et l'<strong>équipe bleue</strong> (qui défend, surveille, réagit). Le travail de la <em>blue team</em> commence presque toujours par la même chose : <mark>lire les journaux (logs)</mark>.</p><h3>1. Un log, c'est quoi ?</h3><p>Un journal est un fichier où un programme note <strong>ce qui s'est passé, quand, qui et d'où</strong>. Où les trouver :</p><table class=\"formula-table\"><tr><th>Système</th><th>Où</th></tr><tr><td>Linux (SSH, connexions)</td><td><code>/var/log/auth.log</code> (Debian/Ubuntu) ou <code>journalctl -u ssh</code></td></tr><tr><td>Serveur web</td><td><code>access.log</code> (chaque requête) et <code>error.log</code></td></tr><tr><td>Windows</td><td>Observateur d'événements : <strong>4625</strong> = échec de connexion, <strong>4624</strong> = connexion réussie</td></tr></table><h3>2. Repérer une attaque par force brute</h3><p>Voici un extrait d'<code>auth.log</code> :</p><pre><code>Nov 23 03:12:41 srv sshd[1201]: Failed password for invalid user admin from 203.0.113.50 port 51120 ssh2\nNov 23 03:12:43 srv sshd[1201]: Failed password for invalid user admin from 203.0.113.50 port 51122 ssh2\nNov 23 03:12:45 srv sshd[1203]: Failed password for invalid user test from 203.0.113.50 port 51130 ssh2\nNov 23 03:12:47 srv sshd[1203]: Failed password for root from 203.0.113.50 port 51134 ssh2\nNov 23 03:12:50 srv sshd[1205]: Failed password for root from 203.0.113.50 port 51140 ssh2\nNov 23 03:12:52 srv sshd[1205]: Failed password for root from 203.0.113.50 port 51146 ssh2\nNov 23 07:55:10 srv sshd[1410]: Failed password for martin from 198.51.100.7 port 40022 ssh2\nNov 23 07:55:19 srv sshd[1410]: Accepted password for martin from 198.51.100.7 port 40026 ssh2\nNov 23 09:30:02 srv sshd[1522]: Failed password for invalid user oracle from 192.0.2.99 port 33010 ssh2\nNov 23 22:41:05 srv sshd[1790]: Accepted password for martin from 203.0.113.50 port 52001 ssh2</code></pre><p>Trois commandes suffisent (reprends le chapitre « Linux & terminal ») :</p><pre><code>$ grep -c \"Failed password\" auth.log\n8\n$ awk '/Failed password/ {print $(NF-3)}' auth.log | sort | uniq -c | sort -rn\n      6 203.0.113.50\n      1 198.51.100.7\n      1 192.0.2.99\n$ grep \"Failed password\" auth.log | sed -E 's/.*Failed password for (invalid user )?([^ ]+) from.*/\\2/' | sort | uniq -c | sort -rn\n      3 root\n      2 admin\n      1 test\n      1 oracle\n      1 martin</code></pre><p>Lecture : <code>203.0.113.50</code> a essayé <strong>6 mots de passe en 11 secondes</strong> sur des comptes classiques (<code>admin</code>, <code>root</code>, <code>test</code>) : c'est une <strong>attaque par force brute</strong> automatisée. L'IP <code>198.51.100.7</code>, elle, montre une simple faute de frappe de Martin suivie d'un succès.</p><div class=\"retenir-box\"><strong>Le détail qui change tout :</strong> à 22 h 41, la <mark>même IP</mark> <code>203.0.113.50</code> obtient un <strong>« Accepted password for martin »</strong>. Une IP qui martèle des comptes puis réussit sur un vrai compte = <mark>compromission probable</mark>. Ce n'est plus un incident « à surveiller », c'est un incident <strong>à traiter tout de suite</strong>.</div><h3>3. Repérer des sondes sur un site web</h3><pre><code>203.0.113.50 - - [23/Nov/2026:03:20:02 +0100] \"GET /.env HTTP/1.1\" 404 153\n203.0.113.50 - - [23/Nov/2026:03:20:03 +0100] \"GET /wp-login.php HTTP/1.1\" 404 153\n203.0.113.50 - - [23/Nov/2026:03:20:04 +0100] \"GET /index.php?id=1%20UNION%20SELECT%20password%20FROM%20users HTTP/1.1\" 404 153\n192.0.2.99   - - [23/Nov/2026:09:10:00 +0100] \"GET /../../etc/passwd HTTP/1.1\" 400 150\n\n$ grep -Ei \"union.*select|\\.\\./|\\.env|wp-login\" access.log | awk '{print $1, $7}'</code></pre><p>Indices d'une sonde : beaucoup de <code>404</code> venant d'une même IP, des chemins qui n'existent pas sur ton site (<code>wp-login.php</code> sans WordPress), la recherche de fichiers secrets (<code>.env</code>), du <code>../</code> (<em>path traversal</em>) ou du <code>UNION SELECT</code> (<em>injection SQL</em>). Ici les 404 et le 400 montrent que les tentatives ont <strong>échoué</strong> — mais elles prouvent que quelqu'un cherche des failles.</p><h3>4. Automatiser une alerte</h3><pre><code>import re, collections\nechecs = collections.defaultdict(list)\nfor ligne in open(\"auth.log\"):\n    m = re.search(r\"(\\d\\d):(\\d\\d):(\\d\\d).*Failed password.* from (\\S+)\", ligne)\n    if m:\n        h, mi, s, ip = int(m[1]), int(m[2]), int(m[3]), m[4]\n        echecs[ip].append(h * 3600 + mi * 60 + s)\n\nfor ip, temps in echecs.items():\n    temps.sort()\n    for i in range(len(temps) - 4):\n        if temps[i + 4] - temps[i] &lt; 60:       # 5 échecs en moins d'une minute\n            print(\"ALERTE force brute probable :\", ip, len(temps), \"échecs\")\n            break</code></pre><p>Résultat : <code>ALERTE force brute probable : 203.0.113.50 6 échecs</code>. Les outils professionnels (<strong>fail2ban</strong>, un <strong>SIEM</strong>) font exactement ça, à grande échelle : collecter les logs, repérer des motifs, alerter ou bloquer.</p><h3>5. Se protéger : les parades</h3><table class=\"formula-table\"><tr><th>Menace</th><th>Parade</th></tr><tr><td>Force brute SSH</td><td>connexion par <strong>clé</strong> uniquement (<code>PasswordAuthentication no</code>), <code>PermitRootLogin no</code>, <strong>fail2ban</strong>, 2FA</td></tr><tr><td>Sondes web</td><td>ne rien exposer d'inutile, mises à jour, limitation de débit (réponse 429), pare-feu applicatif</td></tr><tr><td>Secrets exposés</td><td><code>.env</code> jamais dans le dossier public, droits <code>600</code>, clés régénérées si elles ont fuité</td></tr><tr><td>Logs inutilisables</td><td>horloge synchronisée (NTP), conservation suffisante, copie sur une autre machine</td></tr></table><div class=\"attention-box\"><strong>Ne jamais écrire dans un log</strong> un mot de passe, un jeton ou une clé. Et rappelle-toi qu'une adresse IP est une <strong>donnée personnelle</strong> : on la garde pour la sécurité, pas indéfiniment.</div><h3>6. Réagir : les 6 phases d'un incident</h3><table class=\"formula-table\"><tr><th>Phase</th><th>Question</th><th>Exemple (compte compromis)</th></tr><tr><td>1. Préparation</td><td>Suis-je équipé avant l'incident ?</td><td>logs actifs, sauvegardes, 2FA, liste de contacts</td></tr><tr><td>2. Détection</td><td>Est-ce vraiment un incident ?</td><td>force brute puis connexion réussie de la même IP</td></tr><tr><td>3. Confinement</td><td>Comment stopper l'extension ?</td><td>bloquer l'IP, désactiver le compte, couper la session</td></tr><tr><td>4. Éradication</td><td>Comment supprimer la cause ?</td><td>changer les mots de passe et clés, chercher les accès laissés</td></tr><tr><td>5. Restauration</td><td>Comment revenir à la normale ?</td><td>remettre le service, surveiller de près</td></tr><tr><td>6. Retour d'expérience</td><td>Qu'est-ce qu'on change ?</td><td>clé SSH obligatoire, alerte automatique, procédure écrite</td></tr></table><p>En France, on peut s'appuyer sur l'<strong>ANSSI</strong> et le <strong>CERT-FR</strong> (alertes et bonnes pratiques) et sur <strong>cybermalveillance.gouv.fr</strong> (assistance aux victimes). Les armées ont leurs propres équipes de cyberdéfense : c'est un métier de défense à part entière, très recherché.</p>",
+ "exercices": [
+  {
+   "niveau": "Facile",
+   "enonce": "<p>Quelle commande compte le nombre total d'échecs de mot de passe dans <code>auth.log</code> ?</p>",
+   "aide": "grep a une option pour compter les lignes trouvées.",
+   "correction": "<p><code>grep -c \"Failed password\" auth.log</code> — dans l'extrait : <strong>8</strong>.</p>"
+  },
+  {
+   "niveau": "Facile",
+   "enonce": "<p>Un site sans WordPress reçoit des requêtes vers <code>/wp-login.php</code> et <code>/.env</code> qui répondent 404. Faut-il paniquer ? Que faire ?</p>",
+   "aide": "Les requêtes ont échoué, mais que prouvent-elles ?",
+   "correction": "<p>Pas de panique : le <strong>404</strong> montre que rien n'a été trouvé. Mais cela prouve qu'un robot cherche des failles. Actions : vérifier que le <code>.env</code> n'est pas dans le dossier public, garder le système à jour, éventuellement bloquer l'IP ou limiter le débit.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p>Dans l'extrait d'<code>auth.log</code>, l'IP <code>198.51.100.7</code> a 1 échec puis 1 succès pour <code>martin</code>, alors que <code>203.0.113.50</code> a aussi un succès pour <code>martin</code>. Lequel des deux succès est inquiétant, et pourquoi ?</p>",
+   "aide": "Regarde ce que chaque IP a fait avant de réussir.",
+   "correction": "<p>Le second : <code>203.0.113.50</code> a d'abord tenté <strong>6 mots de passe en quelques secondes sur admin/test/root</strong>, puis réussit sur <code>martin</code> des heures plus tard. Le premier succès ressemble à une faute de frappe humaine. Le second suggère un mot de passe deviné ou volé.</p>"
+  },
+  {
+   "niveau": "Moyen",
+   "enonce": "<p>Compte compromis confirmé : classe ces actions dans les bonnes phases (confinement, éradication, retour d'expérience) : (a) changer mot de passe et clés, (b) bloquer l'IP et désactiver la session, (c) activer l'authentification par clé obligatoire pour la suite.</p>",
+   "aide": "Stopper d'abord, nettoyer ensuite, améliorer à la fin.",
+   "correction": "<p>(b) <strong>Confinement</strong> : on stoppe l'extension. (a) <strong>Éradication</strong> : on supprime la cause. (c) <strong>Retour d'expérience</strong> : on corrige la procédure pour que ça ne se reproduise pas.</p>"
+  },
+  {
+   "niveau": "Difficile",
+   "enonce": "<p>Modifie le script de détection pour qu'il alerte à partir de <strong>3 échecs en moins de 30 secondes</strong>. Quelles lignes changes-tu ? Quel risque de « faux positif » cela crée-t-il ?</p>",
+   "aide": "Deux nombres sont à modifier : le nombre d'échecs (index) et la durée.",
+   "correction": "<p>On remplace <code>range(len(temps) - 4)</code> par <code>range(len(temps) - 2)</code>, <code>temps[i + 4]</code> par <code>temps[i + 2]</code>, et <code>&lt; 60</code> par <code>&lt; 30</code>. Un seuil plus bas détecte plus tôt mais crée des <strong>faux positifs</strong> : un utilisateur qui se trompe trois fois de mot de passe peut déclencher l'alerte. Réglage = compromis entre sensibilité et bruit.</p>"
+  }
+ ],
+ "flashcards": [
+  {
+   "q": "Que fait la <em>blue team</em> ?",
+   "a": "Elle défend : surveille, analyse les journaux, détecte et répond aux incidents (la <em>red team</em> attaque pour tester)."
+  },
+  {
+   "q": "Où trouve-t-on les connexions SSH sous Debian/Ubuntu ?",
+   "a": "Dans <code>/var/log/auth.log</code> (ou avec <code>journalctl -u ssh</code>)."
+  },
+  {
+   "q": "Quels événements Windows signalent un échec / une réussite de connexion ?",
+   "a": "4625 = échec, 4624 = réussite."
+  },
+  {
+   "q": "Qu'est-ce qu'une attaque par force brute ?",
+   "a": "Essayer très vite de nombreux mots de passe ou comptes jusqu'à tomber juste."
+  },
+  {
+   "q": "Quel signe fait passer un incident de « à surveiller » à « urgent » ?",
+   "a": "Une IP qui a martelé des comptes finit par obtenir une connexion réussie : compromission probable."
+  },
+  {
+   "q": "Que révèlent beaucoup de 404 venant d'une même IP ?",
+   "a": "Un balayage : quelqu'un cherche des pages ou des fichiers vulnérables."
+  },
+  {
+   "q": "Que signifie <code>../</code> dans une URL suspecte ?",
+   "a": "Une tentative de <em>path traversal</em> : remonter dans l'arborescence pour lire des fichiers (<code>/etc/passwd</code>)."
+  },
+  {
+   "q": "À quoi sert fail2ban ?",
+   "a": "À bannir automatiquement une IP après trop d'échecs de connexion."
+  },
+  {
+   "q": "Quelle configuration SSH réduit fortement la force brute ?",
+   "a": "Connexion par clé uniquement (<code>PasswordAuthentication no</code>) et <code>PermitRootLogin no</code>."
+  },
+  {
+   "q": "Quelles sont les 6 phases de traitement d'un incident ?",
+   "a": "Préparation, détection, confinement, éradication, restauration, retour d'expérience."
+  },
+  {
+   "q": "Que ne faut-il jamais écrire dans un log ?",
+   "a": "Mots de passe, jetons, clés secrètes."
+  },
+  {
+   "q": "Pourquoi synchroniser l'horloge des machines (NTP) ?",
+   "a": "Pour pouvoir recouper les événements de plusieurs journaux dans le bon ordre."
+  },
+  {
+   "q": "Vers qui se tourner en France pour de l'aide ou des alertes ?",
+   "a": "ANSSI / CERT-FR (alertes, bonnes pratiques) et cybermalveillance.gouv.fr (assistance)."
+  }
+ ]
+}
+});
