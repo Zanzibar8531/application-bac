@@ -4,8 +4,8 @@
                Network First pour les données dynamiques.
    ============================================================ */
 
-const CACHE_NAME   = 'bacmaster-pwa-cours-nov23';
-const CACHE_STATIC = 'bacmaster-static-pwa-parcours-code';
+const CACHE_NAME   = 'bacmaster-pwa-droites-nov24';
+const CACHE_STATIC = 'bacmaster-static-pwa-droites-nov24';
 
 // Fichiers à mettre en cache immédiatement à l'installation
 const STATIC_ASSETS = [
@@ -60,6 +60,7 @@ const STATIC_ASSETS = [
   './data-init.js',
   './francais.js',
   './maths.js',
+  './maths-droites.js',
   './histoire-geo.js',
   './anglais.js',
   './espagnol.js',
@@ -151,7 +152,7 @@ function isStaticAsset(url) {
     (localFiles.some(f => url.pathname.endsWith(f)) ||
      url.pathname.startsWith('/icons/') ||
      /\/(bg-light|bg-dark|icon-192|icon-512)\.(jpg|png)$/.test(url.pathname) ||
-     url.pathname.match(/\/(francais|maths|histoire-geo|anglais|espagnol|physique-chimie|ingenierie-dd|innovation-techno|informatique|informatique-code|informatique-parcours|cybersecurite|cybersecurite-plus|cybersecurite-parcours|investissement|investissement-pratique|entrepreneuriat|apprentissage|juridique|data-init)\.js$/) ||
+     url.pathname.match(/\/(francais|maths|maths-droites|histoire-geo|anglais|espagnol|physique-chimie|ingenierie-dd|innovation-techno|informatique|informatique-code|informatique-parcours|cybersecurite|cybersecurite-plus|cybersecurite-parcours|investissement|investissement-pratique|entrepreneuriat|apprentissage|juridique|data-init)\.js$/) ||
      url.pathname.match(/\/(badge|banner-party|banner-push|banner-worry|mascot-party|mascot-push|mascot-worry)\.png$/));
 }
 
