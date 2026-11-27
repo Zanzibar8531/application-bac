@@ -1769,7 +1769,7 @@ html[data-theme="dark"] .srs-field {
   display: grid;
   grid-template-columns: repeat(4,1fr);
   margin: 10px 0;
-  gap: 8px !important;
+  gap: 8px;
 }
 .r-btn {
   border: none;
@@ -2251,7 +2251,7 @@ html[data-theme="dark"] .qcm-opt:hover:not(:disabled) {
 
 /* ── CONTRASTES ───────────────────────────────────────────── */
 .sb-link {
-  color: #ffffff !important;
+  color: #ffffff;
 }
 
 /* ── TOPBAR EN MODE SOMBRE ────────────────────────────────── */
@@ -2320,19 +2320,19 @@ html[data-theme="dark"] .topbar .bc-btn {
 
 /* ── RATING BUTTONS — ERGONOMIE MOBILE ───────────────────── */
 .r-btn {
-  padding: 14px 6px !important;
-  font-size: .82rem !important;
-  min-height: 64px !important;
-  border-radius: 12px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 4px !important;
+  padding: 14px 6px;
+  font-size: .82rem;
+  min-height: 64px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   touch-action: manipulation;
 }
 .r-delay {
-  font-size: .68rem !important;
+  font-size: .68rem;
   opacity: .8;
 }
 

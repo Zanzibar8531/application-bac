@@ -251,7 +251,7 @@ body.course-page .ws-header .tab-bar {
   position: static;
 }
 body.course-page .ws-box.course-host {
-  background: transparent !important;
+  background: transparent;
   border: 0;
   box-shadow: none;
   padding: 0;
@@ -296,15 +296,15 @@ body.course-page .course-content-card {
     min-width: 0;
   }
   body.course-page .course-content-card .cours-body {
-    width: 100% !important;
-    max-width: none !important;
-    box-sizing: border-box !important;
-    font-size: 1rem !important;
-    line-height: 1.9 !important;
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+    font-size: 1rem;
+    line-height: 1.9;
   }
   body.course-page .course-content-card .cours-body p {
     font-size: 1rem !important;
-    line-height: 1.9 !important;
+    line-height: 1.9;
   }
   body.course-page .course-toc-link {
     padding: 7px 6px;
@@ -507,8 +507,8 @@ body.course-page .course-content-card {
   body.course-page #ws-box > input,
   body.course-page #ws-box > textarea,
   body.course-page #ws-box > .btn-save {
-    max-width: 100% !important;
-    box-sizing: border-box !important;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   body.course-page .ws-header,
   body.course-page .ws-header .tab-bar,
@@ -602,7 +602,7 @@ body.course-page .editor-scroll-nav {
     font-size: .95rem !important;
   }
   .cours-body li {
-    font-size: .93rem !important;
+    font-size: .93rem;
   }
 }
 
@@ -614,33 +614,33 @@ body.course-page .editor-scroll-nav {
   padding-bottom: 32px;
 }
 .cours-body h2 {
-  color: #4f46e5 !important;
-  -webkit-text-fill-color: #4f46e5 !important;
+  color: #4f46e5;
+  -webkit-text-fill-color: #4f46e5;
   background: none !important;
   -webkit-background-clip: unset !important;
 }
 .cours-body h3 {
-  color: #1e1b4b !important;
-  -webkit-text-fill-color: #1e1b4b !important;
-  background: linear-gradient(90deg,#eef2ff,#f5f3ff 80%,transparent) !important;
+  color: #1e1b4b;
+  -webkit-text-fill-color: #1e1b4b;
+  background: linear-gradient(90deg,#eef2ff,#f5f3ff 80%,transparent);
   border-bottom: none !important;
 }
 .cours-body p {
-  color: #334155 !important;
+  color: #334155;
 }
 .cours-body strong,
 .cours-body b {
-  color: #4338ca !important;
+  color: #4338ca;
   -webkit-text-fill-color: #4338ca !important;
 }
 .cours-body em,
 .cours-body i {
-  color: #7c3aed !important;
-  -webkit-text-fill-color: #7c3aed !important;
+  color: #7c3aed;
+  -webkit-text-fill-color: #7c3aed;
 }
 .cours-body li {
-  color: #1e293b !important;
-  -webkit-text-fill-color: #1e293b !important;
+  color: #1e293b;
+  -webkit-text-fill-color: #1e293b;
 }
 .cours-body li:hover {
   border-color: #6366f1;
@@ -699,39 +699,39 @@ body.course-page .editor-scroll-nav {
 /* Figures de style — priorité maximale car ce bloc JS arrive après style.css */
 .cours-body .fig,
 .texte-annote .fig {
-  border-radius: 4px !important;
-  padding: 1px 5px !important;
-  cursor: pointer !important;
-  border-bottom-style: solid !important;
-  border-bottom-width: 3px !important;
+  border-radius: 4px;
+  padding: 1px 5px;
+  cursor: pointer;
+  border-bottom-style: solid;
+  border-bottom-width: 3px;
 }
 .cours-body .fig-metaphore,
 .texte-annote .fig-metaphore {
-  background: #fef08a !important;
-  color: #713f12 !important;
-  -webkit-text-fill-color: #713f12 !important;
-  border-bottom-color: #ca8a04 !important;
+  background: #fef08a;
+  color: #713f12;
+  -webkit-text-fill-color: #713f12;
+  border-bottom-color: #ca8a04;
 }
 .cours-body .fig-comparaison,
 .texte-annote .fig-comparaison {
-  background: #bfdbfe !important;
-  color: #1e3a8a !important;
-  -webkit-text-fill-color: #1e3a8a !important;
-  border-bottom-color: #2563eb !important;
+  background: #bfdbfe;
+  color: #1e3a8a;
+  -webkit-text-fill-color: #1e3a8a;
+  border-bottom-color: #2563eb;
 }
 .cours-body .fig-perso,
 .texte-annote .fig-perso {
-  background: #bbf7d0 !important;
-  color: #14532d !important;
-  -webkit-text-fill-color: #14532d !important;
-  border-bottom-color: #16a34a !important;
+  background: #bbf7d0;
+  color: #14532d;
+  -webkit-text-fill-color: #14532d;
+  border-bottom-color: #16a34a;
 }
 .cours-body .fig-anaphore,
 .texte-annote .fig-anaphore {
-  background: #ddd6fe !important;
-  color: #4c1d95 !important;
-  -webkit-text-fill-color: #4c1d95 !important;
-  border-bottom-color: #7c3aed !important;
+  background: #ddd6fe;
+  color: #4c1d95;
+  -webkit-text-fill-color: #4c1d95;
+  border-bottom-color: #7c3aed;
 }
 .cours-body .fig-oxymore,
 .texte-annote .fig-oxymore {
@@ -742,17 +742,17 @@ body.course-page .editor-scroll-nav {
 }
 .cours-body .fig-ironie,
 .texte-annote .fig-ironie {
-  background: #fed7aa !important;
-  color: #7c2d12 !important;
-  -webkit-text-fill-color: #7c2d12 !important;
-  border-bottom-color: #ea580c !important;
+  background: #fed7aa;
+  color: #7c2d12;
+  -webkit-text-fill-color: #7c2d12;
+  border-bottom-color: #ea580c;
 }
 .cours-body .fig-euphem,
 .texte-annote .fig-euphem {
-  background: #bae6fd !important;
-  color: #0c4a6e !important;
-  -webkit-text-fill-color: #0c4a6e !important;
-  border-bottom-color: #0284c7 !important;
+  background: #bae6fd;
+  color: #0c4a6e;
+  -webkit-text-fill-color: #0c4a6e;
+  border-bottom-color: #0284c7;
 }
 .cours-body .fig-accumulation,
 .texte-annote .fig-accumulation {
@@ -791,10 +791,10 @@ body.course-page .editor-scroll-nav {
 }
 .cours-body .fig-chute,
 .texte-annote .fig-chute {
-  background: #312e81 !important;
+  background: #312e81;
   color: #e0e7ff !important;
   -webkit-text-fill-color: #e0e7ff !important;
-  border-bottom-color: #818cf8 !important;
+  border-bottom-color: #818cf8;
 }
 .cours-body .fig-hyperbole,
 .texte-annote .fig-hyperbole {

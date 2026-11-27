@@ -363,7 +363,7 @@
   const CAN_EDIT=()=>['admin','editor','teacher'].includes(state.role);   // le professeur modifie aussi (ses passages sont signalés) ; « reader » : lecture seule
   const ROLE_FR={reader:'lecteur',teacher:'professeur',editor:'éditeur',admin:'administrateur'};
   const DELETED='\u0000deleted';
-  const chapKey=(subject,chapter)=>subject+'::'+chapter;
+  const chapKey=(subject,chapter)=>(window.BMYears?window.BMYears.keyPrefix(subject):'')+subject+'::'+chapter;   // année scolaire dans la clé (vide pour l'année d'origine)
   const parseStr=str=>{try{return str&&str!==DELETED?JSON.parse(str):null;}catch{return null;}};
   function builtInChapter(subject,chapter){return typeof PREBUILT!=='undefined'&&PREBUILT[subject]&&Object.prototype.hasOwnProperty.call(PREBUILT[subject],chapter);}
   function builtInQuestions(subject,chapter){try{return new Set((PREBUILT[subject][chapter].flashcards||[]).map(c=>String(c.q)));}catch{return new Set();}}
@@ -425,6 +425,7 @@
   // et, côté éditeur, elle est marquée supprimée par la publication habituelle.
   const renamedAway=(subject,chapter)=>{try{return typeof PREBUILT_RENAMES!=='undefined'&&PREBUILT_RENAMES.some(r=>r.s===subject&&r.old===chapter&&((r.to||r.s)!==subject||r.new!==chapter));}catch{return false;}};
   function ingestRow(row,initial=false){
+    if(row&&window.BMYears&&!window.BMYears.rowInLiveYear(row))return false;   // cours d'une autre année scolaire : ignoré (et jamais supprimé)
     if(renamedAway(row.subject,row.chapter)){
       state.published.set(row.id,row.deleted?{str:DELETED,remoteStr:DELETED,ver:row.updated_at||null,subject:row.subject,chapter:row.chapter}:{str:'\u0000moved',remoteStr:'\u0000moved',ver:row.updated_at||null,subject:row.subject,chapter:row.chapter});
       return false;
@@ -644,7 +645,8 @@
     async removeItem(k){try{localStorage.removeItem(k);}catch{}if(AUTH_RE.test(k)){try{await idbDo('readwrite',st=>st.delete(k));}catch{}}}
   };
   const hasStoredAuth=async()=>{try{if(Object.keys(localStorage).some(k=>AUTH_RE.test(k)))return true;}catch{}try{const keys=await idbDo('readonly',st=>st.getAllKeys());return (keys||[]).some(k=>AUTH_RE.test(k));}catch{return false;}};
-  async function init(){addPanel();addAdminPanel();if(!cfg.url||!cfg.publishableKey){status('Configuration Supabase manquante.',true);return;}if(!window.supabase?.createClient){status('Client Supabase indisponible : vérifie la connexion Internet.',true);return;}state.client=window.supabase.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storage:authStorage}});hookSave();const wake=()=>{if(!state.user||document.visibilityState==='hidden')return;(state.tableMode?pollChapters():refreshShared());refreshProgress();};document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&window.BacMasterSync)window.BacMasterSync.flushStats();else wake();});window.addEventListener('focus',wake);window.addEventListener('online',wake);const getSess=async()=>{try{const r=await state.client.auth.getSession();return {session:r.data&&r.data.session||null,error:r.error||null};}catch(e){return {session:null,error:e};}};
+  async function init(){if(window.BM_ARCHIVE_MODE)return;   // archive consultée : aucune synchronisation
+    addPanel();addAdminPanel();if(!cfg.url||!cfg.publishableKey){status('Configuration Supabase manquante.',true);return;}if(!window.supabase?.createClient){status('Client Supabase indisponible : vérifie la connexion Internet.',true);return;}state.client=window.supabase.createClient(cfg.url,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storage:authStorage}});hookSave();const wake=()=>{if(!state.user||document.visibilityState==='hidden')return;(state.tableMode?pollChapters():refreshShared());refreshProgress();};document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&window.BacMasterSync)window.BacMasterSync.flushStats();else wake();});window.addEventListener('focus',wake);window.addEventListener('online',wake);const getSess=async()=>{try{const r=await state.client.auth.getSession();return {session:r.data&&r.data.session||null,error:r.error||null};}catch(e){return {session:null,error:e};}};
     let {session,error}=await getSess();
     const stored=await hasStoredAuth();   // une session est enregistrée sur cet appareil ?
     // Session enregistrée mais pas encore lue (réseau lent, micro-coupure) : on réessaie sans jamais demander de se reconnecter trop vite

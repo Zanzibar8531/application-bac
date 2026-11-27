@@ -183,6 +183,7 @@
 <script defer src="evaluation.js"></script>
 <script defer src="parcours.js"></script>
 <script defer src="vocal.js"></script>
+<script defer src="bm-years.js"></script>
 <script>
 /* Mesure du démarrage (affichée dans Paramètres › Application) */
 (function(){
@@ -229,6 +230,7 @@
   function add(src){var s=document.createElement('script');s.src=src;s.async=false;document.body.appendChild(s);}
   function startSync(){if(started)return;started=true;window.bmWhenContentReady(function(){add('supabase-config.js');add('supabase-app.js');add('bm-collab.js');});}
   function loadLib(){
+    if(window.BM_ARCHIVE_MODE) return;   // archive consultée : pas de synchronisation, on ne charge pas la bibliothèque
     var s=document.createElement('script');
     s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
     s.async=true;

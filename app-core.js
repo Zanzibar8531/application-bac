@@ -11,7 +11,9 @@
 let db = {};
 const _n = localStorage.getItem('bacmaster_db');
 const _o = localStorage.getItem('my_db');
-if (_n) { db = JSON.parse(_n); }
+// Archive d'une année passée (bm-years.js) : on lit l'archive, jamais les données de l'année en cours.
+if (window.BM_ARCHIVE_MODE) { try { db = JSON.parse(localStorage.getItem('bm_arch_' + window.BM_ARCHIVE_MODE)) || {}; } catch (e) { db = {}; } }
+else if (_n) { db = JSON.parse(_n); }
 else if (_o) { db = JSON.parse(_o); }
 
 // Migration de l'ancien chapitre sur les designer babies :
@@ -40,8 +42,12 @@ PREBUILT_RENAMES.forEach(r => {
 // Ainsi, quand on améliore un cours ou qu'on ajoute des annotations colorées,
 // l'élève voit automatiquement la nouvelle version au prochain chargement.
 function bmMergePrebuilt() {
+if (window.BM_ARCHIVE_MODE) return;                       // une archive ne reçoit jamais de cours intégrés
+// Les cours intégrés sont ceux de l'année d'origine : une nouvelle année repart vide pour les matières de classe.
+const bmSkipClass = !!(window.BMYears && BMYears.live !== BMYears.DEFAULT);
 Object.entries(PREBUILT).forEach(([subj, chapters]) => {
     if (!db[subj]) db[subj] = {};
+    if (bmSkipClass && BMYears.isClass(subj)) return;
     Object.entries(chapters).forEach(([ch, data]) => {
         if (!db[subj][ch]) {
             // Chapitre nouveau : créer entièrement
@@ -127,6 +133,10 @@ if (!window.BM_FAST_START) {
 }
 
 function save() {
+    if (window.BM_ARCHIVE_MODE) {                       // archive : on enregistre dans l'archive, sans synchronisation
+        try { localStorage.setItem('bm_arch_' + window.BM_ARCHIVE_MODE, JSON.stringify(db)); } catch (e) { console.warn('[BacMaster] Archive non enregistrée', e); }
+        return;
+    }
     localStorage.setItem('bacmaster_db', JSON.stringify(db));
     // Explicit hook: Supabase sync no longer relies on replacing a global function.
     // It is installed by supabase-app.js after the main application has loaded.
@@ -162,6 +172,8 @@ const CFG = [
     {name:"Science de l'Apprentissage", icon:'🧠', cls:'sci'},
     {name:'Bases Juridiques & Admin', icon:'⚖️', cls:'jur'},
 ];
+// Dans une archive, seules les matières de classe de cette année existent.
+if (window.BM_ARCHIVE_MODE && window.BMYears) { for (let i = CFG.length - 1; i >= 0; i--) if (!BMYears.isClass(CFG[i].name)) CFG.splice(i, 1); }
 
 // ── HELPERS ───────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
